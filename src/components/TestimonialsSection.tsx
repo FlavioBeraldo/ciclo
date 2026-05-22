@@ -26,7 +26,7 @@ export default function TestimonialsSection() {
           className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10"
         >
           <h2 className="text-3xl sm:text-4xl font-bold">Quem vive, recomenda</h2>
-          <Button href="https://www.youtube.com/@ofatorm/videos" variant="outline" target="_blank" rel="noopener noreferrer">
+          <Button href="/depoimentos" variant="outline" arrow>
             Ver todos os depoimentos
           </Button>
         </motion.div>

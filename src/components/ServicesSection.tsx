@@ -14,7 +14,7 @@ const services = [
   {
     icon: Target,
     title: 'Captação de Demanda',
-    items: ['Mídia de Performance', 'SEO & Conteúdo de Fundo', 'Landing Pages & CRO', 'Automação e Nutrição', 'IA para Performance'],
+    items: ['Mídia de Performance', 'Landing Pages & CRO', 'Automação e Nutrição', 'IA para Performance'],
   },
   {
     icon: Repeat,
@@ -24,7 +24,7 @@ const services = [
   {
     icon: BarChart3,
     title: 'Inteligência & Operação',
-    items: ['Analytics & BI', 'Precificação e Margem', 'Estruturação de Time', 'Processos e Playbooks', 'Growth Contínuo'],
+    items: ['Analytics & BI', 'Estruturação de Time', 'Processos e Playbooks', 'Growth Contínuo'],
   },
 ]
 

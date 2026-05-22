@@ -21,10 +21,9 @@ export default function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: 'easeOut' }}
           >
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#A100FF]/30 bg-[#A100FF]/10 text-[#A100FF] text-xs font-medium mb-6">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#A100FF] animate-pulse" />
-              Full Funnel Marketing
-            </div>
+            <p className="text-[#A100FF] text-sm font-semibold tracking-wide uppercase mb-6">
+              Somos seu Parceiro Full Funnel Marketing
+            </p>
 
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-6">
               Obcecados por{' '}

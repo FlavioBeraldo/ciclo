@@ -28,7 +28,9 @@ export default function Header() {
     <header
       className={cn(
         'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
-        scrolled ? 'bg-[#050505]/95 backdrop-blur-md border-b border-white/5' : 'bg-transparent'
+        scrolled || open
+          ? 'bg-[#050505]/98 backdrop-blur-md border-b border-white/5'
+          : 'bg-transparent'
       )}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -77,7 +79,7 @@ export default function Header() {
 
         {/* Mobile menu */}
         {open && (
-          <div className="lg:hidden py-4 border-t border-white/10">
+          <div className="lg:hidden py-4 border-t border-white/10 bg-[#050505]">
             <nav className="flex flex-col gap-4" aria-label="Navegação mobile">
               {navLinks.map((link) => (
                 <a
