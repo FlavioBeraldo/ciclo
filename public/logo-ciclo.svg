@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 48" fill="none">
+  <!-- C arc (white) -->
+  <path
+    d="M38 8 A20 20 0 1 0 38 40"
+    stroke="white"
+    stroke-width="5.5"
+    stroke-linecap="round"
+    fill="none"
+  />
+  <!-- Purple filled dot inside the C -->
+  <circle cx="29" cy="33" r="7" fill="#A100FF"/>
+  <!-- Wordmark: iclo -->
+  <text
+    x="52"
+    y="34"
+    font-family="-apple-system, BlinkMacSystemFont, 'Inter', sans-serif"
+    font-weight="700"
+    font-size="26"
+    fill="white"
+    letter-spacing="-0.5"
+  >iclo</text>
+</svg>

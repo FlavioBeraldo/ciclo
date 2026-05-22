@@ -24,13 +24,9 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col sm:flex-row items-center justify-between gap-8">
           {/* Logo */}
-          <div className="flex items-center gap-2">
-            <div className="relative w-8 h-8">
-              <div className="absolute inset-0 rounded-full border-2 border-[#A100FF]" />
-              <div className="absolute inset-[6px] rounded-full bg-[#A100FF]" />
-              <div className="absolute top-0 right-0 w-3 h-3 rounded-full bg-[#050505]" />
-            </div>
-            <span className="text-white font-bold text-xl tracking-tight">Ciclo</span>
+          <div>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/logo-ciclo.svg" alt="Ciclo E-commerce" className="h-8 w-auto" />
           </div>
 
           {/* Contact */}
