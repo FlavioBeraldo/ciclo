@@ -38,7 +38,7 @@ export default function Header() {
           {/* Logo */}
           <a href="#home" aria-label="Ciclo E-commerce - Página inicial">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/logo-ciclo.svg" alt="Ciclo E-commerce" className="h-8 w-auto" />
+            <img src="/logo-ciclo.png" alt="Ciclo E-commerce" className="h-8 w-auto" />
           </a>
 
           {/* Desktop Nav */}
