@@ -21,7 +21,7 @@ export default function PodcastSection() {
   }, [])
 
   return (
-    <Section id="conteudo" className="bg-[#080808] py-20 lg:py-32">
+    <Section id="podcast" className="bg-[#080808] py-20 lg:py-32">
       <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
         <div className="absolute bottom-0 right-0 w-[500px] h-[300px] bg-[#A100FF]/6 blur-[100px] rounded-full" />
       </div>
