@@ -7,7 +7,7 @@
   },
   "scripts": {
     "dev": "next dev",
-    "build": "next build && node scripts/postbuild.js",
+    "build": "node scripts/fetch-youtube.js && next build && node scripts/postbuild.js",
     "start": "node .next/standalone/server.js",
     "lint": "eslint"
   },

@@ -1,25 +1,15 @@
 'use client'
 
-import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { Play } from 'lucide-react'
 import Button from './ui/Button'
 import Section from './ui/Section'
 import type { YouTubeVideo } from '@/lib/youtube'
-import { FALLBACK_VIDEOS } from '@/lib/youtube'
+import videosData from '@/data/youtube-videos.json'
+
+const videos = videosData as YouTubeVideo[]
 
 export default function PodcastSection() {
-  const [videos, setVideos] = useState<YouTubeVideo[]>(FALLBACK_VIDEOS.slice(0, 4))
-
-  useEffect(() => {
-    fetch('/api/youtube/latest')
-      .then((r) => r.json())
-      .then((data: YouTubeVideo[]) => {
-        if (Array.isArray(data) && data.length > 0) setVideos(data.slice(0, 6))
-      })
-      .catch(() => {})
-  }, [])
-
   return (
     <Section id="podcast" className="bg-[#080808] py-20 lg:py-32">
       <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
@@ -53,7 +43,7 @@ export default function PodcastSection() {
 
           {/* Right - video cards */}
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {videos.map((video, i) => (
+            {videos.slice(0, 6).map((video, i) => (
               <motion.a
                 key={video.id}
                 href={video.url}
