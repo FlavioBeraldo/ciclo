@@ -12,10 +12,10 @@ const services = [
     title: 'Geração de Demanda',
     slug: 'geracao-de-demanda',
     items: [
-      'Produção e roteirização de conteúdo validado para redes sociais',
-      'TikTok Shop (Social Commerce)',
-      'Gestão de Creators e Influenciadores',
-      'OOH Digital',
+      { label: 'Produção e roteirização de conteúdo validado para redes sociais', slug: 'producao-conteudo-redes-sociais' },
+      { label: 'TikTok Shop (Social Commerce)', slug: 'tiktok-shop-social-commerce' },
+      { label: 'Gestão de Creators e Influenciadores', slug: 'gestao-creators-influenciadores' },
+      { label: 'OOH Digital', slug: 'ooh-digital' },
     ],
   },
   {
@@ -23,11 +23,11 @@ const services = [
     title: 'Captação de Demanda',
     slug: 'captacao-de-demanda',
     items: [
-      'Produção e criação de anúncios social first validado para conversão',
-      'Google Ads / Bing Ads',
-      'Meta Ads / TikTok Ads',
-      'Programática / Pinterest Ads',
-      'Retail Media (Mercado/Shopee/Amazon)',
+      { label: 'Produção e criação de anúncios social first validado para conversão', slug: 'anuncios-social-first-conversao' },
+      { label: 'Google Ads / Bing Ads', slug: 'google-ads-bing-ads' },
+      { label: 'Meta Ads / TikTok Ads', slug: 'meta-ads-tiktok-ads' },
+      { label: 'Programática / Pinterest Ads', slug: 'programatica-pinterest-ads' },
+      { label: 'Retail Media (Mercado/Shopee/Amazon)', slug: 'retail-media' },
     ],
   },
   {
@@ -35,10 +35,10 @@ const services = [
     title: 'Expansão de Demanda',
     slug: 'expansao-de-demanda',
     items: [
-      'CRM: E-mail, SMS, Push, WhatsApp',
-      'Réguas de automação personalizadas',
-      'Reativação e programas de fidelização',
-      'Programas de indicação / Reviews',
+      { label: 'CRM: E-mail, SMS, Push, WhatsApp', slug: 'crm-email-sms-push-whatsapp' },
+      { label: 'Réguas de automação personalizadas', slug: 'reguas-automacao-personalizadas' },
+      { label: 'Reativação e programas de fidelização', slug: 'reativacao-fidelizacao' },
+      { label: 'Programas de indicação / Reviews', slug: 'programas-indicacao-reviews' },
     ],
   },
   {
@@ -46,9 +46,9 @@ const services = [
     title: 'Inteligência & Operação',
     slug: 'inteligencia-e-operacao',
     items: [
-      'Analytics & BI',
-      'Processos e Playbooks',
-      'Growth Contínuo',
+      { label: 'Analytics & BI', slug: 'analytics-bi' },
+      { label: 'Processos e Playbooks', slug: 'processos-playbooks' },
+      { label: 'Growth Contínuo', slug: 'growth-continuo' },
     ],
   },
 ]
@@ -108,9 +108,14 @@ export default function ServicesSection() {
                   <h3 className="font-bold text-white mb-3">{service.title}</h3>
                   <ul className="space-y-2 flex-1">
                     {service.items.map((item) => (
-                      <li key={item} className="flex items-start gap-2 text-xs text-[#A1A1AA]">
+                      <li key={item.slug} className="flex items-start gap-2 text-xs text-[#A1A1AA]">
                         <span className="w-1 h-1 rounded-full bg-[#A100FF] flex-shrink-0 mt-1.5" />
-                        {item}
+                        <Link
+                          href={`/servicos/${item.slug}`}
+                          className="hover:text-white hover:underline transition-colors"
+                        >
+                          {item.label}
+                        </Link>
                       </li>
                     ))}
                   </ul>

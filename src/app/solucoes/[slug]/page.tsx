@@ -207,16 +207,20 @@ export default async function SolucaoPage({ params }: PageProps) {
                 </div>
 
                 <div className="grid sm:grid-cols-2 gap-3">
-                  {solucao.services.map((service) => (
-                    <div
-                      key={service}
-                      className="flex items-start gap-3 bg-white/3 border border-white/8 rounded-2xl px-5 py-4"
+                  {solucao.serviceLinks.map(({ label, slug }) => (
+                    <Link
+                      key={slug}
+                      href={`/servicos/${slug}`}
+                      className="group flex items-start gap-3 bg-white/3 border border-white/8 rounded-2xl px-5 py-4 hover:border-[#A100FF]/30 hover:bg-[#A100FF]/5 transition-all"
                     >
                       <div className="flex-shrink-0 w-6 h-6 rounded-full bg-[#A100FF]/20 flex items-center justify-center mt-0.5">
                         <Check className="w-3.5 h-3.5 text-[#A100FF]" />
                       </div>
-                      <span className="text-[#D4D4D8] text-sm leading-relaxed">{service}</span>
-                    </div>
+                      <div className="flex-1 flex items-center justify-between gap-2">
+                        <span className="text-[#D4D4D8] text-sm leading-relaxed group-hover:text-white transition-colors">{label}</span>
+                        <ArrowRight className="w-3 h-3 text-[#A100FF] opacity-0 group-hover:opacity-100 flex-shrink-0 transition-opacity" />
+                      </div>
+                    </Link>
                   ))}
                 </div>
               </section>

@@ -8,6 +8,7 @@ export interface Solucao {
   whatIs: string
   howItWorks: { step: string; description: string }[]
   services: string[]
+  serviceLinks: { label: string; slug: string }[]
   results: { metric: string; description: string }[]
   faq: { q: string; a: string }[]
   seo: { title: string; description: string; keywords: string[] }
@@ -51,6 +52,12 @@ export const solucoes: Solucao[] = [
       'TikTok Shop (Social Commerce)',
       'Gestão de Creators e Influenciadores',
       'OOH Digital',
+    ],
+    serviceLinks: [
+      { label: 'Produção de Conteúdo para Redes Sociais', slug: 'producao-conteudo-redes-sociais' },
+      { label: 'TikTok Shop & Social Commerce', slug: 'tiktok-shop-social-commerce' },
+      { label: 'Gestão de Creators e Influenciadores', slug: 'gestao-creators-influenciadores' },
+      { label: 'OOH Digital', slug: 'ooh-digital' },
     ],
     results: [
       {
@@ -140,6 +147,13 @@ export const solucoes: Solucao[] = [
       'Programática / Pinterest Ads',
       'Retail Media (Mercado/Shopee/Amazon)',
     ],
+    serviceLinks: [
+      { label: 'Produção de Anúncios Social First', slug: 'anuncios-social-first-conversao' },
+      { label: 'Google Ads & Bing Ads', slug: 'google-ads-bing-ads' },
+      { label: 'Meta Ads & TikTok Ads', slug: 'meta-ads-tiktok-ads' },
+      { label: 'Programática & Pinterest Ads', slug: 'programatica-pinterest-ads' },
+      { label: 'Retail Media (Mercado Livre, Shopee, Amazon)', slug: 'retail-media' },
+    ],
     results: [
       {
         metric: '-32%',
@@ -227,6 +241,12 @@ export const solucoes: Solucao[] = [
       'Reativação e programas de fidelização',
       'Programas de indicação / Reviews',
     ],
+    serviceLinks: [
+      { label: 'CRM: E-mail, SMS, Push e WhatsApp', slug: 'crm-email-sms-push-whatsapp' },
+      { label: 'Réguas de Automação Personalizadas', slug: 'reguas-automacao-personalizadas' },
+      { label: 'Reativação e Programas de Fidelização', slug: 'reativacao-fidelizacao' },
+      { label: 'Programas de Indicação e Reviews', slug: 'programas-indicacao-reviews' },
+    ],
     results: [
       {
         metric: '2,7x',
@@ -309,6 +329,11 @@ export const solucoes: Solucao[] = [
       },
     ],
     services: ['Analytics & BI', 'Processos e Playbooks', 'Growth Contínuo'],
+    serviceLinks: [
+      { label: 'Analytics & BI para E-commerce', slug: 'analytics-bi' },
+      { label: 'Processos e Playbooks', slug: 'processos-playbooks' },
+      { label: 'Growth Contínuo', slug: 'growth-continuo' },
+    ],
     results: [
       {
         metric: '100%',
