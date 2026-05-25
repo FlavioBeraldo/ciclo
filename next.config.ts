@@ -2,6 +2,7 @@ import type { NextConfig } from 'next'
 import wpSlugs from './src/data/wp-slugs.json'
 
 const nextConfig: NextConfig = {
+  output: 'standalone',
   images: {
     remotePatterns: [
       { protocol: 'https', hostname: 'img.youtube.com' },
