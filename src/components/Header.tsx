@@ -11,7 +11,7 @@ const navLinks = [
   { label: 'Cases', href: '#cases' },
   { label: 'Conteúdos', href: '#conteudo' },
   { label: 'Podcast', href: '#podcast' },
-  { label: 'Blog', href: '#blog' },
+  { label: 'Blog', href: '/blog' },
 ]
 
 export default function Header() {
