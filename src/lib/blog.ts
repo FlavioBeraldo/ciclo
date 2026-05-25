@@ -449,3 +449,52 @@ export function formatDate(dateStr: string): string {
     new Date(year, month - 1, day)
   )
 }
+
+// ─── WordPress imported posts ──────────────────────────────────────────────
+
+export interface WpPost {
+  slug: string
+  title: string
+  date: string
+  category: string
+  excerpt: string
+  html: string
+}
+
+const categoryGradients: Record<string, string> = {
+  'SEO': 'from-[#001a10] via-[#000d08] to-[#050505]',
+  'Mídia Paga': 'from-[#1a0a00] via-[#0d0500] to-[#050505]',
+  'Redes Sociais': 'from-[#1a0010] via-[#0d0008] to-[#050505]',
+  'Marketing de Conteúdo': 'from-[#001020] via-[#000810] to-[#050505]',
+  'Marketing Digital': 'from-[#0a001a] via-[#05000d] to-[#050505]',
+  'Gestão do E-commerce': 'from-[#0a1a00] via-[#050d00] to-[#050505]',
+  'Vendas': 'from-[#1a0000] via-[#0d0000] to-[#050505]',
+  'Logística': 'from-[#001a1a] via-[#000d0d] to-[#050505]',
+  'Tecnologia e Inovação': 'from-[#00001a] via-[#00000d] to-[#050505]',
+}
+
+export function getCategoryGradient(category: string): string {
+  return categoryGradients[category] ?? 'from-[#0d0020] via-[#080010] to-[#050505]'
+}
+
+let _wpPosts: WpPost[] | null = null
+
+export function getWpPosts(): WpPost[] {
+  if (_wpPosts) return _wpPosts
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const data = require('../../src/data/wp-posts.json') as WpPost[]
+    _wpPosts = data
+    return data
+  } catch {
+    return []
+  }
+}
+
+export function getWpPostBySlug(slug: string): WpPost | undefined {
+  return getWpPosts().find((p) => p.slug === slug)
+}
+
+export function getAllWpSlugs(): string[] {
+  return getWpPosts().map((p) => p.slug)
+}

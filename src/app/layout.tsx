@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
+import RecaptchaProvider from '@/components/RecaptchaProvider'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
 
@@ -19,7 +20,9 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="pt-BR" className={inter.variable}>
-      <body className="grain">{children}</body>
+      <body className="grain">
+        <RecaptchaProvider>{children}</RecaptchaProvider>
+      </body>
     </html>
   )
 }
