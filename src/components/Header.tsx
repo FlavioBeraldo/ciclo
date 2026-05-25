@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { usePathname } from 'next/navigation'
 import { Menu, X } from 'lucide-react'
 import Button from './ui/Button'
 import { cn } from '@/lib/utils'
@@ -17,12 +18,22 @@ const navLinks = [
 export default function Header() {
   const [open, setOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const pathname = usePathname()
+  const isHome = pathname === '/'
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20)
     window.addEventListener('scroll', onScroll)
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
+
+  // On non-home pages, prefix hash links with / so they navigate home first
+  const resolvedLinks = navLinks.map((link) => ({
+    ...link,
+    href: link.href.startsWith('#') && !isHome ? `/${link.href}` : link.href,
+  }))
+
+  const ctaHref = isHome ? '#contato' : '/#contato'
 
   return (
     <header
@@ -36,14 +47,14 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
-          <a href="#home" aria-label="Ciclo E-commerce - Página inicial">
+          <a href="/" aria-label="Ciclo E-commerce - Página inicial">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/logo-ciclo.png" alt="Ciclo E-commerce" className="h-[60px] w-auto" />
           </a>
 
           {/* Desktop Nav */}
           <nav className="hidden lg:flex items-center gap-8" aria-label="Navegação principal">
-            {navLinks.map((link) => (
+            {resolvedLinks.map((link) => (
               <a
                 key={link.label}
                 href={link.href}
@@ -56,7 +67,7 @@ export default function Header() {
 
           {/* CTA */}
           <div className="hidden lg:block">
-            <Button href="#contato" arrow size="md">
+            <Button href={ctaHref} arrow size="md">
               Fale com especialista
             </Button>
           </div>
@@ -75,7 +86,7 @@ export default function Header() {
         {open && (
           <div className="lg:hidden py-4 border-t border-white/10 bg-[#050505]">
             <nav className="flex flex-col gap-4" aria-label="Navegação mobile">
-              {navLinks.map((link) => (
+              {resolvedLinks.map((link) => (
                 <a
                   key={link.label}
                   href={link.href}
@@ -85,7 +96,7 @@ export default function Header() {
                   {link.label}
                 </a>
               ))}
-              <Button href="#contato" arrow className="w-full justify-center mt-2">
+              <Button href={ctaHref} arrow className="w-full justify-center mt-2">
                 Fale com especialista
               </Button>
             </nav>

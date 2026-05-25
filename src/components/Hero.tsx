@@ -4,12 +4,18 @@ import { motion } from 'framer-motion'
 import Button from './ui/Button'
 import Section from './ui/Section'
 
+const proofs = [
+  { value: '+300', label: 'marcas atendidas' },
+  { value: '+12MM', label: 'em receita gerada' },
+  { value: '-35%', label: 'de CAC em média' },
+]
+
 export default function Hero() {
   return (
     <Section id="home" className="min-h-screen flex items-center bg-[#050505] pt-20">
       {/* Background glow */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 right-0 w-[600px] h-[600px] rounded-full bg-[#A100FF]/10 blur-[120px]" />
+        <div className="absolute top-1/4 right-0 w-[700px] h-[700px] rounded-full bg-[#A100FF]/10 blur-[140px]" />
         <div className="absolute bottom-0 left-1/4 w-[400px] h-[400px] rounded-full bg-[#A100FF]/5 blur-[80px]" />
       </div>
 
@@ -21,9 +27,20 @@ export default function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: 'easeOut' }}
           >
-            <p className="text-[#A100FF] text-sm font-semibold tracking-wide uppercase mb-6">
-              Somos seu Parceiro Full Funnel Marketing
-            </p>
+            {/* Positioning — prominent, not a small tag */}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="mb-6"
+            >
+              <p className="text-[#A100FF] text-base sm:text-lg font-bold tracking-wide uppercase leading-tight">
+                Somos seu Parceiro
+              </p>
+              <p className="text-white text-2xl sm:text-3xl font-bold leading-tight">
+                Full Funnel Marketing
+              </p>
+            </motion.div>
 
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-6">
               Obcecados por{' '}
@@ -34,17 +51,33 @@ export default function Hero() {
               desperdício.
             </h1>
 
-            <p className="text-[#A1A1AA] text-lg leading-relaxed mb-8 max-w-xl">
-              A Ciclo E-commerce é uma agência especializada em marcas que querem crescer com eficiência e previsibilidade.
-            </p>
+            {/* Clearer description of what Ciclo actually does */}
+            <div className="mb-8 space-y-3 max-w-xl">
+              <p className="text-white/90 text-lg leading-relaxed font-medium">
+                A Ciclo E-commerce conecta sua marca do primeiro impacto até a recompra.
+              </p>
+              <p className="text-[#A1A1AA] text-base leading-relaxed">
+                Geração, captação e expansão de demanda integradas — para e-commerces que querem crescer com eficiência, previsibilidade e margem.
+              </p>
+            </div>
 
-            <div className="flex flex-col sm:flex-row gap-4">
+            <div className="flex flex-col sm:flex-row gap-4 mb-10">
               <Button href="#contato" arrow size="lg">
                 Fale com especialista
               </Button>
               <Button href="#servicos" variant="outline" size="lg">
-                Conheça quem faz isso →
+                Ver nossas soluções →
               </Button>
+            </div>
+
+            {/* Social proof strip */}
+            <div className="flex flex-wrap gap-6 pt-6 border-t border-white/8">
+              {proofs.map((p) => (
+                <div key={p.label}>
+                  <p className="text-[#A100FF] text-2xl font-bold">{p.value}</p>
+                  <p className="text-[#A1A1AA] text-xs">{p.label}</p>
+                </div>
+              ))}
             </div>
           </motion.div>
 
@@ -56,15 +89,12 @@ export default function Hero() {
             className="relative flex items-center justify-center"
           >
             <div className="relative w-72 h-72 sm:w-96 sm:h-96 lg:w-[480px] lg:h-[480px]">
-              {/* Outer rings */}
               <div className="absolute inset-0 rounded-full border border-white/5" />
               <div className="absolute inset-8 rounded-full border border-white/5" />
               <div className="absolute inset-16 rounded-full border border-white/8" />
 
-              {/* Main C symbol */}
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className="relative w-48 h-48 sm:w-64 sm:h-64">
-                  {/* Outer circle arc */}
                   <svg viewBox="0 0 200 200" className="w-full h-full" aria-hidden="true">
                     <defs>
                       <linearGradient id="arcGrad" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -73,29 +103,18 @@ export default function Hero() {
                       </linearGradient>
                     </defs>
                     <circle
-                      cx="100"
-                      cy="100"
-                      r="90"
-                      fill="none"
-                      stroke="url(#arcGrad)"
-                      strokeWidth="4"
-                      strokeLinecap="round"
-                      strokeDasharray="480 80"
-                      strokeDashoffset="60"
+                      cx="100" cy="100" r="90" fill="none"
+                      stroke="url(#arcGrad)" strokeWidth="4"
+                      strokeLinecap="round" strokeDasharray="480 80" strokeDashoffset="60"
                     />
-                    {/* Inner filled circle */}
                     <circle cx="100" cy="100" r="60" fill="#A100FF" opacity="0.15" />
                     <circle cx="100" cy="100" r="50" fill="#A100FF" opacity="0.25" />
-                    {/* Center dot */}
                     <circle cx="100" cy="100" r="20" fill="#A100FF" />
-                    {/* Gap indicator */}
                     <circle cx="175" cy="60" r="10" fill="#050505" />
                     <circle cx="175" cy="60" r="6" fill="#ffffff" />
                   </svg>
                 </div>
               </div>
-
-              {/* Glow effect */}
               <div className="absolute inset-16 rounded-full bg-[#A100FF]/20 blur-3xl" />
             </div>
           </motion.div>
