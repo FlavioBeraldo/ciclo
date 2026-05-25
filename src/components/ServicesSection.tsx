@@ -13,7 +13,7 @@ const services = [
     slug: 'geracao-de-demanda',
     items: [
       { label: 'Produção e roteirização de conteúdo validado para redes sociais', slug: 'producao-conteudo-redes-sociais' },
-      { label: 'TikTok Shop (Social Commerce)', slug: 'tiktok-shop-social-commerce' },
+      { label: 'TikTok Shop (Social Commerce)', slug: 'tiktok-shop-social-commerce', href: '/tiktok-shop' },
       { label: 'Gestão de Creators e Influenciadores', slug: 'gestao-creators-influenciadores' },
       { label: 'OOH Digital', slug: 'ooh-digital' },
     ],
@@ -111,7 +111,7 @@ export default function ServicesSection() {
                       <li key={item.slug} className="flex items-start gap-2 text-xs text-[#A1A1AA]">
                         <span className="w-1 h-1 rounded-full bg-[#A100FF] flex-shrink-0 mt-1.5" />
                         <Link
-                          href={`/servicos/${item.slug}`}
+                          href={'href' in item && item.href ? item.href : `/servicos/${item.slug}`}
                           className="hover:text-white hover:underline transition-colors"
                         >
                           {item.label}
