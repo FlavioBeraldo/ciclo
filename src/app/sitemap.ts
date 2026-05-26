@@ -16,6 +16,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE}/blog`,                          lastModified: now, changeFrequency: 'daily',   priority: 0.8 },
     { url: `${BASE}/depoimentos`,                   lastModified: now, changeFrequency: 'monthly', priority: 0.7 },
     { url: `${BASE}/ofatorm`,                         lastModified: now, changeFrequency: 'weekly',  priority: 0.8 },
+    { url: `${BASE}/ecomshift`,                       lastModified: now, changeFrequency: 'monthly', priority: 0.9 },
     { url: `${BASE}/politica-de-privacidade`,        lastModified: now, changeFrequency: 'yearly',  priority: 0.4 },
     { url: `${BASE}/mapa-do-site`,                  lastModified: now, changeFrequency: 'monthly', priority: 0.3 },
   ]

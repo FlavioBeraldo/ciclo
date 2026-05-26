@@ -46,6 +46,7 @@ const footerLinks = [
       { label: 'Blog', href: '/blog' },
       { label: 'Cases de Sucesso', href: '/#cases' },
       { label: 'O Fator M — Podcast', href: '/ofatorm' },
+      { label: 'ECOM Shift — Treinamento', href: '/ecomshift' },
     ],
   },
   {
