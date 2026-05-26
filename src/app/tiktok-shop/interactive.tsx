@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod/v4'
 import { CheckCircle } from 'lucide-react'
+import PhoneField from '@/components/ui/PhoneField'
 
 // ─── Form ─────────────────────────────────────────────────────────────────────
 
@@ -68,6 +69,7 @@ export default function TikTokShopContent() {
   const [submitted, setSubmitted] = useState(false)
   const {
     register,
+    control,
     handleSubmit,
     reset,
     formState: { errors, isSubmitting },
@@ -847,15 +849,11 @@ export default function TikTokShopContent() {
                       {errors.email && <p className={errorClass}>{errors.email.message}</p>}
                     </div>
                     <div>
-                      <label className="block text-sm text-[#A1A1AA] mb-1.5">
-                        Telefone / WhatsApp
-                      </label>
-                      <input
-                        {...register('phone')}
-                        type="tel"
-                        placeholder="(11) 99999-9999"
-                        className={inputClass}
-                        aria-label="Telefone"
+                      <PhoneField
+                        name="phone"
+                        control={control}
+                        label="WhatsApp"
+                        error={errors.phone?.message}
                       />
                     </div>
                     <div>

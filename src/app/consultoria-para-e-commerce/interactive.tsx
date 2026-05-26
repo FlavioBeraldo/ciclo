@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod/v4'
 import { CheckCircle, ChevronRight, Zap, Target, Repeat } from 'lucide-react'
+import PhoneField from '@/components/ui/PhoneField'
 
 const schema = z.object({
   name: z.string().min(2, 'Nome obrigatório'),
@@ -60,7 +61,7 @@ const audiences = [
 
 export default function ConsultoriaInteractive() {
   const [submitted, setSubmitted] = useState(false)
-  const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm<FormData>({
+  const { register, control, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm<FormData>({
     resolver: zodResolver(schema),
   })
 
@@ -270,10 +271,12 @@ export default function ConsultoriaInteractive() {
                     <input {...register('email')} type="email" placeholder="seu@email.com" className={inputClass} />
                     {errors.email && <p className="text-red-400 text-xs mt-1">{errors.email.message}</p>}
                   </div>
-                  <div>
-                    <label className="block text-sm text-[#A1A1AA] mb-1.5">Telefone / WhatsApp</label>
-                    <input {...register('phone')} type="tel" placeholder="(11) 99999-9999" className={inputClass} />
-                  </div>
+                  <PhoneField
+                    name="phone"
+                    control={control}
+                    label="WhatsApp"
+                    error={errors.phone?.message}
+                  />
                   <div>
                     <label className="block text-sm text-[#A1A1AA] mb-1.5">Empresa</label>
                     <input {...register('company')} placeholder="Nome da sua empresa" className={inputClass} />

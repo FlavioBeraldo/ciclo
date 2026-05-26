@@ -6,6 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod/v4'
 import { motion, AnimatePresence } from 'framer-motion'
 import { CheckCircle, ChevronDown } from 'lucide-react'
+import PhoneField from '@/components/ui/PhoneField'
 import Button from '@/components/ui/Button'
 import type { Solucao } from '@/lib/solucoes'
 
@@ -74,6 +75,7 @@ function InlineLeadForm({ serviceName }: { serviceName: string }) {
   const [submitted, setSubmitted] = useState(false)
   const {
     register,
+    control,
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<FormData>({
@@ -180,16 +182,13 @@ function InlineLeadForm({ serviceName }: { serviceName: string }) {
                   {errors.company && <p className={errorClass}>{errors.company.message}</p>}
                 </div>
 
-                <div>
-                  <input
-                    {...register('whatsapp')}
-                    type="tel"
-                    placeholder="WhatsApp *"
-                    className={inputClass}
-                    aria-label="WhatsApp"
-                  />
-                  {errors.whatsapp && <p className={errorClass}>{errors.whatsapp.message}</p>}
-                </div>
+                <PhoneField
+                  name="whatsapp"
+                  control={control}
+                  label="WhatsApp *"
+                  required
+                  error={errors.whatsapp?.message}
+                />
 
                 <div className="sm:col-span-2">
                   <textarea

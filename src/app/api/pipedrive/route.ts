@@ -116,7 +116,8 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    const { name, email, phone, company, message } = await req.json()
+    const { name, email, phone, whatsapp, company, message } = await req.json()
+    const phoneNumber = phone ?? whatsapp ?? ''
 
     if (!name || !email) {
       return NextResponse.json({ error: 'Dados inválidos' }, { status: 400 })
@@ -132,7 +133,7 @@ export async function POST(req: NextRequest) {
       console.error('[Pipedrive] stage_id não encontrado — deal não será criado no funil correto')
     }
 
-    const personId = await findOrCreatePerson(name, email, phone ?? '', orgId)
+    const personId = await findOrCreatePerson(name, email, phoneNumber, orgId)
 
     const dealRes = await fetch(url('/deals'), {
       method: 'POST',
