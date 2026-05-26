@@ -5,7 +5,7 @@ import { m } from 'framer-motion'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod/v4'
-import { CheckCircle, ChevronRight } from 'lucide-react'
+import { CheckCircle, ChevronRight, Zap, Target, Repeat } from 'lucide-react'
 
 const schema = z.object({
   name: z.string().min(2, 'Nome obrigatório'),
@@ -19,19 +19,37 @@ type FormData = z.infer<typeof schema>
 const inputClass =
   'w-full bg-white/5 border border-white/15 rounded-xl px-4 py-3 text-white placeholder-white/30 text-sm focus:outline-none focus:border-[#A100FF] focus:ring-1 focus:ring-[#A100FF] transition-all'
 
-const pillars = [
-  'BP (Plano de Negócios)',
-  'Sistema de Gestão (ERP)',
-  'Meios de Pagamento',
-  'Análise de Custo',
-  'Seleção de Plataforma',
-  'Parceiro Logístico',
-  'Análise dos Vetores de Crescimento',
-  'Plano de Canais de Vendas',
-  'Plano para Mídias de Aquisição',
-  'Plano para Aumento da Recompra',
-  'Plano para Geração de Demanda',
-  'Construção do Ecossistema do E-commerce',
+const frameworkCycles = [
+  {
+    icon: Zap,
+    cycle: 'Geração de Demanda',
+    items: [
+      'Análise dos Vetores de Crescimento',
+      'Plano para Geração de Demanda',
+      'Plano de Canais de Vendas',
+      'Construção do Ecossistema do E-commerce',
+    ],
+  },
+  {
+    icon: Target,
+    cycle: 'Captação de Demanda',
+    items: [
+      'Seleção de Plataforma',
+      'Meios de Pagamento',
+      'Plano para Mídias de Aquisição',
+      'Parceiro Logístico',
+    ],
+  },
+  {
+    icon: Repeat,
+    cycle: 'Expansão de Demanda',
+    items: [
+      'BP (Plano de Negócios)',
+      'Sistema de Gestão (ERP)',
+      'Análise de Custo',
+      'Plano para Aumento da Recompra',
+    ],
+  },
 ]
 
 const audiences = [
@@ -127,27 +145,42 @@ export default function ConsultoriaInteractive() {
             className="mb-12 text-center"
           >
             <p className="text-[#A100FF] text-xs font-bold uppercase tracking-widest mb-3">Nosso método</p>
-            <h2 className="text-3xl sm:text-4xl font-bold mb-4">Framework validado em centenas de operações</h2>
+            <h2 className="text-3xl sm:text-4xl font-bold mb-4">Framework de análise baseado nos 3 ciclos</h2>
             <p className="text-[#A1A1AA] text-lg max-w-xl mx-auto">
-              Passamos por cada um dos principais pilares que garantem um crescimento sustentável.
+              Cada pilar é analisado dentro do ciclo ao qual pertence, garantindo um diagnóstico completo e integrado.
             </p>
           </m.div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {pillars.map((p, i) => (
-              <m.div
-                key={p}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: (i % 6) * 0.05 }}
-                className="bg-white/3 border border-white/8 rounded-xl px-4 py-3 flex items-center gap-3 hover:border-[#A100FF]/30 transition-all"
-              >
-                <span className="text-[#A100FF] font-bold text-xs w-6 flex-shrink-0">
-                  {String(i + 1).padStart(2, '0')}
-                </span>
-                <span className="text-[#D4D4D8] text-sm">{p}</span>
-              </m.div>
-            ))}
+          <div className="grid sm:grid-cols-3 gap-6">
+            {frameworkCycles.map((cycle, i) => {
+              const Icon = cycle.icon
+              return (
+                <m.div
+                  key={cycle.cycle}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1 }}
+                  className="bg-white/3 border border-white/8 rounded-2xl p-6 hover:border-[#A100FF]/30 transition-all"
+                >
+                  <div className="flex items-center gap-3 mb-5 pb-4 border-b border-white/8">
+                    <div className="w-9 h-9 rounded-xl bg-[#A100FF]/20 flex items-center justify-center flex-shrink-0">
+                      <Icon className="w-4 h-4 text-[#A100FF]" />
+                    </div>
+                    <h3 className="font-bold text-white text-sm leading-tight">{cycle.cycle}</h3>
+                  </div>
+                  <ul className="space-y-3">
+                    {cycle.items.map((item, j) => (
+                      <li key={item} className="flex items-start gap-3">
+                        <span className="text-[#A100FF] font-bold text-xs flex-shrink-0 mt-0.5">
+                          {String(i * 4 + j + 1).padStart(2, '0')}
+                        </span>
+                        <span className="text-[#D4D4D8] text-sm leading-snug">{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </m.div>
+              )
+            })}
           </div>
         </div>
       </section>
