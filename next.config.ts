@@ -45,6 +45,12 @@ const nextConfig: NextConfig = {
       // catch-all for any remaining /servico/ slugs
       { source: '/servico/:slug*',                                destination: '/',                                          permanent: true },
 
+      // ── Landing pages de serviço (não eram posts, eram páginas WP) ────────
+      { source: '/meta-ads-para-e-commerce-impulsione-suas-vendas-com-ciclo-e-commerce',  destination: '/servicos/meta-ads-tiktok-ads', permanent: true },
+      { source: '/meta-ads-para-e-commerce-impulsione-suas-vendas-com-ciclo-e-commerce/', destination: '/servicos/meta-ads-tiktok-ads', permanent: true },
+      { source: '/tiktok-ads-para-e-commerce-transforme-suas-vendas-com-ciclo-e-commerce',  destination: '/servicos/meta-ads-tiktok-ads', permanent: true },
+      { source: '/tiktok-ads-para-e-commerce-transforme-suas-vendas-com-ciclo-e-commerce/', destination: '/servicos/meta-ads-tiktok-ads', permanent: true },
+
       // ── /servicos/ hub (no index page in new site) ────────────────────────
       { source: '/servicos',  destination: '/', permanent: true },
       { source: '/servicos/', destination: '/', permanent: true },
