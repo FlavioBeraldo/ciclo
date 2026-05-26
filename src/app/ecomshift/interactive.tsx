@@ -109,33 +109,30 @@ export default function EcomShiftInteractive() {
 
   return (
     <>
-      {/* Sticky CTA */}
+      {/* Sticky CTA — floating bottom-right */}
       <AnimatePresence>
         {stickyVisible && (
           <m.div
-            initial={{ y: -80, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            exit={{ y: -80, opacity: 0 }}
+            initial={{ x: 80, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            exit={{ x: 80, opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="fixed top-0 left-0 right-0 z-40 bg-[#0A0A0A]/95 backdrop-blur-md border-b border-white/10 py-3 px-4"
+            className="fixed bottom-6 right-6 z-40 flex flex-col items-end gap-2"
           >
-            <div className="max-w-5xl mx-auto flex items-center justify-between gap-4">
-              <div className="hidden sm:block">
-                <span className="text-white font-bold text-sm">ECOM Shift</span>
-                <span className="text-[#A1A1AA] text-sm ml-2">Full Funnel Marketing para E-commerce</span>
+            <div className="bg-[#0A0A0A]/95 backdrop-blur-md border border-white/15 rounded-2xl shadow-2xl px-4 py-3 flex items-center gap-3">
+              <div className="hidden sm:block text-right">
+                <p className="text-white font-bold text-sm leading-none">ECOM Shift</p>
+                <p className="text-[#A1A1AA] text-xs mt-0.5">{PRICE}</p>
               </div>
-              <div className="flex items-center gap-3 ml-auto">
-                <span className="text-white font-bold">{PRICE}</span>
-                <a
-                  href={PAYMENT_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 bg-[#A100FF] hover:bg-[#8800DD] text-white font-bold rounded-full px-6 py-2.5 text-sm transition-all duration-300 hover:shadow-[0_0_30px_rgba(161,0,255,0.5)] active:scale-95"
-                >
-                  Quero acessar
-                  <ArrowRight className="w-4 h-4" />
-                </a>
-              </div>
+              <a
+                href={PAYMENT_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 bg-[#A100FF] hover:bg-[#8800DD] text-white font-bold rounded-full px-5 py-2.5 text-sm transition-all duration-300 hover:shadow-[0_0_30px_rgba(161,0,255,0.5)] active:scale-95 whitespace-nowrap"
+              >
+                Quero acessar
+                <ArrowRight className="w-4 h-4" />
+              </a>
             </div>
           </m.div>
         )}
@@ -208,7 +205,7 @@ export default function EcomShiftInteractive() {
                 <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-transparent" />
                 <div className="absolute bottom-0 left-0 right-0 p-6">
                   <p className="text-white font-bold text-lg">Flávio Beraldo</p>
-                  <p className="text-[#A1A1AA] text-sm">COO da Ciclo E-commerce · +14 anos de experiência</p>
+                  <p className="text-[#A1A1AA] text-sm">Diretor de Marketing da Ciclo E-commerce · +14 anos</p>
                 </div>
               </div>
             </m.div>
@@ -426,7 +423,7 @@ export default function EcomShiftInteractive() {
                 Flávio Beraldo
               </h2>
               <p className="text-[#A1A1AA] leading-relaxed mb-6">
-                COO da Ciclo E-commerce com +14 anos de experiência no mercado digital. Já liderou mais de 300 projetos de marketing e e-commerce, gerando mais de R$350 milhões em receita para marcas nacionais e internacionais.
+                Diretor de Marketing da Ciclo E-commerce com +14 anos de experiência no mercado digital. Já liderou mais de 300 projetos de marketing e e-commerce, gerando mais de R$350 milhões em receita para marcas nacionais e internacionais.
               </p>
               <p className="text-[#A1A1AA] leading-relaxed mb-8">
                 Seu objetivo no ECOM Shift é direto: <strong className="text-white">fazer você vender mais e de forma inteligente.</strong> 100% voltado para marketing e vendas com método comprovado.

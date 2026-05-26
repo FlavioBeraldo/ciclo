@@ -56,7 +56,7 @@ const courseSchema = {
   instructor: {
     '@type': 'Person',
     name: 'Flávio Beraldo',
-    jobTitle: 'COO da Ciclo E-commerce',
+    jobTitle: 'Diretor de Marketing da Ciclo E-commerce',
     url: 'https://cicloecommerce.com.br',
   },
   provider: {
