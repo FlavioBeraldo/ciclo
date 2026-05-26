@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import { motion, AnimatePresence } from 'framer-motion'
+import { m, AnimatePresence } from 'framer-motion'
 import { CheckCircle } from 'lucide-react'
 import Button from './ui/Button'
 import Section from './ui/Section'
@@ -45,7 +45,7 @@ export default function LeadForm() {
       </div>
 
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -58,9 +58,9 @@ export default function LeadForm() {
           <p className="text-[#A1A1AA]">
             Fale com um especialista e descubra como o Full Funnel Marketing pode transformar seu e-commerce.
           </p>
-        </motion.div>
+        </m.div>
 
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -68,7 +68,7 @@ export default function LeadForm() {
         >
           <AnimatePresence mode="wait">
             {submitted ? (
-              <motion.div
+              <m.div
                 key="success"
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -82,9 +82,9 @@ export default function LeadForm() {
                 <p className="text-[#A1A1AA] max-w-md">
                   Recebemos suas informações. Em breve nosso time entrará em contato.
                 </p>
-              </motion.div>
+              </m.div>
             ) : (
-              <motion.form
+              <m.form
                 key="form"
                 onSubmit={handleSubmit(onSubmit)}
                 className="grid sm:grid-cols-2 gap-5"
@@ -158,10 +158,10 @@ Conte brevemente qual é o principal gargalo hoje: CAC alto, baixa recompra, tr�
                     {isSubmitting ? 'Enviando...' : 'Fale com um especialista'}
                   </Button>
                 </div>
-              </motion.form>
+              </m.form>
             )}
           </AnimatePresence>
-        </motion.div>
+        </m.div>
       </div>
     </Section>
   )

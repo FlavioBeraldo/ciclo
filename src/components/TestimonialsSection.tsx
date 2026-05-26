@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { m, AnimatePresence } from 'framer-motion'
 import { Play, X } from 'lucide-react'
 import Image from 'next/image'
 import Button from './ui/Button'
@@ -20,7 +20,7 @@ export default function TestimonialsSection() {
   return (
     <Section id="depoimentos" className="bg-[#050505] py-20 lg:py-32">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -30,11 +30,11 @@ export default function TestimonialsSection() {
           <Button href="/depoimentos" variant="outline" arrow>
             Ver todos os depoimentos
           </Button>
-        </motion.div>
+        </m.div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {testimonials.map((t, i) => (
-            <motion.div
+            <m.div
               key={t.id}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -68,7 +68,7 @@ export default function TestimonialsSection() {
                 <p className="font-bold text-white text-sm">{t.brand}</p>
                 <p className="text-xs text-[#A1A1AA]">{t.role}</p>
               </div>
-            </motion.div>
+            </m.div>
           ))}
         </div>
       </div>
@@ -76,14 +76,14 @@ export default function TestimonialsSection() {
       {/* Video modal */}
       <AnimatePresence>
         {activeVideo && (
-          <motion.div
+          <m.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-md p-4"
             onClick={() => setActiveVideo(null)}
           >
-            <motion.div
+            <m.div
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
@@ -104,8 +104,8 @@ export default function TestimonialsSection() {
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
               />
-            </motion.div>
-          </motion.div>
+            </m.div>
+          </m.div>
         )}
       </AnimatePresence>
     </Section>

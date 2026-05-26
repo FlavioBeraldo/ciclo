@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import RecaptchaProvider from '@/components/RecaptchaProvider'
+import MotionProvider from '@/components/MotionProvider'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -40,7 +41,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="dns-prefetch" href="https://www.youtube.com" />
       </head>
       <body className="grain">
-        <RecaptchaProvider>{children}</RecaptchaProvider>
+        <MotionProvider>
+          <RecaptchaProvider>{children}</RecaptchaProvider>
+        </MotionProvider>
       </body>
     </html>
   )

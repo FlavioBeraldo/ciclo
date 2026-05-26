@@ -1,6 +1,6 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { m } from 'framer-motion'
 import { Play } from 'lucide-react'
 import Image from 'next/image'
 import Button from './ui/Button'
@@ -20,7 +20,7 @@ export default function PodcastSection() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid lg:grid-cols-[320px_1fr] gap-12 items-start">
           {/* Left */}
-          <motion.div
+          <m.div
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
@@ -40,12 +40,12 @@ export default function PodcastSection() {
             >
               Assista no YouTube
             </Button>
-          </motion.div>
+          </m.div>
 
           {/* Right - video cards */}
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {videos.slice(0, 6).map((video, i) => (
-              <motion.a
+              <m.a
                 key={video.id}
                 href={video.url}
                 target="_blank"
@@ -74,7 +74,7 @@ export default function PodcastSection() {
                 <div className="absolute bottom-0 left-0 right-0 p-3">
                   <p className="text-xs text-white font-medium line-clamp-2">{video.title}</p>
                 </div>
-              </motion.a>
+              </m.a>
             ))}
           </div>
         </div>

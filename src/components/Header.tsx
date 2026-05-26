@@ -22,9 +22,14 @@ export default function Header() {
   const isHome = pathname === '/'
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20)
-    window.addEventListener('scroll', onScroll)
-    return () => window.removeEventListener('scroll', onScroll)
+    const sentinel = document.getElementById('scroll-sentinel')
+    if (!sentinel) return
+    const observer = new IntersectionObserver(
+      ([entry]) => setScrolled(!entry.isIntersecting),
+      { threshold: 0 }
+    )
+    observer.observe(sentinel)
+    return () => observer.disconnect()
   }, [])
 
   // On non-home pages, prefix hash links with / so they navigate home first

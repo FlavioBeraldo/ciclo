@@ -1,6 +1,6 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { m } from 'framer-motion'
 import { Zap, Target, Repeat, BarChart3, ArrowRight } from 'lucide-react'
 import Link from 'next/link'
 import Button from './ui/Button'
@@ -71,7 +71,7 @@ export default function ServicesSection() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid lg:grid-cols-[320px_1fr] gap-12 lg:gap-16 items-start mb-16">
           {/* Left */}
-          <motion.div
+          <m.div
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
@@ -87,14 +87,14 @@ export default function ServicesSection() {
             <Button href="#contato" arrow size="lg">
               Fale com especialista
             </Button>
-          </motion.div>
+          </m.div>
 
           {/* Right - service cards */}
           <div className="grid sm:grid-cols-2 gap-4">
             {services.map((service, i) => {
               const Icon = service.icon
               return (
-                <motion.div
+                <m.div
                   key={service.title}
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -125,14 +125,14 @@ export default function ServicesSection() {
                   >
                     Ver solução completa <ArrowRight className="w-3 h-3" />
                   </Link>
-                </motion.div>
+                </m.div>
               )
             })}
           </div>
         </div>
 
         {/* Metrics bar */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -144,7 +144,7 @@ export default function ServicesSection() {
               <p className="text-xs text-[#A1A1AA] leading-tight">{m.label}</p>
             </div>
           ))}
-        </motion.div>
+        </m.div>
       </div>
     </Section>
   )

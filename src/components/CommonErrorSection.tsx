@@ -1,6 +1,6 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { m } from 'framer-motion'
 import {
   Eye,
   ShoppingCart,
@@ -62,7 +62,7 @@ export default function CommonErrorSection() {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -72,7 +72,7 @@ export default function CommonErrorSection() {
           <p className="text-[#A1A1AA] max-w-xl">
             Investir exclusivamente no momento da conversão e não estar no ambiente transacional correto.
           </p>
-        </motion.div>
+        </m.div>
 
         {/* Connector line */}
         <div className="hidden lg:block absolute top-[calc(50%-40px)] left-8 right-8 h-px bg-gradient-to-r from-transparent via-[#A100FF]/40 to-transparent" />
@@ -82,7 +82,7 @@ export default function CommonErrorSection() {
           {steps.map((step, i) => {
             const Icon = step.icon
             return (
-              <motion.div
+              <m.div
                 key={step.title}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -121,13 +121,13 @@ export default function CommonErrorSection() {
                     ))}
                   </ul>
                 )}
-              </motion.div>
+              </m.div>
             )
           })}
         </div>
 
         {/* Alert block */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -140,7 +140,7 @@ export default function CommonErrorSection() {
             <span className="text-white font-semibold">Esse é o problema mais grave que as marcas estão enfrentando:</span>{' '}
             elas não estão conseguindo conectar suas estratégias de marketing de ponta a ponta no e-commerce.
           </p>
-        </motion.div>
+        </m.div>
       </div>
     </Section>
   )

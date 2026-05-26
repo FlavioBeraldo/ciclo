@@ -62,6 +62,21 @@ body {
   text-shadow: 0 0 30px rgba(161, 0, 255, 0.5);
 }
 
+/* Marquee animation for BrandsStrip */
+@keyframes marquee {
+  from { transform: translateX(0) }
+  to   { transform: translateX(-50%) }
+}
+.animate-marquee {
+  animation: marquee 25s linear infinite;
+}
+
+/* Accessibility: respect reduced-motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee { animation: none; }
+  * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+
 /* WordPress imported post content */
 .wp-content h1,.wp-content h2,.wp-content h3,.wp-content h4 {
   color: #fff;

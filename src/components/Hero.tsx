@@ -1,6 +1,6 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { m } from 'framer-motion'
 import Button from './ui/Button'
 import Section from './ui/Section'
 
@@ -22,13 +22,13 @@ export default function Hero() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-16 lg:py-24">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Content */}
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: 'easeOut' }}
           >
             {/* Positioning — prominent, not a small tag */}
-            <motion.div
+            <m.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
@@ -40,7 +40,7 @@ export default function Hero() {
               <p className="text-white text-2xl sm:text-3xl font-bold leading-tight">
                 Full Funnel Marketing
               </p>
-            </motion.div>
+            </m.div>
 
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-6">
               Obcecados por{' '}
@@ -79,10 +79,10 @@ export default function Hero() {
                 </div>
               ))}
             </div>
-          </motion.div>
+          </m.div>
 
           {/* Visual - Ciclo symbol */}
-          <motion.div
+          <m.div
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1, ease: 'easeOut', delay: 0.2 }}
@@ -117,7 +117,7 @@ export default function Hero() {
               </div>
               <div className="absolute inset-16 rounded-full bg-[#A100FF]/20 blur-3xl" />
             </div>
-          </motion.div>
+          </m.div>
         </div>
       </div>
     </Section>

@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { motion } from 'framer-motion'
+import { m } from 'framer-motion'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod/v4'
@@ -61,7 +61,7 @@ export default function ConsultoriaInteractive() {
           <div className="absolute bottom-0 left-0 w-[400px] h-[400px] rounded-full bg-[#A100FF]/5 blur-[100px]" />
         </div>
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
+          <m.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
             <p className="text-[#A100FF] text-xs font-bold uppercase tracking-widest mb-4">Consultoria para E-commerce</p>
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-6">
               Cresça sua Operação de Forma{' '}
@@ -76,14 +76,14 @@ export default function ConsultoriaInteractive() {
             >
               Quero uma consultoria estratégica
             </a>
-          </motion.div>
+          </m.div>
         </div>
       </section>
 
       {/* PARA QUEM É */}
       <section className="py-20 bg-[#080808]">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -91,10 +91,10 @@ export default function ConsultoriaInteractive() {
           >
             <p className="text-[#A100FF] text-xs font-bold uppercase tracking-widest mb-3">Para quem é</p>
             <h2 className="text-3xl sm:text-4xl font-bold mb-4">Nossa consultoria é para você que…</h2>
-          </motion.div>
+          </m.div>
           <div className="grid sm:grid-cols-3 gap-6">
             {audiences.map((a, i) => (
-              <motion.div
+              <m.div
                 key={a}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -106,7 +106,7 @@ export default function ConsultoriaInteractive() {
                   <ChevronRight className="w-4 h-4 text-[#A100FF]" />
                 </div>
                 <p className="text-[#D4D4D8] text-sm leading-relaxed">{a}</p>
-              </motion.div>
+              </m.div>
             ))}
           </div>
         </div>
@@ -115,7 +115,7 @@ export default function ConsultoriaInteractive() {
       {/* METODOLOGIA */}
       <section className="py-20 bg-[#050505]">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -126,10 +126,10 @@ export default function ConsultoriaInteractive() {
             <p className="text-[#A1A1AA] text-lg max-w-xl mx-auto">
               Passamos por cada um dos principais pilares que garantem um crescimento sustentável.
             </p>
-          </motion.div>
+          </m.div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {pillars.map((p, i) => (
-              <motion.div
+              <m.div
                 key={p}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -141,7 +141,7 @@ export default function ConsultoriaInteractive() {
                   {String(i + 1).padStart(2, '0')}
                 </span>
                 <span className="text-[#D4D4D8] text-sm">{p}</span>
-              </motion.div>
+              </m.div>
             ))}
           </div>
         </div>
@@ -150,7 +150,7 @@ export default function ConsultoriaInteractive() {
       {/* RESULTADO */}
       <section className="py-20 bg-[#010101]">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -178,7 +178,7 @@ export default function ConsultoriaInteractive() {
                 </div>
               ))}
             </div>
-          </motion.div>
+          </m.div>
         </div>
       </section>
 
@@ -188,7 +188,7 @@ export default function ConsultoriaInteractive() {
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] rounded-full bg-[#A100FF]/5 blur-[100px]" />
         </div>
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -199,9 +199,9 @@ export default function ConsultoriaInteractive() {
             <p className="text-[#A1A1AA] text-lg">
               Preencha o formulário e nossa equipe entra em contato para entender como podemos acelerar sua operação.
             </p>
-          </motion.div>
+          </m.div>
 
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -256,7 +256,7 @@ export default function ConsultoriaInteractive() {
                 </button>
               </form>
             )}
-          </motion.div>
+          </m.div>
         </div>
       </section>
     </>

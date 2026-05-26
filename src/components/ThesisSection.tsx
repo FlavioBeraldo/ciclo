@@ -1,6 +1,6 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { m } from 'framer-motion'
 import Section from './ui/Section'
 
 const cycles = [
@@ -32,17 +32,17 @@ export default function ThesisSection() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid lg:grid-cols-[280px_1fr] gap-12 lg:gap-20 items-start">
           {/* Left title */}
-          <motion.div
+          <m.div
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
           >
             <h2 className="text-4xl sm:text-5xl font-bold">Nossa<br />tese</h2>
-          </motion.div>
+          </m.div>
 
           {/* Right content */}
           <div>
-            <motion.p
+            <m.p
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -50,13 +50,13 @@ export default function ThesisSection() {
             >
               <span className="text-white font-semibold">Crescimento sustentável</span> não é só conversão.
               Uma marca precisa gerar esses <span className="text-[#A100FF]">três ciclos</span> de forma constante.
-            </motion.p>
+            </m.p>
 
             {/* Cycles visual */}
             <div className="flex flex-col lg:flex-row items-center gap-0 lg:gap-0 mb-12">
               {cycles.map((cycle, i) => (
                 <div key={cycle.label} className="flex lg:flex-col items-center">
-                  <motion.div
+                  <m.div
                     initial={{ opacity: 0, scale: 0.8 }}
                     whileInView={{ opacity: 1, scale: 1 }}
                     viewport={{ once: true }}
@@ -71,7 +71,7 @@ export default function ThesisSection() {
                     {i < cycles.length - 1 && (
                       <div className="hidden lg:block absolute top-1/2 -right-6 w-12 h-[2px] bg-gradient-to-r from-[#A100FF] to-[#A100FF]/30 z-20 -translate-y-1/2" />
                     )}
-                  </motion.div>
+                  </m.div>
 
                   {/* Mobile connector */}
                   {i < cycles.length - 1 && (
@@ -87,7 +87,7 @@ export default function ThesisSection() {
               </div>
 
               {/* Result box */}
-              <motion.div
+              <m.div
                 initial={{ opacity: 0, x: 20 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
@@ -97,11 +97,11 @@ export default function ThesisSection() {
                 <p className="text-xs text-[#A1A1AA] mb-1">Receita na operação do e-commerce</p>
                 <p className="text-2xl font-bold text-white">+ Lucro</p>
                 <p className="text-lg font-semibold text-[#A100FF]">− CAC</p>
-              </motion.div>
+              </m.div>
             </div>
 
             {/* Bottom bar */}
-            <motion.div
+            <m.div
               initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -113,7 +113,7 @@ export default function ThesisSection() {
                 <span className="text-white">crescimento previsível</span>, previsibilidade de caixa e{' '}
                 <span className="text-white">vantagem competitiva sustentável</span>.
               </p>
-            </motion.div>
+            </m.div>
           </div>
         </div>
       </div>

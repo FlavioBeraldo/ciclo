@@ -1,7 +1,7 @@
 'use client'
 
-import { useRef, useState } from 'react'
-import { motion } from 'framer-motion'
+import { useRef } from 'react'
+import { m } from 'framer-motion'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import Button from './ui/Button'
 import Section from './ui/Section'
@@ -52,26 +52,16 @@ const cases = [
 
 export default function CasesSection() {
   const scrollRef = useRef<HTMLDivElement>(null)
-  const [canScrollLeft, setCanScrollLeft] = useState(false)
-  const [canScrollRight, setCanScrollRight] = useState(true)
 
   const scroll = (dir: 'left' | 'right') => {
     if (!scrollRef.current) return
     scrollRef.current.scrollBy({ left: dir === 'left' ? -340 : 340, behavior: 'smooth' })
   }
 
-  const onScroll = () => {
-    if (!scrollRef.current) return
-    setCanScrollLeft(scrollRef.current.scrollLeft > 0)
-    setCanScrollRight(
-      scrollRef.current.scrollLeft < scrollRef.current.scrollWidth - scrollRef.current.clientWidth - 10
-    )
-  }
-
   return (
     <Section id="cases" className="bg-[#080808] py-20 lg:py-32">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -87,44 +77,41 @@ export default function CasesSection() {
           <div className="flex items-center gap-2">
             <button
               onClick={() => scroll('left')}
-              disabled={!canScrollLeft}
               aria-label="Case anterior"
-              className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-white hover:border-[#A100FF] hover:text-[#A100FF] transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+              className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-white hover:border-[#A100FF] hover:text-[#A100FF] transition-all"
             >
               <ChevronLeft className="w-5 h-5" />
             </button>
             <button
               onClick={() => scroll('right')}
-              disabled={!canScrollRight}
               aria-label="Próximo case"
-              className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-white hover:border-[#A100FF] hover:text-[#A100FF] transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+              className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-white hover:border-[#A100FF] hover:text-[#A100FF] transition-all"
             >
               <ChevronRight className="w-5 h-5" />
             </button>
           </div>
-        </motion.div>
+        </m.div>
 
         <div
           ref={scrollRef}
-          onScroll={onScroll}
-          className="flex gap-4 overflow-x-auto pb-4 -mx-4 px-4"
+          className="flex gap-4 overflow-x-auto pb-4 -mx-4 px-4 snap-x snap-mandatory"
           style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
         >
           {cases.map((c, i) => (
-            <motion.div
+            <m.div
               key={c.brand}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
-              className="flex-shrink-0 w-72 sm:w-80 rounded-2xl border border-white/8 overflow-hidden hover:border-[#A100FF]/30 transition-colors"
+              className="flex-shrink-0 w-72 sm:w-80 rounded-2xl border border-white/8 overflow-hidden hover:border-[#A100FF]/30 transition-colors snap-start"
               style={{ background: `linear-gradient(135deg, ${c.color}, #050505)` }}
             >
               {/* Image slot */}
               <div className="w-full h-40 overflow-hidden bg-white/5 border-b border-white/8 flex items-center justify-center">
                 {c.image ? (
                   // eslint-disable-next-line @next/next/no-img-element
-                  <img src={c.image} alt={c.brand} className="w-full h-full object-cover" />
+                  <img src={c.image} alt={c.brand} className="w-full h-full object-cover" loading="lazy" />
                 ) : (
                   <span className="text-[#A1A1AA]/25 text-xs tracking-widest uppercase">Imagem</span>
                 )}
@@ -144,11 +131,11 @@ export default function CasesSection() {
                   ))}
                 </div>
               </div>
-            </motion.div>
+            </m.div>
           ))}
         </div>
 
-        <motion.div
+        <m.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
@@ -157,7 +144,7 @@ export default function CasesSection() {
           <Button href="#depoimentos" variant="outline" arrow>
             Ver mais cases de sucesso
           </Button>
-        </motion.div>
+        </m.div>
       </div>
     </Section>
   )

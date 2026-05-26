@@ -14,6 +14,7 @@ import Footer from '@/components/Footer'
 export default function Home() {
   return (
     <main>
+      <div id="scroll-sentinel" aria-hidden="true" className="absolute top-0 h-1 w-full pointer-events-none" />
       <Header />
       <Hero />
       <BrandsStrip />

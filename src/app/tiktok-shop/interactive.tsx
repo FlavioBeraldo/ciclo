@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useRef } from 'react'
-import { motion, useInView, AnimatePresence } from 'framer-motion'
+import { m, useInView, AnimatePresence } from 'framer-motion'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod/v4'
@@ -36,7 +36,7 @@ function ConversionBars() {
           <strong className="text-[#FE2C55] font-bold">40%</strong>
         </div>
         <div className="h-3 bg-white/10 rounded-full overflow-hidden">
-          <motion.div
+          <m.div
             className="h-full rounded-full bg-gradient-to-r from-[#FE2C55] to-[#ff6b9d]"
             initial={{ width: '0%' }}
             animate={inView ? { width: '40%' } : { width: '0%' }}
@@ -50,7 +50,7 @@ function ConversionBars() {
           <strong className="text-[#A1A1AA] font-bold">1,65%</strong>
         </div>
         <div className="h-3 bg-white/10 rounded-full overflow-hidden">
-          <motion.div
+          <m.div
             className="h-full rounded-full bg-white/40"
             initial={{ width: '0%' }}
             animate={inView ? { width: '1.65%' } : { width: '0%' }}
@@ -90,7 +90,7 @@ export default function TikTokShopContent() {
         </div>
 
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
@@ -101,9 +101,9 @@ export default function TikTokShopContent() {
               </svg>
               TikTok Shop — Discovery Commerce
             </div>
-          </motion.div>
+          </m.div>
 
-          <motion.h1
+          <m.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.1 }}
@@ -116,9 +116,9 @@ export default function TikTokShopContent() {
             chegou.
             <br className="hidden sm:block" />
             Sua marca está pronta?
-          </motion.h1>
+          </m.h1>
 
-          <motion.p
+          <m.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
@@ -126,9 +126,9 @@ export default function TikTokShopContent() {
           >
             A Ciclo E-commerce é o seu parceiro de Full Funnel Marketing no TikTok Shop —
             da configuração à escala, cuidamos de tudo para você vender mais.
-          </motion.p>
+          </m.p>
 
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
@@ -146,9 +146,9 @@ export default function TikTokShopContent() {
             >
               Entender como funciona
             </a>
-          </motion.div>
+          </m.div>
 
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
@@ -168,14 +168,14 @@ export default function TikTokShopContent() {
               <p className="text-3xl sm:text-4xl font-bold text-white">R$ 39 bi</p>
               <p className="text-xs text-[#A1A1AA] mt-1">Potencial até 2028</p>
             </div>
-          </motion.div>
+          </m.div>
         </div>
       </section>
 
       {/* ── ECOSSISTEMA ── */}
       <section id="ecossistema" className="py-20 lg:py-28 bg-[#050505]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -191,7 +191,7 @@ export default function TikTokShopContent() {
             <p className="text-[#A1A1AA] text-lg max-w-xl mx-auto">
               Antes de falar sobre TikTok Shop, é importante conhecer os três pilares da plataforma.
             </p>
-          </motion.div>
+          </m.div>
 
           {/* 3 pillars */}
           <div className="grid sm:grid-cols-3 gap-6 mb-16">
@@ -235,7 +235,7 @@ export default function TikTokShopContent() {
                 ),
               },
             ].map((pillar, i) => (
-              <motion.div
+              <m.div
                 key={pillar.title}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -246,13 +246,13 @@ export default function TikTokShopContent() {
                 <div className="mb-4">{pillar.icon}</div>
                 <h3 className="font-bold text-white text-lg mb-2">{pillar.title}</h3>
                 <p className="text-[#A1A1AA] text-sm leading-relaxed">{pillar.desc}</p>
-              </motion.div>
+              </m.div>
             ))}
           </div>
 
           {/* Conversion differential */}
           <div className="grid lg:grid-cols-2 gap-12 items-start">
-            <motion.div
+            <m.div
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
@@ -275,10 +275,10 @@ export default function TikTokShopContent() {
                 usuário descobre, se interessa e compra sem sair do app.
               </p>
               <ConversionBars />
-            </motion.div>
+            </m.div>
 
             {/* Purchase journey */}
-            <motion.div
+            <m.div
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
@@ -319,7 +319,7 @@ export default function TikTokShopContent() {
                   </div>
                 ))}
               </div>
-            </motion.div>
+            </m.div>
           </div>
         </div>
       </section>
@@ -330,7 +330,7 @@ export default function TikTokShopContent() {
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-[#25F4EE]/5 blur-[120px]" />
         </div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -344,10 +344,10 @@ export default function TikTokShopContent() {
             <p className="text-[#A1A1AA] text-lg max-w-xl mx-auto">
               Os números que validam o TikTok Shop como meio de alavancar as vendas da sua marca.
             </p>
-          </motion.div>
+          </m.div>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-            <motion.div
+            <m.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -368,7 +368,7 @@ export default function TikTokShopContent() {
               </div>
               <p className="text-4xl sm:text-5xl font-bold text-white mb-2">R$ 1,2 bi</p>
               <p className="text-[#A1A1AA] text-base">GMV fechado em 2025 no Brasil</p>
-            </motion.div>
+            </m.div>
 
             {[
               {
@@ -386,7 +386,7 @@ export default function TikTokShopContent() {
                 label: 'Taxa de conversão máxima (vs 1,65% do mercado)',
               },
             ].map((card, i) => (
-              <motion.div
+              <m.div
                 key={card.value}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -399,11 +399,11 @@ export default function TikTokShopContent() {
                 {card.sub && (
                   <p className="text-[#25F4EE] text-xs mt-2 font-medium">{card.sub}</p>
                 )}
-              </motion.div>
+              </m.div>
             ))}
           </div>
 
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -436,14 +436,14 @@ export default function TikTokShopContent() {
                 para o seu negócio.
               </p>
             </div>
-          </motion.div>
+          </m.div>
         </div>
       </section>
 
       {/* ── ROADMAP ── */}
       <section id="roadmap" className="py-20 lg:py-28 bg-[#050505]">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -457,7 +457,7 @@ export default function TikTokShopContent() {
             <p className="text-[#A1A1AA] text-lg">
               Passo a passo para iniciar e escalar as vendas no TikTok Shop.
             </p>
-          </motion.div>
+          </m.div>
 
           <div>
             {[
@@ -489,7 +489,7 @@ export default function TikTokShopContent() {
                 highlight: true,
               },
             ].map((step, i) => (
-              <motion.div
+              <m.div
                 key={step.num}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -527,7 +527,7 @@ export default function TikTokShopContent() {
                     </ul>
                   )}
                 </div>
-              </motion.div>
+              </m.div>
             ))}
           </div>
         </div>
@@ -536,7 +536,7 @@ export default function TikTokShopContent() {
       {/* ── SERVIÇOS ── */}
       <section id="servicos" className="py-20 lg:py-28 bg-[#080808]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -552,11 +552,11 @@ export default function TikTokShopContent() {
             <p className="text-[#A1A1AA] text-lg max-w-2xl mx-auto">
               Uma solução completa, da configuração inicial à gestão e escala contínua.
             </p>
-          </motion.div>
+          </m.div>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {/* Wide card */}
-            <motion.div
+            <m.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -596,7 +596,7 @@ export default function TikTokShopContent() {
                   </div>
                 </div>
               </div>
-            </motion.div>
+            </m.div>
 
             {[
               {
@@ -683,7 +683,7 @@ export default function TikTokShopContent() {
                 tags: ['GMV Max Ads', 'Otimização contínua'],
               },
             ].map((card, i) => (
-              <motion.div
+              <m.div
                 key={card.title}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -718,7 +718,7 @@ export default function TikTokShopContent() {
                     ))}
                   </div>
                 )}
-              </motion.div>
+              </m.div>
             ))}
           </div>
         </div>
@@ -731,7 +731,7 @@ export default function TikTokShopContent() {
           <div className="absolute bottom-0 right-1/4 w-[300px] h-[300px] rounded-full bg-[#25F4EE]/10 blur-[80px]" />
         </div>
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -762,7 +762,7 @@ export default function TikTokShopContent() {
             >
               Quero uma proposta
             </a>
-          </motion.div>
+          </m.div>
         </div>
       </section>
 
@@ -772,7 +772,7 @@ export default function TikTokShopContent() {
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] rounded-full bg-[#FE2C55]/5 blur-[100px]" />
         </div>
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -787,9 +787,9 @@ export default function TikTokShopContent() {
               Preencha o formulário e nossa equipe entra em contato para entender como podemos acelerar
               suas vendas no TikTok Shop.
             </p>
-          </motion.div>
+          </m.div>
 
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -798,7 +798,7 @@ export default function TikTokShopContent() {
           >
             <AnimatePresence mode="wait">
               {submitted ? (
-                <motion.div
+                <m.div
                   key="success"
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
@@ -810,9 +810,9 @@ export default function TikTokShopContent() {
                   </div>
                   <h3 className="text-xl font-bold text-white">Mensagem enviada!</h3>
                   <p className="text-[#A1A1AA]">Entraremos em contato em breve.</p>
-                </motion.div>
+                </m.div>
               ) : (
-                <motion.form
+                <m.form
                   key="form"
                   onSubmit={handleSubmit(onSubmit)}
                   className="space-y-5"
@@ -880,10 +880,10 @@ export default function TikTokShopContent() {
                   >
                     {isSubmitting ? 'Enviando...' : 'Enviar mensagem'}
                   </button>
-                </motion.form>
+                </m.form>
               )}
             </AnimatePresence>
-          </motion.div>
+          </m.div>
         </div>
       </section>
     </>
