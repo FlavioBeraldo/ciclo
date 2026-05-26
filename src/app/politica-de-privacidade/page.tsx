@@ -14,7 +14,7 @@ const sections = [
     id: 'controlador',
     title: '1. Quem é o Controlador dos seus dados',
     content: [
-      'A Ciclo E-commerce Ltda., inscrita no CNPJ sob nº 17.783.009/0001-60, com sede em São Paulo/SP, é a Controladora dos dados pessoais tratados neste site, nos termos da Lei Geral de Proteção de Dados Pessoais (LGPD — Lei nº 13.709/2018).',
+      'A Ciclo - Assessoria de Marketing e Inteligencia Digital Para E-Commerce LTDA, inscrita no CNPJ sob nº 23.757.895/0001-09, com sede em São Paulo/SP, é a Controladora dos dados pessoais tratados neste site, nos termos da Lei Geral de Proteção de Dados Pessoais (LGPD — Lei nº 13.709/2018).',
       'Para exercer seus direitos ou tirar dúvidas sobre o tratamento dos seus dados, entre em contato pelo e-mail: privacidade@cicloecommerce.com.br',
     ],
   },
@@ -158,7 +158,8 @@ const sections = [
     ],
     list: [
       'E-mail: privacidade@cicloecommerce.com.br',
-      'Empresa: Ciclo E-commerce Ltda.',
+      'Empresa: Ciclo - Assessoria de Marketing e Inteligencia Digital Para E-Commerce LTDA',
+      'CNPJ: 23.757.895/0001-09',
       'Endereço: São Paulo, SP — Brasil',
     ],
     extra: [
