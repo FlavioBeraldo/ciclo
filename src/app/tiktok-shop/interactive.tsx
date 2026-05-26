@@ -17,6 +17,7 @@ const formSchema = z.object({
   company: z.string().optional(),
   storeUrl: z.string().optional(),
   message: z.string().optional(),
+  lgpd: z.boolean().refine((v) => v === true, 'Aceite a política de privacidade para continuar'),
 })
 type FormData = z.infer<typeof formSchema>
 
@@ -888,6 +889,17 @@ export default function TikTokShopContent() {
                       aria-label="Mensagem"
                     />
                   </div>
+                  <label className="flex items-start gap-3 cursor-pointer mb-4">
+                    <input type="checkbox" {...register('lgpd')} className="mt-0.5 w-4 h-4 flex-shrink-0 accent-[#FE2C55]" />
+                    <span className="text-xs text-[#A1A1AA] leading-relaxed">
+                      Li e aceito a{' '}
+                      <a href="/politica-de-privacidade" target="_blank" rel="noopener noreferrer" className="text-[#FE2C55] underline hover:text-[#e6254c]">
+                        Política de Privacidade
+                      </a>
+                      {' '}e autorizo o uso dos meus dados para contato comercial.
+                    </span>
+                  </label>
+                  {errors.lgpd && <p className="text-red-400 text-xs mb-3">{errors.lgpd.message as string}</p>}
                   <button
                     type="submit"
                     disabled={isSubmitting}

@@ -15,6 +15,7 @@ const schema = z.object({
   phone: z.string().min(1, 'WhatsApp é obrigatório'),
   storeUrl: z.string().optional(),
   message: z.string().min(20, 'Descreva melhor o seu desafio (mínimo 20 caracteres)'),
+  lgpd: z.boolean().refine((v) => v === true, 'Aceite a política de privacidade para continuar'),
 })
 
 type FormData = z.infer<typeof schema>
@@ -124,6 +125,17 @@ export default function LeadForm() {
               <p className="text-xs text-[#A1A1AA] mb-4">
                 Quanto mais contexto você trouxer, melhor conseguimos direcionar a conversa estratégica.
               </p>
+              <label className="flex items-start gap-3 cursor-pointer mb-4">
+                <input type="checkbox" {...register('lgpd')} className="mt-0.5 w-4 h-4 flex-shrink-0 accent-[#A100FF]" />
+                <span className="text-xs text-[#A1A1AA] leading-relaxed">
+                  Li e aceito a{' '}
+                  <a href="/politica-de-privacidade" target="_blank" rel="noopener noreferrer" className="text-[#A100FF] underline hover:text-[#8800DD]">
+                    Política de Privacidade
+                  </a>
+                  {' '}e autorizo o uso dos meus dados para contato comercial.
+                </span>
+              </label>
+              {errors.lgpd && <p className={errorClass}>{errors.lgpd.message as string}</p>}
               <Button type="submit" arrow size="lg" disabled={isSubmitting} className="w-full justify-center">
                 {isSubmitting ? 'Enviando...' : 'Fale com um especialista'}
               </Button>
