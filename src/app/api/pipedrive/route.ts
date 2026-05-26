@@ -144,6 +144,8 @@ export async function POST(req: NextRequest) {
         user_id: ownerId,
         stage_id: stageId,
         status: 'open',
+        // Campo customizado "Objetivo" (Large text)
+        '34b57523aeb4efdfe90674f07fc548ccd3da2769': message ?? '',
       }),
     })
     const dealData = await dealRes.json()
@@ -154,18 +156,6 @@ export async function POST(req: NextRequest) {
     }
 
     const dealId = dealData.data.id
-
-    // Adiciona a mensagem da dor como nota no deal
-    if (message) {
-      await fetch(url('/notes'), {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          content: message,
-          deal_id: dealId,
-        }),
-      })
-    }
 
     console.log('[Pipedrive] Deal criado:', dealId, '| Stage:', stageId)
     return NextResponse.json({ success: true })
