@@ -46,8 +46,13 @@ export default function ConsultoriaInteractive() {
     resolver: zodResolver(schema),
   })
 
-  const onSubmit = async (_: FormData) => {
-    await new Promise((r) => setTimeout(r, 1000))
+  const onSubmit = async (data: FormData) => {
+    const res = await fetch('/api/pipedrive', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ...data, source: 'Site/WhatsApp – Consultoria' }),
+    })
+    if (!res.ok) throw new Error('Erro ao enviar')
     reset()
     setSubmitted(true)
   }

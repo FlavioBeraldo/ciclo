@@ -31,8 +31,12 @@ export default function LeadForm() {
   })
 
   const onSubmit = async (data: FormData) => {
-    await new Promise((r) => setTimeout(r, 800))
-    console.log('Form submitted:', data)
+    const res = await fetch('/api/pipedrive', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ...data, source: 'Site/WhatsApp' }),
+    })
+    if (!res.ok) throw new Error('Erro ao enviar')
     setSubmitted(true)
   }
 
