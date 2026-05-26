@@ -20,8 +20,10 @@ export default function Header() {
   const [scrolled, setScrolled] = useState(false)
   const pathname = usePathname()
   const isHome = pathname === '/'
+  const isEcomShift = pathname === '/ecomshift'
 
   useEffect(() => {
+    if (isEcomShift) return
     const sentinel = document.getElementById('scroll-sentinel')
     if (!sentinel) return
     const observer = new IntersectionObserver(
@@ -30,7 +32,7 @@ export default function Header() {
     )
     observer.observe(sentinel)
     return () => observer.disconnect()
-  }, [])
+  }, [isEcomShift])
 
   // On non-home pages, prefix hash links with / so they navigate home first
   const resolvedLinks = navLinks.map((link) => ({
@@ -43,7 +45,8 @@ export default function Header() {
   return (
     <header
       className={cn(
-        'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
+        'top-0 left-0 right-0 z-50 transition-all duration-300',
+        isEcomShift ? 'absolute' : 'fixed',
         scrolled || open
           ? 'bg-[#050505]/98 backdrop-blur-md border-b border-white/5'
           : 'bg-transparent'
