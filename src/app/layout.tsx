@@ -45,7 +45,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {/* Google Tag Manager (noscript) */}
         <noscript>
           <iframe
-            src="https://www.googletagmanager.com/ns.html?id=GTM-5NNPNZ"
+            src="https://server-side-tagging-raejypekia-uc.a.run.app/ns.html?id=GTM-5NNPNZ"
             height="0"
             width="0"
             style={{ display: 'none', visibility: 'hidden' }}
@@ -54,7 +54,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <MotionProvider>
           <RecaptchaProvider>{children}</RecaptchaProvider>
         </MotionProvider>
-        {/* Google Tag Manager */}
+        {/* Google Tag Manager — via server-side container */}
         <Script
           id="gtm"
           strategy="afterInteractive"
@@ -62,7 +62,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
 j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+'https://server-side-tagging-raejypekia-uc.a.run.app/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','GTM-5NNPNZ');`,
           }}
         />
