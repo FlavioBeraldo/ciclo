@@ -13,6 +13,7 @@ const schema = z.object({
   email: z.string().email('E-mail inválido'),
   phone: z.string().optional(),
   company: z.string().optional(),
+  storeUrl: z.string().optional(),
   message: z.string().optional(),
 })
 type FormData = z.infer<typeof schema>
@@ -281,6 +282,15 @@ export default function ConsultoriaInteractive() {
                     <label className="block text-sm text-[#A1A1AA] mb-1.5">Empresa</label>
                     <input {...register('company')} placeholder="Nome da sua empresa" className={inputClass} />
                   </div>
+                </div>
+                <div>
+                  <label className="block text-sm text-[#A1A1AA] mb-1.5">URL da loja</label>
+                  <input
+                    {...register('storeUrl')}
+                    type="url"
+                    placeholder="https://sualoja.com.br"
+                    className={inputClass}
+                  />
                 </div>
                 <div>
                   <label className="block text-sm text-[#A1A1AA] mb-1.5">Como podemos ajudar?</label>

@@ -17,6 +17,7 @@ const formSchema = z.object({
   email: z.string().email('E-mail inválido'),
   company: z.string().min(1, 'Empresa é obrigatória'),
   whatsapp: z.string().min(10, 'WhatsApp inválido'),
+  storeUrl: z.string().optional(),
   message: z.string().min(20, 'Descreva melhor o seu desafio (mínimo 20 caracteres)'),
 })
 
@@ -156,32 +157,32 @@ function InlineLeadForm({ serviceName }: { serviceName: string }) {
                 className="grid sm:grid-cols-2 gap-5"
               >
                 <div>
+                  <label className="block text-sm text-[#A1A1AA] mb-1.5">Nome completo *</label>
                   <input
                     {...register('name')}
-                    placeholder="Nome completo *"
+                    placeholder="Seu nome"
                     className={inputClass}
-                    aria-label="Nome completo"
                   />
                   {errors.name && <p className={errorClass}>{errors.name.message}</p>}
                 </div>
 
                 <div>
+                  <label className="block text-sm text-[#A1A1AA] mb-1.5">E-mail corporativo *</label>
                   <input
                     {...register('email')}
                     type="email"
-                    placeholder="E-mail corporativo *"
+                    placeholder="seu@email.com"
                     className={inputClass}
-                    aria-label="E-mail corporativo"
                   />
                   {errors.email && <p className={errorClass}>{errors.email.message}</p>}
                 </div>
 
                 <div>
+                  <label className="block text-sm text-[#A1A1AA] mb-1.5">Empresa *</label>
                   <input
                     {...register('company')}
-                    placeholder="Empresa *"
+                    placeholder="Nome da sua empresa"
                     className={inputClass}
-                    aria-label="Empresa"
                   />
                   {errors.company && <p className={errorClass}>{errors.company.message}</p>}
                 </div>
@@ -195,12 +196,22 @@ function InlineLeadForm({ serviceName }: { serviceName: string }) {
                 />
 
                 <div className="sm:col-span-2">
+                  <label className="block text-sm text-[#A1A1AA] mb-1.5">URL da loja</label>
+                  <input
+                    {...register('storeUrl')}
+                    type="url"
+                    placeholder="https://sualoja.com.br"
+                    className={inputClass}
+                  />
+                </div>
+
+                <div className="sm:col-span-2">
+                  <label className="block text-sm text-[#A1A1AA] mb-1.5">Descreva a dor atual da sua empresa *</label>
                   <textarea
                     {...register('message')}
                     rows={4}
-                    placeholder="Descreva o principal desafio do seu e-commerce hoje *"
+                    placeholder="Descreva o principal desafio do seu e-commerce hoje"
                     className={`${inputClass} resize-none`}
-                    aria-label="Descreva o principal desafio do seu e-commerce"
                   />
                   {errors.message && <p className={errorClass}>{errors.message.message}</p>}
                 </div>
