@@ -73,12 +73,10 @@ const presenters = [
 ]
 
 const studioPhotos = [
-  { src: '/studio-ofatorm-1.jpg', alt: 'Gravação do episódio com convidadas da Suvinil e Faber Castell' },
-  { src: '/studio-ofatorm-2.jpg', alt: 'Episódio com gestores da Shiseido e Lenvie no estúdio O Fator M' },
-  { src: '/studio-ofatorm-3.jpg', alt: 'Gravação com Head de E-commerce da Nestlé' },
-  { src: '/studio-ofatorm-4.jpg', alt: 'Episódio com heads de marketing da Carmens Steffens e Camesa' },
-  { src: '/studio-ofatorm-5.jpg', alt: 'Gravação com fundadora da Belong Be no estúdio O Fator M' },
-  { src: '/studio-ofatorm-6.jpg', alt: 'Episódio com fundadores da Blessy' },
+  { src: '/studio-ofatorm-1.jpg', alt: 'Bastidores do O Fator M — apresentadores com convidados antes da gravação' },
+  { src: '/studio-ofatorm-2.jpg', alt: 'Mesa de operação do estúdio O Fator M com switcher e mixer de áudio profissional' },
+  { src: '/studio-ofatorm-3.jpg', alt: 'Bastidores — Felipe Beraldo sendo fotografado no estúdio O Fator M' },
+  { src: '/studio-ofatorm-4.jpg', alt: 'Bastidores — gravação de episódio do O Fator M com convidado' },
 ]
 
 // ─── Featured episode card ─────────────────────────────────────────────────────
@@ -523,32 +521,58 @@ export default function OFatorMInteractive() {
             </div>
           </m.div>
 
-          {/* Photo grid */}
-          <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
-            {studioPhotos.map((photo, i) => (
-              <m.div
-                key={photo.src}
-                initial={{ opacity: 0, scale: 0.97 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.06 }}
-                className={`relative overflow-hidden rounded-xl ${
-                  i === 0 ? 'col-span-2 lg:col-span-2' : ''
-                } ${i === 3 ? 'lg:col-span-2' : ''}`}
-              >
-                <div className={`relative ${i === 0 || i === 3 ? 'aspect-[16/9]' : 'aspect-square'}`}>
-                  <Image
-                    src={photo.src}
-                    alt={photo.alt}
-                    fill
-                    className="object-cover hover:scale-105 transition-transform duration-700"
-                    sizes="(max-width: 640px) 50vw, (max-width: 1024px) 50vw, 33vw"
-                    loading="lazy"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300" />
-                </div>
-              </m.div>
-            ))}
+          {/* Photo grid — 4 photos: top row wide + square, bottom row square + wide */}
+          <div className="grid grid-cols-2 gap-3">
+            {/* Row 1: photo 1 (landscape, 3 cols) + photo 2 (portrait, 1 col) */}
+            <m.div
+              initial={{ opacity: 0, scale: 0.97 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0 }}
+              className="relative overflow-hidden rounded-xl col-span-2 lg:col-span-1"
+            >
+              <div className="relative aspect-[16/10]">
+                <Image src={studioPhotos[0].src} alt={studioPhotos[0].alt} fill className="object-cover hover:scale-105 transition-transform duration-700" sizes="(max-width: 1024px) 100vw, 50vw" loading="lazy" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300" />
+              </div>
+            </m.div>
+            <m.div
+              initial={{ opacity: 0, scale: 0.97 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.07 }}
+              className="relative overflow-hidden rounded-xl col-span-2 lg:col-span-1"
+            >
+              <div className="relative aspect-[16/10]">
+                <Image src={studioPhotos[1].src} alt={studioPhotos[1].alt} fill className="object-cover hover:scale-105 transition-transform duration-700" sizes="(max-width: 1024px) 100vw, 50vw" loading="lazy" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300" />
+              </div>
+            </m.div>
+            {/* Row 2: photo 3 + photo 4 */}
+            <m.div
+              initial={{ opacity: 0, scale: 0.97 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.14 }}
+              className="relative overflow-hidden rounded-xl"
+            >
+              <div className="relative aspect-[4/3]">
+                <Image src={studioPhotos[2].src} alt={studioPhotos[2].alt} fill className="object-cover hover:scale-105 transition-transform duration-700" sizes="(max-width: 640px) 50vw, 33vw" loading="lazy" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300" />
+              </div>
+            </m.div>
+            <m.div
+              initial={{ opacity: 0, scale: 0.97 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.21 }}
+              className="relative overflow-hidden rounded-xl"
+            >
+              <div className="relative aspect-[4/3]">
+                <Image src={studioPhotos[3].src} alt={studioPhotos[3].alt} fill className="object-cover hover:scale-105 transition-transform duration-700" sizes="(max-width: 640px) 50vw, 33vw" loading="lazy" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300" />
+              </div>
+            </m.div>
           </div>
 
           {/* Content formats */}
