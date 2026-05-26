@@ -3,14 +3,22 @@
 import { m } from 'framer-motion'
 import { Play } from 'lucide-react'
 import Image from 'next/image'
+import { useEffect, useState } from 'react'
 import Button from './ui/Button'
 import Section from './ui/Section'
 import type { YouTubeVideo } from '@/lib/youtube'
-import videosData from '@/data/youtube-videos.json'
-
-const videos = videosData as YouTubeVideo[]
+import { FALLBACK_VIDEOS } from '@/lib/youtube'
 
 export default function PodcastSection() {
+  const [videos, setVideos] = useState<YouTubeVideo[]>(FALLBACK_VIDEOS)
+
+  useEffect(() => {
+    fetch('/api/youtube/latest')
+      .then((r) => r.json())
+      .then((data: YouTubeVideo[]) => { if (data?.length) setVideos(data) })
+      .catch(() => {})
+  }, [])
+
   return (
     <Section id="podcast" className="bg-[#080808] py-20 lg:py-32">
       <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
@@ -32,10 +40,7 @@ export default function PodcastSection() {
             <p className="text-[#A1A1AA] mb-8">
               No nosso podcast, especialistas e líderes do mercado compartilham estratégias práticas para escalar marcas no digital.
             </p>
-            <Button
-              href="/ofatorm"
-              arrow
-            >
+            <Button href="/ofatorm" arrow>
               Descubra o Fator M
             </Button>
           </m.div>
