@@ -60,8 +60,7 @@ const presenters = [
     name: 'Alan Rocumback',
     role: 'Sócio e COO',
     company: 'Ciclo E-commerce',
-    photo: null,
-    initials: 'AR',
+    photo: '/foto-alan-rocumback.jpg',
     bio: 'Especialista em operações e escala de negócios digitais. Co-fundador da Ciclo E-commerce, responsável por estruturar processos que transformam resultados.',
   },
   {
@@ -413,6 +412,34 @@ export default function OFatorMInteractive() {
             </p>
           </m.div>
 
+          {/* Group photos */}
+          <div className="grid sm:grid-cols-2 gap-4 mb-12 max-w-4xl mx-auto">
+            {[
+              { src: '/foto-criadores.jpg', alt: 'Os apresentadores do O Fator M gravando episódio no estúdio' },
+              { src: '/foto-criadores-2.jpg', alt: 'Felipe Beraldo, Alan Rocumback e Flávio Beraldo — apresentadores do O Fator M' },
+            ].map((img, i) => (
+              <m.div
+                key={img.src}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                className="relative rounded-2xl overflow-hidden aspect-[4/3]"
+              >
+                <Image
+                  src={img.src}
+                  alt={img.alt}
+                  fill
+                  className="object-cover object-center"
+                  sizes="(max-width: 640px) 100vw, 50vw"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
+              </m.div>
+            ))}
+          </div>
+
+          {/* Individual presenter cards */}
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl mx-auto">
             {presenters.map((presenter, i) => (
               <m.div
@@ -425,22 +452,14 @@ export default function OFatorMInteractive() {
               >
                 {/* Photo */}
                 <div className="relative aspect-square overflow-hidden">
-                  {presenter.photo ? (
-                    <Image
-                      src={presenter.photo}
-                      alt={presenter.name}
-                      fill
-                      className="object-cover object-top group-hover:scale-105 transition-transform duration-500"
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                      loading="lazy"
-                    />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-[#1a0030] to-[#0d0020]">
-                      <span className="text-5xl font-bold text-[#A100FF]/60">
-                        {presenter.initials}
-                      </span>
-                    </div>
-                  )}
+                  <Image
+                    src={presenter.photo}
+                    alt={presenter.name}
+                    fill
+                    className="object-cover object-top group-hover:scale-105 transition-transform duration-500"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    loading="lazy"
+                  />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                 </div>
 
