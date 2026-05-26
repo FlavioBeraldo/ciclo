@@ -301,6 +301,29 @@ export default function OFatorMInteractive() {
         </div>
       </section>
 
+      {/* ── Spotify embed ───────────────────────────────────────────────────── */}
+      <section className="bg-[#080808] py-12">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+          <m.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <iframe
+              style={{ borderRadius: '16px' }}
+              src="https://open.spotify.com/embed/show/6QlXPnTNJeiNSOzyNPDI7H?utm_source=generator&theme=0"
+              width="100%"
+              height="232"
+              frameBorder="0"
+              allowFullScreen
+              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+              loading="lazy"
+              title="O Fator M no Spotify"
+            />
+          </m.div>
+        </div>
+      </section>
+
       {/* ── Episodes ────────────────────────────────────────────────────────── */}
       <section id="episodios" className="bg-[#080808] py-20 lg:py-28">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
