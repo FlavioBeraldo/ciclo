@@ -73,11 +73,18 @@ export default function TikTokShopContent() {
     formState: { errors, isSubmitting },
   } = useForm<FormData>({ resolver: zodResolver(formSchema) })
 
-  const onSubmit = async (_data: FormData) => {
-    await new Promise((r) => setTimeout(r, 1200))
+  const onSubmit = async (data: FormData) => {
+    try {
+      await fetch('/api/pipedrive', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...data, source: 'Site/WhatsApp – TikTok Shop' }),
+      })
+    } catch {
+      // Falha no Pipedrive não bloqueia o redirect
+    }
     reset()
-    setSubmitted(true)
-    setTimeout(() => setSubmitted(false), 5000)
+    window.location.href = '/obrigado'
   }
 
   return (

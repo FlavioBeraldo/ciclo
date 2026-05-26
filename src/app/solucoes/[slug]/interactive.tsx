@@ -81,9 +81,16 @@ function InlineLeadForm({ serviceName }: { serviceName: string }) {
   })
 
   const onSubmit = async (data: FormData) => {
-    await new Promise((r) => setTimeout(r, 800))
-    console.log('Form submitted:', data)
-    setSubmitted(true)
+    try {
+      await fetch('/api/pipedrive', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...data, source: `Site/WhatsApp – Solução: ${serviceName}` }),
+      })
+    } catch {
+      // Falha no Pipedrive não bloqueia o redirect
+    }
+    window.location.href = '/obrigado'
   }
 
   return (
