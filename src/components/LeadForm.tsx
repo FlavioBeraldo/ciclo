@@ -28,12 +28,15 @@ export default function LeadForm() {
   })
 
   const onSubmit = async (data: FormData) => {
-    const res = await fetch('/api/pipedrive', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ ...data, source: 'Site/WhatsApp' }),
-    })
-    if (!res.ok) throw new Error('Erro ao enviar')
+    try {
+      await fetch('/api/pipedrive', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...data, source: 'Site/WhatsApp' }),
+      })
+    } catch {
+      // Falha no Pipedrive não bloqueia o redirect
+    }
     window.location.href = '/obrigado'
   }
 

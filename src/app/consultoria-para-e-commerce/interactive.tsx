@@ -65,12 +65,15 @@ export default function ConsultoriaInteractive() {
   })
 
   const onSubmit = async (data: FormData) => {
-    const res = await fetch('/api/pipedrive', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ ...data, source: 'Site/WhatsApp – Consultoria' }),
-    })
-    if (!res.ok) throw new Error('Erro ao enviar')
+    try {
+      await fetch('/api/pipedrive', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...data, source: 'Site/WhatsApp – Consultoria' }),
+      })
+    } catch {
+      // Falha no Pipedrive não bloqueia o redirect
+    }
     reset()
     window.location.href = '/obrigado'
   }
