@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 240" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="640" y2="240" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#1a0515"/>
+      <stop offset="100%" stop-color="#050505"/>
+    </linearGradient>
+    <linearGradient id="glow" x1="1" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ec4899" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#ec4899" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="240" fill="url(#bg)"/>
+  <ellipse cx="520" cy="80" rx="200" ry="140" fill="url(#glow)"/>
+  <!-- fashion geometric -->
+  <circle cx="555" cy="110" r="80" stroke="#ec4899" stroke-opacity="0.06" stroke-width="1.5"/>
+  <circle cx="555" cy="110" r="55" stroke="#ec4899" stroke-opacity="0.08" stroke-width="1.5"/>
+  <circle cx="555" cy="110" r="30" stroke="#ec4899" stroke-opacity="0.12" stroke-width="2"/>
+  <!-- thin diagonal lines -->
+  <line x1="350" y1="0" x2="640" y2="240" stroke="#ec4899" stroke-opacity="0.04" stroke-width="1"/>
+  <line x1="380" y1="0" x2="640" y2="220" stroke="#ec4899" stroke-opacity="0.03" stroke-width="1"/>
+  <line x1="410" y1="0" x2="640" y2="190" stroke="#ec4899" stroke-opacity="0.03" stroke-width="1"/>
+  <!-- accent -->
+  <rect x="48" y="56" width="3" height="56" rx="2" fill="#ec4899"/>
+  <!-- brand -->
+  <text x="68" y="96" font-family="Arial, Helvetica, sans-serif" font-size="36" font-weight="800" fill="#ffffff" letter-spacing="-0.5">Gringa</text>
+  <text x="68" y="124" font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#ec4899" letter-spacing="3" font-weight="600">FASHION &amp; E-COMMERCE</text>
+  <!-- badge -->
+  <rect x="48" y="170" width="168" height="32" rx="16" fill="#A100FF" fill-opacity="0.15" stroke="#A100FF" stroke-opacity="0.4" stroke-width="1"/>
+  <text x="132" y="191" font-family="Arial, Helvetica, sans-serif" font-size="11" fill="#A100FF" text-anchor="middle" font-weight="600" letter-spacing="1">CASE CICLO E-COMMERCE</text>
+</svg>

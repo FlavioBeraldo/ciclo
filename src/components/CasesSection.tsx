@@ -15,7 +15,7 @@ const cases = [
       { label: 'CAC', value: '-37%' },
     ],
     color: '#0a1a0a',
-    image: null as string | null,
+    image: '/cases/gopro.svg' as string | null,
   },
   {
     brand: 'Mamô Brasil',
@@ -25,7 +25,7 @@ const cases = [
       { label: 'LTV', value: '+57%' },
     ],
     color: '#1a0a1a',
-    image: null as string | null,
+    image: '/cases/mamo.svg' as string | null,
   },
   {
     brand: 'Jack Links',
@@ -35,7 +35,7 @@ const cases = [
       { label: 'CAC', value: '-46%' },
     ],
     color: '#1a1a0a',
-    image: null as string | null,
+    image: '/cases/jacklinks.svg' as string | null,
   },
   {
     brand: 'Gringa',
@@ -46,7 +46,7 @@ const cases = [
       { label: 'Recência de Compra', value: '120→55 dias' },
     ],
     color: '#0a0a1a',
-    image: null as string | null,
+    image: '/cases/gringa.svg' as string | null,
   },
 ]
 

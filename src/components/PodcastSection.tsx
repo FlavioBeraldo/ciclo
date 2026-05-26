@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion'
 import { Play } from 'lucide-react'
+import Image from 'next/image'
 import Button from './ui/Button'
 import Section from './ui/Section'
 import type { YouTubeVideo } from '@/lib/youtube'
@@ -56,11 +57,13 @@ export default function PodcastSection() {
                 className="group relative rounded-xl overflow-hidden border border-white/8 hover:border-[#A100FF]/40 transition-colors block"
                 aria-label={`Assistir: ${video.title}`}
               >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
+                <Image
                   src={video.thumbnail}
                   alt={video.title}
+                  width={480}
+                  height={270}
                   className="w-full aspect-video object-cover group-hover:scale-105 transition-transform duration-500"
+                  loading="lazy"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
                 <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">

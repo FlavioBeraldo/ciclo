@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Play, X } from 'lucide-react'
+import Image from 'next/image'
 import Button from './ui/Button'
 import Section from './ui/Section'
 
@@ -43,11 +44,13 @@ export default function TestimonialsSection() {
               onClick={() => setActiveVideo(t.id)}
             >
               {/* Thumbnail */}
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
+              <Image
                 src={`https://img.youtube.com/vi/${t.id}/hqdefault.jpg`}
                 alt={`Depoimento ${t.brand}`}
+                width={480}
+                height={270}
                 className="w-full aspect-video object-cover group-hover:scale-105 transition-transform duration-500"
+                loading="lazy"
               />
 
               {/* Overlay */}

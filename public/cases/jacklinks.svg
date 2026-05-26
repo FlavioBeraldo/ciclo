@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 240" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="640" y2="240" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#1a0505"/>
+      <stop offset="100%" stop-color="#050505"/>
+    </linearGradient>
+    <linearGradient id="glow" x1="1" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ef4444" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#ef4444" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="240" fill="url(#bg)"/>
+  <ellipse cx="500" cy="70" rx="200" ry="130" fill="url(#glow)"/>
+  <!-- bold geometric shapes -->
+  <rect x="440" y="40" width="180" height="160" rx="4" stroke="#ef4444" stroke-opacity="0.05" stroke-width="1.5" transform="rotate(8 530 120)"/>
+  <rect x="460" y="60" width="140" height="120" rx="4" stroke="#ef4444" stroke-opacity="0.08" stroke-width="1.5" transform="rotate(8 530 120)"/>
+  <!-- diagonal line accent -->
+  <line x1="380" y1="0" x2="640" y2="200" stroke="#ef4444" stroke-opacity="0.04" stroke-width="40"/>
+  <!-- accent -->
+  <rect x="48" y="56" width="3" height="56" rx="2" fill="#ef4444"/>
+  <!-- brand -->
+  <text x="68" y="96" font-family="Arial, Helvetica, sans-serif" font-size="36" font-weight="800" fill="#ffffff" letter-spacing="-0.5">Jack Links</text>
+  <text x="68" y="124" font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#ef4444" letter-spacing="3" font-weight="600">ALIMENTAÇÃO &amp; SNACKS</text>
+  <!-- badge -->
+  <rect x="48" y="170" width="168" height="32" rx="16" fill="#A100FF" fill-opacity="0.15" stroke="#A100FF" stroke-opacity="0.4" stroke-width="1"/>
+  <text x="132" y="191" font-family="Arial, Helvetica, sans-serif" font-size="11" fill="#A100FF" text-anchor="middle" font-weight="600" letter-spacing="1">CASE CICLO E-COMMERCE</text>
+</svg>

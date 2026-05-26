@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { usePathname } from 'next/navigation'
 import { Menu, X } from 'lucide-react'
+import Image from 'next/image'
 import Button from './ui/Button'
 import { cn } from '@/lib/utils'
 
@@ -47,8 +48,7 @@ export default function Header() {
         <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
           <a href="/" aria-label="Ciclo E-commerce - Página inicial">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/logo-ciclo.png" alt="Ciclo E-commerce" className="h-[60px] w-auto" />
+            <Image src="/logo-ciclo.png" alt="Ciclo E-commerce" width={160} height={60} priority className="h-[60px] w-auto" />
           </a>
 
           {/* Desktop Nav */}

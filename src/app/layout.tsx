@@ -3,23 +3,42 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import RecaptchaProvider from '@/components/RecaptchaProvider'
 
-const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-inter',
+  display: 'swap',
+  preload: true,
+})
 
 export const metadata: Metadata = {
-  title: 'Ciclo E-commerce | Obcecados por Crescimento',
+  title: 'Ciclo E-commerce | Agência para E-commerce Full Funnel Marketing',
   description:
-    'A Ciclo E-commerce é uma agência especializada em Full Funnel Marketing para marcas que querem crescer com eficiência e previsibilidade.',
-  keywords: ['e-commerce', 'marketing digital', 'full funnel', 'crescimento', 'agência'],
+    'A Ciclo E-commerce é uma agência especializada em Full Funnel Marketing para marcas que querem crescer com eficiência e previsibilidade. +300 marcas atendidas, +R$ 350MM em receita gerada.',
+  keywords: ['agência e-commerce', 'full funnel marketing', 'marketing digital', 'e-commerce', 'crescimento', 'CAC', 'LTV'],
   openGraph: {
-    title: 'Ciclo E-commerce | Obcecados por Crescimento',
-    description: 'Full Funnel Marketing para marcas que querem crescer.',
+    title: 'Ciclo E-commerce | Agência para E-commerce Full Funnel Marketing',
+    description: 'Full Funnel Marketing para marcas que querem crescer com eficiência e previsibilidade.',
     type: 'website',
+    locale: 'pt_BR',
+    siteName: 'Ciclo E-commerce',
   },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Ciclo E-commerce | Agência para E-commerce Full Funnel Marketing',
+    description: 'Full Funnel Marketing para marcas que querem crescer.',
+  },
+  robots: { index: true, follow: true },
+  alternates: { canonical: 'https://cicloecommerce.com.br' },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="pt-BR" className={inter.variable}>
+      <head>
+        <link rel="preconnect" href="https://img.youtube.com" />
+        <link rel="preconnect" href="https://i.ytimg.com" />
+        <link rel="dns-prefetch" href="https://www.youtube.com" />
+      </head>
       <body className="grain">
         <RecaptchaProvider>{children}</RecaptchaProvider>
       </body>

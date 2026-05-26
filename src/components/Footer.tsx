@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 
 const socials = [
   {
@@ -84,8 +85,7 @@ export default function Footer() {
         <div className="border-t border-white/5 pt-8 flex flex-col sm:flex-row items-center justify-between gap-6">
           {/* Logo */}
           <div>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/logo-ciclo.png" alt="Ciclo E-commerce" className="h-[60px] w-auto" />
+            <Image src="/logo-ciclo.png" alt="Ciclo E-commerce" width={160} height={60} className="h-[60px] w-auto" />
           </div>
 
           {/* Socials */}
