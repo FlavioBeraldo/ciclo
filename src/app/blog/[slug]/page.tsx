@@ -164,7 +164,7 @@ export default async function BlogPostPage({ params }: Props) {
               <div className="bg-white/3 border border-white/8 rounded-2xl p-5">
                 <p className="text-xs font-bold text-[#A100FF] uppercase tracking-widest mb-3">Sobre a Ciclo</p>
                 <p className="text-[#A1A1AA] text-xs leading-relaxed mb-4">
-                  Especialistas em Full Funnel Marketing para marcas de e-commerce. +300 marcas. +12MM em receita gerada.
+                  Especialistas em Full Funnel Marketing para marcas de e-commerce. +300 marcas. +R$ 350MM em receita gerada.
                 </p>
                 <Link
                   href="/#contato"

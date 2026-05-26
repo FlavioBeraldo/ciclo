@@ -6,7 +6,7 @@ import Section from './ui/Section'
 
 const proofs = [
   { value: '+300', label: 'marcas atendidas' },
-  { value: '+12MM', label: 'em receita gerada' },
+  { value: '+R$ 350MM', label: 'em receita gerada' },
   { value: '-35%', label: 'de CAC em média' },
 ]
 

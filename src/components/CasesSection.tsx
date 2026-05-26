@@ -8,28 +8,45 @@ import Section from './ui/Section'
 
 const cases = [
   {
-    brand: 'Pit Bull',
-    category: 'Moda e Acessórios',
-    metrics: [{ label: 'Faturamento', value: '+104%' }, { label: 'Custo por aquisição', value: '-23%' }],
-    color: '#1a0a2e',
-  },
-  {
     brand: 'GoPro Brasil',
     category: 'Esportes',
-    metrics: [{ label: 'Faturamento', value: '+197%' }, { label: 'CAC', value: '-32%' }],
+    metrics: [
+      { label: 'Vendas YoY', value: '+120%' },
+      { label: 'CAC', value: '-37%' },
+    ],
     color: '#0a1a0a',
+    image: null as string | null,
   },
   {
-    brand: 'Essência Di Fiori',
-    category: 'Beleza e Cosméticos',
-    metrics: [{ label: 'Faturamento', value: '+89%' }, { label: 'LTV', value: '+48%' }],
+    brand: 'Mamô Brasil',
+    category: 'Lifestyle',
+    metrics: [
+      { label: 'Vendas YoY', value: '+200%' },
+      { label: 'LTV', value: '+57%' },
+    ],
     color: '#1a0a1a',
+    image: null as string | null,
   },
   {
-    brand: 'Atlético MG',
-    category: 'Esportes',
-    metrics: [{ label: 'Faturamento', value: '+70%' }, { label: 'Novos clientes', value: '+124%' }],
+    brand: 'Jack Links',
+    category: 'Alimentação',
+    metrics: [
+      { label: 'Branded Search YoY', value: '+57%' },
+      { label: 'CAC', value: '-46%' },
+    ],
+    color: '#1a1a0a',
+    image: null as string | null,
+  },
+  {
+    brand: 'Gringa',
+    category: 'Fashion',
+    metrics: [
+      { label: 'Taxa de Recompra YoY', value: '+35%' },
+      { label: 'Taxa de Indicação YoY', value: '+20%' },
+      { label: 'Recência de Compra', value: '120→55 dias' },
+    ],
     color: '#0a0a1a',
+    image: null as string | null,
   },
 ]
 
@@ -40,8 +57,7 @@ export default function CasesSection() {
 
   const scroll = (dir: 'left' | 'right') => {
     if (!scrollRef.current) return
-    const amount = 320
-    scrollRef.current.scrollBy({ left: dir === 'left' ? -amount : amount, behavior: 'smooth' })
+    scrollRef.current.scrollBy({ left: dir === 'left' ? -340 : 340, behavior: 'smooth' })
   }
 
   const onScroll = () => {
@@ -104,16 +120,26 @@ export default function CasesSection() {
               className="flex-shrink-0 w-72 sm:w-80 rounded-2xl border border-white/8 overflow-hidden hover:border-[#A100FF]/30 transition-colors"
               style={{ background: `linear-gradient(135deg, ${c.color}, #050505)` }}
             >
-              <div className="p-6 h-full flex flex-col justify-between min-h-[220px]">
+              {/* Image slot */}
+              <div className="w-full h-40 overflow-hidden bg-white/5 border-b border-white/8 flex items-center justify-center">
+                {c.image ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={c.image} alt={c.brand} className="w-full h-full object-cover" />
+                ) : (
+                  <span className="text-[#A1A1AA]/25 text-xs tracking-widest uppercase">Imagem</span>
+                )}
+              </div>
+
+              <div className="p-6 flex flex-col gap-4">
                 <div>
                   <span className="text-xs text-[#A100FF] font-medium uppercase tracking-wider">{c.category}</span>
-                  <h3 className="text-xl font-bold text-white mt-1 mb-6">{c.brand}</h3>
+                  <h3 className="text-xl font-bold text-white mt-1">{c.brand}</h3>
                 </div>
-                <div className="grid grid-cols-2 gap-3">
+                <div className={`grid gap-2 ${c.metrics.length === 3 ? 'grid-cols-3' : 'grid-cols-2'}`}>
                   {c.metrics.map((m) => (
                     <div key={m.label} className="bg-black/30 rounded-xl p-3">
-                      <p className="text-2xl font-bold text-white">{m.value}</p>
-                      <p className="text-xs text-[#A1A1AA] mt-0.5">{m.label}</p>
+                      <p className="text-xl font-bold text-white leading-tight">{m.value}</p>
+                      <p className="text-[10px] text-[#A1A1AA] mt-0.5 leading-tight">{m.label}</p>
                     </div>
                   ))}
                 </div>
@@ -128,7 +154,7 @@ export default function CasesSection() {
           viewport={{ once: true }}
           className="flex justify-center mt-8"
         >
-          <Button href="#contato" variant="outline" arrow>
+          <Button href="#depoimentos" variant="outline" arrow>
             Ver mais cases de sucesso
           </Button>
         </motion.div>

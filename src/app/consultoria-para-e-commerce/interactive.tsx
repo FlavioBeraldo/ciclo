@@ -169,7 +169,7 @@ export default function ConsultoriaInteractive() {
             <div className="grid sm:grid-cols-3 gap-6">
               {[
                 { value: '+300', label: 'marcas atendidas' },
-                { value: '+12MM', label: 'em receita gerada' },
+                { value: '+R$ 350MM', label: 'em receita gerada' },
                 { value: '-35%', label: 'de CAC em média' },
               ].map((m) => (
                 <div key={m.label} className="text-center">

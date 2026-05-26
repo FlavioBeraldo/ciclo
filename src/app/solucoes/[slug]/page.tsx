@@ -267,7 +267,7 @@ export default async function SolucaoPage({ params }: PageProps) {
                   Sobre a Ciclo
                 </p>
                 <p className="text-[#A1A1AA] text-xs leading-relaxed mb-4">
-                  Somos especialistas em Full Funnel Marketing para marcas de e-commerce. +300 marcas atendidas. +12MM em receita gerada.
+                  Somos especialistas em Full Funnel Marketing para marcas de e-commerce. +300 marcas atendidas. +R$ 350MM em receita gerada.
                 </p>
                 <Link
                   href="/#contato"

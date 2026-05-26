@@ -55,7 +55,7 @@ const services = [
 
 const metrics = [
   { value: '+300', label: 'marcas impulsionadas' },
-  { value: '+12MM', label: 'de receita gerada para clientes' },
+  { value: '+R$ 350MM', label: 'de receita gerada para clientes' },
   { value: '-35%', label: 'de CAC em média' },
   { value: '2,7x', label: 'aumento médio de LTV dos clientes' },
 ]
