@@ -8,16 +8,6 @@ import Section from './ui/Section'
 
 const cases = [
   {
-    brand: 'GoPro Brasil',
-    category: 'Esportes',
-    metrics: [
-      { label: 'Vendas YoY', value: '+120%' },
-      { label: 'CAC', value: '-37%' },
-    ],
-    color: '#0a1a0a',
-    image: '/cases/gopro.svg' as string | null,
-  },
-  {
     brand: 'Mamô Brasil',
     category: 'Lifestyle',
     metrics: [
@@ -26,6 +16,16 @@ const cases = [
     ],
     color: '#1a0a1a',
     image: '/cases/mamo.svg' as string | null,
+  },
+  {
+    brand: 'GoPro Brasil',
+    category: 'Esportes',
+    metrics: [
+      { label: 'Vendas YoY', value: '+120%' },
+      { label: 'CAC', value: '-37%' },
+    ],
+    color: '#0a1a0a',
+    image: '/cases/gopro.svg' as string | null,
   },
   {
     brand: 'Jack Links',

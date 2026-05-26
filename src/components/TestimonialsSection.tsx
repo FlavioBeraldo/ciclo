@@ -8,10 +8,10 @@ import Button from './ui/Button'
 import Section from './ui/Section'
 
 const testimonials = [
+  { id: 'EhnxUiDMMRg', brand: 'Mamô Brasil', role: 'CEO – Mamô Brasil' },
   { id: 'djykk9EFghg', brand: 'Líquido', role: 'CEO – Líquido' },
   { id: 'xVdqhprwKWw', brand: 'KVRA', role: 'Head de Marketing – KVRA' },
   { id: '6B2XYATbK3Q', brand: 'DANKI', role: 'Fundador – DANKI' },
-  { id: 'EhnxUiDMMRg', brand: 'Mamô Brasil', role: 'CEO – Mamô Brasil' },
 ]
 
 export default function TestimonialsSection() {
