@@ -32,6 +32,16 @@ async function findPipelineStage(): Promise<{ pipelineId: number; stageId: numbe
   return { pipelineId: pipeline.id, stageId: stage.id }
 }
 
+async function findUserId(name: string): Promise<number | undefined> {
+  const res = await fetch(url('/users'))
+  const data = await res.json()
+  if (!data.success || !data.data) return undefined
+  const user = (data.data as { id: number; name: string }[]).find((u) =>
+    u.name.toLowerCase().includes(name.toLowerCase())
+  )
+  return user?.id
+}
+
 async function findOrCreateOrg(company: string): Promise<number | undefined> {
   const searchRes = await fetch(url('/organizations/search', { term: company, fields: 'name', limit: '1' }))
   const searchData = await searchRes.json()
@@ -86,10 +96,11 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Dados inválidos' }, { status: 400 })
     }
 
-    // Find pipeline + stage, create org, all in parallel
-    const [pipelineStage, orgId] = await Promise.all([
+    // Find pipeline + stage, org, and owner user in parallel
+    const [pipelineStage, orgId, ownerId] = await Promise.all([
       findPipelineStage(),
       company ? findOrCreateOrg(company) : Promise.resolve(undefined),
+      findUserId('Felipe'),
     ])
 
     // Create person (linked to org)
@@ -103,6 +114,7 @@ export async function POST(req: NextRequest) {
         title: name,
         person_id: personId,
         org_id: orgId,
+        user_id: ownerId,
         stage_id: pipelineStage?.stageId,
         pipeline_id: pipelineStage?.pipelineId,
         status: 'open',
