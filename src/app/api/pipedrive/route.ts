@@ -8,28 +8,54 @@ function url(path: string, params: Record<string, string> = {}) {
   return `${BASE}${path}?${qs}`
 }
 
-async function findPipelineStage(): Promise<{ pipelineId: number; stageId: number } | undefined> {
+// Busca o stage_id pelo nome exato do pipeline e do estágio
+async function findStageId(): Promise<number | undefined> {
+  // Se o ID do estágio estiver configurado como env var, usa direto (mais confiável)
+  if (process.env.PIPEDRIVE_STAGE_ID) {
+    return Number(process.env.PIPEDRIVE_STAGE_ID)
+  }
+
   const [pipelinesRes, stagesRes] = await Promise.all([
     fetch(url('/pipelines')),
     fetch(url('/stages')),
   ])
-  const [pipelines, stages] = await Promise.all([pipelinesRes.json(), stagesRes.json()])
+  const [pipelines, stages] = await Promise.all([
+    pipelinesRes.json(),
+    stagesRes.json(),
+  ])
 
-  if (!pipelines.success || !stages.success) return undefined
+  if (!pipelines.success || !stages.success) {
+    console.error('[Pipedrive] Falha ao buscar pipelines/stages')
+    return undefined
+  }
 
-  // Find pipeline with "Site" or "Whats" in name (e.g. "1 - Site/Whats")
-  const pipeline = (pipelines.data as { id: number; name: string }[]).find((p) =>
-    /site|whats/i.test(p.name)
-  )
-  if (!pipeline) return undefined
+  const allPipelines = pipelines.data as { id: number; name: string }[]
+  const allStages = stages.data as { id: number; name: string; pipeline_id: number }[]
 
-  // Find "Entrada de Lead" stage within that pipeline
-  const stage = (stages.data as { id: number; name: string; pipeline_id: number }[]).find(
-    (s) => s.pipeline_id === pipeline.id && /entrada/i.test(s.name)
-  )
-  if (!stage) return undefined
+  // Busca pipeline "1 - Site/Whats" (ou qualquer nome que contenha site ou whats)
+  const pipelineName = process.env.PIPEDRIVE_PIPELINE_NAME ?? ''
+  const pipeline = pipelineName
+    ? allPipelines.find((p) => p.name.toLowerCase().includes(pipelineName.toLowerCase()))
+    : allPipelines.find((p) => /site|whats/i.test(p.name))
 
-  return { pipelineId: pipeline.id, stageId: stage.id }
+  if (!pipeline) {
+    console.error('[Pipedrive] Pipeline não encontrado. Pipelines disponíveis:', allPipelines.map((p) => p.name))
+    return undefined
+  }
+
+  // Busca estágio "Entrada de Lead" dentro do pipeline
+  const stageName = process.env.PIPEDRIVE_STAGE_NAME ?? ''
+  const stage = stageName
+    ? allStages.find((s) => s.pipeline_id === pipeline.id && s.name.toLowerCase().includes(stageName.toLowerCase()))
+    : allStages.find((s) => s.pipeline_id === pipeline.id && /entrada/i.test(s.name))
+
+  if (!stage) {
+    console.error('[Pipedrive] Estágio não encontrado no pipeline', pipeline.name, '— Estágios:', allStages.filter((s) => s.pipeline_id === pipeline.id).map((s) => s.name))
+    return undefined
+  }
+
+  console.log(`[Pipedrive] Pipeline: "${pipeline.name}" (${pipeline.id}) | Estágio: "${stage.name}" (${stage.id})`)
+  return stage.id
 }
 
 async function findUserId(name: string): Promise<number | undefined> {
@@ -39,6 +65,7 @@ async function findUserId(name: string): Promise<number | undefined> {
   const user = (data.data as { id: number; name: string }[]).find((u) =>
     u.name.toLowerCase().includes(name.toLowerCase())
   )
+  if (!user) console.error('[Pipedrive] Usuário não encontrado:', name)
   return user?.id
 }
 
@@ -48,7 +75,6 @@ async function findOrCreateOrg(company: string): Promise<number | undefined> {
   if (searchData.success && searchData.data?.items?.length > 0) {
     return searchData.data.items[0].item.id
   }
-
   const createRes = await fetch(url('/organizations'), {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -69,7 +95,6 @@ async function findOrCreatePerson(
   if (searchData.success && searchData.data?.items?.length > 0) {
     return searchData.data.items[0].item.id
   }
-
   const createRes = await fetch(url('/persons'), {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -86,6 +111,7 @@ async function findOrCreatePerson(
 
 export async function POST(req: NextRequest) {
   if (!process.env.PIPEDRIVE_API_TOKEN) {
+    console.error('[Pipedrive] PIPEDRIVE_API_TOKEN não configurado')
     return NextResponse.json({ error: 'Pipedrive não configurado' }, { status: 500 })
   }
 
@@ -96,17 +122,18 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Dados inválidos' }, { status: 400 })
     }
 
-    // Find pipeline + stage, org, and owner user in parallel
-    const [pipelineStage, orgId, ownerId] = await Promise.all([
-      findPipelineStage(),
+    const [stageId, orgId, ownerId] = await Promise.all([
+      findStageId(),
       company ? findOrCreateOrg(company) : Promise.resolve(undefined),
       findUserId('Felipe'),
     ])
 
-    // Create person (linked to org)
+    if (!stageId) {
+      console.error('[Pipedrive] stage_id não encontrado — deal não será criado no funil correto')
+    }
+
     const personId = await findOrCreatePerson(name, email, phone ?? '', orgId)
 
-    // Create deal: title = person name, org = company, description = mensagem da dor
     const dealRes = await fetch(url('/deals'), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -115,8 +142,7 @@ export async function POST(req: NextRequest) {
         person_id: personId,
         org_id: orgId,
         user_id: ownerId,
-        stage_id: pipelineStage?.stageId,
-        pipeline_id: pipelineStage?.pipelineId,
+        stage_id: stageId,
         status: 'open',
         description: message ?? '',
       }),
@@ -124,13 +150,14 @@ export async function POST(req: NextRequest) {
     const dealData = await dealRes.json()
 
     if (!dealData.success) {
-      console.error('Pipedrive deal error:', dealData)
+      console.error('[Pipedrive] Erro ao criar deal:', dealData)
       return NextResponse.json({ error: 'Erro ao criar deal' }, { status: 500 })
     }
 
+    console.log('[Pipedrive] Deal criado:', dealData.data?.id, '| Stage:', stageId)
     return NextResponse.json({ success: true })
   } catch (err) {
-    console.error('Pipedrive error:', err)
+    console.error('[Pipedrive] Erro interno:', err)
     return NextResponse.json({ error: 'Erro interno' }, { status: 500 })
   }
 }
