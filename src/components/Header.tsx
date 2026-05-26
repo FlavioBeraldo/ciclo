@@ -69,8 +69,14 @@ export default function Header() {
             ))}
           </nav>
 
-          {/* CTA */}
-          <div className="hidden lg:block">
+          {/* CTA group */}
+          <div className="hidden lg:flex items-center gap-3">
+            <a
+              href="/ecomshift"
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-semibold border border-[#A100FF]/60 text-[#A100FF] bg-[#A100FF]/10 hover:bg-[#A100FF]/20 hover:border-[#A100FF] transition-all duration-200 whitespace-nowrap"
+            >
+              Aprenda nosso método
+            </a>
             <Button href={ctaHref} arrow size="md">
               Fale com especialista
             </Button>
@@ -100,6 +106,13 @@ export default function Header() {
                   {link.label}
                 </a>
               ))}
+              <a
+                href="/ecomshift"
+                onClick={() => setOpen(false)}
+                className="inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-full text-sm font-semibold border border-[#A100FF]/60 text-[#A100FF] bg-[#A100FF]/10 hover:bg-[#A100FF]/20 transition-all duration-200 mt-2"
+              >
+                Aprenda nosso método
+              </a>
               <Button href={ctaHref} arrow className="w-full justify-center mt-2">
                 Fale com especialista
               </Button>
