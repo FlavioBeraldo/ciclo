@@ -103,8 +103,8 @@ export default function LeadForm() {
               <label className={labelClass}>URL da loja</label>
               <input
                 {...register('storeUrl')}
-                type="url"
-                placeholder="https://sualoja.com.br"
+                
+                placeholder="sualoja.com.br"
                 className={inputClass}
               />
             </div>

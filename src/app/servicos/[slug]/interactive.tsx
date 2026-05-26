@@ -199,8 +199,8 @@ function InlineLeadForm({ serviceName }: { serviceName: string }) {
                   <label className="block text-sm text-[#A1A1AA] mb-1.5">URL da loja</label>
                   <input
                     {...register('storeUrl')}
-                    type="url"
-                    placeholder="https://sualoja.com.br"
+                    
+                    placeholder="sualoja.com.br"
                     className={inputClass}
                   />
                 </div>
