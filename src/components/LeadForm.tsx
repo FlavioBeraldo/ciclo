@@ -1,11 +1,9 @@
 'use client'
 
-import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import { m, AnimatePresence } from 'framer-motion'
-import { CheckCircle } from 'lucide-react'
+import { m } from 'framer-motion'
 import Button from './ui/Button'
 import Section from './ui/Section'
 
@@ -25,7 +23,6 @@ const inputClass =
 const errorClass = 'text-red-400 text-xs mt-1'
 
 export default function LeadForm() {
-  const [submitted, setSubmitted] = useState(false)
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<FormData>({
     resolver: zodResolver(schema),
   })
@@ -37,7 +34,7 @@ export default function LeadForm() {
       body: JSON.stringify({ ...data, source: 'Site/WhatsApp' }),
     })
     if (!res.ok) throw new Error('Erro ao enviar')
-    setSubmitted(true)
+    window.location.href = '/obrigado'
   }
 
   return (
@@ -70,26 +67,7 @@ export default function LeadForm() {
           viewport={{ once: true }}
           className="bg-white/3 border border-white/10 rounded-2xl p-8 backdrop-blur-sm"
         >
-          <AnimatePresence mode="wait">
-            {submitted ? (
-              <m.div
-                key="success"
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0 }}
-                className="flex flex-col items-center gap-4 py-8 text-center"
-              >
-                <div className="w-16 h-16 rounded-full bg-[#A100FF]/20 flex items-center justify-center">
-                  <CheckCircle className="w-8 h-8 text-[#A100FF]" />
-                </div>
-                <h3 className="text-xl font-bold">Mensagem recebida!</h3>
-                <p className="text-[#A1A1AA] max-w-md">
-                  Recebemos suas informações. Em breve nosso time entrará em contato.
-                </p>
-              </m.div>
-            ) : (
-              <m.form
-                key="form"
+          <m.form
                 onSubmit={handleSubmit(onSubmit)}
                 className="grid sm:grid-cols-2 gap-5"
               >
@@ -162,9 +140,7 @@ Conte brevemente qual é o principal gargalo hoje: CAC alto, baixa recompra, tr�
                     {isSubmitting ? 'Enviando...' : 'Fale com um especialista'}
                   </Button>
                 </div>
-              </m.form>
-            )}
-          </AnimatePresence>
+          </m.form>
         </m.div>
       </div>
     </Section>

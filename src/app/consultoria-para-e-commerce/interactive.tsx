@@ -54,7 +54,7 @@ export default function ConsultoriaInteractive() {
     })
     if (!res.ok) throw new Error('Erro ao enviar')
     reset()
-    setSubmitted(true)
+    window.location.href = '/obrigado'
   }
 
   return (
