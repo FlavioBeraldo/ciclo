@@ -33,12 +33,10 @@ export default function PodcastSection() {
               No nosso podcast, especialistas e líderes do mercado compartilham estratégias práticas para escalar marcas no digital.
             </p>
             <Button
-              href="https://www.youtube.com/@ofatorm/videos"
-              target="_blank"
-              rel="noopener noreferrer"
+              href="/ofatorm"
               arrow
             >
-              Assista no YouTube
+              Descubra o Fator M
             </Button>
           </m.div>
 

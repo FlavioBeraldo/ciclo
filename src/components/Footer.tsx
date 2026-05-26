@@ -45,7 +45,7 @@ const footerLinks = [
     links: [
       { label: 'Blog', href: '/blog' },
       { label: 'Cases de Sucesso', href: '/#cases' },
-      { label: 'Podcast', href: '/#podcast' },
+      { label: 'O Fator M — Podcast', href: '/ofatorm' },
     ],
   },
   {
