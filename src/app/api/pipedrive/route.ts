@@ -92,9 +92,23 @@ async function findOrCreatePerson(
 ): Promise<number | undefined> {
   const searchRes = await fetch(url('/persons/search', { term: email, fields: 'email', limit: '1' }))
   const searchData = await searchRes.json()
+
   if (searchData.success && searchData.data?.items?.length > 0) {
-    return searchData.data.items[0].item.id
+    const existingId = searchData.data.items[0].item.id
+    // Atualiza telefone e org na pessoa existente
+    if (phone || orgId) {
+      await fetch(url(`/persons/${existingId}`), {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ...(phone ? { phone: [{ value: phone, primary: true }] } : {}),
+          ...(orgId ? { org_id: orgId } : {}),
+        }),
+      })
+    }
+    return existingId
   }
+
   const createRes = await fetch(url('/persons'), {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -116,8 +130,12 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    const { name, email, phone, whatsapp, company, message } = await req.json()
+    const { name, email, phone, whatsapp, company, message, storeUrl } = await req.json()
     const phoneNumber = phone ?? whatsapp ?? ''
+    const objetivo = [
+      storeUrl ? `URL da loja: ${storeUrl}` : null,
+      message || null,
+    ].filter(Boolean).join('\n\n')
 
     if (!name || !email) {
       return NextResponse.json({ error: 'Dados inválidos' }, { status: 400 })
@@ -146,7 +164,7 @@ export async function POST(req: NextRequest) {
         stage_id: stageId,
         status: 'open',
         // Campo customizado "Objetivo" (Large text)
-        '34b57523aeb4efdfe90674f07fc548ccd3da2769': message ?? '',
+        '34b57523aeb4efdfe90674f07fc548ccd3da2769': objetivo,
       }),
     })
     const dealData = await dealRes.json()

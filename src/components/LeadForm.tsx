@@ -13,6 +13,7 @@ const schema = z.object({
   email: z.string().email('E-mail inválido'),
   company: z.string().min(1, 'Empresa é obrigatória'),
   phone: z.string().min(1, 'WhatsApp é obrigatório'),
+  storeUrl: z.string().optional(),
   message: z.string().min(20, 'Descreva melhor o seu desafio (mínimo 20 caracteres)'),
 })
 
@@ -21,6 +22,7 @@ type FormData = z.infer<typeof schema>
 const inputClass =
   'w-full bg-white/5 border border-white/15 rounded-xl px-4 py-3 text-white placeholder-white/30 text-sm focus:outline-none focus:border-[#A100FF] focus:ring-1 focus:ring-[#A100FF] transition-all'
 
+const labelClass = 'block text-sm text-[#A1A1AA] mb-1.5'
 const errorClass = 'text-red-400 text-xs mt-1'
 
 export default function LeadForm() {
@@ -72,33 +74,20 @@ export default function LeadForm() {
         >
           <m.form onSubmit={handleSubmit(onSubmit)} className="grid sm:grid-cols-2 gap-5">
             <div>
-              <input
-                {...register('name')}
-                placeholder="Nome completo *"
-                className={inputClass}
-                aria-label="Nome completo"
-              />
+              <label className={labelClass}>Nome completo *</label>
+              <input {...register('name')} placeholder="Seu nome" className={inputClass} />
               {errors.name && <p className={errorClass}>{errors.name.message}</p>}
             </div>
 
             <div>
-              <input
-                {...register('email')}
-                type="email"
-                placeholder="E-mail corporativo *"
-                className={inputClass}
-                aria-label="E-mail corporativo"
-              />
+              <label className={labelClass}>E-mail corporativo *</label>
+              <input {...register('email')} type="email" placeholder="seu@email.com" className={inputClass} />
               {errors.email && <p className={errorClass}>{errors.email.message}</p>}
             </div>
 
             <div>
-              <input
-                {...register('company')}
-                placeholder="Empresa *"
-                className={inputClass}
-                aria-label="Empresa"
-              />
+              <label className={labelClass}>Empresa *</label>
+              <input {...register('company')} placeholder="Nome da sua empresa" className={inputClass} />
               {errors.company && <p className={errorClass}>{errors.company.message}</p>}
             </div>
 
@@ -111,14 +100,22 @@ export default function LeadForm() {
             />
 
             <div className="sm:col-span-2">
+              <label className={labelClass}>URL da loja</label>
+              <input
+                {...register('storeUrl')}
+                type="url"
+                placeholder="https://sualoja.com.br"
+                className={inputClass}
+              />
+            </div>
+
+            <div className="sm:col-span-2">
+              <label className={labelClass}>Descreva a dor atual da sua empresa *</label>
               <textarea
                 {...register('message')}
                 rows={5}
-                placeholder="Descreva a dor atual da sua empresa *
-
-Conte brevemente qual é o principal gargalo hoje: CAC alto, baixa recompra, tráfego pago sem eficiência, dificuldade em gerar demanda, baixa conversão, pouca previsibilidade de receita ou outro desafio."
+                placeholder="Conte brevemente qual é o principal gargalo hoje: CAC alto, baixa recompra, tráfego pago sem eficiência, dificuldade em gerar demanda, baixa conversão, pouca previsibilidade de receita ou outro desafio."
                 className={`${inputClass} resize-none`}
-                aria-label="Descreva a dor atual da sua empresa"
               />
               {errors.message && <p className={errorClass}>{errors.message.message}</p>}
             </div>
