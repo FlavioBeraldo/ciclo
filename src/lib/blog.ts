@@ -498,3 +498,35 @@ export function getWpPostBySlug(slug: string): WpPost | undefined {
 export function getAllWpSlugs(): string[] {
   return getWpPosts().map((p) => p.slug)
 }
+
+const categoryKeywords: Record<string, string[]> = {
+  SEO: ['seo', 'busca orgânica', 'ranqueamento', 'palavras-chave', 'google search', 'orgânico'],
+  'Mídia Paga': ['google ads', 'facebook ads', 'meta ads', 'tiktok ads', 'mídia paga', 'tráfego pago', 'campanha paga', 'anúncio'],
+  'Redes Sociais': ['instagram', 'tiktok', 'facebook', 'social media', 'redes sociais', 'influencer', 'creator', 'reels'],
+  'Marketing de Conteúdo': ['marketing de conteúdo', 'copywriting', 'editorial', 'redação', 'pauta'],
+  'Gestão do E-commerce': ['e-commerce', 'ecommerce', 'loja virtual', 'plataforma', 'erp', 'operação', 'gestão de loja'],
+  Vendas: ['vendas', 'conversão', 'checkout', 'carrinho', 'faturamento', 'ticket médio', 'pedido'],
+  Logística: ['entrega', 'frete', 'logística', 'fulfillment', 'prazo de entrega', 'transportadora'],
+  'Tecnologia e Inovação': ['inteligência artificial', 'automação', 'tecnologia', 'api', 'integração', 'software', 'ia '],
+  'Experiência do cliente': ['experiência do cliente', 'customer experience', 'atendimento', 'satisfação', 'nps', 'jornada'],
+  Marketplace: ['marketplace', 'amazon', 'mercado livre', 'magazine luiza', 'americanas', 'shopee'],
+  'Métricas e Dados': ['analytics', 'métricas', 'kpi', 'dashboard', 'relatório', 'análise de dados', 'dados'],
+  Tendências: ['tendência', 'trend', 'futuro do', 'novo cenário', '2025', '2024'],
+  'Marketing Digital': ['marketing digital', 'estratégia digital', 'performance digital'],
+}
+
+export function inferCategory(title: string, excerpt: string): string {
+  const text = `${title} ${excerpt}`.toLowerCase()
+  let best = 'Marketing Digital'
+  let bestScore = 0
+  for (const [cat, kws] of Object.entries(categoryKeywords)) {
+    const score = kws.filter((kw) => text.includes(kw)).length
+    if (score > bestScore) { bestScore = score; best = cat }
+  }
+  return best
+}
+
+export function resolveCategory(category: string, title: string, excerpt: string): string {
+  if (category && category !== 'Sem categoria') return category
+  return inferCategory(title, excerpt)
+}
