@@ -40,38 +40,34 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="preconnect" href="https://img.youtube.com" />
         <link rel="preconnect" href="https://i.ytimg.com" />
         <link rel="dns-prefetch" href="https://www.youtube.com" />
+        {/* Google Tag Manager */}
+        <Script
+          id="gtm-head"
+          strategy="beforeInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-5NNPNZ');`,
+          }}
+        />
+        {/* End Google Tag Manager */}
       </head>
       <body className="grain">
         {/* Google Tag Manager (noscript) */}
         <noscript>
           <iframe
-            src="https://server-side-tagging-raejypekia-uc.a.run.app/ns.html?id=GTM-5NNPNZ"
+            src="https://www.googletagmanager.com/ns.html?id=GTM-5NNPNZ"
             height="0"
             width="0"
             style={{ display: 'none', visibility: 'hidden' }}
           />
         </noscript>
+        {/* End Google Tag Manager (noscript) */}
         <MotionProvider>
           <RecaptchaProvider>{children}</RecaptchaProvider>
         </MotionProvider>
-        {/* dataLayer pre-init — must run before GTM snippet */}
-        <Script
-          id="datalayer-init"
-          strategy="beforeInteractive"
-          dangerouslySetInnerHTML={{ __html: `window.dataLayer = window.dataLayer || [];` }}
-        />
-        {/* Google Tag Manager — via server-side container */}
-        <Script
-          id="gtm"
-          strategy="afterInteractive"
-          dangerouslySetInnerHTML={{
-            __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://server-side-tagging-raejypekia-uc.a.run.app/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-5NNPNZ');`,
-          }}
-        />
       </body>
     </html>
   )
