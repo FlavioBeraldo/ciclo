@@ -54,6 +54,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <MotionProvider>
           <RecaptchaProvider>{children}</RecaptchaProvider>
         </MotionProvider>
+        {/* dataLayer pre-init — must run before GTM snippet */}
+        <Script
+          id="datalayer-init"
+          strategy="beforeInteractive"
+          dangerouslySetInnerHTML={{ __html: `window.dataLayer = window.dataLayer || [];` }}
+        />
         {/* Google Tag Manager — via server-side container */}
         <Script
           id="gtm"
