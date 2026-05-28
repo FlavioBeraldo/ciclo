@@ -15,7 +15,7 @@ export default function Hero() {
     <Section id="home" className="min-h-screen flex items-center bg-[#050505] pt-20">
       {/* Background glow */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 right-0 w-[700px] h-[700px] rounded-full bg-[#A100FF]/10 blur-[140px]" />
+        <div className="absolute top-1/4 right-0 w-[700px] h-[700px] rounded-full bg-[#A100FF]/10 blur-[80px]" />
         <div className="absolute bottom-0 left-1/4 w-[400px] h-[400px] rounded-full bg-[#A100FF]/5 blur-[80px]" />
       </div>
 

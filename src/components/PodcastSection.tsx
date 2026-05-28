@@ -22,7 +22,7 @@ export default function PodcastSection() {
   return (
     <Section id="podcast" className="bg-[#080808] py-20 lg:py-32">
       <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
-        <div className="absolute bottom-0 right-0 w-[500px] h-[300px] bg-[#A100FF]/6 blur-[100px] rounded-full" />
+        <div className="absolute bottom-0 right-0 w-[500px] h-[300px] bg-[#A100FF]/6 blur-[80px] rounded-full" />
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -56,7 +56,7 @@ export default function PodcastSection() {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: i * 0.08 }}
+                transition={{ delay: i * 0.04 }}
                 className="group relative rounded-xl overflow-hidden border border-white/8 hover:border-[#A100FF]/40 transition-colors block"
                 aria-label={`Assistir: ${video.title}`}
               >

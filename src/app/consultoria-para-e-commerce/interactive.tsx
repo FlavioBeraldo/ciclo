@@ -128,7 +128,7 @@ export default function ConsultoriaInteractive() {
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
+                transition={{ delay: i * 0.05 }}
                 className="bg-white/3 border border-white/8 rounded-2xl p-6 flex gap-4 items-start"
               >
                 <div className="w-8 h-8 rounded-full bg-[#A100FF]/20 flex items-center justify-center flex-shrink-0 mt-0.5">
@@ -165,7 +165,7 @@ export default function ConsultoriaInteractive() {
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ delay: i * 0.1 }}
+                  transition={{ delay: i * 0.05 }}
                   className="bg-white/3 border border-white/8 rounded-2xl p-6 hover:border-[#A100FF]/30 transition-all"
                 >
                   <div className="flex items-center gap-3 mb-5 pb-4 border-b border-white/8">

@@ -103,7 +103,7 @@ export default function CasesSection() {
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
+              transition={{ delay: i * 0.05 }}
               className="flex-shrink-0 w-72 sm:w-80 rounded-2xl border border-white/8 overflow-hidden hover:border-[#A100FF]/30 transition-colors snap-start"
               style={{ background: `linear-gradient(135deg, ${c.color}, #050505)` }}
             >

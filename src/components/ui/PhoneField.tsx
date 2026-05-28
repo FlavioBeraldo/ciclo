@@ -1,8 +1,11 @@
 'use client'
 
+import dynamic from 'next/dynamic'
 import { Controller, Control, FieldPath, FieldValues } from 'react-hook-form'
-import PhoneInput from 'react-phone-number-input'
-import 'react-phone-number-input/style.css'
+
+// Load react-phone-number-input (~40 KB) only when the component mounts
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const PhoneInput = dynamic(() => import('react-phone-number-input'), { ssr: false }) as any
 
 interface Props<T extends FieldValues> {
   name: FieldPath<T>

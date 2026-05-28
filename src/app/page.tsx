@@ -10,9 +10,11 @@ import PodcastSection from '@/components/PodcastSection'
 import RecentBlogSection from '@/components/RecentBlogSection'
 import LeadForm from '@/components/LeadForm'
 import Footer from '@/components/Footer'
+import RecaptchaProvider from '@/components/RecaptchaProvider'
 
 export default function Home() {
   return (
+    <RecaptchaProvider>
     <main>
       <div id="scroll-sentinel" aria-hidden="true" className="absolute top-0 h-1 w-full pointer-events-none" />
       <Header />
@@ -28,5 +30,6 @@ export default function Home() {
       <LeadForm />
       <Footer />
     </main>
+    </RecaptchaProvider>
   )
 }

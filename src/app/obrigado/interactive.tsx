@@ -207,7 +207,7 @@ export default function ObrigadoInteractive() {
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ delay: i * 0.1 }}
+                  transition={{ delay: i * 0.05 }}
                   className="bg-white/3 border border-white/8 rounded-2xl p-6 hover:border-[#A100FF]/30 transition-all"
                 >
                   <div className="flex items-center gap-3 mb-4">
@@ -256,7 +256,7 @@ export default function ObrigadoInteractive() {
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ delay: i * 0.1 }}
+                  transition={{ delay: i * 0.05 }}
                   className="bg-white/3 border border-white/8 rounded-2xl p-6 hover:border-[#A100FF]/30 transition-all"
                 >
                   <div className="flex items-center gap-3 mb-5 pb-4 border-b border-white/8">
@@ -301,7 +301,7 @@ export default function ObrigadoInteractive() {
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
+                transition={{ delay: i * 0.05 }}
                 className="bg-white/3 border border-white/8 rounded-2xl p-6 hover:border-[#A100FF]/30 transition-colors"
               >
                 <p className="text-xs text-[#A100FF] font-medium uppercase tracking-wider mb-1">{c.category}</p>
@@ -338,7 +338,7 @@ export default function ObrigadoInteractive() {
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
+                transition={{ delay: i * 0.05 }}
                 className="relative rounded-2xl overflow-hidden cursor-pointer group border border-white/8 hover:border-[#A100FF]/40 transition-colors"
                 onClick={() => setActiveVideo(t.id)}
               >

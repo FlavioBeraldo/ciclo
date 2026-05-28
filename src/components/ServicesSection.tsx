@@ -65,7 +65,7 @@ export default function ServicesSection() {
     <Section id="servicos" className="py-20 lg:py-32 bg-[#050505]">
       <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
         <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-[#A100FF]/5 via-transparent to-[#A100FF]/5" />
-        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[600px] h-[600px] rounded-full bg-[#A100FF]/10 blur-[150px]" />
+        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[600px] h-[600px] rounded-full bg-[#A100FF]/10 blur-[80px]" />
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -99,7 +99,7 @@ export default function ServicesSection() {
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ delay: i * 0.1 }}
+                  transition={{ delay: i * 0.05 }}
                   className="bg-white/3 border border-white/8 rounded-2xl p-6 hover:border-[#A100FF]/30 hover:bg-[#A100FF]/5 transition-all duration-300 group flex flex-col"
                 >
                   <div className="w-10 h-10 rounded-xl bg-[#A100FF]/20 flex items-center justify-center mb-4 group-hover:bg-[#A100FF]/30 transition-colors">

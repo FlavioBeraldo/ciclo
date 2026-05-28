@@ -251,7 +251,7 @@ export default function TikTokShopContent() {
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: i * 0.1 }}
+                transition={{ duration: 0.6, delay: i * 0.05 }}
                 className="bg-white/3 border border-white/8 rounded-2xl p-6 hover:border-[#FE2C55]/30 transition-all"
               >
                 <div className="mb-4">{pillar.icon}</div>
@@ -505,7 +505,7 @@ export default function TikTokShopContent() {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
+                transition={{ duration: 0.5, delay: i * 0.05 }}
                 className="flex gap-6"
               >
                 <div className="flex flex-col items-center">

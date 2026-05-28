@@ -53,30 +53,30 @@ const presenters = [
     name: 'Felipe Beraldo',
     role: 'Sócio e CEO',
     company: 'Ciclo E-commerce',
-    photo: '/foto-felipe-beraldo.jpg',
+    photo: '/foto-felipe-beraldo.webp',
     bio: 'Empreendedor serial e especialista em crescimento de e-commerce. Lidera a Ciclo E-commerce na missão de escalar marcas com estratégia e dados.',
   },
   {
     name: 'Alan Rocumback',
     role: 'Sócio e COO',
     company: 'Ciclo E-commerce',
-    photo: '/foto-alan-rocumback.jpg',
+    photo: '/foto-alan-rocumback.webp',
     bio: 'Especialista em operações e escala de negócios digitais. Co-fundador da Ciclo E-commerce, responsável por estruturar processos que transformam resultados.',
   },
   {
     name: 'Flávio Beraldo',
     role: 'Sócio e Diretor de Marketing',
     company: 'Ciclo E-commerce',
-    photo: '/foto-flavio-beraldo.jpg',
+    photo: '/foto-flavio-beraldo.webp',
     bio: 'Estrategista de marketing com foco em Full Funnel para e-commerce. Conecta marca, dados e criatividade para gerar crescimento previsível.',
   },
 ]
 
 const studioPhotos = [
-  { src: '/studio-ofatorm-1.jpg', alt: 'Bastidores do O Fator M — apresentadores com convidados antes da gravação' },
-  { src: '/studio-ofatorm-2.jpg', alt: 'Mesa de operação do estúdio O Fator M com switcher e mixer de áudio profissional' },
-  { src: '/studio-ofatorm-3.jpg', alt: 'Bastidores — Felipe Beraldo sendo fotografado no estúdio O Fator M' },
-  { src: '/studio-ofatorm-4.jpg', alt: 'Bastidores — gravação de episódio do O Fator M com convidado' },
+  { src: '/studio-ofatorm-1.webp', alt: 'Bastidores do O Fator M — apresentadores com convidados antes da gravação' },
+  { src: '/studio-ofatorm-2.webp', alt: 'Mesa de operação do estúdio O Fator M com switcher e mixer de áudio profissional' },
+  { src: '/studio-ofatorm-3.webp', alt: 'Bastidores — Felipe Beraldo sendo fotografado no estúdio O Fator M' },
+  { src: '/studio-ofatorm-4.webp', alt: 'Bastidores — gravação de episódio do O Fator M com convidado' },
 ]
 
 // ─── Featured episode card ─────────────────────────────────────────────────────
@@ -436,15 +436,15 @@ export default function OFatorMInteractive() {
           {/* Group photos */}
           <div className="grid sm:grid-cols-2 gap-4 mb-12 max-w-4xl mx-auto">
             {[
-              { src: '/foto-criadores.jpg', alt: 'Os apresentadores do O Fator M gravando episódio no estúdio' },
-              { src: '/foto-criadores-2.jpg', alt: 'Felipe Beraldo, Alan Rocumback e Flávio Beraldo — apresentadores do O Fator M' },
+              { src: '/foto-criadores.webp', alt: 'Os apresentadores do O Fator M gravando episódio no estúdio' },
+              { src: '/foto-criadores-2.webp', alt: 'Felipe Beraldo, Alan Rocumback e Flávio Beraldo — apresentadores do O Fator M' },
             ].map((img, i) => (
               <m.div
                 key={img.src}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
+                transition={{ delay: i * 0.05 }}
                 className="relative rounded-2xl overflow-hidden aspect-[4/3]"
               >
                 <Image
@@ -468,7 +468,7 @@ export default function OFatorMInteractive() {
                 initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
+                transition={{ delay: i * 0.05 }}
                 className="bg-white/3 border border-white/8 rounded-2xl overflow-hidden group"
               >
                 {/* Photo */}
@@ -647,7 +647,7 @@ export default function OFatorMInteractive() {
                   initial={{ opacity: 0, y: 16 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ delay: i * 0.08 }}
+                  transition={{ delay: i * 0.04 }}
                   className={`flex flex-col items-center gap-2.5 px-4 py-5 rounded-2xl border border-white/10 bg-white/3 text-[#D4D4D8] font-medium transition-all hover:bg-white/8 hover:border-white/20 hover:scale-105 ${p.color}`}
                 >
                   <p.icon className="w-6 h-6" />

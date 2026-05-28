@@ -4,6 +4,7 @@ import { m, AnimatePresence } from 'framer-motion'
 import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import { CheckCircle2, ArrowRight, Users, TrendingUp, Zap, BarChart3, Target, RefreshCw } from 'lucide-react'
+import YouTubeFacade from '@/components/ui/YouTubeFacade'
 
 const PAYMENT_URL = 'https://pay.hub.la/4JzioLT4Af7962CGf2by'
 const PRICE = 'R$ 37,90'
@@ -195,7 +196,7 @@ export default function EcomShiftInteractive() {
             >
               <div className="relative rounded-2xl overflow-hidden border border-white/10 max-w-sm mx-auto lg:mx-0 lg:ml-auto">
                 <Image
-                  src="/foto-flavio-ecomshift.jpg"
+                  src="/foto-flavio-ecomshift.webp"
                   alt="Flávio Beraldo — Professor do ECOM Shift"
                   width={480}
                   height={540}
@@ -223,7 +224,7 @@ export default function EcomShiftInteractive() {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
+                transition={{ delay: i * 0.05 }}
               >
                 <p className="text-3xl sm:text-4xl font-black text-[#A100FF] mb-1">{number}</p>
                 <p className="text-sm text-[#A1A1AA]">{label}</p>
@@ -254,7 +255,7 @@ export default function EcomShiftInteractive() {
                 initial={{ opacity: 0, x: -20 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
+                transition={{ delay: i * 0.05 }}
                 className="flex items-start gap-4 bg-[#0D0D0D] rounded-xl border border-white/8 p-5 hover:border-[#A100FF]/30 transition-colors"
               >
                 <CheckCircle2 className="w-5 h-5 text-[#A100FF] shrink-0 mt-0.5" />
@@ -296,13 +297,7 @@ export default function EcomShiftInteractive() {
             viewport={{ once: true }}
             className="rounded-2xl overflow-hidden border border-white/10 aspect-video"
           >
-            <iframe
-              src="https://www.youtube.com/embed/oJBr4hIaW8k"
-              title="ECOM Shift — Primeira Edição Presencial"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-              className="w-full h-full"
-            />
+            <YouTubeFacade videoId="oJBr4hIaW8k" title="ECOM Shift — Primeira Edição Presencial" />
           </m.div>
         </div>
       </section>
@@ -333,7 +328,7 @@ export default function EcomShiftInteractive() {
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ delay: i * 0.08 }}
+                  transition={{ delay: i * 0.04 }}
                   className="bg-[#0D0D0D] rounded-xl border border-white/8 p-6 hover:border-[#A100FF]/30 transition-colors group"
                 >
                   <div className="flex items-center justify-between mb-4">
@@ -381,11 +376,7 @@ export default function EcomShiftInteractive() {
             viewport={{ once: true }}
             className="rounded-2xl overflow-hidden border border-white/10 aspect-video"
           >
-            <iframe
-              src="https://www.youtube.com/embed/3Hxo0Y2PhAI"
-              title="ECOM Shift — Como Construir um Ecossistema de Aquisição de Clientes com Felipe Beraldo"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
+            <YouTubeFacade videoId="3Hxo0Y2PhAI" title="ECOM Shift — Como Construir um Ecossistema de Aquisição de Clientes com Felipe Beraldo"
               className="w-full h-full"
             />
           </m.div>
@@ -404,7 +395,7 @@ export default function EcomShiftInteractive() {
             >
               <div className="rounded-2xl overflow-hidden border border-white/10">
                 <Image
-                  src="/foto-flavio-ecomshift.jpg"
+                  src="/foto-flavio-ecomshift.webp"
                   alt="Flávio Beraldo"
                   width={400}
                   height={450}
