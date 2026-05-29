@@ -20,7 +20,7 @@ const stats = [
 const platforms = [
   {
     name: 'YouTube',
-    href: 'https://www.youtube.com/@ofatorm',
+    href: 'https://www.youtube.com/@ofatorm?sub_confirmation=1',
     icon: MonitorPlay,
     color: 'hover:text-red-500',
     label: 'Assista no YouTube',
@@ -339,7 +339,7 @@ export default function OFatorMInteractive() {
                 Últimos episódios
               </h2>
               <a
-                href="https://www.youtube.com/@ofatorm/videos"
+                href="https://www.youtube.com/@ofatorm?sub_confirmation=1"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-1.5 text-sm text-[#A100FF] font-semibold hover:text-[#C040FF] transition-colors"
@@ -401,7 +401,7 @@ export default function OFatorMInteractive() {
             className="mt-10 text-center"
           >
             <Button
-              href="https://www.youtube.com/@ofatorm/videos"
+              href="https://www.youtube.com/@ofatorm?sub_confirmation=1"
               target="_blank"
               rel="noopener noreferrer"
               arrow
