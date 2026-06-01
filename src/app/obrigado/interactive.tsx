@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { m, AnimatePresence } from 'framer-motion'
 import { Play, X, CheckCircle, Zap, Target, Repeat, BarChart3 } from 'lucide-react'
 import Image from 'next/image'
@@ -20,12 +20,14 @@ const testimonials = [
   { id: '6B2XYATbK3Q', brand: 'DANKI', role: 'Fundador – DANKI' },
 ]
 
-const cycles = [
+type CycleItem = string | { label: string; href: string }
+
+const cycles: { title: string; icon: React.ElementType; desc: string; items: CycleItem[] }[] = [
   {
     title: 'Geração de Demanda',
     icon: Zap,
     desc: 'Construímos desejo e relevância de marca por meio de conteúdo, criadores e canais de mídia que geram audiência qualificada antes da compra.',
-    items: ['Conteúdo para redes sociais', 'TikTok Shop / Social Commerce', 'Gestão de Creators e Influenciadores', 'OOH Digital'],
+    items: ['Conteúdo para redes sociais', { label: 'TikTok Shop / Social Commerce', href: '/tiktok-shop' }, 'Gestão de Creators e Influenciadores', 'OOH Digital'],
   },
   {
     title: 'Captação de Demanda',
@@ -218,12 +220,20 @@ export default function ObrigadoInteractive() {
                   </div>
                   <p className="text-[#A1A1AA] text-sm leading-relaxed mb-4">{cycle.desc}</p>
                   <ul className="space-y-1.5">
-                    {cycle.items.map((item) => (
-                      <li key={item} className="flex items-center gap-2 text-xs text-[#A1A1AA]">
-                        <span className="w-1 h-1 rounded-full bg-[#A100FF] flex-shrink-0" />
-                        {item}
-                      </li>
-                    ))}
+                    {cycle.items.map((item) => {
+                      const label = typeof item === 'string' ? item : item.label
+                      const href = typeof item === 'string' ? undefined : item.href
+                      return (
+                        <li key={label} className="flex items-center gap-2 text-xs text-[#A1A1AA]">
+                          <span className="w-1 h-1 rounded-full bg-[#A100FF] flex-shrink-0" />
+                          {href ? (
+                            <Link href={href} className="hover:text-[#A100FF] transition-colors">
+                              {label}
+                            </Link>
+                          ) : label}
+                        </li>
+                      )
+                    })}
                   </ul>
                 </m.div>
               )

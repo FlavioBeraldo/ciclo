@@ -735,6 +735,72 @@ export default function TikTokShopContent() {
         </div>
       </section>
 
+      {/* ── FAQ ── */}
+      <section className="py-20 lg:py-28 bg-[#050505]">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <m.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-12"
+          >
+            <p className="text-[#FE2C55] text-xs font-bold uppercase tracking-widest mb-3">Dúvidas frequentes</p>
+            <h2 className="text-3xl sm:text-4xl font-bold">
+              Perguntas sobre gestão de{' '}
+              <span className="bg-gradient-to-r from-[#FE2C55] to-[#25F4EE] bg-clip-text text-transparent">
+                TikTok Shop
+              </span>
+            </h2>
+          </m.div>
+          <div className="space-y-3">
+            {[
+              {
+                q: 'O que é TikTok Shop e como funciona para e-commerces?',
+                a: 'TikTok Shop é o canal de social commerce do TikTok que permite vender diretamente dentro da plataforma. Para e-commerces, funciona como uma loja integrada ao feed de conteúdo: os produtos aparecem em vídeos, lives e vitrine da marca, e o usuário compra sem sair do app. É o modelo de Discovery Commerce — a venda acontece antes que o consumidor perceba que estava comprando.',
+              },
+              {
+                q: 'Quais marcas e e-commerces se beneficiam mais do TikTok Shop?',
+                a: 'Marcas de beleza, moda, saúde, casa e alimentação têm os melhores resultados, especialmente as que vendem produtos com apelo visual ou que se beneficiam de demonstração em vídeo. E-commerces com ticket médio entre R$30 e R$300 e que já possuem presença digital tendem a escalar mais rápido.',
+              },
+              {
+                q: 'A Ciclo E-commerce faz toda a gestão do TikTok Shop?',
+                a: 'Sim. A Ciclo oferece gestão completa: setup e integração da loja, curadoria e gestão de creators e afiliados, criação de conteúdo otimizado para conversão, campanhas GMV Max, TikTok Ads e análise contínua de performance. A operação é gerenciada de ponta a ponta — seu time não precisa aprender a plataforma do zero.',
+              },
+              {
+                q: 'Qual a diferença entre TikTok Ads e TikTok Shop?',
+                a: 'TikTok Ads é a plataforma de mídia paga para anúncios. TikTok Shop é o canal de social commerce nativo onde os produtos são vendidos dentro do app via conteúdo orgânico, lives e creators. A maior potência está na combinação: TikTok Shop como canal de vendas e TikTok Ads (especialmente GMV Max) para escalar o volume de pedidos.',
+              },
+              {
+                q: 'Como funciona a gestão de creators e afiliados no TikTok Shop?',
+                a: 'A Ciclo identifica creators alinhados ao seu nicho via TikTok Creator Marketplace, negocia parcerias, orienta a criação de conteúdo e acompanha a performance de cada creator. Para afiliados, estruturamos o programa de comissões, recrutamos os criadores certos e gerenciamos o relacionamento contínuo.',
+              },
+              {
+                q: 'Quanto tempo leva para ter resultados no TikTok Shop?',
+                a: 'Os primeiros resultados aparecem nas primeiras 4 a 8 semanas — fase de setup, integração e onboarding de creators. A escala consistente costuma acontecer entre 2 e 4 meses, quando já há dados suficientes de creators, produtos e formatos para otimizar a operação.',
+              },
+            ].map(({ q, a }, i) => (
+              <m.details
+                key={i}
+                initial={{ opacity: 0, y: 15 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.05 }}
+                className="group bg-white/3 border border-white/8 rounded-2xl overflow-hidden hover:border-[#FE2C55]/30 transition-colors"
+              >
+                <summary className="flex items-center justify-between gap-4 px-6 py-5 cursor-pointer list-none select-none">
+                  <span className="font-semibold text-white text-sm sm:text-base">{q}</span>
+                  <span className="w-6 h-6 rounded-full bg-[#FE2C55]/10 flex items-center justify-center flex-shrink-0 text-[#FE2C55] group-open:rotate-45 transition-transform duration-200 text-lg leading-none">+</span>
+                </summary>
+                <div className="px-6 pb-5">
+                  <p className="text-[#A1A1AA] text-sm leading-relaxed">{a}</p>
+                </div>
+              </m.details>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ── CTA ── */}
       <section className="py-20 lg:py-24 bg-gradient-to-br from-[#1a0008] via-[#010101] to-[#001a18] relative overflow-hidden">
         <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
