@@ -34,7 +34,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       title: solucao.seo.title,
       description: solucao.seo.description,
       type: 'website',
+      locale: 'pt_BR',
+      siteName: 'Ciclo E-commerce',
     },
+    robots: { index: true, follow: true },
+    alternates: { canonical: `https://cicloecommerce.com.br/solucoes/${slug}` },
   }
 }
 

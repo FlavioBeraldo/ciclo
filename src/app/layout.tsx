@@ -29,7 +29,6 @@ export const metadata: Metadata = {
     description: 'Full Funnel Marketing para marcas que querem crescer.',
   },
   robots: { index: true, follow: true },
-  alternates: { canonical: 'https://cicloecommerce.com.br' },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

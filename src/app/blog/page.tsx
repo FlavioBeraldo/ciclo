@@ -10,6 +10,8 @@ export const metadata: Metadata = {
   title: 'Blog | Ciclo E-commerce',
   description:
     'Estratégias, análises e insights sobre Full Funnel Marketing, crescimento para e-commerce, CRM, performance e muito mais.',
+  robots: { index: true, follow: true },
+  alternates: { canonical: 'https://cicloecommerce.com.br/blog' },
 }
 
 const categoryMeta: Record<string, { color: string; icon: LucideIcon }> = {

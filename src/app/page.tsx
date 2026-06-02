@@ -1,4 +1,9 @@
+import type { Metadata } from 'next'
 import Header from '@/components/Header'
+
+export const metadata: Metadata = {
+  alternates: { canonical: 'https://cicloecommerce.com.br' },
+}
 import Hero from '@/components/Hero'
 import BrandsStrip from '@/components/BrandsStrip'
 import CommonErrorSection from '@/components/CommonErrorSection'

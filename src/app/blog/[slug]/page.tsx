@@ -34,6 +34,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: `${post.title} | Ciclo Blog`,
     description: post.excerpt,
+    robots: { index: true, follow: true },
+    alternates: { canonical: `https://cicloecommerce.com.br/blog/${slug}` },
   }
 }
 

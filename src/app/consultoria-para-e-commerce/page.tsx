@@ -12,7 +12,11 @@ export const metadata: Metadata = {
     title: 'Consultoria para E-commerce | Ciclo E-commerce',
     description: 'Potencialize seu e-commerce com uma consultoria estratégica da Ciclo.',
     type: 'website',
+    locale: 'pt_BR',
+    siteName: 'Ciclo E-commerce',
   },
+  robots: { index: true, follow: true },
+  alternates: { canonical: 'https://cicloecommerce.com.br/consultoria-para-e-commerce' },
 }
 
 export default function ConsultoriaPage() {
