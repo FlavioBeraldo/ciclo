@@ -6,9 +6,12 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: '*',
         allow: '/',
-        disallow: ['/api/', '/obrigado'],
+        disallow: ['/api/', '/obrigado', '/_next/', '/static/'],
       },
     ],
-    sitemap: 'https://cicloecommerce.com.br/sitemap.xml',
+    sitemap: [
+      'https://cicloecommerce.com.br/sitemap.xml',
+      'https://cicloecommerce.com.br/sitemap-v2',
+    ],
   }
 }

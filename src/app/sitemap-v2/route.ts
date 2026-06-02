@@ -4,6 +4,8 @@ import { getAllSolucaoSlugs } from '@/lib/solucoes'
 
 const BASE = 'https://cicloecommerce.com.br'
 
+export const revalidate = 86400
+
 export async function GET() {
   const now = new Date().toISOString()
 

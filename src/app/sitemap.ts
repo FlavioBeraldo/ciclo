@@ -5,6 +5,9 @@ import { getAllSolucaoSlugs } from '@/lib/solucoes'
 
 const BASE = 'https://cicloecommerce.com.br'
 
+// Revalida a cada 24h para capturar novos artigos sem exigir novo deploy
+export const revalidate = 86400
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date()
 
