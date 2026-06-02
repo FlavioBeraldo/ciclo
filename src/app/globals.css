@@ -176,3 +176,12 @@ body {
 .article-light .wp-content table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; }
 .article-light .wp-content th,.article-light .wp-content td { padding: 0.75rem 1rem; border: 1px solid #e5e7eb; text-align: left; color: #374151; }
 .article-light .wp-content th { background: #faf5ff; color: #111827; font-weight: 600; }
+/* Prevent white/light inline colors from WordPress exports leaking on light background */
+.article-light .wp-content span[style*="color:#fff"],
+.article-light .wp-content span[style*="color: #fff"],
+.article-light .wp-content span[style*="color:white"],
+.article-light .wp-content span[style*="color: white"],
+.article-light .wp-content span[style*="color:#ffffff"],
+.article-light .wp-content span[style*="color: #ffffff"],
+.article-light .wp-content *[style*="color:#fff"],
+.article-light .wp-content *[style*="color: #fff"] { color: #374151 !important; }

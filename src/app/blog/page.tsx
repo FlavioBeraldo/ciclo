@@ -7,9 +7,9 @@ import Footer from '@/components/Footer'
 import type { LucideIcon } from 'lucide-react'
 
 export const metadata: Metadata = {
-  title: 'Blog | Ciclo E-commerce',
+  title: 'Blog de E-commerce | Estratégias de Full Funnel Marketing e Growth | Ciclo',
   description:
-    'Estratégias, análises e insights sobre Full Funnel Marketing, crescimento para e-commerce, CRM, performance e muito mais.',
+    'Artigos sobre Full Funnel Marketing, CAC, LTV, CRM, TikTok Shop e crescimento sustentável para e-commerce. Estratégias usadas por mais de 300 marcas.',
   robots: { index: true, follow: true },
   alternates: { canonical: 'https://cicloecommerce.com.br/blog' },
 }

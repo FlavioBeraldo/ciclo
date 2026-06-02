@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
-import { ArrowLeft, Clock, ArrowRight } from 'lucide-react'
+import { ArrowLeft, Clock, ArrowRight, ExternalLink } from 'lucide-react'
 import {
   getPostBySlug,
   getWpPostBySlug,
@@ -66,6 +66,18 @@ function RenderSection({ section }: { section: BlogSection }) {
       )
     case 'divider':
       return <hr className="border-gray-200 my-8" />
+    case 'ctaCard':
+      return (
+        <div className="my-8 bg-gray-50 border border-gray-200 rounded-2xl p-6 flex flex-col sm:flex-row items-start sm:items-center gap-4 justify-between">
+          <p className="text-gray-800 font-medium text-sm leading-relaxed">{section.text}</p>
+          <Link
+            href={section.ctaHref ?? '/'}
+            className="inline-flex items-center gap-2 bg-[#A100FF] text-white font-semibold px-5 py-2.5 rounded-full text-sm flex-shrink-0 hover:bg-[#8800DD] transition-all"
+          >
+            {section.ctaLabel} <ExternalLink className="w-3.5 h-3.5" />
+          </Link>
+        </div>
+      )
     default:
       return null
   }
