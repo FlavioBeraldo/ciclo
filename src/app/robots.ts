@@ -11,7 +11,7 @@ export default function robots(): MetadataRoute.Robots {
     ],
     sitemap: [
       'https://cicloecommerce.com.br/sitemap.xml',
-      'https://cicloecommerce.com.br/sitemap-v2',
+      'https://cicloecommerce.com.br/sitemap-v2.xml',
     ],
   }
 }
