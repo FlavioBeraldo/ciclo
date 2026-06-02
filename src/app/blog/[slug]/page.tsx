@@ -14,6 +14,11 @@ import {
   resolveCategory,
   type BlogSection,
 } from '@/lib/blog'
+import {
+  getAllKeystatiSlugs,
+  getKeystatiPostBySlug,
+  getKeystatiPosts,
+} from '@/lib/keystatic-posts'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 
@@ -24,12 +29,16 @@ interface Props {
 export async function generateStaticParams() {
   const curated = getAllSlugs().map((slug) => ({ slug }))
   const wp = getAllWpSlugs().map((slug) => ({ slug }))
-  return [...curated, ...wp]
+  const ks = (await getAllKeystatiSlugs()).map((slug) => ({ slug }))
+  return [...curated, ...wp, ...ks]
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
-  const post = getPostBySlug(slug) ?? getWpPostBySlug(slug)
+  const curated = getPostBySlug(slug)
+  const wp = !curated ? getWpPostBySlug(slug) : null
+  const ks = !curated && !wp ? await getKeystatiPostBySlug(slug) : null
+  const post = curated ?? wp ?? ks
   if (!post) return { title: 'Post não encontrado | Ciclo Blog' }
   return {
     title: `${post.title} | Ciclo Blog`,
@@ -87,24 +96,31 @@ export default async function BlogPostPage({ params }: Props) {
   const { slug } = await params
   const curated = getPostBySlug(slug)
   const wp = !curated ? getWpPostBySlug(slug) : null
+  const ks = !curated && !wp ? await getKeystatiPostBySlug(slug) : null
 
-  if (!curated && !wp) notFound()
+  if (!curated && !wp && !ks) notFound()
 
-  const title = curated ? curated.title : wp!.title
-  const excerpt = curated ? curated.excerpt : wp!.excerpt
-  const rawCategory = curated ? curated.category : wp!.category
+  const title = curated?.title ?? wp?.title ?? ks!.title
+  const excerpt = curated?.excerpt ?? wp?.excerpt ?? ks!.excerpt
+  const rawCategory = curated?.category ?? wp?.category ?? ks!.category
   const category = resolveCategory(rawCategory, title, excerpt)
-  const date = curated ? curated.date : wp!.date
-  const author = curated ? curated.author : 'Time Ciclo'
-  const authorRole = curated ? curated.authorRole : 'Especialistas em Full Funnel Marketing'
-  const readTime = curated ? curated.readTime : Math.max(3, Math.round((wp!.html.replace(/<[^>]+>/g, '').length) / 1200))
+  const date = curated?.date ?? wp?.date ?? ks!.date
+  const author = curated?.author ?? ks?.author ?? 'Time Ciclo'
+  const authorRole = curated?.authorRole ?? ks?.authorRole ?? 'Especialistas em Full Funnel Marketing'
+  const readTime = curated
+    ? curated.readTime
+    : ks
+    ? ks.readTime
+    : Math.max(3, Math.round((wp!.html.replace(/<[^>]+>/g, '').length) / 1200))
   const coverGradient = curated ? curated.coverGradient : getCategoryGradient(category)
 
+  const ksPosts = await getKeystatiPosts()
   const wpRelated = getWpPosts()
     .filter((p) => p.slug !== slug && resolveCategory(p.category, p.title, p.excerpt) === category)
     .slice(0, 3)
   const curatedRelated = posts.filter((p) => p.slug !== slug && p.category === category).slice(0, 3)
-  const related = [...curatedRelated, ...wpRelated].slice(0, 3)
+  const ksRelated = ksPosts.filter((p) => p.slug !== slug && p.category === category).slice(0, 3)
+  const related = [...ksRelated, ...curatedRelated, ...wpRelated].slice(0, 3)
 
   return (
     <>
@@ -154,7 +170,7 @@ export default async function BlogPostPage({ params }: Props) {
                 ) : (
                   <div
                     className="wp-content"
-                    dangerouslySetInnerHTML={{ __html: wp!.html }}
+                    dangerouslySetInnerHTML={{ __html: wp?.html ?? ks!.html }}
                   />
                 )}
 

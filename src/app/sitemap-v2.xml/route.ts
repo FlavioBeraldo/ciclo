@@ -1,6 +1,7 @@
-import { getAllWpSlugs } from '@/lib/blog'
+import { getAllWpSlugs, getAllSlugs } from '@/lib/blog'
 import { getAllServicoSlugs } from '@/lib/servicos'
 import { getAllSolucaoSlugs } from '@/lib/solucoes'
+import { getAllKeystatiSlugs } from '@/lib/keystatic-posts'
 
 const BASE = 'https://cicloecommerce.com.br'
 
@@ -21,9 +22,12 @@ export async function GET() {
     { url: `${BASE}/mapa-do-site`,                priority: '0.3', freq: 'monthly' },
   ]
 
+  const ksSlugs = await getAllKeystatiSlugs()
   const dynamicUrls = [
     ...getAllSolucaoSlugs().map((slug) => ({ url: `${BASE}/solucoes/${slug}`, priority: '0.85', freq: 'monthly' })),
     ...getAllServicoSlugs().map((slug) => ({ url: `${BASE}/servicos/${slug}`, priority: '0.8',  freq: 'monthly' })),
+    ...ksSlugs.map((slug)             => ({ url: `${BASE}/blog/${slug}`,     priority: '0.75', freq: 'monthly' })),
+    ...getAllSlugs().map((slug)        => ({ url: `${BASE}/blog/${slug}`,     priority: '0.7',  freq: 'monthly' })),
     ...getAllWpSlugs().map((slug)      => ({ url: `${BASE}/blog/${slug}`,     priority: '0.6',  freq: 'yearly'  })),
   ]
 

@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { ArrowRight, Clock, Search, TrendingUp, Globe, FileText, ShoppingBag, BarChart2, Cpu, Heart, Truck, Share2, Zap, Target, Mail, Store, Newspaper, FlaskConical, Sparkles, ShoppingCart } from 'lucide-react'
 import { posts, getWpPosts, getCategoryGradient, formatDate, resolveCategory } from '@/lib/blog'
+import { getKeystatiPosts } from '@/lib/keystatic-posts'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import type { LucideIcon } from 'lucide-react'
@@ -54,10 +55,12 @@ export default async function BlogPage({
   const activeCategory = sp.cat ?? ''
 
   const wpPosts = getWpPosts()
+  const keystatiPosts = await getKeystatiPosts()
   const [featured, ...curated] = posts
 
   // Merge and resolve categories
   const allPosts = [
+    ...keystatiPosts.map((p) => ({ ...p, category: resolveCategory(p.category, p.title, p.excerpt) })),
     ...curated.map((p) => ({ ...p, category: resolveCategory(p.category, p.title, p.excerpt) })),
     ...wpPosts.map((p) => ({ ...p, category: resolveCategory(p.category, p.title, p.excerpt) })),
   ].sort((a, b) => b.date.localeCompare(a.date))
