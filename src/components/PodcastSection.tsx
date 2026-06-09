@@ -40,7 +40,7 @@ export default function PodcastSection() {
             <p className="text-[#A1A1AA] mb-8">
               No nosso podcast, especialistas e líderes do mercado compartilham estratégias práticas para escalar marcas no digital.
             </p>
-            <Button href="/ofatorm" arrow>
+            <Button href="https://www.youtube.com/@ofatorm?sub_confirmation=1" target="_blank" rel="noopener noreferrer" arrow>
               Descubra o Fator M
             </Button>
           </m.div>
