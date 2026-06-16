@@ -5,6 +5,7 @@ export const metadata: Metadata = {
   title: 'Mapa do Site | Ciclo E-commerce',
   description: 'Todas as páginas do site da Ciclo E-commerce organizadas por categoria.',
   robots: { index: true, follow: true },
+  alternates: { canonical: 'https://cicloecommerce.com.br/mapa-do-site' },
 }
 
 const sections = [

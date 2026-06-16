@@ -90,6 +90,7 @@ const nextConfig: NextConfig = {
       { source: '/cases-de-ecommerce/', destination: '/depoimentos', permanent: true },
       { source: '/portfolio',           destination: '/depoimentos', permanent: true },
       { source: '/portfolio/',          destination: '/depoimentos', permanent: true },
+      { source: '/case/:slug*',         destination: '/depoimentos', permanent: true },
 
       // ── WordPress taxonomy archives (wildcard) ────────────────────────────
       { source: '/categoria/:slug*', destination: '/blog', permanent: true },
@@ -102,9 +103,9 @@ const nextConfig: NextConfig = {
       { source: '/page/:num*',      destination: '/blog', permanent: true },
 
       // ── WordPress admin (security) ────────────────────────────────────────
-      { source: '/wp-admin/:path*', destination: '/', permanent: false },
-      { source: '/wp-login.php',    destination: '/', permanent: false },
-      { source: '/wp-login',        destination: '/', permanent: false },
+      { source: '/wp-admin/:path*', destination: '/', permanent: true },
+      { source: '/wp-login.php',    destination: '/', permanent: true },
+      { source: '/wp-login',        destination: '/', permanent: true },
 
       // ── WordPress blog post redirects ─────────────────────────────────────
       ...wpRedirects,
