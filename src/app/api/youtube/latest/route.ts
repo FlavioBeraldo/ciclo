@@ -41,9 +41,9 @@ async function fetchLatestVideos(): Promise<YouTubeVideo[]> {
   const items: any[] = playlistData.items || []
   const videoIds = items.map((item: any) => item.snippet.resourceId.videoId).join(',')
 
-  // 3. Fetch video details to get duration (to filter out Shorts < 60s)
+  // 3. Fetch video details (duration + player dimensions to filter Shorts and vertical videos)
   const detailsRes = await fetch(
-    `https://www.googleapis.com/youtube/v3/videos?part=contentDetails,snippet&id=${videoIds}&key=${API_KEY}`,
+    `https://www.googleapis.com/youtube/v3/videos?part=contentDetails,snippet,player&id=${videoIds}&key=${API_KEY}`,
     { next: { revalidate: 600 } }
   )
   if (!detailsRes.ok) throw new Error('Failed to fetch video details')
@@ -52,11 +52,12 @@ async function fetchLatestVideos(): Promise<YouTubeVideo[]> {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const horizontalVideos = (detailsData.items || []).filter((v: any) => {
     const duration = parseIsoDuration(v.contentDetails?.duration || '')
-    // Shorts are <= 60s; also skip videos with #Shorts in title
+    const isVertical = (v.player?.embedHeight ?? 0) > (v.player?.embedWidth ?? 1)
     const isShort =
-      duration <= 60 ||
+      duration < 300 ||
       v.snippet?.title?.toLowerCase().includes('#short') ||
-      v.snippet?.title?.toLowerCase().includes('#shorts')
+      v.snippet?.title?.toLowerCase().includes('#shorts') ||
+      isVertical
     return !isShort
   })
 
