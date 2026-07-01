@@ -110,6 +110,11 @@ export default function Footer() {
             © {new Date().getFullYear()} Ciclo E-commerce. Todos os direitos reservados.
           </p>
         </div>
+
+        {/* Legal */}
+        <p className="text-xs text-[#A1A1AA] text-center mt-4">
+          CNPJ: 23.757.895/0001-09 — Ciclo - Assessoria de Marketing e Inteligencia Digital Para E-Commerce LTDA
+        </p>
       </div>
     </footer>
   )
