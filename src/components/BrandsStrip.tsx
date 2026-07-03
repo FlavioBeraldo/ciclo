@@ -10,26 +10,29 @@ import {
   Dumbbell,
 } from 'lucide-react'
 
-const brands = [
-  { name: 'Vizcaya',        logo: '/brands/vizcaya.png' },
-  { name: 'DaBelle',        logo: '/brands/dabelle.png' },
-  { name: 'Davene',         logo: '/brands/davene.png' },
-  { name: 'DANKI',          logo: '/brands/danki.png' },
+const brandsTop = [
+  { name: 'Motorola',      logo: '/brands/motorola.png' },
+  { name: 'GoPro',         logo: '/brands/gopro.png' },
+  { name: 'Mash',          logo: '/brands/mash.png' },
+  { name: 'Gringa',        logo: '/brands/gringa.png' },
+  { name: 'Shiseido',      logo: '/brands/shiseido.png' },
+  { name: 'NARS',          logo: '/brands/nars.png' },
+  { name: 'Laura Mercier', logo: '/brands/laura-mercier.png' },
+  { name: "Jack Link's",   logo: '/brands/jacklinks.png' },
+  { name: 'DaBelle',       logo: '/brands/dabelle.png' },
+  { name: 'Vizcaya',       logo: '/brands/vizcaya.png' },
+]
+
+const brandsBottom = [
   { name: 'Eico',           logo: '/brands/eico.png' },
   { name: 'Surya',          logo: '/brands/surya.png' },
-  { name: 'GoPro',          logo: '/brands/gopro.png' },
-  { name: 'Gringa',         logo: '/brands/gringa.png' },
-  { name: "Jack Link's",    logo: '/brands/jacklinks.png' },
-  { name: 'Laura Mercier',  logo: '/brands/laura-mercier.png' },
+  { name: 'Davene',         logo: '/brands/davene.png' },
+  { name: 'DANKI',          logo: '/brands/danki.png' },
   { name: 'Líquido',        logo: '/brands/liquido.png' },
   { name: 'Água de Cheiro', logo: '/brands/agua-de-cheiro.png' },
   { name: 'Mamô',           logo: '/brands/mamo.png' },
-  { name: 'Mash',           logo: '/brands/mash.png' },
-  { name: 'Motorola',       logo: '/brands/motorola.png' },
-  { name: 'NARS',           logo: '/brands/nars.png' },
-  { name: 'She',            logo: '/brands/she.png' },
-  { name: 'Shiseido',       logo: '/brands/shiseido.png' },
   { name: 'TVZ',            logo: '/brands/tvz.png' },
+  { name: 'She',            logo: '/brands/she.png' },
   { name: 'Valid',          logo: '/brands/valid.png' },
 ]
 
@@ -44,7 +47,8 @@ const segments = [
   { icon: Dumbbell, label: 'Esportes' },
 ]
 
-const allBrands = [...brands, ...brands]
+const allBrandsTop = [...brandsTop, ...brandsTop]
+const allBrandsBottom = [...brandsBottom, ...brandsBottom]
 
 export default function BrandsStrip() {
   return (
@@ -54,17 +58,33 @@ export default function BrandsStrip() {
           + de 300 marcas atendidas
         </p>
 
-        {/* CSS marquee — zero JS, GPU composited */}
-        <div className="overflow-hidden mb-8">
+        {/* CSS marquee — zero JS, GPU composited. Duas linhas em velocidades diferentes. */}
+        <div className="overflow-hidden">
           <div className="flex gap-12 whitespace-nowrap animate-marquee">
-            {allBrands.map((brand, i) => (
-              <div key={i} className="flex-shrink-0 flex items-center justify-center h-10 w-28">
+            {allBrandsTop.map((brand, i) => (
+              <div key={i} className="flex-shrink-0 flex items-center justify-center h-16 w-44">
                 <Image
                   src={brand.logo}
                   alt={brand.name}
-                  width={120}
+                  width={180}
+                  height={56}
+                  className="h-14 w-auto object-contain grayscale opacity-50 hover:opacity-80 hover:grayscale-0 transition-all duration-300"
+                  loading="lazy"
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="overflow-hidden max-w-4xl mx-auto mt-6 mb-8">
+          <div className="flex gap-12 whitespace-nowrap animate-marquee-slow">
+            {allBrandsBottom.map((brand, i) => (
+              <div key={i} className="flex-shrink-0 flex items-center justify-center h-12 w-32">
+                <Image
+                  src={brand.logo}
+                  alt={brand.name}
+                  width={130}
                   height={40}
-                  className="h-8 w-auto object-contain grayscale opacity-50 hover:opacity-80 hover:grayscale-0 transition-all duration-300"
+                  className="h-10 w-auto object-contain grayscale opacity-50 hover:opacity-80 hover:grayscale-0 transition-all duration-300"
                   loading="lazy"
                 />
               </div>
