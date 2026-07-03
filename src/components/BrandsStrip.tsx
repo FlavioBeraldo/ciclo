@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import {
   Shirt,
   Heart,
@@ -10,17 +11,33 @@ import {
 } from 'lucide-react'
 
 const brands = [
-  'GoPro', 'NARS', "Jack Link's", 'Shiseido', 'HEAD', 'Motorola', 'MASH', 'TVZ',
-  'Mamô', 'Tania Bulhões', 'GiGi', 'Eico', 'DaBelle', 'DutyColor', 'Líquido', 'Vizcaya', 'KVRA', 'DANKI',
+  { name: 'GoPro',         logo: '/brands/gopro.svg' },
+  { name: 'NARS',          logo: '/brands/nars.svg' },
+  { name: "Jack Link's",   logo: '/brands/jacklinks.svg' },
+  { name: 'Shiseido',      logo: '/brands/shiseido.svg' },
+  { name: 'HEAD',          logo: '/brands/head.svg' },
+  { name: 'Motorola',      logo: '/brands/motorola.svg' },
+  { name: 'MASH',          logo: '/brands/mash.svg' },
+  { name: 'TVZ',           logo: '/brands/tvz.svg' },
+  { name: 'Mamô',          logo: '/brands/mamo.svg' },
+  { name: 'Tania Bulhões', logo: '/brands/tania-bulhoes.svg' },
+  { name: 'GiGi',          logo: '/brands/gigi.svg' },
+  { name: 'Eico',          logo: '/brands/eico.svg' },
+  { name: 'DaBelle',       logo: '/brands/dabelle.svg' },
+  { name: 'DutyColor',     logo: '/brands/dutycolor.svg' },
+  { name: 'Líquido',       logo: '/brands/liquido.svg' },
+  { name: 'Vizcaya',       logo: '/brands/vizcaya.svg' },
+  { name: 'KVRA',          logo: '/brands/kvra.svg' },
+  { name: 'DANKI',         logo: '/brands/danki.svg' },
 ]
 
 const segments = [
-  { icon: Shirt, label: 'Moda e Acessórios' },
-  { icon: Heart, label: 'Saúde e Bem-estar' },
+  { icon: Shirt,    label: 'Moda e Acessórios' },
+  { icon: Heart,    label: 'Saúde e Bem-estar' },
   { icon: Sparkles, label: 'Beleza e Cosméticos' },
-  { icon: Baby, label: 'Infantil' },
-  { icon: Coffee, label: 'Alimentos e Bebidas' },
-  { icon: Home, label: 'Casa e Decoração' },
+  { icon: Baby,     label: 'Infantil' },
+  { icon: Coffee,   label: 'Alimentos e Bebidas' },
+  { icon: Home,     label: 'Casa e Decoração' },
   { icon: PawPrint, label: 'Pet' },
   { icon: Dumbbell, label: 'Esportes' },
 ]
@@ -39,12 +56,16 @@ export default function BrandsStrip() {
         <div className="overflow-hidden mb-8">
           <div className="flex gap-12 whitespace-nowrap animate-marquee">
             {allBrands.map((brand, i) => (
-              <span
-                key={i}
-                className="text-black/40 font-bold text-lg tracking-widest uppercase flex-shrink-0"
-              >
-                {brand}
-              </span>
+              <div key={i} className="flex-shrink-0 flex items-center justify-center h-10 w-28">
+                <Image
+                  src={brand.logo}
+                  alt={brand.name}
+                  width={120}
+                  height={40}
+                  className="h-8 w-auto object-contain grayscale opacity-50 hover:opacity-80 hover:grayscale-0 transition-all duration-300"
+                  loading="lazy"
+                />
+              </div>
             ))}
           </div>
         </div>
