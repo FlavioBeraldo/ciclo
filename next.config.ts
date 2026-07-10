@@ -59,6 +59,12 @@ const nextConfig: NextConfig = {
       { source: '/solucoes',  destination: '/', permanent: true },
       { source: '/solucoes/', destination: '/', permanent: true },
 
+      // ── Método (página antiga do WP; conteúdo hoje vive na consultoria) ───
+      { source: '/metodo',       destination: '/consultoria-para-e-commerce', permanent: true },
+      { source: '/metodo/',      destination: '/consultoria-para-e-commerce', permanent: true },
+      { source: '/metodologia',  destination: '/consultoria-para-e-commerce', permanent: true },
+      { source: '/metodologia/', destination: '/consultoria-para-e-commerce', permanent: true },
+
       // ── Company pages ─────────────────────────────────────────────────────
       { source: '/contato',           destination: '/consultoria-para-e-commerce', permanent: true },
       { source: '/contato/',          destination: '/consultoria-para-e-commerce', permanent: true },
