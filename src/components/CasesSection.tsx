@@ -16,6 +16,7 @@ const cases = [
     ],
     color: '#1a0a1a',
     image: '/cases/mamo.jpg' as string | null,
+    imagePosition: 'object-top',
   },
   {
     brand: 'GoPro Brasil',
@@ -111,7 +112,7 @@ export default function CasesSection() {
               <div className="w-full h-40 overflow-hidden bg-white/5 border-b border-white/8 flex items-center justify-center">
                 {c.image ? (
                   // eslint-disable-next-line @next/next/no-img-element
-                  <img src={c.image} alt={c.brand} className="w-full h-full object-cover object-center" loading="lazy" />
+                  <img src={c.image} alt={c.brand} className={`w-full h-full object-cover ${c.imagePosition ?? 'object-center'}`} loading="lazy" />
                 ) : (
                   <span className="text-[#A1A1AA]/25 text-xs tracking-widest uppercase">Imagem</span>
                 )}
