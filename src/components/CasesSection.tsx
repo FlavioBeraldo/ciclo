@@ -10,6 +10,8 @@ const cases = [
   {
     brand: 'Mamô Brasil',
     category: 'Lifestyle',
+    challenge: 'Crescer com consistência e transformar compradores de primeira compra em clientes recorrentes.',
+    action: 'Full Funnel Marketing: aquisição paga integrada a CRM e réguas de retenção.',
     metrics: [
       { label: 'Vendas YoY', value: '+200%' },
       { label: 'LTV', value: '+57%' },
@@ -21,6 +23,8 @@ const cases = [
   {
     brand: 'GoPro Brasil',
     category: 'Esportes',
+    challenge: 'Escalar as vendas no Brasil sem deixar o custo de aquisição subir junto.',
+    action: 'Mídia paga full funnel com otimização contínua de campanhas e criativos.',
     metrics: [
       { label: 'Vendas YoY', value: '+120%' },
       { label: 'CAC', value: '-37%' },
@@ -31,6 +35,8 @@ const cases = [
   {
     brand: 'Jack Links',
     category: 'Alimentação',
+    challenge: 'Fazer o consumidor buscar a marca pelo nome, sem depender só de mídia de captação.',
+    action: 'Geração de demanda: conteúdo e mídia de topo de funil para construir a marca.',
     metrics: [
       { label: 'Branded Search YoY', value: '+57%' },
       { label: 'CAC', value: '-46%' },
@@ -41,6 +47,8 @@ const cases = [
   {
     brand: 'Gringa',
     category: 'Fashion',
+    challenge: 'Clientes levavam meses para voltar a comprar depois do primeiro pedido.',
+    action: 'CRM e automações de recompra, com programas de fidelização e indicação.',
     metrics: [
       { label: 'Taxa de Recompra YoY', value: '+35%' },
       { label: 'Taxa de Indicação YoY', value: '+20%' },
@@ -105,7 +113,7 @@ export default function CasesSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.05 }}
-              className="flex-shrink-0 w-72 sm:w-80 rounded-2xl border border-white/8 overflow-hidden hover:border-[#A100FF]/30 transition-colors snap-start"
+              className="flex-shrink-0 w-72 sm:w-80 flex flex-col rounded-2xl border border-white/8 overflow-hidden hover:border-[#A100FF]/30 transition-colors snap-start"
               style={{ background: `linear-gradient(135deg, ${c.color}, #050505)` }}
             >
               {/* Image slot */}
@@ -118,18 +126,31 @@ export default function CasesSection() {
                 )}
               </div>
 
-              <div className="p-6 flex flex-col gap-4">
+              <div className="p-6 flex flex-col gap-4 flex-1">
                 <div>
                   <span className="text-xs text-[#A100FF] font-medium uppercase tracking-wider">{c.category}</span>
                   <h3 className="text-xl font-bold text-white mt-1">{c.brand}</h3>
                 </div>
-                <div className={`grid gap-2 ${c.metrics.length === 3 ? 'grid-cols-3' : 'grid-cols-2'}`}>
-                  {c.metrics.map((m) => (
-                    <div key={m.label} className="bg-black/30 rounded-xl p-3">
-                      <p className="text-xl font-bold text-white leading-tight">{m.value}</p>
-                      <p className="text-[10px] text-[#A1A1AA] mt-0.5 leading-tight">{m.label}</p>
-                    </div>
-                  ))}
+                <div className="flex flex-col gap-3 flex-1">
+                  <div>
+                    <p className="text-[10px] font-bold uppercase tracking-widest text-[#A1A1AA] mb-1">Desafio</p>
+                    <p className="text-[13px] text-[#D4D4D8] leading-snug">{c.challenge}</p>
+                  </div>
+                  <div>
+                    <p className="text-[10px] font-bold uppercase tracking-widest text-[#A1A1AA] mb-1">Ação</p>
+                    <p className="text-[13px] text-[#D4D4D8] leading-snug">{c.action}</p>
+                  </div>
+                </div>
+                <div>
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-[#A100FF] mb-2">Resultado</p>
+                  <div className={`grid gap-2 ${c.metrics.length === 3 ? 'grid-cols-3' : 'grid-cols-2'}`}>
+                    {c.metrics.map((m) => (
+                      <div key={m.label} className="bg-black/30 rounded-xl p-3">
+                        <p className="text-xl font-bold text-white leading-tight">{m.value}</p>
+                        <p className="text-[10px] text-[#A1A1AA] mt-0.5 leading-tight">{m.label}</p>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
             </m.div>
