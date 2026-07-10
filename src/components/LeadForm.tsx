@@ -13,7 +13,8 @@ const schema = z.object({
   email: z.string().email('E-mail inválido'),
   company: z.string().min(1, 'Empresa é obrigatória'),
   phone: z.string().min(1, 'WhatsApp é obrigatório'),
-  storeUrl: z.string().optional(),
+  monthlyRevenue: z.string().min(1, 'Selecione a faixa de faturamento'),
+  segment: z.string().min(1, 'Selecione o segmento'),
   message: z.string().min(20, 'Descreva melhor o seu desafio (mínimo 20 caracteres)'),
   lgpd: z.boolean().refine((v) => v === true, 'Aceite a política de privacidade para continuar'),
 })
@@ -22,6 +23,29 @@ type FormData = z.infer<typeof schema>
 
 const inputClass =
   'w-full bg-white/5 border border-white/15 rounded-xl px-4 py-3 text-white placeholder-white/30 text-sm focus:outline-none focus:border-[#A100FF] focus:ring-1 focus:ring-[#A100FF] transition-all'
+
+const selectClass = `${inputClass} appearance-none cursor-pointer [&>option]:bg-[#0a0a0a] [&>option]:text-white`
+
+const revenueRanges = [
+  'Até R$ 50 mil/mês',
+  'R$ 50 mil a R$ 200 mil/mês',
+  'R$ 200 mil a R$ 1 milhão/mês',
+  'Acima de R$ 1 milhão/mês',
+]
+
+const segments = [
+  'Moda e Acessórios',
+  'Beleza e Cosméticos',
+  'Saúde e Suplementos',
+  'Casa e Decoração',
+  'Alimentos e Bebidas',
+  'Eletrônicos e Tecnologia',
+  'Esporte e Lazer',
+  'Pet',
+  'Infantil',
+  'Joias e Semijoias',
+  'Outro',
+]
 
 const labelClass = 'block text-sm text-[#A1A1AA] mb-1.5'
 const errorClass = 'text-red-400 text-xs mt-1'
@@ -100,14 +124,26 @@ export default function LeadForm() {
               error={errors.phone?.message}
             />
 
-            <div className="sm:col-span-2">
-              <label className={labelClass}>URL da loja</label>
-              <input
-                {...register('storeUrl')}
-                
-                placeholder="sualoja.com.br"
-                className={inputClass}
-              />
+            <div>
+              <label className={labelClass}>Faturamento mensal *</label>
+              <select {...register('monthlyRevenue')} defaultValue="" className={selectClass}>
+                <option value="" disabled>Selecione a faixa</option>
+                {revenueRanges.map((range) => (
+                  <option key={range} value={range}>{range}</option>
+                ))}
+              </select>
+              {errors.monthlyRevenue && <p className={errorClass}>{errors.monthlyRevenue.message}</p>}
+            </div>
+
+            <div>
+              <label className={labelClass}>Segmento *</label>
+              <select {...register('segment')} defaultValue="" className={selectClass}>
+                <option value="" disabled>Selecione o segmento</option>
+                {segments.map((segment) => (
+                  <option key={segment} value={segment}>{segment}</option>
+                ))}
+              </select>
+              {errors.segment && <p className={errorClass}>{errors.segment.message}</p>}
             </div>
 
             <div className="sm:col-span-2">

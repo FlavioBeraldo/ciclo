@@ -130,9 +130,11 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    const { name, email, phone, whatsapp, company, message, storeUrl } = await req.json()
+    const { name, email, phone, whatsapp, company, message, storeUrl, monthlyRevenue, segment } = await req.json()
     const phoneNumber = phone ?? whatsapp ?? ''
     const objetivo = [
+      monthlyRevenue ? `Faturamento mensal: ${monthlyRevenue}` : null,
+      segment ? `Segmento: ${segment}` : null,
       storeUrl ? `URL da loja: ${storeUrl}` : null,
       message || null,
     ].filter(Boolean).join('\n\n')
