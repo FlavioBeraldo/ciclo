@@ -15,7 +15,7 @@ const cases = [
       { label: 'LTV', value: '+57%' },
     ],
     color: '#1a0a1a',
-    image: '/cases/mamo.svg' as string | null,
+    image: '/cases/mamo.jpg' as string | null,
   },
   {
     brand: 'GoPro Brasil',
@@ -25,7 +25,7 @@ const cases = [
       { label: 'CAC', value: '-37%' },
     ],
     color: '#0a1a0a',
-    image: '/cases/gopro.svg' as string | null,
+    image: '/cases/gopro.jpg' as string | null,
   },
   {
     brand: 'Jack Links',
@@ -35,7 +35,7 @@ const cases = [
       { label: 'CAC', value: '-46%' },
     ],
     color: '#1a1a0a',
-    image: '/cases/jacklinks.svg' as string | null,
+    image: '/cases/jacklinks.jpg' as string | null,
   },
   {
     brand: 'Gringa',
@@ -46,7 +46,7 @@ const cases = [
       { label: 'Recência de Compra', value: '120→55 dias' },
     ],
     color: '#0a0a1a',
-    image: '/cases/gringa.svg' as string | null,
+    image: '/cases/gringa.jpg' as string | null,
   },
 ]
 
@@ -111,7 +111,7 @@ export default function CasesSection() {
               <div className="w-full h-40 overflow-hidden bg-white/5 border-b border-white/8 flex items-center justify-center">
                 {c.image ? (
                   // eslint-disable-next-line @next/next/no-img-element
-                  <img src={c.image} alt={c.brand} className="w-full h-full object-cover object-left" loading="lazy" />
+                  <img src={c.image} alt={c.brand} className="w-full h-full object-cover object-center" loading="lazy" />
                 ) : (
                   <span className="text-[#A1A1AA]/25 text-xs tracking-widest uppercase">Imagem</span>
                 )}
