@@ -22,7 +22,7 @@ const cases = [
   },
   {
     brand: 'GoPro Brasil',
-    category: 'Esportes',
+    category: 'Tecnologia',
     challenge: 'Escalar as vendas no Brasil sem deixar o custo de aquisição subir junto.',
     action: 'Mídia paga full funnel com otimização contínua de campanhas e criativos.',
     metrics: [
@@ -34,7 +34,7 @@ const cases = [
   },
   {
     brand: 'Jack Links',
-    category: 'Alimentação',
+    category: 'D2C',
     challenge: 'Construir um canal de vendas D2C no Brasil.',
     action: 'Estruturação e operação de canais como flagship própria e marketplaces.',
     metrics: [
