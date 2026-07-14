@@ -9,7 +9,7 @@ import Section from './ui/Section'
 const cases = [
   {
     brand: 'Mamô Brasil',
-    category: 'Lifestyle',
+    category: 'Fashion',
     challenge: 'Crescer com consistência e transformar compradores de primeira compra em clientes recorrentes.',
     action: 'Full Funnel Marketing: aquisição paga integrada a CRM e réguas de retenção.',
     metrics: [
@@ -35,8 +35,8 @@ const cases = [
   {
     brand: 'Jack Links',
     category: 'Alimentação',
-    challenge: 'Fazer o consumidor buscar a marca pelo nome, sem depender só de mídia de captação.',
-    action: 'Geração de demanda: conteúdo e mídia de topo de funil para construir a marca.',
+    challenge: 'Construir um canal de vendas D2C no Brasil.',
+    action: 'Estruturação e operação de canais como flagship própria e marketplaces.',
     metrics: [
       { label: 'Branded Search YoY', value: '+57%' },
       { label: 'CAC', value: '-46%' },
@@ -46,7 +46,7 @@ const cases = [
   },
   {
     brand: 'Gringa',
-    category: 'Fashion',
+    category: 'Fashion Luxury',
     challenge: 'Clientes levavam meses para voltar a comprar depois do primeiro pedido.',
     action: 'CRM e automações de recompra, com programas de fidelização e indicação.',
     metrics: [
