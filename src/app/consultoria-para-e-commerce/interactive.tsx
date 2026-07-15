@@ -45,7 +45,6 @@ const audiences = [
 
 export default function ConsultoriaInteractive() {
   return (
-  return (
     <>
       {/* HERO */}
       <section className="relative bg-[#050505] pt-32 pb-20 overflow-hidden">
