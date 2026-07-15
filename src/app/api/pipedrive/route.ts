@@ -130,10 +130,10 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    const { name, email, phone, whatsapp, company, message, storeUrl, monthlyRevenue, segment } = await req.json()
+    const { name, email, phone, whatsapp, company, message, storeUrl, annualRevenue, segment } = await req.json()
     const phoneNumber = phone ?? whatsapp ?? ''
     const objetivo = [
-      monthlyRevenue ? `Faturamento mensal: ${monthlyRevenue}` : null,
+      annualRevenue ? `Faturamento anual: ${annualRevenue}` : null,
       segment ? `Segmento: ${segment}` : null,
       storeUrl ? `URL da loja: ${storeUrl}` : null,
       message || null,

@@ -13,7 +13,7 @@ const schema = z.object({
   email: z.string().email('E-mail inválido'),
   company: z.string().min(1, 'Empresa é obrigatória'),
   phone: z.string().min(1, 'WhatsApp é obrigatório'),
-  monthlyRevenue: z.string().min(1, 'Selecione a faixa de faturamento'),
+  annualRevenue: z.string().min(1, 'Selecione a faixa de faturamento'),
   segment: z.string().min(1, 'Selecione o segmento'),
   message: z.string().min(20, 'Descreva melhor o seu desafio (mínimo 20 caracteres)'),
   lgpd: z.boolean().refine((v) => v === true, 'Aceite a política de privacidade para continuar'),
@@ -27,10 +27,10 @@ const inputClass =
 const selectClass = `${inputClass} appearance-none cursor-pointer [&>option]:bg-[#0a0a0a] [&>option]:text-white`
 
 const revenueRanges = [
-  'Até R$ 50 mil/mês',
-  'R$ 50 mil a R$ 200 mil/mês',
-  'R$ 200 mil a R$ 1 milhão/mês',
-  'Acima de R$ 1 milhão/mês',
+  'R$ 5 a R$ 10 milhões/ano',
+  'R$ 10 a R$ 30 milhões/ano',
+  'R$ 30 a R$ 50 milhões/ano',
+  'Acima de R$ 50 milhões/ano',
 ]
 
 const segments = [
@@ -125,14 +125,14 @@ export default function LeadForm() {
             />
 
             <div>
-              <label className={labelClass}>Faturamento mensal *</label>
-              <select {...register('monthlyRevenue')} defaultValue="" className={selectClass}>
+              <label className={labelClass}>Faturamento anual *</label>
+              <select {...register('annualRevenue')} defaultValue="" className={selectClass}>
                 <option value="" disabled>Selecione a faixa</option>
                 {revenueRanges.map((range) => (
                   <option key={range} value={range}>{range}</option>
                 ))}
               </select>
-              {errors.monthlyRevenue && <p className={errorClass}>{errors.monthlyRevenue.message}</p>}
+              {errors.annualRevenue && <p className={errorClass}>{errors.annualRevenue.message}</p>}
             </div>
 
             <div>

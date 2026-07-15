@@ -5,9 +5,10 @@ import { m, AnimatePresence } from 'framer-motion'
 import { Play, X, CheckCircle, Zap, Target, Repeat, BarChart3 } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
+import CasesSection from '@/components/CasesSection'
 
 const metrics = [
-  { value: '+9', label: 'anos de experiência' },
+  { value: '+10', label: 'anos de experiência' },
   { value: '+300', label: 'marcas atendidas' },
   { value: '+R$ 350MM', label: 'em receita gerada' },
   { value: '-35%', label: 'de CAC em média' },
@@ -82,12 +83,6 @@ const frameworkCycles = [
   },
 ]
 
-const cases = [
-  { brand: 'Mamô Brasil', category: 'Lifestyle', metrics: ['+200% Vendas YoY', '+57% LTV'] },
-  { brand: 'GoPro Brasil', category: 'Esportes', metrics: ['+120% Vendas YoY', '-37% CAC'] },
-  { brand: 'Jack Links', category: 'Alimentação', metrics: ['+57% Branded Search', '-46% CAC'] },
-  { brand: 'Gringa', category: 'Fashion', metrics: ['+35% Recompra', '120→55 dias recência'] },
-]
 
 export default function ObrigadoInteractive() {
   const [activeVideo, setActiveVideo] = useState<string | null>(null)
@@ -153,7 +148,7 @@ export default function ObrigadoInteractive() {
             <div>
               <p className="text-[#A100FF] text-xs font-bold uppercase tracking-widest mb-4">Nossa história</p>
               <h2 className="text-3xl sm:text-4xl font-bold mb-6">
-                9 anos construindo<br />
+                Mais de 10 anos construindo<br />
                 <span className="text-[#A100FF]">e-commerces de alta performance</span>
               </h2>
               <div className="space-y-4 text-[#A1A1AA] text-base leading-relaxed">
@@ -161,7 +156,7 @@ export default function ObrigadoInteractive() {
                   A Ciclo nasceu da convicção de que <span className="text-white">crescimento sustentável em e-commerce exige uma visão completa do funil</span> — não apenas tráfego pago ou conteúdo isolado, mas uma estratégia integrada que conecta todos os pontos da jornada do consumidor.
                 </p>
                 <p>
-                  Ao longo de 9 anos, desenvolvemos um método próprio que já foi aplicado em <span className="text-white">mais de 300 marcas</span> de diferentes segmentos — de moda e beleza a alimentos, esportes e eletrônicos. Cada operação nos ensinou algo novo, e todo esse conhecimento está consolidado na forma como trabalhamos hoje.
+                  Ao longo de mais de 10 anos, desenvolvemos um método próprio que já foi aplicado em <span className="text-white">mais de 300 marcas</span> de diferentes segmentos — de moda e beleza a alimentos, esportes e eletrônicos. Cada operação nos ensinou algo novo, e todo esse conhecimento está consolidado na forma como trabalhamos hoje.
                 </p>
                 <p>
                   Não somos uma agência de mídia paga. Somos um <span className="text-white">parceiro estratégico de crescimento</span> que entende o seu negócio de ponta a ponta.
@@ -292,42 +287,8 @@ export default function ObrigadoInteractive() {
         </div>
       </section>
 
-      {/* CASES — métricas */}
-      <section className="py-20 bg-[#080808]">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <m.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-12"
-          >
-            <p className="text-[#A100FF] text-xs font-bold uppercase tracking-widest mb-3">Cases de sucesso</p>
-            <h2 className="text-3xl sm:text-4xl font-bold">Marcas que já transformamos</h2>
-          </m.div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {cases.map((c, i) => (
-              <m.div
-                key={c.brand}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.05 }}
-                className="bg-white/3 border border-white/8 rounded-2xl p-6 hover:border-[#A100FF]/30 transition-colors"
-              >
-                <p className="text-xs text-[#A100FF] font-medium uppercase tracking-wider mb-1">{c.category}</p>
-                <h3 className="font-bold text-white mb-4">{c.brand}</h3>
-                <div className="space-y-2">
-                  {c.metrics.map((metric) => (
-                    <div key={metric} className="bg-black/30 rounded-xl px-3 py-2">
-                      <p className="text-sm font-bold text-white">{metric}</p>
-                    </div>
-                  ))}
-                </div>
-              </m.div>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* CASES — mesmo formato da home */}
+      <CasesSection />
 
       {/* VÍDEOS DE DEPOIMENTOS */}
       <section className="py-20 bg-[#050505]">
