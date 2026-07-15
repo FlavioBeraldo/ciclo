@@ -48,7 +48,6 @@ function ConversionBars() {
 
 export default function TikTokShopContent() {
   return (
-  return (
     <>
       {/* ── HERO ── */}
       <section className="relative bg-[#010101] pt-32 pb-20 overflow-hidden">
