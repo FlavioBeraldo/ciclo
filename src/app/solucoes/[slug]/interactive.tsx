@@ -1,33 +1,11 @@
 'use client'
 
 import { useState } from 'react'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod/v4'
 import { motion, AnimatePresence } from 'framer-motion'
-import { CheckCircle, ChevronDown } from 'lucide-react'
-import PhoneField from '@/components/ui/PhoneField'
-import Button from '@/components/ui/Button'
+import { ChevronDown } from 'lucide-react'
+import LeadForm from '@/components/LeadForm'
 import type { Solucao } from '@/lib/solucoes'
 
-// ─── Zod schema ───────────────────────────────────────────────────────────────
-
-const formSchema = z.object({
-  name: z.string().min(2, 'Nome deve ter ao menos 2 caracteres'),
-  email: z.string().email('E-mail inválido'),
-  company: z.string().min(1, 'Empresa é obrigatória'),
-  whatsapp: z.string().min(10, 'WhatsApp inválido'),
-  storeUrl: z.string().optional(),
-  message: z.string().min(20, 'Descreva melhor o seu desafio (mínimo 20 caracteres)'),
-  lgpd: z.boolean().refine((v) => v === true, 'Aceite a política de privacidade para continuar'),
-})
-
-type FormData = z.infer<typeof formSchema>
-
-const inputClass =
-  'w-full bg-white/5 border border-white/15 rounded-xl px-4 py-3 text-white placeholder-white/30 text-sm focus:outline-none focus:border-[#A100FF] focus:ring-1 focus:ring-[#A100FF] transition-all'
-
-const errorClass = 'text-red-400 text-xs mt-1'
 
 // ─── FAQ item ─────────────────────────────────────────────────────────────────
 
@@ -71,182 +49,6 @@ function FaqItem({ q, a, index }: { q: string; a: string; index: number }) {
   )
 }
 
-// ─── Lead form ────────────────────────────────────────────────────────────────
-
-function InlineLeadForm({ serviceName }: { serviceName: string }) {
-  const [submitted, setSubmitted] = useState(false)
-  const {
-    register,
-    control,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-  } = useForm<FormData>({
-    resolver: zodResolver(formSchema),
-  })
-
-  const onSubmit = async (data: FormData) => {
-    try {
-      await fetch('/api/pipedrive', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...data, source: `Site/WhatsApp – Solução: ${serviceName}` }),
-      })
-    } catch {
-      // Falha no Pipedrive não bloqueia o redirect
-    }
-    window.location.href = '/obrigado'
-  }
-
-  return (
-    <section className="py-20 lg:py-32 bg-[#050505] relative overflow-hidden -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8">
-      {/* Background glow */}
-      <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#A100FF]/10 via-transparent to-[#A100FF]/5" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] rounded-full bg-[#A100FF]/10 blur-[120px]" />
-      </div>
-
-      <div className="max-w-3xl mx-auto relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-10"
-        >
-          <p className="text-xs font-bold text-[#A100FF] uppercase tracking-widest mb-3">
-            Fale com um especialista
-          </p>
-          <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-            Pronto para crescer com{' '}
-            <span className="text-[#A100FF]">{serviceName}?</span>
-          </h2>
-          <p className="text-[#A1A1AA]">
-            Agende uma conversa estratégica sem compromisso e descubra o que a Ciclo pode fazer pela sua marca.
-          </p>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="bg-white/3 border border-white/8 rounded-2xl p-8 backdrop-blur-sm"
-        >
-          <AnimatePresence mode="wait">
-            {submitted ? (
-              <motion.div
-                key="success"
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0 }}
-                className="flex flex-col items-center gap-4 py-8 text-center"
-              >
-                <div className="w-16 h-16 rounded-full bg-[#A100FF]/20 flex items-center justify-center">
-                  <CheckCircle className="w-8 h-8 text-[#A100FF]" />
-                </div>
-                <h3 className="text-xl font-bold">Mensagem recebida!</h3>
-                <p className="text-[#A1A1AA] max-w-md">
-                  Recebemos suas informações. Em breve nosso time entrará em contato para agendar sua conversa estratégica.
-                </p>
-              </motion.div>
-            ) : (
-              <motion.form
-                key="form"
-                onSubmit={handleSubmit(onSubmit)}
-                className="grid sm:grid-cols-2 gap-5"
-              >
-                <div>
-                  <label className="block text-sm text-[#A1A1AA] mb-1.5">Nome completo *</label>
-                  <input
-                    {...register('name')}
-                    placeholder="Seu nome"
-                    className={inputClass}
-                  />
-                  {errors.name && <p className={errorClass}>{errors.name.message}</p>}
-                </div>
-
-                <div>
-                  <label className="block text-sm text-[#A1A1AA] mb-1.5">E-mail corporativo *</label>
-                  <input
-                    {...register('email')}
-                    type="email"
-                    placeholder="seu@email.com"
-                    className={inputClass}
-                  />
-                  {errors.email && <p className={errorClass}>{errors.email.message}</p>}
-                </div>
-
-                <div>
-                  <label className="block text-sm text-[#A1A1AA] mb-1.5">Empresa *</label>
-                  <input
-                    {...register('company')}
-                    placeholder="Nome da sua empresa"
-                    className={inputClass}
-                  />
-                  {errors.company && <p className={errorClass}>{errors.company.message}</p>}
-                </div>
-
-                <PhoneField
-                  name="whatsapp"
-                  control={control}
-                  label="WhatsApp *"
-                  required
-                  error={errors.whatsapp?.message}
-                />
-
-                <div className="sm:col-span-2">
-                  <label className="block text-sm text-[#A1A1AA] mb-1.5">URL da loja</label>
-                  <input
-                    {...register('storeUrl')}
-                    
-                    placeholder="sualoja.com.br"
-                    className={inputClass}
-                  />
-                </div>
-
-                <div className="sm:col-span-2">
-                  <label className="block text-sm text-[#A1A1AA] mb-1.5">Descreva a dor atual da sua empresa *</label>
-                  <textarea
-                    {...register('message')}
-                    rows={4}
-                    placeholder="Descreva o principal desafio do seu e-commerce hoje"
-                    className={`${inputClass} resize-none`}
-                  />
-                  {errors.message && <p className={errorClass}>{errors.message.message}</p>}
-                </div>
-
-                <div className="sm:col-span-2">
-                  <p className="text-xs text-[#A1A1AA] mb-4">
-                    Quanto mais contexto você trouxer, melhor conseguimos direcionar a conversa estratégica.
-                  </p>
-                  <label className="flex items-start gap-3 cursor-pointer mb-4">
-                    <input type="checkbox" {...register('lgpd')} className="mt-0.5 w-4 h-4 flex-shrink-0 accent-[#A100FF]" />
-                    <span className="text-xs text-[#A1A1AA] leading-relaxed">
-                      Li e aceito a{' '}
-                      <a href="/politica-de-privacidade" target="_blank" rel="noopener noreferrer" className="text-[#A100FF] underline hover:text-[#8800DD]">
-                        Política de Privacidade
-                      </a>
-                      {' '}e autorizo o uso dos meus dados para contato comercial.
-                    </span>
-                  </label>
-                  {errors.lgpd && <p className="text-red-400 text-xs mb-3">{errors.lgpd.message as string}</p>}
-                  <Button
-                    type="submit"
-                    arrow
-                    size="lg"
-                    disabled={isSubmitting}
-                    className="w-full justify-center"
-                  >
-                    {isSubmitting ? 'Enviando...' : 'Fale com um especialista'}
-                  </Button>
-                </div>
-              </motion.form>
-            )}
-          </AnimatePresence>
-        </motion.div>
-      </div>
-    </section>
-  )
-}
-
 // ─── Exported combined component ─────────────────────────────────────────────
 
 export function SolucaoInteractive({ solucao }: { solucao: Solucao }) {
@@ -279,7 +81,7 @@ export function SolucaoInteractive({ solucao }: { solucao: Solucao }) {
       </section>
 
       {/* Lead form */}
-      <InlineLeadForm serviceName={solucao.title} />
+      <LeadForm />
     </>
   )
 }
