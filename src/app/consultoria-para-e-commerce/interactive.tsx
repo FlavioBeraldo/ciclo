@@ -1,26 +1,8 @@
 'use client'
 
-import { useState } from 'react'
 import { m } from 'framer-motion'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod/v4'
 import { CheckCircle, ChevronRight, Zap, Target, Repeat } from 'lucide-react'
-import PhoneField from '@/components/ui/PhoneField'
-
-const schema = z.object({
-  name: z.string().min(2, 'Nome obrigatório'),
-  email: z.string().email('E-mail inválido'),
-  phone: z.string().optional(),
-  company: z.string().optional(),
-  storeUrl: z.string().optional(),
-  message: z.string().optional(),
-  lgpd: z.boolean().refine((v) => v === true, 'Aceite a política de privacidade para continuar'),
-})
-type FormData = z.infer<typeof schema>
-
-const inputClass =
-  'w-full bg-white/5 border border-white/15 rounded-xl px-4 py-3 text-white placeholder-white/30 text-sm focus:outline-none focus:border-[#A100FF] focus:ring-1 focus:ring-[#A100FF] transition-all'
+import LeadForm from '@/components/LeadForm'
 
 const frameworkCycles = [
   {
@@ -62,25 +44,7 @@ const audiences = [
 ]
 
 export default function ConsultoriaInteractive() {
-  const [submitted, setSubmitted] = useState(false)
-  const { register, control, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm<FormData>({
-    resolver: zodResolver(schema),
-  })
-
-  const onSubmit = async (data: FormData) => {
-    try {
-      await fetch('/api/pipedrive', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...data, source: 'Site/WhatsApp – Consultoria' }),
-      })
-    } catch {
-      // Falha no Pipedrive não bloqueia o redirect
-    }
-    reset()
-    window.location.href = '/obrigado'
-  }
-
+  return (
   return (
     <>
       {/* HERO */}
@@ -227,104 +191,7 @@ export default function ConsultoriaInteractive() {
       </section>
 
       {/* FORM */}
-      <section id="contato" className="py-20 lg:py-28 bg-[#050505] relative overflow-hidden">
-        <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] rounded-full bg-[#A100FF]/5 blur-[100px]" />
-        </div>
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <m.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-12"
-          >
-            <p className="text-[#A100FF] text-xs font-bold uppercase tracking-widest mb-3">Vamos conversar</p>
-            <h2 className="text-3xl sm:text-4xl font-bold mb-4">Fale com um especialista</h2>
-            <p className="text-[#A1A1AA] text-lg">
-              Preencha o formulário e nossa equipe entra em contato para entender como podemos acelerar sua operação.
-            </p>
-          </m.div>
-
-          <m.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-            className="bg-white/3 border border-white/8 rounded-2xl p-8"
-          >
-            {submitted ? (
-              <div className="flex flex-col items-center gap-4 py-8 text-center">
-                <div className="w-16 h-16 rounded-full bg-[#A100FF]/20 flex items-center justify-center">
-                  <CheckCircle className="w-8 h-8 text-[#A100FF]" />
-                </div>
-                <h3 className="text-xl font-bold text-white">Mensagem enviada!</h3>
-                <p className="text-[#A1A1AA]">Nossa equipe entrará em contato em breve.</p>
-              </div>
-            ) : (
-              <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-                <div className="grid sm:grid-cols-2 gap-5">
-                  <div>
-                    <label className="block text-sm text-[#A1A1AA] mb-1.5">Nome *</label>
-                    <input {...register('name')} placeholder="Seu nome completo" className={inputClass} />
-                    {errors.name && <p className="text-red-400 text-xs mt-1">{errors.name.message}</p>}
-                  </div>
-                  <div>
-                    <label className="block text-sm text-[#A1A1AA] mb-1.5">E-mail *</label>
-                    <input {...register('email')} type="email" placeholder="seu@email.com" className={inputClass} />
-                    {errors.email && <p className="text-red-400 text-xs mt-1">{errors.email.message}</p>}
-                  </div>
-                  <PhoneField
-                    name="phone"
-                    control={control}
-                    label="WhatsApp"
-                    error={errors.phone?.message}
-                  />
-                  <div>
-                    <label className="block text-sm text-[#A1A1AA] mb-1.5">Empresa</label>
-                    <input {...register('company')} placeholder="Nome da sua empresa" className={inputClass} />
-                  </div>
-                </div>
-                <div>
-                  <label className="block text-sm text-[#A1A1AA] mb-1.5">URL da loja</label>
-                  <input
-                    {...register('storeUrl')}
-                    
-                    placeholder="sualoja.com.br"
-                    className={inputClass}
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm text-[#A1A1AA] mb-1.5">Como podemos ajudar?</label>
-                  <textarea
-                    {...register('message')}
-                    rows={4}
-                    placeholder="Conte sobre seu negócio e seu principal desafio..."
-                    className={`${inputClass} resize-none`}
-                  />
-                </div>
-                <label className="flex items-start gap-3 cursor-pointer mb-4">
-                  <input type="checkbox" {...register('lgpd')} className="mt-0.5 w-4 h-4 flex-shrink-0 accent-[#A100FF]" />
-                  <span className="text-xs text-[#A1A1AA] leading-relaxed">
-                    Li e aceito a{' '}
-                    <a href="/politica-de-privacidade" target="_blank" rel="noopener noreferrer" className="text-[#A100FF] underline hover:text-[#8800DD]">
-                      Política de Privacidade
-                    </a>
-                    {' '}e autorizo o uso dos meus dados para contato comercial.
-                  </span>
-                </label>
-                {errors.lgpd && <p className="text-red-400 text-xs mb-3">{errors.lgpd.message as string}</p>}
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="w-full py-4 rounded-xl bg-[#A100FF] text-white font-semibold text-base hover:bg-[#8800DD] transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
-                >
-                  {isSubmitting ? 'Enviando...' : 'Quero uma consultoria estratégica'}
-                </button>
-              </form>
-            )}
-          </m.div>
-        </div>
-      </section>
+      <LeadForm />
     </>
   )
 }
