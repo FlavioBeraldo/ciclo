@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 480" role="img" aria-label="Diagrama mostrando que cada ângulo de criativo funciona como uma segmentação: o algoritmo entrega cada mensagem a um público diferente">
+  <style>
+    text { font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif; }
+    .title { font-size: 19px; font-weight: 700; fill: #111827; }
+    .subtitle { font-size: 13px; fill: #6b7280; }
+    .cardTag { font-size: 10.5px; font-weight: 700; fill: #A100FF; letter-spacing: 0.08em; }
+    .cardText { font-size: 14px; font-weight: 600; fill: #111827; }
+    .nodeText { font-size: 13px; font-weight: 700; fill: #ffffff; }
+    .clusterText { font-size: 12px; fill: #6b7280; }
+  </style>
+
+  <rect x="0" y="0" width="840" height="480" rx="16" fill="#ffffff" stroke="#e5e7eb"/>
+
+  <text x="40" y="44" class="title">O criativo é a nova segmentação</text>
+  <text x="40" y="66" class="subtitle">Cada ângulo de mensagem atrai um bolso de audiência diferente — quem define o público é o criativo</text>
+
+  <!-- setas: cards -> algoritmo -->
+  <g fill="none" stroke="#d8b4fe" stroke-width="2">
+    <path d="M 268,160 C 330,160 350,240 396,244"/>
+    <path d="M 268,262 C 320,262 340,258 392,257"/>
+    <path d="M 268,364 C 330,364 350,275 396,268"/>
+  </g>
+  <!-- setas: algoritmo -> públicos -->
+  <g fill="none" stroke="#A100FF" stroke-width="2.5">
+    <path d="M 486,240 C 540,220 560,170 608,158"/>
+    <path d="M 490,256 C 545,256 555,256 606,256"/>
+    <path d="M 486,272 C 540,292 560,342 608,354"/>
+  </g>
+  <g fill="#A100FF">
+    <path d="M 608,158 l -10,-3 3,9 z"/>
+    <path d="M 606,256 l -10,-4.5 0,9 z"/>
+    <path d="M 608,354 l -7,-8 -3,9 z"/>
+  </g>
+
+  <!-- cards de criativo -->
+  <g>
+    <rect x="40" y="122" width="228" height="76" rx="12" fill="#faf5ff" stroke="#A100FF" stroke-opacity="0.35"/>
+    <text x="60" y="152" class="cardTag">ÂNGULO 1</text>
+    <text x="60" y="176" class="cardText">Praticidade no dia a dia</text>
+
+    <rect x="40" y="224" width="228" height="76" rx="12" fill="#faf5ff" stroke="#A100FF" stroke-opacity="0.35"/>
+    <text x="60" y="254" class="cardTag">ÂNGULO 2</text>
+    <text x="60" y="278" class="cardText">Prova social e reviews</text>
+
+    <rect x="40" y="326" width="228" height="76" rx="12" fill="#faf5ff" stroke="#A100FF" stroke-opacity="0.35"/>
+    <text x="60" y="356" class="cardTag">ÂNGULO 3</text>
+    <text x="60" y="380" class="cardText">Comparação com alternativa</text>
+  </g>
+
+  <!-- nó do algoritmo -->
+  <circle cx="441" cy="256" r="48" fill="#111827"/>
+  <circle cx="441" cy="256" r="48" fill="none" stroke="#A100FF" stroke-width="2" stroke-dasharray="4 4"/>
+  <text x="441" y="252" class="nodeText" text-anchor="middle">Algoritmo</text>
+  <text x="441" y="269" text-anchor="middle" style="font-size:10.5px; fill:#9ca3af;">Advantage+ / PMax</text>
+
+  <!-- clusters de público -->
+  <g fill="#A100FF">
+    <g fill-opacity="0.9">
+      <circle cx="650" cy="140" r="7"/><circle cx="676" cy="128" r="5"/><circle cx="700" cy="146" r="6"/>
+      <circle cx="668" cy="158" r="5"/><circle cx="694" cy="168" r="4"/><circle cx="722" cy="134" r="4"/>
+    </g>
+    <g fill-opacity="0.55">
+      <circle cx="650" cy="246" r="6"/><circle cx="676" cy="234" r="5"/><circle cx="702" cy="252" r="7"/>
+      <circle cx="668" cy="266" r="4"/><circle cx="696" cy="274" r="5"/><circle cx="724" cy="240" r="4"/>
+    </g>
+    <g fill-opacity="0.35">
+      <circle cx="650" cy="352" r="6"/><circle cx="676" cy="340" r="6"/><circle cx="702" cy="358" r="5"/>
+      <circle cx="668" cy="372" r="5"/><circle cx="696" cy="380" r="4"/><circle cx="722" cy="346" r="5"/>
+    </g>
+  </g>
+  <g class="clusterText" text-anchor="middle">
+    <text x="686" y="196">Público A</text>
+    <text x="686" y="302">Público B</text>
+    <text x="686" y="408">Público C</text>
+  </g>
+
+  <text x="40" y="448" style="font-size:11.5px; fill:#6b7280;">Três criativos parecidos = um único público. Diversidade de ângulos = alcance novo com CAC sob controle.</text>
+</svg>

@@ -164,6 +164,9 @@ body {
 .article-light .wp-content h4 { font-size: 1.1rem; color: #374151; }
 .article-light .wp-content p { color: #374151; margin-bottom: 1.25rem; line-height: 1.9; font-size: 1.0625rem; }
 .article-light .wp-content ul,.article-light .wp-content ol { margin: 1rem 0 1.25rem 1.5rem; }
+.article-light .wp-content ul { list-style: disc; }
+.article-light .wp-content ol { list-style: decimal; }
+.article-light .wp-content li::marker { color: #A100FF; font-weight: 600; }
 .article-light .wp-content li { color: #374151; margin-bottom: 0.5rem; line-height: 1.75; }
 .article-light .wp-content strong { color: #111827; font-weight: 600; }
 .article-light .wp-content a { color: #A100FF; text-decoration: underline; }

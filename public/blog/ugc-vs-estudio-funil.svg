@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 500" role="img" aria-label="Funil ampulheta mostrando a proporção entre criativos UGC e produção de estúdio em cada etapa: reconhecimento, consideração, compra e recompra">
+  <style>
+    text { font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif; }
+    .title { font-size: 19px; font-weight: 700; fill: #111827; }
+    .subtitle { font-size: 13px; fill: #6b7280; }
+    .stage { font-size: 13.5px; font-weight: 700; fill: #111827; }
+    .barLabel { font-size: 12px; font-weight: 700; fill: #ffffff; }
+    .legend { font-size: 12.5px; fill: #374151; font-weight: 600; }
+    .hint { font-size: 11px; fill: #6b7280; }
+  </style>
+
+  <rect x="0" y="0" width="840" height="500" rx="16" fill="#ffffff" stroke="#e5e7eb"/>
+
+  <text x="40" y="44" class="title">UGC vs. estúdio no funil ampulheta</text>
+  <text x="40" y="66" class="subtitle">A resposta não é um formato só — é a alocação certa em cada etapa</text>
+
+  <!-- legenda -->
+  <g>
+    <rect x="588" y="30" width="14" height="14" rx="4" fill="#A100FF"/>
+    <text x="608" y="42" class="legend">UGC / creators</text>
+    <rect x="722" y="30" width="14" height="14" rx="4" fill="#111827"/>
+    <text x="742" y="42" class="legend">Estúdio</text>
+  </g>
+
+  <!-- Reconhecimento: 75/25, largura 600 -->
+  <text x="120" y="122" class="stage">Reconhecimento</text>
+  <g>
+    <rect x="120" y="132" width="450" height="44" rx="10" fill="#A100FF"/>
+    <rect x="574" y="132" width="146" height="44" rx="10" fill="#111827"/>
+    <text x="140" y="159" class="barLabel">~75% UGC</text>
+    <text x="590" y="159" class="barLabel">25%</text>
+  </g>
+  <text x="120" y="192" class="hint">Parar o dedo de quem nunca viu a marca: ganchos de dor, curiosidade e identificação</text>
+
+  <!-- Consideração: 55/45, largura 480 -->
+  <text x="180" y="230" class="stage">Consideração</text>
+  <g>
+    <rect x="180" y="240" width="264" height="44" rx="10" fill="#A100FF"/>
+    <rect x="448" y="240" width="212" height="44" rx="10" fill="#111827"/>
+    <text x="200" y="267" class="barLabel">~55% UGC</text>
+    <text x="464" y="267" class="barLabel">45% estúdio</text>
+  </g>
+  <text x="180" y="300" class="hint">Responder objeções: demonstração, review com profundidade, produto e diferencial</text>
+
+  <!-- Compra: 30/70, largura 360 -->
+  <text x="240" y="338" class="stage">Compra</text>
+  <g>
+    <rect x="240" y="348" width="108" height="44" rx="10" fill="#A100FF"/>
+    <rect x="352" y="348" width="248" height="44" rx="10" fill="#111827"/>
+    <text x="254" y="375" class="barLabel">30%</text>
+    <text x="368" y="375" class="barLabel">~70% estúdio + prova social</text>
+  </g>
+  <text x="240" y="408" class="hint">Segurança para fechar: qualidade de imagem, depoimentos, oferta com direção de arte</text>
+
+  <!-- Recompra: 50/50, largura 480 -->
+  <text x="180" y="446" class="stage">Recompra e fidelização</text>
+  <g>
+    <rect x="180" y="456" width="240" height="34" rx="10" fill="#A100FF"/>
+    <rect x="424" y="456" width="240" height="34" rx="10" fill="#111827"/>
+    <text x="200" y="478" class="barLabel">50% UGC</text>
+    <text x="440" y="478" class="barLabel">50% estúdio</text>
+  </g>
+</svg>

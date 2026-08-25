@@ -14,6 +14,9 @@ if (!existsSync(standalone)) {
 const copies = [
   [join(root, 'public'), join(standalone, 'public')],
   [join(root, '.next', 'static'), join(standalone, '.next', 'static')],
+  // Keystatic posts are read from the filesystem at runtime (blog listing,
+  // ISR revalidation and sitemap), so content/ must ship with the server.
+  [join(root, 'content'), join(standalone, 'content')],
 ]
 
 for (const [src, dest] of copies) {

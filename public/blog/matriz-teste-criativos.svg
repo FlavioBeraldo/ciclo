@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 500" role="img" aria-label="Matriz de teste de criativos cruzando ângulos de venda com formatos, e hooks como terceira dimensão, com a ordem de teste: primeiro ângulo, depois formato, por último hook">
+  <style>
+    text { font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif; }
+    .title { font-size: 19px; font-weight: 700; fill: #111827; }
+    .subtitle { font-size: 13px; fill: #6b7280; }
+    .axisLabel { font-size: 12px; font-weight: 700; fill: #A100FF; letter-spacing: 0.06em; }
+    .rowLabel { font-size: 12.5px; font-weight: 600; fill: #111827; }
+    .colLabel { font-size: 12.5px; font-weight: 600; fill: #111827; }
+    .cell { fill: #faf5ff; stroke: #e9d5ff; }
+    .win { fill: #A100FF; }
+    .order { font-size: 12.5px; fill: #374151; }
+    .orderNum { font-size: 13px; font-weight: 700; fill: #ffffff; }
+    .chip { font-size: 11px; fill: #374151; }
+  </style>
+
+  <rect x="0" y="0" width="840" height="500" rx="16" fill="#ffffff" stroke="#e5e7eb"/>
+
+  <text x="40" y="44" class="title">A matriz ângulo × formato × hook</text>
+  <text x="40" y="66" class="subtitle">Cada célula é uma hipótese de anúncio — e cada resultado vira aprendizado registrado</text>
+
+  <!-- eixo colunas: formatos -->
+  <text x="240" y="112" class="axisLabel">FORMATO →</text>
+  <g class="colLabel" text-anchor="middle">
+    <text x="290" y="140">UGC</text>
+    <text x="410" y="140">Estático</text>
+    <text x="530" y="140">Carrossel</text>
+    <text x="650" y="140">Estúdio</text>
+  </g>
+
+  <!-- eixo linhas: ângulos -->
+  <text x="40" y="140" class="axisLabel">ÂNGULO ↓</text>
+  <g class="rowLabel">
+    <text x="40" y="186">Dor resolvida</text>
+    <text x="40" y="256">Prova social</text>
+    <text x="40" y="326">Comparação</text>
+    <text x="40" y="396">Oferta</text>
+  </g>
+
+  <!-- grade 4x4: células 110x56, x inicial 235, y inicial 156 -->
+  <g>
+    <rect x="235" y="156" width="110" height="56" rx="10" class="win"/>
+    <rect x="355" y="156" width="110" height="56" rx="10" class="cell"/>
+    <rect x="475" y="156" width="110" height="56" rx="10" class="cell"/>
+    <rect x="595" y="156" width="110" height="56" rx="10" class="win" fill-opacity="0.55"/>
+
+    <rect x="235" y="226" width="110" height="56" rx="10" class="win" fill-opacity="0.75"/>
+    <rect x="355" y="226" width="110" height="56" rx="10" class="cell"/>
+    <rect x="475" y="226" width="110" height="56" rx="10" class="cell"/>
+    <rect x="595" y="226" width="110" height="56" rx="10" class="cell"/>
+
+    <rect x="235" y="296" width="110" height="56" rx="10" class="cell"/>
+    <rect x="355" y="296" width="110" height="56" rx="10" class="cell"/>
+    <rect x="475" y="296" width="110" height="56" rx="10" class="cell"/>
+    <rect x="595" y="296" width="110" height="56" rx="10" class="cell"/>
+
+    <rect x="235" y="366" width="110" height="56" rx="10" class="cell"/>
+    <rect x="355" y="366" width="110" height="56" rx="10" class="win" fill-opacity="0.4"/>
+    <rect x="475" y="366" width="110" height="56" rx="10" class="cell"/>
+    <rect x="595" y="366" width="110" height="56" rx="10" class="cell"/>
+  </g>
+
+  <!-- chips de hook dentro da célula vencedora -->
+  <g>
+    <rect x="245" y="166" width="42" height="16" rx="8" fill="#ffffff" fill-opacity="0.9"/>
+    <text x="266" y="178" class="chip" text-anchor="middle">hook A</text>
+    <rect x="292" y="166" width="42" height="16" rx="8" fill="#ffffff" fill-opacity="0.6"/>
+    <text x="313" y="178" class="chip" text-anchor="middle">hook B</text>
+    <rect x="245" y="188" width="42" height="16" rx="8" fill="#ffffff" fill-opacity="0.6"/>
+    <text x="266" y="200" class="chip" text-anchor="middle">hook C</text>
+  </g>
+
+  <!-- ordem de teste -->
+  <g>
+    <circle cx="52" cy="446" r="12" fill="#A100FF"/>
+    <text x="52" y="451" class="orderNum" text-anchor="middle">1</text>
+    <text x="72" y="451" class="order">Valide <tspan font-weight="700">ângulos</tspan></text>
+
+    <circle cx="252" cy="446" r="12" fill="#A100FF" fill-opacity="0.75"/>
+    <text x="252" y="451" class="orderNum" text-anchor="middle">2</text>
+    <text x="272" y="451" class="order"><tspan font-weight="700">Formatos</tspan> nos ângulos vencedores</text>
+
+    <circle cx="532" cy="446" r="12" fill="#A100FF" fill-opacity="0.5"/>
+    <text x="532" y="451" class="orderNum" text-anchor="middle">3</text>
+    <text x="552" y="451" class="order"><tspan font-weight="700">Hooks</tspan> nas combinações vencedoras</text>
+  </g>
+</svg>

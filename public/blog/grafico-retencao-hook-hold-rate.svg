@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 520" role="img" aria-label="Gráfico de retenção de audiência de um vídeo de anúncio mostrando as zonas de hook rate (0 a 3 segundos), hold rate (3 a 15 segundos) e ThruPlay">
+  <defs>
+    <linearGradient id="curveFill" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#A100FF" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#A100FF" stop-opacity="0.02"/>
+    </linearGradient>
+  </defs>
+  <style>
+    text { font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif; }
+    .title { font-size: 19px; font-weight: 700; fill: #111827; }
+    .subtitle { font-size: 13px; fill: #6b7280; }
+    .zoneLabel { font-size: 14px; font-weight: 700; }
+    .zoneFormula { font-size: 11.5px; fill: #6b7280; }
+    .axis { font-size: 11.5px; fill: #9ca3af; }
+    .pct { font-size: 12.5px; font-weight: 700; fill: #111827; }
+    .note { font-size: 11.5px; fill: #6b7280; }
+  </style>
+
+  <!-- fundo -->
+  <rect x="0" y="0" width="840" height="520" rx="16" fill="#ffffff" stroke="#e5e7eb"/>
+
+  <!-- título -->
+  <text x="40" y="44" class="title">Curva de retenção do vídeo</text>
+  <text x="40" y="66" class="subtitle">Onde cada métrica de criativo é lida — % da audiência que continua assistindo</text>
+
+  <!-- zonas -->
+  <!-- área do gráfico: x 70..790, y 110..420 -->
+  <rect x="70" y="110" width="72" height="310" fill="#A100FF" fill-opacity="0.12"/>
+  <rect x="142" y="110" width="288" height="310" fill="#A100FF" fill-opacity="0.05"/>
+  <rect x="430" y="110" width="360" height="310" fill="#f3f4f6" fill-opacity="0.6"/>
+
+  <!-- linhas de grade horizontais -->
+  <g stroke="#e5e7eb" stroke-width="1">
+    <line x1="70" y1="110" x2="790" y2="110"/>
+    <line x1="70" y1="187.5" x2="790" y2="187.5"/>
+    <line x1="70" y1="265" x2="790" y2="265"/>
+    <line x1="70" y1="342.5" x2="790" y2="342.5"/>
+    <line x1="70" y1="420" x2="790" y2="420"/>
+  </g>
+  <g class="axis" text-anchor="end">
+    <text x="62" y="114">100%</text>
+    <text x="62" y="191.5">75%</text>
+    <text x="62" y="269">50%</text>
+    <text x="62" y="346.5">25%</text>
+    <text x="62" y="424">0%</text>
+  </g>
+
+  <!-- marcos verticais -->
+  <g stroke="#A100FF" stroke-width="1.5" stroke-dasharray="5 4">
+    <line x1="142" y1="110" x2="142" y2="420"/>
+    <line x1="430" y1="110" x2="430" y2="420"/>
+  </g>
+
+  <!-- área sob a curva -->
+  <path d="M 70,110
+           C 95,140 118,240 142,333
+           C 200,360 340,360 430,364
+           C 540,368 700,381 790,383
+           L 790,420 L 70,420 Z" fill="url(#curveFill)"/>
+
+  <!-- curva de retenção -->
+  <path d="M 70,110
+           C 95,140 118,240 142,333
+           C 200,360 340,360 430,364
+           C 540,368 700,381 790,383"
+        fill="none" stroke="#A100FF" stroke-width="3.5" stroke-linecap="round"/>
+
+  <!-- pontos de leitura -->
+  <circle cx="142" cy="333" r="6" fill="#ffffff" stroke="#A100FF" stroke-width="3"/>
+  <circle cx="430" cy="364" r="6" fill="#ffffff" stroke="#A100FF" stroke-width="3"/>
+
+  <!-- percentuais de exemplo nos pontos -->
+  <g>
+    <rect x="152" y="310" width="46" height="22" rx="11" fill="#111827"/>
+    <text x="175" y="325" class="pct" fill="#ffffff" text-anchor="middle" style="fill:#ffffff">28%</text>
+    <rect x="440" y="341" width="46" height="22" rx="11" fill="#111827"/>
+    <text x="463" y="356" class="pct" text-anchor="middle" style="fill:#ffffff">18%</text>
+  </g>
+
+  <!-- eixo x -->
+  <g class="axis" text-anchor="middle">
+    <text x="70" y="440">0s</text>
+    <text x="142" y="440">3s</text>
+    <text x="430" y="440">15s</text>
+    <text x="790" y="440">30s+</text>
+  </g>
+
+  <!-- rótulos das zonas -->
+  <g>
+    <line x1="112" y1="185" x2="152" y2="185" stroke="#A100FF" stroke-width="1.5"/>
+    <text x="160" y="180" class="zoneLabel" fill="#A100FF">HOOK RATE</text>
+    <text x="160" y="196" class="zoneFormula">repr. 3s ÷ impressões</text>
+  </g>
+  <g text-anchor="middle">
+    <text x="300" y="132" class="zoneLabel" fill="#A100FF">HOLD RATE</text>
+    <text x="300" y="148" class="zoneFormula">repr. 15s ÷ repr. 3s</text>
+
+    <text x="610" y="132" class="zoneLabel" fill="#6b7280">THRUPLAY</text>
+    <text x="610" y="148" class="zoneFormula">interesse sustentado até o fim</text>
+  </g>
+
+  <!-- leitura de diagnóstico -->
+  <g>
+    <text x="40" y="470" class="note"><tspan font-weight="700" fill="#A100FF">0–3s:</tspan> o anúncio parou o dedo? (thumb-stop)</text>
+    <text x="330" y="470" class="note"><tspan font-weight="700" fill="#A100FF">3–15s:</tspan> o conteúdo sustentou a promessa do gancho?</text>
+    <text x="40" y="494" class="note"><tspan font-weight="700" fill="#6b7280">Depois do clique:</tspan> conversão da página — se hook e hold estão saudáveis e a venda não vem, o problema mudou de endereço.</text>
+  </g>
+</svg>

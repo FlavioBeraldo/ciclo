@@ -5,6 +5,21 @@ import config from '../../keystatic.config'
 
 const reader = createReader(process.cwd(), config)
 
+// Agendamento de publicação: posts com data futura só entram no ar quando a
+// data chega, no fuso de Brasília. Como /blog lê isso a cada requisição e as
+// páginas de post revalidam via ISR, não é preciso novo deploy a cada artigo.
+function todayInSaoPaulo(): string {
+  // en-CA => formato YYYY-MM-DD, comparável com a string de data do frontmatter
+  return new Intl.DateTimeFormat('en-CA', {
+    timeZone: 'America/Sao_Paulo',
+  }).format(new Date())
+}
+
+function isPublished(date: string | null | undefined): boolean {
+  if (!date) return true
+  return date <= todayInSaoPaulo()
+}
+
 export type KeystaticPost = {
   slug: string
   title: string
@@ -20,7 +35,14 @@ export type KeystaticPostWithContent = KeystaticPost & { html: string }
 
 export async function getAllKeystatiSlugs(): Promise<string[]> {
   try {
-    return await reader.collections.posts.list()
+    const slugs = await reader.collections.posts.list()
+    const published = await Promise.all(
+      slugs.map(async (slug) => {
+        const entry = await reader.collections.posts.read(slug)
+        return entry && isPublished(entry.date) ? slug : null
+      })
+    )
+    return published.filter((s): s is string => s !== null)
   } catch {
     return []
   }
@@ -32,7 +54,7 @@ export async function getKeystatiPosts(): Promise<KeystaticPost[]> {
     const results = await Promise.all(
       slugs.map(async (slug) => {
         const entry = await reader.collections.posts.read(slug)
-        if (!entry) return null
+        if (!entry || !isPublished(entry.date)) return null
         return {
           slug,
           title: entry.title as unknown as string,
@@ -60,7 +82,7 @@ export async function getKeystatiPostBySlug(
     const entry = await reader.collections.posts.read(slug, {
       resolveLinkedFiles: true,
     })
-    if (!entry) return null
+    if (!entry || !isPublished(entry.date)) return null
 
     const contentValue = entry.content as unknown as { node: MarkdocNode } | null
     let html = ''

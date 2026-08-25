@@ -26,6 +26,10 @@ interface Props {
   params: Promise<{ slug: string }>
 }
 
+// ISR: permite que posts agendados (data futura no Keystatic) entrem no ar
+// no dia certo sem novo deploy — a página revalida a cada hora.
+export const revalidate = 3600
+
 export async function generateStaticParams() {
   const curated = getAllSlugs().map((slug) => ({ slug }))
   const wp = getAllWpSlugs().map((slug) => ({ slug }))
@@ -46,6 +50,30 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     robots: { index: true, follow: true },
     alternates: { canonical: `https://cicloecommerce.com.br/blog/${slug}` },
   }
+}
+
+// Extrai perguntas e respostas do HTML renderizado (padrão dos posts:
+// "**Pergunta?**" seguida da resposta no mesmo parágrafo) para o schema FAQPage.
+function extractFaqs(html: string): { question: string; answer: string }[] {
+  const faqs: { question: string; answer: string }[] = []
+  const re = /<p><strong>([^<]+\?)<\/strong>\s*([\s\S]*?)<\/p>/g
+  let m: RegExpExecArray | null
+  while ((m = re.exec(html))) {
+    const answer = m[2].replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim()
+    if (answer) faqs.push({ question: m[1].trim(), answer })
+  }
+  return faqs
+}
+
+function JsonLd({ data }: { data: object }) {
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{
+        __html: JSON.stringify(data).replace(/</g, '\\u003c'),
+      }}
+    />
+  )
 }
 
 function RenderSection({ section }: { section: BlogSection }) {
@@ -122,8 +150,47 @@ export default async function BlogPostPage({ params }: Props) {
   const ksRelated = ksPosts.filter((p) => p.slug !== slug && p.category === category).slice(0, 3)
   const related = [...ksRelated, ...curatedRelated, ...wpRelated].slice(0, 3)
 
+  const canonical = `https://cicloecommerce.com.br/blog/${slug}`
+  const articleLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: title,
+    description: excerpt,
+    datePublished: date,
+    inLanguage: 'pt-BR',
+    mainEntityOfPage: { '@type': 'WebPage', '@id': canonical },
+    author: {
+      '@type': author === 'Time Ciclo' ? 'Organization' : 'Person',
+      name: author,
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'Ciclo E-commerce',
+      url: 'https://cicloecommerce.com.br',
+      logo: {
+        '@type': 'ImageObject',
+        url: 'https://cicloecommerce.com.br/logo-ciclo.png',
+      },
+    },
+  }
+  const faqs = extractFaqs(wp?.html ?? ks?.html ?? '')
+  const faqLd =
+    faqs.length > 0
+      ? {
+          '@context': 'https://schema.org',
+          '@type': 'FAQPage',
+          mainEntity: faqs.map((f) => ({
+            '@type': 'Question',
+            name: f.question,
+            acceptedAnswer: { '@type': 'Answer', text: f.answer },
+          })),
+        }
+      : null
+
   return (
     <>
+      <JsonLd data={articleLd} />
+      {faqLd && <JsonLd data={faqLd} />}
       <Header />
       <main className="min-h-screen">
         {/* Dark branded hero */}

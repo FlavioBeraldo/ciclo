@@ -3,6 +3,13 @@ import wpSlugs from './src/data/wp-slugs.json'
 
 const nextConfig: NextConfig = {
   output: 'standalone',
+  // Os posts do Keystatic (content/blog) são lidos do filesystem em runtime
+  // (listagem do blog, ISR e sitemap); sem isso eles ficam fora do trace de deploy.
+  outputFileTracingIncludes: {
+    '/blog': ['./content/blog/**/*'],
+    '/blog/[slug]': ['./content/blog/**/*'],
+    '/sitemap.xml': ['./content/blog/**/*'],
+  },
   images: {
     remotePatterns: [
       { protocol: 'https', hostname: 'img.youtube.com' },

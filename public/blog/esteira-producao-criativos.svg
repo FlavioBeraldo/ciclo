@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 400" role="img" aria-label="Esteira de produção de criativos em cinco estações: pesquisa, roteirização, produção social first, edição e variações, publicação e leitura">
+  <style>
+    text { font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif; }
+    .title { font-size: 19px; font-weight: 700; fill: #111827; }
+    .subtitle { font-size: 13px; fill: #6b7280; }
+    .stepNum { font-size: 15px; font-weight: 700; fill: #ffffff; }
+    .stepTitle { font-size: 13.5px; font-weight: 700; fill: #111827; }
+    .stepDesc { font-size: 11px; fill: #6b7280; }
+    .loop { font-size: 11.5px; font-weight: 600; fill: #A100FF; }
+  </style>
+
+  <rect x="0" y="0" width="840" height="400" rx="16" fill="#ffffff" stroke="#e5e7eb"/>
+
+  <text x="40" y="44" class="title">A esteira de produção de criativos</text>
+  <text x="40" y="66" class="subtitle">Cinco estações rodando em paralelo, toda semana — não em fila</text>
+
+  <!-- conectores -->
+  <g stroke="#d8b4fe" stroke-width="2" fill="none">
+    <line x1="180" y1="190" x2="196" y2="190"/>
+    <line x1="336" y1="190" x2="352" y2="190"/>
+    <line x1="492" y1="190" x2="508" y2="190"/>
+    <line x1="648" y1="190" x2="664" y2="190"/>
+  </g>
+  <g fill="#A100FF">
+    <path d="M 196,190 l -8,-4 0,8 z"/>
+    <path d="M 352,190 l -8,-4 0,8 z"/>
+    <path d="M 508,190 l -8,-4 0,8 z"/>
+    <path d="M 664,190 l -8,-4 0,8 z"/>
+  </g>
+
+  <!-- estações -->
+  <g>
+    <rect x="40" y="120" width="140" height="140" rx="14" fill="#faf5ff" stroke="#A100FF" stroke-opacity="0.35"/>
+    <circle cx="66" cy="146" r="14" fill="#A100FF"/>
+    <text x="66" y="151" class="stepNum" text-anchor="middle">1</text>
+    <text x="56" y="186" class="stepTitle">Pesquisa</text>
+    <text x="56" y="206" class="stepDesc">Banco vivo de ângulos:</text>
+    <text x="56" y="220" class="stepDesc">reviews, SAC, objeções,</text>
+    <text x="56" y="234" class="stepDesc">tendências da categoria</text>
+
+    <rect x="196" y="120" width="140" height="140" rx="14" fill="#faf5ff" stroke="#A100FF" stroke-opacity="0.35"/>
+    <circle cx="222" cy="146" r="14" fill="#A100FF"/>
+    <text x="222" y="151" class="stepNum" text-anchor="middle">2</text>
+    <text x="212" y="186" class="stepTitle">Roteirização</text>
+    <text x="212" y="206" class="stepDesc">Em lote: 8 a 10 roteiros</text>
+    <text x="212" y="220" class="stepDesc">com hook, corpo e</text>
+    <text x="212" y="234" class="stepDesc">CTA definidos</text>
+
+    <rect x="352" y="120" width="140" height="140" rx="14" fill="#faf5ff" stroke="#A100FF" stroke-opacity="0.35"/>
+    <circle cx="378" cy="146" r="14" fill="#A100FF"/>
+    <text x="378" y="151" class="stepNum" text-anchor="middle">3</text>
+    <text x="368" y="186" class="stepTitle">Produção</text>
+    <text x="368" y="206" class="stepDesc">Social first: creators,</text>
+    <text x="368" y="220" class="stepDesc">UGC e celular, em</text>
+    <text x="368" y="234" class="stepDesc">diárias multi-take</text>
+
+    <rect x="508" y="120" width="140" height="140" rx="14" fill="#faf5ff" stroke="#A100FF" stroke-opacity="0.35"/>
+    <circle cx="534" cy="146" r="14" fill="#A100FF"/>
+    <text x="534" y="151" class="stepNum" text-anchor="middle">4</text>
+    <text x="524" y="186" class="stepTitle">Edição</text>
+    <text x="524" y="206" class="stepDesc">3 a 5 variações por take:</text>
+    <text x="524" y="220" class="stepDesc">hooks, cortes, legendas,</text>
+    <text x="524" y="234" class="stepDesc">formatos 9:16 e 1:1</text>
+
+    <rect x="664" y="120" width="140" height="140" rx="14" fill="#111827"/>
+    <circle cx="690" cy="146" r="14" fill="#A100FF"/>
+    <text x="690" y="151" class="stepNum" text-anchor="middle">5</text>
+    <text x="680" y="186" class="stepTitle" style="fill:#ffffff">Publicação</text>
+    <text x="680" y="206" class="stepDesc" style="fill:#d1d5db">Dia fixo, nomes</text>
+    <text x="680" y="220" class="stepDesc" style="fill:#d1d5db">padronizados e leitura</text>
+    <text x="680" y="234" class="stepDesc" style="fill:#d1d5db">semanal de métricas</text>
+  </g>
+
+  <!-- loop de aprendizado -->
+  <path d="M 734,260 C 734,330 420,330 112,330 C 96,330 92,310 96,268"
+        fill="none" stroke="#A100FF" stroke-width="2" stroke-dasharray="6 5"/>
+  <path d="M 96,268 l -5,10 9,-1 z" fill="#A100FF"/>
+  <text x="420" y="352" class="loop" text-anchor="middle">A leitura de performance alimenta o banco de ângulos — o ciclo recomeça</text>
+</svg>
