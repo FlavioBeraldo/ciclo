@@ -6,7 +6,9 @@ import { getAllKeystatiSlugs } from '@/lib/keystatic-posts'
 
 const BASE = 'https://cicloecommerce.com.br'
 
-export const revalidate = 86400
+// Revalida a cada hora para que posts agendados (publicados às 9h) entrem
+// no sitemap ainda na manhã do dia de publicação.
+export const revalidate = 3600
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date()

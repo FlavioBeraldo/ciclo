@@ -5,19 +5,30 @@ import config from '../../keystatic.config'
 
 const reader = createReader(process.cwd(), config)
 
-// Agendamento de publicação: posts com data futura só entram no ar quando a
-// data chega, no fuso de Brasília. Como /blog lê isso a cada requisição e as
-// páginas de post revalidam via ISR, não é preciso novo deploy a cada artigo.
-function todayInSaoPaulo(): string {
-  // en-CA => formato YYYY-MM-DD, comparável com a string de data do frontmatter
-  return new Intl.DateTimeFormat('en-CA', {
-    timeZone: 'America/Sao_Paulo',
-  }).format(new Date())
-}
+// Agendamento de publicação: posts com data futura só entram no ar às 9h da
+// manhã (fuso de Brasília) do dia marcado. Como /blog lê isso a cada
+// requisição e as páginas de post revalidam via ISR, não é preciso novo
+// deploy a cada artigo.
+const PUBLISH_HOUR_SAO_PAULO = 9
 
 function isPublished(date: string | null | undefined): boolean {
   if (!date) return true
-  return date <= todayInSaoPaulo()
+  const now = new Date()
+  // en-CA => formato YYYY-MM-DD, comparável com a string de data do frontmatter
+  const today = new Intl.DateTimeFormat('en-CA', {
+    timeZone: 'America/Sao_Paulo',
+  }).format(now)
+  if (date < today) return true
+  if (date > today) return false
+  const hour = parseInt(
+    new Intl.DateTimeFormat('en-US', {
+      timeZone: 'America/Sao_Paulo',
+      hour: '2-digit',
+      hourCycle: 'h23',
+    }).format(now),
+    10
+  )
+  return hour >= PUBLISH_HOUR_SAO_PAULO
 }
 
 export type KeystaticPost = {

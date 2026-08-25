@@ -27,8 +27,8 @@ interface Props {
 }
 
 // ISR: permite que posts agendados (data futura no Keystatic) entrem no ar
-// no dia certo sem novo deploy — a página revalida a cada hora.
-export const revalidate = 3600
+// às 9h do dia marcado sem novo deploy — a página revalida a cada 15 min.
+export const revalidate = 900
 
 export async function generateStaticParams() {
   const curated = getAllSlugs().map((slug) => ({ slug }))
