@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 420" role="img" aria-label="Linha do tempo do comportamento de compra no Pinterest: o usuário planeja semanas antes, salva produtos, compara e decide, enquanto em outras plataformas a compra é por impulso no momento">
+  <style>
+    text { font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif; }
+    .title { font-size: 19px; font-weight: 700; fill: #111827; }
+    .subtitle { font-size: 13px; fill: #6b7280; }
+    .phase { font-size: 13px; font-weight: 700; fill: #111827; }
+    .phaseDesc { font-size: 11px; fill: #6b7280; }
+    .time { font-size: 11px; font-weight: 700; fill: #A100FF; }
+    .note { font-size: 11.5px; fill: #6b7280; }
+  </style>
+
+  <rect x="0" y="0" width="840" height="420" rx="16" fill="#ffffff" stroke="#e5e7eb"/>
+
+  <text x="40" y="44" class="title">Intenção sem busca: o ciclo de planejamento do Pinterest</text>
+  <text x="40" y="66" class="subtitle">O usuário decide com antecedência — o anúncio só precisa colocar a sua marca no plano</text>
+
+  <!-- linha do tempo -->
+  <line x1="70" y1="210" x2="770" y2="210" stroke="#e5e7eb" stroke-width="3"/>
+  <line x1="70" y1="210" x2="620" y2="210" stroke="#A100FF" stroke-width="3"/>
+
+  <!-- marcos -->
+  <g>
+    <circle cx="100" cy="210" r="10" fill="#A100FF"/>
+    <text x="100" y="140" class="time" text-anchor="middle">SEMANAS OU MESES ANTES</text>
+    <text x="100" y="166" class="phase" text-anchor="middle">Inspiração</text>
+    <text x="100" y="244" class="phaseDesc" text-anchor="middle">a reforma, o enxoval,</text>
+    <text x="100" y="258" class="phaseDesc" text-anchor="middle">o look da estação</text>
+  </g>
+  <g>
+    <circle cx="290" cy="210" r="10" fill="#A100FF"/>
+    <text x="290" y="166" class="phase" text-anchor="middle">Planejamento</text>
+    <text x="290" y="244" class="phaseDesc" text-anchor="middle">salva produtos e monta</text>
+    <text x="290" y="258" class="phaseDesc" text-anchor="middle">pastas como parte do plano</text>
+  </g>
+  <g>
+    <circle cx="470" cy="210" r="10" fill="#A100FF"/>
+    <text x="470" y="166" class="phase" text-anchor="middle">Comparação</text>
+    <text x="470" y="244" class="phaseDesc" text-anchor="middle">volta aos pins salvos,</text>
+    <text x="470" y="258" class="phaseDesc" text-anchor="middle">compara opções e preços</text>
+  </g>
+  <g>
+    <circle cx="620" cy="210" r="10" fill="#A100FF"/>
+    <text x="620" y="140" class="time" text-anchor="middle">JANELA DE CONVERSÃO</text>
+    <text x="620" y="166" class="phase" text-anchor="middle">Decisão</text>
+    <text x="620" y="244" class="phaseDesc" text-anchor="middle">retargeting colhe a</text>
+    <text x="620" y="258" class="phaseDesc" text-anchor="middle">intenção construída</text>
+  </g>
+  <g>
+    <circle cx="760" cy="210" r="10" fill="#ffffff" stroke="#A100FF" stroke-width="3"/>
+    <text x="760" y="166" class="phase" text-anchor="middle">Compra</text>
+    <text x="772" y="244" class="phaseDesc" text-anchor="middle">busca de marca</text>
+    <text x="772" y="258" class="phaseDesc" text-anchor="middle">sobe junto</text>
+  </g>
+
+  <!-- avisos -->
+  <g>
+    <rect x="40" y="296" width="384" height="84" rx="14" fill="#faf5ff" stroke="#A100FF" stroke-opacity="0.35"/>
+    <text x="60" y="326" class="phase" style="fill:#A100FF">Onde o canal brilha</text>
+    <text x="60" y="348" class="phaseDesc">Categorias de planejamento visual: moda, beleza,</text>
+    <text x="60" y="362" class="phaseDesc">casa e decoração, festas, gastronomia, bebê, presentes</text>
+  </g>
+  <g>
+    <rect x="440" y="296" width="360" height="84" rx="14" fill="#111827"/>
+    <text x="460" y="326" class="phase" style="fill:#ffffff">A régua certa</text>
+    <text x="460" y="348" class="phaseDesc" style="fill:#d1d5db">Ciclos de 60 a 90 dias, janela de atribuição do ciclo</text>
+    <text x="460" y="362" class="phaseDesc" style="fill:#d1d5db">da categoria — avaliar pela última semana é desistir cedo</text>
+  </g>
+</svg>

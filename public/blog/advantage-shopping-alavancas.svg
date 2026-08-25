@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 470" role="img" aria-label="As quatro alavancas que sobraram para o gestor no Advantage+ Shopping: consolidação de campanhas, teto de clientes existentes, criativos como segmentação e qualidade do feed">
+  <style>
+    text { font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif; }
+    .title { font-size: 19px; font-weight: 700; fill: #111827; }
+    .subtitle { font-size: 13px; fill: #6b7280; }
+    .cardTitle { font-size: 13.5px; font-weight: 700; fill: #111827; }
+    .cardDesc { font-size: 11px; fill: #6b7280; }
+    .hub { font-size: 15px; font-weight: 700; fill: #ffffff; }
+    .hubSub { font-size: 10.5px; fill: #d1d5db; }
+    .auto { font-size: 11px; fill: #9ca3af; }
+  </style>
+
+  <rect x="0" y="0" width="840" height="470" rx="16" fill="#ffffff" stroke="#e5e7eb"/>
+
+  <text x="40" y="44" class="title">Advantage+ Shopping: as alavancas que sobraram</text>
+  <text x="40" y="66" class="subtitle">A automação assumiu público, posicionamento e lance — o jogo se concentrou em quatro decisões</text>
+
+  <!-- conectores -->
+  <g stroke="#d8b4fe" stroke-width="2" fill="none">
+    <line x1="252" y1="166" x2="342" y2="222"/>
+    <line x1="588" y1="166" x2="498" y2="222"/>
+    <line x1="252" y1="342" x2="342" y2="286"/>
+    <line x1="588" y1="342" x2="498" y2="286"/>
+  </g>
+
+  <!-- hub central -->
+  <rect x="342" y="212" width="156" height="84" rx="16" fill="#111827"/>
+  <text x="420" y="248" class="hub" text-anchor="middle">ASC</text>
+  <text x="420" y="268" class="hubSub" text-anchor="middle">o algoritmo decide público,</text>
+  <text x="420" y="281" class="hubSub" text-anchor="middle">posicionamento e entrega</text>
+
+  <!-- alavanca 1 -->
+  <g>
+    <rect x="40" y="100" width="212" height="132" rx="14" fill="#faf5ff" stroke="#A100FF" stroke-opacity="0.4"/>
+    <circle cx="66" cy="126" r="13" fill="#A100FF"/>
+    <text x="66" y="131" style="font-size:13px; font-weight:700; fill:#ffffff" text-anchor="middle">1</text>
+    <text x="88" y="131" class="cardTitle">Consolidação</text>
+    <text x="60" y="160" class="cardDesc">Poucas campanhas com verba</text>
+    <text x="60" y="174" class="cardDesc">robusta: uma ASC principal por</text>
+    <text x="60" y="188" class="cardDesc">país ou objetivo. Fragmentar</text>
+    <text x="60" y="202" class="cardDesc">em cinco pequenas mata o</text>
+    <text x="60" y="216" class="cardDesc">aprendizado</text>
+  </g>
+
+  <!-- alavanca 2 -->
+  <g>
+    <rect x="588" y="100" width="212" height="132" rx="14" fill="#faf5ff" stroke="#A100FF" stroke-opacity="0.4"/>
+    <circle cx="614" cy="126" r="13" fill="#A100FF"/>
+    <text x="614" y="131" style="font-size:13px; font-weight:700; fill:#ffffff" text-anchor="middle">2</text>
+    <text x="636" y="131" class="cardTitle">Teto de clientes atuais</text>
+    <text x="608" y="160" class="cardDesc">A alavanca mais subestimada:</text>
+    <text x="608" y="174" class="cardDesc">sem teto, o ROAS bonito pode</text>
+    <text x="608" y="188" class="cardDesc">ser só a sua recompra revendida</text>
+    <text x="608" y="202" class="cardDesc">para você no leilão</text>
+  </g>
+
+  <!-- alavanca 3 -->
+  <g>
+    <rect x="40" y="238" width="212" height="132" rx="14" fill="#faf5ff" stroke="#A100FF" stroke-opacity="0.4"/>
+    <circle cx="66" cy="264" r="13" fill="#A100FF"/>
+    <text x="66" y="269" style="font-size:13px; font-weight:700; fill:#ffffff" text-anchor="middle">3</text>
+    <text x="88" y="269" class="cardTitle">Criativos</text>
+    <text x="60" y="298" class="cardDesc">Com o público nas mãos do</text>
+    <text x="60" y="312" class="cardDesc">algoritmo, diversidade de criativo</text>
+    <text x="60" y="326" class="cardDesc">é diversidade de audiência —</text>
+    <text x="60" y="340" class="cardDesc">portfólio amplo, renovado com</text>
+    <text x="60" y="354" class="cardDesc">cadência</text>
+  </g>
+
+  <!-- alavanca 4 -->
+  <g>
+    <rect x="588" y="238" width="212" height="132" rx="14" fill="#faf5ff" stroke="#A100FF" stroke-opacity="0.4"/>
+    <circle cx="614" cy="264" r="13" fill="#A100FF"/>
+    <text x="614" y="269" style="font-size:13px; font-weight:700; fill:#ffffff" text-anchor="middle">4</text>
+    <text x="636" y="269" class="cardTitle">Feed e exclusões</text>
+    <text x="608" y="298" class="cardDesc">Títulos limpos, imagens boas,</text>
+    <text x="608" y="312" class="cardDesc">preço e estoque em dia. O ASC</text>
+    <text x="608" y="326" class="cardDesc">amplifica a qualidade do insumo,</text>
+    <text x="608" y="340" class="cardDesc">para o bem e para o mal</text>
+  </g>
+
+  <!-- migração -->
+  <g>
+    <rect x="290" y="330" width="260" height="66" rx="14" fill="#A100FF" fill-opacity="0.08"/>
+    <text x="420" y="356" class="cardTitle" text-anchor="middle" style="fill:#A100FF">Migração progressiva</text>
+    <text x="420" y="376" class="cardDesc" text-anchor="middle">30% a 50% do orçamento, 2 a 3 semanas</text>
+    <text x="420" y="390" class="cardDesc" text-anchor="middle">de comparação, escala conforme resultado</text>
+  </g>
+
+  <text x="40" y="434" class="auto">Leitura diária, intervenção semanal: cada edição relevante reinicia parte do aprendizado.</text>
+</svg>

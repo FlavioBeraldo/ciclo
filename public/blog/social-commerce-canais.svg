@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 460" role="img" aria-label="Os quatro canais de social commerce no Brasil: TikTok Shop, YouTube Shopping, Instagram Shopping e live commerce com WhatsApp, cada um com um papel diferente">
+  <style>
+    text { font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif; }
+    .title { font-size: 19px; font-weight: 700; fill: #111827; }
+    .subtitle { font-size: 13px; fill: #6b7280; }
+    .cardTitle { font-size: 14px; font-weight: 700; fill: #111827; }
+    .cardTag { font-size: 10px; font-weight: 700; letter-spacing: 0.08em; }
+    .cardDesc { font-size: 11px; fill: #6b7280; }
+    .note { font-size: 11.5px; fill: #6b7280; }
+  </style>
+
+  <rect x="0" y="0" width="840" height="460" rx="16" fill="#ffffff" stroke="#e5e7eb"/>
+
+  <text x="40" y="44" class="title">Os canais de social commerce no Brasil</text>
+  <text x="40" y="66" class="subtitle">Quatro frentes, papéis diferentes — a decisão é de sequência, não de exclusividade</text>
+
+  <!-- TikTok Shop -->
+  <g>
+    <rect x="40" y="100" width="182" height="240" rx="14" fill="#111827"/>
+    <rect x="60" y="122" width="118" height="20" rx="10" fill="#A100FF"/>
+    <text x="119" y="136" class="cardTag" fill="#ffffff" text-anchor="middle">CANAL COMPLETO</text>
+    <text x="60" y="172" class="cardTitle" style="fill:#ffffff">TikTok Shop</text>
+    <text x="60" y="196" class="cardDesc" style="fill:#d1d5db">Checkout nativo no app,</text>
+    <text x="60" y="211" class="cardDesc" style="fill:#d1d5db">venda por vídeo, live e</text>
+    <text x="60" y="226" class="cardDesc" style="fill:#d1d5db">vitrine, afiliados creators</text>
+    <text x="60" y="241" class="cardDesc" style="fill:#d1d5db">comissionados</text>
+    <text x="60" y="316" class="cardDesc" style="fill:#d8b4fe; font-weight:700">Descoberta e impulso —</text>
+    <text x="60" y="330" class="cardDesc" style="fill:#d8b4fe; font-weight:700">janela de crescimento</text>
+  </g>
+
+  <!-- YouTube Shopping -->
+  <g>
+    <rect x="232" y="100" width="182" height="240" rx="14" fill="#faf5ff" stroke="#A100FF" stroke-opacity="0.4"/>
+    <rect x="252" y="122" width="106" height="20" rx="10" fill="#A100FF" fill-opacity="0.15"/>
+    <text x="305" y="136" class="cardTag" fill="#A100FF" text-anchor="middle">PRÓXIMA ONDA</text>
+    <text x="252" y="172" class="cardTitle">YouTube Shopping</text>
+    <text x="252" y="196" class="cardDesc">Produtos marcados em</text>
+    <text x="252" y="211" class="cardDesc">vídeos, Shorts e lives,</text>
+    <text x="252" y="226" class="cardDesc">afiliados; compra vai</text>
+    <text x="252" y="241" class="cardDesc">para o site da marca</text>
+    <text x="252" y="316" class="cardDesc" style="fill:#A100FF; font-weight:700">Intenção e review —</text>
+    <text x="252" y="330" class="cardDesc" style="fill:#A100FF; font-weight:700">vantagem de pioneiro</text>
+  </g>
+
+  <!-- Instagram Shopping -->
+  <g>
+    <rect x="424" y="100" width="182" height="240" rx="14" fill="#faf5ff" stroke="#A100FF" stroke-opacity="0.4"/>
+    <rect x="444" y="122" width="118" height="20" rx="10" fill="#A100FF" fill-opacity="0.15"/>
+    <text x="503" y="136" class="cardTag" fill="#A100FF" text-anchor="middle">BASE INSTALADA</text>
+    <text x="444" y="172" class="cardTitle">Instagram Shopping</text>
+    <text x="444" y="196" class="cardDesc">Vitrine integrada: marcação</text>
+    <text x="444" y="211" class="cardDesc">em posts, Reels e stories,</text>
+    <text x="444" y="226" class="cardDesc">sacolinha no perfil e</text>
+    <text x="444" y="241" class="cardDesc">conversão no site</text>
+    <text x="444" y="316" class="cardDesc" style="fill:#A100FF; font-weight:700">Consideração e recompra</text>
+    <text x="444" y="330" class="cardDesc" style="fill:#A100FF; font-weight:700">— custo baixo de manter</text>
+  </g>
+
+  <!-- Live + WhatsApp -->
+  <g>
+    <rect x="616" y="100" width="182" height="240" rx="14" fill="#faf5ff" stroke="#A100FF" stroke-opacity="0.4"/>
+    <rect x="636" y="122" width="122" height="20" rx="10" fill="#A100FF" fill-opacity="0.15"/>
+    <text x="697" y="136" class="cardTag" fill="#A100FF" text-anchor="middle">COMPLEMENTARES</text>
+    <text x="636" y="172" class="cardTitle">Live + WhatsApp</text>
+    <text x="636" y="196" class="cardDesc">Lives de venda com oferta</text>
+    <text x="636" y="211" class="cardDesc">e urgência; WhatsApp como</text>
+    <text x="636" y="226" class="cardDesc">canal transacional de</text>
+    <text x="636" y="241" class="cardDesc">relacionamento</text>
+    <text x="636" y="316" class="cardDesc" style="fill:#A100FF; font-weight:700">Conversão e recompra —</text>
+    <text x="636" y="330" class="cardDesc" style="fill:#A100FF; font-weight:700">força do varejo brasileiro</text>
+  </g>
+
+  <text x="40" y="386" class="note">No social commerce a jornada inteira — descobrimento, consideração e compra — acontece dentro da plataforma:</text>
+  <text x="40" y="404" class="note">o feed é a vitrine, o creator é o vendedor e o checkout está a um toque de distância.</text>
+  <g>
+    <circle cx="52" cy="432" r="5" fill="#A100FF"/>
+    <text x="66" y="436" class="note" style="font-weight:600; fill:#374151">Comece pelo canal de maior fit com a categoria, valide margem e operação, e só então abra a frente seguinte.</text>
+  </g>
+</svg>

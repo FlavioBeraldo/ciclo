@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 480" role="img" aria-label="Mapa de audiências de remarketing por temperatura de intenção, com janelas de 3 a 30 dias, exclusões em cascata e a base de compradores separada em régua de recompra">
+  <style>
+    text { font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif; }
+    .title { font-size: 19px; font-weight: 700; fill: #111827; }
+    .subtitle { font-size: 13px; fill: #6b7280; }
+    .layer { font-size: 13.5px; font-weight: 700; }
+    .layerDesc { font-size: 11px; }
+    .window { font-size: 11px; font-weight: 700; fill: #ffffff; }
+    .note { font-size: 11.5px; fill: #6b7280; }
+    .excl { font-size: 11px; font-weight: 600; fill: #A100FF; }
+  </style>
+
+  <rect x="0" y="0" width="840" height="480" rx="16" fill="#ffffff" stroke="#e5e7eb"/>
+
+  <text x="40" y="44" class="title">Audiências por temperatura, com exclusões em cascata</text>
+  <text x="40" y="66" class="subtitle">Quanto mais quente a intenção, mais curta a janela — e cada camada exclui as mais quentes</text>
+
+  <!-- camada 1 -->
+  <g>
+    <rect x="40" y="96" width="520" height="72" rx="14" fill="#A100FF"/>
+    <text x="64" y="126" class="layer" fill="#ffffff">Carrinho e checkout abandonados</text>
+    <text x="64" y="148" class="layerDesc" fill="#f3e8ff">Intenção máxima: remova atrito, responda objeção, prova social</text>
+    <rect x="454" y="110" width="90" height="24" rx="12" fill="#111827"/>
+    <text x="499" y="126" class="window" text-anchor="middle">3–7 dias</text>
+  </g>
+
+  <!-- camada 2 -->
+  <g>
+    <rect x="40" y="180" width="520" height="72" rx="14" fill="#A100FF" fill-opacity="0.65"/>
+    <text x="64" y="210" class="layer" fill="#ffffff">Visualizadores de produto</text>
+    <text x="64" y="232" class="layerDesc" fill="#f8f4ff">Aprofunde a consideração: demonstração, review, comparativo</text>
+    <rect x="454" y="194" width="90" height="24" rx="12" fill="#111827"/>
+    <text x="499" y="210" class="window" text-anchor="middle">7–14 dias</text>
+  </g>
+
+  <!-- camada 3 -->
+  <g>
+    <rect x="40" y="264" width="520" height="72" rx="14" fill="#A100FF" fill-opacity="0.3"/>
+    <text x="64" y="294" class="layer" fill="#111827">Visitantes e engajados</text>
+    <text x="64" y="316" class="layerDesc" fill="#374151">Reapresente a marca pelo ângulo que ainda não foi visto</text>
+    <rect x="454" y="278" width="90" height="24" rx="12" fill="#111827"/>
+    <text x="499" y="294" class="window" text-anchor="middle">14–30 dias</text>
+  </g>
+
+  <!-- setas de exclusão -->
+  <g stroke="#A100FF" stroke-width="1.5" stroke-dasharray="4 3" fill="none">
+    <path d="M 572,216 C 596,216 596,140 574,136"/>
+    <path d="M 572,300 C 604,300 604,150 578,138"/>
+  </g>
+
+  <!-- compradores -->
+  <g>
+    <rect x="40" y="360" width="520" height="72" rx="14" fill="#111827"/>
+    <text x="64" y="390" class="layer" fill="#ffffff">Compradores — régua separada</text>
+    <text x="64" y="412" class="layerDesc" fill="#d1d5db">Fora das audiências de aquisição e carrinho; recebem recompra, cross-sell e novidade</text>
+  </g>
+
+  <!-- painel frequência -->
+  <g>
+    <rect x="600" y="96" width="200 " height="336" rx="14" fill="#faf5ff" stroke="#A100FF" stroke-opacity="0.35"/>
+    <text x="620" y="128" class="layer" fill="#A100FF">Teto de frequência</text>
+    <text x="620" y="158" class="layerDesc" fill="#374151">Carrinho (primeiros dias):</text>
+    <text x="620" y="174" class="layerDesc" fill="#111827" font-weight="700">2–4 impressões/dia</text>
+    <text x="620" y="204" class="layerDesc" fill="#374151">Demais camadas:</text>
+    <text x="620" y="220" class="layerDesc" fill="#111827" font-weight="700">5–10 impressões/semana</text>
+    <text x="620" y="252" class="layerDesc" fill="#374151">Acima disso: CTR caindo e</text>
+    <text x="620" y="267" class="layerDesc" fill="#374151">custo subindo = saturação</text>
+    <line x1="620" y1="288" x2="780" y2="288" stroke="#e9d5ff"/>
+    <text x="620" y="314" class="layerDesc" fill="#374151">3 a 5 criativos por camada,</text>
+    <text x="620" y="329" class="layerDesc" fill="#374151">rotacionados: a mesma</text>
+    <text x="620" y="344" class="layerDesc" fill="#374151">frequência vira presença,</text>
+    <text x="620" y="359" class="layerDesc" fill="#374151">não perseguição</text>
+    <text x="620" y="390" class="layerDesc" fill="#A100FF" font-weight="700">Janela curta é o limitador</text>
+    <text x="620" y="405" class="layerDesc" fill="#A100FF" font-weight="700">de frequência mais elegante</text>
+  </g>
+
+  <text x="40" y="460" class="note">Verba grande em público pequeno é frequência alta por definição — orçamento proporcional ao tamanho real da audiência.</text>
+</svg>
