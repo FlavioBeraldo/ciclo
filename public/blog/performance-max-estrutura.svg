@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 470" role="img" aria-label="Estrutura de Performance Max sem caixa-preta: campanha de busca de marca separada, PMax consolidado por razão econômica, feed como criativo principal e leitura de incrementalidade">
+  <style>
+    text { font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif; }
+    .title { font-size: 19px; font-weight: 700; fill: #111827; }
+    .subtitle { font-size: 13px; fill: #6b7280; }
+    .cardTitle { font-size: 13.5px; font-weight: 700; fill: #111827; }
+    .cardDesc { font-size: 11px; fill: #6b7280; }
+    .tag { font-size: 10px; font-weight: 700; letter-spacing: 0.08em; }
+    .note { font-size: 11.5px; fill: #6b7280; }
+  </style>
+
+  <rect x="0" y="0" width="840" height="470" rx="16" fill="#ffffff" stroke="#e5e7eb"/>
+
+  <text x="40" y="44" class="title">PMax sem caixa-preta: o controle mudou de lugar</text>
+  <text x="40" y="66" class="subtitle">Saiu da configuração de lances, entrou na arquitetura, no feed e na leitura</text>
+
+  <!-- Marca separada -->
+  <g>
+    <rect x="40" y="96" width="230" height="120" rx="14" fill="#111827"/>
+    <rect x="60" y="114" width="130" height="20" rx="10" fill="#A100FF"/>
+    <text x="125" y="128" class="tag" fill="#ffffff" text-anchor="middle">PASSO 1 · MARCA</text>
+    <text x="60" y="158" class="cardTitle" style="fill:#ffffff">Busca de marca separada</text>
+    <text x="60" y="180" class="cardDesc" style="fill:#d1d5db">Termos de marca excluídos do PMax</text>
+    <text x="60" y="195" class="cardDesc" style="fill:#d1d5db">e rodando em campanha dedicada,</text>
+    <text x="60" y="210" class="cardDesc" style="fill:#d1d5db">barata e sob controle total</text>
+  </g>
+
+  <!-- PMax consolidado -->
+  <g>
+    <rect x="305" y="96" width="230" height="120" rx="14" fill="#faf5ff" stroke="#A100FF" stroke-opacity="0.4"/>
+    <rect x="325" y="114" width="160" height="20" rx="10" fill="#A100FF" fill-opacity="0.15"/>
+    <text x="405" y="128" class="tag" fill="#A100FF" text-anchor="middle">PASSO 2 · ARQUITETURA</text>
+    <text x="325" y="158" class="cardTitle">PMax consolidado</text>
+    <text x="325" y="180" class="cardDesc">Uma campanha principal; divisão só</text>
+    <text x="325" y="195" class="cardDesc">com razão econômica (margem, papel</text>
+    <text x="325" y="210" class="cardDesc">do produto, ticket muito distinto)</text>
+  </g>
+
+  <!-- Feed -->
+  <g>
+    <rect x="570" y="96" width="230" height="120" rx="14" fill="#faf5ff" stroke="#A100FF" stroke-opacity="0.4"/>
+    <rect x="590" y="114" width="110" height="20" rx="10" fill="#A100FF" fill-opacity="0.15"/>
+    <text x="645" y="128" class="tag" fill="#A100FF" text-anchor="middle">PASSO 3 · FEED</text>
+    <text x="590" y="158" class="cardTitle">Feed como criativo</text>
+    <text x="590" y="180" class="cardDesc">Título é keyword, imagem decide o</text>
+    <text x="590" y="195" class="cardDesc">clique, preço e GTIN decidem a</text>
+    <text x="590" y="210" class="cardDesc">elegibilidade na prateleira</text>
+  </g>
+
+  <!-- setas para leitura -->
+  <g stroke="#d8b4fe" stroke-width="2" fill="none">
+    <path d="M 155,216 C 155,268 280,282 342,290"/>
+    <path d="M 420,216 C 420,250 420,262 420,282"/>
+    <path d="M 685,216 C 685,268 560,282 498,290"/>
+  </g>
+  <g fill="#A100FF">
+    <path d="M 342,290 l -10,-5 2,9 z"/>
+    <path d="M 420,282 l -4.5,-9 9,0 z"/>
+    <path d="M 498,290 l 8,-9 -10,-1 z"/>
+  </g>
+
+  <!-- Leitura -->
+  <g>
+    <rect x="290" y="288" width="260" height="118" rx="16" fill="#111827"/>
+    <rect x="310" y="306" width="130" height="20" rx="10" fill="#A100FF"/>
+    <text x="375" y="320" class="tag" fill="#ffffff" text-anchor="middle">PASSO 4 · LEITURA</text>
+    <text x="310" y="348" class="cardTitle" style="fill:#ffffff">Incrementalidade</text>
+    <text x="310" y="370" class="cardDesc" style="fill:#d1d5db">Canais e termos de pesquisa, quebra de</text>
+    <text x="310" y="385" class="cardDesc" style="fill:#d1d5db">clientes novos vs. recorrentes, receita</text>
+    <text x="310" y="400" class="cardDesc" style="fill:#d1d5db">total e CAC consolidado da operação</text>
+  </g>
+
+  <text x="40" y="444" class="note">Se o PMax cresce e o negócio não, a campanha está realocando atribuição, não gerando demanda.</text>
+</svg>

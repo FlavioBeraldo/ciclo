@@ -1,0 +1,104 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 520" role="img" aria-label="Tabela comparativa entre Instagram Shopping, TikTok Shop e YouTube Shopping nos critérios de atrito de compra, audiência, creators, custo de operação e maturidade">
+  <style>
+    text { font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif; }
+    .title { font-size: 19px; font-weight: 700; fill: #111827; }
+    .subtitle { font-size: 13px; fill: #6b7280; }
+    .colHead { font-size: 13px; font-weight: 700; fill: #111827; }
+    .rowHead { font-size: 12px; font-weight: 700; fill: #A100FF; }
+    .cell { font-size: 11.5px; fill: #374151; }
+    .win { font-size: 11.5px; font-weight: 700; fill: #111827; }
+  </style>
+
+  <rect x="0" y="0" width="840" height="520" rx="16" fill="#ffffff" stroke="#e5e7eb"/>
+
+  <text x="40" y="44" class="title">Instagram Shopping vs. TikTok Shop vs. YouTube Shopping</text>
+  <text x="40" y="66" class="subtitle">O comparativo critério a critério — o destaque marca onde cada plataforma vence</text>
+
+  <!-- cabeçalho de colunas -->
+  <g text-anchor="middle">
+    <text x="325" y="106" class="colHead">Instagram</text>
+    <text x="535" y="106" class="colHead">TikTok Shop</text>
+    <text x="735" y="106" class="colHead">YouTube</text>
+  </g>
+  <line x1="40" y1="118" x2="800" y2="118" stroke="#e5e7eb" stroke-width="1.5"/>
+
+  <!-- linhas -->
+  <!-- Atrito -->
+  <text x="40" y="150" class="rowHead">ATRITO DE COMPRA</text>
+  <g text-anchor="middle">
+    <text x="325" y="150" class="cell">converte no site</text>
+    <g>
+      <rect x="455" y="134" width="160" height="24" rx="12" fill="#A100FF" fill-opacity="0.12"/>
+      <text x="535" y="150" class="win">checkout nativo ●</text>
+    </g>
+    <text x="735" y="150" class="cell">converte no site</text>
+  </g>
+  <line x1="40" y1="170" x2="800" y2="170" stroke="#f3f4f6"/>
+
+  <!-- Audiência -->
+  <text x="40" y="202" class="rowHead">AUDIÊNCIA</text>
+  <g text-anchor="middle">
+    <text x="325" y="196" class="cell">maior base instalada,</text>
+    <text x="325" y="211" class="cell">relação com a marca</text>
+    <text x="535" y="196" class="cell">descoberta e</text>
+    <text x="535" y="211" class="cell">impulso</text>
+    <text x="735" y="196" class="cell">intenção: review</text>
+    <text x="735" y="211" class="cell">e comparativo</text>
+  </g>
+  <line x1="40" y1="228" x2="800" y2="228" stroke="#f3f4f6"/>
+
+  <!-- Creators -->
+  <text x="40" y="260" class="rowHead">CREATORS / AFILIADOS</text>
+  <g text-anchor="middle">
+    <text x="325" y="254" class="cell">publi e cupom,</text>
+    <text x="325" y="269" class="cell">sem rastreio nativo</text>
+    <g>
+      <rect x="455" y="238" width="160" height="24" rx="12" fill="#A100FF" fill-opacity="0.12"/>
+      <text x="535" y="254" class="win">afiliados nativos ●</text>
+    </g>
+    <text x="535" y="277" class="cell">comissão rastreada</text>
+    <text x="735" y="254" class="cell">afiliados em</text>
+    <text x="735" y="269" class="cell">expansão</text>
+  </g>
+  <line x1="40" y1="292" x2="800" y2="292" stroke="#f3f4f6"/>
+
+  <!-- Custo de operação -->
+  <text x="40" y="324" class="rowHead">CUSTO DE OPERAÇÃO</text>
+  <g text-anchor="middle">
+    <g>
+      <rect x="245" y="308" width="160" height="24" rx="12" fill="#A100FF" fill-opacity="0.12"/>
+      <text x="325" y="324" class="win">o mais barato ●</text>
+    </g>
+    <text x="325" y="347" class="cell">aproveita o que existe</text>
+    <text x="535" y="318" class="cell">o mais exigente:</text>
+    <text x="535" y="333" class="cell">conteúdo, lives,</text>
+    <text x="535" y="348" class="cell">afiliados, logística</text>
+    <text x="735" y="318" class="cell">médio — produção</text>
+    <text x="735" y="333" class="cell">de vídeo cara,</text>
+    <text x="735" y="348" class="cell">porém perene</text>
+  </g>
+  <line x1="40" y1="364" x2="800" y2="364" stroke="#f3f4f6"/>
+
+  <!-- Maturidade -->
+  <text x="40" y="396" class="rowHead">MATURIDADE / LEILÃO</text>
+  <g text-anchor="middle">
+    <text x="325" y="390" class="cell">maduro e</text>
+    <text x="325" y="405" class="cell">disputado</text>
+    <text x="535" y="390" class="cell">janela de</text>
+    <text x="535" y="405" class="cell">crescimento</text>
+    <g>
+      <rect x="655" y="374" width="160" height="24" rx="12" fill="#A100FF" fill-opacity="0.12"/>
+      <text x="735" y="390" class="win">menos disputado ●</text>
+    </g>
+    <text x="735" y="413" class="cell">vantagem de pioneiro</text>
+  </g>
+  <line x1="40" y1="428" x2="800" y2="428" stroke="#e5e7eb" stroke-width="1.5"/>
+
+  <!-- papel de cada um -->
+  <g text-anchor="middle">
+    <text x="325" y="458" class="cell" style="font-weight:700; fill:#A100FF">a base ativa</text>
+    <text x="535" y="458" class="cell" style="font-weight:700; fill:#A100FF">o volume da onda atual</text>
+    <text x="735" y="458" class="cell" style="font-weight:700; fill:#A100FF">o pioneirismo da próxima</text>
+  </g>
+  <text x="40" y="494" style="font-size:11.5px; fill:#6b7280;">A pergunta certa não é "qual escolher", e sim em qual ordem entrar, com qual portfólio e com qual régua de sucesso.</text>
+</svg>

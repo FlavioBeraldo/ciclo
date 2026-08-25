@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 420" role="img" aria-label="Ciclo de plantio e colheita no Google Ads: o Demand Gen planta demanda em YouTube, Shorts, Discover e Gmail, que vira busca de marca e é colhida por busca, Shopping e Performance Max">
+  <style>
+    text { font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif; }
+    .title { font-size: 19px; font-weight: 700; fill: #111827; }
+    .subtitle { font-size: 13px; fill: #6b7280; }
+    .stageTitle { font-size: 14px; font-weight: 700; }
+    .stageDesc { font-size: 11px; fill: #6b7280; }
+    .chip { font-size: 10.5px; font-weight: 600; fill: #6b21a8; }
+    .arrowLabel { font-size: 11px; font-weight: 600; fill: #A100FF; }
+    .note { font-size: 11.5px; fill: #6b7280; }
+  </style>
+
+  <rect x="0" y="0" width="840" height="420" rx="16" fill="#ffffff" stroke="#e5e7eb"/>
+
+  <text x="40" y="44" class="title">Um planta, o outro colhe</text>
+  <text x="40" y="66" class="subtitle">O Demand Gen cria a intenção que as campanhas de captação convertem semanas depois</text>
+
+  <!-- Plantio -->
+  <g>
+    <rect x="40" y="110" width="230" height="190" rx="14" fill="#faf5ff" stroke="#A100FF" stroke-opacity="0.4"/>
+    <text x="60" y="144" class="stageTitle" fill="#A100FF">Demand Gen (plantio)</text>
+    <g>
+      <rect x="60" y="160" width="88" height="22" rx="11" fill="#A100FF" fill-opacity="0.12"/>
+      <text x="104" y="175" class="chip" text-anchor="middle">YouTube</text>
+      <rect x="154" y="160" width="70" height="22" rx="11" fill="#A100FF" fill-opacity="0.12"/>
+      <text x="189" y="175" class="chip" text-anchor="middle">Shorts</text>
+      <rect x="60" y="188" width="88" height="22" rx="11" fill="#A100FF" fill-opacity="0.12"/>
+      <text x="104" y="203" class="chip" text-anchor="middle">Discover</text>
+      <rect x="154" y="188" width="70" height="22" rx="11" fill="#A100FF" fill-opacity="0.12"/>
+      <text x="189" y="203" class="chip" text-anchor="middle">Gmail</text>
+    </g>
+    <text x="60" y="238" class="stageDesc">Vídeo social first, lookalikes de</text>
+    <text x="60" y="253" class="stageDesc">compradores, lançamentos e</text>
+    <text x="60" y="268" class="stageDesc">nutrição de consideração</text>
+  </g>
+
+  <!-- seta 1 -->
+  <g>
+    <path d="M 274,205 L 330,205" stroke="#A100FF" stroke-width="2.5" fill="none"/>
+    <path d="M 330,205 l -9,-4.5 0,9 z" fill="#A100FF"/>
+  </g>
+
+  <!-- Sinal -->
+  <g>
+    <rect x="336" y="140" width="168" height="130" rx="14" fill="#111827"/>
+    <text x="420" y="178" class="stageTitle" fill="#ffffff" text-anchor="middle">Semanas depois</text>
+    <text x="420" y="205" class="stageDesc" style="fill:#d1d5db" text-anchor="middle">busca de marca sobe</text>
+    <text x="420" y="222" class="stageDesc" style="fill:#d1d5db" text-anchor="middle">tráfego direto sobe</text>
+    <text x="420" y="239" class="stageDesc" style="fill:#d1d5db" text-anchor="middle">CAC do fundo cede</text>
+  </g>
+
+  <!-- seta 2 -->
+  <g>
+    <path d="M 508,205 L 564,205" stroke="#A100FF" stroke-width="2.5" fill="none"/>
+    <path d="M 564,205 l -9,-4.5 0,9 z" fill="#A100FF"/>
+  </g>
+
+  <!-- Colheita -->
+  <g>
+    <rect x="570" y="110" width="230" height="190" rx="14" fill="#faf5ff" stroke="#A100FF" stroke-opacity="0.4"/>
+    <text x="590" y="144" class="stageTitle" fill="#A100FF">Captação (colheita)</text>
+    <g>
+      <rect x="590" y="160" width="70" height="22" rx="11" fill="#A100FF" fill-opacity="0.12"/>
+      <text x="625" y="175" class="chip" text-anchor="middle">Busca</text>
+      <rect x="666" y="160" width="90" height="22" rx="11" fill="#A100FF" fill-opacity="0.12"/>
+      <text x="711" y="175" class="chip" text-anchor="middle">Shopping</text>
+      <rect x="590" y="188" width="70" height="22" rx="11" fill="#A100FF" fill-opacity="0.12"/>
+      <text x="625" y="203" class="chip" text-anchor="middle">PMax</text>
+    </g>
+    <text x="590" y="238" class="stageDesc">Converte a intenção criada com</text>
+    <text x="590" y="253" class="stageDesc">a eficiência da automação e</text>
+    <text x="590" y="268" class="stageDesc">custo por compra menor</text>
+  </g>
+
+  <!-- loop de volta -->
+  <path d="M 685,300 C 685,352 420,352 158,352 C 130,352 122,330 130,306"
+        fill="none" stroke="#A100FF" stroke-width="2" stroke-dasharray="6 5"/>
+  <path d="M 130,306 l -6,10 9,0 z" fill="#A100FF"/>
+  <text x="420" y="374" class="arrowLabel" text-anchor="middle">Receita e listas de compradores viram novos lookalikes — o ciclo se retroalimenta</text>
+
+  <text x="40" y="402" class="note">Referência de portfólio: 10% a 25% do investimento de Google Ads em geração de demanda.</text>
+</svg>
