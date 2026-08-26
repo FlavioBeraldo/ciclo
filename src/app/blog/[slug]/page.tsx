@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { notFound } from 'next/navigation'
+import { notFound, permanentRedirect } from 'next/navigation'
 import Link from 'next/link'
 import { ArrowLeft, Clock, ArrowRight, ExternalLink } from 'lucide-react'
 import {
@@ -12,6 +12,7 @@ import {
   getCategoryGradient,
   formatDate,
   resolveCategory,
+  supersededWpPosts,
   type BlogSection,
 } from '@/lib/blog'
 import {
@@ -122,6 +123,14 @@ function RenderSection({ section }: { section: BlogSection }) {
 
 export default async function BlogPostPage({ params }: Props) {
   const { slug } = await params
+
+  // Post antigo substituído: redireciona (308) para o artigo novo assim que
+  // ele estiver publicado; enquanto o novo está agendado, o antigo segue no ar.
+  const successor = supersededWpPosts[slug]
+  if (successor && (await getKeystatiPostBySlug(successor))) {
+    permanentRedirect(`/blog/${successor}`)
+  }
+
   const curated = getPostBySlug(slug)
   const wp = !curated ? getWpPostBySlug(slug) : null
   const ks = !curated && !wp ? await getKeystatiPostBySlug(slug) : null

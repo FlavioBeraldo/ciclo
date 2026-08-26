@@ -475,6 +475,14 @@ export function getAllWpSlugs(): string[] {
   return getWpPosts().map((p) => p.slug)
 }
 
+// Posts antigos (WordPress) substituídos por artigos novos do Keystatic.
+// O redirect 301 e a remoção do sitemap só valem quando o artigo novo já
+// está publicado (agendamento por data) — antes disso, o antigo segue no ar.
+export const supersededWpPosts: Record<string, string> = {
+  'pinterest-ads-para-e-commerce-como-vender-mais-na-plataforma':
+    'pinterest-ads-ecommerce',
+}
+
 const categoryKeywords: Record<string, string[]> = {
   SEO: ['seo', 'busca orgânica', 'ranqueamento', 'palavras-chave', 'google search', 'orgânico'],
   'Mídia Paga': ['google ads', 'facebook ads', 'meta ads', 'tiktok ads', 'mídia paga', 'tráfego pago', 'campanha paga', 'anúncio'],
