@@ -1,5 +1,5 @@
 import type { MetadataRoute } from 'next'
-import { getAllWpSlugs, getAllSlugs } from '@/lib/blog'
+import { getAllWpSlugs, getAllSlugs, supersededWpPosts } from '@/lib/blog'
 import { getAllServicoSlugs } from '@/lib/servicos'
 import { getAllSolucaoSlugs } from '@/lib/solucoes'
 import { getAllKeystatiSlugs } from '@/lib/keystatic-posts'
@@ -40,8 +40,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }))
 
   const curatedSlugs = getAllSlugs()
-  const wpSlugs = getAllWpSlugs()
   const ksSlugs = await getAllKeystatiSlugs()
+  // Posts antigos substituídos saem do sitemap quando o sucessor é publicado
+  // (a URL antiga passa a responder redirect 308 para a nova).
+  const publishedKs = new Set(ksSlugs)
+  const wpSlugs = getAllWpSlugs().filter((slug) => {
+    const successor = supersededWpPosts[slug]
+    return !(successor && publishedKs.has(successor))
+  })
 
   const blogPages: MetadataRoute.Sitemap = [
     ...ksSlugs.map((slug) => ({
