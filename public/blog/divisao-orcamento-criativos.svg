@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 660" role="img" aria-label="Ilustração de como a plataforma divide um orçamento diário de mil reais entre os criativos ativos: com 3 criativos cada um recebe 333 reais por dia e satura o público; com 10 criativos, 100 reais por dia é o ponto de equilíbrio; com 25 criativos, 40 reais por dia pulveriza a verba">
+  <style>
+    text { font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif; }
+    .title { font-size: 19px; font-weight: 700; fill: #111827; }
+    .subtitle { font-size: 13px; fill: #6b7280; }
+    .premise { font-size: 12px; font-weight: 600; fill: #6b21a8; }
+    .rowTitle { font-size: 14px; font-weight: 700; fill: #111827; }
+    .chip { font-size: 10px; font-weight: 700; letter-spacing: 0.06em; }
+    .money { font-size: 12px; font-weight: 700; fill: #111827; }
+    .conseq { font-size: 11.5px; fill: #6b7280; }
+    .segLabel { font-size: 11px; font-weight: 700; fill: #ffffff; }
+    .note { font-size: 11.5px; fill: #6b7280; }
+  </style>
+
+  <rect x="0" y="0" width="840" height="660" rx="16" fill="#ffffff" stroke="#e5e7eb"/>
+
+  <text x="40" y="44" class="title">Como a plataforma divide seu orçamento entre os criativos</text>
+  <text x="40" y="66" class="subtitle">O mesmo orçamento compra as mesmas impressões — o que muda é entre quantos anúncios elas se dividem</text>
+
+  <!-- premissa -->
+  <rect x="40" y="84" width="760" height="34" rx="17" fill="#A100FF" fill-opacity="0.08"/>
+  <text x="420" y="106" class="premise" text-anchor="middle">Exemplo: campanha com R$ 1.000/dia e CPM de R$ 20  →  a entrega compra ≈ 50 mil impressões por dia</text>
+
+  <!-- ═══ Cenário 1: 3 criativos ═══ -->
+  <text x="40" y="160" class="rowTitle">3 criativos ativos</text>
+  <rect x="196" y="144" width="132" height="22" rx="11" fill="#111827"/>
+  <text x="262" y="159" class="chip" fill="#ffffff" text-anchor="middle">CRIATIVO DE MENOS</text>
+
+  <g>
+    <rect x="40" y="176" width="245" height="38" rx="8" fill="#111827"/>
+    <rect x="293" y="176" width="245" height="38" rx="8" fill="#111827"/>
+    <rect x="546" y="176" width="245" height="38" rx="8" fill="#111827"/>
+    <text x="162" y="200" class="segLabel" text-anchor="middle">R$ 333/dia</text>
+    <text x="415" y="200" class="segLabel" text-anchor="middle">R$ 333/dia</text>
+    <text x="668" y="200" class="segLabel" text-anchor="middle">R$ 333/dia</text>
+  </g>
+  <text x="40" y="238" class="money">≈ 16,6 mil impressões/dia por criativo</text>
+  <text x="40" y="258" class="conseq">O mesmo público vê os mesmos 3 anúncios até saturar: a frequência dispara e a fadiga chega em dias — o clássico "o ROAS caiu".</text>
+
+  <!-- ═══ Cenário 2: 10 criativos ═══ -->
+  <text x="40" y="308" class="rowTitle">10 criativos ativos</text>
+  <rect x="204" y="292" width="150" height="22" rx="11" fill="#A100FF"/>
+  <text x="279" y="307" class="chip" fill="#ffffff" text-anchor="middle">PONTO DE EQUILÍBRIO</text>
+
+  <g fill="#A100FF">
+    <rect x="40" y="324" width="69.5" height="38" rx="8"/>
+    <rect x="115.5" y="324" width="69.5" height="38" rx="8"/>
+    <rect x="191" y="324" width="69.5" height="38" rx="8"/>
+    <rect x="266.5" y="324" width="69.5" height="38" rx="8"/>
+    <rect x="342" y="324" width="69.5" height="38" rx="8"/>
+    <rect x="417.5" y="324" width="69.5" height="38" rx="8"/>
+    <rect x="493" y="324" width="69.5" height="38" rx="8"/>
+    <rect x="568.5" y="324" width="69.5" height="38" rx="8"/>
+    <rect x="644" y="324" width="69.5" height="38" rx="8"/>
+    <rect x="719.5" y="324" width="69.5" height="38" rx="8"/>
+  </g>
+  <text x="74.7" y="348" class="segLabel" text-anchor="middle">R$ 100</text>
+  <text x="150.2" y="348" class="segLabel" text-anchor="middle">R$ 100</text>
+  <text x="225.7" y="348" class="segLabel" text-anchor="middle">R$ 100</text>
+  <text x="301.2" y="348" class="segLabel" text-anchor="middle">R$ 100</text>
+  <text x="376.7" y="348" class="segLabel" text-anchor="middle">R$ 100</text>
+  <text x="452.2" y="348" class="segLabel" text-anchor="middle">R$ 100</text>
+  <text x="527.7" y="348" class="segLabel" text-anchor="middle">R$ 100</text>
+  <text x="603.2" y="348" class="segLabel" text-anchor="middle">R$ 100</text>
+  <text x="678.7" y="348" class="segLabel" text-anchor="middle">R$ 100</text>
+  <text x="754.2" y="348" class="segLabel" text-anchor="middle">R$ 100</text>
+  <text x="40" y="386" class="money">≈ 5 mil impressões/dia por criativo</text>
+  <text x="40" y="406" class="conseq">Cada criativo acumula dado suficiente para aprender e ser avaliado, e o portfólio renova a entrega antes de o público fadigar.</text>
+
+  <!-- ═══ Cenário 3: 25 criativos ═══ -->
+  <text x="40" y="456" class="rowTitle">25 criativos ativos</text>
+  <rect x="207" y="440" width="128" height="22" rx="11" fill="#A100FF" fill-opacity="0.15"/>
+  <text x="271" y="455" class="chip" fill="#A100FF" text-anchor="middle">CRIATIVO DEMAIS</text>
+
+  <g fill="#A100FF" fill-opacity="0.4">
+    <rect x="40.0" y="472" width="26.2" height="38" rx="5"/>
+    <rect x="70.2" y="472" width="26.2" height="38" rx="5"/>
+    <rect x="100.4" y="472" width="26.2" height="38" rx="5"/>
+    <rect x="130.6" y="472" width="26.2" height="38" rx="5"/>
+    <rect x="160.8" y="472" width="26.2" height="38" rx="5"/>
+    <rect x="191.0" y="472" width="26.2" height="38" rx="5"/>
+    <rect x="221.2" y="472" width="26.2" height="38" rx="5"/>
+    <rect x="251.4" y="472" width="26.2" height="38" rx="5"/>
+    <rect x="281.6" y="472" width="26.2" height="38" rx="5"/>
+    <rect x="311.8" y="472" width="26.2" height="38" rx="5"/>
+    <rect x="342.0" y="472" width="26.2" height="38" rx="5"/>
+    <rect x="372.2" y="472" width="26.2" height="38" rx="5"/>
+    <rect x="402.4" y="472" width="26.2" height="38" rx="5"/>
+    <rect x="432.6" y="472" width="26.2" height="38" rx="5"/>
+    <rect x="462.8" y="472" width="26.2" height="38" rx="5"/>
+    <rect x="493.0" y="472" width="26.2" height="38" rx="5"/>
+    <rect x="523.2" y="472" width="26.2" height="38" rx="5"/>
+    <rect x="553.4" y="472" width="26.2" height="38" rx="5"/>
+    <rect x="583.6" y="472" width="26.2" height="38" rx="5"/>
+    <rect x="613.8" y="472" width="26.2" height="38" rx="5"/>
+    <rect x="644.0" y="472" width="26.2" height="38" rx="5"/>
+    <rect x="674.2" y="472" width="26.2" height="38" rx="5"/>
+    <rect x="704.4" y="472" width="26.2" height="38" rx="5"/>
+    <rect x="734.6" y="472" width="26.2" height="38" rx="5"/>
+    <rect x="764.8" y="472" width="26.2" height="38" rx="5"/>
+  </g>
+  <text x="40" y="534" class="money">R$ 40/dia e ≈ 2 mil impressões/dia por criativo</text>
+  <text x="40" y="554" class="conseq">Verba pulverizada: nenhum anúncio gera volume para sair da fase de aprendizado, e a conta decide no ruído, não no dado.</text>
+
+  <!-- conclusão -->
+  <line x1="40" y1="580" x2="800" y2="580" stroke="#e5e7eb" stroke-width="1.5"/>
+  <text x="40" y="608" class="note"><tspan font-weight="700" fill="#A100FF">A régua prática:</tspan> some quanto cada criativo recebe por dia. Muito alto = público saturando e fadiga à vista;</text>
+  <text x="40" y="628" class="note">muito baixo = teste que nunca conclui. É por isso que o volume certo cresce junto com a verba da conta.</text>
+</svg>
