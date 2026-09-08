@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 480" role="img" aria-label="Orçamento Advantage+ distribuindo a verba única da campanha de forma desigual entre três conjuntos de anúncios, conforme a oportunidade prevista de cada um">
+  <style>
+    text { font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif; }
+    .title { font-size: 19px; font-weight: 700; fill: #111827; }
+    .subtitle { font-size: 13px; fill: #6b7280; }
+    .hub { font-size: 14px; font-weight: 700; fill: #ffffff; }
+    .hubSub { font-size: 11px; fill: #d1d5db; }
+    .setTitle { font-size: 12.5px; font-weight: 700; fill: #111827; }
+    .setDesc { font-size: 11px; fill: #6b7280; }
+    .pct { font-size: 13px; font-weight: 700; fill: #A100FF; }
+    .note { font-size: 11.5px; fill: #6b7280; }
+  </style>
+
+  <rect x="0" y="0" width="840" height="480" rx="16" fill="#ffffff" stroke="#e5e7eb"/>
+
+  <text x="40" y="44" class="title">Orçamento Advantage+ (CBO): leilão contínuo interno</text>
+  <text x="40" y="66" class="subtitle">A verba é única no nível da campanha — o sistema move para onde prevê o melhor resultado, sem divisão igualitária</text>
+
+  <!-- orçamento da campanha -->
+  <rect x="300" y="92" width="240" height="64" rx="14" fill="#111827"/>
+  <text x="420" y="119" class="hub" text-anchor="middle">Orçamento da campanha</text>
+  <text x="420" y="140" class="hubSub" text-anchor="middle">R$ 1.000/dia — decidido pelo gestor</text>
+
+  <!-- setas com espessuras proporcionais -->
+  <g stroke="#A100FF" fill="none" stroke-linecap="round">
+    <path d="M 360,156 C 300,190 220,204 172,218" stroke-width="9"/>
+    <path d="M 420,156 C 420,186 420,200 420,218" stroke-width="4" stroke-opacity="0.7"/>
+    <path d="M 480,156 C 540,190 620,204 668,218" stroke-width="2" stroke-opacity="0.5"/>
+  </g>
+
+  <!-- conjuntos -->
+  <g>
+    <rect x="60" y="224" width="224" height="130" rx="14" fill="#faf5ff" stroke="#A100FF" stroke-opacity="0.5" stroke-width="2"/>
+    <text x="80" y="254" class="setTitle">Conjunto A</text>
+    <text x="228" y="254" class="pct" text-anchor="end">~70%</text>
+    <rect x="80" y="268" width="184" height="10" rx="5" fill="#e9d5ff"/>
+    <rect x="80" y="268" width="129" height="10" rx="5" fill="#A100FF"/>
+    <text x="80" y="300" class="setDesc">Melhores oportunidades da</text>
+    <text x="80" y="314" class="setDesc">semana: concentra a verba e</text>
+    <text x="80" y="328" class="setDesc">acumula aprendizado</text>
+  </g>
+  <g>
+    <rect x="308" y="224" width="224" height="130" rx="14" fill="#faf5ff" stroke="#A100FF" stroke-opacity="0.35"/>
+    <text x="328" y="254" class="setTitle">Conjunto B</text>
+    <text x="476" y="254" class="pct" text-anchor="end">~20%</text>
+    <rect x="328" y="268" width="184" height="10" rx="5" fill="#e9d5ff"/>
+    <rect x="328" y="268" width="37" height="10" rx="5" fill="#A100FF"/>
+    <text x="328" y="300" class="setDesc">Recebe verba quando o custo</text>
+    <text x="328" y="314" class="setDesc">previsto por resultado</text>
+    <text x="328" y="328" class="setDesc">compete com o líder</text>
+  </g>
+  <g>
+    <rect x="556" y="224" width="224" height="130" rx="14" fill="#faf5ff" stroke="#A100FF" stroke-opacity="0.35"/>
+    <text x="576" y="254" class="setTitle">Conjunto C</text>
+    <text x="724" y="254" class="pct" text-anchor="end">~10%</text>
+    <rect x="576" y="268" width="184" height="10" rx="5" fill="#e9d5ff"/>
+    <rect x="576" y="268" width="18" height="10" rx="5" fill="#A100FF"/>
+    <text x="576" y="300" class="setDesc">"Quase não gastou" — não é</text>
+    <text x="576" y="314" class="setDesc">defeito: é o sistema julgando</text>
+    <text x="576" y="328" class="setDesc">a oportunidade menor</text>
+  </g>
+
+  <!-- régua de operação -->
+  <g>
+    <rect x="60" y="378" width="720" height="60" rx="14" fill="#A100FF" fill-opacity="0.07"/>
+    <text x="80" y="403" class="note"><tspan font-weight="700" fill="#A100FF">Como operar a favor:</tspan> poucos conjuntos com razão econômica clara · mínimo/máximo só com justificativa de negócio ·</text>
+    <text x="80" y="423" class="note">objetivos que não devem disputar verba ficam em campanhas separadas · escala gradual de 10% a 20% por ajuste</text>
+  </g>
+
+  <text x="40" y="464" class="note">Distribuição "injusta" é o recurso funcionando: forçar igualdade com mínimos transforma o CBO num ABO disfarçado.</text>
+</svg>
