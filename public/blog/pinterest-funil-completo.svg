@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 440" role="img" aria-label="O funil completo dentro do Pinterest: topo com pins de inspiração, meio com busca e coleções capturando intenção, e fundo com Performance+, catálogo e links diretos convertendo">
+  <style>
+    text { font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif; }
+    .title { font-size: 19px; font-weight: 700; fill: #111827; }
+    .subtitle { font-size: 13px; fill: #6b7280; }
+    .stage { font-size: 13px; font-weight: 700; }
+    .tag { font-size: 9.5px; font-weight: 700; letter-spacing: 0.06em; }
+    .h { font-size: 13px; font-weight: 700; fill: #111827; }
+    .desc { font-size: 11px; fill: #6b7280; }
+    .note { font-size: 11.5px; fill: #6b7280; }
+  </style>
+
+  <rect x="0" y="0" width="840" height="440" rx="16" fill="#ffffff" stroke="#e5e7eb"/>
+
+  <text x="40" y="44" class="title">O funil completo dentro do próprio Pinterest</text>
+  <text x="40" y="66" class="subtitle">Ferramental de plataforma madura sobre a única audiência em modo de planejamento de compra</text>
+
+  <!-- funil à esquerda -->
+  <g>
+    <path d="M 60,96 L 380,96 L 332,152 L 108,152 Z" fill="#faf5ff" stroke="#A100FF" stroke-opacity="0.4"/>
+    <text x="220" y="120" class="tag" fill="#A100FF" text-anchor="middle">TOPO</text>
+    <text x="220" y="139" class="stage" fill="#111827" text-anchor="middle">Inspiração</text>
+
+    <path d="M 108,162 L 332,162 L 284,218 L 156,218 Z" fill="#f3e8ff" stroke="#A100FF" stroke-opacity="0.5"/>
+    <text x="220" y="186" class="tag" fill="#A100FF" text-anchor="middle">MEIO</text>
+    <text x="220" y="205" class="stage" fill="#111827" text-anchor="middle">Consideração</text>
+
+    <path d="M 156,228 L 284,228 L 236,284 L 204,284 Z" fill="#A100FF"/>
+    <text x="220" y="252" class="tag" fill="#ffffff" text-anchor="middle">FUNDO</text>
+    <text x="220" y="270" class="stage" fill="#ffffff" text-anchor="middle" style="font-size:11px">Conversão</text>
+  </g>
+
+  <!-- descrições à direita -->
+  <g>
+    <line x1="332" y1="124" x2="430" y2="124" stroke="#e9d5ff" stroke-width="1.5"/>
+    <text x="440" y="116" class="h">Pins de inspiração</text>
+    <text x="440" y="134" class="desc">Orgânicos e promovidos nos temas que a</text>
+    <text x="440" y="149" class="desc">audiência salva — um pin distribui por meses</text>
+
+    <line x1="284" y1="190" x2="430" y2="190" stroke="#e9d5ff" stroke-width="1.5"/>
+    <text x="440" y="182" class="h">Busca e coleções</text>
+    <text x="440" y="200" class="desc">Capturam a intenção declarada — o criativo</text>
+    <text x="440" y="215" class="desc">certo é produto em contexto, não banner</text>
+
+    <line x1="236" y1="256" x2="430" y2="256" stroke="#e9d5ff" stroke-width="1.5"/>
+    <text x="440" y="248" class="h">Performance+, catálogo e direct links</text>
+    <text x="440" y="266" class="desc">Shopping ads nos heróis, retargeting dinâmico</text>
+    <text x="440" y="281" class="desc">e caminho direto ao checkout</text>
+  </g>
+
+  <!-- rodapé -->
+  <line x1="40" y1="316" x2="800" y2="316" stroke="#e5e7eb"/>
+  <text x="40" y="342" class="note"><tspan font-weight="700" fill="#A100FF">A assimetria a capturar:</tspan> ferramental de plataforma madura com leilão de plataforma subestimada —</text>
+  <text x="40" y="360" class="note">a IA já passa de 20% da receita do Pinterest e o CPC médio (~US$ 0,83) fica abaixo das redes saturadas.</text>
+  <text x="40" y="388" class="note">Régua honesta: ciclos de 60 a 90 dias (a audiência planeja antes de comprar) e a contribuição em receita com margem.</text>
+</svg>

@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 430" role="img" aria-label="O funil temporal do consumo — sonhar, planejar e comprar — mostrando que o Pinterest capta as duas primeiras fases e antecipa em até 90 dias o pico de compra que o Google capta na terceira">
+  <style>
+    text { font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif; }
+    .title { font-size: 19px; font-weight: 700; fill: #111827; }
+    .subtitle { font-size: 13px; fill: #6b7280; }
+    .phase { font-size: 13px; font-weight: 700; fill: #111827; }
+    .phaseD { font-size: 10.5px; fill: #6b7280; }
+    .owner { font-size: 11px; font-weight: 700; }
+    .note { font-size: 11.5px; fill: #6b7280; }
+    .axis { font-size: 10.5px; fill: #9ca3af; }
+  </style>
+
+  <rect x="0" y="0" width="840" height="430" rx="16" fill="#ffffff" stroke="#e5e7eb"/>
+
+  <text x="40" y="44" class="title">O Pinterest mostra o que o cliente já está sonhando</text>
+  <text x="40" y="66" class="subtitle">A curva de busca da plataforma antecipa a demanda de mercado em até 90 dias — a intenção nasce na fase de sonho</text>
+
+  <!-- linha do tempo -->
+  <text x="40" y="104" class="axis">~90 dias antes</text>
+  <text x="800" y="104" class="axis" text-anchor="end">pico de compra</text>
+  <!-- barra faseada -->
+  <rect x="40" y="114" width="300" height="40" rx="8" fill="#A100FF" fill-opacity="0.85"/>
+  <text x="190" y="139" class="phase" fill="#ffffff" text-anchor="middle">Sonhar</text>
+  <rect x="346" y="114" width="270" height="40" rx="8" fill="#A100FF" fill-opacity="0.5"/>
+  <text x="481" y="139" class="phase" fill="#ffffff" text-anchor="middle">Planejar</text>
+  <rect x="622" y="114" width="178" height="40" rx="8" fill="#111827"/>
+  <text x="711" y="139" class="phase" fill="#ffffff" text-anchor="middle">Comprar</text>
+
+  <!-- quem domina -->
+  <g>
+    <path d="M 40,166 H 616 V 186 H 40 Z" fill="#A100FF" fill-opacity="0.12"/>
+    <text x="328" y="180" class="owner" fill="#6b21a8" text-anchor="middle">PINTEREST domina — inspiração e planejamento</text>
+    <path d="M 622,166 H 800 V 186 H 622 Z" fill="#111827" fill-opacity="0.08"/>
+    <text x="711" y="180" class="owner" fill="#111827" text-anchor="middle">GOOGLE domina</text>
+  </g>
+
+  <text x="40" y="210" class="phaseD">Sem urgência: salva e inspira</text>
+  <text x="346" y="210" class="phaseD">Compara, salva, monta</text>
+  <text x="622" y="210" class="phaseD">Busca para transacionar</text>
+
+  <!-- rotinas -->
+  <text x="40" y="250" class="phase">Quatro rotinas para agir sobre a antecedência</text>
+  <g class="phaseD" fill="#374151">
+    <text x="40" y="276" style="font-weight:700; fill:#A100FF">Calendário reverso</text>
+    <text x="40" y="292">Ancorar sortimento, produção e mídia</text>
+    <text x="40" y="306">no início da curva, não no pico do varejo</text>
+
+    <text x="300" y="276" style="font-weight:700; fill:#A100FF">Sortimento e estoque</text>
+    <text x="300" y="292">Levar a curva às reuniões de compras,</text>
+    <text x="300" y="306">onde o dado vale mais que no marketing</text>
+
+    <text x="560" y="276" style="font-weight:700; fill:#A100FF">Conteúdo puxado por curva</text>
+    <text x="560" y="292">Publicar na subida: o pin acumula</text>
+    <text x="560" y="306">distribuição durante toda a temporada</text>
+
+    <text x="40" y="336" style="font-weight:700; fill:#A100FF">Predicts como pauta anual</text>
+    <text x="40" y="352">Cardápio de apostas para testar com cápsula antes de compromissos grandes</text>
+  </g>
+
+  <line x1="40" y1="372" x2="800" y2="372" stroke="#e5e7eb"/>
+  <text x="40" y="396" class="note"><tspan font-weight="700" fill="#A100FF">O erro clássico:</tspan> usar o radar só para "quando subir campanha". O valor está rio acima, nas decisões lentas e caras.</text>
+  <text x="40" y="416" class="note">Os 90 dias só valem para quem consegue decidir 90 dias antes — construir essa capacidade é o verdadeiro projeto.</text>
+</svg>
