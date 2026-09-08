@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 430" role="img" aria-label="Como a máquina lê uma imagem de produto no Pinterest Lens — nitidez, contexto, consistência e metadados — e o checklist de sete práticas de SEO visual para e-commerce">
+  <style>
+    text { font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif; }
+    .title { font-size: 19px; font-weight: 700; fill: #111827; }
+    .subtitle { font-size: 13px; fill: #6b7280; }
+    .h { font-size: 13px; font-weight: 700; fill: #111827; }
+    .layer { font-size: 11px; font-weight: 600; fill: #111827; }
+    .layerD { font-size: 10px; fill: #6b7280; }
+    .item { font-size: 11px; fill: #374151; }
+    .note { font-size: 11.5px; fill: #6b7280; }
+  </style>
+
+  <rect x="0" y="0" width="840" height="430" rx="16" fill="#ffffff" stroke="#e5e7eb"/>
+
+  <text x="40" y="44" class="title">Quando a busca é uma imagem, o catálogo é a página</text>
+  <text x="40" y="66" class="subtitle">O Lens lê forma, cor, textura e contexto — a marca concorre por semelhança, não por nome</text>
+
+  <!-- como a máquina lê -->
+  <text x="40" y="98" class="h">Como a máquina lê sua imagem</text>
+  <!-- produto mock -->
+  <rect x="40" y="110" width="150" height="150" rx="12" fill="#faf5ff" stroke="#A100FF" stroke-opacity="0.4"/>
+  <rect x="72" y="138" width="86" height="70" rx="8" fill="#A100FF" fill-opacity="0.5"/>
+  <circle cx="150" cy="150" r="10" fill="none" stroke="#A100FF" stroke-width="3"/><line x1="157" y1="157" x2="168" y2="168" stroke="#A100FF" stroke-width="3"/>
+  <text x="115" y="230" class="layerD" text-anchor="middle">imagem lida</text>
+  <!-- camadas -->
+  <g>
+    <line x1="196" y1="130" x2="222" y2="130" stroke="#A100FF" stroke-width="1.5"/>
+    <text x="230" y="126" class="layer">Nitidez do objeto</text>
+    <text x="230" y="141" class="layerD">produto definido e iluminado é classificável</text>
+    <line x1="196" y1="164" x2="222" y2="164" stroke="#A100FF" stroke-width="1.5"/>
+    <text x="230" y="160" class="layer">Contexto da cena</text>
+    <text x="230" y="175" class="layerD">ambiente ensina estilo, ocasião e combinações</text>
+    <line x1="196" y1="198" x2="222" y2="198" stroke="#A100FF" stroke-width="1.5"/>
+    <text x="230" y="194" class="layer">Consistência do catálogo</text>
+    <text x="230" y="209" class="layerD">múltiplos ângulos reforçam o reconhecimento</text>
+    <line x1="196" y1="232" x2="222" y2="232" stroke="#A100FF" stroke-width="1.5"/>
+    <text x="230" y="228" class="layer">Metadados que ancoram</text>
+    <text x="230" y="243" class="layerD">título e feed confirmam o que os pixels sugerem</text>
+  </g>
+
+  <!-- checklist -->
+  <text x="40" y="292" class="h">O checklist do SEO visual</text>
+  <g class="item">
+    <text x="40" y="316">1 · Fotografia dupla (limpa + contexto)</text>
+    <text x="300" y="316">2 · Formato vertical 2:3</text>
+    <text x="520" y="316">3 · Feed de produtos conectado</text>
+    <text x="40" y="340">4 · Metadados descritivos</text>
+    <text x="300" y="340">5 · Volume e recorrência</text>
+    <text x="520" y="340">6 · Identidade visual coerente</text>
+    <text x="40" y="364">7 · Leitura de busca e pins relacionados</text>
+  </g>
+
+  <line x1="40" y1="384" x2="800" y2="384" stroke="#e5e7eb"/>
+  <text x="40" y="408" class="note"><tspan font-weight="700" fill="#A100FF">Efeito composto:</tspan> cada imagem otimizada trabalha por meses sem leilão e serve também ao Google Lens e à IA — otimizar uma vez, ser achado em todas.</text>
+</svg>

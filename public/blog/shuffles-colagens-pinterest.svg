@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 420" role="img" aria-label="As três engrenagens que fazem as colagens do Pinterest engajarem — criação sem barreira, identidade em construção e circulação nativa — e o vínculo de cada recorte com o produto de origem">
+  <style>
+    text { font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif; }
+    .title { font-size: 19px; font-weight: 700; fill: #111827; }
+    .subtitle { font-size: 13px; fill: #6b7280; }
+    .cardT { font-size: 13px; font-weight: 700; fill: #111827; }
+    .cardD { font-size: 10.5px; fill: #6b7280; }
+    .note { font-size: 11.5px; fill: #6b7280; }
+    .big { font-size: 13px; font-weight: 700; }
+  </style>
+
+  <rect x="0" y="0" width="840" height="420" rx="16" fill="#ffffff" stroke="#e5e7eb"/>
+
+  <text x="40" y="44" class="title">O consumidor compõe com o que a marca oferece</text>
+  <text x="40" y="66" class="subtitle">Na colagem, o produto vira matéria-prima da expressão do usuário — e produto que expressa identidade vende</text>
+
+  <!-- 3 engrenagens -->
+  <g>
+    <rect x="40" y="90" width="245" height="120" rx="14" fill="#faf5ff" stroke="#A100FF" stroke-opacity="0.3"/>
+    <circle cx="70" cy="122" r="14" fill="#A100FF"/><path d="M 64,122 h 12 M 70,116 v 12" stroke="#ffffff" stroke-width="2"/>
+    <text x="94" y="127" class="cardT">Criação sem barreira</text>
+    <text x="58" y="156" class="cardD">Recortar e montar é lúdico e</text>
+    <text x="58" y="172" class="cardD">imediato, sem exigir habilidade</text>
+    <text x="58" y="188" class="cardD">— multiplica o tempo de sessão</text>
+
+    <rect x="297" y="90" width="245" height="120" rx="14" fill="#faf5ff" stroke="#A100FF" stroke-opacity="0.3"/>
+    <circle cx="327" cy="122" r="14" fill="#A100FF"/><circle cx="327" cy="122" r="5" fill="#ffffff"/>
+    <text x="351" y="127" class="cardT">Identidade em construção</text>
+    <text x="315" y="156" class="cardD">"Meu quarto ideal", "meu estilo"</text>
+    <text x="315" y="172" class="cardD">— a Gen Z ensaia identidade,</text>
+    <text x="315" y="188" class="cardD">o comportamento nativo do Pinterest</text>
+
+    <rect x="554" y="90" width="246" height="120" rx="14" fill="#faf5ff" stroke="#A100FF" stroke-opacity="0.3"/>
+    <circle cx="584" cy="122" r="14" fill="#A100FF"/><path d="M 578,122 l 6,6 8,-9" stroke="#ffffff" stroke-width="2" fill="none"/>
+    <text x="608" y="127" class="cardT">Circulação nativa</text>
+    <text x="572" y="156" class="cardD">Colagens são feitas para</text>
+    <text x="572" y="172" class="cardD">compartilhar, e cada uma carrega</text>
+    <text x="572" y="188" class="cardD">os recortes para novas audiências</text>
+  </g>
+
+  <!-- vínculo com o produto -->
+  <g>
+    <rect x="40" y="230" width="760" height="96" rx="14" fill="#111827"/>
+    <text x="60" y="258" class="big" fill="#ffffff">Cada recorte mantém o vínculo com o produto de origem</text>
+    <!-- ilustração de recortes -> pin -->
+    <g fill="#A100FF">
+      <rect x="60" y="274" width="30" height="30" rx="6"/><rect x="98" y="274" width="30" height="30" rx="6" fill-opacity="0.8"/><rect x="136" y="274" width="30" height="30" rx="6" fill-opacity="0.6"/>
+    </g>
+    <path d="M 176,289 L 214,289" stroke="#d8b4fe" stroke-width="2" fill="none"/><path d="M 214,289 l -8,-4 0,8 z" fill="#d8b4fe"/>
+    <text x="228" y="284" class="cardD" style="fill:#d1d5db">Produto recortado para mil colagens =</text>
+    <text x="228" y="300" class="cardD" style="fill:#d1d5db">distribuído por mil curadores voluntários, com o caminho de volta ao catálogo preservado</text>
+  </g>
+
+  <text x="40" y="356" class="note"><tspan font-weight="700" fill="#A100FF">Para entrar no jogo:</tspan> catálogo recortável (fundo limpo, alta resolução) · pins de elementos isolados ·</text>
+  <text x="40" y="374" class="note">colagens próprias modelando o uso · ativações de comunidade por tema. Vence quem entrega a melhor matéria-prima.</text>
+  <text x="40" y="400" class="note">Engajamento que não desce o funil é hobby: leia tráfego, salvamentos e receita das linhas mais recortadas.</text>
+</svg>

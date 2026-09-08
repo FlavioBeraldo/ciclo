@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 420" role="img" aria-label="Como o filtro de tipo de corpo do Pinterest classifica cada imagem por silhueta e só distribui o conteúdo nas buscas compatíveis: catálogo homogêneo aparece em poucas buscas, catálogo diverso em todas">
+  <style>
+    text { font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif; }
+    .title { font-size: 19px; font-weight: 700; fill: #111827; }
+    .subtitle { font-size: 13px; fill: #6b7280; }
+    .h { font-size: 13px; font-weight: 700; }
+    .desc { font-size: 11px; fill: #6b7280; }
+    .lbl { font-size: 10.5px; font-weight: 700; fill: #6b21a8; }
+    .note { font-size: 11.5px; fill: #6b7280; }
+    .x { font-size: 12px; font-weight: 700; fill: #9ca3af; }
+    .ok { font-size: 12px; font-weight: 700; fill: #A100FF; }
+  </style>
+
+  <rect x="0" y="0" width="840" height="420" rx="16" fill="#ffffff" stroke="#e5e7eb"/>
+
+  <text x="40" y="44" class="title">Representatividade virou critério de distribuição</text>
+  <text x="40" y="66" class="subtitle">A IA classifica 3,5 bi de imagens por silhueta — cada imagem só aparece nas buscas compatíveis com o filtro</text>
+
+  <!-- catálogo homogêneo -->
+  <g>
+    <rect x="40" y="92" width="360" height="128" rx="14" fill="#f9fafb" stroke="#e5e7eb"/>
+    <text x="60" y="120" class="h" fill="#6b7280">Catálogo homogêneo</text>
+    <g fill="#d1d5db">
+      <circle cx="76" cy="152" r="14"/><circle cx="116" cy="152" r="14"/><circle cx="156" cy="152" r="14"/><circle cx="196" cy="152" r="14"/>
+    </g>
+    <text x="60" y="192" class="desc">Só um tipo de corpo no conteúdo</text>
+    <text x="60" y="208" class="x">→ existe em poucas buscas da categoria</text>
+  </g>
+
+  <!-- catálogo diverso -->
+  <g>
+    <rect x="440" y="92" width="360" height="128" rx="14" fill="#faf5ff" stroke="#A100FF" stroke-opacity="0.4"/>
+    <text x="460" y="120" class="h" fill="#A100FF">Catálogo diverso</text>
+    <g fill="#A100FF">
+      <circle cx="476" cy="152" r="11" fill-opacity="0.9"/><circle cx="512" cy="152" r="16"/><circle cx="552" cy="152" r="13" fill-opacity="0.7"/>
+      <circle cx="590" cy="152" r="18" fill-opacity="0.85"/><circle cx="632" cy="152" r="12" fill-opacity="0.6"/>
+    </g>
+    <text x="460" y="192" class="desc">Corpos variados no conteúdo</text>
+    <text x="460" y="208" class="ok">→ elegível em todas as faixas de busca</text>
+  </g>
+
+  <!-- filtros do usuário -->
+  <text x="40" y="256" class="h" fill="#111827">O usuário escolhe a faixa; os resultados se reorganizam</text>
+  <g>
+    <rect x="40" y="270" width="140" height="30" rx="15" fill="#A100FF" fill-opacity="0.12"/><text x="110" y="290" class="lbl" text-anchor="middle">tipo de corpo</text>
+    <rect x="196" y="270" width="120" height="30" rx="15" fill="#A100FF" fill-opacity="0.12"/><text x="256" y="290" class="lbl" text-anchor="middle">tom de pele</text>
+    <rect x="332" y="270" width="150" height="30" rx="15" fill="#A100FF" fill-opacity="0.12"/><text x="407" y="290" class="lbl" text-anchor="middle">textura de cabelo</text>
+    <rect x="498" y="270" width="180" height="30" rx="15" fill="#111827"/><text x="588" y="290" class="lbl" text-anchor="middle" style="fill:#f3e8ff">resultados mais relevantes</text>
+  </g>
+
+  <text x="40" y="340" class="note"><tspan font-weight="700" fill="#A100FF">Ética e performance, o mesmo argumento:</tspan> conteúdo diverso alcança mais buscas, conecta mais gente ao</text>
+  <text x="40" y="358" class="note">produto e reduz a devolução que corrói margem. A resposta é processo de produção visual, não pin simbólico.</text>
+  <text x="40" y="388" class="note">O catálogo que mostra só um corpo escolheu, sem saber, o tamanho do próprio mercado.</text>
+</svg>
