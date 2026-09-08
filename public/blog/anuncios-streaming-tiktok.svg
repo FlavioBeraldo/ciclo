@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 430" role="img" aria-label="O TikTok somando o formato longo ao curto: vídeo curto para descoberta e alto volume de sessões, vídeo longo estilo streaming para consideração e profundidade de sessão, onde entram os anúncios Multi-Show e Media Card">
+  <style>
+    text { font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif; }
+    .title { font-size: 19px; font-weight: 700; fill: #111827; }
+    .subtitle { font-size: 13px; fill: #6b7280; }
+    .colTitle { font-size: 14px; font-weight: 700; }
+    .tag { font-size: 10px; font-weight: 700; letter-spacing: 0.06em; }
+    .desc { font-size: 11px; fill: #6b7280; }
+    .metric { font-size: 12px; font-weight: 700; }
+    .note { font-size: 11.5px; fill: #6b7280; }
+  </style>
+
+  <rect x="0" y="0" width="840" height="430" rx="16" fill="#ffffff" stroke="#e5e7eb"/>
+
+  <text x="40" y="44" class="title">O TikTok de minutos não substitui o de segundos: soma</text>
+  <text x="40" y="66" class="subtitle">Vídeo curto gera volume de sessões; vídeo longo gera profundidade — e profundidade é onde mora o CPM alto</text>
+
+  <!-- curto -->
+  <g>
+    <rect x="40" y="92" width="360" height="240" rx="16" fill="#f9fafb" stroke="#e5e7eb"/>
+    <rect x="60" y="112" width="120" height="22" rx="11" fill="#9ca3af"/>
+    <text x="120" y="127" class="tag" fill="#ffffff" text-anchor="middle">VÍDEO CURTO</text>
+    <text x="60" y="162" class="colTitle" fill="#111827">Descoberta</text>
+    <text x="60" y="184" class="desc">Feed rápido, gancho de 3 segundos,</text>
+    <text x="60" y="199" class="desc">interrupção de meio segundo</text>
+    <text x="60" y="230" class="metric" fill="#6b7280">Volume de sessões</text>
+    <!-- barrinhas muitas e curtas -->
+    <g fill="#9ca3af">
+      <rect x="60" y="246" width="12" height="40" rx="3"/><rect x="78" y="256" width="12" height="30" rx="3"/>
+      <rect x="96" y="250" width="12" height="36" rx="3"/><rect x="114" y="260" width="12" height="26" rx="3"/>
+      <rect x="132" y="252" width="12" height="34" rx="3"/><rect x="150" y="258" width="12" height="28" rx="3"/>
+      <rect x="168" y="248" width="12" height="38" rx="3"/><rect x="186" y="256" width="12" height="30" rx="3"/>
+      <rect x="204" y="252" width="12" height="34" rx="3"/><rect x="222" y="260" width="12" height="26" rx="3"/>
+    </g>
+    <text x="60" y="312" class="desc">Muitas sessões rasas</text>
+  </g>
+
+  <!-- longo -->
+  <g>
+    <rect x="440" y="92" width="360" height="240" rx="16" fill="#111827"/>
+    <rect x="460" y="112" width="180" height="22" rx="11" fill="#A100FF"/>
+    <text x="550" y="127" class="tag" fill="#ffffff" text-anchor="middle">VÍDEO LONGO · STREAMING</text>
+    <text x="460" y="162" class="colTitle" fill="#ffffff">Consideração</text>
+    <text x="460" y="184" class="desc" style="fill:#d1d5db">Multi-Show Experience e Media Card:</text>
+    <text x="460" y="199" class="desc" style="fill:#d1d5db">o intervalo de quem decidiu assistir</text>
+    <text x="460" y="230" class="metric" style="fill:#d8b4fe">Profundidade de sessão</text>
+    <!-- barras poucas e altas -->
+    <g fill="#A100FF">
+      <rect x="460" y="246" width="60" height="40" rx="4"/><rect x="530" y="246" width="60" height="40" rx="4" fill-opacity="0.8"/>
+      <rect x="600" y="246" width="60" height="40" rx="4" fill-opacity="0.6"/>
+    </g>
+    <text x="460" y="312" class="desc" style="fill:#d1d5db">Poucas sessões, atenção premium</text>
+  </g>
+
+  <text x="40" y="366" class="note"><tspan font-weight="700" fill="#A100FF">Criativo de intervalo ≠ criativo de feed:</tspan> narrativa de 15 a 30s com valor de produção. O espectador está sentado para assistir.</text>
+  <text x="40" y="388" class="note">Régua de demanda, não de clique: alcance qualificado, brand lift e o salto de busca de marca nas semanas seguintes.</text>
+  <text x="40" y="410" class="note">Inventário novo em atenção premium tende a estrear com leilão descontado — a janela clássica de quem testa cedo.</text>
+</svg>

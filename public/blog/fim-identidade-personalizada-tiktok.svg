@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 430" role="img" aria-label="O TikTok substituindo a identidade personalizada mascarada por anúncios de conta real e Spark Ads, com o plano de migração em quatro passos">
+  <style>
+    text { font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif; }
+    .title { font-size: 19px; font-weight: 700; fill: #111827; }
+    .subtitle { font-size: 13px; fill: #6b7280; }
+    .h { font-size: 13px; font-weight: 700; }
+    .desc { font-size: 11px; fill: #6b7280; }
+    .stepN { font-size: 13px; font-weight: 700; fill: #ffffff; }
+    .stepT { font-size: 12px; font-weight: 700; fill: #111827; }
+    .stepD { font-size: 10.5px; fill: #6b7280; }
+    .note { font-size: 11.5px; fill: #6b7280; }
+  </style>
+
+  <rect x="0" y="0" width="840" height="430" rx="16" fill="#ffffff" stroke="#e5e7eb"/>
+
+  <text x="40" y="44" class="title">No TikTok que está sendo construído, quem vende aparece</text>
+  <text x="40" y="66" class="subtitle">A identidade personalizada mascarada sai de cena; entram a conta real da marca e os Spark Ads</text>
+
+  <!-- antes -->
+  <g>
+    <rect x="40" y="92" width="230" height="86" rx="14" fill="#f9fafb" stroke="#e5e7eb"/>
+    <circle cx="72" cy="126" r="14" fill="#d1d5db"/>
+    <text x="72" y="131" style="font-size:14px; fill:#ffffff" text-anchor="middle">?</text>
+    <text x="96" y="122" class="h" fill="#6b7280">Identidade</text>
+    <text x="96" y="139" class="h" fill="#6b7280">personalizada</text>
+    <text x="60" y="164" class="desc">Perfil mascarado, sem conta real</text>
+  </g>
+  <!-- seta -->
+  <path d="M 274,135 L 320,135" stroke="#A100FF" stroke-width="2.5" fill="none"/><path d="M 320,135 l -9,-4.5 0,9 z" fill="#A100FF"/>
+  <text x="297" y="122" style="font-size:10px; font-weight:700; fill:#A100FF" text-anchor="middle">restrito</text>
+  <!-- depois -->
+  <g>
+    <rect x="330" y="92" width="220" height="86" rx="14" fill="#faf5ff" stroke="#A100FF" stroke-opacity="0.4"/>
+    <circle cx="362" cy="126" r="14" fill="#A100FF"/>
+    <path d="M 356,126 l 4,4 8,-9" stroke="#ffffff" stroke-width="2" fill="none"/>
+    <text x="386" y="122" class="h" fill="#A100FF">Conta real</text>
+    <text x="386" y="139" class="h" fill="#A100FF">da marca</text>
+    <text x="350" y="164" class="desc">Prova social embutida no anúncio</text>
+  </g>
+  <g>
+    <rect x="560" y="92" width="240" height="86" rx="14" fill="#111827"/>
+    <circle cx="592" cy="126" r="14" fill="#A100FF"/>
+    <path d="M 586,119 l 10,7 -10,7 z" fill="#ffffff"/>
+    <text x="616" y="122" class="h" fill="#ffffff">Spark Ads</text>
+    <text x="616" y="139" class="h" fill="#ffffff">(post real)</text>
+    <text x="580" y="164" class="desc" style="fill:#d1d5db">Herda o engajamento da publicação</text>
+  </g>
+
+  <!-- plano de migração -->
+  <text x="40" y="212" class="h" fill="#111827">O plano de migração em quatro passos</text>
+  <g>
+    <rect x="40" y="224" width="185" height="96" rx="12" fill="#faf5ff" stroke="#A100FF" stroke-opacity="0.25"/>
+    <circle cx="66" cy="250" r="13" fill="#A100FF"/><text x="66" y="255" class="stepN" text-anchor="middle">1</text>
+    <text x="88" y="255" class="stepT">Inventariar</text>
+    <text x="58" y="284" class="stepD">Liste campanhas sob identidade</text>
+    <text x="58" y="299" class="stepD">personalizada e o resultado que</text>
+    <text x="58" y="314" class="stepD">representam</text>
+
+    <rect x="237" y="224" width="185" height="96" rx="12" fill="#faf5ff" stroke="#A100FF" stroke-opacity="0.25"/>
+    <circle cx="263" cy="250" r="13" fill="#A100FF"/><text x="263" y="255" class="stepN" text-anchor="middle">2</text>
+    <text x="285" y="255" class="stepT">Arrumar o perfil</text>
+    <text x="255" y="284" class="stepD">Bio, prova social e conteúdo</text>
+    <text x="255" y="299" class="stepD">recente: a conta vira parte</text>
+    <text x="255" y="314" class="stepD">do criativo</text>
+
+    <rect x="434" y="224" width="185" height="96" rx="12" fill="#faf5ff" stroke="#A100FF" stroke-opacity="0.25"/>
+    <circle cx="460" cy="250" r="13" fill="#A100FF"/><text x="460" y="255" class="stepN" text-anchor="middle">3</text>
+    <text x="482" y="255" class="stepT">Migrar p/ Spark</text>
+    <text x="452" y="284" class="stepD">Impulsione posts reais da marca</text>
+    <text x="452" y="299" class="stepD">e de creators autorizados</text>
+    <text x="452" y="314" class="stepD">como formato principal</text>
+
+    <rect x="631" y="224" width="169" height="96" rx="12" fill="#faf5ff" stroke="#A100FF" stroke-opacity="0.25"/>
+    <circle cx="657" cy="250" r="13" fill="#A100FF"/><text x="657" y="255" class="stepN" text-anchor="middle">4</text>
+    <text x="679" y="255" class="stepT">Testar na casa</text>
+    <text x="649" y="284" class="stepD">Teste de oferta dentro do</text>
+    <text x="649" y="299" class="stepD">perfil real, com governança</text>
+    <text x="649" y="314" class="stepD">e disciplina editorial</text>
+  </g>
+
+  <text x="40" y="356" class="note"><tspan font-weight="700" fill="#A100FF">Seleção natural do mercado:</tspan> cada limpeza do anonimato barateia relativamente o leilão para quem constrói marca —</text>
+  <text x="40" y="376" class="note">remove o concorrente que só competia por não ter nada a perder.</text>
+  <text x="40" y="404" class="note">Para marcas estabelecidas, a migração costuma até melhorar o resultado: o perfil real agrega prova social ao anúncio.</text>
+</svg>
