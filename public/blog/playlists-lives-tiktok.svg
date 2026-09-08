@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 420" role="img" aria-label="Uma live de vendas reaproveitada em três camadas do funil: cortes derivados para descoberta, playlist no perfil para consideração e as ofertas do ao vivo para conversão">
+  <style>
+    text { font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif; }
+    .title { font-size: 19px; font-weight: 700; fill: #111827; }
+    .subtitle { font-size: 13px; fill: #6b7280; }
+    .src { font-size: 13px; font-weight: 700; fill: #ffffff; }
+    .srcSub { font-size: 10.5px; fill: #d1d5db; }
+    .layerT { font-size: 13px; font-weight: 700; fill: #111827; }
+    .layerD { font-size: 10.5px; fill: #6b7280; }
+    .stage { font-size: 10px; font-weight: 700; fill: #A100FF; letter-spacing: 0.06em; }
+    .note { font-size: 11.5px; fill: #6b7280; }
+  </style>
+
+  <rect x="0" y="0" width="840" height="420" rx="16" fill="#ffffff" stroke="#e5e7eb"/>
+
+  <text x="40" y="44" class="title">Cada transmissão vira uma fábrica de ativos</text>
+  <text x="40" y="66" class="subtitle">Uma live rende três camadas do funil sem um real a mais de verba — eficiência de conteúdo é alavanca de CAC</text>
+
+  <!-- fonte: a live -->
+  <rect x="40" y="150" width="150" height="120" rx="14" fill="#0d0020"/>
+  <circle cx="115" cy="196" r="22" fill="#A100FF" fill-opacity="0.5"/>
+  <path d="M 108,186 l 14,10 -14,10 z" fill="#ffffff"/>
+  <text x="115" y="238" class="src" text-anchor="middle">Live</text>
+  <text x="115" y="256" class="srcSub" text-anchor="middle">2h de transmissão</text>
+
+  <!-- setas -->
+  <g stroke="#A100FF" stroke-width="2" fill="none">
+    <path d="M 190,180 C 230,150 250,120 288,120"/>
+    <path d="M 190,210 L 288,210"/>
+    <path d="M 190,240 C 230,270 250,300 288,300"/>
+  </g>
+  <g fill="#A100FF">
+    <path d="M 288,120 l -9,-2 3,-8 z"/><path d="M 288,210 l -8,-4 0,8 z"/><path d="M 288,300 l -6,-7 -3,8 z"/>
+  </g>
+
+  <!-- camada 1: cortes -->
+  <g>
+    <rect x="294" y="96" width="506" height="70" rx="12" fill="#faf5ff" stroke="#A100FF" stroke-opacity="0.35"/>
+    <text x="314" y="120" class="stage">DESCOBERTA</text>
+    <text x="314" y="140" class="layerT">Cortes derivados</text>
+    <text x="314" y="158" class="layerD">3 a 5 vídeos curtos com prova social real, testada ao vivo — combustível da esteira</text>
+  </g>
+  <!-- camada 2: playlist -->
+  <g>
+    <rect x="294" y="176" width="506" height="70" rx="12" fill="#faf5ff" stroke="#A100FF" stroke-opacity="0.35"/>
+    <text x="314" y="200" class="stage">CONSIDERAÇÃO</text>
+    <text x="314" y="220" class="layerT">Playlist no perfil</text>
+    <text x="314" y="238" class="layerD">Histórico de lives vira vitrine navegável por tema e produto, achável por busca</text>
+  </g>
+  <!-- camada 3: ofertas -->
+  <g>
+    <rect x="294" y="256" width="506" height="70" rx="12" fill="#111827"/>
+    <text x="314" y="280" class="stage" style="fill:#d8b4fe">CONVERSÃO</text>
+    <text x="314" y="300" class="layerT" style="fill:#ffffff">Ofertas do ao vivo + repost</text>
+    <text x="314" y="318" class="layerD" style="fill:#d1d5db">A urgência da transmissão, mais o repost que estende o alcance além da janela ao vivo</text>
+  </g>
+
+  <text x="40" y="360" class="note"><tspan font-weight="700" fill="#A100FF">Vira processo, não sorte:</tspan> planeje a live em blocos recortáveis, marque timestamps ao vivo, publique a playlist com</text>
+  <text x="40" y="378" class="note">curadoria e extraia os cortes na semana. O ROI correto da live é o do ciclo completo do ativo, não o placar da noite.</text>
+  <text x="40" y="402" class="note">Live quinzenal deixa de ser "dois eventos por mês" e vira fluxo contínuo — o acervo antigo segue vendendo catálogo permanente.</text>
+</svg>

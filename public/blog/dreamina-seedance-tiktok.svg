@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 430" role="img" aria-label="Onde a IA do Seedance acelera a esteira de criativos — variações em escala, consistência de produto, localização e pré-teste — e onde os creators reais permanecem, no núcleo de prova social">
+  <style>
+    text { font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif; }
+    .title { font-size: 19px; font-weight: 700; fill: #111827; }
+    .subtitle { font-size: 13px; fill: #6b7280; }
+    .colTitle { font-size: 14px; font-weight: 700; }
+    .item { font-size: 12px; font-weight: 600; fill: #111827; }
+    .itemDesc { font-size: 10.5px; fill: #6b7280; }
+    .note { font-size: 11.5px; fill: #6b7280; }
+  </style>
+
+  <rect x="0" y="0" width="840" height="430" rx="16" fill="#ffffff" stroke="#e5e7eb"/>
+
+  <text x="40" y="44" class="title">A esteira híbrida: IA para escala, creators para prova</text>
+  <text x="40" y="66" class="subtitle">O Seedance muda quanto custa produzir as tentativas — não o que faz um criativo vencer no TikTok</text>
+
+  <!-- IA acelera -->
+  <g>
+    <rect x="40" y="92" width="470" height="300" rx="16" fill="#faf5ff" stroke="#A100FF" stroke-opacity="0.4"/>
+    <text x="60" y="122" class="colTitle" fill="#A100FF">Onde a IA acelera</text>
+    <g>
+      <rect x="60" y="140" width="200" height="112" rx="12" fill="#ffffff" stroke="#e9d5ff"/>
+      <text x="76" y="166" class="item">Variações em escala</text>
+      <text x="76" y="186" class="itemDesc">Dezenas de cenas, ambientes e</text>
+      <text x="76" y="201" class="itemDesc">aberturas a partir de um conceito</text>
+      <text x="76" y="216" class="itemDesc">validado, sem novas diárias</text>
+
+      <rect x="272" y="140" width="220" height="112" rx="12" fill="#ffffff" stroke="#e9d5ff"/>
+      <text x="288" y="166" class="item">Consistência de produto</text>
+      <text x="288" y="186" class="itemDesc">Reference to Video coloca a</text>
+      <text x="288" y="201" class="itemDesc">embalagem certa no momento</text>
+      <text x="288" y="216" class="itemDesc">certo — o fim da imprecisão</text>
+
+      <rect x="60" y="264" width="200" height="110" rx="12" fill="#ffffff" stroke="#e9d5ff"/>
+      <text x="76" y="290" class="item">Localização</text>
+      <text x="76" y="310" class="itemDesc">Dublagem, tradução e avatares</text>
+      <text x="76" y="325" class="itemDesc">multilíngues: um vencedor BR</text>
+      <text x="76" y="340" class="itemDesc">vira campanha regional em horas</text>
+
+      <rect x="272" y="264" width="220" height="110" rx="12" fill="#ffffff" stroke="#e9d5ff"/>
+      <text x="288" y="290" class="item">Rascunho e pré-teste</text>
+      <text x="288" y="310" class="itemDesc">Versões rápidas de um roteiro</text>
+      <text x="288" y="325" class="itemDesc">para testar ângulos antes de</text>
+      <text x="288" y="340" class="itemDesc">gravar com creators</text>
+    </g>
+  </g>
+
+  <!-- creators permanecem -->
+  <g>
+    <rect x="530" y="92" width="270" height="300" rx="16" fill="#111827"/>
+    <text x="550" y="122" class="colTitle" fill="#ffffff">Onde os creators ficam</text>
+    <text x="550" y="150" class="itemDesc" style="fill:#d1d5db">O TikTok pune o que soa fabricado.</text>
+    <text x="550" y="165" class="itemDesc" style="fill:#d1d5db">O núcleo de confiança segue humano:</text>
+    <g class="item" fill="#ffffff">
+      <text x="550" y="196">● Review</text>
+      <text x="550" y="222">● Depoimento</text>
+      <text x="550" y="248">● UGC de prova social</text>
+    </g>
+    <rect x="550" y="270" width="230" height="100" rx="12" fill="#A100FF" fill-opacity="0.2"/>
+    <text x="566" y="296" class="item" style="fill:#f3e8ff">Compliance não é opcional</text>
+    <text x="566" y="316" class="itemDesc" style="fill:#d1d5db">Rotulagem de AIGC no TikTok e</text>
+    <text x="566" y="331" class="itemDesc" style="fill:#d1d5db">transparência obrigatória na UE:</text>
+    <text x="566" y="346" class="itemDesc" style="fill:#d1d5db">declarar IA é etapa formal da</text>
+    <text x="566" y="361" class="itemDesc" style="fill:#d1d5db">esteira, não improviso</text>
+  </g>
+
+  <text x="40" y="416" class="note">IA entra por função, não por moda: multiplique hipóteses em cima de insight humano e deixe o dado decidir a proporção por formato.</text>
+</svg>

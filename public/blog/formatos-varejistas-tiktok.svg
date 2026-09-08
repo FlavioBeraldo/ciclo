@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 450" role="img" aria-label="Os três cenários em que o alto impacto do TikTok se paga — lançamentos de janela curta, datas de guerra do varejo e construção acelerada de marca — e o sanduíche de colheita antes, durante e depois da janela">
+  <style>
+    text { font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif; }
+    .title { font-size: 19px; font-weight: 700; fill: #111827; }
+    .subtitle { font-size: 13px; fill: #6b7280; }
+    .h { font-size: 13px; font-weight: 700; fill: #111827; }
+    .cen { font-size: 12px; font-weight: 700; fill: #111827; }
+    .cenD { font-size: 10.5px; fill: #6b7280; }
+    .sw { font-size: 12px; font-weight: 700; fill: #ffffff; }
+    .swD { font-size: 10.5px; fill: #d1d5db; }
+    .phase { font-size: 10px; font-weight: 700; letter-spacing: 0.06em; fill: #A100FF; }
+    .note { font-size: 11.5px; fill: #6b7280; }
+  </style>
+
+  <rect x="0" y="0" width="840" height="450" rx="16" fill="#ffffff" stroke="#e5e7eb"/>
+
+  <text x="40" y="44" class="title">Alto impacto: quando o premium se paga</text>
+  <text x="40" y="66" class="subtitle">Logo Takeover e Prime Time constroem reconhecimento em velocidade — não convertem sozinhos</text>
+
+  <!-- 3 cenários -->
+  <text x="40" y="98" class="h">Os três cenários em que vale</text>
+  <g>
+    <rect x="40" y="110" width="245" height="86" rx="12" fill="#faf5ff" stroke="#A100FF" stroke-opacity="0.3"/>
+    <text x="58" y="136" class="cen">1 · Lançamento de janela curta</text>
+    <text x="58" y="156" class="cenD">O takeover comprime em dias o que</text>
+    <text x="58" y="171" class="cenD">a mídia contínua faria em meses; o</text>
+    <text x="58" y="186" class="cenD">custo se dilui na receita do ciclo</text>
+
+    <rect x="297" y="110" width="245" height="86" rx="12" fill="#faf5ff" stroke="#A100FF" stroke-opacity="0.3"/>
+    <text x="315" y="136" class="cen">2 · Datas de guerra do varejo</text>
+    <text x="315" y="156" class="cenD">Black Friday e picos: presença</text>
+    <text x="315" y="171" class="cenD">garantida quando o leilão infla e</text>
+    <text x="315" y="186" class="cenD">a intenção está no teto</text>
+
+    <rect x="554" y="110" width="246" height="86" rx="12" fill="#faf5ff" stroke="#A100FF" stroke-opacity="0.3"/>
+    <text x="572" y="136" class="cen">3 · Construção de marca</text>
+    <text x="572" y="156" class="cenD">Ganhar share mental contra líderes,</text>
+    <text x="572" y="171" class="cenD">medido por salto de branded search</text>
+    <text x="572" y="186" class="cenD">e demanda direta no trimestre</text>
+  </g>
+
+  <!-- sanduíche -->
+  <text x="40" y="234" class="h">O sanduíche de colheita (mesma janela)</text>
+  <g>
+    <rect x="40" y="246" width="760" height="52" rx="12" fill="#A100FF" fill-opacity="0.12"/>
+    <text x="60" y="268" class="phase">ANTES</text>
+    <text x="60" y="288" class="cenD" style="fill:#374151">Aquecer a base própria (CRM, WhatsApp, social) e preparar o canal de venda: estoque, página, oferta</text>
+
+    <rect x="40" y="306" width="760" height="52" rx="12" fill="#111827"/>
+    <text x="60" y="328" class="phase" style="fill:#d8b4fe">DURANTE</text>
+    <text x="60" y="348" class="swD">Takeover no topo com criativo à altura do formato + captação reforçada colhendo a intenção em tempo real</text>
+
+    <rect x="40" y="366" width="760" height="52" rx="12" fill="#A100FF" fill-opacity="0.12"/>
+    <text x="60" y="388" class="phase">DEPOIS</text>
+    <text x="60" y="408" class="cenD" style="fill:#374151">Remarketing sobre o engajamento do pico + leitura de receita incremental da janela contra a linha de base</text>
+  </g>
+
+  <text x="40" y="440" class="note">Comprar o impacto sem a colheita é o erro clássico e mais caro do formato. O veredito se dá no conjunto, nunca no clique do takeover.</text>
+</svg>

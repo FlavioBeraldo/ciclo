@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 450" role="img" aria-label="Comparação entre Smart+, a automação de mídia do TikTok que leva tráfego para site ou Shop, e GMV Max, a automação de negócio que otimiza o ROI agregado de todos os canais da TikTok Shop">
+  <style>
+    text { font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif; }
+    .title { font-size: 19px; font-weight: 700; fill: #111827; }
+    .subtitle { font-size: 13px; fill: #6b7280; }
+    .cardTitle { font-size: 15px; font-weight: 700; }
+    .tag { font-size: 10px; font-weight: 700; letter-spacing: 0.06em; }
+    .desc { font-size: 11px; fill: #6b7280; }
+    .chip { font-size: 10.5px; font-weight: 600; }
+    .note { font-size: 11.5px; fill: #6b7280; }
+  </style>
+
+  <rect x="0" y="0" width="840" height="450" rx="16" fill="#ffffff" stroke="#e5e7eb"/>
+
+  <text x="40" y="44" class="title">Smart+ e GMV Max: automação de mídia vs. automação de negócio</text>
+  <text x="40" y="66" class="subtitle">Quem vende só no site usa Smart+; quem opera TikTok Shop tende a viver com os dois</text>
+
+  <!-- Smart+ -->
+  <g>
+    <rect x="40" y="92" width="360" height="300" rx="16" fill="#faf5ff" stroke="#A100FF" stroke-opacity="0.4"/>
+    <rect x="60" y="112" width="90" height="22" rx="11" fill="#A100FF" fill-opacity="0.15"/>
+    <text x="105" y="127" class="tag" fill="#A100FF" text-anchor="middle">SMART+</text>
+    <text x="60" y="162" class="cardTitle" fill="#111827">Automação de mídia</text>
+    <text x="60" y="184" class="desc">O Advantage+ do TikTok: leva tráfego</text>
+    <text x="60" y="199" class="desc">qualificado para onde você quiser.</text>
+    <!-- destinos -->
+    <g>
+      <rect x="60" y="216" width="150" height="30" rx="8" fill="#ffffff" stroke="#e9d5ff"/>
+      <text x="135" y="236" class="chip" fill="#374151" text-anchor="middle">Site da marca</text>
+      <rect x="222" y="216" width="150" height="30" rx="8" fill="#ffffff" stroke="#e9d5ff"/>
+      <text x="297" y="236" class="chip" fill="#374151" text-anchor="middle">TikTok Shop</text>
+    </g>
+    <text x="60" y="278" class="desc" style="font-weight:700; fill:#111827">Alavancas do gestor:</text>
+    <text x="60" y="298" class="desc">● Poucas campanhas, verba robusta</text>
+    <text x="60" y="316" class="desc">● Pixel + Events API confiáveis</text>
+    <text x="60" y="334" class="desc">● Portfólio criativo diverso e renovado</text>
+    <rect x="60" y="350" width="312" height="28" rx="8" fill="#A100FF" fill-opacity="0.1"/>
+    <text x="72" y="368" class="chip" fill="#6b21a8">Inclui Smart+ Catalog Ads (feed = criativo)</text>
+  </g>
+
+  <!-- GMV Max -->
+  <g>
+    <rect x="440" y="92" width="360" height="300" rx="16" fill="#111827"/>
+    <rect x="460" y="112" width="100" height="22" rx="11" fill="#A100FF"/>
+    <text x="510" y="127" class="tag" fill="#ffffff" text-anchor="middle">GMV MAX</text>
+    <text x="460" y="162" class="cardTitle" fill="#ffffff">Automação de negócio</text>
+    <text x="460" y="184" class="desc" style="fill:#d1d5db">Otimiza o ROI agregado da TikTok Shop —</text>
+    <text x="460" y="199" class="desc" style="fill:#d1d5db">decide onde colocar cada real.</text>
+    <!-- canais orquestrados -->
+    <g>
+      <rect x="460" y="216" width="72" height="30" rx="8" fill="#ffffff" fill-opacity="0.12"/><text x="496" y="236" class="chip" fill="#ffffff" text-anchor="middle">vídeos</text>
+      <rect x="540" y="216" width="72" height="30" rx="8" fill="#ffffff" fill-opacity="0.12"/><text x="576" y="236" class="chip" fill="#ffffff" text-anchor="middle">lives</text>
+      <rect x="620" y="216" width="72" height="30" rx="8" fill="#ffffff" fill-opacity="0.12"/><text x="656" y="236" class="chip" fill="#ffffff" text-anchor="middle">vitrine</text>
+      <rect x="700" y="216" width="80" height="30" rx="8" fill="#ffffff" fill-opacity="0.12"/><text x="740" y="236" class="chip" fill="#ffffff" text-anchor="middle">afiliados</text>
+    </g>
+    <text x="460" y="278" class="desc" style="font-weight:700; fill:#ffffff">O que fica com a operação:</text>
+    <text x="460" y="298" class="desc" style="fill:#d1d5db">● Sortimento e preço saudáveis</text>
+    <text x="460" y="316" class="desc" style="fill:#d1d5db">● Volume de conteúdo orgânico/afiliados</text>
+    <text x="460" y="334" class="desc" style="fill:#d1d5db">● Meta de ROI calibrada pela margem real</text>
+    <rect x="460" y="350" width="320" height="28" rx="8" fill="#A100FF" fill-opacity="0.25"/>
+    <text x="472" y="368" class="chip" fill="#f3e8ff">Leia o P&amp;L, não o ROAS: GMV sem margem é a métrica mais cara</text>
+  </g>
+
+  <text x="40" y="424" class="note">A automação assumiu a mecânica e devolveu ao gestor a estratégia: sortimento, margem, criativo e leitura. A régua final é o lucro.</text>
+</svg>
