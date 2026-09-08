@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 420" role="img" aria-label="Os três atritos de pagamento de mídia internacional — custo e prazo de remessa, volatilidade cambial e limites de cartão — e como uma stablecoin pareada ao dólar responde a cada um">
+  <style>
+    text { font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif; }
+    .title { font-size: 19px; font-weight: 700; fill: #111827; }
+    .subtitle { font-size: 13px; fill: #6b7280; }
+    .prob { font-size: 12.5px; font-weight: 700; fill: #111827; }
+    .probDesc { font-size: 11px; fill: #6b7280; }
+    .sol { font-size: 11px; fill: #ffffff; }
+    .h { font-size: 12px; font-weight: 700; }
+    .note { font-size: 11.5px; fill: #6b7280; }
+  </style>
+
+  <rect x="0" y="0" width="840" height="420" rx="16" fill="#ffffff" stroke="#e5e7eb"/>
+
+  <text x="40" y="44" class="title">USDC no Meta Ads: menos sobre cripto, mais sobre atrito</text>
+  <text x="40" y="66" class="subtitle">Uma stablecoin pareada ao dólar responde aos três atritos de quem paga mídia em vários países</text>
+
+  <!-- cabeçalhos -->
+  <text x="60" y="104" class="h" fill="#6b7280">O ATRITO</text>
+  <text x="470" y="104" class="h" fill="#A100FF">A RESPOSTA DA STABLECOIN</text>
+
+  <!-- linha 1 -->
+  <g>
+    <rect x="40" y="116" width="400" height="70" rx="12" fill="#f9fafb" stroke="#e5e7eb"/>
+    <text x="60" y="144" class="prob">Custo e prazo de remessa</text>
+    <text x="60" y="166" class="probDesc">Transferência internacional cara e lenta</text>
+    <path d="M 446,151 L 466,151" stroke="#A100FF" stroke-width="2" fill="none"/><path d="M 466,151 l -8,-4 0,8 z" fill="#A100FF"/>
+    <rect x="472" y="116" width="328" height="70" rx="12" fill="#A100FF"/>
+    <text x="492" y="144" class="h" fill="#ffffff">Liquidação rápida</text>
+    <text x="492" y="166" class="sol">Independe do calendário bancário e das praças</text>
+  </g>
+
+  <!-- linha 2 -->
+  <g>
+    <rect x="40" y="196" width="400" height="70" rx="12" fill="#f9fafb" stroke="#e5e7eb"/>
+    <text x="60" y="224" class="prob">Volatilidade cambial</text>
+    <text x="60" y="246" class="probDesc">Faturamento local vs. fatura de mídia em dólar</text>
+    <path d="M 446,231 L 466,231" stroke="#A100FF" stroke-width="2" fill="none"/><path d="M 466,231 l -8,-4 0,8 z" fill="#A100FF"/>
+    <rect x="472" y="196" width="328" height="70" rx="12" fill="#A100FF" fill-opacity="0.82"/>
+    <text x="492" y="224" class="h" fill="#ffffff">Valor estável (pareado ao dólar)</text>
+    <text x="492" y="246" class="sol">Cripto volátil seria impraticável para orçamento</text>
+  </g>
+
+  <!-- linha 3 -->
+  <g>
+    <rect x="40" y="276" width="400" height="70" rx="12" fill="#f9fafb" stroke="#e5e7eb"/>
+    <text x="60" y="304" class="prob">Limites e bloqueios de cartão</text>
+    <text x="60" y="326" class="probDesc">Cartões corporativos travam em alto volume</text>
+    <path d="M 446,311 L 466,311" stroke="#A100FF" stroke-width="2" fill="none"/><path d="M 466,311 l -8,-4 0,8 z" fill="#A100FF"/>
+    <rect x="472" y="276" width="328" height="70" rx="12" fill="#A100FF" fill-opacity="0.64"/>
+    <text x="492" y="304" class="h" fill="#ffffff">Fora dos trilhos bancários tradicionais</text>
+    <text x="492" y="326" class="sol">Por isso começa por "países selecionados"</text>
+  </g>
+
+  <text x="40" y="378" class="note"><tspan font-weight="700" fill="#A100FF">Antes de usar:</tspan> tesouraria e contabilidade · custo total vs. cartão/remessa · governança financeira · estabilidade regulatória.</text>
+  <text x="40" y="400" class="note">Para operação só doméstica, dificilmente faz sentido hoje. Para quem cruza fronteiras, é agenda de marketing com o financeiro.</text>
+</svg>
