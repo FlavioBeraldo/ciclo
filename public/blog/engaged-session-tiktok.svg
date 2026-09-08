@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 430" role="img" aria-label="A Engaged Session muda o objeto medido da exposição para o comportamento, com três usos legítimos subordinados ao limite de que continua sendo métrica de meio, não de fim">
+  <style>
+    text { font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif; }
+    .title { font-size: 19px; font-weight: 700; fill: #111827; }
+    .subtitle { font-size: 13px; fill: #6b7280; }
+    .h { font-size: 13px; font-weight: 700; fill: #111827; }
+    .old { font-size: 12px; font-weight: 700; fill: #6b7280; }
+    .new { font-size: 12px; font-weight: 700; fill: #A100FF; }
+    .desc { font-size: 10.5px; fill: #6b7280; }
+    .useT { font-size: 12px; font-weight: 700; fill: #111827; }
+    .note { font-size: 11.5px; fill: #6b7280; }
+  </style>
+
+  <rect x="0" y="0" width="840" height="430" rx="16" fill="#ffffff" stroke="#e5e7eb"/>
+
+  <text x="40" y="44" class="title">Da exposição para o comportamento</text>
+  <text x="40" y="66" class="subtitle">A Engaged Session qualifica a sessão pelo consumo real — um sinal mais honesto entre a impressão e a conversão</text>
+
+  <!-- view antiga vs engaged -->
+  <g>
+    <rect x="40" y="92" width="360" height="88" rx="12" fill="#f9fafb" stroke="#e5e7eb"/>
+    <text x="60" y="118" class="old">VIEW CLÁSSICA</text>
+    <text x="60" y="142" class="desc">O vídeo toca sozinho no feed e o contador</text>
+    <text x="60" y="157" class="desc">dispara: soma quem nunca decidiu assistir.</text>
+    <text x="60" y="172" class="desc" style="font-weight:700; fill:#374151">Mede o algoritmo de entrega, não o interesse</text>
+  </g>
+  <g>
+    <path d="M 404,136 L 432,136" stroke="#A100FF" stroke-width="2.5" fill="none"/><path d="M 432,136 l -9,-4.5 0,9 z" fill="#A100FF"/>
+  </g>
+  <g>
+    <rect x="440" y="92" width="360" height="88" rx="12" fill="#faf5ff" stroke="#A100FF" stroke-opacity="0.4"/>
+    <text x="460" y="118" class="new">ENGAGED SESSION</text>
+    <text x="460" y="142" class="desc">Qualifica pela atenção real, interações e</text>
+    <text x="460" y="157" class="desc">continuidade: gente que escolheu assistir.</text>
+    <text x="460" y="172" class="desc" style="font-weight:700; fill:#6b21a8">Mede o comportamento — prediz interesse</text>
+  </g>
+
+  <!-- 3 usos -->
+  <text x="40" y="214" class="h">Três usos legítimos</text>
+  <g>
+    <rect x="40" y="226" width="245" height="84" rx="12" fill="#faf5ff" stroke="#A100FF" stroke-opacity="0.25"/>
+    <text x="58" y="252" class="useT">Diagnóstico de criativo</text>
+    <text x="58" y="272" class="desc">Comparar ângulos e formatos pelo</text>
+    <text x="58" y="287" class="desc">que captura atenção real, sinal</text>
+    <text x="58" y="302" class="desc">melhor que views brutas</text>
+
+    <rect x="297" y="226" width="245" height="84" rx="12" fill="#faf5ff" stroke="#A100FF" stroke-opacity="0.25"/>
+    <text x="315" y="252" class="useT">Qualificar audiências</text>
+    <text x="315" y="272" class="desc">Remarketing e lookalikes sobre</text>
+    <text x="315" y="287" class="desc">interesse demonstrado, não</text>
+    <text x="315" y="302" class="desc">sobre view rasa</text>
+
+    <rect x="554" y="226" width="246" height="84" rx="12" fill="#faf5ff" stroke="#A100FF" stroke-opacity="0.25"/>
+    <text x="572" y="252" class="useT">Régua de demanda</text>
+    <text x="572" y="272" class="desc">Topo de funil medido melhor que</text>
+    <text x="572" y="287" class="desc">alcance, combinado com brand</text>
+    <text x="572" y="302" class="desc">lift e busca de marca</text>
+  </g>
+
+  <!-- limite -->
+  <rect x="40" y="326" width="760" height="46" rx="12" fill="#111827"/>
+  <text x="60" y="348" class="note" style="fill:#ffffff"><tspan font-weight="700">O limite:</tspan> é métrica de meio, não de fim. Sessão engajada não paga boleto — otimizar para ela como objetivo</text>
+  <text x="60" y="364" class="note" style="fill:#d1d5db">produz entretenimento eficiente, não venda. Entra no dashboard subordinada a receita, CAC e ROAS.</text>
+
+  <text x="40" y="402" class="note">Métrica de vaidade não é um tipo de métrica, é um uso: a mesma sessão engajada explica o negócio ou vira slide de autoengano.</text>
+</svg>

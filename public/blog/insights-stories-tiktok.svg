@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 420" role="img" aria-label="A separação dos insights de Stories em duas audiências: seguidores, para quem o formato é relacionamento medido por penetração na base, e não seguidores, para quem é vitrine de descoberta medida por conversão em seguidores">
+  <style>
+    text { font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif; }
+    .title { font-size: 19px; font-weight: 700; fill: #111827; }
+    .subtitle { font-size: 13px; fill: #6b7280; }
+    .h { font-size: 14px; font-weight: 700; }
+    .role { font-size: 12px; font-weight: 700; }
+    .desc { font-size: 11px; fill: #6b7280; }
+    .metric { font-size: 10.5px; fill: #6b21a8; font-weight: 600; }
+    .stage { font-size: 10px; font-weight: 700; letter-spacing: 0.06em; }
+    .note { font-size: 11.5px; fill: #6b7280; }
+  </style>
+
+  <rect x="0" y="0" width="840" height="420" rx="16" fill="#ffffff" stroke="#e5e7eb"/>
+
+  <text x="40" y="44" class="title">Um número de vaidade vira dois números de decisão</text>
+  <text x="40" y="66" class="subtitle">Os insights de Stories separam espectadores totais dos que são seguidores — dois papéis, duas réguas</text>
+
+  <!-- espectadores totais -->
+  <rect x="300" y="86" width="240" height="34" rx="17" fill="#9ca3af"/>
+  <text x="420" y="108" class="role" fill="#ffffff" text-anchor="middle">Espectadores totais</text>
+  <!-- divisão -->
+  <g stroke="#A100FF" stroke-width="2" fill="none">
+    <path d="M 360,120 L 240,150"/><path d="M 480,120 L 600,150"/>
+  </g>
+
+  <!-- não seguidores -->
+  <g>
+    <rect x="40" y="156" width="370" height="200" rx="16" fill="#faf5ff" stroke="#A100FF" stroke-opacity="0.4"/>
+    <text x="60" y="184" class="stage" fill="#A100FF">RECONHECIMENTO</text>
+    <text x="60" y="206" class="h" fill="#111827">Não seguidores</text>
+    <text x="60" y="228" class="role" fill="#111827">Vitrine de descoberta</text>
+    <text x="60" y="250" class="desc">Distribuição algorítmica além da base:</text>
+    <text x="60" y="265" class="desc">o card é o primeiro contato com a marca.</text>
+    <text x="60" y="287" class="desc">Precisa de contexto imediato, gancho</text>
+    <text x="60" y="302" class="desc">autoexplicativo e caminho para seguir.</text>
+    <rect x="60" y="316" width="330" height="26" rx="8" fill="#A100FF" fill-opacity="0.12"/>
+    <text x="74" y="333" class="metric">Régua: espectadores novos e conversão em seguidores</text>
+  </g>
+
+  <!-- seguidores -->
+  <g>
+    <rect x="430" y="156" width="370" height="200" rx="16" fill="#111827"/>
+    <text x="450" y="184" class="stage" fill="#d8b4fe">FIDELIZAÇÃO E RECOMPRA</text>
+    <text x="450" y="206" class="h" fill="#ffffff">Seguidores</text>
+    <text x="450" y="228" class="role" fill="#ffffff">Canal de relacionamento</text>
+    <text x="450" y="250" class="desc" style="fill:#d1d5db">Quem já escolheu a marca: bastidores,</text>
+    <text x="450" y="265" class="desc" style="fill:#d1d5db">enquetes, lançamento antecipado,</text>
+    <text x="450" y="287" class="desc" style="fill:#d1d5db">oferta da base. Sustenta frequência</text>
+    <text x="450" y="302" class="desc" style="fill:#d1d5db">de contato com a comunidade.</text>
+    <rect x="450" y="316" width="330" height="26" rx="8" fill="#A100FF" fill-opacity="0.25"/>
+    <text x="464" y="333" class="metric" style="fill:#f3e8ff">Régua: penetração na base e retenção na sequência</text>
+  </g>
+
+  <text x="40" y="388" class="note"><tspan font-weight="700" fill="#A100FF">O erro que a média escondia:</tspan> comemorar "alcance" de não seguidores que não entenderam o bastidor,</text>
+  <text x="40" y="408" class="note">ou entediar a base fiel com conteúdo genérico de vitrine. Nunca julgue os dois trabalhos pela mesma média.</text>
+</svg>

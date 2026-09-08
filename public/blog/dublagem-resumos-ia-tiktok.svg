@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 420" role="img" aria-label="As duas ferramentas de IA do TikTok contra o desperdício de conteúdo: dublagem que leva o criativo vencedor a vários idiomas e resumo que dá segunda vida à live longa">
+  <style>
+    text { font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif; }
+    .title { font-size: 19px; font-weight: 700; fill: #111827; }
+    .subtitle { font-size: 13px; fill: #6b7280; }
+    .h { font-size: 14px; font-weight: 700; fill: #111827; }
+    .desc { font-size: 11px; fill: #6b7280; }
+    .chip { font-size: 11px; font-weight: 700; fill: #ffffff; }
+    .lang { font-size: 10.5px; font-weight: 600; fill: #6b21a8; }
+    .note { font-size: 11.5px; fill: #6b7280; }
+  </style>
+
+  <rect x="0" y="0" width="840" height="420" rx="16" fill="#ffffff" stroke="#e5e7eb"/>
+
+  <text x="40" y="44" class="title">IA contra o desperdício: valor produzido que não circula</text>
+  <text x="40" y="66" class="subtitle">Duas ferramentas atacam a mesma ineficiência — o vídeo preso a um idioma e a live que ninguém reassiste</text>
+
+  <!-- Dublagem -->
+  <g>
+    <rect x="40" y="92" width="360" height="290" rx="16" fill="#faf5ff" stroke="#A100FF" stroke-opacity="0.4"/>
+    <text x="60" y="122" class="h" fill="#A100FF">Dublagem: o vencedor sem fronteira</text>
+    <!-- criativo vencedor -->
+    <rect x="60" y="140" width="90" height="60" rx="10" fill="#A100FF"/>
+    <text x="105" y="166" class="chip" text-anchor="middle">Criativo</text>
+    <text x="105" y="182" class="chip" text-anchor="middle">vencedor</text>
+    <!-- setas para idiomas -->
+    <g stroke="#A100FF" stroke-width="2" fill="none">
+      <path d="M 152,158 L 190,150"/><path d="M 152,170 L 190,180"/><path d="M 152,182 L 190,210"/>
+    </g>
+    <g>
+      <rect x="196" y="140" width="80" height="24" rx="12" fill="#A100FF" fill-opacity="0.12"/><text x="236" y="156" class="lang" text-anchor="middle">Espanhol</text>
+      <rect x="284" y="140" width="80" height="24" rx="12" fill="#A100FF" fill-opacity="0.12"/><text x="324" y="156" class="lang" text-anchor="middle">Inglês</text>
+      <rect x="196" y="170" width="80" height="24" rx="12" fill="#A100FF" fill-opacity="0.12"/><text x="236" y="186" class="lang" text-anchor="middle">+30 vozes</text>
+      <rect x="284" y="170" width="80" height="24" rx="12" fill="#A100FF" fill-opacity="0.12"/><text x="324" y="186" class="lang" text-anchor="middle">...</text>
+    </g>
+    <text x="60" y="234" class="desc" style="font-weight:700; fill:#111827">Custo de localização: semanas → horas</text>
+    <text x="60" y="256" class="desc">● Expansão internacional com criativo testado</text>
+    <text x="60" y="274" class="desc">● Importação de prova social de creators globais</text>
+    <text x="60" y="292" class="desc">● Teste barato de mercado antes de produzir</text>
+    <rect x="60" y="308" width="320" height="56" rx="10" fill="#A100FF" fill-opacity="0.1"/>
+    <text x="74" y="330" class="desc" style="font-weight:700; fill:#6b21a8">Sempre com revisão humana:</text>
+    <text x="74" y="348" class="desc" style="fill:#374151">gíria, unidade e claim regulatório mudam por país</text>
+  </g>
+
+  <!-- Resumo -->
+  <g>
+    <rect x="440" y="92" width="360" height="290" rx="16" fill="#111827"/>
+    <text x="460" y="122" class="h" fill="#ffffff">Resumo: a segunda vida da live</text>
+    <!-- live longa -->
+    <rect x="460" y="140" width="320" height="20" rx="10" fill="#ffffff" fill-opacity="0.15"/>
+    <text x="620" y="155" class="desc" style="fill:#9ca3af" text-anchor="middle">live de 2 horas — quase ninguém reassiste</text>
+    <!-- seta -->
+    <path d="M 620,166 L 620,186" stroke="#A100FF" stroke-width="2" fill="none"/><path d="M 620,186 l -4,-8 8,0 z" fill="#A100FF"/>
+    <!-- resumo -->
+    <rect x="540" y="192" width="160" height="20" rx="10" fill="#A100FF"/>
+    <text x="620" y="207" class="chip" text-anchor="middle" style="font-size:10px">resumo assistível</text>
+    <text x="460" y="242" class="desc" style="fill:#d1d5db; font-weight:700">A IA condensa nos melhores momentos:</text>
+    <text x="460" y="264" class="desc" style="fill:#d1d5db">● Serve a quem chegou tarde</text>
+    <text x="460" y="282" class="desc" style="fill:#d1d5db">● Vira conteúdo de consideração no perfil</text>
+    <text x="460" y="300" class="desc" style="fill:#d1d5db">● Pré-seleciona os picos para os cortes</text>
+    <rect x="460" y="316" width="320" height="48" rx="10" fill="#A100FF" fill-opacity="0.25"/>
+    <text x="474" y="338" class="desc" style="font-weight:700; fill:#f3e8ff">Com playlists e repost, fecha o pós-live:</text>
+    <text x="474" y="355" class="desc" style="fill:#d1d5db">evento + resumo + cortes + acervo</text>
+  </g>
+
+  <text x="40" y="406" class="note">A IA multiplica o que existe: multiplicar conteúdo fraco em cinco idiomas é internacionalizar o desperdício. Primeiro o que vende.</text>
+</svg>
