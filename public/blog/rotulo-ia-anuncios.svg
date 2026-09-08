@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 460" role="img" aria-label="As duas camadas de transparência exigidas pelo Artigo 50 do AI Act: rótulo visível de conteúdo gerado por IA no anúncio e metadados C2PA embutidos no arquivo">
+  <style>
+    text { font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif; }
+    .title { font-size: 19px; font-weight: 700; fill: #111827; }
+    .subtitle { font-size: 13px; fill: #6b7280; }
+    .layerTitle { font-size: 14px; font-weight: 700; fill: #111827; }
+    .layerDesc { font-size: 11px; fill: #6b7280; }
+    .adText { font-size: 10px; fill: #9ca3af; }
+    .badge { font-size: 10px; font-weight: 700; fill: #ffffff; }
+    .chip { font-size: 11px; font-weight: 600; fill: #6b21a8; }
+    .note { font-size: 11.5px; fill: #6b7280; }
+  </style>
+
+  <rect x="0" y="0" width="840" height="460" rx="16" fill="#ffffff" stroke="#e5e7eb"/>
+
+  <text x="40" y="44" class="title">Artigo 50 do AI Act: as duas camadas do rótulo de IA</text>
+  <text x="40" y="66" class="subtitle">Vale para qualquer anúncio que chega a usuários na União Europeia, esteja a marca onde estiver</text>
+
+  <!-- mock do anúncio -->
+  <g>
+    <rect x="60" y="100" width="220" height="300" rx="18" fill="#0d0020"/>
+    <rect x="76" y="116" width="188" height="200" rx="12" fill="#A100FF" fill-opacity="0.25"/>
+    <circle cx="170" cy="196" r="34" fill="#A100FF" fill-opacity="0.5"/>
+    <path d="M 160,182 l 26,14 -26,14 z" fill="#ffffff"/>
+    <!-- selo IA -->
+    <rect x="88" y="128" width="132" height="24" rx="12" fill="#111827" stroke="#A100FF" stroke-width="1.5"/>
+    <circle cx="104" cy="140" r="7" fill="#A100FF"/>
+    <text x="104" y="143.5" class="badge" text-anchor="middle">IA</text>
+    <text x="117" y="144" class="badge">Informações de IA</text>
+    <rect x="76" y="330" width="140" height="10" rx="5" fill="#ffffff" fill-opacity="0.25"/>
+    <rect x="76" y="348" width="100" height="10" rx="5" fill="#ffffff" fill-opacity="0.15"/>
+    <rect x="76" y="372" width="90" height="18" rx="9" fill="#A100FF"/>
+  </g>
+
+  <!-- camada 1 -->
+  <g>
+    <rect x="330" y="100" width="470" height="112" rx="14" fill="#faf5ff" stroke="#A100FF" stroke-opacity="0.4"/>
+    <text x="352" y="132" class="layerTitle">Camada 1 · Divulgação visível</text>
+    <text x="352" y="156" class="layerDesc">Selo ou aviso claro na peça: o consumidor precisa conseguir identificar</text>
+    <text x="352" y="171" class="layerDesc">que o conteúdo foi gerado por IA. A Meta aplica automaticamente nas</text>
+    <text x="352" y="186" class="layerDesc">ferramentas generativas próprias e mantém a caixa de autodeclaração.</text>
+  </g>
+  <line x1="206" y1="140" x2="330" y2="150" stroke="#A100FF" stroke-width="1.5" stroke-dasharray="4 3"/>
+
+  <!-- camada 2 -->
+  <g>
+    <rect x="330" y="228" width="470" height="112" rx="14" fill="#111827"/>
+    <text x="352" y="260" class="layerTitle" style="fill:#ffffff">Camada 2 · Metadados C2PA no arquivo</text>
+    <text x="352" y="284" class="layerDesc" style="fill:#d1d5db">Marcação legível por máquina registrando a geração por IA e as</text>
+    <text x="352" y="299" class="layerDesc" style="fill:#d1d5db">ferramentas usadas. Preserve as credenciais no fluxo de edição e</text>
+    <text x="352" y="314" class="layerDesc" style="fill:#d1d5db">exportação — adulterar metadados é infração por si só.</text>
+  </g>
+  <line x1="280" y1="380" x2="330" y2="300" stroke="#A100FF" stroke-width="1.5" stroke-dasharray="4 3"/>
+
+  <!-- prazos e multa -->
+  <g>
+    <rect x="330" y="356" width="222" height="44" rx="12" fill="#A100FF" fill-opacity="0.1"/>
+    <text x="352" y="374" class="chip">Em vigor desde 2 ago 2026</text>
+    <text x="352" y="391" class="chip">Marcação técnica: até 2 dez 2026*</text>
+    <rect x="568" y="356" width="232" height="44" rx="12" fill="#A100FF" fill-opacity="0.1"/>
+    <text x="590" y="374" class="chip">Multa: até €15 mi ou 3% do</text>
+    <text x="590" y="391" class="chip">faturamento global — o que for maior</text>
+  </g>
+
+  <text x="40" y="428" class="note">*Prazo estendido para sistemas de IA que já estavam no mercado antes de agosto.</text>
+  <text x="40" y="446" class="note">A responsabilidade legal pela divulgação é do anunciante, não da plataforma.</text>
+</svg>

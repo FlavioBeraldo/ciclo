@@ -37,6 +37,11 @@ export default config({
           defaultValue: { kind: 'today' },
           validation: { isRequired: true },
         }),
+        publishHour: fields.integer({
+          label: 'Hora de publicação (0-23, horário de Brasília)',
+          defaultValue: 9,
+          validation: { min: 0, max: 23 },
+        }),
         author: fields.text({
           label: 'Autor',
           defaultValue: 'Time Ciclo',

@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 480" role="img" aria-label="Hierarquia das configurações do Meta Ads moderno: controles invioláveis, como geografia, idade mínima, idioma e exclusões de públicos, contra sugestões que o sistema pode expandir">
+  <style>
+    text { font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif; }
+    .title { font-size: 19px; font-weight: 700; fill: #111827; }
+    .subtitle { font-size: 13px; fill: #6b7280; }
+    .colTitle { font-size: 14px; font-weight: 700; }
+    .colSub { font-size: 11px; }
+    .item { font-size: 12px; font-weight: 600; }
+    .use { font-size: 11.5px; fill: #374151; }
+    .useTitle { font-size: 12px; font-weight: 700; fill: #A100FF; }
+    .note { font-size: 11.5px; fill: #6b7280; }
+  </style>
+
+  <rect x="0" y="0" width="840" height="480" rx="16" fill="#ffffff" stroke="#e5e7eb"/>
+
+  <text x="40" y="44" class="title">Controles vs. sugestões: a hierarquia que define tudo</text>
+  <text x="40" y="66" class="subtitle">Toda exclusão que importa — compliance, aquisição, marca — precisa estar no regime de controle</text>
+
+  <!-- CONTROLES -->
+  <g>
+    <rect x="40" y="92" width="380" height="204" rx="16" fill="#111827"/>
+    <rect x="62" y="112" width="14" height="12" rx="2" fill="none" stroke="#A100FF" stroke-width="2"/>
+    <path d="M 64,112 v -4 a 5,5 0 0 1 10,0 v 4" fill="none" stroke="#A100FF" stroke-width="2"/>
+    <text x="88" y="124" class="colTitle" fill="#ffffff">CONTROLES</text>
+    <text x="62" y="148" class="colSub" fill="#9ca3af">Regras rígidas — a Meta sempre obedece</text>
+    <g class="item" fill="#d1d5db">
+      <circle cx="70" cy="172" r="3.5" fill="#A100FF"/><text x="84" y="176">Geografia</text>
+      <circle cx="70" cy="196" r="3.5" fill="#A100FF"/><text x="84" y="200">Idade mínima e idioma</text>
+      <circle cx="70" cy="220" r="3.5" fill="#A100FF"/><text x="84" y="224" fill="#ffffff" font-weight="700">Exclusões de públicos personalizados</text>
+    </g>
+    <rect x="62" y="244" width="336" height="32" rx="10" fill="#A100FF" fill-opacity="0.2"/>
+    <text x="76" y="264" class="colSub" fill="#d8b4fe" font-weight="700">Compliance, aquisição real e marca moram aqui</text>
+  </g>
+
+  <!-- SUGESTÕES -->
+  <g>
+    <rect x="440" y="92" width="360" height="204" rx="16" fill="#faf5ff" stroke="#A100FF" stroke-opacity="0.35" stroke-dasharray="6 4"/>
+    <text x="462" y="124" class="colTitle" fill="#A100FF">SUGESTÕES</text>
+    <text x="462" y="148" class="colSub" fill="#6b7280">Ponto de partida — o sistema expande além delas</text>
+    <g class="item" fill="#374151">
+      <circle cx="470" cy="172" r="3.5" fill="#A100FF" fill-opacity="0.4"/><text x="484" y="176">Públicos personalizados como sinal</text>
+      <circle cx="470" cy="196" r="3.5" fill="#A100FF" fill-opacity="0.4"/><text x="484" y="200">Lookalikes e interesses</text>
+      <circle cx="470" cy="220" r="3.5" fill="#A100FF" fill-opacity="0.4"/><text x="484" y="224">Sinais de audiência do Advantage+</text>
+    </g>
+    <rect x="462" y="244" width="316" height="32" rx="10" fill="#A100FF" fill-opacity="0.08"/>
+    <text x="476" y="264" class="colSub" fill="#6b21a8" font-weight="700">Orientam o aprendizado, não limitam a entrega</text>
+  </g>
+
+  <!-- 3 usos -->
+  <text x="40" y="336" class="title" style="font-size:14px">Os três usos estratégicos das exclusões</text>
+  <g>
+    <rect x="40" y="352" width="240" height="84" rx="12" fill="#faf5ff" stroke="#A100FF" stroke-opacity="0.3"/>
+    <text x="58" y="378" class="useTitle">1 · Compliance</text>
+    <text x="58" y="398" class="use">Listas de supressão dedicadas,</text>
+    <text x="58" y="413" class="use">sincronizadas via API e auditáveis</text>
+
+    <rect x="300" y="352" width="240" height="84" rx="12" fill="#faf5ff" stroke="#A100FF" stroke-opacity="0.3"/>
+    <text x="318" y="378" class="useTitle">2 · Aquisição real</text>
+    <text x="318" y="398" class="use">Excluir clientes força o sistema a</text>
+    <text x="318" y="413" class="use">comprar cliente novo, não recompra</text>
+
+    <rect x="560" y="352" width="240" height="84" rx="12" fill="#faf5ff" stroke="#A100FF" stroke-opacity="0.3"/>
+    <text x="578" y="378" class="useTitle">3 · Higiene de experiência</text>
+    <text x="578" y="398" class="use">Comprador recente não vê o anúncio</text>
+    <text x="578" y="413" class="use">do produto que acabou de comprar</text>
+  </g>
+
+  <text x="40" y="464" class="note">Listas vazam por match imperfeito e envelhecimento: enriqueça identificadores e sincronize no mínimo semanalmente.</text>
+</svg>

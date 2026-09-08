@@ -5,14 +5,18 @@ import config from '../../keystatic.config'
 
 const reader = createReader(process.cwd(), config)
 
-// Agendamento de publicação: posts com data futura só entram no ar às 9h da
-// manhã (fuso de Brasília) do dia marcado. Como /blog lê isso a cada
-// requisição e as páginas de post revalidam via ISR, não é preciso novo
-// deploy a cada artigo.
-const PUBLISH_HOUR_SAO_PAULO = 9
+// Agendamento de publicação: posts com data futura só entram no ar na hora
+// marcada (publishHour, padrão 9h, fuso de Brasília) do dia marcado. Como
+// /blog lê isso a cada requisição e as páginas de post revalidam via ISR,
+// não é preciso novo deploy a cada artigo.
+const DEFAULT_PUBLISH_HOUR_SAO_PAULO = 9
 
-function isPublished(date: string | null | undefined): boolean {
+function isPublished(
+  date: string | null | undefined,
+  publishHour?: number | null
+): boolean {
   if (!date) return true
+  const targetHour = publishHour ?? DEFAULT_PUBLISH_HOUR_SAO_PAULO
   const now = new Date()
   // en-CA => formato YYYY-MM-DD, comparável com a string de data do frontmatter
   const today = new Intl.DateTimeFormat('en-CA', {
@@ -28,7 +32,7 @@ function isPublished(date: string | null | undefined): boolean {
     }).format(now),
     10
   )
-  return hour >= PUBLISH_HOUR_SAO_PAULO
+  return hour >= targetHour
 }
 
 export type KeystaticPost = {
@@ -50,7 +54,7 @@ export async function getAllKeystatiSlugs(): Promise<string[]> {
     const published = await Promise.all(
       slugs.map(async (slug) => {
         const entry = await reader.collections.posts.read(slug)
-        return entry && isPublished(entry.date) ? slug : null
+        return entry && isPublished(entry.date, entry.publishHour) ? slug : null
       })
     )
     return published.filter((s): s is string => s !== null)
@@ -65,7 +69,7 @@ export async function getKeystatiPosts(): Promise<KeystaticPost[]> {
     const results = await Promise.all(
       slugs.map(async (slug) => {
         const entry = await reader.collections.posts.read(slug)
-        if (!entry || !isPublished(entry.date)) return null
+        if (!entry || !isPublished(entry.date, entry.publishHour)) return null
         return {
           slug,
           title: entry.title as unknown as string,
@@ -93,7 +97,7 @@ export async function getKeystatiPostBySlug(
     const entry = await reader.collections.posts.read(slug, {
       resolveLinkedFiles: true,
     })
-    if (!entry || !isPublished(entry.date)) return null
+    if (!entry || !isPublished(entry.date, entry.publishHour)) return null
 
     const contentValue = entry.content as unknown as { node: MarkdocNode } | null
     let html = ''

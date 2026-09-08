@@ -1,0 +1,66 @@
+---
+title: 'Otimização de valor no Meta Ads: requisitos e como ativar'
+excerpt: >-
+  A Meta reduziu os requisitos da otimização de valor: 30 compras com valores
+  distintos em 14 dias. Veja como ativar e fazer o algoritmo buscar clientes
+  de maior ticket.
+category: Mídia Paga
+date: 2026-09-12
+publishHour: 9
+author: Time Ciclo
+authorRole: Especialistas em Full Funnel Marketing
+readTime: 7
+---
+Otimização de valor é o modo de otimização do Meta Ads em que o algoritmo deixa de perseguir o maior número de compras e passa a perseguir o maior valor de compra, priorizando na entrega os usuários com previsão de gastar mais. A novidade que reabriu o tema: a Meta atualizou e flexibilizou os requisitos de elegibilidade, que hoje pedem, para eventos de compra, pelo menos 30 conversões atribuídas com no mínimo cinco valores distintos nos últimos 14 dias, além de estender a otimização de valor a eventos personalizados e eventos padrão que não são compra (esses com barreira maior, de 100 eventos no período). Como referência complementar, a fase de aprendizado das campanhas de valor se estabiliza na casa de 50 eventos semanais — os números vigentes estão na [central de ajuda da Meta](https://www.facebook.com/business/help/).
+
+Traduzindo o que isso significa: uma faixa grande de contas de e-commerce que antes não se qualificava agora se qualifica, e a pergunta deixou de ser "posso usar?" para virar "devo, e como?". Este artigo responde as duas.
+
+## Por que otimizar por valor: o problema do comprador barato
+
+O modo padrão de otimização, por volume de compras, tem um viés estrutural que toda operação com portfólio de preços variados conhece: o algoritmo busca a compra mais provável, e a compra mais provável costuma ser a mais barata:
+
+![Comparação entre otimizar por volume de compras, que enche a campanha de tickets baixos, e otimizar por valor, em que o algoritmo prioriza compradores de maior ticket e LTV previsto](/blog/otimizacao-valor-meta.svg)
+
+O comprador de R$49 e o de R$490 disparam o mesmo evento de compra, valem o mesmo para o sistema, e a campanha aprende a encher o carrinho de tickets baixos. O relatório mostra CPA saudável; o financeiro mostra margem espremida e AOV caindo.
+
+A otimização de valor corrige o alvo: com o valor de cada compra alimentando o aprendizado, o sistema passa a bidar proporcionalmente ao retorno previsto de cada impressão, aceitando pagar mais caro por quem tende a gastar mais. É a diferença entre otimizar para transações e otimizar para receita.
+
+## Os requisitos, traduzidos em diagnóstico
+
+A elegibilidade atual se resume a três verificações práticas. Primeira: **volume**, ao menos 30 compras atribuídas em 14 dias na conta (para eventos que não são compra, 100). Segunda: **dispersão de valores**, no mínimo cinco valores distintos no período, porque otimizar por valor só faz sentido se os valores variam; um catálogo de preço único não tem o que priorizar. Terceira: **qualidade de sinal**, o evento de compra precisa carregar os parâmetros de valor e moeda, idealmente enviados também por Conversions API — a mesma [CAPI que agora se estende às conversas de WhatsApp](/blog/whatsapp-marketing-api) —, já que valor sem confiabilidade de rastreio é aprendizado sobre ruído.
+
+Quem cumpre as três já vê a opção de maximizar valor disponível nas campanhas; quem falha na dispersão ou no rastreio deve corrigir a base antes de ligar a chave, porque o recurso amplifica a qualidade do que recebe.
+
+A mudança de mentalidade de faturamento para lucratividade e LTV, que é a tese por trás da otimização de valor, é tema constante no [Fator M, o podcast da Ciclo](/ofatorm). Vale assistir antes de decidir a régua da sua conta.
+
+## Do valor da compra ao valor do cliente: value rules e pLTV
+
+A otimização de valor tem dois andares acima do básico, e é neles que mora a vantagem competitiva.
+
+O primeiro são as **value rules** (regras de valor), que permitem dizer ao algoritmo que determinados segmentos valem mais para o negócio, aplicando multiplicadores por audiência, região ou critério de conversão, sem alterar o lance manualmente. O critério honesto para adotá-las: variância real de valor. A prática de mercado sugere que contas com AOV variando mais de três vezes entre extremos se beneficiam; contas com pedidos concentrados em torno da média só adicionam complexidade.
+
+O segundo andar é o **pLTV (valor vitalício previsto)**: em vez de enviar à Meta o valor da primeira compra, a operação envia, via CAPI, um valor que representa a previsão de quanto aquele cliente vale no ciclo completo, calculado sobre histórico de recompra, assinatura e comportamento. O algoritmo, então, passa a caçar não o maior ticket de hoje, mas o melhor cliente dos próximos doze meses. É o estado da arte da aquisição para operações com recorrência ou recompra forte, e exige o dever de casa de dados — [base unificada, modelo de previsão e pipeline de envio](/servicos/analytics-bi) validados antes de ligar o sinal.
+
+## A leitura estratégica: a régua do algoritmo virou a régua do negócio
+
+Na metodologia da Ciclo E-commerce, consultoria de marketing para operações de e-commerce de médio e grande porte, a otimização de valor é talvez a tradução mais literal de uma crença central: se a estratégia está só gerando faturamento e pouco lucro, não é a melhor estratégia. Otimizar por volume de compras é otimizar por faturamento aparente; otimizar por valor, e no limite por pLTV, é ensinar à máquina de mídia a mesma régua que o negócio usa, receita de qualidade, AOV, margem e LTV. Junto com o [orçamento Advantage+](/blog/orcamento-advantage-cbo) e o [teto de clientes existentes do ASC](/blog/advantage-shopping-guia), forma o tripé de governança da conta automatizada. O pré-requisito verdadeiro não é técnico, é gerencial: saber quais clientes valem mais, quanto e por quê. A operação que tem essa resposta transforma a redução de requisitos da Meta em vantagem imediata; a que não tem descobre que nenhuma configuração substitui inteligência de negócio.
+
+## Perguntas frequentes sobre otimização de valor
+
+**Quais os requisitos para ativar a otimização de valor no Meta Ads?**
+Para eventos de compra: ao menos 30 conversões atribuídas com no mínimo cinco valores distintos nos últimos 14 dias, com os parâmetros de valor e moeda no evento. Para eventos personalizados e padrão que não são compra, o requisito sobe para 100 eventos no período. Como referência, a fase de aprendizado estabiliza em torno de 50 eventos semanais.
+
+**Qual a diferença entre otimizar por compras e por valor?**
+Por compras, o algoritmo busca o maior número de conversões e tende a privilegiar tickets baixos, que convertem mais fácil. Por valor, ele prioriza o retorno previsto de cada impressão, aceitando custo maior por compradores de maior ticket, e a métrica-guia passa a ser o ROAS, não o CPA.
+
+**O que são value rules?**
+São regras que aplicam multiplicadores de valor a segmentos específicos (audiências, regiões, critérios de conversão), informando ao algoritmo quais conversões valem mais para o negócio. Fazem sentido quando há variância real de valor entre segmentos; caso contrário, só adicionam complexidade.
+
+**O que é pLTV e quando usar?**
+pLTV é o valor vitalício previsto do cliente, enviado à Meta (via CAPI) no lugar do valor da primeira compra, para que o algoritmo otimize pela qualidade do cliente no ciclo completo. É indicado para operações com recorrência ou recompra relevante, e exige base de dados unificada e modelo de previsão validado antes da ativação.
+
+## Conclusão
+
+A redução dos requisitos de otimização de valor é a Meta abrindo a porta; atravessá-la bem depende do que só a operação tem: valores confiáveis fluindo, dispersão real de tickets e, no nível avançado, a inteligência de saber quanto vale cada cliente. Quem faz esse dever de casa muda a pergunta que a própria mídia responde, de "quantas vendas trouxemos" para "quanto negócio construímos", e essa é a pergunta certa.
+
+A Ciclo implementa otimização de valor e pLTV nas operações que atende, do rastreio via CAPI ao modelo de valor do cliente, com a régua de margem e LTV no centro. Se a sua conta ainda otimiza por volume, [fale com nosso time](/consultoria-para-e-commerce).

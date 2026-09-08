@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 460" role="img" aria-label="Comparação entre o disparo bruto de WhatsApp para a lista inteira e a entrega otimizada da Marketing Messages API, em que o algoritmo prioriza os usuários com maior probabilidade de engajar">
+  <style>
+    text { font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif; }
+    .title { font-size: 19px; font-weight: 700; fill: #111827; }
+    .subtitle { font-size: 13px; fill: #6b7280; }
+    .colTitle { font-size: 14px; font-weight: 700; }
+    .colDesc { font-size: 11px; fill: #6b7280; }
+    .metric { font-size: 13px; font-weight: 700; fill: #A100FF; }
+    .metricLabel { font-size: 10.5px; fill: #6b7280; }
+    .note { font-size: 11.5px; fill: #6b7280; }
+  </style>
+
+  <rect x="0" y="0" width="840" height="460" rx="16" fill="#ffffff" stroke="#e5e7eb"/>
+
+  <text x="40" y="44" class="title">De disparo bruto para entrega inteligente</text>
+  <text x="40" y="66" class="subtitle">A marca define audiência e conteúdo; o algoritmo da Meta decide priorização e momento de entrega</text>
+
+  <!-- ANTES -->
+  <g>
+    <rect x="40" y="92" width="370" height="250" rx="16" fill="#f9fafb" stroke="#e5e7eb"/>
+    <text x="62" y="122" class="colTitle" fill="#6b7280">ANTES · Cloud API</text>
+    <text x="62" y="142" class="colDesc">Disparo igual para a lista inteira</text>
+    <!-- origem -->
+    <rect x="62" y="160" width="90" height="34" rx="10" fill="#9ca3af"/>
+    <text x="107" y="181" style="font-size:11px; font-weight:700; fill:#ffffff" text-anchor="middle">Disparo</text>
+    <!-- setas iguais -->
+    <g stroke="#d1d5db" stroke-width="2" fill="none">
+      <line x1="152" y1="168" x2="230" y2="132"/><line x1="152" y1="172" x2="230" y2="164"/>
+      <line x1="152" y1="177" x2="230" y2="196"/><line x1="152" y1="182" x2="230" y2="228"/>
+      <line x1="152" y1="187" x2="230" y2="260"/><line x1="152" y1="192" x2="230" y2="292"/>
+    </g>
+    <!-- destinatários uniformes, muitos ignorando -->
+    <g>
+      <circle cx="248" cy="132" r="11" fill="#d1d5db"/><circle cx="248" cy="164" r="11" fill="#d1d5db"/>
+      <circle cx="248" cy="196" r="11" fill="#d1d5db"/><circle cx="248" cy="228" r="11" fill="#A100FF" fill-opacity="0.5"/>
+      <circle cx="248" cy="260" r="11" fill="#d1d5db"/><circle cx="248" cy="292" r="11" fill="#d1d5db"/>
+    </g>
+    <text x="276" y="136" class="colDesc">ignora</text>
+    <text x="276" y="168" class="colDesc">ignora</text>
+    <text x="276" y="200" class="colDesc">bloqueia</text>
+    <text x="276" y="232" class="colDesc" style="fill:#A100FF; font-weight:700">engaja</text>
+    <text x="276" y="264" class="colDesc">ignora</text>
+    <text x="276" y="296" class="colDesc">bloqueia</text>
+    <text x="62" y="326" class="colDesc">Volume alto, relevância baixa — e bloqueio ensina o</text>
+  </g>
+
+  <!-- DEPOIS -->
+  <g>
+    <rect x="430" y="92" width="370" height="250" rx="16" fill="#faf5ff" stroke="#A100FF" stroke-opacity="0.4"/>
+    <text x="452" y="122" class="colTitle" fill="#A100FF">AGORA · Marketing Messages API</text>
+    <text x="452" y="142" class="colDesc">Algoritmo prioriza quem tende a responder</text>
+    <!-- origem -->
+    <rect x="452" y="160" width="90" height="34" rx="10" fill="#A100FF"/>
+    <text x="497" y="181" style="font-size:11px; font-weight:700; fill:#ffffff" text-anchor="middle">Algoritmo</text>
+    <!-- setas com pesos -->
+    <g stroke="#A100FF" fill="none" stroke-linecap="round">
+      <line x1="542" y1="170" x2="620" y2="164" stroke-width="5"/>
+      <line x1="542" y1="177" x2="620" y2="208" stroke-width="5"/>
+      <line x1="542" y1="184" x2="620" y2="252" stroke-width="2.5" stroke-opacity="0.6"/>
+      <line x1="542" y1="191" x2="620" y2="296" stroke-width="1.5" stroke-opacity="0.3" stroke-dasharray="4 3"/>
+    </g>
+    <g>
+      <circle cx="638" cy="164" r="11" fill="#A100FF"/>
+      <circle cx="638" cy="208" r="11" fill="#A100FF"/>
+      <circle cx="638" cy="252" r="11" fill="#A100FF" fill-opacity="0.55"/>
+      <circle cx="638" cy="296" r="11" fill="#e9d5ff"/>
+    </g>
+    <text x="666" y="168" class="colDesc" style="fill:#A100FF; font-weight:700">prioridade alta</text>
+    <text x="666" y="212" class="colDesc" style="fill:#A100FF; font-weight:700">prioridade alta</text>
+    <text x="666" y="256" class="colDesc">momento certo</text>
+    <text x="666" y="300" class="colDesc">despriorizado</text>
+    <text x="452" y="326" class="colDesc">Menos mensagem desperdiçada, mais resposta por real gasto</text>
+  </g>
+  <text x="62" y="341" class="colDesc">algoritmo a cortar sua entrega</text>
+
+  <!-- métricas do case -->
+  <g>
+    <rect x="40" y="366" width="760" height="56" rx="14" fill="#111827"/>
+    <text x="70" y="390" class="metric" style="fill:#d8b4fe">−30%</text>
+    <text x="70" y="408" class="metricLabel" style="fill:#9ca3af">custo por visualização de página</text>
+    <text x="320" y="390" class="metric" style="fill:#d8b4fe">+20%</text>
+    <text x="320" y="408" class="metricLabel" style="fill:#9ca3af">taxa de cliques</text>
+    <text x="520" y="390" class="metricLabel" style="fill:#d1d5db">Case InfinitePay divulgado pela Meta, comparando a</text>
+    <text x="520" y="408" class="metricLabel" style="fill:#d1d5db">entrega otimizada com a estratégia anterior</text>
+  </g>
+
+  <text x="40" y="446" class="note">A CAPI para mensagens fecha o ciclo: conversões da conversa alimentam a otimização, e o WhatsApp vira mídia de performance.</text>
+</svg>
