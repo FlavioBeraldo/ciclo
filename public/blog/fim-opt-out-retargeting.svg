@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 440" role="img" aria-label="A remoção do opt-out externo amplia as listas de retargeting automaticamente, mas as responsabilidades de LGPD, frequência e experiência do cliente permanecem com a marca">
+  <style>
+    text { font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif; }
+    .title { font-size: 19px; font-weight: 700; fill: #111827; }
+    .subtitle { font-size: 13px; fill: #6b7280; }
+    .h { font-size: 13px; font-weight: 700; }
+    .desc { font-size: 11px; fill: #6b7280; }
+    .tag { font-size: 10px; font-weight: 700; letter-spacing: 0.06em; }
+    .note { font-size: 11.5px; fill: #6b7280; }
+  </style>
+
+  <rect x="0" y="0" width="840" height="440" rx="16" fill="#ffffff" stroke="#e5e7eb"/>
+
+  <text x="40" y="44" class="title">Listas maiores, responsabilidade idêntica</text>
+  <text x="40" y="66" class="subtitle">A mudança é da plataforma; a relação com o cliente continua sendo da marca</text>
+
+  <!-- antes -->
+  <g>
+    <rect x="40" y="96" width="200" height="150" rx="14" fill="#f9fafb" stroke="#e5e7eb"/>
+    <text x="60" y="124" class="h" fill="#6b7280">Antes</text>
+    <text x="60" y="146" class="desc">Lista de retargeting</text>
+    <g fill="#d1d5db">
+      <circle cx="72" cy="176" r="9"/><circle cx="100" cy="176" r="9"/><circle cx="128" cy="176" r="9"/>
+      <circle cx="72" cy="204" r="9"/><circle cx="100" cy="204" r="9"/>
+    </g>
+    <text x="60" y="234" class="desc">Parte dos usuários fora, por opt-out</text>
+  </g>
+
+  <!-- seta -->
+  <g>
+    <path d="M 248,171 L 296,171" stroke="#A100FF" stroke-width="2.5" fill="none"/>
+    <path d="M 296,171 l -9,-4.5 0,9 z" fill="#A100FF"/>
+    <text x="272" y="160" class="tag" fill="#A100FF" text-anchor="middle">opt-out</text>
+    <text x="272" y="192" class="tag" fill="#A100FF" text-anchor="middle">removido</text>
+  </g>
+
+  <!-- depois -->
+  <g>
+    <rect x="304" y="96" width="200" height="150" rx="14" fill="#faf5ff" stroke="#A100FF" stroke-opacity="0.4"/>
+    <text x="324" y="124" class="h" fill="#A100FF">Agora</text>
+    <text x="324" y="146" class="desc">Lista ampliada automaticamente</text>
+    <g fill="#A100FF">
+      <circle cx="336" cy="172" r="9"/><circle cx="364" cy="172" r="9"/><circle cx="392" cy="172" r="9"/><circle cx="420" cy="172" r="9"/>
+      <circle cx="336" cy="200" r="9"/><circle cx="364" cy="200" r="9"/><circle cx="392" cy="200" r="9" fill-opacity="0.5"/><circle cx="420" cy="200" r="9" fill-opacity="0.5"/>
+      <circle cx="448" cy="172" r="9" fill-opacity="0.5"/><circle cx="448" cy="200" r="9" fill-opacity="0.5"/>
+    </g>
+    <text x="324" y="234" class="desc">Frequência cai no curto prazo (mesmo orçamento)</text>
+  </g>
+
+  <!-- responsabilidade permanece -->
+  <g>
+    <rect x="536" y="96" width="264" height="150" rx="14" fill="#111827"/>
+    <text x="556" y="124" class="h" fill="#ffffff">O que NÃO muda</text>
+    <g class="desc" fill="#d1d5db">
+      <text x="556" y="152">● LGPD rege pixel e CAPI da marca</text>
+      <text x="556" y="176">● Base legal, transparência e opt-out</text>
+      <text x="572" y="192">   próprios continuam obrigatórios</text>
+      <text x="556" y="216">● A experiência do cliente é juiz final</text>
+    </g>
+  </g>
+
+  <!-- o que fazer -->
+  <line x1="40" y1="274" x2="800" y2="274" stroke="#e5e7eb"/>
+  <text x="40" y="302" class="h" fill="#111827">O que fazer com o crescimento das listas</text>
+  <g>
+    <rect x="40" y="316" width="185" height="70" rx="12" fill="#faf5ff" stroke="#A100FF" stroke-opacity="0.25"/>
+    <text x="58" y="342" class="desc" style="font-weight:700; fill:#A100FF">Reauditar frequência</text>
+    <text x="58" y="362" class="desc">o alívio é temporário se a</text>
+    <text x="58" y="376" class="desc">verba subir junto</text>
+
+    <rect x="237" y="316" width="185" height="70" rx="12" fill="#faf5ff" stroke="#A100FF" stroke-opacity="0.25"/>
+    <text x="255" y="342" class="desc" style="font-weight:700; fill:#A100FF">Segmentar mais fino</text>
+    <text x="255" y="362" class="desc">réguas por recência e</text>
+    <text x="255" y="376" class="desc">intenção, não um bloco só</text>
+
+    <rect x="434" y="316" width="185" height="70" rx="12" fill="#faf5ff" stroke="#A100FF" stroke-opacity="0.25"/>
+    <text x="452" y="342" class="desc" style="font-weight:700; fill:#A100FF">Cortar a linha de base</text>
+    <text x="452" y="362" class="desc">tamanho e custo mudam</text>
+    <text x="452" y="376" class="desc">de régua na data do efeito</text>
+
+    <rect x="631" y="316" width="169" height="70" rx="12" fill="#faf5ff" stroke="#A100FF" stroke-opacity="0.25"/>
+    <text x="649" y="342" class="desc" style="font-weight:700; fill:#A100FF">Dados primários</text>
+    <text x="649" y="362" class="desc">o ativo que nenhuma</text>
+    <text x="649" y="376" class="desc">plataforma tira da marca</text>
+  </g>
+
+  <text x="40" y="414" class="note">Audiência emprestada tem dono. Use o alcance extra para incomodar menos, não para insistir mais.</text>
+</svg>

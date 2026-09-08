@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 440" role="img" aria-label="Os três caminhos de atribuição do Meta Ads: click-through com clique no link, engage-through com interação sem clique e view-through só com visualização, do sinal de intenção mais forte ao mais fraco">
+  <style>
+    text { font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif; }
+    .title { font-size: 19px; font-weight: 700; fill: #111827; }
+    .subtitle { font-size: 13px; fill: #6b7280; }
+    .lvlTitle { font-size: 14px; font-weight: 700; fill: #ffffff; }
+    .lvlDesc { font-size: 11px; }
+    .strength { font-size: 10.5px; font-weight: 700; }
+    .note { font-size: 11.5px; fill: #6b7280; }
+    .axis { font-size: 11px; font-weight: 700; fill: #6b7280; }
+  </style>
+
+  <rect x="0" y="0" width="840" height="440" rx="16" fill="#ffffff" stroke="#e5e7eb"/>
+
+  <text x="40" y="44" class="title">A nova taxonomia: clique, engajamento e visualização</text>
+  <text x="40" y="66" class="subtitle">A Meta separou o que antes ia no mesmo balde — o click-through ficou mais magro e mais honesto</text>
+
+  <!-- eixo de intenção -->
+  <text x="40" y="100" class="axis">← sinal de intenção mais forte</text>
+  <text x="800" y="100" class="axis" text-anchor="end">mais fraco →</text>
+
+  <!-- click-through -->
+  <g>
+    <rect x="40" y="116" width="240" height="150" rx="14" fill="#A100FF"/>
+    <rect x="60" y="136" width="88" height="20" rx="10" fill="#ffffff" fill-opacity="0.25"/>
+    <text x="104" y="150" class="strength" fill="#ffffff" text-anchor="middle">CLICK-THROUGH</text>
+    <text x="60" y="186" class="lvlTitle">Clicou no link</text>
+    <text x="60" y="212" class="lvlDesc" fill="#f3e8ff">Clicou no link do anúncio</text>
+    <text x="60" y="228" class="lvlDesc" fill="#f3e8ff">e converteu.</text>
+    <text x="60" y="252" class="lvlDesc" fill="#ffffff" font-weight="700">Intenção pura — a régua</text>
+  </g>
+  <text x="60" y="286" class="note" style="font-weight:700; fill:#A100FF">do fundo de funil</text>
+
+  <!-- engage-through -->
+  <g>
+    <rect x="300" y="116" width="240" height="150" rx="14" fill="#A100FF" fill-opacity="0.55"/>
+    <rect x="320" y="136" width="104" height="20" rx="10" fill="#ffffff" fill-opacity="0.3"/>
+    <text x="372" y="150" class="strength" fill="#ffffff" text-anchor="middle">ENGAGE-THROUGH</text>
+    <text x="320" y="186" class="lvlTitle">Interagiu sem clicar</text>
+    <text x="320" y="212" class="lvlDesc" fill="#ffffff">Assistiu, curtiu, expandiu,</text>
+    <text x="320" y="228" class="lvlDesc" fill="#ffffff">salvou — e converteu depois.</text>
+    <text x="320" y="252" class="lvlDesc" fill="#ffffff" font-weight="700">Sinal intermediário (novo)</text>
+  </g>
+  <text x="320" y="286" class="note" style="font-weight:700; fill:#A100FF">informação de vídeo e demanda</text>
+
+  <!-- view-through -->
+  <g>
+    <rect x="560" y="116" width="240" height="150" rx="14" fill="#A100FF" fill-opacity="0.22"/>
+    <rect x="580" y="136" width="90" height="20" rx="10" fill="#A100FF" fill-opacity="0.25"/>
+    <text x="625" y="150" class="strength" fill="#6b21a8" text-anchor="middle">VIEW-THROUGH</text>
+    <text x="580" y="186" class="lvlTitle" fill="#111827">Só viu</text>
+    <text x="580" y="212" class="lvlDesc" fill="#374151">Viu, não interagiu,</text>
+    <text x="580" y="228" class="lvlDesc" fill="#374151">converteu depois.</text>
+    <text x="580" y="252" class="lvlDesc" fill="#374151" font-weight="700">O sinal mais fraco</text>
+  </g>
+
+  <!-- aviso -->
+  <rect x="40" y="300" width="760" height="46" rx="12" fill="#A100FF" fill-opacity="0.08"/>
+  <text x="60" y="322" class="note"><tspan font-weight="700" fill="#A100FF">O problema não é a taxonomia, é a comparação temporal:</tspan> relatórios de antes e depois da mudança não medem a mesma</text>
+  <text x="60" y="338" class="note">coisa. Corte a série histórica na data da virada e reconstrua os benchmarks a partir dela.</text>
+
+  <text x="40" y="374" class="note">Recalibrar: abra as colunas por tipo de atribuição · régua por função (fundo = click; vídeo/demanda pode somar engage) ·</text>
+  <text x="40" y="394" class="note">valide sempre contra o negócio — receita total, pedidos e CAC consolidado são o árbitro final.</text>
+</svg>

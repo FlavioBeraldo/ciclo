@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 440" role="img" aria-label="Os dois novos formatos do Reels: anúncio post-view exibido no intervalo entre conteúdos e sobreposição de catálogo com produtos compráveis por cima do vídeo">
+  <style>
+    text { font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif; }
+    .title { font-size: 19px; font-weight: 700; fill: #111827; }
+    .subtitle { font-size: 13px; fill: #6b7280; }
+    .fmtTitle { font-size: 14px; font-weight: 700; fill: #111827; }
+    .fmtDesc { font-size: 11px; fill: #6b7280; }
+    .phone { font-size: 10px; fill: #9ca3af; }
+    .prod { font-size: 10px; font-weight: 700; fill: #111827; }
+    .note { font-size: 11.5px; fill: #6b7280; }
+  </style>
+
+  <rect x="0" y="0" width="840" height="440" rx="16" fill="#ffffff" stroke="#e5e7eb"/>
+
+  <text x="40" y="44" class="title">Dois formatos que encurtam a distância entre assistir e comprar</text>
+  <text x="40" y="66" class="subtitle">O Reels virou o principal inventário de crescimento da Meta — e o mais próximo do checkout</text>
+
+  <!-- Post-view -->
+  <g>
+    <text x="60" y="104" class="fmtTitle">Post-view</text>
+    <!-- fluxo de reels -->
+    <rect x="60" y="118" width="70" height="120" rx="12" fill="#0d0020"/>
+    <text x="95" y="182" class="phone" text-anchor="middle" style="fill:#6b7280">Reel</text>
+    <text x="95" y="196" class="phone" text-anchor="middle" style="fill:#6b7280">orgânico</text>
+    <path d="M 136,178 L 158,178" stroke="#9ca3af" stroke-width="2" fill="none"/><path d="M 158,178 l -8,-4 0,8 z" fill="#9ca3af"/>
+    <rect x="164" y="118" width="70" height="120" rx="12" fill="#A100FF"/>
+    <circle cx="199" cy="168" r="18" fill="#ffffff" fill-opacity="0.25"/>
+    <path d="M 193,160 l 12,8 -12,8 z" fill="#ffffff"/>
+    <text x="199" y="206" class="phone" text-anchor="middle" style="fill:#ffffff">anúncio</text>
+    <path d="M 240,178 L 262,178" stroke="#9ca3af" stroke-width="2" fill="none"/><path d="M 262,178 l -8,-4 0,8 z" fill="#9ca3af"/>
+    <rect x="268" y="118" width="70" height="120" rx="12" fill="#0d0020"/>
+    <text x="303" y="182" class="phone" text-anchor="middle" style="fill:#6b7280">próximo</text>
+    <text x="303" y="196" class="phone" text-anchor="middle" style="fill:#6b7280">Reel</text>
+  </g>
+  <text x="60" y="266" class="fmtDesc">Aparece no intervalo entre conteúdos, após o Reel</text>
+  <text x="60" y="282" class="fmtDesc">orgânico — momento de transição, menos atrito.</text>
+  <text x="60" y="304" class="fmtDesc" style="fill:#A100FF; font-weight:700">Os 3 primeiros segundos valem ainda mais que no feed.</text>
+
+  <!-- Sobreposição de catálogo -->
+  <g>
+    <text x="470" y="104" class="fmtTitle">Sobreposição de catálogo</text>
+    <!-- phone com produto -->
+    <rect x="470" y="118" width="130" height="186" rx="16" fill="#0d0020"/>
+    <circle cx="535" cy="180" r="26" fill="#A100FF" fill-opacity="0.4"/>
+    <path d="M 528,168 l 16,12 -16,12 z" fill="#ffffff"/>
+    <text x="535" y="150" class="phone" text-anchor="middle" style="fill:#9ca3af">creator usando o produto</text>
+    <!-- card de produto sobreposto -->
+    <rect x="484" y="250" width="102" height="42" rx="10" fill="#ffffff"/>
+    <rect x="492" y="258" width="26" height="26" rx="5" fill="#e9d5ff"/>
+    <text x="526" y="270" class="prod">Produto X</text>
+    <text x="526" y="284" class="prod" style="fill:#A100FF">R$ 149</text>
+  </g>
+  <!-- anotações -->
+  <line x1="604" y1="180" x2="660" y2="164" stroke="#A100FF" stroke-width="1.5" stroke-dasharray="4 3"/>
+  <text x="666" y="160" class="fmtDesc" style="font-weight:700; fill:#111827">Vídeo = contexto e desejo</text>
+  <text x="666" y="176" class="fmtDesc">o creator gera a vontade</text>
+  <line x1="590" y1="271" x2="660" y2="258" stroke="#A100FF" stroke-width="1.5" stroke-dasharray="4 3"/>
+  <text x="666" y="254" class="fmtDesc" style="font-weight:700; fill:#A100FF">Sobreposição = prateleira</text>
+  <text x="666" y="270" class="fmtDesc">preço e link sem sair do Reel</text>
+  <text x="666" y="292" class="fmtDesc">O feed de produtos vira</text>
+  <text x="666" y="308" class="fmtDesc">parte visível do criativo</text>
+
+  <!-- rodapé -->
+  <line x1="40" y1="342" x2="800" y2="342" stroke="#e5e7eb"/>
+  <text x="40" y="370" class="note"><tspan font-weight="700" fill="#A100FF">Preparar a operação:</tspan> higienizar o catálogo dos produtos heróis · produzir criativo nativo em volume ·</text>
+  <text x="40" y="390" class="note">testar cedo, enquanto o leilão está descontado, e medir o novo posicionamento em separado nas primeiras semanas.</text>
+</svg>

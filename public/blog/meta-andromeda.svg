@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 470" role="img" aria-label="Como o Andromeda agrupa anúncios: variações cosméticas do mesmo criativo viram uma única entidade no leilão, enquanto ângulos genuinamente diferentes formam entidades distintas que alcançam mais bolsos de audiência">
+  <style>
+    text { font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif; }
+    .title { font-size: 19px; font-weight: 700; fill: #111827; }
+    .subtitle { font-size: 13px; fill: #6b7280; }
+    .colTitle { font-size: 13px; font-weight: 700; }
+    .thumb { font-size: 10px; fill: #6b7280; }
+    .entity { font-size: 11.5px; font-weight: 700; }
+    .aud { font-size: 10.5px; fill: #6b7280; }
+    .note { font-size: 11.5px; fill: #6b7280; }
+  </style>
+
+  <rect x="0" y="0" width="840" height="470" rx="16" fill="#ffffff" stroke="#e5e7eb"/>
+
+  <text x="40" y="44" class="title">Andromeda: o criativo virou a segmentação</text>
+  <text x="40" y="66" class="subtitle">O motor agrupa anúncios por similaridade (Entity ID) — variação cosmética não conta como teste novo</text>
+
+  <!-- Caso 1: near-duplicatas -->
+  <text x="40" y="104" class="colTitle" fill="#6b7280">50 variações cosméticas do mesmo vídeo</text>
+  <g>
+    <rect x="40" y="116" width="34" height="46" rx="6" fill="#d1d5db"/>
+    <rect x="82" y="116" width="34" height="46" rx="6" fill="#d1d5db"/>
+    <rect x="124" y="116" width="34" height="46" rx="6" fill="#d1d5db"/>
+    <rect x="166" y="116" width="34" height="46" rx="6" fill="#d1d5db"/>
+    <rect x="208" y="116" width="34" height="46" rx="6" fill="#d1d5db"/>
+    <text x="256" y="143" class="thumb">cor, música, corte...</text>
+  </g>
+  <!-- seta -->
+  <path d="M 150,170 L 150,196" stroke="#9ca3af" stroke-width="2" fill="none"/>
+  <path d="M 150,196 l -4,-8 8,0 z" fill="#9ca3af"/>
+  <!-- uma entidade -->
+  <rect x="40" y="200" width="220" height="40" rx="10" fill="#9ca3af"/>
+  <text x="150" y="225" class="entity" fill="#ffffff" text-anchor="middle">1 entidade no leilão</text>
+  <!-- um bolso -->
+  <g fill="#9ca3af">
+    <circle cx="330" cy="212" r="7"/><circle cx="352" cy="204" r="5"/><circle cx="348" cy="224" r="4"/>
+  </g>
+  <text x="376" y="216" class="aud">1 bolso de audiência</text>
+
+  <!-- divisor -->
+  <line x1="40" y1="266" x2="800" y2="266" stroke="#e5e7eb"/>
+
+  <!-- Caso 2: diversidade conceitual -->
+  <text x="40" y="298" class="colTitle" fill="#A100FF">5 ângulos genuinamente diferentes</text>
+  <g>
+    <rect x="40" y="310" width="34" height="46" rx="6" fill="#A100FF"/><text x="57" y="370" class="thumb" text-anchor="middle">dor</text>
+    <rect x="118" y="310" width="34" height="46" rx="6" fill="#A100FF" fill-opacity="0.82"/><text x="135" y="370" class="thumb" text-anchor="middle">prova</text>
+    <rect x="196" y="310" width="34" height="46" rx="6" fill="#A100FF" fill-opacity="0.64"/><text x="213" y="370" class="thumb" text-anchor="middle">comparação</text>
+    <rect x="290" y="310" width="34" height="46" rx="6" fill="#A100FF" fill-opacity="0.46"/><text x="307" y="370" class="thumb" text-anchor="middle">bastidor</text>
+    <rect x="372" y="310" width="34" height="46" rx="6" fill="#A100FF" fill-opacity="0.3"/><text x="389" y="370" class="thumb" text-anchor="middle">oferta</text>
+  </g>
+  <!-- setas para entidades -->
+  <g stroke="#A100FF" stroke-width="2" fill="none">
+    <path d="M 460,320 L 490,320"/><path d="M 460,338 L 490,338"/><path d="M 460,356 L 490,356"/>
+  </g>
+  <g fill="#A100FF"><path d="M 490,320 l -8,-4 0,8 z"/><path d="M 490,338 l -8,-4 0,8 z"/><path d="M 490,356 l -8,-4 0,8 z"/></g>
+  <rect x="496" y="306" width="150" height="64" rx="10" fill="#A100FF" fill-opacity="0.12"/>
+  <text x="571" y="332" class="entity" fill="#A100FF" text-anchor="middle">5 entidades</text>
+  <text x="571" y="350" class="aud" text-anchor="middle" style="fill:#6b21a8">distintas no leilão</text>
+  <!-- múltiplos bolsos -->
+  <g fill="#A100FF">
+    <g fill-opacity="0.9"><circle cx="690" cy="312" r="6"/><circle cx="710" cy="306" r="4"/><circle cx="706" cy="322" r="4"/></g>
+    <g fill-opacity="0.6"><circle cx="748" cy="314" r="6"/><circle cx="768" cy="308" r="4"/><circle cx="764" cy="324" r="4"/></g>
+    <g fill-opacity="0.4"><circle cx="718" cy="352" r="6"/><circle cx="740" cy="346" r="4"/><circle cx="736" cy="362" r="4"/></g>
+  </g>
+  <text x="726" y="388" class="aud" text-anchor="middle">mais bolsos de audiência</text>
+
+  <!-- rodapé -->
+  <text x="40" y="428" class="note"><tspan font-weight="700" fill="#A100FF">Para o gestor:</tspan> diversidade conceitual acima de volume bruto · estrutura enxuta · pixel + CAPI de qualidade · renovação semanal.</text>
+  <text x="40" y="450" class="note">A Meta reporta +6% de recall e +8% de qualidade de anúncios com o sistema. A régua final continua sendo receita, CAC e LTV.</text>
+</svg>
