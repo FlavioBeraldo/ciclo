@@ -156,8 +156,10 @@ export default function PlaybookSocialCommercePage() {
             <p className="text-xs font-semibold tracking-[0.25em] uppercase text-[#C0564A] mb-4">
               Playbook gratuito · Social Commerce
             </p>
-            <h1 className="font-serif-lp text-4xl sm:text-5xl leading-[1.05] mb-4">
-              <span className="text-[#2B6B9B]">Um em cada cinco reais do e-commerce mundial</span>{' '}
+            <h1 className="font-serif-lp text-4xl sm:text-5xl leading-[1.14] mb-4">
+              <span className="bg-[#2B6B9B] text-[#EDE7DB] px-2 box-decoration-clone">
+                Um em cada cinco reais do e-commerce mundial
+              </span>{' '}
               já nasce dentro de uma rede social. O seu ainda nasce no site?
             </h1>
             <p className="text-[#6E6A60] leading-relaxed mb-6">
