@@ -39,6 +39,7 @@ export default function PlaybookForm() {
           phone: data.phone,
           message: 'Baixou o Playbook de Social Commerce pela landing page.',
           source: 'LP Playbook Social Commerce',
+          pipeline: 'Playbook',
         }),
       })
     } catch {

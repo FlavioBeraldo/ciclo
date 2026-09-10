@@ -8,10 +8,12 @@ function url(path: string, params: Record<string, string> = {}) {
   return `${BASE}${path}?${qs}`
 }
 
-// Busca o stage_id pelo nome exato do pipeline e do estágio
-async function findStageId(): Promise<number | undefined> {
+// Busca o stage_id pelo nome exato do pipeline e do estágio.
+// Se `pipelineHint` for informado (ex: "Playbook"), busca esse pipeline pelo nome
+// e retorna sua PRIMEIRA etapa — ignorando os overrides de env, que valem só para o fluxo padrão.
+async function findStageId(pipelineHint?: string): Promise<number | undefined> {
   // Se o ID do estágio estiver configurado como env var, usa direto (mais confiável)
-  if (process.env.PIPEDRIVE_STAGE_ID) {
+  if (!pipelineHint && process.env.PIPEDRIVE_STAGE_ID) {
     return Number(process.env.PIPEDRIVE_STAGE_ID)
   }
 
@@ -30,7 +32,27 @@ async function findStageId(): Promise<number | undefined> {
   }
 
   const allPipelines = pipelines.data as { id: number; name: string }[]
-  const allStages = stages.data as { id: number; name: string; pipeline_id: number }[]
+  const allStages = stages.data as { id: number; name: string; pipeline_id: number; order_nr: number }[]
+
+  if (pipelineHint) {
+    const target = allPipelines.find((p) => p.name.toLowerCase().includes(pipelineHint.toLowerCase()))
+    if (target) {
+      const first = allStages
+        .filter((s) => s.pipeline_id === target.id)
+        .sort((a, b) => a.order_nr - b.order_nr)[0]
+      if (first) {
+        console.log(`[Pipedrive] Pipeline: "${target.name}" (${target.id}) | Primeira etapa: "${first.name}" (${first.id})`)
+        return first.id
+      }
+      console.error('[Pipedrive] Pipeline', target.name, 'não tem etapas')
+    } else {
+      console.error(`[Pipedrive] Pipeline "${pipelineHint}" não encontrado — usando fluxo padrão. Pipelines:`, allPipelines.map((p) => p.name))
+    }
+    // Fallback: segue para o fluxo padrão abaixo
+    if (process.env.PIPEDRIVE_STAGE_ID) {
+      return Number(process.env.PIPEDRIVE_STAGE_ID)
+    }
+  }
 
   // Busca pipeline "1 - Site/Whats" (ou qualquer nome que contenha site ou whats)
   const pipelineName = process.env.PIPEDRIVE_PIPELINE_NAME ?? ''
@@ -130,7 +152,7 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    const { name, email, phone, whatsapp, company, message, storeUrl, annualRevenue, segment } = await req.json()
+    const { name, email, phone, whatsapp, company, message, storeUrl, annualRevenue, segment, pipeline } = await req.json()
     const phoneNumber = phone ?? whatsapp ?? ''
     const objetivo = [
       annualRevenue ? `Faturamento anual: ${annualRevenue}` : null,
@@ -144,7 +166,7 @@ export async function POST(req: NextRequest) {
     }
 
     const [stageId, orgId, ownerId] = await Promise.all([
-      findStageId(),
+      findStageId(typeof pipeline === 'string' && pipeline.trim() ? pipeline.trim() : undefined),
       company ? findOrCreateOrg(company) : Promise.resolve(undefined),
       findUserId('Felipe'),
     ])
