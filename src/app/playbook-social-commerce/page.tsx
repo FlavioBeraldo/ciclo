@@ -86,9 +86,16 @@ export default function PlaybookSocialCommercePage() {
     <div className={`${playfair.variable} lp-playbook min-h-screen bg-[#EDE7DB] text-[#1A1917]`}>
       {/* Top bar editorial */}
       <header className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-6">
-        <div className="flex items-center justify-between pb-3 border-b border-[#1A1917]/60">
-          <Link href="/" className="text-xs font-semibold tracking-[0.25em] uppercase hover:text-[#2B6B9B] transition-colors">
-            Ciclo E-commerce
+        <div className="flex items-center justify-between pb-4 border-b border-[#1A1917]/60">
+          <Link href="/" className="hover:opacity-70 transition-opacity" aria-label="Ciclo E-commerce — página inicial">
+            <Image
+              src="/logo-ciclo-black.png"
+              alt="Ciclo"
+              width={1010}
+              height={250}
+              priority
+              className="h-7 w-auto"
+            />
           </Link>
           <span className="text-xs tracking-[0.25em] uppercase text-[#6E6A60]">Playbook / 2026</span>
         </div>
