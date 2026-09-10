@@ -45,6 +45,9 @@ export default function PlaybookForm() {
     } catch {
       // Falha no CRM não pode bloquear a entrega do material
     }
+    // Conversão: cadastro concluído para receber o playbook (sem dados pessoais no dataLayer)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    ;(window as any).dataLayer?.push({ event: 'playbook_form_submit' })
     setSent(true)
     // Dispara o download imediatamente — recompensa instantânea
     const a = document.createElement('a')

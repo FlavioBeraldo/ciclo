@@ -62,16 +62,26 @@ export default function PlaybookPopup() {
     }
   }, [])
 
+  // Fechamento sem conversão: registra o dispensar e o meio usado
+  const dismiss = useCallback(
+    (method: 'agora_nao' | 'x' | 'backdrop' | 'esc') => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      ;(window as any).dataLayer?.push({ event: 'playbook_popup_dismiss', method })
+      close()
+    },
+    [close]
+  )
+
   useEffect(() => {
     if (!open) return
-    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && close()
+    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && dismiss('esc')
     document.addEventListener('keydown', onKey)
     document.body.style.overflow = 'hidden'
     return () => {
       document.removeEventListener('keydown', onKey)
       document.body.style.overflow = ''
     }
-  }, [open, close])
+  }, [open, dismiss])
 
   if (!open) return null
 
@@ -86,7 +96,7 @@ export default function PlaybookPopup() {
       <button
         type="button"
         aria-label="Fechar"
-        onClick={close}
+        onClick={() => dismiss('backdrop')}
         className="absolute inset-0 bg-black/60 backdrop-blur-sm cursor-default"
       />
 
@@ -94,7 +104,7 @@ export default function PlaybookPopup() {
       <div className="relative w-full max-w-2xl bg-[#EDE7DB] text-[#1A1917] rounded-2xl overflow-hidden shadow-2xl animate-popup-in">
         <button
           type="button"
-          onClick={close}
+          onClick={() => dismiss('x')}
           aria-label="Fechar popup"
           className="absolute top-3 right-3 z-10 w-9 h-9 rounded-full bg-[#1A1917]/8 hover:bg-[#1A1917]/15 flex items-center justify-center transition-colors"
         >
@@ -138,7 +148,7 @@ export default function PlaybookPopup() {
             </Link>
             <button
               type="button"
-              onClick={close}
+              onClick={() => dismiss('agora_nao')}
               className="block w-full text-center text-xs text-[#6E6A60] hover:text-[#1A1917] mt-3 transition-colors"
             >
               Agora não
