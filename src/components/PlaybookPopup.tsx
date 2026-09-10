@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState, useCallback, useRef } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { X } from 'lucide-react'
@@ -16,10 +16,12 @@ const STORAGE_KEY = 'ciclo-playbook-popup-dismissed-at'
 const COOLDOWN_DAYS = 7
 const DELAY_MS = 10_000
 
-// Popup do Playbook de Social Commerce: aparece após 10s nas páginas do blog,
-// e depois de fechado só volta a aparecer após o período de cooldown.
+// Popup do Playbook de Social Commerce: aparece após 10s nas páginas do blog
+// ou imediatamente na intenção de saída (mouse deixando a janela pelo topo).
+// Depois de fechado, só volta a aparecer após o período de cooldown.
 export default function PlaybookPopup() {
   const [open, setOpen] = useState(false)
+  const openedOnce = useRef(false)
 
   useEffect(() => {
     try {
@@ -28,12 +30,27 @@ export default function PlaybookPopup() {
     } catch {
       // localStorage indisponível — mostra mesmo assim
     }
-    const timer = setTimeout(() => {
+
+    const show = (trigger: 'timer' | 'exit_intent') => {
+      if (openedOnce.current) return
+      openedOnce.current = true
       setOpen(true)
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      ;(window as any).dataLayer?.push({ event: 'playbook_popup_view' })
-    }, DELAY_MS)
-    return () => clearTimeout(timer)
+      ;(window as any).dataLayer?.push({ event: 'playbook_popup_view', trigger })
+    }
+
+    const timer = setTimeout(() => show('timer'), DELAY_MS)
+
+    // Exit intent: mouse deixa a viewport pelo topo (fechar aba, digitar URL, trocar de aba)
+    const onMouseOut = (e: MouseEvent) => {
+      if (!e.relatedTarget && e.clientY <= 0) show('exit_intent')
+    }
+    document.addEventListener('mouseout', onMouseOut)
+
+    return () => {
+      clearTimeout(timer)
+      document.removeEventListener('mouseout', onMouseOut)
+    }
   }, [])
 
   const close = useCallback(() => {
