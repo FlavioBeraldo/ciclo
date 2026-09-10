@@ -157,7 +157,8 @@ export default function PlaybookSocialCommercePage() {
               Playbook gratuito · Social Commerce
             </p>
             <h1 className="font-serif-lp text-4xl sm:text-5xl leading-[1.05] mb-4">
-              Um em cada cinco reais do e-commerce mundial já nasce dentro de uma rede social. O seu ainda nasce no site?
+              <span className="text-[#2B6B9B]">Um em cada cinco reais do e-commerce mundial</span>{' '}
+              já nasce dentro de uma rede social. O seu ainda nasce no site?
             </h1>
             <p className="text-[#6E6A60] leading-relaxed mb-6">
               Escrito por quem opera Social Commerce em dezenas de marcas: os dados que provam a escala,
