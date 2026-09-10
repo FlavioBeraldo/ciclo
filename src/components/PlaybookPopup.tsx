@@ -133,7 +133,7 @@ export default function PlaybookPopup() {
             </p>
             <p className="text-sm text-[#6E6A60] leading-relaxed mb-5">
               Dados de mercado, os 4 motores do modelo e um método prático de 90 dias
-              para transformar atenção em vendas. 29 capítulos direto ao ponto.
+              para transformar atenção em vendas. 38 páginas direto ao ponto.
             </p>
             <Link
               href="/playbook-social-commerce"

@@ -73,7 +73,7 @@ export default function PlaybookForm() {
           Baixar o playbook (PDF) ↓
         </a>
         <p className="text-xs text-[#6E6A60] mt-5">
-          Bom proveito — são 29 capítulos direto ao ponto.
+          Bom proveito — são 38 páginas direto ao ponto.
         </p>
       </div>
     )
