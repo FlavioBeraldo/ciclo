@@ -14,7 +14,7 @@ const playfair = Playfair_Display({
 export const metadata: Metadata = {
   title: 'Playbook Social Commerce 2026 | Download Gratuito | Ciclo E-commerce',
   description:
-    'Baixe gratuitamente o Playbook de Social Commerce da Ciclo: dados de mercado, os 4 motores (conteúdo, creators, live e ads), o método 100/20/6 de 90 dias e cases reais. Estratégias para transformar atenção em vendas.',
+    'Um em cada cinco reais do e-commerce mundial já nasce nas redes sociais. Baixe o playbook gratuito da Ciclo: os 4 motores, o método 100/20/6 e cases como US$ 1 mi em uma única live.',
   keywords: [
     'social commerce',
     'playbook social commerce',
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Playbook Social Commerce — A nova era do e-commerce',
     description:
-      'Estratégias, canais e playbooks para transformar atenção em vendas. 29 capítulos, dados de mercado e um método prático de 90 dias. Download gratuito.',
+      'Os 4 motores do Social Commerce, o método 100/20/6 e cases reais com número. Escrito por quem opera o modelo em dezenas de marcas. Download gratuito.',
     type: 'website',
     locale: 'pt_BR',
     siteName: 'Ciclo E-commerce',
@@ -52,7 +52,7 @@ export const metadata: Metadata = {
 }
 
 const stats = [
-  { value: 'US$ 2,1 tri', label: 'Mercado global de Social Commerce em 2026, com projeção de US$ 7,5 tri até 2031' },
+  { value: '> Target', label: 'Em 2026, o TikTok Shop deve vender mais nos EUA do que toda a operação online da Target (eMarketer)' },
   { value: '22,4%', label: 'Fatia do Social Commerce sobre todo o e-commerce mundial em 2026' },
   { value: 'R$ 1,2 bi', label: 'GMV do TikTok Shop no Brasil em 2025 — no primeiro ano de operação' },
   { value: 'até 40%', label: 'Conversão em lives com oferta, contra 1,65% da média do e-commerce' },
@@ -157,19 +157,18 @@ export default function PlaybookSocialCommercePage() {
               Playbook gratuito · Social Commerce
             </p>
             <h1 className="font-serif-lp text-4xl sm:text-5xl leading-[1.05] mb-4">
-              A venda saiu do site. Sua marca já sabe operar onde ela acontece?
+              Um em cada cinco reais do e-commerce mundial já nasce dentro de uma rede social. O seu ainda nasce no site?
             </h1>
             <p className="text-[#6E6A60] leading-relaxed mb-6">
-              Um em cada cinco reais do e-commerce mundial já nasce dentro de uma rede social.
-              Este playbook reúne os dados, os 4 motores do modelo e um método prático de 90 dias
-              para transformar atenção em vendas — sem achismo.
+              Escrito por quem opera Social Commerce em dezenas de marcas: os dados que provam a escala,
+              os 4 motores do modelo e o método 100/20/6 para os seus primeiros 90 dias.
             </p>
 
             <ul className="flex flex-col gap-2.5 mb-8 text-sm">
               {[
-                '29 capítulos direto ao ponto, do conceito à operação',
-                'O método 100/20/6 para os primeiros 90 dias',
-                'Cases reais: do quase colapso ao recorde de vendas',
+                'A distribuição real do resultado: 65% afiliados, 20% live, 10% conteúdo, 5% ads',
+                'O método 100/20/6: 100 creators, 20% de vencedores, 6 ciclos em 90 dias',
+                'Cases com número: US$ 1 milhão em uma live de 6 horas e R$ 2 mi em 15 dias',
               ].map((item) => (
                 <li key={item} className="flex items-start gap-2.5">
                   <span className="text-[#2B6B9B] font-bold mt-px" aria-hidden="true">+</span>
@@ -227,12 +226,48 @@ export default function PlaybookSocialCommercePage() {
         </blockquote>
       </section>
 
+      {/* Prova social da Ciclo */}
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+        <div className="border-t border-[#1A1917]/60 pt-10">
+          <h2 className="font-serif-lp text-3xl sm:text-4xl mb-5">
+            Quem escreveu este playbook opera o que ensina.
+          </h2>
+          <p className="text-[#6E6A60] leading-relaxed max-w-3xl mb-2">
+            São mais de 300 marcas atendidas em 11 anos e R$ 350 milhões em receita gerada.
+            Entre elas: GoPro, Shiseido, NARS, Motorola, Laura Mercier e Jack Link&apos;s.
+          </p>
+          <p className="text-[#6E6A60] leading-relaxed max-w-3xl mb-9">
+            Os percentuais dos 4 motores não vieram de relatório de mercado. Vieram da nossa operação.
+          </p>
+          <div className="flex flex-wrap items-center gap-x-10 gap-y-6">
+            {[
+              { name: 'GoPro',         logo: '/brands/gopro.png' },
+              { name: 'Shiseido',      logo: '/brands/shiseido.png' },
+              { name: 'NARS',          logo: '/brands/nars.png' },
+              { name: 'Motorola',      logo: '/brands/motorola.png' },
+              { name: 'Laura Mercier', logo: '/brands/laura-mercier.png' },
+              { name: "Jack Link's",   logo: '/brands/jacklinks.png' },
+            ].map((brand) => (
+              <Image
+                key={brand.name}
+                src={brand.logo}
+                alt={brand.name}
+                width={140}
+                height={44}
+                className="h-8 sm:h-9 w-auto object-contain grayscale opacity-60"
+                loading="lazy"
+              />
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* CTA final */}
       <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
         <div className="bg-[#1A1917] text-[#EDE7DB] rounded-2xl px-8 py-12 text-center">
           <h2 className="font-serif-lp text-3xl sm:text-4xl mb-3">Comece antes da sua concorrência.</h2>
           <p className="text-[#EDE7DB]/70 mb-7 max-w-xl mx-auto leading-relaxed">
-            O playbook é gratuito e leva 30 segundos para chegar até você.
+            O GMV de lives no Brasil cresceu 161x em um ano. O playbook é gratuito e leva 30 segundos.
             O custo real é continuar operando como se a venda ainda começasse no seu site.
           </p>
           <a
