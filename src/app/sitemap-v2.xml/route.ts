@@ -18,6 +18,7 @@ export async function GET() {
     { url: `${BASE}/depoimentos`,                 priority: '0.7', freq: 'monthly' },
     { url: `${BASE}/ofatorm`,                     priority: '0.8', freq: 'weekly'  },
     { url: `${BASE}/ecomshift`,                   priority: '0.9', freq: 'monthly' },
+    { url: `${BASE}/playbook-social-commerce`,    priority: '0.9', freq: 'monthly' },
     { url: `${BASE}/politica-de-privacidade`,     priority: '0.4', freq: 'yearly'  },
     { url: `${BASE}/mapa-do-site`,                priority: '0.3', freq: 'monthly' },
   ]

@@ -125,6 +125,31 @@ body {
   color: rgba(255,255,255,0.3);
 }
 
+/* Phone input — variante clara (LP editorial do playbook) */
+.lp-phone-light .ciclo-phone-input {
+  background: #ffffff;
+  border-color: rgba(26,25,23,0.15);
+  padding: 0.875rem 1rem;
+}
+.lp-phone-light .ciclo-phone-input:focus-within {
+  border-color: #1A1917;
+  box-shadow: 0 0 0 1px #1A1917;
+}
+.lp-phone-light .ciclo-phone-input .PhoneInputCountrySelectArrow {
+  border-top-color: rgba(26,25,23,0.45);
+}
+.lp-phone-light .ciclo-phone-input .PhoneInputInput {
+  color: #1A1917;
+}
+.lp-phone-light .ciclo-phone-input .PhoneInputInput::placeholder {
+  color: rgba(26,25,23,0.35);
+}
+
+/* Tipografia serifada da LP do playbook */
+.lp-playbook .font-serif-lp {
+  font-family: var(--font-playfair), Georgia, 'Times New Roman', serif;
+}
+
 /* Marquee animation for BrandsStrip */
 @keyframes marquee {
   from { transform: translateX(0) }
