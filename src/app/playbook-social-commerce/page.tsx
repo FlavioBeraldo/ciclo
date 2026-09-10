@@ -3,6 +3,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { Playfair_Display } from 'next/font/google'
 import PlaybookForm from './PlaybookForm'
+import StickyCta from './StickyCta'
 
 const playfair = Playfair_Display({
   subsets: ['latin'],
@@ -30,12 +31,21 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'pt_BR',
     siteName: 'Ciclo E-commerce',
-    images: [{ url: 'https://cicloecommerce.com.br/playbook/capa-playbook-social-commerce.jpg' }],
+    url: 'https://cicloecommerce.com.br/playbook-social-commerce',
+    images: [
+      {
+        url: 'https://cicloecommerce.com.br/playbook/og-playbook-social-commerce.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Playbook Social Commerce — A nova era do e-commerce | Ciclo E-commerce',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Playbook Social Commerce — download gratuito',
     description: 'Dados, canais, método de 90 dias e cases reais de Social Commerce.',
+    images: ['https://cicloecommerce.com.br/playbook/og-playbook-social-commerce.jpg'],
   },
   robots: { index: true, follow: true },
   alternates: { canonical: 'https://cicloecommerce.com.br/playbook-social-commerce' },
@@ -81,9 +91,33 @@ const chapters = [
   },
 ]
 
+const documentSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'DigitalDocument',
+  name: 'Playbook Social Commerce — A nova era do e-commerce',
+  description:
+    'Playbook gratuito da Ciclo E-commerce sobre Social Commerce: dados de mercado, os 4 motores (conteúdo, creators, live e ads), o método 100/20/6 de 90 dias e cases reais.',
+  url: 'https://cicloecommerce.com.br/playbook-social-commerce',
+  image: 'https://cicloecommerce.com.br/playbook/og-playbook-social-commerce.jpg',
+  thumbnailUrl: 'https://cicloecommerce.com.br/playbook/capa-playbook-social-commerce.jpg',
+  inLanguage: 'pt-BR',
+  isAccessibleForFree: true,
+  datePublished: '2026',
+  publisher: {
+    '@type': 'Organization',
+    name: 'Ciclo E-commerce',
+    url: 'https://cicloecommerce.com.br',
+    logo: { '@type': 'ImageObject', url: 'https://cicloecommerce.com.br/logo-ciclo.png' },
+  },
+}
+
 export default function PlaybookSocialCommercePage() {
   return (
     <div className={`${playfair.variable} lp-playbook min-h-screen bg-[#EDE7DB] text-[#1A1917]`}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(documentSchema) }}
+      />
       {/* Top bar editorial */}
       <header className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-6">
         <div className="flex items-center justify-between pb-4 border-b border-[#1A1917]/60">
@@ -209,6 +243,8 @@ export default function PlaybookSocialCommercePage() {
           </a>
         </div>
       </section>
+
+      <StickyCta />
 
       {/* Rodapé mínimo */}
       <footer className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-8">
