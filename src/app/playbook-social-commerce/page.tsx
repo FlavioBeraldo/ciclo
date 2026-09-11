@@ -61,33 +61,33 @@ const stats = [
 const chapters = [
   {
     n: '01',
-    title: 'O jogo e as regras',
-    text: 'O que é Social Commerce de verdade, o que não é, e os 5 princípios que sustentam a operação.',
+    title: 'Fundamentos',
+    text: 'O que é Social Commerce de verdade, o que não é, os 5 princípios do jogo e os números do mundo e do Brasil.',
   },
   {
     n: '02',
-    title: 'Os números do movimento',
-    text: 'Dados globais e do Brasil que provam a escala: mercado, conversão e a guerra contra a fricção.',
+    title: 'Canais',
+    text: 'TikTok Shop por dentro, o ecossistema de hoje, os próximos canais e o que a China antecipa sobre o futuro.',
   },
   {
     n: '03',
-    title: 'Os 4 motores',
-    text: 'Conteúdo, creators, live commerce e ads — como cada motor funciona e como eles se combinam.',
+    title: 'Motores da operação',
+    text: 'A estratégia em 6 passos, os 4 motores — afiliados, live, conteúdo e ads — e a engenharia de uma live que converte.',
   },
   {
     n: '04',
-    title: 'O método 100/20/6',
-    text: 'Volume, teste e seleção em 90 dias: o passo a passo prático para sair do zero com método.',
+    title: 'Creative strategy',
+    text: 'Novo nesta edição: o criativo como segmentação, ângulos em vez de formatos, UGC ou estúdio, matriz de teste e diagnóstico por hook rate.',
   },
   {
     n: '05',
-    title: 'Operação e métricas',
-    text: 'Produto certo, retaguarda que segura a escala e as métricas que realmente importam.',
+    title: 'Método e operação',
+    text: 'O 100/20/6 na prática, o produto certo para o canal, a retaguarda que segura a escala e as métricas que importam.',
   },
   {
     n: '06',
-    title: 'Cases reais',
-    text: 'Canvas Beauty, Made by Mitchell, Aura Beauty e o case de R$ 2 milhões em 15 dias da Viih Tube.',
+    title: 'Cases com número',
+    text: 'Canvas Beauty, Made by Mitchell, Aura Beauty e os R$ 2 milhões em 15 dias do Spoiler da Viih Tube.',
   },
 ]
 
@@ -96,7 +96,7 @@ const documentSchema = {
   '@type': 'DigitalDocument',
   name: 'Playbook Social Commerce — A nova era do e-commerce',
   description:
-    'Playbook gratuito da Ciclo E-commerce sobre Social Commerce: dados de mercado, os 4 motores (conteúdo, creators, live e ads), o método 100/20/6 de 90 dias e cases reais.',
+    'Playbook gratuito da Ciclo E-commerce sobre Social Commerce: dados de mercado, os 4 motores (conteúdo, creators, live e ads), creative strategy, o método 100/20/6 de 90 dias e cases reais.',
   url: 'https://cicloecommerce.com.br/playbook-social-commerce',
   image: 'https://cicloecommerce.com.br/playbook/og-playbook-social-commerce.jpg',
   thumbnailUrl: 'https://cicloecommerce.com.br/playbook/capa-playbook-social-commerce.jpg',
@@ -163,8 +163,8 @@ export default function PlaybookSocialCommercePage() {
               já nasce dentro de uma rede social. O seu ainda nasce no site?
             </h1>
             <p className="text-[#6E6A60] leading-relaxed mb-6">
-              Escrito por quem opera Social Commerce em dezenas de marcas: os dados que provam a escala,
-              os 4 motores do modelo e o método 100/20/6 para os seus primeiros 90 dias.
+              Escrito por quem opera Social Commerce em dezenas de marcas: os 4 motores do modelo,
+              a creative strategy do canal e o método 100/20/6 para os seus primeiros 90 dias.
             </p>
 
             <ul className="flex flex-col gap-2.5 mb-8 text-sm">
