@@ -7,6 +7,7 @@ import { m } from 'framer-motion'
 import Button from './ui/Button'
 import Section from './ui/Section'
 import PhoneField from './ui/PhoneField'
+import { getAttributionPayload } from '@/lib/attribution'
 
 const schema = z.object({
   name: z.string().min(2, 'Nome deve ter ao menos 2 caracteres'),
@@ -56,15 +57,23 @@ export default function LeadForm() {
   })
 
   const onSubmit = async (data: FormData) => {
+    const attribution = getAttributionPayload()
     try {
       await fetch('/api/pipedrive', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...data, source: 'Site/WhatsApp' }),
+        body: JSON.stringify({ ...data, source: 'Site/WhatsApp', attribution }),
       })
     } catch {
       // Falha no Pipedrive não bloqueia o redirect
     }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    ;(window as any).dataLayer?.push({
+      event: 'generate_lead',
+      lead_source: attribution.source,
+      lead_medium: attribution.medium,
+      lead_campaign: attribution.campaign,
+    })
     window.location.href = '/obrigado'
   }
 

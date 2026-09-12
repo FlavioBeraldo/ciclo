@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import PhoneField from '@/components/ui/PhoneField'
+import { getAttributionPayload } from '@/lib/attribution'
 
 const schema = z.object({
   name: z.string().min(2, 'Digite seu nome'),
@@ -29,6 +30,7 @@ export default function PlaybookForm() {
   })
 
   const onSubmit = async (data: FormData) => {
+    const attribution = getAttributionPayload()
     try {
       await fetch('/api/pipedrive', {
         method: 'POST',
@@ -40,6 +42,7 @@ export default function PlaybookForm() {
           message: 'Baixou o Playbook de Social Commerce pela landing page.',
           source: 'LP Playbook Social Commerce',
           pipeline: 'Playbook',
+          attribution,
         }),
       })
     } catch {
@@ -47,7 +50,12 @@ export default function PlaybookForm() {
     }
     // Conversão: cadastro concluído para receber o playbook (sem dados pessoais no dataLayer)
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    ;(window as any).dataLayer?.push({ event: 'playbook_form_submit' })
+    ;(window as any).dataLayer?.push({
+      event: 'playbook_form_submit',
+      lead_source: attribution.source,
+      lead_medium: attribution.medium,
+      lead_campaign: attribution.campaign,
+    })
     setSent(true)
     // Dispara o download imediatamente — recompensa instantânea
     const a = document.createElement('a')

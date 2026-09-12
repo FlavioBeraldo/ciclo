@@ -1,12 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-
-const BASE = 'https://api.pipedrive.com/v1'
-
-function url(path: string, params: Record<string, string> = {}) {
-  const token = process.env.PIPEDRIVE_API_TOKEN
-  const qs = new URLSearchParams({ api_token: token!, ...params })
-  return `${BASE}${path}?${qs}`
-}
+import { pipedriveUrl as url, attributionDealProps } from '@/lib/pipedrive-server'
 
 // Busca o stage_id pelo nome exato do pipeline e do estágio.
 // Se `pipelineHint` for informado (ex: "Playbook"), busca esse pipeline pelo nome
@@ -152,7 +145,7 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    const { name, email, phone, whatsapp, company, message, storeUrl, annualRevenue, segment, pipeline } = await req.json()
+    const { name, email, phone, whatsapp, company, message, storeUrl, annualRevenue, segment, pipeline, attribution } = await req.json()
     const phoneNumber = phone ?? whatsapp ?? ''
     const objetivo = [
       annualRevenue ? `Faturamento anual: ${annualRevenue}` : null,
@@ -189,6 +182,8 @@ export async function POST(req: NextRequest) {
         status: 'open',
         // Campo customizado "Objetivo" (Large text)
         '34b57523aeb4efdfe90674f07fc548ccd3da2769': objetivo,
+        // Campos de atribuição GA (chaves reais da conta — ver src/lib/pipedrive-fields.ts)
+        ...attributionDealProps(attribution),
       }),
     })
     const dealData = await dealRes.json()

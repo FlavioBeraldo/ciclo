@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google'
 import Script from 'next/script'
 import './globals.css'
 import MotionProvider from '@/components/MotionProvider'
+import AttributionTracker from '@/components/AttributionTracker'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -63,6 +64,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           />
         </noscript>
         {/* End Google Tag Manager (noscript) */}
+        <AttributionTracker />
         <MotionProvider>
           {children}
         </MotionProvider>
