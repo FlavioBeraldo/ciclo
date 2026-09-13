@@ -37,6 +37,20 @@ export interface SiteVisitor {
   email: string | null
   ga_client_id: string | null
   opted_out: boolean
+  last_digest_at?: string | null
+}
+
+/** SELECT genérico via PostgREST; retorna [] em erro ou sem env. */
+export async function sbSelect<T>(pathQuery: string): Promise<T[]> {
+  if (!ready()) return []
+  try {
+    const res = await rest(pathQuery)
+    const rows = await res.json().catch(() => [])
+    return Array.isArray(rows) ? (rows as T[]) : []
+  } catch (err) {
+    console.error('[Supabase] sbSelect:', err)
+    return []
+  }
 }
 
 export async function getVisitor(uid: string): Promise<SiteVisitor | null> {
@@ -54,7 +68,7 @@ export async function getVisitor(uid: string): Promise<SiteVisitor | null> {
 /** Cria o visitante se não existir e atualiza last_seen + campos não-nulos. */
 export async function upsertVisitor(
   uid: string,
-  fields: Partial<Pick<SiteVisitor, 'pipedrive_person_id' | 'email' | 'ga_client_id' | 'opted_out'>> = {}
+  fields: Partial<Pick<SiteVisitor, 'pipedrive_person_id' | 'email' | 'ga_client_id' | 'opted_out' | 'last_digest_at'>> = {}
 ): Promise<void> {
   if (!ready()) return
   try {

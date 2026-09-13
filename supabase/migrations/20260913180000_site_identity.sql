@@ -8,7 +8,8 @@ create table if not exists public.site_visitors (
   ga_client_id text,
   opted_out boolean not null default false,
   first_seen timestamptz not null default now(),
-  last_seen timestamptz not null default now()
+  last_seen timestamptz not null default now(),
+  last_digest_at timestamptz
 );
 
 create table if not exists public.site_events (

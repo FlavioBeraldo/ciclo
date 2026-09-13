@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { UID_COOKIE } from '@/lib/identity-server'
 import { getVisitor, insertEvent, upsertVisitor } from '@/lib/supabase-server'
+import { CONVERSION_TYPES, createConversionActivity, hasRecentEvent } from '@/lib/pipedrive-activity'
 
 export const runtime = 'nodejs'
 
@@ -76,17 +77,31 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    await insertEvent({
+    const event = {
       uid,
-      type: body.type,
+      type: body.type as string,
       path: clip(body.path, 500),
       title: clip(body.title, 300),
       referrer: clip(body.referrer, 500),
       source: clip(attr.source, 255),
       medium: clip(attr.medium, 255),
       campaign: clip(attr.campaign, 255),
-      meta: body.meta && typeof body.meta === 'object' ? body.meta : undefined,
-    })
+      meta: body.meta && typeof body.meta === 'object' ? (body.meta as Record<string, unknown>) : undefined,
+    }
+
+    // B1: conversão de pessoa já vinculada -> Activity concluída no Pipedrive.
+    // Dedupe (mesmo uid+type+path em 1h) consultado ANTES de inserir o evento atual.
+    const isConversion =
+      CONVERSION_TYPES.has(event.type) &&
+      !!visitor?.pipedrive_person_id &&
+      !!process.env.PIPEDRIVE_API_TOKEN
+    const isDuplicate = isConversion ? await hasRecentEvent(uid, event.type, event.path) : false
+
+    await insertEvent(event)
+
+    if (isConversion && !isDuplicate && visitor?.pipedrive_person_id) {
+      await createConversionActivity(visitor.pipedrive_person_id, event)
+    }
 
     return new NextResponse(null, { status: 204 })
   } catch (err) {
