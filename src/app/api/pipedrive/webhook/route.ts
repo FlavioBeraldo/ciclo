@@ -78,9 +78,13 @@ export async function POST(req: NextRequest) {
       return typeof v === 'string' && v.trim() !== '' ? v : undefined
     }
 
-    const storedClientId = field('ga_client_id')
-    // Sem client_id capturado: usa um determinístico derivado do id do deal
-    const clientId = storedClientId ?? `${1000000000 + dealId}.${1700000000 + dealId}`
+    // Regra de negócio: só reporta receita ao GA4 quando o lead veio dos canais
+    // digitais (entrou pelo site e portanto tem GA Client ID capturado no deal).
+    const clientId = field('ga_client_id')
+    if (!clientId) {
+      console.info('[Webhook] Deal', dealId, 'ganho sem GA Client ID — skip (lead não veio do site)')
+      return NextResponse.json({ skipped: true, reason: 'no_ga_client_id' })
+    }
     const sessionId = field('ga_session_id')
 
     const value = Number(deal.value ?? 0)
@@ -105,7 +109,6 @@ export async function POST(req: NextRequest) {
       items: [{ item_id: `deal-${dealId}`, item_name: deal.title, price: value, quantity: 1 }],
     }
     if (sessionId) params.session_id = sessionId
-    if (!storedClientId) params.attribution_fallback = true
 
     const endpoint = debug
       ? 'https://www.google-analytics.com/debug/mp/collect'
