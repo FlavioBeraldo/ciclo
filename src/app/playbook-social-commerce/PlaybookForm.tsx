@@ -27,12 +27,6 @@ const schema = z.object({
   lgpd: z.boolean().refine((v) => v === true, 'Aceite a política de privacidade para continuar'),
 })
 
-interface LinkedInProfile {
-  name: string
-  email: string
-  picture?: string
-  sub: string
-}
 
 type FormData = z.infer<typeof schema>
 
@@ -43,35 +37,51 @@ const inputClass =
 
 const errorClass = 'text-[#C0392B] text-xs mt-1'
 
+function triggerDownload() {
+  const a = document.createElement('a')
+  a.href = PDF_URL
+  a.download = 'Playbook-Social-Commerce-Ciclo.pdf'
+  document.body.appendChild(a)
+  a.click()
+  a.remove()
+}
+
 export default function PlaybookForm() {
   const [sent, setSent] = useState(false)
-  const [liProfile, setLiProfile] = useState<LinkedInProfile | null>(null)
+  const [viaLinkedIn, setViaLinkedIn] = useState(false)
+  const [liError, setLiError] = useState(false)
   // Botão só para quem veio do LinkedIn (decidido pós-hidratação para não divergir do SSR)
   const [showLiButton, setShowLiButton] = useState(false)
 
   useEffect(() => {
     if (LINKEDIN_ENABLED) setShowLiButton(isLinkedInTraffic())
   }, [])
-  const { register, control, handleSubmit, setValue, formState: { errors, isSubmitting } } = useForm<FormData>({
+  const { register, control, handleSubmit, formState: { errors, isSubmitting } } = useForm<FormData>({
     resolver: zodResolver(schema),
   })
 
-  // Volta do LinkedIn: pré-preenche nome/e-mail (editáveis) a partir do cookie assinado
+  // Volta do OAuth: o cadastro já foi feito no servidor (callback) ->
+  // mostra o sucesso direto e dispara o download, sem formulário
   useEffect(() => {
     if (!LINKEDIN_ENABLED) return
-    if (new URLSearchParams(window.location.search).get('li') !== 'ok') return
-    fetch('/api/auth/linkedin/me')
-      .then((res) => (res.status === 200 ? res.json() : null))
-      .then((profile: LinkedInProfile | null) => {
-        if (!profile) return
-        setLiProfile(profile)
-        if (profile.name) setValue('name', profile.name)
-        if (profile.email) setValue('email', profile.email)
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        ;(window as any).dataLayer?.push({ event: 'linkedin_login_success' })
+    const li = new URLSearchParams(window.location.search).get('li')
+    if (li === 'done') {
+      setViaLinkedIn(true)
+      setSent(true)
+      const attribution = getAttributionPayload()
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      ;(window as any).dataLayer?.push({
+        event: 'playbook_form_submit',
+        method: 'linkedin',
+        lead_source: attribution.source,
+        lead_medium: attribution.medium,
+        lead_campaign: attribution.campaign,
       })
-      .catch(() => {})
-  }, [setValue])
+      triggerDownload()
+    } else if (li === 'erro') {
+      setLiError(true)
+    }
+  }, [])
 
   const onSubmit = async (data: FormData) => {
     const attribution = getAttributionPayload()
@@ -105,17 +115,17 @@ export default function PlaybookForm() {
     })
     setSent(true)
     // Dispara o download imediatamente — recompensa instantânea
-    const a = document.createElement('a')
-    a.href = PDF_URL
-    a.download = 'Playbook-Social-Commerce-Ciclo.pdf'
-    document.body.appendChild(a)
-    a.click()
-    a.remove()
+    triggerDownload()
   }
 
   if (sent) {
     return (
       <div className="text-center py-6">
+        {viaLinkedIn && (
+          <p className="flex items-center justify-center gap-1.5 text-xs font-medium text-[#2B6B9B] mb-3">
+            <BadgeCheck className="w-4 h-4" /> Verificado via LinkedIn
+          </p>
+        )}
         <p className="font-serif-lp text-3xl text-[#1A1917] mb-3">Seu playbook está a caminho.</p>
         <p className="text-sm text-[#6E6A60] mb-6 leading-relaxed">
           O download começou automaticamente. Se não iniciou, use o botão abaixo.
@@ -136,13 +146,12 @@ export default function PlaybookForm() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4" noValidate>
-      {/* Selo sempre aparece após ?li=ok, mesmo com o botão oculto */}
-      {LINKEDIN_ENABLED && liProfile && (
-        <p className="flex items-center justify-center gap-1.5 text-xs font-medium text-[#2B6B9B]">
-          <BadgeCheck className="w-4 h-4" /> Verificado via LinkedIn
+      {LINKEDIN_ENABLED && liError && (
+        <p className="text-xs text-[#6E6A60] text-center">
+          Não foi possível entrar com o LinkedIn, preencha abaixo.
         </p>
       )}
-      {LINKEDIN_ENABLED && !liProfile && showLiButton && (
+      {LINKEDIN_ENABLED && !liError && showLiButton && (
         <>
           <div>
             <a
@@ -152,7 +161,7 @@ export default function PlaybookForm() {
               <LinkedinIcon className="w-4 h-4" /> Continuar com LinkedIn
             </a>
             <p className="text-[11px] text-[#6E6A60] text-center mt-1.5">
-              Só lemos seu nome e e-mail — nada é publicado no seu perfil.
+              Um clique e o download começa — só lemos seu nome e e-mail.
             </p>
           </div>
           <div className="flex items-center gap-3 text-[11px] uppercase tracking-wider text-[#6E6A60]">

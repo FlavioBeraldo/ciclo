@@ -1,144 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { pipedriveUrl as url, attributionDealProps } from '@/lib/pipedrive-server'
-import { DEAL_FIELD_LINKEDIN } from '@/lib/pipedrive-fields'
+import { createPipedriveLead } from '@/lib/pipedrive-server'
 import { LI_COOKIE, verifyProfile } from '@/lib/linkedin-session'
-
-// Busca o stage_id pelo nome exato do pipeline e do estágio.
-// Se `pipelineHint` for informado (ex: "Playbook"), busca esse pipeline pelo nome
-// e retorna sua PRIMEIRA etapa — ignorando os overrides de env, que valem só para o fluxo padrão.
-async function findStageId(pipelineHint?: string): Promise<number | undefined> {
-  // Se o ID do estágio estiver configurado como env var, usa direto (mais confiável)
-  if (!pipelineHint && process.env.PIPEDRIVE_STAGE_ID) {
-    return Number(process.env.PIPEDRIVE_STAGE_ID)
-  }
-
-  const [pipelinesRes, stagesRes] = await Promise.all([
-    fetch(url('/pipelines')),
-    fetch(url('/stages')),
-  ])
-  const [pipelines, stages] = await Promise.all([
-    pipelinesRes.json(),
-    stagesRes.json(),
-  ])
-
-  if (!pipelines.success || !stages.success) {
-    console.error('[Pipedrive] Falha ao buscar pipelines/stages')
-    return undefined
-  }
-
-  const allPipelines = pipelines.data as { id: number; name: string }[]
-  const allStages = stages.data as { id: number; name: string; pipeline_id: number; order_nr: number }[]
-
-  if (pipelineHint) {
-    const target = allPipelines.find((p) => p.name.toLowerCase().includes(pipelineHint.toLowerCase()))
-    if (target) {
-      const first = allStages
-        .filter((s) => s.pipeline_id === target.id)
-        .sort((a, b) => a.order_nr - b.order_nr)[0]
-      if (first) {
-        console.log(`[Pipedrive] Pipeline: "${target.name}" (${target.id}) | Primeira etapa: "${first.name}" (${first.id})`)
-        return first.id
-      }
-      console.error('[Pipedrive] Pipeline', target.name, 'não tem etapas')
-    } else {
-      console.error(`[Pipedrive] Pipeline "${pipelineHint}" não encontrado — usando fluxo padrão. Pipelines:`, allPipelines.map((p) => p.name))
-    }
-    // Fallback: segue para o fluxo padrão abaixo
-    if (process.env.PIPEDRIVE_STAGE_ID) {
-      return Number(process.env.PIPEDRIVE_STAGE_ID)
-    }
-  }
-
-  // Busca pipeline "1 - Site/Whats" (ou qualquer nome que contenha site ou whats)
-  const pipelineName = process.env.PIPEDRIVE_PIPELINE_NAME ?? ''
-  const pipeline = pipelineName
-    ? allPipelines.find((p) => p.name.toLowerCase().includes(pipelineName.toLowerCase()))
-    : allPipelines.find((p) => /site|whats/i.test(p.name))
-
-  if (!pipeline) {
-    console.error('[Pipedrive] Pipeline não encontrado. Pipelines disponíveis:', allPipelines.map((p) => p.name))
-    return undefined
-  }
-
-  // Busca estágio "Entrada de Lead" dentro do pipeline
-  const stageName = process.env.PIPEDRIVE_STAGE_NAME ?? ''
-  const stage = stageName
-    ? allStages.find((s) => s.pipeline_id === pipeline.id && s.name.toLowerCase().includes(stageName.toLowerCase()))
-    : allStages.find((s) => s.pipeline_id === pipeline.id && /entrada/i.test(s.name))
-
-  if (!stage) {
-    console.error('[Pipedrive] Estágio não encontrado no pipeline', pipeline.name, '— Estágios:', allStages.filter((s) => s.pipeline_id === pipeline.id).map((s) => s.name))
-    return undefined
-  }
-
-  console.log(`[Pipedrive] Pipeline: "${pipeline.name}" (${pipeline.id}) | Estágio: "${stage.name}" (${stage.id})`)
-  return stage.id
-}
-
-async function findUserId(name: string): Promise<number | undefined> {
-  const res = await fetch(url('/users'))
-  const data = await res.json()
-  if (!data.success || !data.data) return undefined
-  const user = (data.data as { id: number; name: string }[]).find((u) =>
-    u.name.toLowerCase().includes(name.toLowerCase())
-  )
-  if (!user) console.error('[Pipedrive] Usuário não encontrado:', name)
-  return user?.id
-}
-
-async function findOrCreateOrg(company: string): Promise<number | undefined> {
-  const searchRes = await fetch(url('/organizations/search', { term: company, fields: 'name', limit: '1' }))
-  const searchData = await searchRes.json()
-  if (searchData.success && searchData.data?.items?.length > 0) {
-    return searchData.data.items[0].item.id
-  }
-  const createRes = await fetch(url('/organizations'), {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ name: company }),
-  })
-  const createData = await createRes.json()
-  return createData.data?.id
-}
-
-async function findOrCreatePerson(
-  name: string,
-  email: string,
-  phone: string,
-  orgId?: number
-): Promise<number | undefined> {
-  const searchRes = await fetch(url('/persons/search', { term: email, fields: 'email', limit: '1' }))
-  const searchData = await searchRes.json()
-
-  if (searchData.success && searchData.data?.items?.length > 0) {
-    const existingId = searchData.data.items[0].item.id
-    // Atualiza telefone e org na pessoa existente
-    if (phone || orgId) {
-      await fetch(url(`/persons/${existingId}`), {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          ...(phone ? { phone: [{ value: phone, primary: true }] } : {}),
-          ...(orgId ? { org_id: orgId } : {}),
-        }),
-      })
-    }
-    return existingId
-  }
-
-  const createRes = await fetch(url('/persons'), {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      name,
-      email: [{ value: email, primary: true }],
-      phone: phone ? [{ value: phone, primary: true }] : [],
-      org_id: orgId,
-    }),
-  })
-  const createData = await createRes.json()
-  return createData.data?.id
-}
 
 export async function POST(req: NextRequest) {
   if (!process.env.PIPEDRIVE_API_TOKEN) {
@@ -152,7 +14,6 @@ export async function POST(req: NextRequest) {
     // Cadastro via LinkedIn: o perfil vem do cookie httpOnly ASSINADO (não do body),
     // então "verificado" é garantido pelo servidor, não pelo cliente.
     const liProfile = verifyProfile(req.cookies.get(LI_COOKIE)?.value)
-    const phoneNumber = phone ?? whatsapp ?? ''
     const objetivo = [
       annualRevenue ? `Faturamento anual: ${annualRevenue}` : null,
       segment ? `Segmento: ${segment}` : null,
@@ -164,74 +25,20 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Dados inválidos' }, { status: 400 })
     }
 
-    const [stageId, orgId, ownerId] = await Promise.all([
-      findStageId(typeof pipeline === 'string' && pipeline.trim() ? pipeline.trim() : undefined),
-      company ? findOrCreateOrg(company) : Promise.resolve(undefined),
-      findUserId('Felipe'),
-    ])
-
-    if (!stageId) {
-      console.error('[Pipedrive] stage_id não encontrado — deal não será criado no funil correto')
-    }
-
-    const personId = await findOrCreatePerson(name, email, phoneNumber, orgId)
-
-    const dealRes = await fetch(url('/deals'), {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        title: name,
-        person_id: personId,
-        org_id: orgId,
-        user_id: ownerId,
-        stage_id: stageId,
-        status: 'open',
-        // Campo customizado "Objetivo" (Large text)
-        '34b57523aeb4efdfe90674f07fc548ccd3da2769': objetivo,
-        // Cadastro via LinkedIn (OIDC não entrega URL do perfil nem cargo).
-        // TODO: com acesso futuro ao scope r_basicprofile, mapear
-        //   headline -> DEAL_FIELD_CARGO (11b7eaec8a89299f835bb1be82cd9d487dd77c42)
-        //   vanityName -> DEAL_FIELD_LINKEDIN como URL do perfil
-        ...(liProfile ? { [DEAL_FIELD_LINKEDIN]: `linkedin-id:${liProfile.sub}`.slice(0, 255) } : {}),
-        // Campos de atribuição GA (chaves reais da conta — ver src/lib/pipedrive-fields.ts)
-        ...attributionDealProps(
-          attribution,
-          liProfile
-            ? {
-                linkedin_verified: true,
-                linkedin_sub: liProfile.sub,
-                ...(liProfile.picture ? { linkedin_picture: liProfile.picture } : {}),
-              }
-            : undefined
-        ),
-      }),
+    const result = await createPipedriveLead({
+      name,
+      email,
+      phone: phone ?? whatsapp ?? '',
+      company,
+      objetivo,
+      pipelineHint: typeof pipeline === 'string' && pipeline.trim() ? pipeline.trim() : undefined,
+      attribution,
+      linkedin: liProfile,
     })
-    const dealData = await dealRes.json()
 
-    if (!dealData.success) {
-      console.error('[Pipedrive] Erro ao criar deal:', dealData)
+    if (!result.success) {
       return NextResponse.json({ error: 'Erro ao criar deal' }, { status: 500 })
     }
-
-    const dealId = dealData.data.id
-
-    // Note de verificação no Deal quando o cadastro veio do botão do LinkedIn
-    if (liProfile) {
-      try {
-        await fetch(url('/notes'), {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            deal_id: dealId,
-            content: `Cadastro via LinkedIn (verificado): ${liProfile.name} ${liProfile.email}`,
-          }),
-        })
-      } catch (err) {
-        console.error('[Pipedrive] Falha ao criar note do LinkedIn:', err)
-      }
-    }
-
-    console.log('[Pipedrive] Deal criado:', dealId, '| Stage:', stageId, liProfile ? '| via LinkedIn' : '')
     return NextResponse.json({ success: true })
   } catch (err) {
     console.error('[Pipedrive] Erro interno:', err)
