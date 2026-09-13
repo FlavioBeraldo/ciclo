@@ -137,9 +137,9 @@ export default function PlaybookSocialCommercePage() {
 
       {/* Hero: capa + formulário */}
       <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 lg:pt-16 pb-16">
-        <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
-          {/* Capa do playbook */}
-          <div className="relative max-w-md mx-auto lg:mx-0 w-full">
+        <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center lg:items-start">
+          {/* Capa do playbook — no desktop: alinhada ao topo, sticky e contida na primeira dobra */}
+          <div className="relative max-w-md mx-auto w-full lg:mx-0 lg:w-fit lg:self-start lg:sticky lg:top-24">
             <div className="absolute -inset-3 bg-[#2B6B9B]/10 rounded-2xl rotate-[-1.5deg]" aria-hidden="true" />
             <Image
               src="/playbook/capa-playbook-social-commerce.jpg"
@@ -147,7 +147,9 @@ export default function PlaybookSocialCommercePage() {
               width={993}
               height={1404}
               priority
-              className="relative w-full h-auto rounded-lg shadow-[0_24px_60px_-20px_rgba(26,25,23,0.45)]"
+              fetchPriority="high"
+              sizes="(min-width: 1024px) 40vw, 100vw"
+              className="relative w-full h-auto lg:w-auto lg:max-h-[calc(100vh-8rem)] object-contain rounded-lg shadow-[0_24px_60px_-20px_rgba(26,25,23,0.45)]"
             />
           </div>
 
