@@ -8,6 +8,7 @@ import Button from './ui/Button'
 import Section from './ui/Section'
 import PhoneField from './ui/PhoneField'
 import { getAttributionPayload } from '@/lib/attribution'
+import { track } from '@/lib/track'
 
 const schema = z.object({
   name: z.string().min(2, 'Nome deve ter ao menos 2 caracteres'),
@@ -74,6 +75,7 @@ export default function LeadForm() {
       lead_medium: attribution.medium,
       lead_campaign: attribution.campaign,
     })
+    track('form_submit', { form: 'contato' })
     window.location.href = '/obrigado'
   }
 
@@ -173,11 +175,11 @@ export default function LeadForm() {
               <label className="flex items-start gap-3 cursor-pointer mb-4">
                 <input type="checkbox" {...register('lgpd')} className="mt-0.5 w-4 h-4 flex-shrink-0 accent-[#A100FF]" />
                 <span className="text-xs text-[#A1A1AA] leading-relaxed">
-                  Li e aceito a{' '}
+                  Aceito a{' '}
                   <a href="/politica-de-privacidade" target="_blank" rel="noopener noreferrer" className="text-[#A100FF] underline hover:text-[#8800DD]">
                     Política de Privacidade
                   </a>
-                  {' '}e autorizo o uso dos meus dados para contato comercial.
+                  {' '}e autorizo o contato da Ciclo e o registro da minha navegação no site para personalizar o atendimento.
                 </span>
               </label>
               {errors.lgpd && <p className={errorClass}>{errors.lgpd.message as string}</p>}

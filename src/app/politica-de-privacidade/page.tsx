@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import OptOutNotice from './OptOutNotice'
 
 export const metadata: Metadata = {
   title: 'Política de Privacidade e LGPD | Ciclo E-commerce',
@@ -166,12 +167,29 @@ const sections = [
       'Você também pode apresentar reclamação à Autoridade Nacional de Proteção de Dados (ANPD) pelo site: gov.br/anpd.',
     ],
   },
+  {
+    id: 'cookies-identificacao',
+    title: '12. Cookies de identificação e registro de navegação',
+    content: [
+      'Utilizamos dois cookies próprios para entender sua jornada no site: ciclo_uid (um identificador aleatório e anônimo do seu navegador) e ciclo_attr (a origem da sua primeira visita — por exemplo, campanha, rede social ou busca).',
+      'Finalidade: registrar as páginas visitadas e interações (como downloads de materiais) para personalizar o atendimento comercial no nosso CRM. A associação entre a sua navegação e os seus dados pessoais (nome, e-mail) só acontece quando você envia um formulário e aceita expressamente esta Política.',
+      'Retenção: os registros de navegação são mantidos por até 12 meses.',
+    ],
+    cta: {
+      href: '/api/track/optout',
+      label: 'Desativar o registro de navegação neste navegador',
+    },
+    extra: [
+      'Ao desativar, os cookies ciclo_uid e ciclo_attr são apagados e o seu identificador é marcado para não registrar novos eventos. Também respeitamos o sinal "Do Not Track" do navegador.',
+    ],
+  },
 ]
 
 export default function PoliticaDePrivacidade() {
   return (
     <main className="min-h-screen bg-[#050505] pt-32 pb-20">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <OptOutNotice />
 
         {/* Header */}
         <div className="mb-12 text-center">
@@ -230,6 +248,14 @@ export default function PoliticaDePrivacidade() {
                     </li>
                   ))}
                 </ul>
+              )}
+              {'cta' in s && s.cta && (
+                <a
+                  href={s.cta.href}
+                  className="inline-block my-2 text-sm font-semibold text-[#A100FF] underline hover:text-[#8800DD]"
+                >
+                  {s.cta.label}
+                </a>
               )}
               {s.extra?.map((p, i) => (
                 <p key={i} className="text-[#A1A1AA] text-sm leading-relaxed mt-3">

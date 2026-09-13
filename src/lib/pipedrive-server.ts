@@ -212,7 +212,9 @@ export interface LeadInput {
  * Deal no funil indicado com Objetivo, campos GA e dados do LinkedIn, e a Note de
  * verificação quando o cadastro veio do botão do LinkedIn.
  */
-export async function createPipedriveLead(input: LeadInput): Promise<{ success: boolean; dealId?: number }> {
+export async function createPipedriveLead(
+  input: LeadInput
+): Promise<{ success: boolean; dealId?: number; personId?: number }> {
   const { name, email, phone = '', company, objetivo = '', pipelineHint, attribution, linkedin } = input
 
   const [stageId, orgId, ownerId] = await Promise.all([
@@ -276,7 +278,7 @@ export async function createPipedriveLead(input: LeadInput): Promise<{ success: 
   }
 
   console.log('[Pipedrive] Deal criado:', dealId, '| Stage:', stageId, linkedin ? '| via LinkedIn' : '')
-  return { success: true, dealId }
+  return { success: true, dealId, personId }
 }
 
 // ── Atribuição lida server-side dos cookies da requisição ─────────────────────

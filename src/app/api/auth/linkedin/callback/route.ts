@@ -8,6 +8,7 @@ import {
   type LinkedInProfile,
 } from '@/lib/linkedin-session'
 import { createPipedriveLead, attributionFromRequestCookies } from '@/lib/pipedrive-server'
+import { bindVisitorToLead } from '@/lib/identity-server'
 
 export const runtime = 'nodejs'
 
@@ -76,6 +77,7 @@ export async function GET(req: NextRequest) {
     // Cadastro automático: cria o lead direto no servidor (sem formulário).
     // Idempotência: mesmo sub não gera novo deal dentro de 24h.
     let created = false
+    let personId: number | undefined
     const alreadyDone = req.cookies.get(LI_DONE_COOKIE)?.value === profile.sub
     if (!alreadyDone) {
       if (!process.env.PIPEDRIVE_API_TOKEN) {
@@ -94,6 +96,7 @@ export async function GET(req: NextRequest) {
             linkedin: profile,
           })
           created = result.success
+          personId = result.personId
           if (!created) console.error('[LinkedIn] Falha ao criar lead — download segue mesmo assim')
         } catch (err) {
           console.error('[LinkedIn] Erro ao criar lead — download segue mesmo assim:', err)
@@ -102,6 +105,10 @@ export async function GET(req: NextRequest) {
     }
 
     const res = backTo(req, 'done')
+    if (created) {
+      // Identidade: cookie ciclo_uid + vínculo pessoa<->navegação
+      await bindVisitorToLead(req, res, { personId, email: profile.email })
+    }
     res.cookies.set(LI_COOKIE, signProfile(profile), {
       httpOnly: true, sameSite: 'lax', secure: true, path: '/', maxAge: LI_COOKIE_MAX_AGE,
     })

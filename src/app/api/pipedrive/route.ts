@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createPipedriveLead } from '@/lib/pipedrive-server'
 import { LI_COOKIE, verifyProfile } from '@/lib/linkedin-session'
+import { bindVisitorToLead } from '@/lib/identity-server'
 
 export async function POST(req: NextRequest) {
   if (!process.env.PIPEDRIVE_API_TOKEN) {
@@ -39,7 +40,11 @@ export async function POST(req: NextRequest) {
     if (!result.success) {
       return NextResponse.json({ error: 'Erro ao criar deal' }, { status: 500 })
     }
-    return NextResponse.json({ success: true })
+
+    // Identidade: cookie ciclo_uid + vínculo pessoa<->navegação (pós-aceite LGPD)
+    const res = NextResponse.json({ success: true })
+    await bindVisitorToLead(req, res, { personId: result.personId, email })
+    return res
   } catch (err) {
     console.error('[Pipedrive] Erro interno:', err)
     return NextResponse.json({ error: 'Erro interno' }, { status: 500 })

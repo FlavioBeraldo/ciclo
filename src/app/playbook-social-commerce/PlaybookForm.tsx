@@ -16,6 +16,7 @@ function LinkedinIcon({ className }: { className?: string }) {
 }
 import PhoneField from '@/components/ui/PhoneField'
 import { getAttributionPayload, isLinkedInTraffic } from '@/lib/attribution'
+import { track } from '@/lib/track'
 
 const LINKEDIN_ENABLED = process.env.NEXT_PUBLIC_LINKEDIN_ENABLED === '1'
 
@@ -77,6 +78,8 @@ export default function PlaybookForm() {
         lead_medium: attribution.medium,
         lead_campaign: attribution.campaign,
       })
+      track('form_submit', { form: 'playbook', method: 'linkedin' })
+      track('material_download', { material: 'playbook-social-commerce' })
       triggerDownload()
     } else if (li === 'erro') {
       setLiError(true)
@@ -113,6 +116,8 @@ export default function PlaybookForm() {
       lead_medium: attribution.medium,
       lead_campaign: attribution.campaign,
     })
+    track('form_submit', { form: 'playbook', method: 'manual' })
+    track('material_download', { material: 'playbook-social-commerce' })
     setSent(true)
     // Dispara o download imediatamente — recompensa instantânea
     triggerDownload()
@@ -198,7 +203,7 @@ export default function PlaybookForm() {
           <a href="/politica-de-privacidade" target="_blank" rel="noopener noreferrer" className="underline text-[#2B6B9B] hover:text-[#1A1917]">
             Política de Privacidade
           </a>{' '}
-          e autorizo o contato da Ciclo.
+          e autorizo o contato da Ciclo e o registro da minha navegação no site para personalizar o atendimento.
         </span>
       </label>
       {errors.lgpd && <p className={errorClass}>{errors.lgpd.message as string}</p>}

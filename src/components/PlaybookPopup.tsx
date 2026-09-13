@@ -5,6 +5,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { X } from 'lucide-react'
 import { Playfair_Display } from 'next/font/google'
+import { track } from '@/lib/track'
 
 const playfair = Playfair_Display({
   subsets: ['latin'],
@@ -37,6 +38,7 @@ export default function PlaybookPopup() {
       setOpen(true)
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       ;(window as any).dataLayer?.push({ event: 'playbook_popup_view', trigger })
+      track('popup_view', { popup: 'playbook', trigger })
     }
 
     const timer = setTimeout(() => show('timer'), DELAY_MS)
@@ -140,6 +142,7 @@ export default function PlaybookPopup() {
               onClick={() => {
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 ;(window as any).dataLayer?.push({ event: 'playbook_popup_click' })
+                track('popup_click', { popup: 'playbook' })
                 close()
               }}
               className="block w-full bg-[#1A1917] text-[#EDE7DB] text-center rounded-xl px-5 py-3.5 text-sm font-semibold tracking-wide hover:bg-[#2B6B9B] transition-colors"
