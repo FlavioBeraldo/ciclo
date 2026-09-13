@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { pipedriveUrl as url, attributionDealProps } from '@/lib/pipedrive-server'
+import { DEAL_FIELD_CARGO, DEAL_FIELD_LINKEDIN } from '@/lib/pipedrive-fields'
 
 // Busca o stage_id pelo nome exato do pipeline e do estágio.
 // Se `pipelineHint` for informado (ex: "Playbook"), busca esse pipeline pelo nome
@@ -145,7 +146,7 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    const { name, email, phone, whatsapp, company, message, storeUrl, annualRevenue, segment, pipeline, attribution } = await req.json()
+    const { name, email, phone, whatsapp, company, message, storeUrl, annualRevenue, segment, pipeline, attribution, cargo, linkedin_url, linkedin } = await req.json()
     const phoneNumber = phone ?? whatsapp ?? ''
     const objetivo = [
       annualRevenue ? `Faturamento anual: ${annualRevenue}` : null,
@@ -182,8 +183,16 @@ export async function POST(req: NextRequest) {
         status: 'open',
         // Campo customizado "Objetivo" (Large text)
         '34b57523aeb4efdfe90674f07fc548ccd3da2769': objetivo,
+        // Cargo e Linkedin (campos pré-existentes na conta)
+        ...(typeof cargo === 'string' && cargo.trim() ? { [DEAL_FIELD_CARGO]: cargo.trim().slice(0, 255) } : {}),
+        ...(typeof linkedin_url === 'string' && linkedin_url.trim() ? { [DEAL_FIELD_LINKEDIN]: linkedin_url.trim().slice(0, 255) } : {}),
         // Campos de atribuição GA (chaves reais da conta — ver src/lib/pipedrive-fields.ts)
-        ...attributionDealProps(attribution),
+        ...attributionDealProps(
+          attribution,
+          linkedin && typeof linkedin === 'object' && (linkedin as { sub?: string }).sub
+            ? { linkedin_verified: true, linkedin_sub: String((linkedin as { sub: string }).sub) }
+            : undefined
+        ),
       }),
     })
     const dealData = await dealRes.json()

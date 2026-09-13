@@ -72,6 +72,8 @@ export function collectAttribution(): void {
   if (readStored()) return
 
   const params = new URLSearchParams(window.location.search)
+  // ?li=ok/erro é a volta do OAuth do LinkedIn — não é uma nova landing
+  params.delete('li')
   const referrer = document.referrer || ''
   const { source, medium } = deriveSourceMedium(params, referrer)
 
@@ -84,7 +86,7 @@ export function collectAttribution(): void {
     gclid: params.get('gclid') ?? undefined,
     fbclid: params.get('fbclid') ?? undefined,
     referrer: referrer || undefined,
-    landing_page: window.location.pathname + window.location.search,
+    landing_page: window.location.pathname + (params.size > 0 ? `?${params}` : ''),
     first_visit: new Date().toISOString(),
   }
 

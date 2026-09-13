@@ -1,19 +1,46 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
+import { BadgeCheck } from 'lucide-react'
+
+// lucide não distribui mais ícones de marca — logo do LinkedIn inline
+function LinkedinIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true">
+      <path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45z" />
+    </svg>
+  )
+}
 import PhoneField from '@/components/ui/PhoneField'
 import { getAttributionPayload } from '@/lib/attribution'
+
+const LINKEDIN_ENABLED = process.env.NEXT_PUBLIC_LINKEDIN_ENABLED === '1'
+
+const linkedinUrlOk = (v: string | undefined) =>
+  !v || /^(https?:\/\/)?(www\.)?linkedin\.com\/in\//i.test(v.trim())
 
 const schema = z.object({
   name: z.string().min(2, 'Digite seu nome'),
   email: z.string().email('E-mail inválido'),
   company: z.string().min(2, 'Digite o nome da sua empresa'),
   phone: z.string().min(8, 'WhatsApp é obrigatório'),
+  cargo: z.string().optional(),
+  linkedin_url: z
+    .string()
+    .optional()
+    .refine(linkedinUrlOk, 'Use um endereço linkedin.com/in/...'),
   lgpd: z.boolean().refine((v) => v === true, 'Aceite a política de privacidade para continuar'),
 })
+
+interface LinkedInProfile {
+  name: string
+  email: string
+  picture?: string
+  sub: string
+}
 
 type FormData = z.infer<typeof schema>
 
@@ -26,9 +53,27 @@ const errorClass = 'text-[#C0392B] text-xs mt-1'
 
 export default function PlaybookForm() {
   const [sent, setSent] = useState(false)
-  const { register, control, handleSubmit, formState: { errors, isSubmitting } } = useForm<FormData>({
+  const [liProfile, setLiProfile] = useState<LinkedInProfile | null>(null)
+  const { register, control, handleSubmit, setValue, formState: { errors, isSubmitting } } = useForm<FormData>({
     resolver: zodResolver(schema),
   })
+
+  // Volta do LinkedIn: pré-preenche nome/e-mail (editáveis) a partir do cookie assinado
+  useEffect(() => {
+    if (!LINKEDIN_ENABLED) return
+    if (new URLSearchParams(window.location.search).get('li') !== 'ok') return
+    fetch('/api/auth/linkedin/me')
+      .then((res) => (res.status === 200 ? res.json() : null))
+      .then((profile: LinkedInProfile | null) => {
+        if (!profile) return
+        setLiProfile(profile)
+        if (profile.name) setValue('name', profile.name)
+        if (profile.email) setValue('email', profile.email)
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        ;(window as any).dataLayer?.push({ event: 'linkedin_login_success' })
+      })
+      .catch(() => {})
+  }, [setValue])
 
   const onSubmit = async (data: FormData) => {
     const attribution = getAttributionPayload()
@@ -41,6 +86,9 @@ export default function PlaybookForm() {
           email: data.email,
           company: data.company,
           phone: data.phone,
+          cargo: data.cargo,
+          linkedin_url: data.linkedin_url,
+          linkedin: liProfile ? { sub: liProfile.sub } : undefined,
           message: 'Baixou o Playbook de Social Commerce pela landing page.',
           source: 'LP Playbook Social Commerce',
           pipeline: 'Playbook',
@@ -91,6 +139,35 @@ export default function PlaybookForm() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4" noValidate>
+      {LINKEDIN_ENABLED && (
+        <>
+          {liProfile ? (
+            <p className="flex items-center justify-center gap-1.5 text-xs font-medium text-[#2B6B9B]">
+              <BadgeCheck className="w-4 h-4" /> Verificado via LinkedIn
+            </p>
+          ) : (
+            <div>
+              <a
+                href="/api/auth/linkedin"
+                className="flex items-center justify-center gap-2 w-full bg-white border border-[#1A1917]/15 rounded-xl px-5 py-3.5 text-sm font-semibold text-[#1A1917] hover:border-[#2B6B9B] hover:text-[#2B6B9B] transition-colors"
+              >
+                <LinkedinIcon className="w-4 h-4" /> Continuar com LinkedIn
+              </a>
+              <p className="text-[11px] text-[#6E6A60] text-center mt-1.5">
+                Só lemos seu nome e e-mail — nada é publicado no seu perfil.
+              </p>
+            </div>
+          )}
+          {!liProfile && (
+            <div className="flex items-center gap-3 text-[11px] uppercase tracking-wider text-[#6E6A60]">
+              <span className="flex-1 border-t border-[#1A1917]/10" />
+              ou preencha manualmente
+              <span className="flex-1 border-t border-[#1A1917]/10" />
+            </div>
+          )}
+        </>
+      )}
+
       <div>
         <input {...register('name')} placeholder="Seu nome" autoComplete="name" className={inputClass} />
         {errors.name && <p className={errorClass}>{errors.name.message}</p>}
@@ -108,6 +185,15 @@ export default function PlaybookForm() {
 
       <div className="lp-phone-light">
         <PhoneField name="phone" control={control} placeholder="WhatsApp" error={errors.phone?.message} />
+      </div>
+
+      <div>
+        <input {...register('cargo')} placeholder="Cargo (opcional)" autoComplete="organization-title" className={inputClass} />
+      </div>
+
+      <div>
+        <input {...register('linkedin_url')} placeholder="URL do seu perfil no LinkedIn (opcional)" className={inputClass} />
+        {errors.linkedin_url && <p className={errorClass}>{errors.linkedin_url.message}</p>}
       </div>
 
       <label className="flex items-start gap-2.5 cursor-pointer">

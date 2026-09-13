@@ -16,6 +16,11 @@ const schema = z.object({
   phone: z.string().min(1, 'WhatsApp é obrigatório'),
   annualRevenue: z.string().min(1, 'Selecione a faixa de faturamento'),
   segment: z.string().min(1, 'Selecione o segmento'),
+  cargo: z.string().optional(),
+  linkedin_url: z
+    .string()
+    .optional()
+    .refine((v) => !v || /^(https?:\/\/)?(www\.)?linkedin\.com\/in\//i.test(v.trim()), 'Use um endereço linkedin.com/in/...'),
   message: z.string().min(20, 'Descreva melhor o seu desafio (mínimo 20 caracteres)'),
   lgpd: z.boolean().refine((v) => v === true, 'Aceite a política de privacidade para continuar'),
 })
@@ -153,6 +158,17 @@ export default function LeadForm() {
                 ))}
               </select>
               {errors.segment && <p className={errorClass}>{errors.segment.message}</p>}
+            </div>
+
+            <div>
+              <label className={labelClass}>Cargo</label>
+              <input {...register('cargo')} placeholder="Seu cargo (opcional)" className={inputClass} />
+            </div>
+
+            <div>
+              <label className={labelClass}>LinkedIn</label>
+              <input {...register('linkedin_url')} placeholder="linkedin.com/in/seu-perfil (opcional)" className={inputClass} />
+              {errors.linkedin_url && <p className={errorClass}>{errors.linkedin_url.message}</p>}
             </div>
 
             <div className="sm:col-span-2">

@@ -32,10 +32,16 @@ const DIRECT_KEYS: AttributionFieldKey[] = [
  * Monta as propriedades extras do Deal a partir do payload de atribuição do site:
  * campos diretos como varchar e {term, content, fbclid, referrer, first_visit}
  * consolidados como JSON no campo "Atribuição extra (GA)". Ignora vazios.
+ * `extraMerge` acrescenta pares ao JSON extra (ex.: linkedin_verified/sub).
  */
-export function attributionDealProps(attribution: unknown): Record<string, string> {
-  if (typeof attribution !== 'object' || attribution === null) return {}
-  const attr = attribution as Record<string, unknown>
+export function attributionDealProps(
+  attribution: unknown,
+  extraMerge?: Record<string, string | boolean>
+): Record<string, string> {
+  const attr =
+    typeof attribution === 'object' && attribution !== null
+      ? (attribution as Record<string, unknown>)
+      : {}
   const props: Record<string, string> = {}
 
   for (const key of DIRECT_KEYS) {
@@ -45,12 +51,15 @@ export function attributionDealProps(attribution: unknown): Record<string, strin
     }
   }
 
-  const extra: Record<string, string> = {}
+  const extra: Record<string, string | boolean> = {}
   for (const key of EXTRA_ATTRIBUTION_KEYS) {
     const value = attr[key]
     if (typeof value === 'string' && value.trim() !== '') {
       extra[key] = value.slice(0, 1000)
     }
+  }
+  for (const [k, v] of Object.entries(extraMerge ?? {})) {
+    if (v !== '' && v !== undefined && v !== null) extra[k] = v
   }
   if (Object.keys(extra).length > 0) {
     props[ATTRIBUTION_FIELD_KEYS.extra] = JSON.stringify(extra)
