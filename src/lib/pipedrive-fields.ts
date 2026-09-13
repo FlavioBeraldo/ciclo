@@ -39,3 +39,5 @@ export const EXTRA_ATTRIBUTION_KEYS = ['term', 'content', 'fbclid', 'referrer', 
 export const DEAL_FIELD_CARGO = '11b7eaec8a89299f835bb1be82cd9d487dd77c42' // Cargo
 export const DEAL_FIELD_LINKEDIN = '678b296293c7b91b687cd94f012f3aa38c42563e' // Linkedin
 export const DEAL_FIELD_OBJETIVO = '34b57523aeb4efdfe90674f07fc548ccd3da2769' // Objetivo (large text)
+export const DEAL_FIELD_SEGMENTO = '2d7b8101b8f6d2f22efc66cf0bb0d96a400639c4' // Segmento
+export const DEAL_FIELD_SITE = 'ba466eb264179c77139d91f732fd16dbb05f37ad' // Site / URL da loja

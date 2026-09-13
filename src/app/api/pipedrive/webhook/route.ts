@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { pipedriveUrl, attributionFieldKeys } from '@/lib/pipedrive-server'
+import { isWebhookAuthorized } from '@/lib/webhook-auth'
 
 export const runtime = 'nodejs'
 
@@ -8,25 +9,6 @@ export const runtime = 'nodejs'
 //
 // Autenticação: Basic (user "pipedrive", senha PIPEDRIVE_WEBHOOK_SECRET) OU ?secret=.
 // Sempre responde 200 após autenticar (para o Pipedrive não desativar o webhook).
-
-function isAuthorized(req: NextRequest): boolean {
-  const secret = process.env.PIPEDRIVE_WEBHOOK_SECRET
-  if (!secret) {
-    console.error('[Webhook] PIPEDRIVE_WEBHOOK_SECRET não configurado')
-    return false
-  }
-  if (req.nextUrl.searchParams.get('secret') === secret) return true
-  const auth = req.headers.get('authorization') ?? ''
-  if (auth.startsWith('Basic ')) {
-    try {
-      const [user, pass] = Buffer.from(auth.slice(6), 'base64').toString('utf8').split(':')
-      return user === 'pipedrive' && pass === secret
-    } catch {
-      return false
-    }
-  }
-  return false
-}
 
 // Aceita payload v1 ({event, current, previous}) e v2 ({meta:{action,entity}, data, previous})
 function extractDeal(body: Record<string, unknown>): {
@@ -39,7 +21,7 @@ function extractDeal(body: Record<string, unknown>): {
 }
 
 export async function POST(req: NextRequest) {
-  if (!isAuthorized(req)) {
+  if (!isWebhookAuthorized(req)) {
     return NextResponse.json({ error: 'unauthorized' }, { status: 401 })
   }
 
