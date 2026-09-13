@@ -15,7 +15,7 @@ function LinkedinIcon({ className }: { className?: string }) {
   )
 }
 import PhoneField from '@/components/ui/PhoneField'
-import { getAttributionPayload } from '@/lib/attribution'
+import { getAttributionPayload, isLinkedInTraffic } from '@/lib/attribution'
 
 const LINKEDIN_ENABLED = process.env.NEXT_PUBLIC_LINKEDIN_ENABLED === '1'
 
@@ -46,6 +46,12 @@ const errorClass = 'text-[#C0392B] text-xs mt-1'
 export default function PlaybookForm() {
   const [sent, setSent] = useState(false)
   const [liProfile, setLiProfile] = useState<LinkedInProfile | null>(null)
+  // Botão só para quem veio do LinkedIn (decidido pós-hidratação para não divergir do SSR)
+  const [showLiButton, setShowLiButton] = useState(false)
+
+  useEffect(() => {
+    if (LINKEDIN_ENABLED) setShowLiButton(isLinkedInTraffic())
+  }, [])
   const { register, control, handleSubmit, setValue, formState: { errors, isSubmitting } } = useForm<FormData>({
     resolver: zodResolver(schema),
   })
@@ -130,32 +136,30 @@ export default function PlaybookForm() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4" noValidate>
-      {LINKEDIN_ENABLED && (
+      {/* Selo sempre aparece após ?li=ok, mesmo com o botão oculto */}
+      {LINKEDIN_ENABLED && liProfile && (
+        <p className="flex items-center justify-center gap-1.5 text-xs font-medium text-[#2B6B9B]">
+          <BadgeCheck className="w-4 h-4" /> Verificado via LinkedIn
+        </p>
+      )}
+      {LINKEDIN_ENABLED && !liProfile && showLiButton && (
         <>
-          {liProfile ? (
-            <p className="flex items-center justify-center gap-1.5 text-xs font-medium text-[#2B6B9B]">
-              <BadgeCheck className="w-4 h-4" /> Verificado via LinkedIn
+          <div>
+            <a
+              href="/api/auth/linkedin"
+              className="flex items-center justify-center gap-2 w-full bg-white border border-[#1A1917]/15 rounded-xl px-5 py-3.5 text-sm font-semibold text-[#1A1917] hover:border-[#2B6B9B] hover:text-[#2B6B9B] transition-colors"
+            >
+              <LinkedinIcon className="w-4 h-4" /> Continuar com LinkedIn
+            </a>
+            <p className="text-[11px] text-[#6E6A60] text-center mt-1.5">
+              Só lemos seu nome e e-mail — nada é publicado no seu perfil.
             </p>
-          ) : (
-            <div>
-              <a
-                href="/api/auth/linkedin"
-                className="flex items-center justify-center gap-2 w-full bg-white border border-[#1A1917]/15 rounded-xl px-5 py-3.5 text-sm font-semibold text-[#1A1917] hover:border-[#2B6B9B] hover:text-[#2B6B9B] transition-colors"
-              >
-                <LinkedinIcon className="w-4 h-4" /> Continuar com LinkedIn
-              </a>
-              <p className="text-[11px] text-[#6E6A60] text-center mt-1.5">
-                Só lemos seu nome e e-mail — nada é publicado no seu perfil.
-              </p>
-            </div>
-          )}
-          {!liProfile && (
-            <div className="flex items-center gap-3 text-[11px] uppercase tracking-wider text-[#6E6A60]">
-              <span className="flex-1 border-t border-[#1A1917]/10" />
-              ou preencha manualmente
-              <span className="flex-1 border-t border-[#1A1917]/10" />
-            </div>
-          )}
+          </div>
+          <div className="flex items-center gap-3 text-[11px] uppercase tracking-wider text-[#6E6A60]">
+            <span className="flex-1 border-t border-[#1A1917]/10" />
+            ou preencha manualmente
+            <span className="flex-1 border-t border-[#1A1917]/10" />
+          </div>
         </>
       )}
 

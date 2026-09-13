@@ -94,6 +94,50 @@ export function collectAttribution(): void {
   document.cookie = `${COOKIE_NAME}=${encodeURIComponent(JSON.stringify(data))}; expires=${expires}; path=/; SameSite=Lax`
 }
 
+// ── Detecção de tráfego vindo do LinkedIn (exibição do botão de login) ────────
+
+const LI_TRAFFIC_FLAG = 'ciclo_li_traffic'
+
+function urlHasLinkedInSignal(params: URLSearchParams): boolean {
+  return /linkedin|lnkd/i.test(params.get('utm_source') ?? '') || params.has('li_fat_id')
+}
+
+function referrerIsLinkedIn(): boolean {
+  return /linkedin\.com|lnkd\.in/i.test(document.referrer || '')
+}
+
+/**
+ * Marca a sessão como tráfego LinkedIn quando a URL ou o referrer indicam isso.
+ * Chamado no load de cada página (AttributionTracker) para o botão sobreviver
+ * à navegação interna e ao retorno do OAuth (?li=ok).
+ */
+export function markLinkedInTraffic(): void {
+  if (typeof document === 'undefined') return
+  try {
+    const params = new URLSearchParams(window.location.search)
+    if (urlHasLinkedInSignal(params) || referrerIsLinkedIn()) {
+      sessionStorage.setItem(LI_TRAFFIC_FLAG, '1')
+    }
+  } catch {
+    // sessionStorage indisponível — o botão cai nos outros critérios
+  }
+}
+
+/** O visitante veio do LinkedIn? (?li_test=1 força true para testes) */
+export function isLinkedInTraffic(): boolean {
+  if (typeof document === 'undefined') return false
+  const params = new URLSearchParams(window.location.search)
+  if (params.get('li_test') === '1') return true
+  try {
+    if (sessionStorage.getItem(LI_TRAFFIC_FLAG) === '1') return true
+  } catch {
+    // segue para os demais critérios
+  }
+  const stored = readStored()
+  if (stored?.source && /linkedin|lnkd/i.test(stored.source)) return true
+  return urlHasLinkedInSignal(params) || referrerIsLinkedIn()
+}
+
 // _ga = "GA1.1.AAAA.BBBB" -> client_id "AAAA.BBBB"
 function readGaClientId(): string | undefined {
   const raw = readCookie('_ga')
