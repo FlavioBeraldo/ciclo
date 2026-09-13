@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { pipedriveUrl as url, attributionDealProps } from '@/lib/pipedrive-server'
-import { DEAL_FIELD_CARGO, DEAL_FIELD_LINKEDIN } from '@/lib/pipedrive-fields'
+import { DEAL_FIELD_LINKEDIN } from '@/lib/pipedrive-fields'
+import { LI_COOKIE, verifyProfile } from '@/lib/linkedin-session'
 
 // Busca o stage_id pelo nome exato do pipeline e do estágio.
 // Se `pipelineHint` for informado (ex: "Playbook"), busca esse pipeline pelo nome
@@ -146,7 +147,11 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    const { name, email, phone, whatsapp, company, message, storeUrl, annualRevenue, segment, pipeline, attribution, cargo, linkedin_url, linkedin } = await req.json()
+    const { name, email, phone, whatsapp, company, message, storeUrl, annualRevenue, segment, pipeline, attribution } = await req.json()
+
+    // Cadastro via LinkedIn: o perfil vem do cookie httpOnly ASSINADO (não do body),
+    // então "verificado" é garantido pelo servidor, não pelo cliente.
+    const liProfile = verifyProfile(req.cookies.get(LI_COOKIE)?.value)
     const phoneNumber = phone ?? whatsapp ?? ''
     const objetivo = [
       annualRevenue ? `Faturamento anual: ${annualRevenue}` : null,
@@ -183,14 +188,20 @@ export async function POST(req: NextRequest) {
         status: 'open',
         // Campo customizado "Objetivo" (Large text)
         '34b57523aeb4efdfe90674f07fc548ccd3da2769': objetivo,
-        // Cargo e Linkedin (campos pré-existentes na conta)
-        ...(typeof cargo === 'string' && cargo.trim() ? { [DEAL_FIELD_CARGO]: cargo.trim().slice(0, 255) } : {}),
-        ...(typeof linkedin_url === 'string' && linkedin_url.trim() ? { [DEAL_FIELD_LINKEDIN]: linkedin_url.trim().slice(0, 255) } : {}),
+        // Cadastro via LinkedIn (OIDC não entrega URL do perfil nem cargo).
+        // TODO: com acesso futuro ao scope r_basicprofile, mapear
+        //   headline -> DEAL_FIELD_CARGO (11b7eaec8a89299f835bb1be82cd9d487dd77c42)
+        //   vanityName -> DEAL_FIELD_LINKEDIN como URL do perfil
+        ...(liProfile ? { [DEAL_FIELD_LINKEDIN]: `linkedin-id:${liProfile.sub}`.slice(0, 255) } : {}),
         // Campos de atribuição GA (chaves reais da conta — ver src/lib/pipedrive-fields.ts)
         ...attributionDealProps(
           attribution,
-          linkedin && typeof linkedin === 'object' && (linkedin as { sub?: string }).sub
-            ? { linkedin_verified: true, linkedin_sub: String((linkedin as { sub: string }).sub) }
+          liProfile
+            ? {
+                linkedin_verified: true,
+                linkedin_sub: liProfile.sub,
+                ...(liProfile.picture ? { linkedin_picture: liProfile.picture } : {}),
+              }
             : undefined
         ),
       }),
@@ -204,7 +215,23 @@ export async function POST(req: NextRequest) {
 
     const dealId = dealData.data.id
 
-    console.log('[Pipedrive] Deal criado:', dealId, '| Stage:', stageId)
+    // Note de verificação no Deal quando o cadastro veio do botão do LinkedIn
+    if (liProfile) {
+      try {
+        await fetch(url('/notes'), {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            deal_id: dealId,
+            content: `Cadastro via LinkedIn (verificado): ${liProfile.name} ${liProfile.email}`,
+          }),
+        })
+      } catch (err) {
+        console.error('[Pipedrive] Falha ao criar note do LinkedIn:', err)
+      }
+    }
+
+    console.log('[Pipedrive] Deal criado:', dealId, '| Stage:', stageId, liProfile ? '| via LinkedIn' : '')
     return NextResponse.json({ success: true })
   } catch (err) {
     console.error('[Pipedrive] Erro interno:', err)

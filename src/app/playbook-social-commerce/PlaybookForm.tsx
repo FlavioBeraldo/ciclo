@@ -19,19 +19,11 @@ import { getAttributionPayload } from '@/lib/attribution'
 
 const LINKEDIN_ENABLED = process.env.NEXT_PUBLIC_LINKEDIN_ENABLED === '1'
 
-const linkedinUrlOk = (v: string | undefined) =>
-  !v || /^(https?:\/\/)?(www\.)?linkedin\.com\/in\//i.test(v.trim())
-
 const schema = z.object({
   name: z.string().min(2, 'Digite seu nome'),
   email: z.string().email('E-mail inválido'),
   company: z.string().min(2, 'Digite o nome da sua empresa'),
   phone: z.string().min(8, 'WhatsApp é obrigatório'),
-  cargo: z.string().optional(),
-  linkedin_url: z
-    .string()
-    .optional()
-    .refine(linkedinUrlOk, 'Use um endereço linkedin.com/in/...'),
   lgpd: z.boolean().refine((v) => v === true, 'Aceite a política de privacidade para continuar'),
 })
 
@@ -86,9 +78,8 @@ export default function PlaybookForm() {
           email: data.email,
           company: data.company,
           phone: data.phone,
-          cargo: data.cargo,
-          linkedin_url: data.linkedin_url,
-          linkedin: liProfile ? { sub: liProfile.sub } : undefined,
+          // Dados do LinkedIn NÃO vão no body: a route lê e verifica o cookie
+          // assinado ciclo_li server-side (enviado automaticamente, same-origin)
           message: 'Baixou o Playbook de Social Commerce pela landing page.',
           source: 'LP Playbook Social Commerce',
           pipeline: 'Playbook',
@@ -185,15 +176,6 @@ export default function PlaybookForm() {
 
       <div className="lp-phone-light">
         <PhoneField name="phone" control={control} placeholder="WhatsApp" error={errors.phone?.message} />
-      </div>
-
-      <div>
-        <input {...register('cargo')} placeholder="Cargo (opcional)" autoComplete="organization-title" className={inputClass} />
-      </div>
-
-      <div>
-        <input {...register('linkedin_url')} placeholder="URL do seu perfil no LinkedIn (opcional)" className={inputClass} />
-        {errors.linkedin_url && <p className={errorClass}>{errors.linkedin_url.message}</p>}
       </div>
 
       <label className="flex items-start gap-2.5 cursor-pointer">
