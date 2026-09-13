@@ -10,6 +10,7 @@ import { getAttributionPayload } from '@/lib/attribution'
 const schema = z.object({
   name: z.string().min(2, 'Digite seu nome'),
   email: z.string().email('E-mail inválido'),
+  company: z.string().min(2, 'Digite o nome da sua empresa'),
   phone: z.string().min(8, 'WhatsApp é obrigatório'),
   lgpd: z.boolean().refine((v) => v === true, 'Aceite a política de privacidade para continuar'),
 })
@@ -38,6 +39,7 @@ export default function PlaybookForm() {
         body: JSON.stringify({
           name: data.name,
           email: data.email,
+          company: data.company,
           phone: data.phone,
           message: 'Baixou o Playbook de Social Commerce pela landing page.',
           source: 'LP Playbook Social Commerce',
@@ -97,6 +99,11 @@ export default function PlaybookForm() {
       <div>
         <input {...register('email')} type="email" placeholder="Seu melhor e-mail" autoComplete="email" className={inputClass} />
         {errors.email && <p className={errorClass}>{errors.email.message}</p>}
+      </div>
+
+      <div>
+        <input {...register('company')} placeholder="Nome da sua empresa" autoComplete="organization" className={inputClass} />
+        {errors.company && <p className={errorClass}>{errors.company.message}</p>}
       </div>
 
       <div className="lp-phone-light">
