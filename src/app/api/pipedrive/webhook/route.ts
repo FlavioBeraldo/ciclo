@@ -94,6 +94,8 @@ export async function POST(req: NextRequest) {
       currency: (deal.currency as string) || 'BRL',
       deal_id: dealId,
       deal_title: deal.title,
+      // Separa compras vindas do CRM das do checkout Hubla no GA4
+      sales_channel: 'pipedrive',
       pipeline_id: deal.pipeline_id,
       stage_id: deal.stage_id,
       lead_source: field('source'),
