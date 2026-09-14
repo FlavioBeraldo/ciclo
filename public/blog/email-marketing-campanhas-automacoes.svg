@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 480" role="img" aria-label="Comparativo entre campanhas e automações de e-mail: automações geram 41% da receita com apenas 5,3% dos envios">
+  <style>
+    text { font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif; }
+    .title { font-size: 19px; font-weight: 700; fill: #111827; }
+    .subtitle { font-size: 13px; fill: #6b7280; }
+    .colTitle { font-size: 15px; font-weight: 700; fill: #111827; }
+    .tag { font-size: 10.5px; font-weight: 700; letter-spacing: 0.08em; }
+    .big { font-size: 34px; font-weight: 800; }
+    .label { font-size: 12px; fill: #6b7280; }
+    .note { font-size: 12.5px; font-weight: 600; fill: #111827; }
+  </style>
+
+  <rect x="0" y="0" width="840" height="480" rx="16" fill="#ffffff" stroke="#e5e7eb"/>
+
+  <text x="40" y="44" class="title">Campanhas × Automações no e-commerce</text>
+  <text x="40" y="66" class="subtitle">As automações são a fração menor dos envios — e a maior alavanca de receita por destinatário</text>
+
+  <!-- Coluna: Campanhas -->
+  <rect x="40" y="96" width="360" height="300" rx="14" fill="#f9fafb" stroke="#e5e7eb"/>
+  <text x="64" y="130" class="tag" fill="#6b7280">DISPAROS PONTUAIS</text>
+  <text x="64" y="154" class="colTitle">Campanhas</text>
+
+  <text x="64" y="212" class="big" fill="#9ca3af">94,7%</text>
+  <text x="64" y="234" class="label">dos envios do canal</text>
+
+  <rect x="64" y="258" width="312" height="14" rx="7" fill="#e5e7eb"/>
+  <rect x="64" y="258" width="184" height="14" rx="7" fill="#9ca3af"/>
+  <text x="64" y="296" class="big" fill="#6b7280">59%</text>
+  <text x="64" y="318" class="label">da receita de e-mail</text>
+
+  <text x="64" y="366" class="note">1 compra a cada 18 cliques</text>
+
+  <!-- Coluna: Automações -->
+  <rect x="440" y="96" width="360" height="300" rx="14" fill="#faf5ff" stroke="#e9d5ff"/>
+  <text x="464" y="130" class="tag" fill="#A100FF">FLUXOS COMPORTAMENTAIS</text>
+  <text x="464" y="154" class="colTitle">Automações (flows)</text>
+
+  <text x="464" y="212" class="big" fill="#c084fc">5,3%</text>
+  <text x="464" y="234" class="label">dos envios do canal</text>
+
+  <rect x="464" y="258" width="312" height="14" rx="7" fill="#f3e8ff"/>
+  <rect x="464" y="258" width="128" height="14" rx="7" fill="#A100FF"/>
+  <text x="464" y="296" class="big" fill="#A100FF">41%</text>
+  <text x="464" y="318" class="label">da receita de e-mail</text>
+
+  <text x="464" y="360" class="note">1 compra a cada 3 cliques</text>
+  <text x="464" y="380" class="note" fill="#A100FF">Receita por destinatário ~18× maior</text>
+
+  <text x="40" y="440" class="subtitle">Carrinho, boas-vindas e pós-compra concentram o retorno. Fonte: Omnisend / Klaviyo (2025-2026).</text>
+</svg>

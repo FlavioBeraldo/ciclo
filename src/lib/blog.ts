@@ -481,6 +481,8 @@ export function getAllWpSlugs(): string[] {
 export const supersededWpPosts: Record<string, string> = {
   'pinterest-ads-para-e-commerce-como-vender-mais-na-plataforma':
     'pinterest-ads-ecommerce',
+  'ferramentas-de-e-mail-marketing-para-e-commerce':
+    'email-marketing-para-ecommerce',
 }
 
 const categoryKeywords: Record<string, string[]> = {
