@@ -17,6 +17,7 @@ function LinkedinIcon({ className }: { className?: string }) {
 import PhoneField from '@/components/ui/PhoneField'
 import { getAttributionPayload, isLinkedInTraffic } from '@/lib/attribution'
 import { track } from '@/lib/track'
+import { newEventId, pushConversion, splitName } from '@/lib/conversions'
 
 const LINKEDIN_ENABLED = process.env.NEXT_PUBLIC_LINKEDIN_ENABLED === '1'
 
@@ -65,19 +66,25 @@ export default function PlaybookForm() {
   // mostra o sucesso direto e dispara o download, sem formulário
   useEffect(() => {
     if (!LINKEDIN_ENABLED) return
-    const li = new URLSearchParams(window.location.search).get('li')
+    const params = new URLSearchParams(window.location.search)
+    const li = params.get('li')
     if (li === 'done') {
       setViaLinkedIn(true)
       setSent(true)
       const attribution = getAttributionPayload()
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      ;(window as any).dataLayer?.push({
-        event: 'playbook_form_submit',
-        method: 'linkedin',
-        lead_source: attribution.source,
-        lead_medium: attribution.medium,
-        lead_campaign: attribution.campaign,
-      })
+      // O lead foi criado no servidor (callback), que já enviou a CAPI com este
+      // event_id (?eid=). O Pixel usa o mesmo id para a Meta deduplicar.
+      // Sem ?eid= (cadastro repetido em 24h) não há nova conversão a registrar.
+      const eid = params.get('eid')
+      if (eid) {
+        pushConversion('playbook_form_submit', {
+          eventId: eid,
+          attribution,
+          form: 'playbook',
+          method: 'linkedin',
+          contentName: 'playbook-social-commerce',
+        })
+      }
       track('form_submit', { form: 'playbook', method: 'linkedin' })
       track('material_download', { material: 'playbook-social-commerce' })
       triggerDownload()
@@ -88,6 +95,16 @@ export default function PlaybookForm() {
 
   const onSubmit = async (data: FormData) => {
     const attribution = getAttributionPayload()
+    const eventId = newEventId()
+    // Conversão no dataLayer antes da chamada ao CRM: Pixel/GA4/Ads com o mesmo event_id
+    pushConversion('playbook_form_submit', {
+      eventId,
+      attribution,
+      form: 'playbook',
+      method: 'manual',
+      contentName: 'playbook-social-commerce',
+      userData: { email: data.email, phone_number: data.phone, ...splitName(data.name) },
+    })
     try {
       await fetch('/api/pipedrive', {
         method: 'POST',
@@ -103,19 +120,13 @@ export default function PlaybookForm() {
           source: 'LP Playbook Social Commerce',
           pipeline: 'Playbook',
           attribution,
+          event_id: eventId,
+          page_url: window.location.href,
         }),
       })
     } catch {
       // Falha no CRM não pode bloquear a entrega do material
     }
-    // Conversão: cadastro concluído para receber o playbook (sem dados pessoais no dataLayer)
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    ;(window as any).dataLayer?.push({
-      event: 'playbook_form_submit',
-      lead_source: attribution.source,
-      lead_medium: attribution.medium,
-      lead_campaign: attribution.campaign,
-    })
     track('form_submit', { form: 'playbook', method: 'manual' })
     track('material_download', { material: 'playbook-social-commerce' })
     setSent(true)
