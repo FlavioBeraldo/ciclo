@@ -16,6 +16,10 @@ export interface AttributionPayload {
   content?: string
   gclid?: string
   fbclid?: string
+  ttclid?: string
+  /** Cookies do Pixel da Meta lidos no submit (dedup/correspondência da CAPI) */
+  fbp?: string
+  fbc?: string
   referrer?: string
   landing_page?: string
   first_visit?: string
@@ -72,8 +76,9 @@ export function collectAttribution(): void {
   if (readStored()) return
 
   const params = new URLSearchParams(window.location.search)
-  // ?li=ok/erro é a volta do OAuth do LinkedIn — não é uma nova landing
+  // ?li=ok/erro (+eid) é a volta do OAuth do LinkedIn — não é uma nova landing
   params.delete('li')
+  params.delete('eid')
   const referrer = document.referrer || ''
   const { source, medium } = deriveSourceMedium(params, referrer)
 
@@ -85,6 +90,7 @@ export function collectAttribution(): void {
     content: params.get('utm_content') ?? undefined,
     gclid: params.get('gclid') ?? undefined,
     fbclid: params.get('fbclid') ?? undefined,
+    ttclid: params.get('ttclid') ?? undefined,
     referrer: referrer || undefined,
     landing_page: window.location.pathname + (params.size > 0 ? `?${params}` : ''),
     first_visit: new Date().toISOString(),
@@ -159,9 +165,19 @@ function readGaSessionId(): string | undefined {
   return session || undefined
 }
 
+// _fbc: cookie do Pixel; se não existir mas houver fbclid (primeiro toque ou URL
+// atual), monta no formato oficial fb.1.<timestamp>.<fbclid>
+function readFbc(storedFbclid?: string): string | undefined {
+  const cookie = readCookie('_fbc')
+  if (cookie) return cookie
+  const fromUrl = new URLSearchParams(window.location.search).get('fbclid')
+  const fbclid = fromUrl ?? storedFbclid
+  return fbclid ? `fb.1.${Date.now()}.${fbclid}` : undefined
+}
+
 /**
- * Payload completo para enviar junto ao lead. Os cookies do GA são lidos AQUI
- * (no submit), porque o _ga pode só existir depois do consentimento/GTM carregar.
+ * Payload completo para enviar junto ao lead. Os cookies do GA e da Meta são
+ * lidos AQUI (no submit), porque podem só existir depois do GTM carregar.
  */
 export function getAttributionPayload(): AttributionPayload {
   if (typeof document === 'undefined') return {}
@@ -171,5 +187,7 @@ export function getAttributionPayload(): AttributionPayload {
     ...stored,
     ga_client_id: readGaClientId(),
     ga_session_id: readGaSessionId(),
+    fbp: readCookie('_fbp') ?? undefined,
+    fbc: readFbc(stored.fbclid),
   }
 }

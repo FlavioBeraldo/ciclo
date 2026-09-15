@@ -3,7 +3,7 @@
 // aceite da política de privacidade nos formulários (LGPD).
 import { randomUUID } from 'node:crypto'
 import type { NextRequest, NextResponse } from 'next/server'
-import { upsertVisitor } from './supabase-server'
+import { upsertVisitor, saveVisitorMatchData } from './supabase-server'
 
 export const UID_COOKIE = 'ciclo_uid'
 export const UID_MAX_AGE = 365 * 24 * 60 * 60 // 365 dias
@@ -25,8 +25,8 @@ export function setUidCookie(res: NextResponse, uid: string): void {
 export async function bindVisitorToLead(
   req: NextRequest,
   res: NextResponse,
-  data: { personId?: number; email?: string }
-): Promise<void> {
+  data: { personId?: number; email?: string; match?: { fbp?: string; fbc?: string; clientIp?: string; clientUserAgent?: string } }
+): Promise<string | undefined> {
   try {
     const uid = req.cookies.get(UID_COOKIE)?.value ?? randomUUID()
     setUidCookie(res, uid)
@@ -44,7 +44,18 @@ export async function bindVisitorToLead(
       ...(data.email ? { email: data.email } : {}),
       ...(gaClientId ? { ga_client_id: gaClientId } : {}),
     })
+    // Dados de correspondência (Meta) para eventos offline vindos do Pipedrive
+    if (data.match) {
+      await saveVisitorMatchData(uid, {
+        fbp: data.match.fbp ?? req.cookies.get('_fbp')?.value,
+        fbc: data.match.fbc ?? req.cookies.get('_fbc')?.value,
+        client_ip: data.match.clientIp,
+        user_agent: data.match.clientUserAgent,
+      })
+    }
+    return uid
   } catch (err) {
     console.error('[Identity] Falha ao vincular visitante ao lead:', err)
+    return undefined
   }
 }

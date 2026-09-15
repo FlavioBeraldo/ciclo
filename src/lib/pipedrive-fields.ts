@@ -33,7 +33,7 @@ export const ATTRIBUTION_FIELD_KEYS: Record<AttributionFieldKey, string> = {
 }
 
 // Chaves do payload de atribuição que vão consolidadas no JSON do campo "extra"
-export const EXTRA_ATTRIBUTION_KEYS = ['term', 'content', 'fbclid', 'referrer', 'first_visit'] as const
+export const EXTRA_ATTRIBUTION_KEYS = ['term', 'content', 'fbclid', 'fbp', 'fbc', 'ttclid', 'referrer', 'first_visit'] as const
 
 // Campos de Deal pré-existentes na conta (chaves reais, informadas pela API)
 export const DEAL_FIELD_CARGO = '11b7eaec8a89299f835bb1be82cd9d487dd77c42' // Cargo

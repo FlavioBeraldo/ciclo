@@ -120,3 +120,81 @@ export async function insertEvent(event: SiteEvent): Promise<void> {
     console.error('[Supabase] insertEvent:', err)
   }
 }
+
+// ── Log de conversões enviadas às plataformas (Meta CAPI, GA4 MP, Google Ads) ─
+
+export interface ConversionEventLog {
+  platform: 'meta' | 'ga4' | 'google_ads' | 'tiktok'
+  event_name: string
+  event_id: string
+  action_source?: string | null
+  status: 'sent' | 'error' | 'skipped'
+  deal_id?: number | null
+  person_id?: number | null
+  uid?: string | null
+  payload?: unknown
+  response?: unknown
+}
+
+export async function logConversionEvent(entry: ConversionEventLog): Promise<void> {
+  if (!ready()) return
+  try {
+    await rest('/conversion_events', {
+      method: 'POST',
+      headers: { Prefer: 'return=minimal' },
+      body: JSON.stringify({ sent_at: new Date().toISOString(), ...entry }),
+    })
+  } catch (err) {
+    console.error('[Supabase] logConversionEvent:', err)
+  }
+}
+
+/** Já existe um envio bem-sucedido deste evento para o deal? (idempotência dos webhooks) */
+export async function conversionAlreadySent(platform: string, eventName: string, dealId: number): Promise<boolean> {
+  if (!ready()) return false
+  try {
+    const res = await rest(
+      `/conversion_events?platform=eq.${platform}&event_name=eq.${encodeURIComponent(eventName)}&deal_id=eq.${dealId}&status=eq.sent&select=id&limit=1`
+    )
+    const rows = await res.json().catch(() => [])
+    return Array.isArray(rows) && rows.length > 0
+  } catch {
+    return false
+  }
+}
+
+/** Dados de correspondência guardados no lead (uid -> fbp/fbc/ip/ua) para eventos offline. */
+export interface VisitorMatchData {
+  uid: string
+  fbp?: string | null
+  fbc?: string | null
+  client_ip?: string | null
+  user_agent?: string | null
+}
+
+export async function getVisitorByPerson(personId: number): Promise<(SiteVisitor & VisitorMatchData) | null> {
+  if (!ready()) return null
+  try {
+    const res = await rest(`/site_visitors?pipedrive_person_id=eq.${personId}&order=last_seen.desc&limit=1`)
+    const rows = await res.json().catch(() => [])
+    return Array.isArray(rows) && rows[0] ? (rows[0] as SiteVisitor & VisitorMatchData) : null
+  } catch {
+    return null
+  }
+}
+
+export async function saveVisitorMatchData(uid: string, data: Omit<VisitorMatchData, 'uid'>): Promise<void> {
+  if (!ready()) return
+  const patch: Record<string, unknown> = {}
+  for (const [k, v] of Object.entries(data)) if (v) patch[k] = v
+  if (!Object.keys(patch).length) return
+  try {
+    await rest(`/site_visitors?uid=eq.${uid}`, {
+      method: 'PATCH',
+      headers: { Prefer: 'return=minimal' },
+      body: JSON.stringify(patch),
+    })
+  } catch (err) {
+    console.error('[Supabase] saveVisitorMatchData:', err)
+  }
+}
