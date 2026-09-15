@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextRequest, NextResponse, after } from 'next/server'
 import {
   LI_COOKIE,
   LI_COOKIE_MAX_AGE,
@@ -11,6 +11,7 @@ import { randomUUID } from 'node:crypto'
 import { createPipedriveLead, attributionFromRequestCookies } from '@/lib/pipedrive-server'
 import { bindVisitorToLead, UID_COOKIE } from '@/lib/identity-server'
 import { clientInfoFromRequest, isInternalEmail, sendMetaEvent } from '@/lib/meta-capi'
+import { applyJourneyToDeal, getLeadJourney } from '@/lib/lead-journey'
 
 export const runtime = 'nodejs'
 
@@ -120,6 +121,12 @@ export async function GET(req: NextRequest) {
         (await bindVisitorToLead(req, res, { personId, email: profile.email, match: client })) ??
         req.cookies.get(UID_COOKIE)?.value
       const attr = attributionFromRequestCookies(req.cookies)
+      // Jornada de conteúdo -> campos + Note no deal (em background) e custom_data da CAPI
+      const journey = await getLeadJourney(uid, attr.landing_page, 'playbook')
+      if (dealId) {
+        const id = dealId
+        after(() => applyJourneyToDeal(id, journey, 'Playbook Social Commerce (LinkedIn)'))
+      }
       // API de Conversões (Meta) com o mesmo event_id que o Pixel usará na volta
       if (!isInternalEmail(profile.email)) {
         const [firstName, ...rest] = profile.name.trim().split(/\s+/)
@@ -145,6 +152,8 @@ export async function GET(req: NextRequest) {
             lead_source: attr.source,
             lead_medium: attr.medium,
             lead_campaign: attr.campaign,
+            content_source: journey.entry?.label,
+            content_last: journey.lastContent?.label,
             deal_id: dealId,
             pipeline: 'Playbook',
           },
