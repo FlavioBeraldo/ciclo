@@ -48,16 +48,12 @@ export const solucoes: Solucao[] = [
       },
     ],
     services: [
-      'Produção e roteirização de conteúdo validado para redes sociais',
       'TikTok Shop (Social Commerce)',
       'Gestão de Creators e Influenciadores',
-      'OOH Digital',
     ],
     serviceLinks: [
-      { label: 'Produção de Conteúdo para Redes Sociais', slug: 'producao-conteudo-redes-sociais' },
       { label: 'TikTok Shop & Social Commerce', slug: 'tiktok-shop-social-commerce' },
       { label: 'Gestão de Creators e Influenciadores', slug: 'gestao-creators-influenciadores' },
-      { label: 'OOH Digital', slug: 'ooh-digital' },
     ],
     results: [
       {
@@ -142,17 +138,27 @@ export const solucoes: Solucao[] = [
     ],
     services: [
       'Produção e criação de anúncios no formato social first e validado para conversão',
-      'Google Ads / Bing Ads',
-      'Meta Ads / TikTok Ads',
-      'Programática / Pinterest Ads',
-      'Retail Media (Mercado/Shopee/Amazon)',
+      'Google Ads',
+      'Bing Ads',
+      'Meta Ads',
+      'TikTok Ads',
+      'Mídia Programática',
+      'Pinterest Ads',
+      'Mercado Livre Ads',
+      'Shopee Ads',
+      'Amazon Ads',
     ],
     serviceLinks: [
-      { label: 'Produção de Anúncios Social First', slug: 'anuncios-social-first-conversao' },
-      { label: 'Google Ads & Bing Ads', slug: 'google-ads-bing-ads' },
-      { label: 'Meta Ads & TikTok Ads', slug: 'meta-ads-tiktok-ads' },
-      { label: 'Programática & Pinterest Ads', slug: 'programatica-pinterest-ads' },
-      { label: 'Retail Media (Mercado Livre, Shopee, Amazon)', slug: 'retail-media' },
+      { label: 'Creative Strategy', slug: 'creative-strategy' },
+      { label: 'Google Ads', slug: 'google-ads' },
+      { label: 'Bing Ads', slug: 'bing-ads' },
+      { label: 'Meta Ads', slug: 'meta-ads' },
+      { label: 'TikTok Ads', slug: 'tiktok-ads' },
+      { label: 'Mídia Programática', slug: 'programatica' },
+      { label: 'Pinterest Ads', slug: 'pinterest-ads' },
+      { label: 'Mercado Livre Ads', slug: 'mercado-livre-ads' },
+      { label: 'Shopee Ads', slug: 'shopee-ads' },
+      { label: 'Amazon Ads', slug: 'amazon-ads' },
     ],
     results: [
       {

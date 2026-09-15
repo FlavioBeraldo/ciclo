@@ -41,22 +41,34 @@ const nextConfig: NextConfig = {
       },
 
       // ── /servico/ (singular) — old WordPress service pages ────────────────
-      { source: '/servico/facebook-ads-para-e-commerce',          destination: '/servicos/meta-ads-tiktok-ads',              permanent: true },
-      { source: '/servico/facebook-ads-para-e-commerce/',         destination: '/servicos/meta-ads-tiktok-ads',              permanent: true },
-      { source: '/servico/marketing-de-conteudo-para-e-commerce', destination: '/servicos/producao-conteudo-redes-sociais',  permanent: true },
-      { source: '/servico/marketing-de-conteudo-para-e-commerce/',destination: '/servicos/producao-conteudo-redes-sociais',  permanent: true },
-      { source: '/servico/midia-programatica-para-e-commerce',    destination: '/servicos/programatica-pinterest-ads',       permanent: true },
-      { source: '/servico/midia-programatica-para-e-commerce/',   destination: '/servicos/programatica-pinterest-ads',       permanent: true },
+      { source: '/servico/facebook-ads-para-e-commerce',          destination: '/servicos/meta-ads',                        permanent: true },
+      { source: '/servico/facebook-ads-para-e-commerce/',         destination: '/servicos/meta-ads',                        permanent: true },
+      { source: '/servico/marketing-de-conteudo-para-e-commerce', destination: '/servicos/creative-strategy',               permanent: true },
+      { source: '/servico/marketing-de-conteudo-para-e-commerce/',destination: '/servicos/creative-strategy',               permanent: true },
+      { source: '/servico/midia-programatica-para-e-commerce',    destination: '/servicos/programatica',                    permanent: true },
+      { source: '/servico/midia-programatica-para-e-commerce/',   destination: '/servicos/programatica',                    permanent: true },
       { source: '/servico/woocommerce',                           destination: '/consultoria-para-e-commerce',               permanent: true },
       { source: '/servico/woocommerce/',                          destination: '/consultoria-para-e-commerce',               permanent: true },
       // catch-all for any remaining /servico/ slugs
       { source: '/servico/:slug*',                                destination: '/',                                          permanent: true },
 
       // ── Landing pages de serviço (não eram posts, eram páginas WP) ────────
-      { source: '/meta-ads-para-e-commerce-impulsione-suas-vendas-com-ciclo-e-commerce',  destination: '/servicos/meta-ads-tiktok-ads', permanent: true },
-      { source: '/meta-ads-para-e-commerce-impulsione-suas-vendas-com-ciclo-e-commerce/', destination: '/servicos/meta-ads-tiktok-ads', permanent: true },
-      { source: '/tiktok-ads-para-e-commerce-transforme-suas-vendas-com-ciclo-e-commerce',  destination: '/servicos/meta-ads-tiktok-ads', permanent: true },
-      { source: '/tiktok-ads-para-e-commerce-transforme-suas-vendas-com-ciclo-e-commerce/', destination: '/servicos/meta-ads-tiktok-ads', permanent: true },
+      { source: '/meta-ads-para-e-commerce-impulsione-suas-vendas-com-ciclo-e-commerce',  destination: '/servicos/meta-ads', permanent: true },
+      { source: '/meta-ads-para-e-commerce-impulsione-suas-vendas-com-ciclo-e-commerce/', destination: '/servicos/meta-ads', permanent: true },
+      { source: '/tiktok-ads-para-e-commerce-transforme-suas-vendas-com-ciclo-e-commerce',  destination: '/servicos/tiktok-ads', permanent: true },
+      { source: '/tiktok-ads-para-e-commerce-transforme-suas-vendas-com-ciclo-e-commerce/', destination: '/servicos/tiktok-ads', permanent: true },
+
+      // ── Reestruturação das páginas de serviço (2026) ──────────────────────
+      // Serviços descontinuados
+      { source: '/servicos/producao-conteudo-redes-sociais',  destination: '/servicos/creative-strategy',   permanent: true },
+      { source: '/servicos/ooh-digital',                      destination: '/servicos/programatica',        permanent: true },
+      // Renomeada: anúncios social first -> creative strategy
+      { source: '/servicos/anuncios-social-first-conversao',  destination: '/servicos/creative-strategy',   permanent: true },
+      // Desmembradas por canal
+      { source: '/servicos/google-ads-bing-ads',              destination: '/servicos/google-ads',          permanent: true },
+      { source: '/servicos/meta-ads-tiktok-ads',              destination: '/servicos/meta-ads',            permanent: true },
+      { source: '/servicos/programatica-pinterest-ads',       destination: '/servicos/programatica',        permanent: true },
+      { source: '/servicos/retail-media',                     destination: '/servicos/mercado-livre-ads',   permanent: true },
 
       // ── /servicos/ hub (no index page in new site) ────────────────────────
       { source: '/servicos',  destination: '/', permanent: true },

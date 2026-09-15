@@ -12,10 +12,8 @@ const services = [
     title: 'Geração de Demanda',
     slug: 'geracao-de-demanda',
     items: [
-      { label: 'Produção e roteirização de conteúdo validado para redes sociais', slug: 'producao-conteudo-redes-sociais' },
       { label: 'TikTok Shop (Social Commerce)', slug: 'tiktok-shop-social-commerce', href: '/tiktok-shop' },
       { label: 'Gestão de Creators e Influenciadores', slug: 'gestao-creators-influenciadores' },
-      { label: 'OOH Digital', slug: 'ooh-digital' },
     ],
   },
   {
@@ -23,11 +21,11 @@ const services = [
     title: 'Captação de Demanda',
     slug: 'captacao-de-demanda',
     items: [
-      { label: 'Produção e criação de anúncios social first validado para conversão', slug: 'anuncios-social-first-conversao' },
-      { label: 'Google Ads / Bing Ads', slug: 'google-ads-bing-ads' },
-      { label: 'Meta Ads / TikTok Ads', slug: 'meta-ads-tiktok-ads' },
-      { label: 'Programática / Pinterest Ads', slug: 'programatica-pinterest-ads' },
-      { label: 'Retail Media (Mercado/Shopee/Amazon)', slug: 'retail-media' },
+      { label: 'Creative Strategy', slug: 'creative-strategy' },
+      { label: 'Google Ads', slug: 'google-ads' },
+      { label: 'Meta Ads', slug: 'meta-ads' },
+      { label: 'TikTok Ads', slug: 'tiktok-ads' },
+      { label: 'Mercado Livre, Shopee e Amazon Ads', slug: 'mercado-livre-ads' },
     ],
   },
   {

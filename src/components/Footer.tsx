@@ -34,8 +34,8 @@ const footerLinks = [
     links: [
       { label: 'TikTok Shop', href: '/tiktok-shop' },
       { label: 'Consultoria para E-commerce', href: '/consultoria-para-e-commerce' },
-      { label: 'Google Ads / Bing Ads', href: '/servicos/google-ads-bing-ads' },
-      { label: 'Meta Ads / TikTok Ads', href: '/servicos/meta-ads-tiktok-ads' },
+      { label: 'Google Ads', href: '/servicos/google-ads' },
+      { label: 'Meta Ads', href: '/servicos/meta-ads' },
       { label: 'CRM & Automação', href: '/servicos/crm-email-sms-push-whatsapp' },
       { label: 'Analytics & BI', href: '/servicos/analytics-bi' },
     ],

@@ -7,6 +7,9 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import type { LucideIcon } from 'lucide-react'
 
+// ISR: novos artigos (e agendados no Keystatic) entram na listagem sozinhos
+export const revalidate = 900
+
 export const metadata: Metadata = {
   title: 'Blog de E-commerce | Estratégias de Full Funnel Marketing e Growth | Ciclo',
   description:

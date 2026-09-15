@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
-import { posts, formatDate } from '@/lib/blog'
+import { posts, getWpPosts, formatDate, getCategoryGradient, resolveCategory } from '@/lib/blog'
+import { getKeystatiPosts } from '@/lib/keystatic-posts'
 
 const categoryColors: Record<string, string> = {
   Estratégia: 'text-[#A100FF] bg-[#A100FF]/10',
@@ -11,8 +12,43 @@ const categoryColors: Record<string, string> = {
   Tráfego: 'text-orange-400 bg-orange-400/10',
 }
 
-export default function RecentBlogSection() {
-  const recent = posts.slice(0, 3)
+export default async function RecentBlogSection() {
+  // Mesma mesclagem da listagem do blog: Keystatic (novos posts) + curados + WP,
+  // ordenados por data. Assim, todo artigo publicado entra na home sozinho.
+  const [keystatiPosts, wpPosts] = [await getKeystatiPosts(), getWpPosts()]
+
+  const recent = [
+    ...keystatiPosts.map((p) => ({
+      slug: p.slug,
+      title: p.title,
+      excerpt: p.excerpt,
+      date: p.date,
+      readTime: p.readTime,
+      category: resolveCategory(p.category, p.title, p.excerpt),
+      coverGradient: getCategoryGradient(resolveCategory(p.category, p.title, p.excerpt)),
+    })),
+    ...posts.map((p) => ({
+      slug: p.slug,
+      title: p.title,
+      excerpt: p.excerpt,
+      date: p.date,
+      readTime: p.readTime,
+      category: resolveCategory(p.category, p.title, p.excerpt),
+      coverGradient: p.coverGradient,
+    })),
+    ...wpPosts.map((p) => ({
+      slug: p.slug,
+      title: p.title,
+      excerpt: p.excerpt,
+      date: p.date,
+      // WP não tem readTime: estima por contagem de palavras (~200 ppm)
+      readTime: Math.max(1, Math.round(p.html.replace(/<[^>]+>/g, ' ').split(/\s+/).length / 200)),
+      category: resolveCategory(p.category, p.title, p.excerpt),
+      coverGradient: getCategoryGradient(resolveCategory(p.category, p.title, p.excerpt)),
+    })),
+  ]
+    .sort((a, b) => b.date.localeCompare(a.date))
+    .slice(0, 3)
 
   return (
     <section className="py-20 lg:py-28 bg-[#050505]">

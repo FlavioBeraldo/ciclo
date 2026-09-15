@@ -20,113 +20,6 @@ export interface Servico {
 export const servicos: Servico[] = [
   // ── Geração de Demanda ────────────────────────────────────────────────────────
   {
-    slug: 'producao-conteudo-redes-sociais',
-    parentSlug: 'geracao-de-demanda',
-    parentTitle: 'Geração de Demanda',
-    title: 'Produção e Roteirização de Conteúdo para Redes Sociais',
-    tagline: 'Conteúdo que constrói marca e converte — criado para cada plataforma',
-    heroHeadline: 'Pare de publicar por obrigação. Comece a crescer com conteúdo.',
-    heroDescription:
-      'Produção e roteirização de conteúdo validado para performance no Instagram, TikTok, YouTube e mais. Do briefing ao post publicado.',
-    what: 'Conteúdo para redes sociais é o principal ativo de geração de demanda orgânica de um e-commerce. A Ciclo produz e roteiriza conteúdo pensado nativamente para cada plataforma — não recicla peças entre canais — com foco em alcance, engajamento e impacto no CAC.',
-    why: 'Marcas que publicam conteúdo consistente e relevante têm CAC até 40% menor que marcas que dependem exclusivamente de mídia paga. O conteúdo cria demanda que a performance captura — e a combinação dos dois é o que gera crescimento sustentável.',
-    howItWorks: [
-      {
-        step: 'Imersão na marca',
-        detail:
-          'Analisamos posicionamento, público, concorrência e histórico de conteúdo para definir os pilares editoriais.',
-      },
-      {
-        step: 'Calendário editorial',
-        detail:
-          'Planejamos os temas, formatos e frequência ideais para cada canal com base em dados de performance.',
-      },
-      {
-        step: 'Roteirização',
-        detail:
-          'Criamos scripts e briefings detalhados para cada peça — Reels, TikToks, carrosséis, Stories — com gancho, desenvolvimento e CTA.',
-      },
-      {
-        step: 'Produção e revisão',
-        detail:
-          'Produzimos o conteúdo com direção criativa alinhada à identidade da marca.',
-      },
-      {
-        step: 'Publicação e análise',
-        detail:
-          'Publicamos, monitoramos desempenho e iteramos para melhorar continuamente os resultados.',
-      },
-    ],
-    deliverables: [
-      'Calendário editorial mensal',
-      'Roteiros validados para vídeos (Reels/TikTok/YouTube Shorts)',
-      'Carrosséis de alta performance para Instagram',
-      'Stories com CTAs otimizados',
-      'Relatório mensal de desempenho com insights',
-    ],
-    results: [
-      { metric: '+40%', label: 'alcance orgânico médio' },
-      { metric: '-28%', label: 'CAC com conteúdo ativo' },
-      { metric: '3x', label: 'mais engajamento vs. média do mercado' },
-      { metric: '+65%', label: 'de seguidores em 6 meses' },
-    ],
-    examples: [
-      {
-        title: 'Marca de beleza DTC',
-        description:
-          'Roteirizamos série de "antes e depois" de 30 dias. Resultado: 2,4M de visualizações orgânicas e +18% de receita no mês.',
-        highlight: '2,4M views',
-      },
-      {
-        title: 'E-commerce de moda',
-        description:
-          'Calendário editorial com pilares de educação, tendência e prova social. CAC caiu 32% em 4 meses.',
-        highlight: 'CAC -32%',
-      },
-      {
-        title: 'Suplementos',
-        description:
-          'Série de conteúdo educativo no Instagram. Taxa de recompra subiu de 18% para 34%.',
-        highlight: 'Recompra +89%',
-      },
-    ],
-    faq: [
-      {
-        q: 'Qual a diferença entre roteirizar para TikTok e para Instagram Reels?',
-        a: 'TikTok favorece conteúdo mais cru, nativo e com narrativa sequencial — o gancho nos primeiros 2 segundos é determinante. Reels permite peças mais polidas e aproveita melhor o contexto do feed. Adaptamos o tom, o ritmo e o formato para maximizar a performance em cada plataforma.',
-      },
-      {
-        q: 'Quantos posts por semana são necessários?',
-        a: 'Depende do estágio da marca e dos canais prioritários. Em geral, recomendamos frequência mínima de 4 posts/semana no Instagram e 5 no TikTok. Consistência importa mais que volume.',
-      },
-      {
-        q: 'A Ciclo faz a captação também ou só o roteiro?',
-        a: 'Oferecemos roteirização, direção criativa e, conforme o modelo contratado, produção completa. Para marcas com equipe interna de produção, entregamos os roteiros e briefings detalhados.',
-      },
-      {
-        q: 'Como o conteúdo orgânico impacta as campanhas pagas?',
-        a: 'Conteúdo orgânico com bom desempenho é sinal de que o criativo ressoa com o público — o que é exatamente o que funciona em mídia paga. Reaproveitamos os formatos orgânicos que performam para campanhas de paid social.',
-      },
-    ],
-    relatedSlugs: [
-      'tiktok-shop-social-commerce',
-      'gestao-creators-influenciadores',
-      'meta-ads-tiktok-ads',
-    ],
-    seo: {
-      title: 'Produção de Conteúdo para Redes Sociais | Ciclo E-commerce',
-      description:
-        'Produção e roteirização de conteúdo para Instagram, TikTok e YouTube. Estratégia de conteúdo para e-commerce que gera demanda e reduz CAC.',
-      keywords: [
-        'produção de conteúdo redes sociais',
-        'roteirização conteúdo ecommerce',
-        'conteúdo para instagram ecommerce',
-        'tiktok para ecommerce',
-        'estratégia de conteúdo digital',
-      ],
-    },
-  },
-  {
     slug: 'tiktok-shop-social-commerce',
     parentSlug: 'geracao-de-demanda',
     parentTitle: 'Geração de Demanda',
@@ -203,8 +96,8 @@ export const servicos: Servico[] = [
         a: 'A maioria das categorias de consumo pode vender no TikTok Shop. Algumas categorias têm restrições — cosméticos precisam de aprovação de fórmula, por exemplo. Fazemos o diagnóstico de elegibilidade antes de iniciar.',
       },
       {
-        q: 'Qual é o investimento mínimo para começar?',
-        a: 'O TikTok Shop não exige investimento mínimo de anúncios para começar. A operação inicial pode ser 100% orgânica via conteúdo e Lives. Recomendamos combinar com um investimento em Shop Ads para acelerar os resultados.',
+        q: 'Como estruturar o investimento no canal?',
+        a: 'A operação combina conteúdo e Lives com Shop Ads desde o início. O canal orgânico sustenta a descoberta, e a mídia escala o que já provou tração — essa combinação é o que transforma o TikTok Shop em canal de receita previsível, e não em ação pontual.',
       },
       {
         q: 'TikTok Shop funciona para produtos de ticket alto?',
@@ -220,9 +113,8 @@ export const servicos: Servico[] = [
       },
     ],
     relatedSlugs: [
-      'producao-conteudo-redes-sociais',
       'gestao-creators-influenciadores',
-      'meta-ads-tiktok-ads',
+      'meta-ads',
     ],
     seo: {
       title: 'TikTok Shop para E-commerce | Ciclo E-commerce',
@@ -327,9 +219,8 @@ export const servicos: Servico[] = [
       },
     ],
     relatedSlugs: [
-      'producao-conteudo-redes-sociais',
       'tiktok-shop-social-commerce',
-      'meta-ads-tiktok-ads',
+      'meta-ads',
     ],
     seo: {
       title: 'Gestão de Creators e Influenciadores para E-commerce | Ciclo',
@@ -344,261 +235,159 @@ export const servicos: Servico[] = [
       ],
     },
   },
-  {
-    slug: 'ooh-digital',
-    parentSlug: 'geracao-de-demanda',
-    parentTitle: 'Geração de Demanda',
-    title: 'OOH Digital',
-    tagline: 'Presença de marca no mundo físico com inteligência digital',
-    heroHeadline: 'Sua marca no outdoor certo, para a audiência certa, no momento certo',
-    heroDescription:
-      'OOH Digital (Out of Home) programático para e-commerces: painéis digitais com segmentação de audiência, geolocalização e mensuração de impacto no tráfego online.',
-    what: 'OOH Digital é a publicidade em painéis e telas digitais fora de casa — shoppings, aeroportos, vias, academias, clínicas — comprada de forma programática, com segmentação por audiência e localização. Para e-commerces, o OOH digital complementa a estratégia online criando pontos de contato no mundo físico.',
-    why: 'Marcas que combinam presença online com OOH digital têm recall até 3x maior que as que estão apenas nos canais digitais. O OOH digital de alto impacto é especialmente eficaz para lançamentos, datas sazonais e construção de marca em mercados-alvo específicos.',
-    howItWorks: [
-      {
-        step: 'Definição de público e praças',
-        detail:
-          'Identificamos as regiões, contextos e perfis de audiência mais relevantes para a marca.',
-      },
-      {
-        step: 'Seleção de inventário',
-        detail:
-          'Escolhemos os formatos e localizações com maior potencial de impacto: shoppings premium, vias de alto fluxo, ambientes de afinidade.',
-      },
-      {
-        step: 'Criação dos materiais',
-        detail:
-          'Desenvolvemos criativos otimizados para cada formato e contexto de exibição.',
-      },
-      {
-        step: 'Ativação programática',
-        detail:
-          'Compramos o inventário de forma programática para otimizar CPM e segmentação.',
-      },
-      {
-        step: 'Mensuração de impacto',
-        detail:
-          'Correlacionamos as campanhas OOH com métricas digitais: branded search, tráfego direto e conversões georreferenciadas.',
-      },
-    ],
-    deliverables: [
-      'Planejamento de praças e formatos',
-      'Criativos para painéis digitais',
-      'Ativação programática de inventário',
-      'Relatório de impacto com correlação digital',
-    ],
-    results: [
-      { metric: '3x', label: 'de recall de marca vs. only digital' },
-      { metric: '+22%', label: 'de branded search após campanhas OOH' },
-      { metric: '85M', label: 'de impressões por campanha nacional' },
-      { metric: '+18%', label: 'de conversão em praças com cobertura OOH' },
-    ],
-    examples: [
-      {
-        title: 'Lançamento de e-commerce nacional',
-        description:
-          'Campanha OOH digital em 12 capitais coordenada com Meta Ads. Branded search cresceu 45% durante o período.',
-        highlight: 'Branded search +45%',
-      },
-      {
-        title: 'Marca de moda premium',
-        description:
-          'Painéis em shoppings premium de SP e RJ durante coleção de inverno. Ticket médio online subiu 12% nas regiões cobertas.',
-        highlight: 'Ticket +12%',
-      },
-      {
-        title: 'Marca de saúde e bem-estar',
-        description:
-          'OOH em academias e clínicas + retargeting digital para quem passou pelos pontos. CTR do retargeting foi 3x maior.',
-        highlight: 'CTR 3x',
-      },
-    ],
-    faq: [
-      {
-        q: 'OOH digital é só para grandes marcas?',
-        a: 'Não. A compra programática de OOH digital democratizou o acesso: é possível fazer campanhas a partir de budgets menores, com foco em praças e contextos específicos. Uma marca regional pode fazer OOH só na sua cidade.',
-      },
-      {
-        q: 'Como medir o impacto do OOH no e-commerce?',
-        a: 'Monitoramos branded search (crescimento de buscas pela marca), tráfego direto ao site, conversões georreferenciadas e, quando possível, uplift de vendas nas regiões cobertas pela campanha.',
-      },
-      {
-        q: 'Qual a diferença entre OOH digital e OOH estático?',
-        a: 'OOH digital permite trocar o criativo em tempo real, segmentar por horário e contexto, e comprar de forma programática. OOH estático é mais barato por impressão mas sem essas vantagens.',
-      },
-      {
-        q: 'OOH funciona para e-commerce sem loja física?',
-        a: 'Sim. O OOH digital para e-commerce puro serve como canal de brand awareness — cria o primeiro ponto de contato que alimenta os canais de captação online.',
-      },
-    ],
-    relatedSlugs: [
-      'producao-conteudo-redes-sociais',
-      'anuncios-social-first-conversao',
-      'gestao-creators-influenciadores',
-    ],
-    seo: {
-      title: 'OOH Digital para E-commerce | Ciclo E-commerce',
-      description:
-        'OOH Digital programático para e-commerces: painéis digitais segmentados por audiência e localização que amplificam sua presença de marca.',
-      keywords: [
-        'ooh digital ecommerce',
-        'mídia out of home digital',
-        'publicidade programática ooh',
-        'painel digital ecommerce',
-        'brand awareness ecommerce',
-      ],
-    },
-  },
 
   // ── Captação de Demanda ───────────────────────────────────────────────────────
   {
-    slug: 'anuncios-social-first-conversao',
+    slug: 'creative-strategy',
     parentSlug: 'captacao-de-demanda',
     parentTitle: 'Captação de Demanda',
-    title: 'Produção de Anúncios Social First para Conversão',
-    tagline: 'Criativos que param o scroll e convertem — nativos para cada plataforma',
-    heroHeadline: 'O criativo é o maior alavancador de resultado em mídia paga. E o mais ignorado.',
+    title: 'Creative Strategy para E-commerce',
+    tagline: 'Criamos anúncios vencedores para campanhas de performance',
+    heroHeadline: 'Quando o algoritmo faz a segmentação, o criativo vira a segmentação',
     heroDescription:
-      'Produção e criação de anúncios no formato social first: concebidos para o comportamento nativo de cada plataforma, testados por dados e otimizados para conversão.',
-    what: 'Anúncios social first são criativos concebidos para parecer e funcionar como conteúdo nativo de cada plataforma — não peças de banner adaptadas para o feed. Um Reel de anúncio social first tem gancho nos primeiros 2 segundos, narrativa autêntica e CTA integrado ao contexto.',
-    why: 'O criativo é responsável por 60-70% do resultado de uma campanha de mídia paga, segundo estudos do Meta e Nielsen. A maioria das marcas investe pesado no budget de mídia e pouco na qualidade do criativo — e deixa uma enorme quantidade de resultado na mesa.',
+      'Creative Strategy é a disciplina que planeja, produz e itera criativos com método e dados. Pesquisa de ângulos, matriz de teste, volume com consistência e leitura no nível do criativo — o motor que sustenta performance em campanhas automatizadas.',
+    what: 'Creative Strategy é a operação que transforma criativo em alavanca de performance: ângulos nascidos de pesquisa real com clientes, produção em esteira contínua, testes isolados por variável e diagnóstico por hook rate e hold rate. Não é "arte que chega pronta para subir na conta" — é a variável que o anunciante ainda controla.',
+    why: 'Advantage+ Shopping, Performance Max e GMV Max absorveram a segmentação, o lance e o posicionamento. O que sobrou sob controle direto da marca foi o criativo — e cada ângulo funciona como um filtro de audiência: o algoritmo observa quem responde e busca mais pessoas parecidas. Contas com criativos parecidos entre si segmentam para um único bolso de público, por maior que seja o alcance teórico da campanha.',
     howItWorks: [
       {
-        step: 'Análise de criativos atuais',
+        step: 'Pesquisa antes da produção',
         detail:
-          'Auditamos o histórico de criativos para identificar o que funcionou e por quê.',
+          'Garimpamos avaliações de produto, conversas de SAC e WhatsApp, perguntas em anúncios e motivos de devolução para montar um banco vivo de ângulos em linguagem de cliente.',
       },
       {
-        step: 'Mapeamento de ângulos',
+        step: 'Diversificação de ângulos',
         detail:
-          'Definimos os ângulos de mensagem — benefício, prova social, urgência, identificação — que vão ser testados.',
+          'Sustentamos de 4 a 6 teses de venda simultâneas no ar — dor resolvida, prova social, comparação, bastidor, autoridade e oferta —, não variações de cor e trilha.',
       },
       {
-        step: 'Produção de variações',
+        step: 'Matriz de teste ângulo × formato × hook',
         detail:
-          'Produzimos múltiplas variações de cada ângulo para teste A/B estruturado.',
+          'Cada teste isola uma variável e tem critério de sucesso definido antes de subir. Primeiro validamos ângulos, depois formatos dentro dos vencedores, por último hooks.',
       },
       {
-        step: 'Teste e validação',
+        step: 'Esteira de produção com volume',
         detail:
-          'Ativamos os criativos com budget de teste controlado e coletamos dados de performance.',
+          'Pesquisa, roteirização em lote, produção social first com creators e UGC, edição em 3 a 5 variações e publicação com nomenclatura padronizada em dia fixo.',
       },
       {
-        step: 'Escala dos vencedores',
+        step: 'Diagnóstico e escala',
         detail:
-          'Os criativos que passam no teste recebem budget maior; os perdedores são descontinuados ou ajustados.',
+          'Lemos hook rate, hold rate e conversão pós-clique para saber onde o criativo quebra, escalamos os vencedores e reciclamos os perdedores com aprendizado registrado.',
       },
     ],
     deliverables: [
-      'Criativos em vídeo (Reels, TikTok, YouTube)',
-      'Estáticos e carrosséis para feed',
-      'UGC roteirizado e produzido',
-      'Biblioteca de criativos testados',
-      'Relatório de performance por criativo',
+      'Banco de ângulos alimentado por pesquisa da operação',
+      'Matriz de teste ângulo × formato × hook preenchida',
+      'Criativos social first: vídeo, UGC roteirizado, estáticos e carrosséis',
+      'Esteira de produção com cadência semanal e nomenclatura padronizada',
+      'Diagnóstico semanal por criativo (hook rate, hold rate, CPA por ângulo)',
     ],
     results: [
-      { metric: '2,3x', label: 'de ROAS médio com criativos social first vs. banner' },
+      { metric: '60-70%', label: 'do resultado de mídia paga explicado pelo criativo' },
+      { metric: '2,3x', label: 'de ROAS com social first vs. peça adaptada' },
       { metric: '-40%', label: 'de CPM com formatos nativos' },
-      { metric: '+85%', label: 'de view-through rate em vídeo' },
-      { metric: '60%', label: 'dos criativos validados tornam-se top performers' },
+      { metric: '10-20%', label: 'do investimento reservado para teste estruturado' },
     ],
     examples: [
       {
         title: 'Marca de cosméticos',
         description:
-          'Substituímos banners por UGC roteirizado. CTR subiu 3,2x e o ROAS foi de 1,8x para 4,1x em 60 dias.',
+          'O ângulo vencedor saiu das avaliações de produto: a recompra acontecia pela textura, não pelo resultado prometido. Substituímos banners por UGC roteirizado sobre esse insight.',
         highlight: 'ROAS +128%',
       },
       {
         title: 'E-commerce de moda',
         description:
-          'Série de Reels "social first" com prova social. CPA caiu 44% em 45 dias.',
+          'Seis ângulos simultâneos no ar com matriz de teste semanal. A diversidade real de mensagem permitiu ao algoritmo expandir alcance sem degradar o custo.',
         highlight: 'CPA -44%',
       },
       {
         title: 'Suplementos',
         description:
-          '12 variações de criativo testadas simultaneamente. O criativo vencedor gerou 70% das conversões da conta.',
-        highlight: '70% das conversões',
+          'Diagnóstico por hook rate revelou que 97% das pessoas não passavam de 3 segundos. Reescrevemos apenas as aberturas, mantendo o corpo dos vídeos.',
+        highlight: '70% das conversões em 1 criativo',
       },
     ],
     faq: [
       {
-        q: 'O que é "social first" na prática?',
-        a: 'Social first significa que o criativo é pensado do zero para o comportamento do usuário na plataforma — não é uma adaptação de uma peça de outro canal. Um anúncio social first para TikTok tem o mesmo ritmo e estética dos vídeos orgânicos do feed; para Instagram, aproveita a identidade visual premium da plataforma.',
+        q: 'O que é creative strategy?',
+        a: 'É a disciplina de planejar, produzir e otimizar criativos de anúncio com método e dados, tratando o criativo como principal alavanca de performance. Em campanhas automatizadas, em que a segmentação é feita pelo algoritmo a partir da resposta do público, é a mensagem que define quem será impactado.',
       },
       {
-        q: 'Quantas variações de criativo são necessárias?',
-        a: 'Recomendamos testar pelo menos 3-5 variações por ângulo de mensagem. Em contas com volume maior, trabalhamos com 10-20 variações simultâneas.',
+        q: 'Creative strategy substitui o gestor de tráfego?',
+        a: 'Não — muda o foco do trabalho. A gestão de estrutura de conta, orçamento e leitura de dados continua existindo, mas a alavanca de crescimento migrou da configuração de públicos para a qualidade e a diversidade dos criativos. As duas frentes operam juntas.',
+      },
+      {
+        q: 'Quantos criativos novos por mês a operação exige?',
+        a: 'A referência varia com o investimento: de 8 a 12 criativos novos por mês em verbas até R$ 50 mil, de 15 a 25 entre R$ 50 e 150 mil, e de 30 a 40 ou mais acima disso. Quanto maior a verba, mais rápido a conta consome audiência e o estoque criativo envelhece.',
+      },
+      {
+        q: 'Como vocês medem se um criativo funciona?',
+        a: 'Antes do ROAS, lemos hook rate (quem assiste aos 3 primeiros segundos, referência acima de 25%), hold rate (quem fica até o fim) e conversão pós-clique. Essas três métricas mostram onde o criativo quebra — abertura, miolo ou página — duas semanas antes do resultado aparecer na receita.',
       },
       {
         q: 'A Ciclo faz a produção ou só a estratégia?',
-        a: 'Fazemos os dois — estratégia de ângulos, roteirização, direção criativa e produção completa. Para marcas com equipe interna de produção, entregamos o briefing criativo e supervisionamos a execução.',
-      },
-      {
-        q: 'Em quanto tempo vejo resultado?',
-        a: 'Os primeiros dados de performance chegam em 7-14 dias de teste. A escala dos criativos vencedores começa entre 3-6 semanas do início.',
+        a: 'Fazemos os dois: estratégia de ângulos, roteirização, direção criativa e produção completa com creators e UGC. Para marcas com equipe interna de produção, entregamos o banco de ângulos, o briefing por criativo e a supervisão da execução.',
       },
     ],
-    relatedSlugs: ['meta-ads-tiktok-ads', 'google-ads-bing-ads', 'producao-conteudo-redes-sociais'],
+    relatedSlugs: ['meta-ads', 'tiktok-ads', 'google-ads'],
     seo: {
-      title: 'Produção de Anúncios Social First para E-commerce | Ciclo',
+      title: 'Creative Strategy para E-commerce | Ciclo E-commerce',
       description:
-        'Criativos social first que convertem: anúncios para Meta, TikTok e Google produzidos para o comportamento nativo de cada plataforma.',
+        'Creative Strategy para campanhas de performance: banco de ângulos, matriz de teste, esteira de produção e diagnóstico por hook rate. Criativos que sustentam escala em Meta, TikTok e Google.',
       keywords: [
-        'criativo social first ecommerce',
+        'creative strategy ecommerce',
+        'criativos para performance',
         'produção de anúncios ecommerce',
         'ugc para anúncios',
-        'criativo para meta ads',
-        'anúncios que convertem ecommerce',
+        'teste de criativos meta ads',
       ],
     },
   },
   {
-    slug: 'google-ads-bing-ads',
+    slug: 'google-ads',
     parentSlug: 'captacao-de-demanda',
     parentTitle: 'Captação de Demanda',
-    title: 'Google Ads & Bing Ads para E-commerce',
-    tagline: 'Capture a intenção de compra no exato momento em que ela acontece',
-    heroHeadline: 'Seu produto na frente de quem já quer comprar',
+    title: 'Google Ads para E-commerce',
+    tagline: 'Capture a intenção de compra no momento exato em que ela acontece',
+    heroHeadline: 'Seu produto na frente de quem já decidiu comprar',
     heroDescription:
-      'Gestão especializada de Google Ads e Bing Ads para e-commerce: Search, Shopping, Performance Max e Display com estrutura e otimização que realmente eleva o ROAS.',
-    what: 'Google Ads captura demanda existente — usuários que já estão buscando seu produto ou categoria. Para e-commerce, Search e Shopping são os canais de maior intenção de compra disponíveis. A Ciclo gerencia toda a operação: estrutura de campanhas, lances, audiências, criativos e otimização contínua.',
-    why: 'Usuários que chegam via Google Search convertem 3 a 5 vezes mais que usuários de outras fontes, porque a busca indica intenção ativa. Uma operação de Google Ads bem estruturada é o canal de captação com melhor relação custo-benefício para a maioria dos e-commerces.',
+      'Gestão especializada de Google Ads para e-commerce: Search, Shopping, Performance Max e Demand Gen com estrutura de conta, feed otimizado e leitura de incrementalidade que sustenta ROAS em escala.',
+    what: 'Google Ads captura demanda existente — pessoas que já estão buscando seu produto ou categoria. Para e-commerce, Search e Shopping são os canais de maior intenção de compra disponíveis. A Ciclo opera a conta inteira: arquitetura de campanhas, feed de produtos, lances, audiências e otimização contínua.',
+    why: 'Usuários que chegam via busca convertem de 3 a 5 vezes mais que outras fontes, porque a busca revela intenção ativa. Com a automação do Performance Max, a vantagem competitiva deixou de estar na configuração manual de lances e passou a estar na qualidade do feed, nos sinais de audiência e na disciplina de leitura de dados.',
     howItWorks: [
       {
-        step: 'Auditoria e estruturação',
+        step: 'Auditoria e arquitetura de conta',
         detail:
-          'Auditamos a conta atual (ou construímos do zero), corrigindo estrutura, palavras-chave negativas e configurações que desperdiçam budget.',
+          'Auditamos a conta (ou construímos do zero), corrigindo estrutura, negativas e configurações que drenam budget sem retorno.',
       },
       {
-        step: 'Configuração de Shopping',
+        step: 'Otimização do feed de produtos',
         detail:
-          'Otimizamos o feed de produtos para maximizar a elegibilidade e a relevância no Google Shopping.',
+          'Tratamos títulos, atributos, imagens e preços no Merchant Center — o feed é o que determina para quais buscas seu produto é elegível.',
       },
       {
-        step: 'Campanhas Search e Performance Max',
+        step: 'Search, Shopping e Performance Max',
         detail:
-          'Estruturamos campanhas com segmentação precisa e lances otimizados para cada etapa do funil.',
+          'Distribuímos as campanhas por papel no funil, com sinais de audiência e exclusões que impedem o PMax de canibalizar a marca.',
       },
       {
         step: 'Otimização contínua',
         detail:
-          'Ajustamos lances, pausamos keywords de baixo desempenho e testamos novos segmentos semanalmente.',
+          'Ajustes semanais de lances, termos de busca, negativação e testes de novos segmentos com hipótese registrada.',
       },
       {
-        step: 'Relatórios e atribuição',
+        step: 'Atribuição e incrementalidade',
         detail:
-          'Configuramos atribuição correta e entregamos relatórios com visão de ROAS, CPA e participação de impressões.',
+          'Configuramos a atribuição correta e separamos receita incremental de receita que viria de qualquer forma.',
       },
     ],
     deliverables: [
-      'Auditoria completa da conta Google Ads',
-      'Estrutura de campanhas Search + Shopping + PMax',
-      'Configuração de feed de produtos',
+      'Auditoria completa da conta e do Merchant Center',
+      'Arquitetura Search + Shopping + Performance Max',
+      'Feed de produtos otimizado e monitorado',
       'Gestão mensal com otimizações semanais',
-      'Relatório de ROAS por campanha e categoria',
+      'Relatório de ROAS, CPA e participação de impressões por categoria',
     ],
     results: [
       { metric: '4,2x', label: 'ROAS médio nas contas gerenciadas' },
@@ -610,360 +399,875 @@ export const servicos: Servico[] = [
       {
         title: 'E-commerce de eletrônicos',
         description:
-          'Reestruturação completa de Shopping + PMax. ROAS foi de 2,1x para 5,3x em 90 dias.',
+          'Reestruturação completa de Shopping + Performance Max com feed reescrito. ROAS foi de 2,1x para 5,3x em 90 dias.',
         highlight: 'ROAS +152%',
       },
       {
         title: 'Moda feminina',
         description:
-          'Campanhas de Search com segmentação por intenção de compra. CPA caiu 42% mantendo o volume de vendas.',
+          'Search segmentado por intenção de compra e negativação agressiva de termos genéricos. CPA caiu 42% mantendo volume.',
         highlight: 'CPA -42%',
       },
       {
         title: 'Casa e decoração',
         description:
-          'Performance Max com sinais de audiência otimizados. Receita atribuída cresceu 78% em 6 meses.',
+          'Performance Max com sinais de audiência de first-party e exclusão de marca. Receita atribuída cresceu 78% em 6 meses.',
         highlight: 'Receita +78%',
       },
     ],
     faq: [
       {
         q: 'Qual a diferença entre Search, Shopping e Performance Max?',
-        a: 'Search captura buscas por palavras-chave específicas. Shopping exibe produtos com foto e preço diretamente nos resultados. Performance Max usa IA do Google para distribuir em todos os canais automaticamente. Para a maioria dos e-commerces, a combinação dos três com estratégias complementares é o mais eficiente.',
+        a: 'Search captura buscas por palavras-chave específicas. Shopping exibe produto, foto e preço direto no resultado. Performance Max usa a IA do Google para distribuir em todos os inventários automaticamente. Para a maioria dos e-commerces, a combinação dos três com papéis complementares é o mais eficiente — o erro comum é deixar o PMax competir com a própria marca.',
       },
       {
         q: 'Por que meu ROAS cai com o tempo?',
-        a: 'ROAS cai por saturação de audiência, aumento de concorrência, mudanças de sazonalidade ou deterioração do feed de produtos. A manutenção ativa da conta — não só "deixar a IA rodar" — é o que mantém a performance estável.',
+        a: 'Por saturação de audiência, aumento de concorrência no leilão, sazonalidade ou deterioração do feed. A manutenção ativa da conta — e não "deixar a IA rodar" — é o que mantém a performance estável.',
       },
       {
-        q: 'Google Ads ou Meta Ads? Qual priorizar?',
-        a: 'São canais complementares, não concorrentes. Google captura quem já quer comprar; Meta cria desejo em quem não está buscando. Para e-commerces com CAC alto, geralmente começamos com Google para estabilizar a aquisição e depois escalamos Meta.',
+        q: 'O feed de produtos impacta mesmo o desempenho?',
+        a: 'Enormemente. Um feed sem atributos corretos, com imagens fracas ou preços desatualizados desperdiça entre 30% e 50% do potencial do Shopping. É o primeiro lugar onde mexemos em qualquer conta.',
       },
       {
-        q: 'O feed de produtos impacta o desempenho?',
-        a: 'Enormemente. Um feed mal configurado — sem atributos corretos, imagens de baixa qualidade, preços desatualizados — desperdiça entre 30-50% do potencial do Google Shopping.',
+        q: 'Google Ads ou Meta Ads: qual priorizar?',
+        a: 'São complementares. Google captura quem já quer comprar; Meta cria desejo em quem não está buscando. Em operações com CAC alto, normalmente estabilizamos a aquisição no Google antes de escalar o paid social.',
       },
     ],
-    relatedSlugs: ['meta-ads-tiktok-ads', 'anuncios-social-first-conversao', 'retail-media'],
+    relatedSlugs: ['bing-ads', 'meta-ads', 'creative-strategy'],
     seo: {
-      title: 'Google Ads para E-commerce | Ciclo E-commerce',
+      title: 'Gestão de Google Ads para E-commerce | Ciclo E-commerce',
       description:
-        'Gestão de Google Ads e Bing Ads para e-commerce: Search, Shopping e Performance Max com ROAS elevado e gestão especializada.',
+        'Gestão de Google Ads para e-commerce: Search, Shopping, Performance Max e Demand Gen com feed otimizado, atribuição correta e ROAS elevado.',
       keywords: [
         'google ads ecommerce',
         'google shopping ecommerce',
         'performance max ecommerce',
         'gestão google ads',
-        'roas google ads',
+        'agência google ads ecommerce',
       ],
     },
   },
   {
-    slug: 'meta-ads-tiktok-ads',
+    slug: 'bing-ads',
     parentSlug: 'captacao-de-demanda',
     parentTitle: 'Captação de Demanda',
-    title: 'Meta Ads & TikTok Ads para E-commerce',
-    tagline: 'Mídia social que cria demanda e converte com escala',
-    heroHeadline: 'Meta e TikTok: onde seu cliente passa o tempo e onde você precisa estar',
+    title: 'Bing Ads (Microsoft Advertising) para E-commerce',
+    tagline: 'O canal de busca que seus concorrentes esqueceram de disputar',
+    heroHeadline: 'Menos disputa no leilão, mesma intenção de compra',
     heroDescription:
-      'Gestão estratégica de Meta Ads (Facebook + Instagram) e TikTok Ads para e-commerce: criativos social first, segmentação avançada e otimização orientada a ROAS e CAC.',
-    what: 'Meta Ads e TikTok Ads são os dois principais canais de paid social para e-commerce. Diferentemente do Google, eles criam demanda — impactam usuários que não estão buscando, mas têm perfil de compra. A combinação de segmentação, criativo e otimização é o que separa as contas que escalam das que ficam presas.',
-    why: 'Meta ainda é o canal de paid social com maior volume de dados e capacidade de segmentação para e-commerce. TikTok tem crescimento explosivo e CPMs ainda abaixo da média do mercado — a janela de eficiência está aberta agora. A Ciclo opera os dois com especialização profunda.',
+      'Gestão de Microsoft Advertising para e-commerce: Search e Shopping na rede Bing, Yahoo e Edge, com CPCs consistentemente abaixo do Google e público de maior poder aquisitivo.',
+    what: 'Microsoft Advertising (antigo Bing Ads) é a plataforma de busca paga da rede Microsoft: Bing, Yahoo, DuckDuckGo, AOL e a barra de pesquisa do Windows e do Edge. Opera com a mesma lógica de intenção do Google — Search e Shopping —, mas com uma fração da concorrência no leilão.',
+    why: 'O volume é menor, mas a eficiência compensa: CPCs costumam ficar de 30% a 50% abaixo do Google para as mesmas palavras-chave, e o perfil demográfico da rede Microsoft concentra usuários corporativos e de maior renda. Para operações que já saturaram o leilão do Google, é receita incremental com estrutura que pode ser importada em dias.',
     howItWorks: [
       {
-        step: 'Auditoria e estratégia',
+        step: 'Importação e limpeza',
         detail:
-          'Analisamos a conta atual, o histórico de criativos e a estrutura de campanhas para identificar gargalos.',
+          'Importamos a estrutura validada do Google Ads e refazemos o que não se traduz bem: negativas, correspondências e extensões próprias da rede Microsoft.',
       },
       {
-        step: 'Estrutura de funil em paid social',
+        step: 'Feed no Microsoft Merchant Center',
         detail:
-          'Desenhamos campanhas para cada etapa: awareness, consideração, conversão e retenção.',
+          'Configuramos e mantemos o feed de produtos para habilitar Shopping, com atributos ajustados às regras da plataforma.',
       },
       {
-        step: 'Criação e teste de criativos',
+        step: 'Calibragem de lances',
         detail:
-          'Produzimos e testamos criativos social first com metodologia de variação estruturada.',
+          'Reajustamos lances para o leilão real da rede — copiar o CPC do Google é o erro que faz a conta parecer ineficiente.',
       },
       {
-        step: 'Otimização de audiências',
+        step: 'Segmentação por dispositivo e audiência',
         detail:
-          'Refinamos as audiências com base em comportamento, lookalikes e dados first-party.',
+          'Exploramos os diferenciais da plataforma: segmentação por empresa, cargo e setor no LinkedIn, além de audiências de remarketing.',
       },
       {
-        step: 'Escala e diversificação',
+        step: 'Leitura de incrementalidade',
         detail:
-          'Escalamos o que performa e diversificamos criativos para evitar fadiga de anúncio.',
+          'Medimos se a receita do canal é adicional ou canibalizada do Google antes de decidir a escala do investimento.',
       },
     ],
     deliverables: [
-      'Estrutura de campanhas Meta + TikTok',
-      'Criativos social first testados',
-      'Segmentação avançada com dados first-party',
-      'Gestão semanal com otimizações',
-      'Relatório de ROAS, CAC e frequência',
+      'Conta Microsoft Advertising estruturada e importada',
+      'Feed configurado no Microsoft Merchant Center',
+      'Campanhas Search + Shopping com lances calibrados',
+      'Gestão mensal com otimizações quinzenais',
+      'Relatório comparativo de eficiência vs. Google Ads',
     ],
     results: [
-      { metric: '3,8x', label: 'ROAS médio em Meta Ads' },
+      { metric: '-38%', label: 'de CPC médio vs. Google nas mesmas keywords' },
+      { metric: '+12%', label: 'de receita incremental sem aumentar verba total' },
+      { metric: '5,1x', label: 'ROAS médio em Shopping na rede Microsoft' },
+      { metric: '48h', label: 'para ter a conta no ar via importação' },
+    ],
+    examples: [
+      {
+        title: 'Eletrônicos e informática',
+        description:
+          'Importação da estrutura de Search com lances recalibrados. O canal passou a responder por 9% da receita de mídia com CPA 34% menor.',
+        highlight: 'CPA -34%',
+      },
+      {
+        title: 'Móveis e decoração',
+        description:
+          'Shopping na rede Microsoft para o catálogo de ticket alto, onde o público corporativo converte melhor.',
+        highlight: 'ROAS 6,4x',
+      },
+      {
+        title: 'Suprimentos B2B',
+        description:
+          'Segmentação por setor e porte de empresa, exclusiva da plataforma, aplicada sobre as keywords de maior margem.',
+        highlight: 'Receita +21%',
+      },
+    ],
+    faq: [
+      {
+        q: 'Vale a pena anunciar no Bing no Brasil?',
+        a: 'Vale quando a operação já tem Google Ads maduro e busca receita incremental com eficiência. O volume é menor que o do Google, mas o custo por clique também é — e a estrutura pode ser importada, o que torna o teste barato e rápido.',
+      },
+      {
+        q: 'Preciso recriar as campanhas do zero?',
+        a: 'Não. A importação traz a estrutura do Google, mas ela precisa de ajuste: lances calibrados para o leilão da rede, revisão de correspondências e negativas próprias. Importar e deixar rodando é o que faz muita conta concluir, erradamente, que o canal não funciona.',
+      },
+      {
+        q: 'Quanto do budget devo destinar ao canal?',
+        a: 'Começamos com um percentual de teste sobre a verba de busca e escalamos conforme a leitura de incrementalidade. O canal costuma se acomodar entre 5% e 15% do investimento em busca, dependendo da categoria.',
+      },
+      {
+        q: 'O público do Bing é diferente do Google?',
+        a: 'Sim. A rede Microsoft concentra usuários em ambiente corporativo, faixa etária mais alta e maior renda média — o que favorece categorias de ticket alto, B2B e produtos técnicos.',
+      },
+    ],
+    relatedSlugs: ['google-ads', 'meta-ads', 'creative-strategy'],
+    seo: {
+      title: 'Gestão de Bing Ads (Microsoft Ads) para E-commerce | Ciclo',
+      description:
+        'Gestão de Microsoft Advertising para e-commerce: Search e Shopping na rede Bing com CPC menor que o Google e receita incremental comprovada.',
+      keywords: [
+        'bing ads ecommerce',
+        'microsoft advertising brasil',
+        'gestão bing ads',
+        'bing shopping ecommerce',
+        'anunciar no bing',
+      ],
+    },
+  },
+  {
+    slug: 'meta-ads',
+    parentSlug: 'captacao-de-demanda',
+    parentTitle: 'Captação de Demanda',
+    title: 'Meta Ads para E-commerce',
+    tagline: 'A maior máquina de criar demanda do varejo online',
+    heroHeadline: 'Facebook e Instagram: onde a demanda nasce antes da busca',
+    heroDescription:
+      'Gestão de Meta Ads para e-commerce na era do Advantage+: arquitetura de conta enxuta, criativo como segmentação, sinais de first-party e leitura de incrementalidade além do ROAS do gerenciador.',
+    what: 'Meta Ads reúne Facebook, Instagram, Messenger e Audience Network — o maior inventário de paid social para e-commerce no Brasil. Diferente da busca, o canal cria demanda: impacta quem não está procurando, mas tem perfil e comportamento de compra. A Ciclo opera estrutura, criativo e mensuração como um sistema único.',
+    why: 'Com Advantage+ Shopping, a plataforma absorveu a segmentação e o lance. O que decide o resultado hoje é a qualidade do criativo, a integridade dos sinais enviados (CAPI, eventos, catálogo) e a capacidade de ler incrementalidade — porque o ROAS do gerenciador superestima a contribuição do canal quando o remarketing é agressivo.',
+    howItWorks: [
+      {
+        step: 'Auditoria de conta e sinais',
+        detail:
+          'Analisamos estrutura, histórico de criativos, qualidade de eventos, CAPI, deduplicação e catálogo antes de mexer em qualquer campanha.',
+      },
+      {
+        step: 'Consolidação da estrutura',
+        detail:
+          'Reduzimos a fragmentação de campanhas e conjuntos para concentrar aprendizado — contas picotadas nunca saem da fase de aprendizagem.',
+      },
+      {
+        step: 'Criativo como segmentação',
+        detail:
+          'Sustentamos ângulos diversos no ar em cadência semanal, porque é a mensagem que define o público que o algoritmo vai buscar.',
+      },
+      {
+        step: 'First-party e públicos',
+        detail:
+          'Alimentamos a conta com listas de clientes, eventos de valor e sinais de audiência para orientar a automação com dado próprio.',
+      },
+      {
+        step: 'Escala com leitura de incrementalidade',
+        detail:
+          'Escalamos com testes de geo holdout e blended CAC, separando o que é receita nova do que viria de qualquer forma.',
+      },
+    ],
+    deliverables: [
+      'Auditoria de conta, pixel, CAPI e catálogo',
+      'Arquitetura de campanhas Advantage+ e manuais',
+      'Cadência semanal de criativos testados',
+      'Públicos first-party e sinais de audiência configurados',
+      'Relatório de ROAS, CAC blended, frequência e incrementalidade',
+    ],
+    results: [
+      { metric: '3,8x', label: 'ROAS médio nas contas gerenciadas' },
       { metric: '-32%', label: 'de CAC após reestruturação' },
-      { metric: '+197%', label: 'de faturamento com escala em TikTok' },
       { metric: '5x', label: 'de ROAS em campanhas com UGC' },
+      { metric: '+40%', label: 'de eventos recuperados com CAPI bem implementada' },
     ],
     examples: [
       {
         title: 'Marca de beleza',
         description:
-          'Reestruturação de Meta Ads com foco em UGC e lookalike de compradores. ROAS foi de 1,9x para 4,2x.',
+          'Reestruturação com foco em UGC e lookalike de compradores de alto valor, com CAPI corrigida e deduplicação de eventos.',
         highlight: 'ROAS +121%',
       },
       {
         title: 'Moda feminina',
         description:
-          'Entrada no TikTok Ads com criativos social first. CAC 35% menor que Meta no mesmo período.',
-        highlight: 'CAC TikTok -35%',
+          'Consolidação de 14 campanhas fragmentadas em 3 estruturas Advantage+. O aprendizado concentrado derrubou o CPA em 6 semanas.',
+        highlight: 'CPA -38%',
       },
       {
-        title: 'Fitness e lifestyle',
+        title: 'Casa e utilidades',
         description:
-          'Funil completo Meta: awareness com Reels + conversão com Dynamic Ads. Receita cresceu 89% em 4 meses.',
-        highlight: 'Receita +89%',
+          'Teste de geo holdout revelou que 22% da receita atribuída não era incremental. A verba foi realocada para topo de funil.',
+        highlight: 'Receita real +18%',
       },
     ],
     faq: [
       {
-        q: 'iOS 14 ainda afeta as campanhas do Meta?',
-        a: 'Sim, a depreciação de cookies e as restrições de tracking do iOS 14 reduziram a precisão da atribuição no Meta. A solução é implementar a Conversions API (CAPI) para enviar dados server-side — o que melhora a qualidade do sinal e a otimização dos algoritmos.',
+        q: 'Devo usar Advantage+ Shopping ou campanhas manuais?',
+        a: 'Advantage+ tende a vencer em contas com bom volume de eventos, catálogo saudável e estoque criativo diverso. Campanhas manuais seguem úteis para prospecção de nicho, lançamentos e controle de públicos sensíveis. Na prática, operamos as duas com papéis definidos.',
       },
       {
-        q: 'TikTok Ads funciona para qualquer e-commerce?',
-        a: 'TikTok Ads tem melhor performance em categorias de consumo visual — moda, beleza, saúde, casa, pet. Para produtos de nicho muito específico ou ticket muito alto (acima de R$500), o CPL pode ser alto demais para ser eficiente como canal de conversão direto.',
+        q: 'Quantos criativos preciso manter no ar?',
+        a: 'Depende da verba: quanto maior o investimento, mais rápido a conta consome audiência e o criativo fadiga. A referência é de 8 a 12 criativos novos por mês em verbas menores, chegando a 30 ou mais acima de R$ 150 mil mensais.',
       },
       {
-        q: 'Qual o budget mínimo para Meta Ads?',
-        a: 'Para ter dados suficientes para otimização, recomendamos no mínimo R$3-5K/mês em Meta Ads. Abaixo disso, o volume de conversões é insuficiente para o algoritmo aprender. Mas o mais importante é a estrutura e os criativos — não só o volume de budget.',
+        q: 'O ROAS do gerenciador é confiável?',
+        a: 'É um indicador, não a verdade. O modelo de atribuição da Meta credita ao canal conversões que aconteceriam de qualquer forma, sobretudo em remarketing. Trabalhamos com CAC blended e testes de holdout para calibrar a leitura.',
       },
       {
-        q: 'Como evitar a fadiga de anúncio?',
-        a: 'Fadiga acontece quando a mesma audiência vê o mesmo criativo muitas vezes. A solução é renovar criativos com frequência (a cada 2-4 semanas), diversificar ângulos de mensagem e usar múltiplos formatos.',
+        q: 'Por que minha conta vive em fase de aprendizagem?',
+        a: 'Normalmente por fragmentação: muitos conjuntos dividindo poucos eventos, edições frequentes que reiniciam o aprendizado e orçamento espalhado. Consolidar estrutura costuma resolver mais que trocar de segmentação.',
       },
     ],
-    relatedSlugs: [
-      'anuncios-social-first-conversao',
-      'google-ads-bing-ads',
-      'tiktok-shop-social-commerce',
-    ],
+    relatedSlugs: ['tiktok-ads', 'creative-strategy', 'google-ads'],
     seo: {
-      title: 'Meta Ads e TikTok Ads para E-commerce | Ciclo E-commerce',
+      title: 'Gestão de Meta Ads para E-commerce | Ciclo E-commerce',
       description:
-        'Gestão de Meta Ads e TikTok Ads para e-commerce com foco em ROAS, CAC e escala. Criativos social first e estratégia de funil completo.',
+        'Gestão de Meta Ads (Facebook e Instagram) para e-commerce: Advantage+, CAPI, criativo como segmentação e leitura de incrementalidade além do ROAS do gerenciador.',
       keywords: [
         'meta ads ecommerce',
-        'tiktok ads ecommerce',
-        'facebook ads ecommerce',
+        'gestão de facebook ads',
         'instagram ads ecommerce',
-        'gestão mídia social paga',
+        'advantage+ shopping',
+        'agência meta ads ecommerce',
       ],
     },
   },
   {
-    slug: 'programatica-pinterest-ads',
+    slug: 'tiktok-ads',
     parentSlug: 'captacao-de-demanda',
     parentTitle: 'Captação de Demanda',
-    title: 'Programática & Pinterest Ads',
-    tagline: 'Alcance premium onde seus concorrentes ainda não chegaram',
-    heroHeadline: 'Expanda para canais que seus concorrentes ainda não dominam',
+    title: 'TikTok Ads para E-commerce',
+    tagline: 'CPM abaixo da média e a janela de eficiência ainda aberta',
+    heroHeadline: 'O canal onde o criativo nativo ainda compra atenção barata',
     heroDescription:
-      'Publicidade programática e Pinterest Ads para e-commerces que querem diversificar a aquisição além de Meta e Google — com CPMs competitivos e audiências qualificadas.',
-    what: 'Programática é a compra automatizada de espaços publicitários em milhares de sites e apps via DSPs (Demand Side Platforms). Pinterest Ads é a mídia paga da plataforma com maior intenção de compra do mundo — usuários que chegam para se inspirar e descobrir produtos.',
-    why: 'Marcas que dependem exclusivamente de Meta e Google ficam reféns dos leilões disputados nesses canais. Diversificar para programática e Pinterest expande o alcance, reduz o CPM médio e chega a audiências que não são alcançadas pelos canais principais.',
+      'Gestão de TikTok Ads para e-commerce: Smart+, GMV Max, Spark Ads com creators e produção nativa. Estrutura, criativo e mensuração para transformar alcance em receita.',
+    what: 'TikTok Ads é a plataforma de mídia do maior ambiente de descoberta de produto do país. Opera com vídeo nativo, Spark Ads sobre conteúdo de creators e campanhas automatizadas como Smart+ e GMV Max, que conectam mídia e catálogo dentro do próprio app.',
+    why: 'O CPM do TikTok segue abaixo da média de mercado e a competição por inventário ainda é menor que no Meta — mas a plataforma pune o criativo que parece anúncio. Quem produz nativo compra atenção mais barata; quem adapta peça de outro canal paga caro por alcance que não converte.',
     howItWorks: [
       {
-        step: 'Diagnóstico de diversificação',
+        step: 'Diagnóstico de conta e pixel',
         detail:
-          'Analisamos a concentração de canais atual e identificamos onde a diversificação traz maior impacto.',
+          'Validamos pixel, Events API e catálogo antes de escalar — sinal quebrado no TikTok degrada a automação mais rápido que em outras plataformas.',
       },
       {
-        step: 'Estratégia por canal',
+        step: 'Produção nativa e Spark Ads',
         detail:
-          'Definimos objetivos, formatos e audiências específicos para programática e Pinterest.',
+          'Produzimos vídeo no ritmo do feed e ativamos Spark Ads sobre conteúdo de creators, que carrega prova social e histórico de engajamento.',
       },
       {
-        step: 'Criação de materiais',
+        step: 'Estrutura Smart+ e GMV Max',
         detail:
-          'Produzimos os criativos adequados para cada ambiente: display rich media, vídeo programático e Pins patrocinados.',
+          'Distribuímos verba entre campanhas automatizadas e manuais, com metas de ROI definidas por linha de produto.',
       },
       {
-        step: 'Ativação e otimização',
+        step: 'Ciclo de teste de hooks',
         detail:
-          'Ativamos as campanhas com segmentação por contexto, audiência e intenção.',
+          'Testamos aberturas em série: no TikTok, os 3 primeiros segundos decidem o custo de toda a campanha.',
       },
       {
-        step: 'Mensuração e atribuição',
+        step: 'Escala e reciclagem',
         detail:
-          'Integramos a mensuração com os outros canais para ter visão completa do funil.',
+          'Escalamos vencedores, reciclamos ângulos com novas execuções e monitoramos fadiga por frequência e queda de hook rate.',
       },
     ],
     deliverables: [
-      'Estratégia de diversificação de mídia',
-      'Campanhas programáticas com segmentação contextual',
-      'Pinterest Ads com catálogo de produtos',
-      'Criativos adequados a cada formato',
-      'Relatório de alcance incremental',
+      'Conta estruturada com pixel e Events API validados',
+      'Produção de vídeo nativo e UGC roteirizado',
+      'Spark Ads com creators licenciados',
+      'Campanhas Smart+ / GMV Max com metas por linha',
+      'Relatório de ROAS, CPM, hook rate e fadiga de criativo',
     ],
     results: [
-      { metric: '-25%', label: 'de CPM médio vs. Meta/Google' },
-      { metric: '+40%', label: 'de alcance com mesmo budget' },
-      { metric: '3x', label: 'de intenção de compra no Pinterest' },
-      { metric: '+18%', label: 'de receita incremental atribuída' },
+      { metric: '+197%', label: 'de faturamento com escala no canal' },
+      { metric: '-45%', label: 'de CPM vs. média de paid social' },
+      { metric: '3,4x', label: 'ROAS médio com Spark Ads de creators' },
+      { metric: '25-30%', label: 'de hook rate nos criativos vencedores' },
     ],
     examples: [
       {
-        title: 'E-commerce de casa e decoração',
+        title: 'Marca de suplementos',
         description:
-          'Pinterest Shopping Ads com catálogo completo. 35% dos compradores eram novos para a marca.',
-        highlight: '35% novos clientes',
+          'Spark Ads sobre conteúdo de 12 creators, com os vídeos de melhor retenção orgânica virando anúncio.',
+        highlight: 'ROAS 4,6x',
       },
       {
-        title: 'Marca de moda premium',
+        title: 'Moda jovem',
         description:
-          'Programática em editorial fashion + retargeting. CPM 40% menor que Meta para a mesma audiência.',
-        highlight: 'CPM -40%',
+          'Série de hooks testados sobre o mesmo corpo de vídeo. A abertura vencedora reduziu o CPA da conta inteira.',
+        highlight: 'CPA -41%',
+      },
+      {
+        title: 'Beleza e skincare',
+        description:
+          'Migração gradual para GMV Max com meta de ROI por categoria, mantendo campanhas manuais para lançamento.',
+        highlight: 'GMV +132%',
+      },
+    ],
+    faq: [
+      {
+        q: 'TikTok Ads funciona para qualquer categoria?',
+        a: 'Funciona melhor em categorias com apelo visual e demonstração: beleza, moda, casa, alimentos e acessórios. Produtos técnicos ou de ticket muito alto costumam usar o canal como topo de funil, direcionando para o site em vez de fechar no app.',
+      },
+      {
+        q: 'Qual a diferença entre TikTok Ads e TikTok Shop?',
+        a: 'TikTok Ads é a plataforma de mídia paga, que pode levar tráfego para o seu site ou para a loja no app. TikTok Shop é a operação de venda nativa dentro do TikTok, com checkout, afiliados e Lives — a Ciclo tem uma frente dedicada a ela.',
+      },
+      {
+        q: 'Posso reaproveitar os criativos do Meta?',
+        a: 'Pode, mas raramente compensa. O TikTok penaliza a peça que parece anúncio de outra plataforma: marca d’água, ritmo de edição e locução de propaganda derrubam a retenção. Vale reaproveitar o ângulo, não o arquivo.',
+      },
+      {
+        q: 'O que é Spark Ads?',
+        a: 'É o formato que transforma uma publicação orgânica de creator em anúncio, mantendo os comentários, os likes e o perfil de origem. Entrega prova social real e costuma render CPM e retenção melhores que o criativo de marca.',
+      },
+    ],
+    relatedSlugs: ['meta-ads', 'tiktok-shop-social-commerce', 'creative-strategy'],
+    seo: {
+      title: 'Gestão de TikTok Ads para E-commerce | Ciclo E-commerce',
+      description:
+        'Gestão de TikTok Ads para e-commerce: Smart+, GMV Max, Spark Ads com creators e produção de vídeo nativo com CPM abaixo da média de mercado.',
+      keywords: [
+        'tiktok ads ecommerce',
+        'gestão de tiktok ads',
+        'spark ads creators',
+        'gmv max tiktok',
+        'agência tiktok ads',
+      ],
+    },
+  },
+  {
+    slug: 'programatica',
+    parentSlug: 'captacao-de-demanda',
+    parentTitle: 'Captação de Demanda',
+    title: 'Mídia Programática para E-commerce',
+    tagline: 'Alcance fora do duopólio, com controle de onde sua marca aparece',
+    heroHeadline: 'Seu público não vive só dentro de Meta e Google',
+    heroDescription:
+      'Compra programática via DSP para e-commerce: display, vídeo, CTV e áudio com curadoria de inventário, brand safety e mensuração de incrementalidade real.',
+    what: 'Programática é a compra automatizada de inventário publicitário em milhares de sites, apps, TVs conectadas e plataformas de áudio por meio de uma DSP. A operação reúne curadoria de inventário, dados de audiência, controle de frequência e verificação de visibilidade — não é apenas "comprar display barato".',
+    why: 'Marcas que dependem exclusivamente de Meta e Google ficam reféns de dois leilões cada vez mais disputados e de um teto de alcance. A programática expande o alcance incremental, reduz o CPM médio da operação e permite comprar atenção em ambientes premium — inclusive CTV, onde o e-commerce brasileiro ainda está subrepresentado.',
+    howItWorks: [
+      {
+        step: 'Estratégia e curadoria de inventário',
+        detail:
+          'Definimos onde a marca pode e não pode aparecer, com allowlists, blocklists e deals privados com publishers relevantes.',
+      },
+      {
+        step: 'Construção de audiências',
+        detail:
+          'Combinamos dados first-party, modelagem de lookalike e segmentos contextuais, sem depender de cookies de terceiros.',
+      },
+      {
+        step: 'Ativação multiformato',
+        detail:
+          'Distribuímos entre display, vídeo, CTV e áudio conforme o papel de cada formato na jornada.',
+      },
+      {
+        step: 'Brand safety e verificação',
+        detail:
+          'Monitoramos visibilidade, fraude e adjacência de conteúdo com ferramentas de verificação independentes.',
+      },
+      {
+        step: 'Medição de incrementalidade',
+        detail:
+          'Rodamos testes de holdout para provar quanto da receita é adicional — programática mal medida vira crédito indevido de last click.',
+      },
+    ],
+    deliverables: [
+      'Estratégia de canais, formatos e curadoria de inventário',
+      'Setup de DSP com audiências e deals privados',
+      'Criativos adaptados por formato (display, vídeo, CTV, áudio)',
+      'Relatório de visibilidade, frequência e brand safety',
+      'Teste de incrementalidade com leitura de receita adicional',
+    ],
+    results: [
+      { metric: '-25%', label: 'de CPM médio vs. Meta e Google' },
+      { metric: '+40%', label: 'de alcance incremental com a mesma verba' },
+      { metric: '+18%', label: 'de receita incremental atribuída em teste de holdout' },
+      { metric: '>70%', label: 'de taxa de visibilidade no inventário curado' },
+    ],
+    examples: [
+      {
+        title: 'Casa e decoração',
+        description:
+          'Display e vídeo em inventário curado de publishers de decoração, com frequência controlada por usuário.',
+        highlight: 'CPM -31%',
+      },
+      {
+        title: 'Moda premium',
+        description:
+          'CTV como topo de funil em lançamento de coleção, medido por lift de busca por marca.',
+        highlight: 'Busca por marca +64%',
       },
       {
         title: 'Alimentos e bebidas',
         description:
-          'Pinterest Ads em receitas relacionadas ao produto. CTR 2,8x maior que benchmark da categoria.',
-        highlight: 'CTR 2,8x',
+          'Segmentos contextuais em portais de gastronomia substituindo público baseado em cookie de terceiro.',
+        highlight: 'Alcance +52%',
       },
     ],
     faq: [
       {
-        q: 'O que é uma DSP?',
-        a: 'DSP (Demand Side Platform) é uma plataforma que permite comprar espaços publicitários de forma programática em múltiplos publishers simultaneamente. Exemplos: DV360, The Trade Desk, Xandr.',
+        q: 'Programática não é só display barato?',
+        a: 'Não. Display é um dos formatos; a programática abrange vídeo, CTV e áudio, com curadoria de inventário e verificação. O que separa uma operação séria de "impressão barata" é a decisão sobre onde aparecer, com que frequência e como medir.',
       },
       {
-        q: 'Pinterest funciona para qualquer categoria de produto?',
-        a: 'Pinterest tem melhor performance em categorias de descoberta: casa, decoração, moda, beleza, culinária, fitness, casamentos. Para produtos de nicho técnico ou B2B, o Pinterest raramente é um canal eficiente.',
+        q: 'Como medir resultado de programática?',
+        a: 'Por incrementalidade, não por last click. Rodamos testes de holdout geográfico e acompanhamos lift de busca por marca e de tráfego direto — modelos de último clique sistematicamente subestimam canais de topo de funil.',
       },
       {
-        q: 'Qual a diferença entre programática e display do Google?',
-        a: 'Display do Google (GDN) atinge sites na rede do Google. Programática acessa um inventário muito maior — incluindo publishers premium fora da rede do Google — com segmentação mais sofisticada por contexto e audiência.',
+        q: 'O fim do cookie de terceiros inviabiliza o canal?',
+        a: 'Não, muda a matéria-prima. A operação passou a se apoiar em dados first-party, segmentos contextuais e identificadores próprios das DSPs. Quem já tinha base própria estruturada ganhou vantagem relativa.',
+      },
+      {
+        q: 'Qual verba mínima faz sentido?',
+        a: 'Programática exige volume para sair do ruído estatístico e acessar deals relevantes. Trabalhamos o canal como camada complementar de operações que já têm busca e paid social maduros, e não como primeiro canal de mídia.',
       },
     ],
-    relatedSlugs: ['meta-ads-tiktok-ads', 'google-ads-bing-ads', 'anuncios-social-first-conversao'],
+    relatedSlugs: ['pinterest-ads', 'meta-ads', 'google-ads'],
     seo: {
-      title: 'Programática e Pinterest Ads para E-commerce | Ciclo',
+      title: 'Mídia Programática para E-commerce | Ciclo E-commerce',
       description:
-        'Publicidade programática e Pinterest Ads para diversificar a aquisição do seu e-commerce além de Meta e Google.',
+        'Mídia programática para e-commerce: display, vídeo, CTV e áudio via DSP com curadoria de inventário, brand safety e medição de incrementalidade.',
       keywords: [
-        'publicidade programática ecommerce',
-        'pinterest ads ecommerce',
-        'dsp ecommerce',
-        'diversificação mídia paga',
-        'display ads ecommerce',
+        'mídia programática ecommerce',
+        'dsp ecommerce brasil',
+        'ctv para ecommerce',
+        'programática display vídeo',
+        'agência de programática',
       ],
     },
   },
   {
-    slug: 'retail-media',
+    slug: 'pinterest-ads',
     parentSlug: 'captacao-de-demanda',
     parentTitle: 'Captação de Demanda',
-    title: 'Retail Media (Mercado Livre, Shopee, Amazon)',
-    tagline: 'Anuncie onde o cliente já está com o cartão na mão',
-    heroHeadline: 'O canal com maior taxa de conversão do e-commerce está nos marketplaces',
+    title: 'Pinterest Ads para E-commerce',
+    tagline: 'A plataforma onde a descoberta já nasce com intenção de compra',
+    heroHeadline: 'Onde as pessoas planejam o que vão comprar',
     heroDescription:
-      'Gestão de Retail Media no Mercado Livre, Shopee e Amazon: anúncios dentro dos marketplaces onde o usuário já está em modo de compra — com taxas de conversão muito superiores ao tráfego externo.',
-    what: 'Retail Media é a publicidade dentro de marketplaces como Mercado Livre, Shopee e Amazon. O diferencial é o contexto: o usuário já está em modo de compra, pesquisando produtos, comparando preços. A intenção de compra é máxima — o que resulta em taxas de conversão muito acima dos canais de tráfego externo.',
-    why: 'No Brasil, Mercado Livre concentra mais de 40% das compras online. Shopee domina as categorias de preço baixo e médio. Amazon cresce aceleradamente no segmento premium. Quem não está anunciando nesses canais está deixando o competitor aparecer primeiro para seu próprio cliente.',
+      'Gestão de Pinterest Ads para e-commerce: catálogo, Pins de produto e campanhas de conversão em uma plataforma de descoberta com janela de decisão longa e CPM baixo.',
+    what: 'Pinterest é um buscador visual em que as pessoas salvam ideias para projetos futuros — reforma, casamento, viagem, guarda-roupa. A mídia paga aparece de forma nativa entre os resultados, com catálogo integrado e Pins compráveis, alcançando o usuário na fase de planejamento.',
+    why: 'O comportamento do Pinterest é diferente do feed social: o usuário chega buscando inspiração para uma decisão de compra, e o conteúdo salvo continua gerando tráfego meses depois. Isso dá ao canal uma cauda de resultado que nenhuma outra mídia paga entrega, com competição de leilão ainda baixa no Brasil.',
     howItWorks: [
       {
-        step: 'Auditoria de presença nos marketplaces',
+        step: 'Integração de catálogo',
         detail:
-          'Analisamos a saúde das listings, a share of voice e as oportunidades de melhoria.',
+          'Conectamos o feed de produtos para habilitar Pins de produto, coleções e campanhas de Shopping.',
       },
       {
-        step: 'Otimização de listings',
+        step: 'Pesquisa de termos e tendências',
         detail:
-          'Melhoramos títulos, descrições, imagens e atributos para maximizar a relevância orgânica.',
+          'Usamos as tendências da própria plataforma para mapear a sazonalidade da categoria com antecedência — o Pinterest antecipa a intenção em semanas.',
       },
       {
-        step: 'Estratégia de Retail Media',
+        step: 'Criativo vertical e editorial',
         detail:
-          'Definimos os produtos, categorias e keywords prioritários para investimento em anúncios.',
+          'Produzimos Pins no formato e na estética da plataforma: imagem vertical, contexto de uso e texto legível.',
       },
       {
-        step: 'Ativação de campanhas',
+        step: 'Estrutura por etapa de jornada',
         detail:
-          'Configuramos e gerenciamos os anúncios em cada plataforma com otimização contínua.',
+          'Separamos campanhas de descoberta, consideração e conversão, com métricas próprias para cada etapa.',
       },
       {
-        step: 'Análise de rentabilidade',
+        step: 'Otimização e cauda longa',
         detail:
-          'Monitoramos ACoS (Custo de Anúncio sobre Vendas), TACoS (custo total) e margem por produto.',
+          'Acompanhamos o desempenho pago e o efeito orgânico residual dos Pins salvos, que segue gerando tráfego após a campanha.',
       },
     ],
     deliverables: [
-      'Auditoria de presença nos marketplaces',
-      'Otimização de listings (título, bullet points, imagens)',
-      'Gestão de campanhas de Retail Media',
-      'Análise de ACoS e rentabilidade por produto',
-      'Relatório mensal de share of voice',
+      'Catálogo integrado e Pins de produto ativos',
+      'Pesquisa de termos e calendário de sazonalidade da categoria',
+      'Produção de Pins verticais no padrão da plataforma',
+      'Campanhas por etapa de jornada com metas distintas',
+      'Relatório de conversão assistida e tráfego residual',
     ],
     results: [
-      { metric: '+156%', label: 'de GMV em marketplaces após 6 meses' },
-      { metric: '-30%', label: 'de ACoS após otimização de campanhas' },
+      { metric: '3x', label: 'de intenção de compra vs. média de social' },
+      { metric: '-34%', label: 'de CPM vs. paid social tradicional' },
+      { metric: '+28%', label: 'de tráfego residual após o fim da campanha' },
+      { metric: '2-4 meses', label: 'de janela de planejamento antecipada pela plataforma' },
+    ],
+    examples: [
+      {
+        title: 'Casa e decoração',
+        description:
+          'Catálogo completo em Pins de produto, ativado com dois meses de antecedência sobre a sazonalidade de reforma.',
+        highlight: 'ROAS 5,2x',
+      },
+      {
+        title: 'Moda feminina',
+        description:
+          'Coleções por ocasião de uso, alinhadas às buscas de guarda-roupa de estação identificadas nas tendências.',
+        highlight: 'CPA -29%',
+      },
+      {
+        title: 'Papelaria e presentes',
+        description:
+          'Campanha de descoberta no período pré-festas, com Pins que continuaram gerando tráfego na temporada seguinte.',
+        highlight: 'Tráfego residual +36%',
+      },
+    ],
+    faq: [
+      {
+        q: 'Pinterest Ads funciona para e-commerce no Brasil?',
+        a: 'Funciona especialmente bem em categorias visuais e de projeto: casa, decoração, moda, beleza, festas e papelaria. A base brasileira cresceu de forma consistente e o leilão segue menos disputado que Meta e Google.',
+      },
+      {
+        q: 'Quanto tempo leva para ver resultado?',
+        a: 'A conversão direta aparece em semanas, mas a característica do canal é a cauda: Pins salvos continuam entregando tráfego e vendas por meses. Avaliar o Pinterest apenas pela janela de 7 dias subestima o retorno real.',
+      },
+      {
+        q: 'Preciso produzir criativo exclusivo?',
+        a: 'Sim, e é barato de fazer. O formato vertical com produto em contexto de uso e texto legível tem desempenho muito superior ao de peças reaproveitadas de outras plataformas.',
+      },
+      {
+        q: 'O canal serve para topo ou fundo de funil?',
+        a: 'Para os dois, com papéis distintos. A descoberta alimenta o planejamento de compra; as campanhas de Shopping com catálogo capturam quem já definiu o que quer. A estrutura separa as duas leituras.',
+      },
+    ],
+    relatedSlugs: ['programatica', 'meta-ads', 'creative-strategy'],
+    seo: {
+      title: 'Gestão de Pinterest Ads para E-commerce | Ciclo E-commerce',
+      description:
+        'Gestão de Pinterest Ads para e-commerce: catálogo integrado, Pins de produto e campanhas por etapa de jornada com alta intenção de compra e CPM baixo.',
+      keywords: [
+        'pinterest ads ecommerce',
+        'gestão de pinterest ads',
+        'pins de produto catálogo',
+        'anunciar no pinterest brasil',
+        'pinterest para loja virtual',
+      ],
+    },
+  },
+  {
+    slug: 'mercado-livre-ads',
+    parentSlug: 'captacao-de-demanda',
+    parentTitle: 'Captação de Demanda',
+    title: 'Mercado Livre Ads para E-commerce',
+    tagline: 'O maior marketplace da América Latina, disputado no detalhe',
+    heroHeadline: 'Quem aparece primeiro no Mercado Livre leva a venda',
+    heroDescription:
+      'Gestão de Product Ads e Brand Ads no Mercado Livre: estrutura de campanhas por ACoS-alvo, otimização de anúncios, reputação e giro para vencer o leilão e o algoritmo de relevância.',
+    what: 'Mercado Livre Ads é a mídia paga dentro do maior marketplace do país: Product Ads na busca e nas páginas de produto, Brand Ads para marcas e display interno. A operação vai além do leilão — posição orgânica, reputação, preço, Mercado Envios Full e giro alimentam o mesmo algoritmo de relevância.',
+    why: 'O Mercado Livre concentra a maior fatia das compras online no Brasil, e o usuário chega com o cartão na mão: a intenção é máxima e a jornada termina ali. Não anunciar no canal significa entregar a primeira posição para o concorrente na frente do seu próprio cliente.',
+    howItWorks: [
+      {
+        step: 'Diagnóstico de catálogo e reputação',
+        detail:
+          'Auditamos títulos, fichas técnicas, fotos, preço, reputação e tipo de anúncio — mídia não corrige listing ruim, só amplifica o problema.',
+      },
+      {
+        step: 'Estrutura de Product Ads por ACoS-alvo',
+        detail:
+          'Separamos campanhas por margem e estágio do produto, com ACoS-alvo distinto para lançamento, manutenção e liquidação.',
+      },
+      {
+        step: 'Otimização de relevância orgânica',
+        detail:
+          'Trabalhamos atributos, variações e Mercado Envios Full para melhorar a posição orgânica, que reduz a dependência de mídia.',
+      },
+      {
+        step: 'Gestão de leilão e sazonalidade',
+        detail:
+          'Ajustamos lances por competitividade real da categoria e preparamos a operação para picos como Hot Sale e Black Friday.',
+      },
+      {
+        step: 'Leitura de rentabilidade',
+        detail:
+          'Medimos ACoS, TACoS e margem por SKU para separar volume que dá lucro de volume que só queima verba.',
+      },
+    ],
+    deliverables: [
+      'Auditoria de listings, reputação e competitividade',
+      'Estrutura de Product Ads segmentada por ACoS-alvo',
+      'Otimização de títulos, atributos e fichas técnicas',
+      'Calendário de campanhas para datas sazonais do canal',
+      'Relatório de ACoS, TACoS e rentabilidade por SKU',
+    ],
+    results: [
+      { metric: '+156%', label: 'de GMV no canal após 6 meses' },
+      { metric: '-30%', label: 'de ACoS após reestruturação de campanhas' },
       { metric: '1ª posição', label: 'em keywords estratégicas para 80% dos clientes' },
       { metric: '+44%', label: 'de tráfego orgânico com listings otimizados' },
     ],
     examples: [
       {
-        title: 'Marca de beleza no Mercado Livre',
+        title: 'Marca de beleza',
         description:
-          'Reestruturação de listings + campanhas de Product Ads. GMV cresceu 124% em 4 meses.',
-        highlight: 'GMV +124%',
+          'Reestruturação de Product Ads com ACoS-alvo por linha de produto e correção de fichas técnicas.',
+        highlight: 'GMV +156%',
       },
       {
-        title: 'Eletrônicos na Amazon',
+        title: 'Utilidades domésticas',
         description:
-          'Otimização de listings + Sponsored Products. ACoS caiu de 28% para 12%.',
-        highlight: 'ACoS -57%',
+          'Migração para Mercado Envios Full combinada com mídia nos SKUs de maior giro.',
+        highlight: 'ACoS -35%',
       },
       {
-        title: 'Moda na Shopee',
+        title: 'Ferramentas e construção',
         description:
-          'Campanhas de Shopee Ads com foco em categorias de maior margem. Receita cresceu 89% em 3 meses.',
-        highlight: 'Receita +89%',
+          'Campanhas específicas para Hot Sale com controle de margem por SKU durante o pico.',
+        highlight: 'Receita +92% no período',
       },
     ],
     faq: [
       {
-        q: 'Retail Media é diferente de vender no marketplace?',
-        a: 'Sim. Você pode vender no Mercado Livre sem anunciar e vice-versa. Retail Media são os anúncios dentro do marketplace para aumentar a visibilidade dos seus produtos. Mas para anunciar, você precisa ter a listing do produto na plataforma.',
+        q: 'O que é ACoS e qual é um bom número?',
+        a: 'ACoS é o investimento em mídia dividido pela receita gerada por ela. O número saudável depende da margem do produto: em categorias de margem apertada, um ACoS de 8% a 12% já pressiona o lucro; em margens maiores, 20% pode ser rentável. Por isso trabalhamos com ACoS-alvo por SKU, não com uma meta única.',
       },
       {
-        q: 'O que é ACoS?',
-        a: 'ACoS (Advertising Cost of Sales) é a porcentagem das vendas que foi para pagamento de anúncios. ACoS de 15% significa que para cada R$100 vendidos, R$15 foram para anúncios. O ACoS ideal varia por categoria e margem do produto.',
+        q: 'Anunciar melhora minha posição orgânica?',
+        a: 'Indiretamente, sim. Mídia gera visitas, vendas e avaliações, e esses sinais alimentam a relevância orgânica do anúncio. Mas o efeito só se sustenta se o listing, o preço e a logística estiverem competitivos.',
       },
       {
-        q: 'Mercado Livre, Shopee ou Amazon: qual priorizar?',
-        a: 'Depende da categoria e do ticket médio. Mercado Livre domina volume geral. Shopee domina preço baixo e médio (especialmente moda e casa). Amazon domina eletrônicos e produtos premium. Para a maioria das marcas, Mercado Livre é o primeiro passo.',
+        q: 'Vale a pena usar Mercado Envios Full?',
+        a: 'Na maioria das categorias, sim. O selo Full melhora a posição, a conversão e a experiência de prazo, e reduz o custo de mídia necessário para o mesmo volume de vendas.',
       },
       {
-        q: 'Como Retail Media e Google Ads se complementam?',
-        a: 'Retail Media captura quem já está no marketplace; Google Shopping captura quem pesquisa no Google e pode ir para qualquer lugar (marketplace ou site próprio). São canais complementares — o usuário que não converte no Google pode ser capturado no Mercado Livre.',
+        q: 'Retail Media substitui o Google Ads?',
+        a: 'Não, complementa. O marketplace captura quem já está decidido a comprar dentro dele; o Google captura a busca aberta e leva tráfego para a sua loja própria, onde a margem e o dado do cliente ficam com você.',
       },
     ],
-    relatedSlugs: ['google-ads-bing-ads', 'meta-ads-tiktok-ads', 'anuncios-social-first-conversao'],
+    relatedSlugs: ['shopee-ads', 'amazon-ads', 'google-ads'],
     seo: {
-      title: 'Retail Media - Mercado Livre, Shopee e Amazon | Ciclo E-commerce',
+      title: 'Gestão de Mercado Livre Ads | Ciclo E-commerce',
       description:
-        'Gestão de Retail Media no Mercado Livre, Shopee e Amazon. Anúncios dentro dos marketplaces com as maiores taxas de conversão do e-commerce.',
+        'Gestão de Mercado Livre Ads: Product Ads e Brand Ads com estrutura por ACoS-alvo, otimização de listings e leitura de rentabilidade por SKU.',
       keywords: [
-        'retail media ecommerce',
-        'anúncios mercado livre',
-        'amazon ads brasil',
+        'mercado livre ads',
+        'product ads mercado livre',
+        'acos mercado livre',
+        'agência mercado livre',
+        'anunciar no mercado livre',
+      ],
+    },
+  },
+  {
+    slug: 'shopee-ads',
+    parentSlug: 'captacao-de-demanda',
+    parentTitle: 'Captação de Demanda',
+    title: 'Shopee Ads para E-commerce',
+    tagline: 'Volume, giro e disputa de preço no marketplace que mais cresce',
+    heroHeadline: 'Onde o volume se conquista no leilão e na operação',
+    heroDescription:
+      'Gestão de Shopee Ads: Busca, Descoberta e Loja com estrutura por margem, participação em campanhas da plataforma e controle de rentabilidade em um canal movido a giro.',
+    what: 'Shopee Ads reúne os formatos de mídia dentro da Shopee: anúncios de busca por palavra-chave, anúncios de descoberta em vitrines e recomendações, e anúncios de loja. O canal opera em uma lógica própria, em que campanhas da plataforma, cupons e frete grátis influenciam tanto o resultado quanto o lance.',
+    why: 'A Shopee consolidou-se como o marketplace de maior crescimento no Brasil, forte em ticket baixo e médio e em compra por impulso. O público é sensível a preço e a promoção, o que exige uma gestão que enxergue mídia, cupom e frete como um único custo de aquisição.',
+    howItWorks: [
+      {
+        step: 'Diagnóstico de catálogo e preço',
+        detail:
+          'Avaliamos competitividade de preço, avaliações, taxa de resposta e prazo — fatores que a plataforma pondera antes do lance.',
+      },
+      {
+        step: 'Estrutura por formato',
+        detail:
+          'Separamos Busca (intenção declarada), Descoberta (impulso) e Loja, cada um com meta e leitura próprias.',
+      },
+      {
+        step: 'Calendário de campanhas da plataforma',
+        detail:
+          'Planejamos participação nas datas duplas e campanhas oficiais, quando o tráfego do canal multiplica.',
+      },
+      {
+        step: 'Gestão integrada de cupom e frete',
+        detail:
+          'Tratamos mídia, cupom e subsídio de frete como um custo único de aquisição, evitando a ilusão de ACoS baixo com margem negativa.',
+      },
+      {
+        step: 'Controle de rentabilidade',
+        detail:
+          'Monitoramos margem por SKU e cortamos rapidamente o que gira sem lucro, mesmo com bom volume.',
+      },
+    ],
+    deliverables: [
+      'Auditoria de catálogo, preço e indicadores de loja',
+      'Campanhas de Busca, Descoberta e Loja estruturadas',
+      'Planejamento das datas e campanhas oficiais da plataforma',
+      'Gestão integrada de mídia, cupons e frete',
+      'Relatório de ACoS, margem por SKU e participação por formato',
+    ],
+    results: [
+      { metric: '+128%', label: 'de GMV em 6 meses de operação estruturada' },
+      { metric: '-27%', label: 'de custo de aquisição somando mídia, cupom e frete' },
+      { metric: '3,2x', label: 'de tráfego nas datas duplas com planejamento antecipado' },
+      { metric: '+38%', label: 'de conversão com listings e avaliações trabalhados' },
+    ],
+    examples: [
+      {
+        title: 'Acessórios e bijuterias',
+        description:
+          'Campanhas de Descoberta para giro de catálogo combinadas com cupom controlado por faixa de margem.',
+        highlight: 'GMV +128%',
+      },
+      {
+        title: 'Moda básica',
+        description:
+          'Preparação antecipada para data dupla com estoque, preço e verba definidos por SKU.',
+        highlight: 'Receita 3,2x no período',
+      },
+      {
+        title: 'Casa e organização',
+        description:
+          'Corte de SKUs que giravam com margem negativa após leitura integrada de mídia e subsídios.',
+        highlight: 'Margem +19 p.p.',
+      },
+    ],
+    faq: [
+      {
+        q: 'Shopee funciona para marca com ticket médio mais alto?',
+        a: 'A força do canal está em ticket baixo e médio, onde a compra por impulso é frequente. Marcas de ticket mais alto costumam usar a Shopee para linhas de entrada e giro de catálogo, mantendo o portfólio premium em outros canais.',
+      },
+      {
+        q: 'Como o cupom afeta a leitura de resultado?',
+        a: 'Diretamente. Uma campanha pode mostrar ACoS excelente e ainda assim dar prejuízo se o cupom e o subsídio de frete não entrarem na conta. Medimos sempre o custo de aquisição completo, não apenas o gasto de mídia.',
+      },
+      {
+        q: 'Vale participar das campanhas oficiais da plataforma?',
+        a: 'Vale quando há preparação: estoque, preço competitivo e verba planejada. Entrar em data dupla sem preparo costuma gerar ruptura de estoque, atraso e queda de reputação, que custam caro depois.',
+      },
+      {
+        q: 'Qual a diferença entre anúncio de Busca e de Descoberta?',
+        a: 'Busca atende quem já digitou o que quer, com intenção declarada e conversão maior. Descoberta aparece em vitrines e recomendações, alcança compra por impulso e é o formato que sustenta volume no canal.',
+      },
+    ],
+    relatedSlugs: ['mercado-livre-ads', 'amazon-ads', 'tiktok-shop-social-commerce'],
+    seo: {
+      title: 'Gestão de Shopee Ads | Ciclo E-commerce',
+      description:
+        'Gestão de Shopee Ads: campanhas de Busca, Descoberta e Loja com leitura integrada de mídia, cupom e frete e controle de margem por SKU.',
+      keywords: [
         'shopee ads',
-        'gestão marketplace ecommerce',
+        'anunciar na shopee',
+        'gestão shopee ads',
+        'acos shopee',
+        'agência shopee marketplace',
+      ],
+    },
+  },
+  {
+    slug: 'amazon-ads',
+    parentSlug: 'captacao-de-demanda',
+    parentTitle: 'Captação de Demanda',
+    title: 'Amazon Ads para E-commerce',
+    tagline: 'Buy Box, conteúdo A+ e o leilão mais técnico do varejo online',
+    heroHeadline: 'Na Amazon, quem domina o detalhe domina a categoria',
+    heroDescription:
+      'Gestão de Amazon Ads: Sponsored Products, Brands e Display com estrutura por match type, conteúdo A+, disputa de Buy Box e leitura de TACoS.',
+    what: 'Amazon Ads engloba Sponsored Products, Sponsored Brands e Sponsored Display dentro do marketplace. O canal é o mais técnico entre os retail medias: exige domínio de correspondências de palavra-chave, ASIN targeting, conteúdo da página de produto e a disputa pela Buy Box, que define quem recebe a venda.',
+    why: 'A Amazon cresce com força no segmento premium brasileiro e concentra um público fiel, com alta recorrência via Prime. É o canal em que a qualidade da página de produto — títulos, bullets, conteúdo A+ e avaliações — influencia diretamente o custo da mídia, porque a plataforma premia relevância com leilão mais barato.',
+    howItWorks: [
+      {
+        step: 'Auditoria de listing e Buy Box',
+        detail:
+          'Revisamos títulos, bullets, imagens, conteúdo A+ e as condições que determinam a posse da Buy Box.',
+      },
+      {
+        step: 'Estrutura por correspondência',
+        detail:
+          'Separamos campanhas automáticas de manuais e organizamos exata, frase e ampla com papéis distintos de descoberta e colheita.',
+      },
+      {
+        step: 'ASIN targeting e defesa de marca',
+        detail:
+          'Atacamos páginas de concorrentes e defendemos as próprias, evitando que a verba do concorrente converta no seu detalhe de produto.',
+      },
+      {
+        step: 'Sponsored Brands e Display',
+        detail:
+          'Usamos os formatos de marca para capturar categoria e remarketing dentro e fora do marketplace.',
+      },
+      {
+        step: 'Leitura de TACoS',
+        detail:
+          'Acompanhamos TACoS — mídia sobre receita total, não só a atribuída — para saber se a mídia está construindo posição orgânica ou apenas sustentando vendas.',
+      },
+    ],
+    deliverables: [
+      'Auditoria de listings, conteúdo A+ e Buy Box',
+      'Estrutura de Sponsored Products por correspondência',
+      'Campanhas de ASIN targeting ofensivas e defensivas',
+      'Sponsored Brands e Display ativados por objetivo',
+      'Relatório de ACoS, TACoS e participação orgânica por ASIN',
+    ],
+    results: [
+      { metric: '4,7x', label: 'de ROAS médio em Sponsored Products' },
+      { metric: '-26%', label: 'de TACoS com ganho de posição orgânica' },
+      { metric: '+63%', label: 'de conversão após conteúdo A+ reformulado' },
+      { metric: '+41%', label: 'de participação de Buy Box em SKUs disputados' },
+    ],
+    examples: [
+      {
+        title: 'Eletrônicos',
+        description:
+          'Reestruturação por correspondência com colheita de termos das campanhas automáticas para as exatas.',
+        highlight: 'ACoS -31%',
+      },
+      {
+        title: 'Suplementos e saúde',
+        description:
+          'Conteúdo A+ reformulado com foco em objeções de compra, reduzindo o custo do leilão por ganho de relevância.',
+        highlight: 'Conversão +63%',
+      },
+      {
+        title: 'Cuidados pessoais',
+        description:
+          'ASIN targeting defensivo nas páginas próprias para bloquear a mídia do concorrente no momento da decisão.',
+        highlight: 'Receita defendida +28%',
+      },
+    ],
+    faq: [
+      {
+        q: 'Qual a diferença entre ACoS e TACoS?',
+        a: 'ACoS mede o investimento sobre a receita gerada pela mídia. TACoS mede o investimento sobre a receita total do produto, incluindo a orgânica. TACoS caindo com vendas subindo é o sinal de que a mídia está construindo posição orgânica sustentável.',
+      },
+      {
+        q: 'O que é a Buy Box e por que ela importa?',
+        a: 'É a caixa de compra que define qual vendedor recebe o pedido quando vários ofertam o mesmo produto. Sem a Buy Box, o anúncio perde eficiência drasticamente — por isso preço, prazo, estoque e reputação entram na estratégia de mídia.',
+      },
+      {
+        q: 'Preciso de conteúdo A+?',
+        a: 'Para categorias competitivas, sim. O conteúdo A+ melhora a conversão da página, e conversão melhor significa leilão mais barato: a Amazon favorece anúncios que convertem, reduzindo o custo por clique necessário para a mesma posição.',
+      },
+      {
+        q: 'Vale anunciar em páginas de concorrentes?',
+        a: 'Vale nos dois sentidos. O ASIN targeting ofensivo captura o cliente comparando alternativas e o defensivo protege suas próprias páginas — em categorias disputadas, a defesa costuma ter retorno maior que o ataque.',
+      },
+    ],
+    relatedSlugs: ['mercado-livre-ads', 'shopee-ads', 'google-ads'],
+    seo: {
+      title: 'Gestão de Amazon Ads | Ciclo E-commerce',
+      description:
+        'Gestão de Amazon Ads: Sponsored Products, Brands e Display com estrutura por correspondência, conteúdo A+, Buy Box e leitura de TACoS.',
+      keywords: [
+        'amazon ads brasil',
+        'sponsored products amazon',
+        'tacos amazon',
+        'buy box amazon',
+        'agência amazon ads',
       ],
     },
   },
@@ -1588,7 +1892,7 @@ export const servicos: Servico[] = [
         a: 'Notion, Confluence e Google Sites são as mais usadas. O importante é que a ferramenta seja acessível para toda a equipe e fácil de manter. Começamos com o que a empresa já usa antes de recomendar uma nova ferramenta.',
       },
     ],
-    relatedSlugs: ['analytics-bi', 'growth-continuo', 'anuncios-social-first-conversao'],
+    relatedSlugs: ['analytics-bi', 'growth-continuo', 'creative-strategy'],
     seo: {
       title: 'Processos e Playbooks para E-commerce | Ciclo E-commerce',
       description:
@@ -1680,15 +1984,15 @@ export const servicos: Servico[] = [
         a: 'Os primeiros resultados aparecem nos primeiros 30-45 dias, com os experimentos de maior impacto e menor complexidade. O valor acumulado fica evidente a partir de 3-6 meses, quando os aprendizados se somam.',
       },
       {
-        q: 'Growth funciona para e-commerces pequenos?',
-        a: 'Sim, mas a escala é diferente. E-commerces menores têm menos volume para testes estatisticamente significativos, então priorizamos experimentos de maior magnitude e aceitamos resultados com menor significância estatística.',
+        q: 'Qual volume de operação o Growth Contínuo exige?',
+        a: 'O método pressupõe volume suficiente para testes com significância estatística — é por isso que trabalhamos com operações consolidadas, de médio e grande porte. Com tráfego e receita relevantes, o ciclo de experimentação entrega aprendizado acionável a cada sprint.',
       },
       {
         q: 'A Ciclo faz growth junto com o time do cliente?',
         a: 'Sim. Growth Contínuo é sempre um trabalho conjunto: a Ciclo traz a metodologia, os dados e a análise; o time do cliente traz o conhecimento do produto, do cliente e da operação. O resultado é melhor quando as duas partes estão envolvidas.',
       },
     ],
-    relatedSlugs: ['analytics-bi', 'processos-playbooks', 'anuncios-social-first-conversao'],
+    relatedSlugs: ['analytics-bi', 'processos-playbooks', 'creative-strategy'],
     seo: {
       title: 'Growth Contínuo para E-commerce | Ciclo E-commerce',
       description:

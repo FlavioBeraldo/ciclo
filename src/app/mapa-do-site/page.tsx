@@ -36,20 +36,23 @@ const sections = [
   {
     heading: 'Geração de Demanda — serviços',
     links: [
-      { label: 'Produção de Conteúdo para Redes Sociais', href: '/servicos/producao-conteudo-redes-sociais' },
       { label: 'TikTok Shop (Social Commerce)', href: '/tiktok-shop' },
       { label: 'Gestão de Creators e Influenciadores', href: '/servicos/gestao-creators-influenciadores' },
-      { label: 'OOH Digital', href: '/servicos/ooh-digital' },
     ],
   },
   {
     heading: 'Captação de Demanda — serviços',
     links: [
-      { label: 'Produção e criação de anúncios Social First', href: '/servicos/anuncios-social-first-conversao' },
-      { label: 'Google Ads / Bing Ads', href: '/servicos/google-ads-bing-ads' },
-      { label: 'Meta Ads / TikTok Ads', href: '/servicos/meta-ads-tiktok-ads' },
-      { label: 'Programática / Pinterest Ads', href: '/servicos/programatica-pinterest-ads' },
-      { label: 'Retail Media (Mercado Livre / Shopee / Amazon)', href: '/servicos/retail-media' },
+      { label: 'Creative Strategy', href: '/servicos/creative-strategy' },
+      { label: 'Google Ads', href: '/servicos/google-ads' },
+      { label: 'Bing Ads', href: '/servicos/bing-ads' },
+      { label: 'Meta Ads', href: '/servicos/meta-ads' },
+      { label: 'TikTok Ads', href: '/servicos/tiktok-ads' },
+      { label: 'Mídia Programática', href: '/servicos/programatica' },
+      { label: 'Pinterest Ads', href: '/servicos/pinterest-ads' },
+      { label: 'Mercado Livre Ads', href: '/servicos/mercado-livre-ads' },
+      { label: 'Shopee Ads', href: '/servicos/shopee-ads' },
+      { label: 'Amazon Ads', href: '/servicos/amazon-ads' },
     ],
   },
   {

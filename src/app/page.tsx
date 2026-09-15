@@ -4,6 +4,10 @@ import Header from '@/components/Header'
 export const metadata: Metadata = {
   alternates: { canonical: 'https://cicloecommerce.com.br' },
 }
+
+// ISR: mantém "Últimos artigos" em dia conforme novos posts são publicados
+// (inclusive os agendados no Keystatic, que entram no ar na data marcada).
+export const revalidate = 900
 import Hero from '@/components/Hero'
 import BrandsStrip from '@/components/BrandsStrip'
 import CommonErrorSection from '@/components/CommonErrorSection'
