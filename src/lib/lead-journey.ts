@@ -23,7 +23,7 @@ export interface LeadJourney {
   pages: number
 }
 
-const SITE_SUFFIX = /\s*[|–-]\s*Ciclo( E-?commerce)?\s*$/i
+const SITE_SUFFIX = /\s*[|–-]\s*Ciclo(\s+(E-?commerce|Blog))?\s*$/i
 
 export function classifyPath(path: string): ContentKind {
   const p = (path || '/').split('?')[0].split('#')[0]
@@ -83,7 +83,16 @@ export async function getLeadJourney(uid: string | undefined, landingPage?: stri
   }
   steps = steps.filter((s) => s.path && !IGNORE_PATHS.test(s.path))
 
-  const entryStep = steps[0] ?? (landingPage ? { occurred_at: '', path: landingPage.split('?')[0], title: null } : null)
+  // Entrada = landing page do primeiro toque (cookie ciclo_attr); o título vem de
+  // qualquer page_view do mesmo caminho. Sem cookie, a primeira página registrada.
+  let entryStep: JourneyStep | null = null
+  if (landingPage) {
+    const path = landingPage.split('?')[0].split('#')[0] || '/'
+    const known = steps.find((s) => s.path.split('?')[0] === path)
+    entryStep = known ?? { occurred_at: '', path, title: null }
+  } else {
+    entryStep = steps[0] ?? null
+  }
   const entry = entryStep
     ? { label: contentLabel(entryStep), path: entryStep.path, kind: classifyPath(entryStep.path) }
     : null
