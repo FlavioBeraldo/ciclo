@@ -5,6 +5,20 @@ import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import { CheckCircle2, ArrowRight, Users, TrendingUp, Zap, BarChart3, Target, RefreshCw } from 'lucide-react'
 import YouTubeFacade from '@/components/ui/YouTubeFacade'
+import { newEventId, pushConversion } from '@/lib/conversions'
+import { getAttributionPayload } from '@/lib/attribution'
+
+// Clique no checkout (Hubla) = begin_checkout / InitiateCheckout (R$ 37,90)
+function trackCheckoutClick(placement: string) {
+  pushConversion('begin_checkout', {
+    eventId: newEventId(),
+    attribution: getAttributionPayload(),
+    value: 37.9,
+    currency: 'BRL',
+    contentName: 'ecomshift',
+    extra: { placement, items_count: 1 },
+  })
+}
 
 const PAYMENT_URL = 'https://pay.hub.la/4JzioLT4Af7962CGf2by'
 const PRICE = 'R$ 37,90'
@@ -70,6 +84,7 @@ function CTAButton({ className = '' }: { className?: string }) {
       href={PAYMENT_URL}
       target="_blank"
       rel="noopener noreferrer"
+      onClick={() => trackCheckoutClick('cta')}
       className={`inline-flex items-center gap-2 bg-[#A100FF] hover:bg-[#8800DD] text-white font-bold rounded-full px-8 py-4 text-base transition-all duration-300 hover:shadow-[0_0_40px_rgba(161,0,255,0.6)] active:scale-95 ${className}`}
     >
       Quero acessar por {PRICE}
@@ -129,6 +144,7 @@ export default function EcomShiftInteractive() {
                 href={PAYMENT_URL}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() => trackCheckoutClick('header')}
                 className="inline-flex items-center gap-2 bg-[#A100FF] hover:bg-[#8800DD] text-white font-bold rounded-full px-5 py-2.5 text-sm transition-all duration-300 hover:shadow-[0_0_30px_rgba(161,0,255,0.5)] active:scale-95 whitespace-nowrap"
               >
                 Quero acessar
