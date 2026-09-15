@@ -205,6 +205,8 @@ export interface LeadInput {
   pipelineHint?: string
   attribution?: unknown
   linkedin?: LinkedInProfile | null
+  /** Pares extras gravados no JSON "Atribuição extra" (ex.: event_id, internal) */
+  extraMerge?: Record<string, string | boolean>
 }
 
 /**
@@ -215,7 +217,7 @@ export interface LeadInput {
 export async function createPipedriveLead(
   input: LeadInput
 ): Promise<{ success: boolean; dealId?: number; personId?: number }> {
-  const { name, email, phone = '', company, objetivo = '', pipelineHint, attribution, linkedin } = input
+  const { name, email, phone = '', company, objetivo = '', pipelineHint, attribution, linkedin, extraMerge } = input
 
   const [stageId, orgId, ownerId] = await Promise.all([
     findStageId(pipelineHint),
@@ -243,16 +245,16 @@ export async function createPipedriveLead(
       // TODO: com acesso futuro ao scope r_basicprofile, mapear
       //   headline -> DEAL_FIELD_CARGO e vanityName -> DEAL_FIELD_LINKEDIN como URL
       ...(linkedin ? { [DEAL_FIELD_LINKEDIN]: `linkedin-id:${linkedin.sub}`.slice(0, 255) } : {}),
-      ...attributionDealProps(
-        attribution,
-        linkedin
+      ...attributionDealProps(attribution, {
+        ...(extraMerge ?? {}),
+        ...(linkedin
           ? {
               linkedin_verified: true,
               linkedin_sub: linkedin.sub,
               ...(linkedin.picture ? { linkedin_picture: linkedin.picture } : {}),
             }
-          : undefined
-      ),
+          : {}),
+      }),
     }),
   })
   const dealData = await dealRes.json()

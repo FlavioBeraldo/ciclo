@@ -1,7 +1,19 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { randomUUID } from 'node:crypto'
 import { createPipedriveLead } from '@/lib/pipedrive-server'
 import { LI_COOKIE, verifyProfile } from '@/lib/linkedin-session'
-import { bindVisitorToLead } from '@/lib/identity-server'
+import { bindVisitorToLead, UID_COOKIE } from '@/lib/identity-server'
+import { clientInfoFromRequest, isInternalEmail, sendMetaEvent } from '@/lib/meta-capi'
+
+export const runtime = 'nodejs'
+
+// Conteúdo do evento Lead por origem do formulário (aparece na Meta como content_name)
+function leadContent(pipeline: string | undefined, source: string | undefined) {
+  if (pipeline?.toLowerCase() === 'playbook') {
+    return { content_name: 'playbook-social-commerce', content_category: 'material', lead_type: 'playbook' }
+  }
+  return { content_name: 'fale-com-especialista', content_category: 'contato', lead_type: 'contato', form_source: source }
+}
 
 export async function POST(req: NextRequest) {
   if (!process.env.PIPEDRIVE_API_TOKEN) {
@@ -10,7 +22,10 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    const { name, email, phone, whatsapp, company, message, storeUrl, annualRevenue, segment, pipeline, attribution } = await req.json()
+    const {
+      name, email, phone, whatsapp, company, message, storeUrl, annualRevenue, segment, pipeline, attribution,
+      event_id: eventIdFromClient, page_url,
+    } = await req.json()
 
     // Cadastro via LinkedIn: o perfil vem do cookie httpOnly ASSINADO (não do body),
     // então "verificado" é garantido pelo servidor, não pelo cliente.
@@ -26,15 +41,25 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Dados inválidos' }, { status: 400 })
     }
 
+    // event_id compartilhado com o Pixel (dedup navegador <-> servidor)
+    const eventId: string =
+      typeof eventIdFromClient === 'string' && eventIdFromClient.length >= 8 && eventIdFromClient.length <= 64
+        ? eventIdFromClient
+        : randomUUID()
+    const internal = isInternalEmail(email)
+    const attr = (typeof attribution === 'object' && attribution !== null ? attribution : {}) as Record<string, string | undefined>
+    const pipelineHint = typeof pipeline === 'string' && pipeline.trim() ? pipeline.trim() : undefined
+
     const result = await createPipedriveLead({
       name,
       email,
       phone: phone ?? whatsapp ?? '',
       company,
       objetivo,
-      pipelineHint: typeof pipeline === 'string' && pipeline.trim() ? pipeline.trim() : undefined,
+      pipelineHint,
       attribution,
       linkedin: liProfile,
+      extraMerge: { event_id: eventId, ...(internal ? { internal: true } : {}) },
     })
 
     if (!result.success) {
@@ -42,8 +67,52 @@ export async function POST(req: NextRequest) {
     }
 
     // Identidade: cookie ciclo_uid + vínculo pessoa<->navegação (pós-aceite LGPD)
-    const res = NextResponse.json({ success: true })
-    await bindVisitorToLead(req, res, { personId: result.personId, email })
+    const res = NextResponse.json({ success: true, event_id: eventId })
+    const client = clientInfoFromRequest(req)
+    const uid =
+      (await bindVisitorToLead(req, res, {
+        personId: result.personId,
+        email,
+        match: { fbp: attr.fbp, fbc: attr.fbc, ...client },
+      })) ?? req.cookies.get(UID_COOKIE)?.value
+
+    // API de Conversões (Meta): mesmo event_id do Pixel; pula e-mails internos
+    if (!internal) {
+      const [firstName, ...rest] = String(name).trim().split(/\s+/)
+      const origin = req.headers.get('origin') ?? req.nextUrl.origin
+      const eventSourceUrl =
+        typeof page_url === 'string' && page_url.startsWith('http')
+          ? page_url
+          : `${origin}${pipelineHint?.toLowerCase() === 'playbook' ? '/playbook-social-commerce' : '/#contato'}`
+      await sendMetaEvent({
+        eventName: 'Lead',
+        eventId,
+        actionSource: 'website',
+        eventSourceUrl,
+        userData: {
+          email,
+          phone: phone ?? whatsapp ?? null,
+          firstName,
+          lastName: rest.join(' ') || null,
+          externalId: uid ?? null,
+          fbp: attr.fbp ?? req.cookies.get('_fbp')?.value ?? null,
+          fbc: attr.fbc ?? req.cookies.get('_fbc')?.value ?? null,
+          ...client,
+        },
+        customData: {
+          ...leadContent(pipelineHint, undefined),
+          lead_source: attr.source,
+          lead_medium: attr.medium,
+          lead_campaign: attr.campaign,
+          deal_id: result.dealId,
+          pipeline: pipelineHint ?? 'Site/WhatsApp',
+        },
+        context: { dealId: result.dealId, personId: result.personId, uid },
+      })
+    } else {
+      console.info('[Meta CAPI] Lead interno ignorado:', email)
+    }
+
     return res
   } catch (err) {
     console.error('[Pipedrive] Erro interno:', err)
