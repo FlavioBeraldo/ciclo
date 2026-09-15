@@ -1,9 +1,10 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextRequest, NextResponse, after } from 'next/server'
 import { randomUUID } from 'node:crypto'
 import { createPipedriveLead } from '@/lib/pipedrive-server'
 import { LI_COOKIE, verifyProfile } from '@/lib/linkedin-session'
 import { bindVisitorToLead, UID_COOKIE } from '@/lib/identity-server'
 import { clientInfoFromRequest, isInternalEmail, sendMetaEvent } from '@/lib/meta-capi'
+import { applyJourneyToDeal, getLeadJourney } from '@/lib/lead-journey'
 
 export const runtime = 'nodejs'
 
@@ -76,6 +77,14 @@ export async function POST(req: NextRequest) {
         match: { fbp: attr.fbp, fbc: attr.fbc, ...client },
       })) ?? req.cookies.get(UID_COOKIE)?.value
 
+    // Jornada de conteúdo (posts/páginas vistos antes de converter) -> Pipedrive + Meta
+    const conversionLabel = pipelineHint?.toLowerCase() === 'playbook' ? 'Playbook Social Commerce' : 'Formulário de contato'
+    const journey = await getLeadJourney(uid, attr.landing_page, pipelineHint?.toLowerCase() === 'playbook' ? 'playbook' : 'home')
+    if (result.dealId) {
+      const dealId = result.dealId
+      after(() => applyJourneyToDeal(dealId, journey, conversionLabel))
+    }
+
     // API de Conversões (Meta): mesmo event_id do Pixel; pula e-mails internos
     if (!internal) {
       const [firstName, ...rest] = String(name).trim().split(/\s+/)
@@ -104,6 +113,8 @@ export async function POST(req: NextRequest) {
           lead_source: attr.source,
           lead_medium: attr.medium,
           lead_campaign: attr.campaign,
+          content_source: journey.entry?.label,
+          content_last: journey.lastContent?.label,
           deal_id: result.dealId,
           pipeline: pipelineHint ?? 'Site/WhatsApp',
         },
