@@ -7,8 +7,10 @@ import { m } from 'framer-motion'
 import Button from './ui/Button'
 import Section from './ui/Section'
 import PhoneField from './ui/PhoneField'
+import { useRouter } from 'next/navigation'
 import { getAttributionPayload } from '@/lib/attribution'
 import { track } from '@/lib/track'
+import { newEventId, pushConversion, splitName, waitForTags } from '@/lib/conversions'
 
 const schema = z.object({
   name: z.string().min(2, 'Nome deve ter ao menos 2 caracteres'),
@@ -53,30 +55,39 @@ const labelClass = 'block text-sm text-[#A1A1AA] mb-1.5'
 const errorClass = 'text-red-400 text-xs mt-1'
 
 export default function LeadForm() {
+  const router = useRouter()
   const { register, control, handleSubmit, formState: { errors, isSubmitting } } = useForm<FormData>({
     resolver: zodResolver(schema),
   })
 
   const onSubmit = async (data: FormData) => {
     const attribution = getAttributionPayload()
-    try {
-      await fetch('/api/pipedrive', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...data, source: 'Site/WhatsApp', attribution }),
-      })
-    } catch {
-      // Falha no Pipedrive não bloqueia o redirect
-    }
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    ;(window as any).dataLayer?.push({
-      event: 'generate_lead',
-      lead_source: attribution.source,
-      lead_medium: attribution.medium,
-      lead_campaign: attribution.campaign,
+    // Um único event_id para Pixel (navegador), CAPI (servidor), GA4 e Google Ads
+    const eventId = newEventId()
+
+    // 1) Conversão no dataLayer ANTES de qualquer navegação (o GTM hasheia o user_data)
+    pushConversion('generate_lead', {
+      eventId,
+      attribution,
+      form: 'contato',
+      contentName: 'fale-com-especialista',
+      userData: { email: data.email, phone_number: data.phone, ...splitName(data.name) },
+      extra: { annual_revenue: data.annualRevenue, segment: data.segment },
     })
     track('form_submit', { form: 'contato' })
-    window.location.href = '/obrigado'
+
+    // 2) CRM + CAPI no servidor (mesmo event_id) em paralelo com os tags do GTM
+    const crm = fetch('/api/pipedrive', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ...data, source: 'Site/WhatsApp', attribution, event_id: eventId, page_url: window.location.href }),
+    }).catch(() => {
+      // Falha no Pipedrive não bloqueia o redirect
+    })
+    await Promise.all([crm, waitForTags(eventId)])
+
+    // 3) Só navega depois que Pixel/GA4 dispararam (navegação client-side preserva o GTM)
+    router.push('/obrigado')
   }
 
   return (
