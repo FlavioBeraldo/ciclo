@@ -15,6 +15,18 @@ export interface Servico {
   faq: { q: string; a: string }[]
   relatedSlugs: string[]
   seo: { title: string; description: string; keywords: string[] }
+  /**
+   * Diagramas explicativos (opcional). O de `position: 'mechanism'` entra logo
+   * após "Por que importa"; o de `position: 'process'`, após "Como funciona".
+   */
+  visuals?: {
+    position: 'mechanism' | 'process'
+    src: string
+    alt: string
+    eyebrow: string
+    title: string
+    caption?: string
+  }[]
 }
 
 export const servicos: Servico[] = [
@@ -331,6 +343,26 @@ export const servicos: Servico[] = [
       },
     ],
     relatedSlugs: ['meta-ads', 'tiktok-ads', 'google-ads'],
+    visuals: [
+      {
+        position: 'mechanism',
+        src: '/servicos/creative-strategy-mecanismo.svg',
+        alt: 'Diagrama: quatro ângulos de criativo entram no algoritmo e cada um alcança um público diferente — dor resolvida, prova social, comparação e bastidor',
+        eyebrow: 'O mecanismo',
+        title: 'Como o criativo virou a segmentação',
+        caption:
+          'O algoritmo não pergunta mais quem você quer atingir: ele observa quem responde a cada mensagem e procura mais pessoas parecidas. Por isso quatro ângulos distintos alcançam quatro bolsos de audiência — e quatro variações do mesmo ângulo alcançam um só.',
+      },
+      {
+        position: 'process',
+        src: '/servicos/creative-strategy-esteira.svg',
+        alt: 'Diagrama da esteira de produção em cinco estações — pesquisa, roteirização, produção, edição e publicação — com o aprendizado dos dados voltando para a pesquisa',
+        eyebrow: 'Como opera',
+        title: 'A esteira que sustenta o volume',
+        caption:
+          'Criativo em escala não nasce de esforço heroico: nasce de processo. A esteira roda em cadência semanal, cada teste isola uma variável e o que os dados ensinam volta para a pesquisa do ciclo seguinte.',
+      },
+    ],
     seo: {
       title: 'Creative Strategy para E-commerce | Ciclo E-commerce',
       description:

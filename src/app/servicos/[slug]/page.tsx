@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
+import Image from 'next/image'
 import {
   ArrowRight,
   Check,
@@ -85,6 +86,40 @@ export default async function ServicoPage({ params }: PageProps) {
         text: a,
       },
     })),
+  }
+
+
+  // Diagramas explicativos opcionais (ver campo `visuals` em src/lib/servicos.ts)
+  const renderVisual = (position: 'mechanism' | 'process') => {
+    const v = servico.visuals?.find((x) => x.position === position)
+    if (!v) return null
+    return (
+      <section aria-labelledby={`visual-${position}-heading`}>
+        <div className="mb-8">
+          <p className="text-xs font-bold text-[#A100FF] uppercase tracking-widest mb-3">
+            {v.eyebrow}
+          </p>
+          <h2
+            id={`visual-${position}-heading`}
+            className="text-2xl sm:text-3xl font-bold text-white max-w-xl"
+          >
+            {v.title}
+          </h2>
+        </div>
+        <div className="bg-white/3 border border-white/8 rounded-2xl p-4 sm:p-6">
+          <Image
+            src={v.src}
+            alt={v.alt}
+            width={880}
+            height={470}
+            className="w-full h-auto rounded-xl"
+          />
+        </div>
+        {v.caption && (
+          <p className="text-[#A1A1AA] text-sm leading-relaxed mt-5 max-w-3xl">{v.caption}</p>
+        )}
+      </section>
+    )
   }
 
   return (
@@ -259,6 +294,8 @@ export default async function ServicoPage({ params }: PageProps) {
             </div>
           </section>
 
+          {renderVisual('mechanism')}
+
           {/* ── 5. Como funciona — numbered steps ── */}
           <section id="como-funciona" aria-labelledby="como-funciona-heading">
             <div className="mb-10">
@@ -300,6 +337,8 @@ export default async function ServicoPage({ params }: PageProps) {
               </div>
             </div>
           </section>
+
+          {renderVisual('process')}
 
           {/* ── 6. Nossas entregas — checklist grid ── */}
           <section aria-labelledby="entregas-heading">

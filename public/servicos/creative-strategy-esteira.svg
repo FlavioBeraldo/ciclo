@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 430" role="img" aria-label="Diagrama da esteira de produção de criativos: pesquisa, roteirização em lote, produção social first, edição em variações e publicação com leitura de dados, alimentando o ciclo de teste e escala">
+  <style>
+    text { font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif; }
+    .t { font-size: 19px; font-weight: 700; fill: #ffffff; }
+    .s { font-size: 13px; fill: #A1A1AA; }
+    .tag { font-size: 10px; font-weight: 700; fill: #A100FF; letter-spacing: .1em; }
+    .st { font-size: 12.5px; font-weight: 700; fill: #ffffff; }
+    .sd { font-size: 11px; fill: #A1A1AA; }
+    .num { font-size: 12px; font-weight: 800; fill: #A100FF; }
+    .big { font-size: 26px; font-weight: 800; fill: #ffffff; }
+    .bigl { font-size: 11.5px; fill: #A1A1AA; }
+    .cap { font-size: 11.5px; fill: #71717A; }
+  </style>
+
+  <rect width="880" height="430" rx="18" fill="#0a0a0a" stroke="#ffffff" stroke-opacity=".08"/>
+
+  <text x="40" y="46" class="t">A esteira que sustenta volume sem perder qualidade</text>
+  <text x="40" y="70" class="s">Cinco estações em cadência semanal — criativo deixa de ser evento e vira processo.</text>
+
+  <!-- trilho -->
+  <line x1="78" y1="168" x2="802" y2="168" stroke="#A100FF" stroke-opacity=".25" stroke-width="2"/>
+
+  <!-- estações -->
+  <g>
+    <circle cx="78" cy="168" r="17" fill="#A100FF" fill-opacity=".18" stroke="#A100FF" stroke-opacity=".7" stroke-width="2"/>
+    <text x="78" y="173" class="num" text-anchor="middle">1</text>
+    <text x="78" y="212" class="st" text-anchor="middle">Pesquisa</text>
+    <text x="78" y="230" class="sd" text-anchor="middle">avaliações, SAC,</text>
+    <text x="78" y="245" class="sd" text-anchor="middle">devoluções</text>
+
+    <circle cx="259" cy="168" r="17" fill="#A100FF" fill-opacity=".18" stroke="#A100FF" stroke-opacity=".7" stroke-width="2"/>
+    <text x="259" y="173" class="num" text-anchor="middle">2</text>
+    <text x="259" y="212" class="st" text-anchor="middle">Roteirização</text>
+    <text x="259" y="230" class="sd" text-anchor="middle">em lote, por</text>
+    <text x="259" y="245" class="sd" text-anchor="middle">ângulo</text>
+
+    <circle cx="440" cy="168" r="17" fill="#A100FF" fill-opacity=".18" stroke="#A100FF" stroke-opacity=".7" stroke-width="2"/>
+    <text x="440" y="173" class="num" text-anchor="middle">3</text>
+    <text x="440" y="212" class="st" text-anchor="middle">Produção</text>
+    <text x="440" y="230" class="sd" text-anchor="middle">social first com</text>
+    <text x="440" y="245" class="sd" text-anchor="middle">creators e UGC</text>
+
+    <circle cx="621" cy="168" r="17" fill="#A100FF" fill-opacity=".18" stroke="#A100FF" stroke-opacity=".7" stroke-width="2"/>
+    <text x="621" y="173" class="num" text-anchor="middle">4</text>
+    <text x="621" y="212" class="st" text-anchor="middle">Edição</text>
+    <text x="621" y="230" class="sd" text-anchor="middle">3 a 5 variações</text>
+    <text x="621" y="245" class="sd" text-anchor="middle">por gravação</text>
+
+    <circle cx="802" cy="168" r="17" fill="#A100FF" fill-opacity=".9" stroke="#A100FF" stroke-width="2"/>
+    <text x="802" y="173" class="num" text-anchor="middle" fill="#ffffff">5</text>
+    <text x="802" y="212" class="st" text-anchor="middle">Publicação</text>
+    <text x="802" y="230" class="sd" text-anchor="middle">dia fixo e leitura</text>
+    <text x="802" y="245" class="sd" text-anchor="middle">por criativo</text>
+  </g>
+
+  <!-- ciclo de retorno -->
+  <path d="M 802,130 C 802,96 700,96 440,96 C 180,96 78,96 78,130" fill="none" stroke="#A100FF" stroke-opacity=".45" stroke-width="2" stroke-dasharray="6 5"/>
+  <text x="440" y="88" class="sd" text-anchor="middle" fill="#A100FF">o que os dados ensinam volta para a pesquisa</text>
+
+  <!-- métricas de operação -->
+  <rect x="40" y="288" width="246" height="96" rx="14" fill="#ffffff" fill-opacity=".04" stroke="#ffffff" stroke-opacity=".1"/>
+  <text x="64" y="324" class="big">4 a 6</text>
+  <text x="64" y="348" class="bigl">ângulos simultâneos no ar</text>
+  <text x="64" y="366" class="bigl">— diversidade real de mensagem</text>
+
+  <rect x="317" y="288" width="246" height="96" rx="14" fill="#ffffff" fill-opacity=".04" stroke="#ffffff" stroke-opacity=".1"/>
+  <text x="341" y="324" class="big">10-20%</text>
+  <text x="341" y="348" class="bigl">da verba reservada a teste</text>
+  <text x="341" y="366" class="bigl">— o resto roda nos vencedores</text>
+
+  <rect x="594" y="288" width="246" height="96" rx="14" fill="#A100FF" fill-opacity=".12" stroke="#A100FF" stroke-opacity=".4"/>
+  <text x="618" y="324" class="big" fill="#A100FF">3s</text>
+  <text x="618" y="348" class="bigl">decidem o custo da campanha</text>
+  <text x="618" y="366" class="bigl">— hook rate acima de 25%</text>
+
+  <text x="40" y="412" class="cap">Cada teste isola uma variável e tem critério de sucesso definido antes de subir. Definir a régua depois é se enganar com dado.</text>
+</svg>
