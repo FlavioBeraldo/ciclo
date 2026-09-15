@@ -35,6 +35,20 @@ correspondência (e-mail/telefone hasheados).
 
 \* exige criar a ação de conversão no Google Ads e colocar o label na tag do GTM.
 
+## Jornada de conteúdo (qual post/página trouxe o lead)
+
+`src/lib/lead-journey.ts`, chamado em `/api/pipedrive` e no callback do LinkedIn. Lê os
+`page_view` do visitante em `site_events` (Supabase) e grava no deal:
+
+- **Conteúdo de entrada** — primeira página vista (ex.: `Blog: Full Funnel Marketing: por que…`).
+- **Último conteúdo antes de converter** — último post/serviço/solução visto antes do formulário
+  (home e a própria página de conversão não contam).
+- **Note "Jornada até a conversão"** — todas as páginas com data/hora, primeira visita e nº de páginas.
+
+Os dois campos são criados automaticamente no Pipedrive na primeira conversão (varchar). O campo
+**Campanha (GA)** continua reservado ao `utm_campaign` (mídia paga). Os mesmos rótulos vão para a
+Meta como `content_source` / `content_last` no `custom_data` do `Lead`.
+
 ## Conversões offline (Pipedrive → Meta)
 
 Webhook `updated.deal` → `POST /api/pipedrive/webhook` (`src/lib/pipedrive-funnel-events.ts`):
