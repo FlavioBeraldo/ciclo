@@ -1,7 +1,7 @@
 'use client'
 
 import { m } from 'framer-motion'
-import { CheckCircle, ChevronRight, Zap, Target, Repeat } from 'lucide-react'
+import { CheckCircle, ChevronRight, Zap, Target, Repeat, BarChart3 } from 'lucide-react'
 import LeadForm from '@/components/LeadForm'
 
 const frameworkCycles = [
@@ -9,30 +9,40 @@ const frameworkCycles = [
     icon: Zap,
     cycle: 'Geração de Demanda',
     items: [
-      'Análise dos Vetores de Crescimento',
-      'Plano para Geração de Demanda',
-      'Plano de Canais de Vendas',
-      'Construção do Ecossistema do E-commerce',
+      'Share of search e presença de marca',
+      'Cobertura de conteúdo e creators',
+      'Participação do social commerce na receita',
+      'Custo de descoberta frente à concorrência',
     ],
   },
   {
     icon: Target,
     cycle: 'Captação de Demanda',
     items: [
-      'Seleção de Plataforma',
-      'Meios de Pagamento',
-      'Plano para Mídias de Aquisição',
-      'Parceiro Logístico',
+      'Estrutura de contas e desperdício de verba',
+      'Dependência e diversificação de canais',
+      'Maturidade da creative strategy',
+      'CAC, ROAS e incrementalidade por canal',
     ],
   },
   {
     icon: Repeat,
     cycle: 'Expansão de Demanda',
     items: [
-      'BP (Plano de Negócios)',
-      'Sistema de Gestão (ERP)',
-      'Análise de Custo',
-      'Plano para Aumento da Recompra',
+      'LTV por canal, produto e safra de cliente',
+      'Cobertura das réguas e automações de CRM',
+      'Taxa de recompra e recência da base',
+      'Receita da base versus receita de cliente novo',
+    ],
+  },
+  {
+    icon: BarChart3,
+    cycle: 'Inteligência & Operação',
+    items: [
+      'Integridade de dados e modelo de atribuição',
+      'KPIs e rotina de leitura da operação',
+      'Processos e playbooks documentados',
+      'Cadência de experimentação e aprendizado',
     ],
   },
 ]
@@ -114,12 +124,12 @@ export default function ConsultoriaInteractive() {
             className="mb-12 text-center"
           >
             <p className="text-[#A100FF] text-xs font-bold uppercase tracking-widest mb-3">Nosso método</p>
-            <h2 className="text-3xl sm:text-4xl font-bold mb-4">Framework de análise baseado nos 3 ciclos</h2>
+            <h2 className="text-3xl sm:text-4xl font-bold mb-4">Framework de análise baseado nos 4 pilares</h2>
             <p className="text-[#A1A1AA] text-lg max-w-xl mx-auto">
-              Cada pilar é analisado dentro do ciclo ao qual pertence, garantindo um diagnóstico completo e integrado.
+              Cada pilar do Full Funnel Marketing tem seu próprio diagnóstico — e é a leitura conjunta dos quatro que mostra onde está o gargalo de crescimento.
             </p>
           </m.div>
-          <div className="grid sm:grid-cols-3 gap-6">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {frameworkCycles.map((cycle, i) => {
               const Icon = cycle.icon
               return (

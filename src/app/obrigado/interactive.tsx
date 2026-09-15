@@ -28,13 +28,13 @@ const cycles: { title: string; icon: React.ElementType; desc: string; items: Cyc
     title: 'Geração de Demanda',
     icon: Zap,
     desc: 'Construímos desejo e relevância de marca por meio de conteúdo, criadores e canais de mídia que geram audiência qualificada antes da compra.',
-    items: ['Conteúdo para redes sociais', { label: 'TikTok Shop / Social Commerce', href: '/tiktok-shop' }, 'Gestão de Creators e Influenciadores', 'OOH Digital'],
+    items: [{ label: 'TikTok Shop / Social Commerce', href: '/tiktok-shop' }, { label: 'Gestão de Creators e Influenciadores', href: '/servicos/gestao-creators-influenciadores' }],
   },
   {
     title: 'Captação de Demanda',
     icon: Target,
     desc: 'Convertemos interesse em primeira compra com anúncios de alta performance em todos os canais pagos — do Meta ao Retail Media.',
-    items: ['Meta Ads / TikTok Ads', 'Google Ads / Bing Ads', 'Retail Media (Shopee, Amazon, Mercado)', 'Programática / Pinterest Ads'],
+    items: [{ label: 'Creative Strategy', href: '/servicos/creative-strategy' }, { label: 'Meta Ads', href: '/servicos/meta-ads' }, { label: 'Google Ads', href: '/servicos/google-ads' }, { label: 'TikTok Ads', href: '/servicos/tiktok-ads' }, { label: 'Mercado Livre, Shopee e Amazon', href: '/servicos/mercado-livre-ads' }],
   },
   {
     title: 'Expansão de Demanda',
@@ -55,30 +55,40 @@ const frameworkCycles = [
     icon: Zap,
     cycle: 'Geração de Demanda',
     items: [
-      'Análise dos Vetores de Crescimento',
-      'Plano para Geração de Demanda',
-      'Plano de Canais de Vendas',
-      'Construção do Ecossistema do E-commerce',
+      'Share of search e presença de marca',
+      'Cobertura de conteúdo e creators',
+      'Participação do social commerce na receita',
+      'Custo de descoberta frente à concorrência',
     ],
   },
   {
     icon: Target,
     cycle: 'Captação de Demanda',
     items: [
-      'Seleção de Plataforma',
-      'Meios de Pagamento',
-      'Plano para Mídias de Aquisição',
-      'Parceiro Logístico',
+      'Estrutura de contas e desperdício de verba',
+      'Dependência e diversificação de canais',
+      'Maturidade da creative strategy',
+      'CAC, ROAS e incrementalidade por canal',
     ],
   },
   {
     icon: Repeat,
     cycle: 'Expansão de Demanda',
     items: [
-      'BP (Plano de Negócios)',
-      'Sistema de Gestão (ERP)',
-      'Análise de Custo',
-      'Plano para Aumento da Recompra',
+      'LTV por canal, produto e safra de cliente',
+      'Cobertura das réguas e automações de CRM',
+      'Taxa de recompra e recência da base',
+      'Receita da base versus receita de cliente novo',
+    ],
+  },
+  {
+    icon: BarChart3,
+    cycle: 'Inteligência & Operação',
+    items: [
+      'Integridade de dados e modelo de atribuição',
+      'KPIs e rotina de leitura da operação',
+      'Processos e playbooks documentados',
+      'Cadência de experimentação e aprendizado',
     ],
   },
 ]
@@ -192,7 +202,7 @@ export default function ObrigadoInteractive() {
             <p className="text-[#A100FF] text-xs font-bold uppercase tracking-widest mb-3">Nossa tese</p>
             <h2 className="text-3xl sm:text-4xl font-bold mb-4">Full Funnel Marketing para e-commerce</h2>
             <p className="text-[#A1A1AA] text-lg max-w-2xl mx-auto">
-              Crescimento sustentável não é só conversão. Uma marca precisa operar os três ciclos de forma constante e integrada.
+              Crescimento sustentável não é só conversão. Uma marca precisa operar os quatro pilares de forma constante e integrada.
             </p>
           </m.div>
           <div className="grid sm:grid-cols-2 gap-6">
@@ -247,12 +257,12 @@ export default function ObrigadoInteractive() {
             className="text-center mb-12"
           >
             <p className="text-[#A100FF] text-xs font-bold uppercase tracking-widest mb-3">Nossa metodologia</p>
-            <h2 className="text-3xl sm:text-4xl font-bold mb-4">Framework de análise baseado nos 3 ciclos</h2>
+            <h2 className="text-3xl sm:text-4xl font-bold mb-4">Framework de análise baseado nos 4 pilares</h2>
             <p className="text-[#A1A1AA] text-lg max-w-xl mx-auto">
-              Cada pilar é analisado dentro do ciclo ao qual pertence, garantindo um diagnóstico completo e integrado.
+              Cada pilar do Full Funnel Marketing tem seu próprio diagnóstico — e é a leitura conjunta dos quatro que mostra onde está o gargalo de crescimento.
             </p>
           </m.div>
-          <div className="grid sm:grid-cols-3 gap-6">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {frameworkCycles.map((cycle, i) => {
               const Icon = cycle.icon
               return (
