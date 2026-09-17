@@ -1,31 +1,52 @@
+import { Store, LayoutGrid, MessageCircle, Headset, Sparkles, MapPin, Share2 } from 'lucide-react'
+
 // Funil ampulheta do E-com Shift.
 //
 // Um único bloco de conteúdo HTML, que muda de arranjo pelo CSS:
 //  · desktop (>=1024px): diagrama horizontal, seis colunas da esquerda para a
 //    direita, com os títulos acima do contorno e as descrições abaixo. O
-//    contorno em SVG estreita no centro, entre Compra e Recompra, e se alarga
-//    nas pontas.
+//    contorno em SVG estreita no centro, entre Compra e Recompra.
 //  · mobile: a mesma lista vira uma sequência vertical simples.
-// O SVG é puramente decorativo (aria-hidden) e nenhum texto é duplicado, então
-// o leitor de tela percorre as seis etapas uma única vez.
+// Os canais transacionais vêm logo depois de Compra na ordem do documento, de
+// modo que no mobile aparecem exatamente na virada Compra/Recompra; no desktop
+// o CSS os leva para um bloco centralizado sob o gargalo, ligado a ele por um
+// conector. O SVG é decorativo e nenhum texto é duplicado, então o leitor de
+// tela percorre as seis etapas uma única vez.
 
-const STEPS = [
+const TOP_STEPS = [
   { name: 'Reconhecimento', desc: 'Ser lembrado antes de a necessidade de compra aparecer.' },
   { name: 'Consideração', desc: 'Entrar na decisão no momento em que a compra é avaliada.' },
   { name: 'Compra', desc: 'Converter no canal em que o cliente já está.' },
+]
+
+const BOTTOM_STEPS = [
   { name: 'Recompra', desc: 'Estimular a nova compra de quem já conhece a marca.' },
   { name: 'Fidelização', desc: 'Fortalecer a relação com a base de clientes.' },
   { name: 'Expansão', desc: 'Gerar indicação e abrir novos mercados.' },
 ]
 
+// Canais transacionais conforme o material da metodologia
 const CHANNELS = [
-  'Loja própria',
-  'Marketplaces',
-  'WhatsApp',
-  'Televendas',
-  'Loja física',
-  'Social commerce',
+  { label: 'Loja Própria', Icon: Store },
+  { label: 'Marketplaces', Icon: LayoutGrid },
+  { label: 'WhatsApp', Icon: MessageCircle },
+  { label: 'Televendas', Icon: Headset },
+  { label: 'IA Checkout', Icon: Sparkles },
+  { label: 'Loja Física', Icon: MapPin },
+  { label: 'Social Commerce', Icon: Share2 },
 ]
+
+function Step({ name, desc, index }: { name: string; desc: string; index: number }) {
+  return (
+    <li className="shift-step" style={{ ['--col' as string]: String(index) }}>
+      <div className="shift-step-head">
+        <span className="shift-step-num">{String(index).padStart(2, '0')}</span>
+        <h3 className="shift-step-name">{name}</h3>
+      </div>
+      <p className="shift-step-desc">{desc}</p>
+    </li>
+  )
+}
 
 export default function Hourglass() {
   return (
@@ -39,13 +60,10 @@ export default function Hourglass() {
           aria-hidden="true"
           focusable="false"
         >
-          {/* borda superior e inferior, estreitando até o centro */}
           <path d="M 3 3 L 600 62 L 1197 3" vectorEffect="non-scaling-stroke" />
           <path d="M 3 147 L 600 88 L 1197 147" vectorEffect="non-scaling-stroke" />
-          {/* tampas das pontas */}
           <line x1="3" y1="3" x2="3" y2="147" vectorEffect="non-scaling-stroke" />
           <line x1="1197" y1="3" x2="1197" y2="147" vectorEffect="non-scaling-stroke" />
-          {/* gargalo entre Compra e Recompra */}
           <line
             className="is-neck"
             x1="600"
@@ -56,25 +74,33 @@ export default function Hourglass() {
           />
         </svg>
 
-        {STEPS.map((step, i) => (
-          <li
-            key={step.name}
-            className="shift-step"
-            style={{ ['--col' as string]: String(i + 1) }}
-          >
-            <div className="shift-step-head">
-              <span className="shift-step-num">{String(i + 1).padStart(2, '0')}</span>
-              <h3 className="shift-step-name">{step.name}</h3>
-            </div>
-            <p className="shift-step-desc">{step.desc}</p>
-          </li>
+        {TOP_STEPS.map((step, i) => (
+          <Step key={step.name} name={step.name} desc={step.desc} index={i + 1} />
+        ))}
+
+        {/* Onde a transação acontece — na virada entre Compra e Recompra */}
+        <li className="shift-hg-channels">
+          <span className="shift-hg-connector" aria-hidden="true" />
+          <div className="shift-hg-channels-box">
+            <h4 className="shift-eyebrow shift-eyebrow--purple">Canais transacionais de venda</h4>
+            <ul className="shift-chips">
+              {CHANNELS.map(({ label, Icon }) => (
+                <li key={label} className="shift-chip">
+                  <Icon className="shift-chip-icon" aria-hidden="true" strokeWidth={1.5} />
+                  {label}
+                </li>
+              ))}
+            </ul>
+            <p className="shift-step-desc shift-hg-channels-note">
+              Seu cliente compra e recompra no canal que oferece mais comodidade e menos fricção.
+            </p>
+          </div>
+        </li>
+
+        {BOTTOM_STEPS.map((step, i) => (
+          <Step key={step.name} name={step.name} desc={step.desc} index={i + 4} />
         ))}
       </ol>
-
-      <p className="shift-hourglass-channels">
-        <span className="shift-eyebrow">Canais de compra e recompra</span>
-        <span className="shift-body block mt-1">{CHANNELS.join(' · ')}</span>
-      </p>
     </div>
   )
 }

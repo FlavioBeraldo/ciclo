@@ -4,6 +4,8 @@ import Link from 'next/link'
 import ShiftHeader from '@/components/shift/ShiftHeader'
 import ShiftFooter from '@/components/shift/ShiftFooter'
 import Hourglass from '@/components/shift/Hourglass'
+import FunnelCompare from '@/components/shift/FunnelCompare'
+import ShiftVideoCarousel from '@/components/shift/ShiftVideoCarousel'
 import { anton } from '@/components/shift/fonts'
 import '@/components/shift/shift.css'
 
@@ -57,22 +59,6 @@ const pillars = [
   },
 ]
 
-const isolated = [
-  'Concentração da receita em poucos canais.',
-  'Mídia avaliada apenas pela última venda.',
-  'Decisões tomadas sem prioridades claras.',
-  'Pouca atenção à base de clientes já conquistada.',
-  'Marca ausente antes do momento da decisão.',
-]
-
-const oriented = [
-  'Canais de venda com papéis definidos.',
-  'Geração e captação de demanda conectadas.',
-  'Metas e indicadores de negócio orientando a operação.',
-  'CRM, experiência e recompra dentro da estratégia.',
-  'Reconhecimento e consideração construídos de forma contínua.',
-]
-
 const modules = [
   {
     num: '01',
@@ -101,6 +87,8 @@ const modules = [
 const cases = [
   {
     brand: 'Mamô Brasil',
+    image: '/cases/mamo.jpg',
+    alt: 'Campanha da Mamô Brasil, marca de moda atendida pela Ciclo E-commerce',
     context: 'Aquisição paga integrada a CRM e réguas de retenção.',
     metrics: [
       { value: '+200%', label: 'Vendas YoY' },
@@ -109,6 +97,8 @@ const cases = [
   },
   {
     brand: 'GoPro Brasil',
+    image: '/cases/gopro.jpg',
+    alt: 'Campanha da GoPro Brasil, marca de tecnologia atendida pela Ciclo E-commerce',
     context: 'Mídia full funnel com otimização contínua de campanhas e criativos.',
     metrics: [
       { value: '+120%', label: 'Vendas YoY' },
@@ -116,12 +106,53 @@ const cases = [
     ],
   },
   {
+    brand: 'Jack Links',
+    image: '/cases/jacklinks.jpg',
+    alt: 'Campanha da Jack Links, marca de alimentos atendida pela Ciclo E-commerce',
+    context: 'Estruturação de canais D2C, da flagship própria aos marketplaces.',
+    metrics: [
+      { value: '+57%', label: 'Branded Search YoY' },
+      { value: '-46%', label: 'CAC' },
+    ],
+  },
+  {
     brand: 'Gringa',
+    image: '/cases/gringa.jpg',
+    alt: 'Campanha da Gringa, marca de moda de luxo atendida pela Ciclo E-commerce',
     context: 'CRM e automações de recompra, com fidelização e indicação.',
     metrics: [
-      { value: '+35%', label: 'Taxa de recompra YoY' },
-      { value: '120→55 dias', label: 'Recência de compra' },
+      { value: '+35%', label: 'Recompra YoY' },
+      { value: '+20%', label: 'Indicação YoY' },
     ],
+  },
+]
+
+// Depoimentos em vídeo já publicados em /depoimentos — mesmas fontes, marcas,
+// cargos e descrições, sem nenhuma associação nova entre marca e depoimento.
+const videos = [
+  {
+    id: 'djykk9EFghg',
+    brand: 'Líquido',
+    role: 'CEO – Líquido',
+    description: 'Como a Líquido escalou seu e-commerce com Full Funnel Marketing.',
+  },
+  {
+    id: 'xVdqhprwKWw',
+    brand: 'KVRA',
+    role: 'Head de Marketing – KVRA',
+    description: 'A jornada de crescimento da KVRA com Ciclo E-commerce.',
+  },
+  {
+    id: '6B2XYATbK3Q',
+    brand: 'DANKI',
+    role: 'Fundador – DANKI',
+    description: 'DANKI e os resultados de Full Funnel Marketing com a Ciclo.',
+  },
+  {
+    id: 'EhnxUiDMMRg',
+    brand: 'Mamô Brasil',
+    role: 'CEO – Mamô Brasil',
+    description: 'Mamô Brasil e sua estratégia de crescimento sustentável.',
   },
 ]
 
@@ -355,27 +386,8 @@ export default function ConsultoriaEcomShiftPage() {
                 Seu e-commerce precisa de mais de um motor para crescer
               </h2>
 
-              <div className="shift-compare mt-12">
-                <div className="shift-compare-col">
-                  <h3 className="shift-display shift-h3">
-                    Quando o crescimento depende de ações isoladas
-                  </h3>
-                  <ul className="shift-list mt-6">
-                    {isolated.map((item) => (
-                      <li key={item}>{item}</li>
-                    ))}
-                  </ul>
-                </div>
-                <div className="shift-compare-col">
-                  <h3 className="shift-display shift-h3">
-                    Uma operação orientada pelo E-com Shift
-                  </h3>
-                  <ul className="shift-list shift-list--accent mt-6">
-                    {oriented.map((item) => (
-                      <li key={item}>{item}</li>
-                    ))}
-                  </ul>
-                </div>
+              <div className="mt-12">
+                <FunnelCompare />
               </div>
 
               <p className="shift-lead shift-measure-wide mt-12">
@@ -424,18 +436,24 @@ export default function ConsultoriaEcomShiftPage() {
                 e-commerce. É essa experiência de operação que orienta a consultoria.
               </p>
 
-              <div className="grid gap-8 md:grid-cols-3 mt-12">
+              <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4 mt-12">
                 {cases.map((c) => (
-                  <article key={c.brand}>
-                    <hr className="shift-rule" />
+                  <article key={c.brand} className="shift-case">
+                    <div className="shift-case-media">
+                      <Image
+                        src={c.image}
+                        alt={c.alt}
+                        width={800}
+                        height={600}
+                        sizes="(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 290px"
+                      />
+                    </div>
                     <h3 className="shift-display shift-h3 mt-5">{c.brand}</h3>
                     <p className="shift-body mt-2">{c.context}</p>
-                    <dl className="mt-5 space-y-3">
+                    <dl className="shift-case-metrics">
                       {c.metrics.map((metric) => (
                         <div key={metric.label}>
-                          <dt className="shift-figure" style={{ color: '#efeeed' }}>
-                            {metric.value}
-                          </dt>
+                          <dt className="shift-case-figure">{metric.value}</dt>
                           <dd className="shift-eyebrow mt-1">{metric.label}</dd>
                         </div>
                       ))}
@@ -449,19 +467,26 @@ export default function ConsultoriaEcomShiftPage() {
                 retrato da experiência da agência, não uma promessa de resultado da consultoria.
               </p>
 
-              <div className="mt-12">
+              {/* Depoimentos em vídeo das marcas */}
+              <div className="mt-16">
+                <hr className="shift-rule mb-8" />
+                <h3 className="shift-display shift-h3 mb-6">Quem viveu a operação, conta</h3>
+                <ShiftVideoCarousel videos={videos} />
+              </div>
+
+              <div className="mt-16 text-center">
                 <span className="shift-eyebrow">Algumas marcas atendidas pela Ciclo</span>
-                <div className="shift-logos mt-6">
+                <div className="shift-logos mt-7">
                   {logos.map((logo) => (
-                    <Image
-                      key={logo.name}
-                      src={logo.src}
-                      alt={logo.name}
-                      width={160}
-                      height={60}
-                      sizes="120px"
-                      className="h-[26px] w-auto"
-                    />
+                    <div key={logo.name} className="shift-logo-cell">
+                      <Image
+                        src={logo.src}
+                        alt={logo.name}
+                        width={160}
+                        height={60}
+                        sizes="140px"
+                      />
+                    </div>
                   ))}
                 </div>
               </div>
