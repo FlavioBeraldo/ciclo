@@ -207,6 +207,8 @@ export interface LeadInput {
   linkedin?: LinkedInProfile | null
   /** Pares extras gravados no JSON "Atribuição extra" (ex.: event_id, internal) */
   extraMerge?: Record<string, string | boolean>
+  /** Campos personalizados adicionais do Deal (ex.: Cargo, Site/URL da loja) */
+  dealProps?: Record<string, unknown>
 }
 
 /**
@@ -217,7 +219,7 @@ export interface LeadInput {
 export async function createPipedriveLead(
   input: LeadInput
 ): Promise<{ success: boolean; dealId?: number; personId?: number }> {
-  const { name, email, phone = '', company, objetivo = '', pipelineHint, attribution, linkedin, extraMerge } = input
+  const { name, email, phone = '', company, objetivo = '', pipelineHint, attribution, linkedin, extraMerge, dealProps } = input
 
   const [stageId, orgId, ownerId] = await Promise.all([
     findStageId(pipelineHint),
@@ -241,6 +243,7 @@ export async function createPipedriveLead(
       stage_id: stageId,
       status: 'open',
       [DEAL_FIELD_OBJETIVO]: objetivo,
+      ...(dealProps ?? {}),
       // Cadastro via LinkedIn (OIDC não entrega URL do perfil nem cargo).
       // TODO: com acesso futuro ao scope r_basicprofile, mapear
       //   headline -> DEAL_FIELD_CARGO e vanityName -> DEAL_FIELD_LINKEDIN como URL
