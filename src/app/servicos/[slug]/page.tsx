@@ -123,7 +123,7 @@ export default async function ServicoPage({ params }: PageProps) {
   }
 
   return (
-    <>
+    <div className="theme-light">
       {/* JSON-LD structured data */}
       <script
         type="application/ld+json"
@@ -491,6 +491,6 @@ export default async function ServicoPage({ params }: PageProps) {
         </div>
       </main>
       <Footer />
-    </>
+    </div>
   )
 }

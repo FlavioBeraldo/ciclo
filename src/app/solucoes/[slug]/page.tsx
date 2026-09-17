@@ -63,7 +63,7 @@ export default async function SolucaoPage({ params }: PageProps) {
   }
 
   return (
-    <>
+    <div className="theme-light">
       {/* JSON-LD structured data for GEO/AO */}
       <script
         type="application/ld+json"
@@ -306,6 +306,6 @@ export default async function SolucaoPage({ params }: PageProps) {
         </div>
       </main>
       <Footer />
-    </>
+    </div>
   )
 }

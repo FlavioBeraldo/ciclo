@@ -1,16 +1,16 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 470" role="img" aria-label="Diagrama do mecanismo: cada ângulo de criativo funciona como uma segmentação, porque o algoritmo entrega cada mensagem ao público que responde a ela">
   <style>
     text { font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif; }
-    .t { font-size: 19px; font-weight: 700; fill: #ffffff; }
-    .s { font-size: 13px; fill: #A1A1AA; }
+    .t { font-size: 19px; font-weight: 700; fill: #111111; }
+    .s { font-size: 13px; fill: #52525b; }
     .tag { font-size: 10px; font-weight: 700; fill: #A100FF; letter-spacing: .1em; }
-    .card { font-size: 13.5px; font-weight: 600; fill: #ffffff; }
-    .algo { font-size: 13px; font-weight: 700; fill: #ffffff; }
-    .aud { font-size: 12.5px; font-weight: 600; fill: #D4D4D8; }
-    .cap { font-size: 11.5px; fill: #71717A; }
+    .card { font-size: 13.5px; font-weight: 600; fill: #111111; }
+    .algo { font-size: 13px; font-weight: 700; fill: #111111; }
+    .aud { font-size: 12.5px; font-weight: 600; fill: #3f3f46; }
+    .cap { font-size: 11.5px; fill: #6b7280; }
   </style>
 
-  <rect width="880" height="470" rx="18" fill="#0a0a0a" stroke="#ffffff" stroke-opacity=".08"/>
+  <rect width="880" height="470" rx="18" fill="#f6f6f6" stroke="#000000" stroke-opacity=".08"/>
 
   <text x="40" y="46" class="t">O criativo é a nova segmentação</text>
   <text x="40" y="70" class="s">Você não escolhe mais o público. Escolhe a mensagem — e a mensagem escolhe o público.</text>
@@ -22,11 +22,11 @@
   <g>
     <rect x="40" y="130" width="212" height="58" rx="12" fill="#A100FF" fill-opacity=".10" stroke="#A100FF" stroke-opacity=".45"/>
     <text x="60" y="165" class="card">Dor resolvida</text>
-    <rect x="40" y="206" width="212" height="58" rx="12" fill="#ffffff" fill-opacity=".05" stroke="#ffffff" stroke-opacity=".14"/>
+    <rect x="40" y="206" width="212" height="58" rx="12" fill="#000000" fill-opacity=".03" stroke="#000000" stroke-opacity=".12"/>
     <text x="60" y="241" class="card">Prova social</text>
-    <rect x="40" y="282" width="212" height="58" rx="12" fill="#ffffff" fill-opacity=".05" stroke="#ffffff" stroke-opacity=".14"/>
+    <rect x="40" y="282" width="212" height="58" rx="12" fill="#000000" fill-opacity=".03" stroke="#000000" stroke-opacity=".12"/>
     <text x="60" y="317" class="card">Comparação</text>
-    <rect x="40" y="358" width="212" height="58" rx="12" fill="#ffffff" fill-opacity=".05" stroke="#ffffff" stroke-opacity=".14"/>
+    <rect x="40" y="358" width="212" height="58" rx="12" fill="#000000" fill-opacity=".03" stroke="#000000" stroke-opacity=".12"/>
     <text x="60" y="393" class="card">Bastidor / autoridade</text>
   </g>
 
@@ -39,10 +39,10 @@
   </g>
 
   <!-- algoritmo (base opaca para as setas não atravessarem o texto) -->
-  <circle cx="452" cy="273" r="60" fill="#0a0a0a"/>
+  <circle cx="452" cy="273" r="60" fill="#f6f6f6"/>
   <circle cx="452" cy="273" r="60" fill="#A100FF" fill-opacity=".18" stroke="#A100FF" stroke-opacity=".6" stroke-width="2"/>
   <text x="452" y="279" class="algo" text-anchor="middle">ALGORITMO</text>
-  <text x="452" y="356" class="cap" text-anchor="middle" fill="#D4D4D8">observa quem responde</text>
+  <text x="452" y="356" class="cap" text-anchor="middle" fill="#3f3f46">observa quem responde</text>
 
   <!-- setas para públicos -->
   <g fill="none" stroke="#A100FF" stroke-width="2.5">
@@ -54,13 +54,13 @@
 
   <!-- públicos -->
   <g>
-    <rect x="618" y="134" width="222" height="52" rx="12" fill="#ffffff" fill-opacity=".05" stroke="#ffffff" stroke-opacity=".14"/>
+    <rect x="618" y="134" width="222" height="52" rx="12" fill="#000000" fill-opacity=".03" stroke="#000000" stroke-opacity=".12"/>
     <text x="638" y="165" class="aud">Quem sente a dor hoje</text>
-    <rect x="618" y="210" width="222" height="52" rx="12" fill="#ffffff" fill-opacity=".05" stroke="#ffffff" stroke-opacity=".14"/>
+    <rect x="618" y="210" width="222" height="52" rx="12" fill="#000000" fill-opacity=".03" stroke="#000000" stroke-opacity=".12"/>
     <text x="638" y="241" class="aud">Quem precisa de confiança</text>
-    <rect x="618" y="286" width="222" height="52" rx="12" fill="#ffffff" fill-opacity=".05" stroke="#ffffff" stroke-opacity=".14"/>
+    <rect x="618" y="286" width="222" height="52" rx="12" fill="#000000" fill-opacity=".03" stroke="#000000" stroke-opacity=".12"/>
     <text x="638" y="317" class="aud">Quem já usa o concorrente</text>
-    <rect x="618" y="362" width="222" height="52" rx="12" fill="#ffffff" fill-opacity=".05" stroke="#ffffff" stroke-opacity=".14"/>
+    <rect x="618" y="362" width="222" height="52" rx="12" fill="#000000" fill-opacity=".03" stroke="#000000" stroke-opacity=".12"/>
     <text x="638" y="393" class="aud">Quem compra por marca</text>
   </g>
 
