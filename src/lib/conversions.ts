@@ -17,6 +17,10 @@ export type ConversionEvent =
   | 'playbook_form_submit'
   | 'begin_checkout'
   | 'purchase'
+  // Aplicação da Consultoria E-com Shift. Evento próprio, e NÃO generate_lead,
+  // para a oferta ter conversão dedicada no GA4 sem inflar a contagem agregada
+  // que as outras ofertas já alimentam.
+  | 'consultoria_ecom_shift_lead'
 
 /** Dados de contato em texto claro: o GTM faz o hash para a Meta e o Google. */
 export interface ConversionUserData {

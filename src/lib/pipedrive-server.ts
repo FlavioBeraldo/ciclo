@@ -209,6 +209,16 @@ export interface LeadInput {
   extraMerge?: Record<string, string | boolean>
   /** Campos personalizados adicionais do Deal (ex.: Cargo, Site/URL da loja) */
   dealProps?: Record<string, unknown>
+  /**
+   * Destino fixo no Pipedrive. Quando informado, o negócio vai exatamente para
+   * esse funil/etapa: nem o `pipelineHint` nem a env global PIPEDRIVE_STAGE_ID
+   * são consultados. Usado por ofertas com roteamento próprio, sem mexer no
+   * comportamento padrão das demais rotas.
+   */
+  stageId?: number
+  pipelineId?: number
+  /** Título do negócio; por padrão, o nome da pessoa. */
+  title?: string
 }
 
 /**
@@ -219,13 +229,18 @@ export interface LeadInput {
 export async function createPipedriveLead(
   input: LeadInput
 ): Promise<{ success: boolean; dealId?: number; personId?: number }> {
-  const { name, email, phone = '', company, objetivo = '', pipelineHint, attribution, linkedin, extraMerge, dealProps } = input
+  const {
+    name, email, phone = '', company, objetivo = '', pipelineHint, attribution, linkedin,
+    extraMerge, dealProps, stageId: fixedStageId, pipelineId, title,
+  } = input
 
-  const [stageId, orgId, ownerId] = await Promise.all([
-    findStageId(pipelineHint),
+  const [resolvedStageId, orgId, ownerId] = await Promise.all([
+    // Destino fixo tem prioridade e não passa pela busca por nome nem pela env
+    fixedStageId ? Promise.resolve(fixedStageId) : findStageId(pipelineHint),
     company ? findOrCreateOrg(company) : Promise.resolve(undefined),
     findUserId('Felipe'),
   ])
+  const stageId = resolvedStageId
   if (!stageId) {
     console.error('[Pipedrive] stage_id não encontrado — deal não será criado no funil correto')
   }
@@ -236,11 +251,12 @@ export async function createPipedriveLead(
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      title: name,
+      title: title ?? name,
       person_id: personId,
       org_id: orgId,
       user_id: ownerId,
       stage_id: stageId,
+      ...(pipelineId ? { pipeline_id: pipelineId } : {}),
       status: 'open',
       [DEAL_FIELD_OBJETIVO]: objetivo,
       ...(dealProps ?? {}),

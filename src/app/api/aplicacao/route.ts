@@ -1,10 +1,9 @@
 // Aplicação da Consultoria E-com Shift (/aplicacao).
 //
 // Reaproveita a integração que já existe no projeto: createPipedriveLead cria
-// Person + Organization + Deal no mesmo funil dos outros formulários, a jornada
-// de conteúdo e o evento Lead da Meta seguem o mesmo caminho do /api/pipedrive.
-// A origem fica marcada em `origem_formulario: consultoria-ecom-shift`, sem
-// mudar o comportamento de nenhum outro formulário.
+// Person + Organization + Deal, a jornada de conteúdo e o evento Lead da Meta
+// seguem o mesmo caminho do /api/pipedrive. O que muda é só o destino fixo no
+// CRM e o identificador próprio da oferta — nenhuma outra rota é afetada.
 import { NextRequest, NextResponse, after } from 'next/server'
 import { randomUUID } from 'node:crypto'
 import { createPipedriveLead, pipedriveUrl } from '@/lib/pipedrive-server'
@@ -16,8 +15,22 @@ import { applyJourneyToDeal, getLeadJourney } from '@/lib/lead-journey'
 
 export const runtime = 'nodejs'
 
-const ORIGIN_TAG = 'consultoria-ecom-shift'
+// Identificador único da oferta. O MESMO token viaja no dataLayer (GA4), na
+// CAPI da Meta e no Pipedrive, para as três pontas falarem da mesma coisa.
+const OFFER_ID = 'consultoria_ecom_shift'
 const OFFER_LABEL = 'Aplicação — Consultoria E-com Shift'
+
+// Destino fixo: funil "1 - Site/Whats (Passivo)" (2), etapa "Entrada de Lead"
+// (8). Explícito de propósito — a busca por nome e a env global
+// PIPEDRIVE_STAGE_ID não interferem nesta rota, e nenhuma outra rota muda.
+const PIPELINE_ID = 2
+const STAGE_ID = 8
+
+/** Título do negócio, igual na criação e na atualização. */
+function dealTitle(empresa: string, nome: string, email: string): string {
+  const quem = empresa || nome || email
+  return `Consultoria E-com Shift | ${quem}`.slice(0, 255)
+}
 
 interface Body {
   nome?: string
@@ -89,11 +102,13 @@ export async function POST(req: NextRequest) {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
+          title: dealTitle(empresa, nome, email),
           [DEAL_FIELD_OBJETIVO]: objetivo,
           ...dealProps,
-          ...(empresa ? { title: empresa } : {}),
         }),
       })
+      // Reenvio não é conversão nova: nada vai para a CAPI e o cliente recebe
+      // duplicate:true com o event_id original, para não contar duas vezes.
       console.log('[Aplicacao] Reenvio — negócio atualizado:', existing.dealId)
       return NextResponse.json({ success: true, event_id: existing.eventId, duplicate: true })
     }
@@ -103,12 +118,15 @@ export async function POST(req: NextRequest) {
       email,
       phone: whatsapp,
       company: empresa || undefined,
+      title: dealTitle(empresa, nome, email),
       objetivo,
       attribution,
       dealProps,
+      stageId: STAGE_ID,
+      pipelineId: PIPELINE_ID,
       extraMerge: {
         event_id: eventId,
-        origem_formulario: ORIGIN_TAG,
+        origem_formulario: OFFER_ID,
         ...(internal ? { internal: true } : {}),
       },
     })
@@ -159,20 +177,21 @@ export async function POST(req: NextRequest) {
           fbc: attr.fbc ?? req.cookies.get('_fbc')?.value ?? null,
           ...client,
         },
+        // Mesmos identificadores do navegador. A faixa de faturamento fica só
+        // no CRM: não é necessária para a conversão e não sai daqui.
         customData: {
-          content_name: ORIGIN_TAG,
-          content_category: 'aplicacao',
-          lead_type: 'consultoria-ecom-shift',
+          content_name: OFFER_ID,
+          content_category: OFFER_ID,
+          lead_type: OFFER_ID,
           lead_source: attr.source,
           lead_medium: attr.medium,
           lead_campaign: attr.campaign,
           deal_id: dealId,
-          annual_revenue: faturamento,
         },
       })
     }
 
-    console.log('[Aplicacao] Negócio criado:', dealId, '| origem', ORIGIN_TAG)
+    console.log('[Aplicacao] Negócio criado:', dealId, '| origem', OFFER_ID, '| funil', PIPELINE_ID, '| etapa', STAGE_ID)
     return res
   } catch (err) {
     console.error('[Aplicacao] Erro interno:', err)

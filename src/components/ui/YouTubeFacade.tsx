@@ -8,9 +8,23 @@ interface Props {
   videoId: string
   title: string
   className?: string
+  /**
+   * Qualidade da capa. `maxresdefault` (padrão, mantém o comportamento atual)
+   * só existe para vídeos enviados em alta resolução; `hqdefault` existe para
+   * todos, em 480x360. Use `hqdefault` quando a lista tiver vídeos antigos.
+   */
+  thumbnailQuality?: 'maxresdefault' | 'hqdefault'
+  /** Repassado ao next/image para não pedir a capa em 3840px. */
+  sizes?: string
 }
 
-export default function YouTubeFacade({ videoId, title, className = '' }: Props) {
+export default function YouTubeFacade({
+  videoId,
+  title,
+  className = '',
+  thumbnailQuality = 'maxresdefault',
+  sizes,
+}: Props) {
   const [active, setActive] = useState(false)
 
   if (active) {
@@ -32,9 +46,10 @@ export default function YouTubeFacade({ videoId, title, className = '' }: Props)
       className={`group relative w-full h-full bg-black overflow-hidden ${className}`}
     >
       <Image
-        src={`https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`}
+        src={`https://img.youtube.com/vi/${videoId}/${thumbnailQuality}.jpg`}
         alt={title}
         fill
+        sizes={sizes}
         className="object-cover group-hover:scale-105 transition-transform duration-500"
         loading="lazy"
       />

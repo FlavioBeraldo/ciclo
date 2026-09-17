@@ -79,6 +79,10 @@ export default function ShiftVideoCarousel({ videos }: { videos: Video[] }) {
               <YouTubeFacade
                 videoId={video.id}
                 title={`Depoimento ${video.brand} — ${video.description}`}
+                // hqdefault existe para todos os vídeos da lista; maxresdefault
+                // não existe para os mais antigos e deixava a capa vazia.
+                thumbnailQuality="hqdefault"
+                sizes="(max-width: 639px) 82vw, (max-width: 1023px) 45vw, 33vw"
               />
             </div>
             <h3 className="shift-step-name mt-4">{video.brand}</h3>

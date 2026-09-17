@@ -12,6 +12,10 @@ import { newEventId, pushConversion, splitName } from '@/lib/conversions'
 // acima do campo. O envio, porém, acontece uma única vez no fim — a tela de
 // sucesso só aparece depois da resposta real do servidor.
 
+// Identificador único da oferta: o MESMO token viaja no dataLayer, na CAPI e no
+// Pipedrive, para GA4, Meta e CRM falarem da mesma coisa.
+const OFFER_ID = 'consultoria_ecom_shift'
+
 const ROLES = [
   'Dono, sócio ou fundador',
   'C-level (CEO, COO, CMO)',
@@ -164,7 +168,7 @@ export default function AplicacaoForm() {
       event: 'aplicacao_step_view',
       step: step.id,
       step_number: index + 1,
-      form: 'consultoria-ecom-shift',
+      form: OFFER_ID,
     })
   }, [index, finished, step])
 
@@ -209,23 +213,32 @@ export default function AplicacaoForm() {
         return
       }
 
-      // Conversão só depois do retorno real do servidor
-      pushConversion('generate_lead', {
-        eventId: eventIdRef.current,
-        attribution,
-        form: 'aplicacao-ecom-shift',
-        contentName: 'consultoria-ecom-shift',
-        userData: {
-          email: allAnswers.email,
-          phone_number: allAnswers.whatsapp,
-          ...splitName(allAnswers.nome),
-        },
-        extra: {
-          annual_revenue: allAnswers.faturamento,
-          lead_type: 'consultoria-ecom-shift',
-        },
-      })
-      track('form_submit', { form: 'aplicacao-ecom-shift' })
+      const body = (await res.json().catch(() => ({}))) as {
+        event_id?: string
+        duplicate?: boolean
+      }
+
+      // A aplicação foi registrada: a tela de sucesso aparece de qualquer forma.
+      // A CONVERSÃO, porém, só vale para um envio novo. Num reenvio o servidor
+      // devolve duplicate:true, apenas atualiza o negócio e não manda nada para
+      // a CAPI — então o navegador também não pode contar de novo.
+      if (!body.duplicate) {
+        pushConversion('consultoria_ecom_shift_lead', {
+          // id canônico do servidor: garante o mesmo par navegador <-> CAPI
+          eventId: body.event_id ?? eventIdRef.current,
+          attribution,
+          form: OFFER_ID,
+          contentName: OFFER_ID,
+          userData: {
+            email: allAnswers.email,
+            phone_number: allAnswers.whatsapp,
+            ...splitName(allAnswers.nome),
+          },
+          extra: { lead_type: OFFER_ID },
+        })
+        track('form_submit', { form: OFFER_ID })
+      }
+
       setFinished(true)
     } catch {
       setSendError('Falha de conexão. Verifique a internet e tente novamente.')
@@ -260,7 +273,7 @@ export default function AplicacaoForm() {
       event: 'aplicacao_step_complete',
       step: step.id,
       step_number: index + 1,
-      form: 'consultoria-ecom-shift',
+      form: OFFER_ID,
     })
 
     goTo(index + 1, nextAnswers)
