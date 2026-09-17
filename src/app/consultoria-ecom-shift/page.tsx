@@ -1,8 +1,8 @@
 import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
-import Header from '@/components/Header'
-import Footer from '@/components/Footer'
+import ShiftHeader from '@/components/shift/ShiftHeader'
+import ShiftFooter from '@/components/shift/ShiftFooter'
 import Hourglass from '@/components/shift/Hourglass'
 import { anton } from '@/components/shift/fonts'
 import '@/components/shift/shift.css'
@@ -234,18 +234,12 @@ export default function ConsultoriaEcomShiftPage() {
       />
 
       <div className={`shift ${anton.variable}`}>
-        {/* Sentinela que faz o header do site sair do estado transparente ao rolar */}
-        <div
-          id="scroll-sentinel"
-          aria-hidden="true"
-          className="absolute top-0 h-1 w-full pointer-events-none"
-        />
-        <Header />
+        <ShiftHeader />
 
         <main>
           {/* ── 1. HERO ─────────────────────────────────────────────────── */}
-          <section className="shift-container pt-20 md:pt-24">
-            <div className="shift-signature">
+          <section className="shift-container pt-8 md:pt-10">
+            <div className="shift-signature shift-signature--hero">
               <span className="shift-eyebrow">Ciclo E-commerce</span>
               <span className="shift-eyebrow">Consultoria de 4 meses</span>
             </div>
@@ -395,7 +389,7 @@ export default function ConsultoriaEcomShiftPage() {
           </section>
 
           {/* ── 5. COMO FUNCIONA ────────────────────────────────────────── */}
-          <section className="shift-paper shift-section">
+          <section id="a-consultoria" className="shift-paper shift-section">
             <div className="shift-container">
               <span className="shift-eyebrow shift-eyebrow--purple">Como funciona</span>
               <h2 className="shift-display shift-h2 shift-measure-wide mt-4">
@@ -475,7 +469,7 @@ export default function ConsultoriaEcomShiftPage() {
           </section>
 
           {/* ── 7. EQUIPE ───────────────────────────────────────────────── */}
-          <section className="shift-section" style={{ backgroundColor: '#191917' }}>
+          <section id="quem-conduz" className="shift-section" style={{ backgroundColor: '#191917' }}>
             <div className="shift-container">
               <span className="shift-eyebrow shift-eyebrow--purple">Quem conduz</span>
               <h2 className="shift-display shift-h2 shift-measure-wide mt-4">
@@ -574,7 +568,7 @@ export default function ConsultoriaEcomShiftPage() {
           </section>
         </main>
 
-        <Footer />
+        <ShiftFooter />
       </div>
     </>
   )
