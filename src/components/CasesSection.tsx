@@ -113,7 +113,7 @@ export default function CasesSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.05 }}
-              className="flex-shrink-0 w-72 sm:w-80 flex flex-col rounded-2xl border border-white/8 overflow-hidden hover:border-[#A100FF]/30 transition-colors snap-start"
+              className="theme-dark flex-shrink-0 w-72 sm:w-80 flex flex-col rounded-2xl border border-white/8 overflow-hidden hover:border-[#A100FF]/30 transition-colors snap-start"
               style={{ background: `linear-gradient(135deg, ${c.color}, #050505)` }}
             >
               {/* Image slot */}

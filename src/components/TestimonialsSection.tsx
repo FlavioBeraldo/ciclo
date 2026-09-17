@@ -40,7 +40,7 @@ export default function TestimonialsSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.05 }}
-              className="relative rounded-2xl overflow-hidden cursor-pointer group border border-white/8 hover:border-[#A100FF]/40 transition-colors"
+              className="theme-dark relative rounded-2xl overflow-hidden cursor-pointer group border border-white/8 hover:border-[#A100FF]/40 transition-colors"
               onClick={() => setActiveVideo(t.id)}
             >
               {/* Thumbnail */}

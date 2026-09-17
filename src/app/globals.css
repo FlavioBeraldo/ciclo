@@ -324,3 +324,115 @@ body {
 .lb-phone .ciclo-phone-input .PhoneInputInput::placeholder {
   color: rgba(255,255,255,.25);
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   TEMA CLARO — escopo por página (.theme-light na raiz da página)
+   Remapeia os utilitários do tema escuro para a paleta clara da referência:
+   fundo branco/off-white, tinta #111, roxo só como acento. Ilhas `.theme-dark`
+   (cards sobre imagem/gradiente escuro) ficam intocadas. Regras sem @layer
+   vencem os utilitários do Tailwind sem precisar de !important.
+   Páginas fora do escopo (Fator M, playbook, link-bio, consultoria, TikTok…)
+   não recebem a classe e continuam exatamente como estão.
+   ═══════════════════════════════════════════════════════════════════════════ */
+.theme-light { background-color: #ffffff; color: #111111; }
+
+/* ── Fundos de seção ─────────────────────────────────────────────────────── */
+.theme-light .bg-\[\#050505\]:not(.theme-dark *),
+.theme-light .bg-\[\#0a0a0a\]:not(.theme-dark *),
+.theme-light .bg-black:not(.theme-dark *) { background-color: #ffffff; }
+.theme-light .bg-\[\#080808\]:not(.theme-dark *) { background-color: #f6f6f6; }
+.theme-light .bg-\[\#050505\]\/98,
+.theme-light .header-blur { background-color: rgba(255,255,255,.94) !important; }
+
+/* ── Texto ───────────────────────────────────────────────────────────────── */
+.theme-light .text-white:not(.bg-\[\#A100FF\]):not(.theme-dark *) { color: #111111; }
+.theme-light .text-white\/90:not(.theme-dark *) { color: rgba(17,17,17,.9); }
+.theme-light .text-white\/70:not(.theme-dark *) { color: rgba(17,17,17,.7); }
+.theme-light .text-white\/60:not(.theme-dark *) { color: rgba(17,17,17,.6); }
+.theme-light .text-white\/50:not(.theme-dark *) { color: rgba(17,17,17,.5); }
+.theme-light .text-\[\#A1A1AA\]:not(.theme-dark *) { color: #52525b; }
+.theme-light .text-\[\#A1A1AA\]\/25:not(.theme-dark *) { color: rgba(82,82,91,.45); }
+.theme-light .text-\[\#D4D4D8\]:not(.theme-dark *) { color: #3f3f46; }
+.theme-light .hover\:text-white:not(.hover\:bg-\[\#A100FF\]):not(.theme-dark *):hover { color: #111111; }
+.theme-light :where(.group):hover .group-hover\:text-white:not(.theme-dark *) { color: #111111; }
+.theme-light .fill-white:not(.theme-dark *) { fill: #111111; }
+.theme-light .placeholder-white\/30::placeholder { color: rgba(17,17,17,.4); }
+.theme-light .glow-text { text-shadow: none; }
+
+/* ── Superfícies (cards) e bordas ───────────────────────────────────────── */
+.theme-light .bg-white\/3:not(.theme-dark *) { background-color: #f6f6f6; }
+.theme-light .bg-white\/5:not(.theme-dark *) { background-color: #f1f1f1; }
+.theme-light .bg-white\/10:not(.theme-dark *) { background-color: rgba(0,0,0,.06); }
+.theme-light .bg-white\/20:not(.theme-dark *) { background-color: rgba(0,0,0,.10); }
+.theme-light .hover\:bg-white\/3:not(.theme-dark *):hover { background-color: #efefef; }
+.theme-light .hover\:bg-white\/5:not(.theme-dark *):hover { background-color: #eaeaea; }
+.theme-light .border-white\/5:not(.theme-dark *) { border-color: rgba(0,0,0,.06); }
+.theme-light .border-white\/8:not(.theme-dark *) { border-color: rgba(0,0,0,.08); }
+.theme-light .border-white\/10:not(.theme-dark *) { border-color: rgba(0,0,0,.10); }
+.theme-light .border-white\/15:not(.theme-dark *) { border-color: rgba(0,0,0,.14); }
+.theme-light .border-white\/20:not(.theme-dark *) { border-color: rgba(0,0,0,.18); }
+.theme-light .hover\:border-white\/50:not(.theme-dark *):hover { border-color: rgba(0,0,0,.4); }
+.theme-light select option { background: #ffffff; color: #111111; }
+
+/* ── Gradientes escuros (heros, capas de artigo) -> tons claros ─────────── */
+.theme-light [class*="from-[#"]:not(.theme-dark *):where([class~="to-[#050505]"], [class*="via-[#0d0020]"]) {
+  --tw-gradient-from: #f3f0f8;
+  --tw-gradient-via: #f7f7f7;
+  --tw-gradient-to: #ffffff;
+}
+.theme-light [class~="to-[#050505]"]:not(.theme-dark *) { --tw-gradient-to: #ffffff; }
+.theme-light [class*="from-[#00"]:not(.theme-dark *),
+.theme-light [class*="from-[#0a"]:not(.theme-dark *),
+.theme-light [class*="from-[#1a0"]:not(.theme-dark *) { --tw-gradient-from: #ecebf3; --tw-gradient-via: #f5f4f9; }
+.theme-light .hover\:bg-\[\#A100FF\]\/5:not(.theme-dark *):hover { background-color: rgba(161,0,255,.05); }
+
+/* ── Chips de categoria (blog): tom 400 sobre fundo escuro -> 700 sobre tinta clara */
+.theme-light .text-orange-400  { color: #c2410c; } .theme-light .bg-orange-900\/20  { background-color: #ffedd5; }
+.theme-light .text-green-400   { color: #15803d; } .theme-light .bg-green-900\/20   { background-color: #dcfce7; }
+.theme-light .text-yellow-400  { color: #a16207; } .theme-light .bg-yellow-900\/20  { background-color: #fef9c3; }
+.theme-light .text-red-400     { color: #b91c1c; } .theme-light .bg-red-900\/20     { background-color: #fee2e2; }
+.theme-light .text-pink-400    { color: #be185d; } .theme-light .bg-pink-900\/20    { background-color: #fce7f3; }
+.theme-light .text-blue-400    { color: #1d4ed8; } .theme-light .bg-blue-900\/20    { background-color: #dbeafe; }
+.theme-light .text-violet-400  { color: #6d28d9; } .theme-light .bg-violet-900\/20  { background-color: #ede9fe; }
+.theme-light .text-teal-400    { color: #0f766e; } .theme-light .bg-teal-900\/20    { background-color: #ccfbf1; }
+.theme-light .text-slate-400   { color: #334155; } .theme-light .bg-slate-900\/20   { background-color: #e2e8f0; }
+.theme-light .text-sky-400     { color: #0369a1; } .theme-light .bg-sky-900\/20     { background-color: #e0f2fe; }
+.theme-light .text-rose-400    { color: #be123c; } .theme-light .bg-rose-900\/20    { background-color: #ffe4e6; }
+.theme-light .text-purple-400  { color: #7e22ce; } .theme-light .bg-purple-900\/20  { background-color: #f3e8ff; }
+.theme-light .text-indigo-400  { color: #4338ca; } .theme-light .bg-indigo-900\/20  { background-color: #e0e7ff; }
+.theme-light .text-fuchsia-400 { color: #a21caf; } .theme-light .bg-fuchsia-900\/20 { background-color: #fae8ff; }
+.theme-light .text-emerald-400 { color: #047857; } .theme-light .bg-emerald-900\/20 { background-color: #d1fae5; }
+.theme-light .text-cyan-400    { color: #0e7490; } .theme-light .bg-cyan-900\/20    { background-color: #cffafe; }
+.theme-light .text-amber-400   { color: #b45309; } .theme-light .bg-amber-900\/20   { background-color: #fef3c7; }
+.theme-light .text-gray-400    { color: #6b7280; }
+.theme-light .bg-orange-400\/10, .theme-light .bg-green-400\/10, .theme-light .bg-blue-400\/10, .theme-light .bg-yellow-400\/10 { background-color: rgba(0,0,0,.05); }
+
+/* ── Hero da home: orbes roxos viram círculos cinza suaves (referência) ───── */
+.theme-light #home .blur-\[80px\].bg-\[\#A100FF\]\/10 { background-color: #f3f3f3; filter: blur(2px); }
+.theme-light #home .blur-\[80px\].bg-\[\#A100FF\]\/5  { display: none; } /* cobria os CTAs no fundo claro */
+/* círculo decorativo fica atrás do conteúdo (no escuro o blur o escondia) e só no desktop */
+.theme-light #home > .absolute.inset-0 { z-index: 0; }
+.theme-light #home > .max-w-7xl { position: relative; z-index: 1; }
+@media (max-width: 1023px) {
+  .theme-light #home .blur-\[80px\].bg-\[\#A100FF\]\/10 { display: none; }
+}
+.theme-light #home .blur-3xl.bg-\[\#A100FF\]\/20 { background-color: rgba(161,0,255,.06); }
+.theme-light #home svg circle[fill="#050505"] { fill: #ffffff; }
+.theme-light #home svg circle[fill="#ffffff"] { fill: #A100FF; }
+
+/* ── Botão primário roxo mantém texto branco (dentro e no próprio elemento) ── */
+.theme-light .bg-\[\#A100FF\] .text-white,
+.theme-light .bg-\[\#A100FF\].text-white { color: #ffffff; }
+.theme-light .bg-\[\#A100FF\] .fill-white { fill: #ffffff; }
+.theme-light .focus-visible\:ring-offset-black:focus-visible { --tw-ring-offset-color: #ffffff; }
+
+/* ── Campo de telefone (formulário de contato) ───────────────────────────── */
+.theme-light .ciclo-phone-input { background: #f1f1f1; border-color: rgba(0,0,0,.14); }
+.theme-light .ciclo-phone-input .PhoneInputInput { color: #111111; }
+.theme-light .ciclo-phone-input .PhoneInputInput::placeholder { color: rgba(17,17,17,.4); }
+.theme-light .ciclo-phone-input .PhoneInputCountrySelectArrow { border-top-color: rgba(0,0,0,.45); }
+
+/* ── Logo: branco no escuro, preto no claro ─────────────────────────────── */
+.theme-light .logo-on-dark { display: none; }
+.logo-on-light { display: none; }
+.theme-light .logo-on-light { display: block; }

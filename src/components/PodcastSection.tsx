@@ -57,7 +57,7 @@ export default function PodcastSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.04 }}
-                className="group relative rounded-xl overflow-hidden border border-white/8 hover:border-[#A100FF]/40 transition-colors block"
+                className="theme-dark group relative rounded-xl overflow-hidden border border-white/8 hover:border-[#A100FF]/40 transition-colors block"
                 aria-label={`Assistir: ${video.title}`}
               >
                 <Image

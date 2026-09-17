@@ -86,7 +86,8 @@ export default function Footer() {
         <div className="border-t border-white/5 pt-8 flex flex-col sm:flex-row items-center justify-between gap-6">
           {/* Logo */}
           <div>
-            <Image src="/logo-ciclo.png" alt="Ciclo E-commerce" width={160} height={60} className="h-[60px] w-auto" />
+            <Image src="/logo-ciclo.png" alt="Ciclo E-commerce" width={160} height={60} className="h-[60px] w-auto logo-on-dark" />
+            <Image src="/logo-ciclo-black.png" alt="Ciclo E-commerce" width={160} height={60} className="h-[60px] w-auto logo-on-light" />
           </div>
 
           {/* Socials */}

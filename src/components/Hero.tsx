@@ -42,24 +42,14 @@ export default function Hero() {
               </p>
             </m.div>
 
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-6">
-              Obcecados por{' '}
-              <span className="text-[#A100FF] glow-text">crescimento.</span>
+            <h1 className="text-4xl sm:text-5xl font-bold leading-tight tracking-tight mb-8">
+              Decodificamos o futuro
               <br />
-              Inimigos do
-              <br />
-              desperdício.
+              do e-commerce
+              <span className="block mt-3 text-[#A1A1AA] font-medium text-2xl sm:text-3xl leading-snug tracking-normal">
+                para as marcas que mais crescem.
+              </span>
             </h1>
-
-            {/* Clearer description of what Ciclo actually does */}
-            <div className="mb-8 space-y-3 max-w-xl">
-              <p className="text-white/90 text-lg leading-relaxed font-medium">
-                A Ciclo E-commerce conecta sua marca do primeiro impacto até a recompra.
-              </p>
-              <p className="text-[#A1A1AA] text-base leading-relaxed">
-                Geração, captação e expansão de demanda integradas — para e-commerces que querem crescer com eficiência, previsibilidade e margem.
-              </p>
-            </div>
 
             <div className="flex flex-col sm:flex-row gap-4 mb-10">
               <Button href="#contato" arrow size="lg">

@@ -24,7 +24,7 @@ import RecaptchaProvider from '@/components/RecaptchaProvider'
 export default function Home() {
   return (
     <RecaptchaProvider>
-    <main>
+    <main className="theme-light">
       <div id="scroll-sentinel" aria-hidden="true" className="absolute top-0 h-1 w-full pointer-events-none" />
       <Header />
       <Hero />

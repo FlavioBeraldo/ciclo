@@ -56,7 +56,8 @@ export default function Header() {
         <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
           <a href="/" aria-label="Ciclo E-commerce - Página inicial">
-            <Image src="/logo-ciclo.png" alt="Ciclo E-commerce" width={160} height={60} priority className="h-[60px] w-auto" />
+            <Image src="/logo-ciclo.png" alt="Ciclo E-commerce" width={160} height={60} priority className="h-[60px] w-auto logo-on-dark" />
+            <Image src="/logo-ciclo-black.png" alt="Ciclo E-commerce" width={160} height={60} priority className="h-[60px] w-auto logo-on-light" />
           </a>
 
           {/* Desktop Nav */}
