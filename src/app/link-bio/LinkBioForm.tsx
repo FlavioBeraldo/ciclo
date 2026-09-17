@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import Image from 'next/image'
 import { ArrowRight, Check } from 'lucide-react'
 import PhoneField from '@/components/ui/PhoneField'
 import { useForm } from 'react-hook-form'
@@ -42,9 +41,9 @@ const STEPS: StepDef[] = [
     id: 'whatsapp',
     question: 'Qual é o seu WhatsApp?',
     hint: 'É o canal mais rápido para falarmos com você.',
-    placeholder: '+55 (11) 99999-9999',
+    placeholder: '(11) 99999-9999',
     type: 'phone',
-    validate: (v) => (v.replace(/\D/g, '').length >= 10 ? null : 'Digite um número válido com DDD'),
+    validate: (v) => (v.replace(/\D/g, '').length >= 12 ? null : 'Digite um número válido com DDD'),
   },
   {
     id: 'empresa',
@@ -75,17 +74,22 @@ export default function LinkBioForm() {
   const [answers, setAnswers] = useState<Record<string, string>>({})
   const [value, setValue] = useState('')
   const [error, setError] = useState<string | null>(null)
-  const [saving, setSaving] = useState(false)
   const [finished, setFinished] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
   const eventIdRef = useRef<string>('')
-  // react-hook-form apenas para reaproveitar o PhoneField (máscara + DDI)
-  const { control, watch, setValue: setPhone } = useForm<{ phone: string }>({ defaultValues: { phone: '' } })
+  // Fila de gravação: as etapas avançam na hora, mas os POSTs saem em ordem —
+  // a etapa 1 precisa criar a sessão antes de as seguintes atualizarem o deal.
+  const queueRef = useRef<Promise<unknown>>(Promise.resolve())
+  const { control, watch, setValue: setPhone } = useForm<{ phone: string }>({
+    defaultValues: { phone: '+55' },
+  })
   const phoneValue = watch('phone')
 
   const step = STEPS[index]
   const isPhone = step?.type === 'phone'
   const current = isPhone ? (phoneValue ?? '') : value
+  const filled = isPhone ? (current?.replace(/\D/g, '').length ?? 0) > 4 : current.trim().length > 0
+  const valid = step ? !step.validate(current) : false
 
   useEffect(() => {
     eventIdRef.current = newEventId()
@@ -98,7 +102,6 @@ export default function LinkBioForm() {
   // Mede a visualização de cada etapa (funil de preenchimento)
   useEffect(() => {
     if (finished || !step) return
-    track('cta_click', { form: 'link-bio', step: step.id, step_number: index + 1 })
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ;(window as any).dataLayer?.push({
       event: 'link_bio_step_view',
@@ -107,7 +110,7 @@ export default function LinkBioForm() {
     })
   }, [index, finished, step])
 
-  const submitStep = async (raw: string) => {
+  const submitStep = (raw: string) => {
     if (!step) return
     const val = raw.trim()
     const problem = step.validate(val)
@@ -116,36 +119,42 @@ export default function LinkBioForm() {
       return
     }
 
-    setError(null)
-    setSaving(true)
     const nextAnswers = { ...answers, [step.id]: val }
     const isLast = index === STEPS.length - 1
     const attribution = getAttributionPayload()
+    const stepId = step.id
 
-    try {
-      // Salvamento progressivo: cada etapa já grava no Pipedrive
-      await fetch('/api/link-bio', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          step: step.id,
-          data: nextAnswers,
-          attribution,
-          complete: isLast,
-          event_id: eventIdRef.current,
-          page_url: window.location.href,
-        }),
-      })
-    } catch {
-      // Falha de rede não pode travar a jornada do lead
-    }
+    // Gravação em segundo plano, enfileirada para manter a ordem das etapas
+    queueRef.current = queueRef.current
+      .catch(() => {})
+      .then(() =>
+        fetch('/api/link-bio', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          keepalive: true,
+          body: JSON.stringify({
+            step: stepId,
+            data: nextAnswers,
+            attribution,
+            complete: isLast,
+            event_id: eventIdRef.current,
+            page_url: window.location.href,
+          }),
+        }).catch(() => {
+          // Falha de rede não pode travar a jornada do lead
+        })
+      )
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ;(window as any).dataLayer?.push({
       event: 'link_bio_step_complete',
-      step: step.id,
+      step: stepId,
       step_number: index + 1,
     })
+
+    // A UI avança imediatamente — sem esperar a rede
+    setError(null)
+    setAnswers(nextAnswers)
 
     if (isLast) {
       pushConversion('generate_lead', {
@@ -157,26 +166,24 @@ export default function LinkBioForm() {
         extra: { annual_revenue: nextAnswers.faturamento, lead_type: 'link-bio' },
       })
       track('form_submit', { form: 'link-bio' })
-      setAnswers(nextAnswers)
-      setSaving(false)
       setFinished(true)
       return
     }
 
-    setAnswers(nextAnswers)
     setValue('')
-    setPhone('phone', '')
-    setSaving(false)
+    setPhone('phone', '+55')
     setIndex((i) => i + 1)
   }
 
   if (finished) {
     return (
-      <div className="animate-[fadeIn_.4s_ease]">
+      <div className="animate-[lbIn_.45s_cubic-bezier(.16,1,.3,1)]">
         <div className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center mb-8">
           <Check className="w-6 h-6 text-white" />
         </div>
-        <h2 className="font-serif-lb text-4xl sm:text-5xl text-white mb-5">Recebemos sua aplicação.</h2>
+        <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-white mb-5">
+          Recebemos sua aplicação.
+        </h2>
         <p className="text-white/50 text-base leading-relaxed max-w-md mb-10">
           Nosso time vai analisar as informações e retorna pelo WhatsApp ou e-mail que você deixou.
           Enquanto isso, você pode conhecer o método que aplicamos em mais de 300 marcas.
@@ -205,7 +212,7 @@ export default function LinkBioForm() {
       <div className="flex items-center gap-3 mb-10">
         <div className="flex-1 h-px bg-white/10 relative overflow-hidden">
           <div
-            className="absolute inset-y-0 left-0 bg-white/70 transition-all duration-500"
+            className="absolute inset-y-0 left-0 bg-white/70 transition-[width] duration-500 ease-out"
             style={{ width: `${(index / STEPS.length) * 100}%` }}
           />
         </div>
@@ -219,24 +226,24 @@ export default function LinkBioForm() {
         Precisamos de algumas informações para termos certeza de que temos uma solução que te atenda no momento.
       </p>
 
-      <div key={step.id} className="animate-[fadeIn_.4s_ease]">
-        <h2 className="font-serif-lb text-3xl sm:text-[2.6rem] leading-tight text-white mb-3">
+      <div key={step.id} className="animate-[lbIn_.45s_cubic-bezier(.16,1,.3,1)]">
+        <h2 className="text-2xl sm:text-[2rem] font-bold tracking-tight leading-tight text-white mb-3">
           {step.question}
-          <span className="text-white/30">*</span>
+          <span className="text-white/30 font-normal">*</span>
         </h2>
         {step.hint && <p className="text-white/40 text-sm mb-8">{step.hint}</p>}
 
         {step.type === 'choice' ? (
-          <div className="flex flex-col gap-2.5 mb-8 max-w-lg">
+          <div className="flex flex-col gap-2.5 mb-6 max-w-lg">
             {step.options!.map((option) => (
               <button
                 key={option}
                 type="button"
-                disabled={saving}
                 onClick={() => submitStep(option)}
-                className="text-left border border-white/15 rounded-xl px-5 py-4 text-white/90 text-sm hover:border-white/60 hover:bg-white/5 transition-all disabled:opacity-50"
+                className="group flex items-center justify-between text-left border border-white/15 rounded-xl px-5 py-4 text-white/80 text-sm hover:border-white hover:bg-white/5 hover:text-white transition-all"
               >
                 {option}
+                <ArrowRight className="w-4 h-4 opacity-0 -translate-x-1 group-hover:opacity-60 group-hover:translate-x-0 transition-all" />
               </button>
             ))}
           </div>
@@ -248,30 +255,42 @@ export default function LinkBioForm() {
             }}
             className="max-w-lg"
           >
-            {isPhone ? (
-              <div className="lb-phone mb-8">
-                <PhoneField name="phone" control={control} placeholder={step.placeholder} />
-              </div>
-            ) : (
-              <input
-                ref={inputRef}
-                type={step.type === 'email' ? 'email' : 'text'}
-                inputMode={step.type === 'email' ? 'email' : 'text'}
-                autoComplete={step.id === 'email' ? 'email' : step.id === 'empresa' ? 'organization' : 'organization-title'}
-                value={value}
-                onChange={(e) => setValue(e.target.value)}
-                placeholder={step.placeholder}
-                className="w-full bg-transparent border-b border-white/25 focus:border-white pb-3 mb-8 text-white text-xl placeholder-white/25 outline-none transition-colors"
-              />
-            )}
+            {/* Campo: linha que "acende" no foco e marca de validado quando pronto */}
+            <div className={`lb-field ${filled ? 'is-filled' : ''} ${valid ? 'is-valid' : ''} mb-8`}>
+              {isPhone ? (
+                <div className="lb-phone">
+                  <PhoneField name="phone" control={control} placeholder={step.placeholder} />
+                </div>
+              ) : (
+                <input
+                  ref={inputRef}
+                  type={step.type === 'email' ? 'email' : 'text'}
+                  inputMode={step.type === 'email' ? 'email' : 'text'}
+                  autoComplete={
+                    step.id === 'email' ? 'email' : step.id === 'empresa' ? 'organization' : 'organization-title'
+                  }
+                  value={value}
+                  onChange={(e) => {
+                    setValue(e.target.value)
+                    if (error) setError(null)
+                  }}
+                  placeholder={step.placeholder}
+                  className="lb-input"
+                />
+              )}
+              <span className="lb-line" aria-hidden="true" />
+              <Check className="lb-check" aria-hidden="true" />
+            </div>
 
             <button
               type="submit"
-              disabled={saving}
-              className="inline-flex items-center gap-2 bg-white/15 hover:bg-white text-white hover:text-black rounded-md px-7 py-3 text-xs font-semibold uppercase tracking-[0.2em] transition-colors disabled:opacity-50 disabled:cursor-wait"
+              className="group inline-flex items-center gap-2.5 bg-white text-black rounded-full pl-6 pr-5 py-3 text-sm font-semibold tracking-wide hover:gap-4 transition-all disabled:opacity-40"
+              disabled={!filled}
             >
-              {saving ? 'Enviando…' : 'Continuar'}
+              Continuar
+              <ArrowRight className="w-4 h-4" />
             </button>
+            <span className="hidden sm:inline text-white/25 text-xs ml-4">ou pressione Enter</span>
           </form>
         )}
 

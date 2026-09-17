@@ -232,13 +232,54 @@ body {
 .article-light .wp-content *[style*="color: #fff"] { color: #374151 !important; }
 
 /* ── /link-bio — aplicação estilo typeform (uso em redes sociais) ───────────── */
-.lb-root .font-serif-lb {
-  font-family: var(--font-playfair-lb), Georgia, 'Times New Roman', serif;
-}
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(8px); }
+@keyframes lbIn {
+  from { opacity: 0; transform: translateY(10px); }
   to   { opacity: 1; transform: translateY(0); }
 }
+
+/* Campo: linha base discreta que "acende" no foco, com marca de validado */
+.lb-field {
+  position: relative;
+  padding-bottom: 0.85rem;
+  border-bottom: 1px solid rgba(255,255,255,.18);
+  transition: border-color .2s ease;
+}
+.lb-field.is-filled { border-bottom-color: rgba(255,255,255,.4); }
+.lb-field .lb-line {
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  height: 1px;
+  width: 0;
+  background: #ffffff;
+  transition: width .35s cubic-bezier(.16,1,.3,1);
+}
+.lb-field:focus-within .lb-line { width: 100%; }
+.lb-input {
+  width: 100%;
+  background: transparent;
+  border: 0;
+  outline: none;
+  color: #ffffff;
+  font-size: 1.375rem;
+  letter-spacing: -0.01em;
+  padding-right: 2rem;
+}
+.lb-input::placeholder { color: rgba(255,255,255,.22); }
+/* Check de validado: aparece só quando o valor passa na validação */
+.lb-field .lb-check {
+  position: absolute;
+  right: 0;
+  top: 0.15rem;
+  width: 1.15rem;
+  height: 1.15rem;
+  color: #ffffff;
+  opacity: 0;
+  transform: scale(.8);
+  transition: opacity .2s ease, transform .2s cubic-bezier(.16,1,.3,1);
+  pointer-events: none;
+}
+.lb-field.is-valid .lb-check { opacity: .85; transform: scale(1); }
 /* Centralização segura: quando a etapa é mais alta que a tela (ex.: faturamento
    com 5 opções em telas baixas), o conteúdo alinha ao topo em vez de cortar. */
 .lb-root {
@@ -262,17 +303,23 @@ body {
 .lb-phone .ciclo-phone-input {
   background: transparent;
   border: none;
-  border-bottom: 1px solid rgba(255,255,255,.25);
   border-radius: 0;
-  padding: 0 0 .75rem;
+  padding: 0;
+  gap: 12px;
 }
 .lb-phone .ciclo-phone-input:focus-within {
-  border-bottom-color: #ffffff;
   box-shadow: none;
 }
 .lb-phone .ciclo-phone-input .PhoneInputInput {
-  font-size: 1.25rem;
+  font-size: 1.375rem;
+  letter-spacing: -0.01em;
   color: #ffffff;
+  padding-right: 2rem;
+}
+.lb-phone .ciclo-phone-input .PhoneInputCountryIcon {
+  width: 1.5rem;
+  border-radius: 2px;
+  overflow: hidden;
 }
 .lb-phone .ciclo-phone-input .PhoneInputInput::placeholder {
   color: rgba(255,255,255,.25);
