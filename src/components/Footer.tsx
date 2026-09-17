@@ -87,7 +87,7 @@ export default function Footer() {
           {/* Logo */}
           <div>
             <Image src="/logo-ciclo.png" alt="Ciclo E-commerce" width={160} height={60} className="h-[60px] w-auto logo-on-dark" />
-            <Image src="/logo-ciclo-black.png" alt="Ciclo E-commerce" width={160} height={60} className="h-[60px] w-auto logo-on-light" />
+            <Image src="/logo-ciclo-black.png" alt="Ciclo E-commerce" width={1010} height={250} className="h-[26px] w-auto logo-on-light" />
           </div>
 
           {/* Socials */}
