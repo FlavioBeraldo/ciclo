@@ -92,7 +92,7 @@ export default async function BlogPage({
   }
 
   return (
-    <>
+    <div className="theme-light">
       <Header />
       <main className="min-h-screen bg-[#050505] pt-20">
         <div className="fixed inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
@@ -259,6 +259,6 @@ export default async function BlogPage({
         </div>
       </main>
       <Footer />
-    </>
+    </div>
   )
 }

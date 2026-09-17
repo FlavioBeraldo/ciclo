@@ -197,7 +197,7 @@ export default async function BlogPostPage({ params }: Props) {
       : null
 
   return (
-    <>
+    <div className="theme-light">
       <JsonLd data={articleLd} />
       {faqLd && <JsonLd data={faqLd} />}
       <Header />
@@ -316,6 +316,6 @@ export default async function BlogPostPage({ params }: Props) {
         </div>
       </main>
       <Footer />
-    </>
+    </div>
   )
 }
