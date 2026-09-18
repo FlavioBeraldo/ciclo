@@ -67,7 +67,7 @@ const sections = [
     ],
     list: [
       'Pipedrive Inc. (CRM): para gestão e acompanhamento do relacionamento comercial',
-      'Google LLC (Google Tag Manager, Google Analytics, Google Ads): para análise de desempenho e otimização de campanhas',
+      'Google LLC (Google Tag Manager, Google Analytics, Google Ads): para análise de desempenho e otimização de campanhas. Quando você envia um formulário, o seu e-mail e telefone são transmitidos ao Google Analytics e ao Google Ads de forma criptografada com hash (SHA-256), de modo irreversível, para medição de conversões e reconhecimento do mesmo usuário entre dispositivos (recurso "dados fornecidos pelo usuário"). O Google não recebe esses dados em texto legível.',
       'Meta Platforms Inc. (Meta Pixel): para análise e veiculação de anúncios',
       'Vercel Inc.: provedor de hospedagem do site, que processa dados de navegação',
       'Autoridades públicas: quando exigido por ordem judicial, regulatória ou legal',
@@ -171,8 +171,9 @@ const sections = [
     id: 'cookies-identificacao',
     title: '12. Cookies de identificação e registro de navegação',
     content: [
-      'Utilizamos dois cookies próprios para entender sua jornada no site: ciclo_uid (um identificador aleatório e anônimo do seu navegador) e ciclo_attr (a origem da sua primeira visita — por exemplo, campanha, rede social ou busca).',
+      'Utilizamos três cookies próprios para entender sua jornada no site: ciclo_uid (um identificador aleatório e anônimo do seu navegador), ciclo_attr (a origem da sua primeira visita — por exemplo, campanha, rede social ou busca) e ciclo_ga4_uid (descrito abaixo).',
       'Finalidade: registrar as páginas visitadas e interações (como downloads de materiais) para personalizar o atendimento comercial no nosso CRM. A associação entre a sua navegação e os seus dados pessoais (nome, e-mail) só acontece quando você envia um formulário e aceita expressamente esta Política.',
+      'ciclo_ga4_uid: gravado somente depois que você envia um formulário. Contém um código derivado do seu e-mail por hash criptográfico (SHA-256), que não permite reconstruir o e-mail original. Esse código é usado como identificador de usuário (User-ID) no Google Analytics para reconhecer as suas visitas em sessões e dispositivos diferentes, e é armazenado também no localStorage do navegador. Validade: até 13 meses.',
       'Retenção: os registros de navegação são mantidos por até 12 meses.',
     ],
     cta: {
@@ -180,7 +181,24 @@ const sections = [
       label: 'Desativar o registro de navegação neste navegador',
     },
     extra: [
-      'Ao desativar, os cookies ciclo_uid e ciclo_attr são apagados e o seu identificador é marcado para não registrar novos eventos. Também respeitamos o sinal "Do Not Track" do navegador.',
+      'Ao desativar, os cookies ciclo_uid, ciclo_attr e ciclo_ga4_uid são apagados (inclusive a cópia em localStorage) e o seu identificador é marcado para não registrar novos eventos. Também respeitamos o sinal "Do Not Track" do navegador.',
+    ],
+  },
+  {
+    id: 'transferencia-internacional',
+    title: '13. Transferência internacional de dados',
+    content: [
+      'Alguns dos fornecedores listados na seção 5 estão sediados fora do Brasil, principalmente nos Estados Unidos. Por isso, dados pessoais e de navegação podem ser transferidos e armazenados em servidores no exterior pelas seguintes empresas:',
+    ],
+    list: [
+      'Google LLC (Google Analytics, Google Ads, Google Tag Manager) — Estados Unidos',
+      'Meta Platforms Inc. (Meta Pixel) — Estados Unidos',
+      'Pipedrive Inc. (CRM) — Estados Unidos e União Europeia',
+      'Vercel Inc. (hospedagem do site) — Estados Unidos',
+    ],
+    extra: [
+      'Essas transferências ocorrem com fundamento no art. 33 da LGPD, mediante cláusulas contratuais padrão e compromissos de proteção de dados assumidos por cada fornecedor em nível equivalente ao exigido pela legislação brasileira. Sempre que possível, os dados são transmitidos de forma minimizada ou criptografada com hash, como descrito nas seções 5 e 12.',
+      'Você pode solicitar mais informações sobre essas transferências pelo e-mail privacidade@cicloecommerce.com.br.',
     ],
   },
 ]
@@ -204,7 +222,7 @@ export default function PoliticaDePrivacidade() {
             (LGPD — Lei nº 13.709/2018).
           </p>
           <p className="text-sm text-[#71717A]">
-            Última atualização: maio de 2025
+            Última atualização: setembro de 2026
           </p>
         </div>
 
