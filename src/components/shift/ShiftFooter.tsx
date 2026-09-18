@@ -1,5 +1,4 @@
 import Image from 'next/image'
-import Link from 'next/link'
 
 // Rodapé exclusivo da landing da Consultoria E-com Shift: marca, dados legais,
 // política de privacidade e os perfis reais da Ciclo. Sem a grade de ofertas e
@@ -17,7 +16,8 @@ export default function ShiftFooter() {
       <div className="shift-container">
         <hr className="shift-rule" />
         <div className="shift-footer-top">
-          <Link href="/" aria-label="Ciclo E-commerce — página inicial">
+          {/* Mesma regra do cabeçalho: a marca não leva para fora da landing */}
+          <a href="#topo" aria-label="Voltar ao topo da página">
             <Image
               src="/logo-ciclo-white.png"
               alt="Ciclo E-commerce"
@@ -25,7 +25,7 @@ export default function ShiftFooter() {
               height={250}
               className="h-5 w-auto"
             />
-          </Link>
+          </a>
 
           <div className="shift-footer-socials">
             {SOCIALS.map((social) => (

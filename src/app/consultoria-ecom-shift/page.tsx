@@ -260,6 +260,8 @@ export default function ConsultoriaEcomShiftPage() {
       />
 
       <div className={`shift ${anton.variable}`}>
+        {/* Destino do logo do cabeçalho e do rodapé */}
+        <span id="topo" aria-hidden="true" />
         <ShiftHeader />
 
         <main>

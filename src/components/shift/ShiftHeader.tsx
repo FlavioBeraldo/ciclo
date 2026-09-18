@@ -15,7 +15,8 @@ export default function ShiftHeader() {
   return (
     <header className="shift-header">
       <div className="shift-container shift-header-inner">
-        <Link href="/" aria-label="Ciclo E-commerce — página inicial">
+        {/* A landing é fechada: a marca volta ao topo desta página, não ao site */}
+        <a href="#topo" aria-label="Voltar ao topo da página">
           <Image
             src="/logo-ciclo-white.png"
             alt="Ciclo E-commerce"
@@ -24,7 +25,7 @@ export default function ShiftHeader() {
             className="h-5 w-auto"
             priority
           />
-        </Link>
+        </a>
 
         <nav className="shift-header-nav" aria-label="Seções da consultoria">
           {ANCHORS.map((anchor) => (

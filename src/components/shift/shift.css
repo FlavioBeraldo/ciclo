@@ -870,3 +870,11 @@
   color: var(--muted-on-ink);
   margin-top: 0.5rem;
 }
+
+/* Rolagem suave apenas nas páginas da identidade E-com Shift. O :has() limita
+   o efeito a estas duas rotas, sem tocar no scroll do resto do site. */
+@media (prefers-reduced-motion: no-preference) {
+  html:has(.shift) { scroll-behavior: smooth; }
+}
+/* O topo é o topo mesmo: sem o recuo que as demais âncoras usam */
+.shift #topo { scroll-margin-top: 0; }
