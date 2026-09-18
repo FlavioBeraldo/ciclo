@@ -2,11 +2,14 @@ import { NextRequest, NextResponse } from 'next/server'
 import { pipedriveUrl, attributionFieldKeys } from '@/lib/pipedrive-server'
 import { isWebhookAuthorized } from '@/lib/webhook-auth'
 import { funnelEventForStage, sendDealFunnelEvent, type DealLike } from '@/lib/pipedrive-funnel-events'
+import { processGa4LeadEvents } from '@/lib/ga4-lead-events'
 
 export const runtime = 'nodejs'
 
 // Webhook do Pipedrive (updated.deal):
 //  - mudança de etapa -> evento de funil na Meta (Schedule, QualifiedLead, ...) via CAPI
+//  - funis Site/Whats e Playbooks -> qualify_lead / close_convert_lead no GA4
+//                        (regras em lib/ga4-lead-events.ts)
 //  - negócio "won"    -> Purchase na Meta (CAPI) + purchase no GA4 (Measurement Protocol),
 //                        amarrado ao GA Client ID capturado no lead.
 //
@@ -41,28 +44,11 @@ export async function POST(req: NextRequest) {
     const stageChanged =
       typeof current.stage_id === 'number' && prevHas('stage_id') && previous!.stage_id !== current.stage_id
 
-    // ── Meta: evento de funil por mudança de etapa ─────────────────────────────
-    const meta: Record<string, unknown> = {}
-    if (stageChanged && !becameWon) {
-      const funnelEvent = await funnelEventForStage(current.stage_id as number)
-      if (funnelEvent) {
-        const dealRes = await fetch(pipedriveUrl(`/deals/${Number(current.id)}`))
-        const dealData = await dealRes.json()
-        if (dealData.success && dealData.data) {
-          meta[funnelEvent.name] = await sendDealFunnelEvent(dealData.data as DealLike, funnelEvent)
-        }
-      }
+    if (!stageChanged && !becameWon) {
+      return NextResponse.json({ skipped: true })
     }
 
-    if (!becameWon) {
-      return NextResponse.json({ skipped: !stageChanged, meta })
-    }
-
-    // G-EY1FLE5C0J = fluxo GA4 do container GTM-5NNPNZ (fallback se a env não estiver definida)
-    const measurementId = process.env.GA4_MEASUREMENT_ID || 'G-EY1FLE5C0J'
-    const apiSecret = process.env.GA4_API_SECRET
-
-    // Busca o deal completo para ler os campos personalizados de atribuição
+    // Busca o deal completo (uma vez) para ler os campos personalizados de atribuição
     const dealId = Number(current.id)
     const dealRes = await fetch(pipedriveUrl(`/deals/${dealId}`))
     const dealData = await dealRes.json()
@@ -71,6 +57,26 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ skipped: true, reason: 'deal_fetch_failed' })
     }
     const deal = dealData.data as Record<string, unknown>
+
+    // ── GA4: qualify_lead / close_convert_lead (só funis Site/Whats e Playbooks) ─
+    const ga4 = await processGa4LeadEvents(deal as DealLike, { stageChanged, becameWon }, { debug })
+
+    // ── Meta: evento de funil por mudança de etapa ─────────────────────────────
+    const meta: Record<string, unknown> = {}
+    if (stageChanged && !becameWon) {
+      const funnelEvent = await funnelEventForStage(current.stage_id as number)
+      if (funnelEvent) {
+        meta[funnelEvent.name] = await sendDealFunnelEvent(deal as DealLike, funnelEvent)
+      }
+    }
+
+    if (!becameWon) {
+      return NextResponse.json({ skipped: false, ga4, meta })
+    }
+
+    // G-EY1FLE5C0J = fluxo GA4 do container GTM-5NNPNZ (fallback se a env não estiver definida)
+    const measurementId = process.env.GA4_MEASUREMENT_ID || 'G-EY1FLE5C0J'
+    const apiSecret = process.env.GA4_API_SECRET
 
     // Meta: Purchase (CAPI) com o valor do negócio — independe do GA Client ID
     meta.Purchase = await sendDealFunnelEvent(deal as DealLike, { name: 'Purchase', custom: false })
@@ -86,11 +92,11 @@ export async function POST(req: NextRequest) {
     const clientId = field('ga_client_id')
     if (!apiSecret) {
       console.error('[Webhook] GA4_API_SECRET não configurado')
-      return NextResponse.json({ skipped: true, reason: 'ga4_env_missing', meta })
+      return NextResponse.json({ skipped: true, reason: 'ga4_env_missing', ga4, meta })
     }
     if (!clientId) {
       console.info('[Webhook] Deal', dealId, 'ganho sem GA Client ID — skip GA4 (lead não veio do site)')
-      return NextResponse.json({ skipped: true, reason: 'no_ga_client_id', meta })
+      return NextResponse.json({ skipped: true, reason: 'no_ga_client_id', ga4, meta })
     }
     const sessionId = field('ga_session_id')
 
@@ -137,9 +143,9 @@ export async function POST(req: NextRequest) {
 
     if (debug) {
       const validation = await mpRes.json().catch(() => null)
-      return NextResponse.json({ sent: true, deal_id: dealId, ga_validation: validation, meta })
+      return NextResponse.json({ sent: true, deal_id: dealId, ga_validation: validation, ga4, meta })
     }
-    return NextResponse.json({ sent: true, deal_id: dealId, meta })
+    return NextResponse.json({ sent: true, deal_id: dealId, ga4, meta })
   } catch (err) {
     // Nunca responder erro ao Pipedrive — ele desativa webhooks que falham repetidamente
     console.error('[Webhook] Erro interno:', err)
