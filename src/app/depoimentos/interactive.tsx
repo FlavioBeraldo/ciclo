@@ -25,7 +25,7 @@ const testimonials = [
     description: 'DANKI e os resultados de Full Funnel Marketing com a Ciclo.',
   },
   {
-    id: 'EhnxUiDMMRg',
+    id: 'MlDyvGg7rGs',
     brand: 'Mamô Brasil',
     role: 'CEO – Mamô Brasil',
     description: 'Mamô Brasil e sua estratégia de crescimento sustentável.',

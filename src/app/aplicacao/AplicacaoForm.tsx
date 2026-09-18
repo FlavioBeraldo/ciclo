@@ -48,32 +48,8 @@ interface StepDef {
 }
 
 const STEPS: StepDef[] = [
-  {
-    id: 'nome',
-    label: 'Nome completo',
-    question: 'Para começar, qual é o seu nome?',
-    placeholder: 'Nome e sobrenome',
-    type: 'text',
-    validate: (v) => (v.trim().length >= 2 ? null : 'Digite o seu nome'),
-  },
-  {
-    id: 'email',
-    label: 'E-mail corporativo',
-    question: 'Qual é o seu e-mail?',
-    hint: 'Use o e-mail corporativo — é por ele que retornamos.',
-    placeholder: 'nome@empresa.com',
-    type: 'email',
-    validate: (v) => (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()) ? null : 'Digite um e-mail válido'),
-  },
-  {
-    id: 'whatsapp',
-    label: 'WhatsApp',
-    question: 'Qual é o seu WhatsApp?',
-    hint: 'É o canal mais rápido para falarmos com você.',
-    placeholder: '(11) 99999-9999',
-    type: 'phone',
-    validate: (v) => (v.replace(/\D/g, '').length >= 12 ? null : 'Digite um número válido com DDD'),
-  },
+  // Contexto da operação primeiro, contato no fim. Os ids, as validações e o
+  // payload enviado seguem idênticos — só a ordem de exibição mudou.
   {
     id: 'empresa',
     label: 'Empresa ou loja',
@@ -123,7 +99,37 @@ const STEPS: StepDef[] = [
     placeholder:
       'Ex.: concentração de vendas em um canal, CAC subindo, base de clientes sem recompra, marca pouco lembrada antes da decisão de compra.',
     type: 'textarea',
-    validate: (v) => (v.trim().length >= 20 ? null : 'Conte um pouco mais (mínimo de 20 caracteres)'),
+    validate: (v) =>
+      v.trim().length >= 20
+        ? null
+        : 'Conte um pouco mais sobre o desafio, em pelo menos duas linhas.',
+  },
+  {
+    id: 'nome',
+    label: 'Nome completo',
+    // "Para começar" saiu porque o nome deixou de ser a primeira pergunta
+    question: 'Qual é o seu nome?',
+    placeholder: 'Nome e sobrenome',
+    type: 'text',
+    validate: (v) => (v.trim().length >= 2 ? null : 'Digite o seu nome'),
+  },
+  {
+    id: 'email',
+    label: 'E-mail corporativo',
+    question: 'Qual é o seu e-mail?',
+    hint: 'Use o e-mail corporativo — é por ele que retornamos.',
+    placeholder: 'nome@empresa.com',
+    type: 'email',
+    validate: (v) => (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()) ? null : 'Digite um e-mail válido'),
+  },
+  {
+    id: 'whatsapp',
+    label: 'WhatsApp',
+    question: 'Qual é o seu WhatsApp?',
+    hint: 'É o canal mais rápido para falarmos com você.',
+    placeholder: '(11) 99999-9999',
+    type: 'phone',
+    validate: (v) => (v.replace(/\D/g, '').length >= 12 ? null : 'Digite um número válido com DDD'),
   },
 ]
 
@@ -318,8 +324,8 @@ export default function AplicacaoForm() {
             style={{ width: `${progress}%`, backgroundColor: '#9451ff' }}
           />
         </div>
-        <span className="shift-eyebrow">
-          {String(index + 1).padStart(2, '0')} / {String(STEPS.length).padStart(2, '0')}
+        <span className="shift-eyebrow whitespace-nowrap">
+          {String(index + 1).padStart(2, '0')} de {STEPS.length} · cerca de 2 minutos
         </span>
       </div>
 
@@ -364,18 +370,26 @@ export default function AplicacaoForm() {
             })}
           </div>
         ) : step.type === 'textarea' ? (
-          <textarea
-            id={`campo-${step.id}`}
-            ref={textareaRef}
-            className="shift-textarea max-w-xl"
-            rows={5}
-            value={value}
-            placeholder={step.placeholder}
-            onChange={(e) => {
-              setValue(e.target.value)
-              if (error) setError(null)
-            }}
-          />
+          <div className="max-w-xl">
+            <textarea
+              id={`campo-${step.id}`}
+              ref={textareaRef}
+              className="shift-textarea"
+              rows={5}
+              value={value}
+              placeholder={step.placeholder}
+              aria-describedby={`contador-${step.id}`}
+              onChange={(e) => {
+                setValue(e.target.value)
+                if (error) setError(null)
+              }}
+            />
+            <p id={`contador-${step.id}`} className="shift-counter" aria-live="polite">
+              {value.trim().length < 20
+                ? `Faltam ${20 - value.trim().length} caracteres`
+                : `${value.trim().length} caracteres`}
+            </p>
+          </div>
         ) : isPhone ? (
           <div className="max-w-xl" id={`campo-${step.id}`}>
             <PhoneField name="phone" control={control} placeholder={step.placeholder} />
@@ -385,8 +399,11 @@ export default function AplicacaoForm() {
             id={`campo-${step.id}`}
             ref={inputRef}
             className="shift-input max-w-xl"
+            // type="url" acionaria a validação nativa, que exige esquema
+            // (https://) e barraria "sualoja.com.br". O teclado certo vem do
+            // inputMode; quem valida o endereço é a regra do próprio passo.
             type={step.type === 'email' ? 'email' : 'text'}
-            inputMode={step.type === 'email' ? 'email' : 'text'}
+            inputMode={step.type === 'email' ? 'email' : step.type === 'url' ? 'url' : 'text'}
             autoComplete={
               step.id === 'nome'
                 ? 'name'

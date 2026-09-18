@@ -6,7 +6,7 @@ import EcomShiftInteractive from './interactive'
 export const metadata: Metadata = {
   title: 'ECOM Shift | Treinamento de Marketing para Gestores de E-commerce na Era do Full Funnel',
   description:
-    'Treinamento intensivo de marketing para gestores de marketing e e-commerce. Aprenda o método Full Funnel Marketing com Flávio Beraldo, COO da Ciclo E-commerce. +250 gestores já transformaram suas operações.',
+    'Treinamento intensivo de marketing para gestores de marketing e e-commerce. Aprenda o método Full Funnel Marketing com Flávio Beraldo, Sócio e Diretor de Marketing da Ciclo E-commerce. +250 gestores já transformaram suas operações.',
   keywords: [
     'treinamento de marketing',
     'gestores de marketing',

@@ -18,7 +18,8 @@ export default function AplicacaoPage() {
     <div className={`shift ${anton.variable} min-h-screen`}>
       <main className="shift-container py-12 md:py-16">
         <div className="shift-signature">
-          <Link href="/" aria-label="Ciclo E-commerce — página inicial">
+          {/* A marca volta para a landing da consultoria, não para o site */}
+          <Link href="/consultoria-ecom-shift" aria-label="Voltar para a Consultoria E-com Shift">
             <Image
               src="/logo-ciclo-white.png"
               alt="Ciclo E-commerce"

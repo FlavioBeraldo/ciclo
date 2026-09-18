@@ -14,7 +14,8 @@ import YouTubeFacade from '@/components/ui/YouTubeFacade'
 interface Video {
   id: string
   brand: string
-  role: string
+  /** Cargo do depoente: guardado na fonte, mas não exibido no card */
+  role?: string
   description: string
 }
 
@@ -86,7 +87,6 @@ export default function ShiftVideoCarousel({ videos }: { videos: Video[] }) {
               />
             </div>
             <h3 className="shift-step-name mt-4">{video.brand}</h3>
-            <p className="shift-eyebrow mt-1 block">{video.role}</p>
             <p className="shift-body mt-2">{video.description}</p>
           </li>
         ))}
