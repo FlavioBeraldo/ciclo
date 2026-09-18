@@ -16,6 +16,10 @@
   --line-on-paper: rgba(29, 29, 27, 0.16);
   --muted-on-ink: rgba(239, 238, 237, 0.62);
   --muted-on-paper: rgba(29, 29, 27, 0.66);
+  /* Roxos com contraste suficiente para TEXTO em cada fundo (mín. 4.5:1).
+     --purple continua servindo a traços e detalhes, que não são texto. */
+  --purple-text-on-ink: #a67aff;
+  --purple-text-on-paper: #6d2fd0;
 
   background-color: var(--ink);
   color: var(--paper);
@@ -48,7 +52,7 @@
   background-color: var(--paper);
   color: var(--ink);
 }
-.shift-paper .shift-eyebrow { color: var(--ink); opacity: 0.55; }
+.shift-paper .shift-eyebrow { color: var(--muted-on-paper); opacity: 1; }
 .shift-paper .shift-lead,
 .shift-paper .shift-body { color: var(--muted-on-paper); }
 .shift-paper .shift-rule { background-color: var(--line-on-paper); }
@@ -80,7 +84,8 @@
   text-transform: uppercase;
   color: var(--muted-on-ink);
 }
-.shift-eyebrow--purple { color: var(--purple); opacity: 1; }
+.shift-eyebrow--purple { color: var(--purple-text-on-ink); opacity: 1; }
+.shift-paper .shift-eyebrow--purple { color: var(--purple-text-on-paper); }
 
 .shift-serif {
   font-family: Georgia, 'Times New Roman', serif;
@@ -105,6 +110,9 @@
 .shift-cta-ghost {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
+  /* Alvo de toque confortável (mín. 44px) em qualquer CTA */
+  min-height: 44px;
   gap: 0.6rem;
   padding: 0.95rem 1.6rem;
   font-size: 0.9375rem;
@@ -130,9 +138,16 @@
 }
 .shift-paper .shift-cta-ghost:hover { border-color: var(--ink); }
 
+/* Foco sempre visível, com um halo escuro por baixo para o contorno não sumir
+   quando o elemento já é roxo ou está sobre fundo claro. */
 .shift :focus-visible {
-  outline: 2px solid var(--purple);
+  outline: 3px solid var(--purple-text-on-ink);
   outline-offset: 3px;
+  box-shadow: 0 0 0 1px rgba(29, 29, 27, 0.9);
+}
+.shift-paper :focus-visible {
+  outline-color: var(--purple-text-on-paper);
+  box-shadow: 0 0 0 1px rgba(239, 238, 237, 0.9);
 }
 
 /* ── Cabeçalho da landing ────────────────────────────────────────────────── */
@@ -166,6 +181,7 @@
   }
   .shift-header-nav a:hover { color: var(--paper); }
 }
+/* Compacto na horizontal, mas ainda com 44px de altura tocável */
 .shift-cta--sm {
   padding: 0.6rem 1.1rem;
   font-size: 0.8125rem;
@@ -185,8 +201,8 @@
 }
 .shift-footer-socials { display: flex; gap: 0.6rem; }
 .shift-footer-socials a {
-  width: 34px;
-  height: 34px;
+  width: 44px;
+  height: 44px;
   border: 1px solid var(--line-on-ink);
   border-radius: 999px;
   display: flex;
@@ -197,7 +213,7 @@
   color: var(--muted-on-ink);
   transition: border-color 0.15s ease, color 0.15s ease;
 }
-.shift-footer-socials a:hover { border-color: var(--purple); color: var(--purple); }
+.shift-footer-socials a:hover { border-color: var(--purple); color: var(--purple-text-on-ink); }
 .shift-footer-legal { display: grid; gap: 0.35rem; }
 .shift-footer-legal a { text-decoration: underline; text-underline-offset: 3px; }
 
@@ -240,7 +256,7 @@
 .shift-pillar-index {
   font-size: 0.6875rem;
   letter-spacing: 0.18em;
-  color: var(--purple);
+  color: var(--purple-text-on-ink);
   display: block;
   margin-bottom: 1.5rem;
 }
@@ -347,7 +363,7 @@
   width: 15px;
   height: 15px;
   flex: 0 0 auto;
-  color: var(--purple);
+  color: var(--purple-text-on-paper);
 }
 
 @media (min-width: 1024px) {
@@ -397,7 +413,7 @@
   font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.14em;
-  color: var(--purple);
+  color: var(--purple-text-on-paper);
   display: block;
   margin-bottom: 0.3rem;
 }
@@ -507,7 +523,19 @@
   font-weight: 600;
   letter-spacing: 0.01em;
 }
-.shift-vs-stages li.is-after { color: var(--purple); }
+.shift-vs-stages li.is-after { color: var(--purple-text-on-paper); }
+
+/* A comparação agora vive no bloco claro do método: traços e divisórias
+   precisam do contraste invertido. */
+.shift-paper .shift-vs { border-top-color: var(--line-on-paper); }
+@media (min-width: 900px) {
+  .shift-paper .shift-vs-panel + .shift-vs-panel { border-left-color: var(--line-on-paper); }
+}
+.shift-paper .shift-vs-shape line { stroke: rgba(29, 29, 27, 0.3); }
+.shift-paper .shift-vs-shape .is-end { stroke: rgba(29, 29, 27, 0.45); }
+.shift-paper .shift-vs-shape .is-open { stroke: rgba(109, 47, 208, 0.55); }
+.shift-paper .shift-vs-shape .is-neck { stroke: var(--purple-text-on-paper); }
+.shift-paper .shift-list--accent li::before { background-color: var(--purple-text-on-paper); }
 .shift-vs-void {
   grid-row: 4 / span 3;
   font-size: 0.8125rem !important;
@@ -515,6 +543,7 @@
   color: var(--muted-on-ink);
   max-width: 14rem;
 }
+.shift-paper .shift-vs-void { color: var(--muted-on-paper); }
 
 /* ── Carrossel de depoimentos em vídeo ──────────────────────────────────── */
 .shift-carousel-controls {
@@ -526,8 +555,8 @@
 }
 .shift-carousel-arrows { display: flex; gap: 0.5rem; }
 .shift-carousel-arrows button {
-  width: 38px;
-  height: 38px;
+  width: 44px;
+  height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -538,7 +567,7 @@
 }
 .shift-carousel-arrows button:hover:not(:disabled) {
   border-color: var(--purple);
-  color: var(--purple);
+  color: var(--purple-text-on-ink);
 }
 .shift-carousel-arrows button:disabled { opacity: 0.3; cursor: default; }
 
@@ -659,7 +688,7 @@
   font-family: var(--font-anton), var(--font-inter), system-ui, sans-serif;
   font-size: 2.25rem;
   line-height: 1;
-  color: var(--purple);
+  color: var(--purple-text-on-paper);
 }
 
 /* ── Fotos ───────────────────────────────────────────────────────────────── */
@@ -686,6 +715,7 @@
   cursor: pointer;
   list-style: none;
   padding-block: 1.25rem;
+  min-height: 44px;
   display: flex;
   align-items: baseline;
   justify-content: space-between;
@@ -698,7 +728,7 @@
   content: '+';
   font-size: 1.25rem;
   line-height: 1;
-  color: var(--purple);
+  color: var(--purple-text-on-ink);
   flex: 0 0 auto;
 }
 .shift-faq-item[open] summary::after { content: '–'; }
@@ -789,4 +819,54 @@
     transition-duration: 0.01ms !important;
     animation-duration: 0.01ms !important;
   }
+}
+
+/* ── Barra fixa de aplicação no mobile ───────────────────────────────────── */
+/* Aparece quando o fim do hero sai da tela. Só existe abaixo de 1024px. */
+.shift-mobile-cta { display: none; }
+
+@media (max-width: 1023px) {
+  .shift-mobile-cta {
+    display: block;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 50;
+    padding: 0.75rem 20px calc(0.75rem + env(safe-area-inset-bottom, 0px));
+    background-color: rgba(29, 29, 27, 0.96);
+    backdrop-filter: blur(8px);
+    border-top: 1px solid var(--line-on-ink);
+    transform: translateY(110%);
+    opacity: 0;
+    visibility: hidden;
+    transition: transform 0.25s ease, opacity 0.25s ease, visibility 0.25s;
+  }
+  .shift-mobile-cta.is-visible {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+  }
+  .shift-mobile-cta .shift-cta {
+    width: 100%;
+    gap: 0.75rem;
+  }
+  .shift-mobile-cta-nota {
+    font-size: 0.75rem;
+    font-weight: 400;
+    opacity: 0.75;
+  }
+  /* Espaço no fim da página para a barra não cobrir o rodapé */
+  .shift-footer { padding-bottom: 6.5rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shift-mobile-cta { transition: none; }
+}
+
+/* Contador de caracteres do campo de desafio */
+.shift-counter {
+  font-size: 0.75rem;
+  color: var(--muted-on-ink);
+  margin-top: 0.5rem;
 }

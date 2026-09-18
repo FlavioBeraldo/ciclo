@@ -35,7 +35,7 @@ export default function ShiftHeader() {
         </nav>
 
         <Link href="/aplicacao" className="shift-cta shift-cta--sm">
-          Quero aplicar
+          Aplicar
           <span aria-hidden="true">→</span>
         </Link>
       </div>

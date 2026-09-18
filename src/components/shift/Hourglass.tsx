@@ -14,15 +14,15 @@ import { Store, LayoutGrid, MessageCircle, Headset, Sparkles, MapPin, Share2 } f
 // tela percorre as seis etapas uma única vez.
 
 const TOP_STEPS = [
-  { name: 'Reconhecimento', desc: 'Ser lembrado antes de a necessidade de compra aparecer.' },
-  { name: 'Consideração', desc: 'Entrar na decisão no momento em que a compra é avaliada.' },
-  { name: 'Compra', desc: 'Converter no canal em que o cliente já está.' },
+  { name: 'Reconhecimento', desc: 'Ser lembrado antes de a necessidade aparecer.' },
+  { name: 'Consideração', desc: 'Entrar na lista antes de o cliente comparar preço.' },
+  { name: 'Compra', desc: 'Converter no canal onde o cliente já está.' },
 ]
 
 const BOTTOM_STEPS = [
-  { name: 'Recompra', desc: 'Estimular a nova compra de quem já conhece a marca.' },
-  { name: 'Fidelização', desc: 'Fortalecer a relação com a base de clientes.' },
-  { name: 'Expansão', desc: 'Gerar indicação e abrir novos mercados.' },
+  { name: 'Recompra', desc: 'Fazer a segunda compra acontecer sem pagar de novo pelo cliente.' },
+  { name: 'Fidelização', desc: 'Transformar o cliente recorrente em base previsível.' },
+  { name: 'Expansão', desc: 'Fazer o cliente trazer o próximo cliente.' },
 ]
 
 // Canais transacionais conforme o material da metodologia

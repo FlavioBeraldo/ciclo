@@ -6,13 +6,14 @@ import ShiftFooter from '@/components/shift/ShiftFooter'
 import Hourglass from '@/components/shift/Hourglass'
 import FunnelCompare from '@/components/shift/FunnelCompare'
 import ShiftVideoCarousel from '@/components/shift/ShiftVideoCarousel'
+import ShiftMobileCta from '@/components/shift/ShiftMobileCta'
 import { anton } from '@/components/shift/fonts'
 import '@/components/shift/shift.css'
 
 export const metadata: Metadata = {
-  title: 'Consultoria E-com Shift | 4 meses para destravar o crescimento do seu e-commerce',
+  title: 'Consultoria E-com Shift | Seu funil termina na compra. Seu cliente não.',
   description:
-    'Consultoria de 4 meses para empresários e líderes de e-commerce. Conecte canais de venda, canais de mídia, recompra e geração de demanda em uma estratégia de crescimento com método.',
+    'Consultoria de 4 meses para e-commerces que já vendem e querem crescer sem depender de um único canal. Canais de venda, canais de mídia, recompra e geração de demanda lidos juntos.',
   keywords: [
     'consultoria e-commerce',
     'E-com Shift',
@@ -24,17 +25,18 @@ export const metadata: Metadata = {
     'Ciclo E-commerce',
   ],
   openGraph: {
-    title: 'Consultoria E-com Shift | Ciclo E-commerce',
+    title: 'Consultoria E-com Shift | Seu funil termina na compra. Seu cliente não.',
     description:
-      'Uma consultoria de 4 meses para conectar marketing, canais de venda e recompra na estratégia do próximo estágio da sua operação.',
+      'Consultoria de 4 meses para e-commerces que já vendem e querem crescer sem depender de um único canal.',
     type: 'website',
     locale: 'pt_BR',
     siteName: 'Ciclo E-commerce',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Consultoria E-com Shift | Ciclo E-commerce',
-    description: 'Consultoria de 4 meses para líderes e empresários de e-commerce.',
+    title: 'Consultoria E-com Shift | Seu funil termina na compra. Seu cliente não.',
+    description:
+      'Consultoria de 4 meses para e-commerces que já vendem e querem crescer sem depender de um único canal.',
   },
   robots: { index: true, follow: true },
   alternates: { canonical: 'https://cicloecommerce.com.br/consultoria-ecom-shift' },
@@ -43,19 +45,19 @@ export const metadata: Metadata = {
 const pillars = [
   {
     title: 'Canais de venda',
-    desc: 'Onde o cliente compra hoje e onde a operação ainda pode estar presente.',
+    desc: 'Loja própria, marketplaces, WhatsApp, televendas, social commerce. Onde o cliente já compra e onde a sua marca ainda não está.',
   },
   {
     title: 'Canais de mídia',
-    desc: 'Papéis definidos para cada canal, conectados aos momentos da jornada.',
+    desc: 'Cada canal com um papel definido, em vez de todos disputando o mesmo clique no fim do funil.',
   },
   {
     title: 'Recompra',
-    desc: 'A relação com quem já comprou como parte da receita, não como sobra.',
+    desc: 'A base que já comprou entra na meta do mês, não no fim da lista.',
   },
   {
     title: 'Geração de demanda',
-    desc: 'Reconhecimento e consideração construídos antes da decisão de compra.',
+    desc: 'Ser lembrado antes de o cliente pesquisar. Quem chega procurando pela marca custa menos.',
   },
 ]
 
@@ -84,46 +86,36 @@ const modules = [
 
 // Cases e números já documentados no site da Ciclo. São resultados de projetos
 // conduzidos pela agência — não são promessas de resultado desta consultoria.
+//
+// Cada número abaixo veio de outra página deste mesmo projeto, com a métrica e o
+// período preservados. Onde o projeto não tem número documentado, o card fica
+// sem métrica: nada aqui é estimado.
 const cases = [
   {
     brand: 'Mamô Brasil',
-    image: '/cases/mamo.jpg',
-    alt: 'Campanha da Mamô Brasil, marca de moda atendida pela Ciclo E-commerce',
-    context: 'Aquisição paga integrada a CRM e réguas de retenção.',
+    // Números já publicados em CasesSection (home)
+    context: 'Mídia paga ligada ao CRM e às réguas de retenção.',
     metrics: [
       { value: '+200%', label: 'Vendas YoY' },
       { value: '+57%', label: 'LTV' },
     ],
   },
   {
-    brand: 'GoPro Brasil',
-    image: '/cases/gopro.jpg',
-    alt: 'Campanha da GoPro Brasil, marca de tecnologia atendida pela Ciclo E-commerce',
-    context: 'Mídia full funnel com otimização contínua de campanhas e criativos.',
-    metrics: [
-      { value: '+120%', label: 'Vendas YoY' },
-      { value: '-37%', label: 'CAC' },
-    ],
+    brand: 'DANKI',
+    // "Crescimento de 230% em 3 anos de parceria", publicado no bloco Caso real
+    // de /consultoria-para-e-commerce, junto ao depoimento da Danki
+    context: 'DANKI e os resultados de Full Funnel Marketing com a Ciclo.',
+    metrics: [{ value: '+230%', label: 'Crescimento em 3 anos' }],
   },
   {
-    brand: 'Jack Links',
-    image: '/cases/jacklinks.jpg',
-    alt: 'Campanha da Jack Links, marca de alimentos atendida pela Ciclo E-commerce',
-    context: 'Estruturação de canais D2C, da flagship própria aos marketplaces.',
-    metrics: [
-      { value: '+57%', label: 'Branded Search YoY' },
-      { value: '-46%', label: 'CAC' },
-    ],
+    brand: 'KVRA',
+    context: 'A jornada de crescimento da KVRA com Ciclo E-commerce.',
+    metrics: [],
   },
   {
-    brand: 'Gringa',
-    image: '/cases/gringa.jpg',
-    alt: 'Campanha da Gringa, marca de moda de luxo atendida pela Ciclo E-commerce',
-    context: 'CRM e automações de recompra, com fidelização e indicação.',
-    metrics: [
-      { value: '+35%', label: 'Recompra YoY' },
-      { value: '+20%', label: 'Indicação YoY' },
-    ],
+    brand: 'Líquido',
+    context: 'Como a Líquido escalou seu e-commerce com Full Funnel Marketing.',
+    metrics: [],
   },
 ]
 
@@ -218,7 +210,7 @@ const serviceLd = {
   name: 'Consultoria E-com Shift',
   serviceType: 'Consultoria de marketing e e-commerce',
   description:
-    'Consultoria de 4 meses para empresários e líderes de e-commerce, orientada pelos quatro motores do E-com Shift: canais de venda, canais de mídia, recompra e geração de demanda.',
+    'Consultoria de 4 meses para e-commerces que já vendem e querem crescer sem depender de um único canal, orientada pelos quatro motores do E-com Shift: canais de venda, canais de mídia, recompra e geração de demanda.',
   url: 'https://cicloecommerce.com.br/consultoria-ecom-shift',
   areaServed: 'BR',
   inLanguage: 'pt-BR',
@@ -252,6 +244,9 @@ function Cta({ ghost = false, children }: { ghost?: boolean; children: React.Rea
   )
 }
 
+// Rótulo único de todos os CTAs da landing
+const CTA_LABEL = 'Aplicar para a consultoria'
+
 export default function ConsultoriaEcomShiftPage() {
   return (
     <>
@@ -272,36 +267,34 @@ export default function ConsultoriaEcomShiftPage() {
           <section className="shift-container pt-8 md:pt-10">
             <div className="shift-signature shift-signature--hero">
               <span className="shift-eyebrow">Ciclo E-commerce</span>
-              <span className="shift-eyebrow">Consultoria de 4 meses</span>
+              <span className="shift-eyebrow">Consultoria · 4 meses</span>
             </div>
 
             <div className="grid gap-12 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] lg:gap-16 pt-12 pb-14 md:pt-16 md:pb-20">
               <div>
                 <h1 className="shift-display shift-h1">
-                  Consultoria{' '}
-                  <span className="block">E-com Shift</span>
+                  Seu funil termina na compra.{' '}
+                  <span className="block">Seu cliente não.</span>
                 </h1>
 
                 <p className="shift-serif mt-6 text-xl md:text-2xl" style={{ color: '#efeeed' }}>
-                  Destrave o crescimento do seu e-commerce.
+                  Consultoria de 4 meses para e-commerces que já vendem e querem crescer sem
+                  depender de um único canal.
                 </p>
 
                 <p className="shift-lead shift-measure mt-6">
-                  Conecte marketing, canais de venda e recompra em uma estratégia para o próximo
-                  estágio da sua operação.
+                  Quatro meses com os sócios da Ciclo dentro da sua operação: canais de venda,
+                  canais de mídia, recompra e geração de demanda lidos juntos, com CAC, LTV e
+                  recompra na mesma tabela.
                 </p>
 
-                <p className="shift-body shift-measure mt-4">
-                  Uma consultoria de 4 meses para empresários e líderes que querem tomar decisões de
-                  crescimento com método.
-                </p>
-
-                <div className="mt-9 flex flex-wrap gap-3">
-                  <Cta>Quero aplicar</Cta>
+                <div className="mt-9 flex flex-wrap items-center gap-3">
+                  <Cta>{CTA_LABEL}</Cta>
                   <Link href="#metodo" className="shift-cta-ghost">
-                    Conhecer o método
+                    Ver o método
                   </Link>
                 </div>
+                <p className="shift-body mt-3">8 perguntas, cerca de 2 minutos.</p>
               </div>
 
               <div>
@@ -324,36 +317,52 @@ export default function ConsultoriaEcomShiftPage() {
                   ))}
                 </div>
                 <p className="shift-body mt-4">
-                  Os sócios da Ciclo E-commerce conduzem a estratégia da consultoria.
+                  Felipe, Flávio e Alan conduzem a consultoria pessoalmente.
                 </p>
               </div>
             </div>
+            {/* A partir daqui a barra fixa do mobile entra em cena */}
+            <div id="fim-do-hero" aria-hidden="true" className="h-px w-full" />
           </section>
 
-          {/* ── 2. FAIXA DE PILARES ─────────────────────────────────────── */}
-          <section className="shift-container pb-14 md:pb-20">
+          {/* ── 2. OS QUATRO MOTORES ────────────────────────────────────── */}
+          <section className="shift-container pb-10 md:pb-14">
+            <h2 className="shift-display shift-h2 mb-8">Os quatro motores</h2>
             <div className="shift-pillars">
               {pillars.map((pillar, i) => (
                 <div key={pillar.title} className="shift-pillar">
                   <span className="shift-pillar-index">{String(i + 1).padStart(2, '0')}</span>
-                  <h2 className="shift-display shift-h3 shift-pillar-title">{pillar.title}</h2>
+                  <h3 className="shift-display shift-h3 shift-pillar-title">{pillar.title}</h3>
                   <p className="shift-body mt-3">{pillar.desc}</p>
                 </div>
               ))}
             </div>
           </section>
 
-          {/* ── 3. MÉTODO ───────────────────────────────────────────────── */}
+          {/* ── 3. PROVA: MARCAS ATENDIDAS ──────────────────────────────── */}
+          <section className="shift-container pb-14 md:pb-20">
+            <p className="shift-eyebrow text-center">
+              Mais de 300 marcas atendidas pela Ciclo E-commerce
+            </p>
+            <div className="shift-logos mt-7">
+              {logos.map((logo) => (
+                <div key={logo.name} className="shift-logo-cell">
+                  <Image src={logo.src} alt={logo.name} width={160} height={60} sizes="140px" />
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* ── 4. MÉTODO + COMPARAÇÃO, em um bloco só ──────────────────── */}
           <section id="metodo" className="shift-paper shift-section">
             <div className="shift-container">
               <span className="shift-eyebrow shift-eyebrow--purple">O método</span>
               <h2 className="shift-display shift-h2 shift-measure-wide mt-4">
-                O crescimento continua depois da primeira compra
+                A mesma jornada, da primeira lembrança à indicação
               </h2>
               <p className="shift-lead shift-measure-wide mt-6">
-                O E-com Shift conecta toda a jornada do cliente: da primeira lembrança da marca à
-                recompra, à fidelização e à indicação. Cada etapa tem um papel na receita e
-                indicadores para orientar suas decisões.
+                Seis etapas, cada uma com um papel na receita e um indicador para decidir. O funil
+                tradicional para na terceira.
               </p>
 
               <div className="mt-14 md:mt-20">
@@ -365,8 +374,8 @@ export default function ConsultoriaEcomShiftPage() {
                 <div className="grid gap-6 md:grid-cols-3 pt-6">
                   {[
                     { k: 'CAC', v: 'Quanto custa conquistar um novo cliente.' },
-                    { k: 'LTV', v: 'Quanto um cliente representa ao longo da relação.' },
-                    { k: 'Recompra', v: 'Quanto da receita vem de quem já comprou.' },
+                    { k: 'LTV', v: 'Quanto esse cliente rende até a última compra.' },
+                    { k: 'Recompra', v: 'Quanto da receita do mês vem de quem já comprou.' },
                   ].map((item) => (
                     <div key={item.k}>
                       <h3 className="shift-display shift-h3">{item.k}</h3>
@@ -374,28 +383,24 @@ export default function ConsultoriaEcomShiftPage() {
                     </div>
                   ))}
                 </div>
-              </div>
-            </div>
-          </section>
-
-          {/* ── 4. COMPARAÇÃO ───────────────────────────────────────────── */}
-          <section className="shift-section">
-            <div className="shift-container">
-              <span className="shift-eyebrow shift-eyebrow--purple">Por que quatro motores</span>
-              <h2 className="shift-display shift-h2 shift-measure-wide mt-4">
-                Seu e-commerce precisa de mais de um motor para crescer
-              </h2>
-
-              <div className="mt-12">
-                <FunnelCompare />
+                <p className="shift-body mt-6">
+                  Lidos juntos. Separados, cada um justifica a decisão errada.
+                </p>
               </div>
 
-              <p className="shift-lead shift-measure-wide mt-12">
-                Mais clareza para decidir onde investir, o que priorizar e como desenvolver sua
-                operação.
-              </p>
-              <div className="mt-8">
-                <Cta>Quero aplicar</Cta>
+              {/* Comparação, no mesmo bloco: sem nova introdução e sem CTA no meio */}
+              <div className="mt-16 md:mt-24">
+                <h2 className="shift-display shift-h2 shift-measure-wide">
+                  O funil tradicional para onde o seu cliente começa
+                </h2>
+
+                <div className="mt-12">
+                  <FunnelCompare />
+                </div>
+
+                <p className="shift-lead shift-measure-wide mt-12">
+                  Você para de decidir olhando só o custo do último clique.
+                </p>
               </div>
             </div>
           </section>
@@ -405,11 +410,10 @@ export default function ConsultoriaEcomShiftPage() {
             <div className="shift-container">
               <span className="shift-eyebrow shift-eyebrow--purple">Como funciona</span>
               <h2 className="shift-display shift-h2 shift-measure-wide mt-4">
-                4 meses para conectar estratégia e crescimento
+                O que acontece nos 4 meses
               </h2>
               <p className="shift-lead shift-measure-wide mt-6">
-                Uma jornada de consultoria orientada pelos desafios da sua operação e pelos quatro
-                motores do E-com Shift.
+                Quatro frentes, conduzidas na ordem que a sua operação pedir.
               </p>
 
               <div className="mt-12">
@@ -429,67 +433,44 @@ export default function ConsultoriaEcomShiftPage() {
             <div className="shift-container">
               <span className="shift-eyebrow shift-eyebrow--purple">Experiência</span>
               <h2 className="shift-display shift-h2 shift-measure-wide mt-4">
-                Experiência aplicada a operações reais
+                O que já aconteceu em operações reais
               </h2>
-              <p className="shift-lead shift-measure-wide mt-6">
-                A Ciclo E-commerce já atendeu mais de 300 marcas em projetos de marketing e
-                e-commerce. É essa experiência de operação que orienta a consultoria.
-              </p>
+              <p className="shift-lead shift-measure-wide mt-6">Quatro operações, com número.</p>
 
               <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4 mt-12">
                 {cases.map((c) => (
                   <article key={c.brand} className="shift-case">
-                    <div className="shift-case-media">
-                      <Image
-                        src={c.image}
-                        alt={c.alt}
-                        width={800}
-                        height={600}
-                        sizes="(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 290px"
-                      />
-                    </div>
+                    <hr className="shift-rule" />
                     <h3 className="shift-display shift-h3 mt-5">{c.brand}</h3>
                     <p className="shift-body mt-2">{c.context}</p>
-                    <dl className="shift-case-metrics">
-                      {c.metrics.map((metric) => (
-                        <div key={metric.label}>
-                          <dt className="shift-case-figure">{metric.value}</dt>
-                          <dd className="shift-eyebrow mt-1">{metric.label}</dd>
-                        </div>
-                      ))}
-                    </dl>
+                    {c.metrics.length > 0 && (
+                      <dl className="shift-case-metrics">
+                        {c.metrics.map((metric) => (
+                          <div key={metric.label}>
+                            <dt className="shift-case-figure">{metric.value}</dt>
+                            <dd className="shift-eyebrow mt-1">{metric.label}</dd>
+                          </div>
+                        ))}
+                      </dl>
+                    )}
                   </article>
                 ))}
               </div>
 
               <p className="shift-body mt-10 shift-measure-wide">
-                Resultados de projetos conduzidos pela Ciclo E-commerce para essas marcas. São um
-                retrato da experiência da agência, não uma promessa de resultado da consultoria.
+                Resultados de projetos conduzidos pela Ciclo E-commerce para essas marcas, não uma
+                promessa de resultado da consultoria.
               </p>
+            </div>
+          </section>
 
-              {/* Depoimentos em vídeo das marcas */}
-              <div className="mt-16">
-                <hr className="shift-rule mb-8" />
-                <h3 className="shift-display shift-h3 mb-6">Quem viveu a operação, conta</h3>
-                <ShiftVideoCarousel videos={videos} />
-              </div>
-
-              <div className="mt-16 text-center">
-                <span className="shift-eyebrow">Algumas marcas atendidas pela Ciclo</span>
-                <div className="shift-logos mt-7">
-                  {logos.map((logo) => (
-                    <div key={logo.name} className="shift-logo-cell">
-                      <Image
-                        src={logo.src}
-                        alt={logo.name}
-                        width={160}
-                        height={60}
-                        sizes="140px"
-                      />
-                    </div>
-                  ))}
-                </div>
-              </div>
+          {/* ── 7. DEPOIMENTOS EM VÍDEO ─────────────────────────────────── */}
+          <section className="shift-section shift-section--tight">
+            <div className="shift-container">
+              <h2 className="shift-display shift-h2 shift-measure-wide mb-8">
+                Quem viveu a operação, conta
+              </h2>
+              <ShiftVideoCarousel videos={videos} />
             </div>
           </section>
 
@@ -522,7 +503,7 @@ export default function ConsultoriaEcomShiftPage() {
               </div>
 
               <div className="mt-12">
-                <Cta>Quero aplicar para a consultoria</Cta>
+                <Cta>{CTA_LABEL}</Cta>
               </div>
             </div>
           </section>
@@ -564,13 +545,14 @@ export default function ConsultoriaEcomShiftPage() {
           <section className="shift-section">
             <div className="shift-container">
               <h2 className="shift-display shift-h2 shift-measure-wide">
-                O próximo estágio do seu e-commerce começa com uma nova estratégia
+                Conte o momento da sua operação
               </h2>
               <p className="shift-lead shift-measure-wide mt-6">
-                Conheça a Consultoria E-com Shift e conte para a gente o momento da sua operação.
+                8 perguntas, cerca de 2 minutos. O time da Ciclo lê cada aplicação e responde se
+                faz sentido conversar.
               </p>
               <div className="mt-9 flex flex-wrap items-center gap-5">
-                <Cta>Quero aplicar</Cta>
+                <Cta>{CTA_LABEL}</Cta>
                 <span className="shift-eyebrow">Consultoria de 4 meses</span>
               </div>
             </div>
@@ -594,6 +576,7 @@ export default function ConsultoriaEcomShiftPage() {
         </main>
 
         <ShiftFooter />
+        <ShiftMobileCta />
       </div>
     </>
   )
