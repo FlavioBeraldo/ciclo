@@ -603,33 +603,39 @@
 }
 
 /* ── Logos das marcas ───────────────────────────────────────────────────── */
+/* As marcas aparecem cerca de 1,25x maiores que na primeira versão: a célula
+   ficou mais alta E a grade ganhou largura útil, porque boa parte dos logos é
+   limitada pela largura, não pela altura. */
 .shift-logos {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1.75rem 1rem;
+  gap: 2rem 1rem;
   align-items: center;
   justify-items: center;
   margin-inline: auto;
-  max-width: 62rem;
+  max-width: 76rem;
 }
 @media (min-width: 480px) {
   .shift-logos { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 }
 @media (min-width: 1024px) {
-  .shift-logos { grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 2rem 1.25rem; }
+  .shift-logos { grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 2.25rem 1rem; }
 }
 .shift-logo-cell {
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 34px;
+  height: 43px;
 }
+/* Altura visível explícita. Sem ela a marca sai no tamanho intrínseco do
+   arquivo entregue (72x26), e um simples max-height nunca a aumenta.
+   32.8px ≈ 1,25x os 26.25px anteriores; a largura acompanha a proporção
+   (≈90px) e sobra folga dentro da célula de 43px, sem recorte. */
 .shift-logo-cell img {
-  max-height: 100%;
-  max-width: 100%;
+  height: 32.8px;
   width: auto;
-  height: auto;
+  max-width: 100%;
   object-fit: contain;
   filter: grayscale(1) brightness(0) invert(1);
   opacity: 0.6;
