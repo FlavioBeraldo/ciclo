@@ -95,8 +95,7 @@ export default function DepoimentosInteractive() {
 
               {/* Info */}
               <div>
-                <p className="font-bold text-white text-base">{t.brand}</p>
-                <p className="text-sm text-[#A100FF] mb-1">{t.role}</p>
+                <p className="font-bold text-white text-base mb-1">{t.brand}</p>
                 <p className="text-xs text-[#A1A1AA] leading-relaxed">{t.description}</p>
               </div>
             </motion.div>

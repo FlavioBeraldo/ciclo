@@ -89,32 +89,29 @@ const modules = [
 // marca, desafio, ação, métricas e imagem. Só o estilo é próprio daqui, para as
 // duas páginas nunca divergirem no conteúdo.
 
-// Depoimentos em vídeo já publicados em /depoimentos — mesmas fontes, marcas,
-// cargos e descrições, sem nenhuma associação nova entre marca e depoimento.
+// Depoimentos em vídeo já publicados em /depoimentos — mesmas fontes, marcas e
+// descrições, sem nenhuma associação nova entre marca e depoimento. O cargo do
+// depoente não é exibido em lugar nenhum, então nem viaja para o cliente.
 const videos = [
   {
     id: 'djykk9EFghg',
     brand: 'Líquido',
-    role: 'CEO – Líquido',
     description: 'Como a Líquido escalou seu e-commerce com Full Funnel Marketing.',
   },
   {
     id: 'xVdqhprwKWw',
     brand: 'KVRA',
-    role: 'Head de Marketing – KVRA',
     description: 'A jornada de crescimento da KVRA com Ciclo E-commerce.',
   },
   {
     id: '6B2XYATbK3Q',
     brand: 'DANKI',
-    role: 'Fundador – DANKI',
     description: 'DANKI e os resultados de Full Funnel Marketing com a Ciclo.',
   },
   {
     // Vídeo novo do case da Mamô, indicado pelo usuário em 18/09/2026
     id: 'MlDyvGg7rGs',
     brand: 'Mamô Brasil',
-    role: 'CEO – Mamô Brasil',
     description: 'Mamô Brasil e sua estratégia de crescimento sustentável.',
   },
 ]
