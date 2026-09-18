@@ -66,7 +66,6 @@ export default function TestimonialsSection() {
               {/* Info */}
               <div className="absolute bottom-0 left-0 right-0 p-4">
                 <p className="font-bold text-white text-sm">{t.brand}</p>
-                <p className="text-xs text-[#A1A1AA]">{t.role}</p>
               </div>
             </m.div>
           ))}
