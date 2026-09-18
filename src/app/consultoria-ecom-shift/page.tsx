@@ -111,7 +111,8 @@ const videos = [
     description: 'DANKI e os resultados de Full Funnel Marketing com a Ciclo.',
   },
   {
-    id: 'EhnxUiDMMRg',
+    // Vídeo novo do case da Mamô, indicado pelo usuário em 18/09/2026
+    id: 'MlDyvGg7rGs',
     brand: 'Mamô Brasil',
     role: 'CEO – Mamô Brasil',
     description: 'Mamô Brasil e sua estratégia de crescimento sustentável.',
