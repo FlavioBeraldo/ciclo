@@ -5,59 +5,8 @@ import { m } from 'framer-motion'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import Button from './ui/Button'
 import Section from './ui/Section'
+import { cases } from '@/lib/cases'
 
-const cases = [
-  {
-    brand: 'Mamô Brasil',
-    category: 'Fashion',
-    challenge: 'Crescer com consistência e transformar compradores de primeira compra em clientes recorrentes.',
-    action: 'Full Funnel Marketing: aquisição paga integrada a CRM e réguas de retenção.',
-    metrics: [
-      { label: 'Vendas YoY', value: '+200%' },
-      { label: 'LTV', value: '+57%' },
-    ],
-    color: '#1a0a1a',
-    image: '/cases/mamo.jpg' as string | null,
-    imagePosition: 'object-top',
-  },
-  {
-    brand: 'GoPro Brasil',
-    category: 'Tecnologia',
-    challenge: 'Escalar as vendas no Brasil sem deixar o custo de aquisição subir junto.',
-    action: 'Mídia paga full funnel com otimização contínua de campanhas e criativos.',
-    metrics: [
-      { label: 'Vendas YoY', value: '+120%' },
-      { label: 'CAC', value: '-37%' },
-    ],
-    color: '#0a1a0a',
-    image: '/cases/gopro.jpg' as string | null,
-  },
-  {
-    brand: 'Jack Links',
-    category: 'D2C',
-    challenge: 'Construir um canal de vendas D2C no Brasil.',
-    action: 'Estruturação e operação de canais como flagship própria e marketplaces.',
-    metrics: [
-      { label: 'Branded Search YoY', value: '+57%' },
-      { label: 'CAC', value: '-46%' },
-    ],
-    color: '#1a1a0a',
-    image: '/cases/jacklinks.jpg' as string | null,
-  },
-  {
-    brand: 'Gringa',
-    category: 'Fashion Luxury',
-    challenge: 'Clientes levavam meses para voltar a comprar depois do primeiro pedido.',
-    action: 'CRM e automações de recompra, com programas de fidelização e indicação.',
-    metrics: [
-      { label: 'Taxa de Recompra YoY', value: '+35%' },
-      { label: 'Taxa de Indicação YoY', value: '+20%' },
-      { label: 'Recência de Compra', value: '120→55 dias' },
-    ],
-    color: '#0a0a1a',
-    image: '/cases/gringa.jpg' as string | null,
-  },
-]
 
 export default function CasesSection() {
   const scrollRef = useRef<HTMLDivElement>(null)

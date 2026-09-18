@@ -7,6 +7,7 @@ import Hourglass from '@/components/shift/Hourglass'
 import FunnelCompare from '@/components/shift/FunnelCompare'
 import ShiftVideoCarousel from '@/components/shift/ShiftVideoCarousel'
 import ShiftMobileCta from '@/components/shift/ShiftMobileCta'
+import { cases } from '@/lib/cases'
 import { anton } from '@/components/shift/fonts'
 import '@/components/shift/shift.css'
 
@@ -84,40 +85,9 @@ const modules = [
   },
 ]
 
-// Cases e números já documentados no site da Ciclo. São resultados de projetos
-// conduzidos pela agência — não são promessas de resultado desta consultoria.
-//
-// Cada número abaixo veio de outra página deste mesmo projeto, com a métrica e o
-// período preservados. Onde o projeto não tem número documentado, o card fica
-// sem métrica: nada aqui é estimado.
-const cases = [
-  {
-    brand: 'Mamô Brasil',
-    // Números já publicados em CasesSection (home)
-    context: 'Mídia paga ligada ao CRM e às réguas de retenção.',
-    metrics: [
-      { value: '+200%', label: 'Vendas YoY' },
-      { value: '+57%', label: 'LTV' },
-    ],
-  },
-  {
-    brand: 'DANKI',
-    // "Crescimento de 230% em 3 anos de parceria", publicado no bloco Caso real
-    // de /consultoria-para-e-commerce, junto ao depoimento da Danki
-    context: 'DANKI e os resultados de Full Funnel Marketing com a Ciclo.',
-    metrics: [{ value: '+230%', label: 'Crescimento em 3 anos' }],
-  },
-  {
-    brand: 'KVRA',
-    context: 'A jornada de crescimento da KVRA com Ciclo E-commerce.',
-    metrics: [],
-  },
-  {
-    brand: 'Líquido',
-    context: 'Como a Líquido escalou seu e-commerce com Full Funnel Marketing.',
-    metrics: [],
-  },
-]
+// Os cases vêm da MESMA constante que a home usa (src/lib/cases.ts): categoria,
+// marca, desafio, ação, métricas e imagem. Só o estilo é próprio daqui, para as
+// duas páginas nunca divergirem no conteúdo.
 
 // Depoimentos em vídeo já publicados em /depoimentos — mesmas fontes, marcas,
 // cargos e descrições, sem nenhuma associação nova entre marca e depoimento.
@@ -442,10 +412,34 @@ export default function ConsultoriaEcomShiftPage() {
               <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4 mt-12">
                 {cases.map((c) => (
                   <article key={c.brand} className="shift-case">
-                    <hr className="shift-rule" />
-                    <h3 className="shift-display shift-h3 mt-5">{c.brand}</h3>
-                    <p className="shift-body mt-2">{c.context}</p>
-                    {c.metrics.length > 0 && (
+                    {c.image && (
+                      <div className="shift-case-media">
+                        <Image
+                          src={c.image}
+                          alt={`${c.brand}, marca atendida pela Ciclo E-commerce`}
+                          width={800}
+                          height={600}
+                          sizes="(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 290px"
+                          className={c.imagePosition === 'object-top' ? 'object-top' : undefined}
+                        />
+                      </div>
+                    )}
+                    <span className="shift-eyebrow shift-eyebrow--purple mt-5 block">
+                      {c.category}
+                    </span>
+                    <h3 className="shift-display shift-h3 mt-2">{c.brand}</h3>
+
+                    <div className="shift-case-block">
+                      <p className="shift-eyebrow">Desafio</p>
+                      <p className="shift-body mt-1">{c.challenge}</p>
+                    </div>
+                    <div className="shift-case-block">
+                      <p className="shift-eyebrow">Ação</p>
+                      <p className="shift-body mt-1">{c.action}</p>
+                    </div>
+
+                    <div className="shift-case-block">
+                      <p className="shift-eyebrow shift-eyebrow--purple">Resultado</p>
                       <dl className="shift-case-metrics">
                         {c.metrics.map((metric) => (
                           <div key={metric.label}>
@@ -454,7 +448,7 @@ export default function ConsultoriaEcomShiftPage() {
                           </div>
                         ))}
                       </dl>
-                    )}
+                    </div>
                   </article>
                 ))}
               </div>

@@ -614,16 +614,25 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center;
   display: block;
 }
-/* Duas colunas fixas: rótulos longos quebram dentro da própria coluna e os
-   quatro cards mantêm a mesma altura de bloco de métricas. */
+.shift-case-media img.object-top { object-position: top; }
+/* Blocos de Desafio, Ação e Resultado, com filete separando cada um */
+.shift-case-block {
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--line-on-ink);
+}
+/* Métricas lado a lado; a Gringa tem três e ganha a fileira inteira */
 .shift-case-metrics {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1rem;
-  margin-top: 1.25rem;
+  margin-top: 0.85rem;
 }
+.shift-case-metrics > div { min-width: 0; }
+.shift-case-figure { overflow-wrap: anywhere; }
 .shift-case-figure {
   font-family: var(--font-anton), var(--font-inter), system-ui, sans-serif;
   font-size: clamp(1.75rem, 3vw, 2.35rem);
