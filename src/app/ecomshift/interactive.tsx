@@ -1,6 +1,7 @@
 'use client'
 
 import { m, AnimatePresence } from 'framer-motion'
+import MotionProvider from '@/components/MotionProvider'
 import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import { CheckCircle2, ArrowRight, Users, TrendingUp, Zap, BarChart3, Target, RefreshCw } from 'lucide-react'
@@ -124,6 +125,7 @@ export default function EcomShiftInteractive() {
   }, [])
 
   return (
+    <MotionProvider>
     <>
       {/* Sticky CTA — floating bottom-right */}
       <AnimatePresence>
@@ -485,5 +487,6 @@ export default function EcomShiftInteractive() {
         </div>
       </section>
     </>
+    </MotionProvider>
   )
 }
