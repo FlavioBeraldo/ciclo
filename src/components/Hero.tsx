@@ -1,8 +1,9 @@
-'use client'
-
-import { m } from 'framer-motion'
 import Button from './ui/Button'
 import Section from './ui/Section'
+
+// O texto deste Hero é o elemento LCP da home. As animações de entrada são
+// CSS puro (globals.css) em vez de framer-motion: assim o conteúdo pinta
+// imediatamente com o HTML/CSS, sem esperar o JavaScript hidratar.
 
 const proofs = [
   { value: '+300', label: 'marcas atendidas' },
@@ -22,25 +23,16 @@ export default function Hero() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-16 lg:py-24">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Content */}
-          <m.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: 'easeOut' }}
-          >
+          <div className="hero-anim-content">
             {/* Positioning — prominent, not a small tag */}
-            <m.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              className="mb-6"
-            >
+            <div className="hero-anim-badge mb-6">
               <p className="text-[#A100FF] text-base sm:text-lg font-bold tracking-wide uppercase leading-tight">
                 Somos seu Parceiro
               </p>
               <p className="text-white text-2xl sm:text-3xl font-bold leading-tight">
                 Full Funnel Marketing
               </p>
-            </m.div>
+            </div>
 
             <h1 className="text-4xl sm:text-5xl font-bold leading-tight tracking-tight mb-8">
               Decodificamos o futuro
@@ -69,15 +61,10 @@ export default function Hero() {
                 </div>
               ))}
             </div>
-          </m.div>
+          </div>
 
           {/* Visual - Ciclo symbol */}
-          <m.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1, ease: 'easeOut', delay: 0.2 }}
-            className="relative flex items-center justify-center"
-          >
+          <div className="hero-anim-visual relative flex items-center justify-center">
             <div className="relative w-72 h-72 sm:w-96 sm:h-96 lg:w-[480px] lg:h-[480px]">
               <div className="absolute inset-0 rounded-full border border-white/5" />
               <div className="absolute inset-8 rounded-full border border-white/5" />
@@ -107,7 +94,7 @@ export default function Hero() {
               </div>
               <div className="absolute inset-16 rounded-full bg-[#A100FF]/20 blur-3xl" />
             </div>
-          </m.div>
+          </div>
         </div>
       </div>
     </Section>
