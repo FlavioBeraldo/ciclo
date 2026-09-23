@@ -20,6 +20,7 @@ import RecentBlogSection from '@/components/RecentBlogSection'
 import LeadForm from '@/components/LeadForm'
 import Footer from '@/components/Footer'
 import RecaptchaProvider from '@/components/RecaptchaProvider'
+import RevealObserver from '@/components/RevealObserver'
 
 export default function Home() {
   return (
@@ -38,6 +39,7 @@ export default function Home() {
       <RecentBlogSection />
       <LeadForm />
       <Footer />
+      <RevealObserver />
     </main>
     </RecaptchaProvider>
   )

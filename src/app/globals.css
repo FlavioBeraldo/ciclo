@@ -473,3 +473,24 @@ body {
           animation: none;
     }
 }
+
+/* ── Reveal ao rolar (substitui o framer-motion nas seções da home) ─────────
+   Conteúdo nasce VISÍVEL; o RevealObserver adiciona `reveal-on` ao <html> e
+   só então os elementos .reveal ficam ocultos e animam ao entrar na viewport.
+   Sem JS (ou antes da hidratação) nada fica escondido — melhor que antes. */
+html.reveal-on .reveal {
+  opacity: 0;
+  transition:
+    opacity 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    transform 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+html.reveal-on .reveal-up      { transform: translateY(20px); }
+html.reveal-on .reveal-up-lg   { transform: translateY(30px); }
+html.reveal-on .reveal-up-sm   { transform: translateY(10px); }
+html.reveal-on .reveal-left    { transform: translateX(-20px); }
+html.reveal-on .reveal-right   { transform: translateX(20px); }
+html.reveal-on .reveal-scale   { transform: scale(0.8); }
+html.reveal-on .reveal.in-view { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  html.reveal-on .reveal { opacity: 1; transform: none; transition: none; }
+}
