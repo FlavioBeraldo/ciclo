@@ -7,7 +7,9 @@ import AttributionTracker from '@/components/AttributionTracker'
 const inter = Inter({
   subsets: ['latin'],
   variable: '--font-inter',
-  display: 'swap',
+  // 'optional': evita que o repaint da troca de fonte re-registre o LCP em
+  // conexões lentas (métrica estável); o fallback é ajustado metricamente.
+  display: 'optional',
   preload: true,
 })
 
