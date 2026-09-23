@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import MotionProvider from '@/components/MotionProvider'
 import { ChevronDown } from 'lucide-react'
 import LeadForm from '@/components/LeadForm'
 import type { Servico } from '@/lib/servicos'
@@ -53,6 +54,7 @@ function FaqItem({ q, a, index }: { q: string; a: string; index: number }) {
 
 export function ServicosInteractive({ servico }: { servico: Servico }) {
   return (
+    <MotionProvider>
     <>
       {/* FAQ */}
       <section aria-labelledby="faq-heading" id="faq">
@@ -80,5 +82,6 @@ export function ServicosInteractive({ servico }: { servico: Servico }) {
       {/* CTA form */}
       <LeadForm />
     </>
+    </MotionProvider>
   )
 }
