@@ -1,6 +1,7 @@
 'use client'
 
 import { m } from 'framer-motion'
+import MotionProvider from '@/components/MotionProvider'
 import { CheckCircle, ChevronRight, Zap, Target, Repeat, BarChart3 } from 'lucide-react'
 import LeadForm from '@/components/LeadForm'
 
@@ -55,6 +56,7 @@ const audiences = [
 
 export default function ConsultoriaInteractive() {
   return (
+    <MotionProvider>
     <>
       {/* HERO */}
       <section className="relative bg-[#050505] pt-32 pb-20 overflow-hidden">
@@ -202,5 +204,6 @@ export default function ConsultoriaInteractive() {
       {/* FORM */}
       <LeadForm />
     </>
+    </MotionProvider>
   )
 }
