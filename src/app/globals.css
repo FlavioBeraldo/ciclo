@@ -442,9 +442,12 @@ body {
    O texto do Hero é o elemento LCP: ele precisa pintar imediatamente com o
    HTML/CSS. As animações replicam o fade-in do framer-motion que existia
    antes, mas rodam assim que o CSS carrega. ─────────────────────────────── */
+/* O bloco do h1 (elemento LCP) anima apenas transform — nunca opacity:
+   conteúdo que nasce com opacity 0 é ignorado pelo cálculo de LCP e a
+   métrica passa a apontar para outro elemento mais lento. */
 @keyframes hero-fade-up {
-    from { opacity: 0; transform: translateY(30px); }
-    to   { opacity: 1; transform: translateY(0); }
+  from { transform: translateY(30px); }
+  to   { transform: translateY(0); }
 }
 @keyframes hero-fade-up-sm {
     from { opacity: 0; transform: translateY(10px); }
