@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import MotionProvider from '@/components/MotionProvider'
 import { ChevronDown } from 'lucide-react'
 import LeadForm from '@/components/LeadForm'
 import type { Solucao } from '@/lib/solucoes'
@@ -53,6 +54,7 @@ function FaqItem({ q, a, index }: { q: string; a: string; index: number }) {
 
 export function SolucaoInteractive({ solucao }: { solucao: Solucao }) {
   return (
+    <MotionProvider>
     <>
       {/* FAQ */}
       <section aria-labelledby="faq-heading">
@@ -83,5 +85,6 @@ export function SolucaoInteractive({ solucao }: { solucao: Solucao }) {
       {/* Lead form */}
       <LeadForm />
     </>
+    </MotionProvider>
   )
 }
