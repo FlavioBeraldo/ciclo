@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react'
 import { m, AnimatePresence } from 'framer-motion'
+import MotionProvider from '@/components/MotionProvider'
 import { Play, X, CheckCircle, Zap, Target, Repeat, BarChart3 } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -98,6 +99,7 @@ export default function ObrigadoInteractive() {
   const [activeVideo, setActiveVideo] = useState<string | null>(null)
 
   return (
+    <MotionProvider>
     <main className="bg-[#050505] text-white">
 
       {/* HERO — obrigado */}
@@ -415,5 +417,6 @@ export default function ObrigadoInteractive() {
         )}
       </AnimatePresence>
     </main>
+    </MotionProvider>
   )
 }
