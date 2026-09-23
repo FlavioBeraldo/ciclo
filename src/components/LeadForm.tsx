@@ -121,20 +121,20 @@ export default function LeadForm() {
         >
           <m.form onSubmit={handleSubmit(onSubmit)} className="grid sm:grid-cols-2 gap-5">
             <div>
-              <label className={labelClass}>Nome completo *</label>
-              <input {...register('name')} placeholder="Seu nome" className={inputClass} />
+              <label htmlFor="lead-name" className={labelClass}>Nome completo *</label>
+              <input id="lead-name" {...register('name')} placeholder="Seu nome" className={inputClass} />
               {errors.name && <p className={errorClass}>{errors.name.message}</p>}
             </div>
 
             <div>
-              <label className={labelClass}>E-mail corporativo *</label>
-              <input {...register('email')} type="email" placeholder="seu@email.com" className={inputClass} />
+              <label htmlFor="lead-email" className={labelClass}>E-mail corporativo *</label>
+              <input id="lead-email" {...register('email')} type="email" placeholder="seu@email.com" className={inputClass} />
               {errors.email && <p className={errorClass}>{errors.email.message}</p>}
             </div>
 
             <div>
-              <label className={labelClass}>Empresa *</label>
-              <input {...register('company')} placeholder="Nome da sua empresa" className={inputClass} />
+              <label htmlFor="lead-company" className={labelClass}>Empresa *</label>
+              <input id="lead-company" {...register('company')} placeholder="Nome da sua empresa" className={inputClass} />
               {errors.company && <p className={errorClass}>{errors.company.message}</p>}
             </div>
 
@@ -147,8 +147,8 @@ export default function LeadForm() {
             />
 
             <div>
-              <label className={labelClass}>Faturamento anual *</label>
-              <select {...register('annualRevenue')} defaultValue="" className={selectClass}>
+              <label htmlFor="lead-annual-revenue" className={labelClass}>Faturamento anual *</label>
+              <select id="lead-annual-revenue" {...register('annualRevenue')} defaultValue="" className={selectClass}>
                 <option value="" disabled>Selecione a faixa</option>
                 {revenueRanges.map((range) => (
                   <option key={range} value={range}>{range}</option>
@@ -158,8 +158,8 @@ export default function LeadForm() {
             </div>
 
             <div>
-              <label className={labelClass}>Segmento *</label>
-              <select {...register('segment')} defaultValue="" className={selectClass}>
+              <label htmlFor="lead-segment" className={labelClass}>Segmento *</label>
+              <select id="lead-segment" {...register('segment')} defaultValue="" className={selectClass}>
                 <option value="" disabled>Selecione o segmento</option>
                 {segments.map((segment) => (
                   <option key={segment} value={segment}>{segment}</option>
@@ -169,8 +169,9 @@ export default function LeadForm() {
             </div>
 
             <div className="sm:col-span-2">
-              <label className={labelClass}>Descreva a dor atual da sua empresa *</label>
+              <label htmlFor="lead-message" className={labelClass}>Descreva a dor atual da sua empresa *</label>
               <textarea
+                id="lead-message"
                 {...register('message')}
                 rows={5}
                 placeholder="Conte brevemente qual é o principal gargalo hoje: CAC alto, baixa recompra, tráfego pago sem eficiência, dificuldade em gerar demanda, baixa conversão, pouca previsibilidade de receita ou outro desafio."
