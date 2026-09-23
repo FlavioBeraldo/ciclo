@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { m, AnimatePresence } from 'framer-motion'
+import MotionProvider from '@/components/MotionProvider'
 import { Play, MonitorPlay, Headphones, Camera, BookOpen, ExternalLink } from 'lucide-react'
 import Button from '@/components/ui/Button'
 import type { YouTubeVideo } from '@/lib/youtube'
@@ -197,6 +198,7 @@ export default function OFatorMInteractive() {
   const grid = videos.slice(1, 7)
 
   return (
+    <MotionProvider>
     <>
       {/* ── Hero ────────────────────────────────────────────────────────────── */}
       <section className="relative overflow-hidden bg-[#050505] pt-32 pb-20">
@@ -668,5 +670,6 @@ export default function OFatorMInteractive() {
         </div>
       </section>
     </>
+    </MotionProvider>
   )
 }
