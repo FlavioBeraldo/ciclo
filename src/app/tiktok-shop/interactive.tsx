@@ -2,6 +2,7 @@
 
 import { useRef } from 'react'
 import { m, useInView } from 'framer-motion'
+import MotionProvider from '@/components/MotionProvider'
 import LeadForm from '@/components/LeadForm'
 
 // ─── Animated conversion bars ─────────────────────────────────────────────────
@@ -48,6 +49,7 @@ function ConversionBars() {
 
 export default function TikTokShopContent() {
   return (
+    <MotionProvider>
     <>
       {/* ── HERO ── */}
       <section className="relative bg-[#010101] pt-32 pb-20 overflow-hidden">
@@ -802,5 +804,6 @@ export default function TikTokShopContent() {
       {/* ── CONTACT FORM ── */}
       <LeadForm />
     </>
+    </MotionProvider>
   )
 }
