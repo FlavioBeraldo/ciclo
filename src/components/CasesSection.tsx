@@ -1,7 +1,6 @@
 'use client'
 
 import { useRef } from 'react'
-import { m } from 'framer-motion'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import Button from './ui/Button'
 import Section from './ui/Section'
@@ -19,12 +18,7 @@ export default function CasesSection() {
   return (
     <Section id="cases" className="bg-[#080808] py-20 lg:py-32">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <m.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-10"
-        >
+        <div className="reveal reveal-up flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-10">
           <div>
             <h2 className="text-3xl sm:text-4xl font-bold mb-2">
               Cresça seu e-commerce
@@ -48,7 +42,7 @@ export default function CasesSection() {
               <ChevronRight className="w-5 h-5" />
             </button>
           </div>
-        </m.div>
+        </div>
 
         <div
           ref={scrollRef}
@@ -56,14 +50,10 @@ export default function CasesSection() {
           style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
         >
           {cases.map((c, i) => (
-            <m.div
+            <div
               key={c.brand}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.05 }}
-              className="theme-dark flex-shrink-0 w-72 sm:w-80 flex flex-col rounded-2xl border border-white/8 overflow-hidden hover:border-[#A100FF]/30 transition-colors snap-start"
-              style={{ background: `linear-gradient(135deg, ${c.color}, #050505)` }}
+              className="reveal reveal-up-lg theme-dark flex-shrink-0 w-72 sm:w-80 flex flex-col rounded-2xl border border-white/8 overflow-hidden hover:border-[#A100FF]/30 transition-colors snap-start"
+              style={{ background: `linear-gradient(135deg, ${c.color}, #050505)`, transitionDelay: `${i * 0.05}s` }}
             >
               {/* Image slot */}
               <div className="w-full h-40 overflow-hidden bg-white/5 border-b border-white/8 flex items-center justify-center">
@@ -102,20 +92,15 @@ export default function CasesSection() {
                   </div>
                 </div>
               </div>
-            </m.div>
+            </div>
           ))}
         </div>
 
-        <m.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          className="flex justify-center mt-8"
-        >
+        <div className="reveal flex justify-center mt-8">
           <Button href="#depoimentos" variant="outline" arrow>
             Ver mais cases de sucesso
           </Button>
-        </m.div>
+        </div>
       </div>
     </Section>
   )

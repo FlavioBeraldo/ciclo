@@ -1,6 +1,3 @@
-'use client'
-
-import { m } from 'framer-motion'
 import {
   Eye,
   ShoppingCart,
@@ -62,17 +59,12 @@ export default function CommonErrorSection() {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <m.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mb-12"
-        >
+        <div className="reveal reveal-up mb-12">
           <h2 className="text-3xl sm:text-4xl font-bold mb-4">O erro comum das marcas</h2>
           <p className="text-[#A1A1AA] max-w-xl">
             Investir exclusivamente no momento da conversão e não estar no ambiente transacional correto.
           </p>
-        </m.div>
+        </div>
 
         {/* Connector line */}
         <div className="hidden lg:block absolute top-[calc(50%-40px)] left-8 right-8 h-px bg-gradient-to-r from-transparent via-[#A100FF]/40 to-transparent" />
@@ -82,14 +74,11 @@ export default function CommonErrorSection() {
           {steps.map((step, i) => {
             const Icon = step.icon
             return (
-              <m.div
+              <div
                 key={step.title}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.05 }}
+                style={{ transitionDelay: `${i * 0.05}s` }}
                 className={`
-                  relative rounded-2xl border p-5 flex flex-col gap-3
+                  reveal reveal-up-lg relative rounded-2xl border p-5 flex flex-col gap-3
                   ${step.isCenter
                     ? 'border-[#A100FF]/50 bg-[#A100FF]/10 shadow-[0_0_40px_rgba(161,0,255,0.2)]'
                     : 'border-white/8 bg-white/3'
@@ -121,18 +110,13 @@ export default function CommonErrorSection() {
                     ))}
                   </ul>
                 )}
-              </m.div>
+              </div>
             )
           })}
         </div>
 
         {/* Alert block */}
-        <m.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="flex items-start gap-4 bg-[#A100FF]/10 border border-[#A100FF]/30 rounded-2xl p-6"
-        >
+        <div className="reveal reveal-up flex items-start gap-4 bg-[#A100FF]/10 border border-[#A100FF]/30 rounded-2xl p-6">
           <div className="w-10 h-10 rounded-full bg-[#A100FF] flex items-center justify-center flex-shrink-0">
             <AlertTriangle className="w-5 h-5 text-white" />
           </div>
@@ -140,7 +124,7 @@ export default function CommonErrorSection() {
             <span className="text-white font-semibold">Esse é o problema mais grave que as marcas estão enfrentando:</span>{' '}
             elas não estão conseguindo conectar suas estratégias de marketing de ponta a ponta no e-commerce.
           </p>
-        </m.div>
+        </div>
       </div>
     </Section>
   )

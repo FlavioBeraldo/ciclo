@@ -1,6 +1,5 @@
 'use client'
 
-import { m } from 'framer-motion'
 import { Play } from 'lucide-react'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
@@ -28,11 +27,7 @@ export default function PodcastSection() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid lg:grid-cols-[320px_1fr] gap-12 items-start">
           {/* Left */}
-          <m.div
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-          >
+          <div className="reveal reveal-left">
             <h2 className="text-3xl sm:text-4xl font-bold mb-4">
               Conteúdo que gera{' '}
               <span className="text-[#A100FF]">crescimento de verdade.</span>
@@ -43,21 +38,18 @@ export default function PodcastSection() {
             <Button href="https://www.youtube.com/@ofatorm?sub_confirmation=1" target="_blank" rel="noopener noreferrer" arrow>
               Descubra o Fator M
             </Button>
-          </m.div>
+          </div>
 
           {/* Right - video cards */}
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {videos.slice(0, 6).map((video, i) => (
-              <m.a
+              <a
                 key={video.id}
                 href={video.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.04 }}
-                className="theme-dark group relative rounded-xl overflow-hidden border border-white/8 hover:border-[#A100FF]/40 transition-colors block"
+                style={{ transitionDelay: `${i * 0.04}s` }}
+                className="reveal reveal-up theme-dark group relative rounded-xl overflow-hidden border border-white/8 hover:border-[#A100FF]/40 transition-colors block"
                 aria-label={`Assistir: ${video.title}`}
               >
                 <Image
@@ -77,7 +69,7 @@ export default function PodcastSection() {
                 <div className="absolute bottom-0 left-0 right-0 p-3">
                   <p className="text-xs text-white font-medium line-clamp-2">{video.title}</p>
                 </div>
-              </m.a>
+              </a>
             ))}
           </div>
         </div>

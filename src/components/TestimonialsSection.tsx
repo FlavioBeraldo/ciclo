@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from 'react'
-import { m, AnimatePresence } from 'framer-motion'
 import { Play, X } from 'lucide-react'
 import Image from 'next/image'
 import Button from './ui/Button'
@@ -20,27 +19,19 @@ export default function TestimonialsSection() {
   return (
     <Section id="depoimentos" className="bg-[#050505] py-20 lg:py-32">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <m.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10"
-        >
+        <div className="reveal reveal-up flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
           <h2 className="text-3xl sm:text-4xl font-bold">Quem vive, recomenda</h2>
           <Button href="/depoimentos" variant="outline" arrow>
             Ver todos os depoimentos
           </Button>
-        </m.div>
+        </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {testimonials.map((t, i) => (
-            <m.div
+            <div
               key={t.id}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.05 }}
-              className="theme-dark relative rounded-2xl overflow-hidden cursor-pointer group border border-white/8 hover:border-[#A100FF]/40 transition-colors"
+              style={{ transitionDelay: `${i * 0.05}s` }}
+              className="reveal reveal-up-lg theme-dark relative rounded-2xl overflow-hidden cursor-pointer group border border-white/8 hover:border-[#A100FF]/40 transition-colors"
               onClick={() => setActiveVideo(t.id)}
             >
               {/* Thumbnail */}
@@ -67,25 +58,18 @@ export default function TestimonialsSection() {
               <div className="absolute bottom-0 left-0 right-0 p-4">
                 <p className="font-bold text-white text-sm">{t.brand}</p>
               </div>
-            </m.div>
+            </div>
           ))}
         </div>
       </div>
 
       {/* Video modal */}
-      <AnimatePresence>
-        {activeVideo && (
-          <m.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-md p-4"
+      {activeVideo && (
+          <div
+            className="animate-popup-in fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-md p-4"
             onClick={() => setActiveVideo(null)}
           >
-            <m.div
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
+            <div
               className="relative w-full max-w-3xl aspect-video"
               onClick={(e) => e.stopPropagation()}
             >
@@ -103,10 +87,9 @@ export default function TestimonialsSection() {
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
               />
-            </m.div>
-          </m.div>
-        )}
-      </AnimatePresence>
+            </div>
+          </div>
+      )}
     </Section>
   )
 }

@@ -3,7 +3,6 @@
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import { m } from 'framer-motion'
 import Button from './ui/Button'
 import Section from './ui/Section'
 import PhoneField from './ui/PhoneField'
@@ -98,12 +97,7 @@ export default function LeadForm() {
       </div>
 
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <m.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-10"
-        >
+        <div className="reveal reveal-up text-center mb-10">
           <h2 className="text-3xl sm:text-4xl font-bold mb-4">
             Pronto para crescer de forma{' '}
             <span className="text-[#A100FF]">previsível?</span>
@@ -111,15 +105,10 @@ export default function LeadForm() {
           <p className="text-[#A1A1AA]">
             Fale com um especialista e descubra como o Full Funnel Marketing pode transformar seu e-commerce.
           </p>
-        </m.div>
+        </div>
 
-        <m.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="bg-white/3 border border-white/10 rounded-2xl p-8 backdrop-blur-sm"
-        >
-          <m.form onSubmit={handleSubmit(onSubmit)} className="grid sm:grid-cols-2 gap-5">
+        <div className="reveal reveal-up-lg bg-white/3 border border-white/10 rounded-2xl p-8 backdrop-blur-sm">
+          <form onSubmit={handleSubmit(onSubmit)} className="grid sm:grid-cols-2 gap-5">
             <div>
               <label htmlFor="lead-name" className={labelClass}>Nome completo *</label>
               <input id="lead-name" {...register('name')} placeholder="Seu nome" className={inputClass} />
@@ -199,8 +188,8 @@ export default function LeadForm() {
                 {isSubmitting ? 'Enviando...' : 'Fale com um especialista'}
               </Button>
             </div>
-          </m.form>
-        </m.div>
+          </form>
+        </div>
       </div>
     </Section>
   )
