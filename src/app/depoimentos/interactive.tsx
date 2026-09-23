@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import MotionProvider from '@/components/MotionProvider'
 import { Play, X, ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 
@@ -36,6 +37,7 @@ export default function DepoimentosInteractive() {
   const [activeVideo, setActiveVideo] = useState<string | null>(null)
 
   return (
+    <MotionProvider>
     <>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 relative z-10">
         {/* Back link */}
@@ -158,5 +160,6 @@ export default function DepoimentosInteractive() {
         )}
       </AnimatePresence>
     </>
+    </MotionProvider>
   )
 }
