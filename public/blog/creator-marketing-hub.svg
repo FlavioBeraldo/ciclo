@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 460" role="img" aria-label="Diagrama do Creator Marketing Hub: o Creator Marketplace, que cuidava da descoberta, e o Partnership Ads Hub, que cuidava da ativação, se fundem em um único painel com descoberta unificada, conteúdo pronto para anúncio, permissões com expiração e mensagens no mesmo ambiente">
+  <style>
+    text { font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif; }
+    .title { font-size: 19px; font-weight: 700; fill: #111827; }
+    .subtitle { font-size: 13px; fill: #6b7280; }
+    .tag { font-size: 10.5px; font-weight: 700; fill: #6b7280; letter-spacing: .08em; }
+    .oldTitle { font-size: 13.5px; font-weight: 700; fill: #374151; }
+    .oldDesc { font-size: 11.5px; fill: #6b7280; }
+    .hubTitle { font-size: 15px; font-weight: 700; fill: #ffffff; }
+    .hubTag { font-size: 10px; font-weight: 700; fill: #f3e8ff; letter-spacing: .08em; }
+    .item { font-size: 12.5px; font-weight: 600; fill: #111827; }
+    .itemDesc { font-size: 11px; fill: #6b7280; }
+    .note { font-size: 11.5px; fill: #6b7280; }
+  </style>
+
+  <rect x="0" y="0" width="840" height="460" rx="16" fill="#ffffff" stroke="#e5e7eb"/>
+
+  <text x="40" y="44" class="title">Duas ferramentas viraram um painel só</text>
+  <text x="40" y="66" class="subtitle">Descoberta, conversa, permissão e anúncio deixaram de morar em lugares diferentes</text>
+
+  <!-- ── Antes: duas superfícies separadas ─────────────────────────────── -->
+  <text x="40" y="104" class="tag">ANTES</text>
+
+  <rect x="40" y="118" width="212" height="72" rx="10" fill="#ffffff" stroke="#e5e7eb"/>
+  <rect x="40" y="118" width="4" height="72" rx="2" fill="#d1d5db"/>
+  <text x="62" y="146" class="oldTitle">Creator Marketplace</text>
+  <text x="62" y="167" class="oldDesc">Descoberta de creators,</text>
+  <text x="62" y="182" class="oldDesc">só no Instagram</text>
+
+  <rect x="40" y="206" width="212" height="72" rx="10" fill="#ffffff" stroke="#e5e7eb"/>
+  <rect x="40" y="206" width="4" height="72" rx="2" fill="#d1d5db"/>
+  <text x="62" y="234" class="oldTitle">Partnership Ads Hub</text>
+  <text x="62" y="255" class="oldDesc">Ativação do anúncio</text>
+  <text x="62" y="270" class="oldDesc">de parceria</text>
+
+  <text x="40" y="312" class="note">Entre as duas: planilhas, e-mail</text>
+  <text x="40" y="330" class="note">e permissão sem data de validade.</text>
+
+  <!-- ── Seta de fusão ─────────────────────────────────────────────────── -->
+  <path d="M 266 198 L 316 198" stroke="#A100FF" stroke-width="2" fill="none"/>
+  <path d="M 310 192 L 318 198 L 310 204 Z" fill="#A100FF"/>
+  <text x="291" y="184" class="tag" text-anchor="middle" fill="#A100FF">FUSÃO</text>
+
+  <!-- ── Depois: o hub ─────────────────────────────────────────────────── -->
+  <text x="332" y="104" class="tag">AGORA</text>
+
+  <rect x="332" y="118" width="468" height="238" rx="12" fill="#ffffff" stroke="#A100FF"/>
+
+  <rect x="332" y="118" width="468" height="46" rx="12" fill="#A100FF"/>
+  <rect x="332" y="150" width="468" height="14" fill="#A100FF"/>
+  <text x="354" y="141" class="hubTitle">Creator Marketing Hub</text>
+  <text x="780" y="141" class="hubTag" text-anchor="end">UM PAINEL</text>
+
+  <!-- quatro frentes -->
+  <g>
+    <circle cx="366" cy="192" r="10" fill="#f3e8ff"/>
+    <text x="366" y="196" font-size="10.5" font-weight="700" fill="#6b21a8" text-anchor="middle">1</text>
+    <text x="388" y="190" class="item">Descoberta unificada</text>
+    <text x="388" y="207" class="itemDesc">Instagram e Facebook no mesmo catálogo</text>
+  </g>
+
+  <g>
+    <circle cx="366" cy="238" r="10" fill="#f3e8ff"/>
+    <text x="366" y="242" font-size="10.5" font-weight="700" fill="#6b21a8" text-anchor="middle">2</text>
+    <text x="388" y="236" class="item">Conteúdo pronto para anúncio</text>
+    <text x="388" y="253" class="itemDesc">Menções e publicações sinalizadas, em um clique</text>
+  </g>
+
+  <g>
+    <circle cx="366" cy="284" r="10" fill="#f3e8ff"/>
+    <text x="366" y="288" font-size="10.5" font-weight="700" fill="#6b21a8" text-anchor="middle">3</text>
+    <text x="388" y="282" class="item">Permissões com expiração</text>
+    <text x="388" y="299" class="itemDesc">Direito de uso por peça, com data para acabar</text>
+  </g>
+
+  <g>
+    <circle cx="366" cy="330" r="10" fill="#f3e8ff"/>
+    <text x="366" y="334" font-size="10.5" font-weight="700" fill="#6b21a8" text-anchor="middle">4</text>
+    <text x="388" y="328" class="item">Mensagens no mesmo ambiente</text>
+    <text x="388" y="345" class="itemDesc">Conversa sem sair da ferramenta de anúncios</text>
+  </g>
+
+  <!-- ── Rodapé: o benchmark divulgado ─────────────────────────────────── -->
+  <line x1="40" y1="384" x2="800" y2="384" stroke="#e5e7eb"/>
+  <text x="40" y="412" class="tag">NOS TESTES DIVULGADOS PELA META</text>
+
+  <text x="40" y="440" font-size="17" font-weight="700" fill="#A100FF">-19%</text>
+  <text x="100" y="440" class="note">de CPA</text>
+
+  <text x="196" y="440" font-size="17" font-weight="700" fill="#A100FF">+13%</text>
+  <text x="256" y="440" class="note">de CTR ao somar anúncios de parceria às campanhas</text>
+</svg>
