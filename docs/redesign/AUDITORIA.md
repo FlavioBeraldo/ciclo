@@ -1,0 +1,219 @@
+# Auditoria para o redesign — estado antes de qualquer mudança visual
+
+Levantado em 16/10/2026, com a produção em `7ae962b`.
+Branch do trabalho: `claude/redesign-ciclo-2026-HVyvT`, criada a partir da produção.
+
+Este documento é o contrato do que precisa continuar igual. Depois do redesign,
+cada item aqui deve ser verificável de novo.
+
+---
+
+## 1. Estado do repositório
+
+| Item | Situação |
+|---|---|
+| Branch de produção | `claude/elegant-darwin-HVyvT`, topo `7ae962b` |
+| Diretório de trabalho | Limpo, sem pendências |
+| Trabalho em voo não mergeado | Nenhum |
+
+Existem quatro branches remotas "à frente" em contagem de commits, mas todas
+estão 84 commits **atrás** da produção e datam de maio a setembro. O conteúdo
+delas já chegou à produção por outro caminho de histórico: o agendamento de
+artigos, por exemplo, está publicado. São branches abandonadas, não trabalho
+pendente. `feat/ga4-lead-events` está integralmente mergeada.
+
+As branches recentes deste fluxo (`ecom-shift`, `shift-copy-ux`,
+`depoimentos-sem-cargo`, `artigo-creator-marketing-hub`) também já foram
+mergeadas. Nada foi sobrescrito.
+
+---
+
+## 2. Camada protegida: o que não pode mudar
+
+O baseline de hash de cada arquivo está em `BASELINE-PROTEGIDO.md`: 47 arquivos
+entre `src/lib` e `src/app/api`. Qualquer alteração aparece no diff de hash.
+
+### 2.1 Eventos do dataLayer
+
+Onze nomes, exatos:
+
+```
+generate_lead                 playbook_form_submit        begin_checkout
+consultoria_ecom_shift_lead   playbook_popup_view         link_bio_step_view
+aplicacao_step_view           playbook_popup_click        link_bio_step_complete
+aplicacao_step_complete       playbook_popup_dismiss
+```
+
+### 2.2 Telemetria interna (`track()`)
+
+`page_view`, `form_submit`, `material_download`, `popup_view`, `popup_click`,
+`video_play`, `whatsapp_click`, `cta_click`, `scroll_75`.
+
+### 2.3 Meta CAPI
+
+Evento único `Lead`, enviado do servidor com o mesmo `event_id` do navegador.
+Variáveis de ambiente: `META_CAPI_TOKEN`, `META_PIXEL_ID`, `META_TEST_EVENT_CODE`.
+
+### 2.4 Formulários e seus handlers
+
+| Formulário | Rota | Campos do payload |
+|---|---|---|
+| `LeadForm` | `/api/pipedrive` | dados do form, `source: 'Site/WhatsApp'`, `attribution`, `event_id`, `page_url` |
+| `PlaybookForm` | `/api/pipedrive` | `name`, `email`, `company`, `phone`, `message`, `source: 'LP Playbook Social Commerce'`, `pipeline: 'Playbook'`, `attribution`, `event_id`, `page_url` |
+| `AplicacaoForm` | `/api/aplicacao` | 8 respostas, `attribution`, `event_id`, `page_url` |
+| `LinkBioForm` | `/api/link-bio` | `step`, `data`, `attribution`, `complete`, `event_id`, `page_url` |
+
+O LinkedIn do playbook **não** viaja no body: a rota lê o cookie assinado
+`ciclo_li` no servidor. Nenhum redesign pode passar esses dados pelo cliente.
+
+Identificador fixo da consultoria: `consultoria_ecom_shift`, usado no dataLayer,
+na CAPI e no `origem_formulario` do Pipedrive. Destino fixo no CRM da rota
+`/api/aplicacao`: pipeline 2, stage 8.
+
+### 2.5 Cookies
+
+`ciclo_attr` (atribuição, 90 dias, primeiro toque), `ciclo_uid`, `ciclo_uid_init`,
+`ciclo_lb`, `ciclo_apl`, `ciclo_li`, `ciclo_li_state`, `ciclo_li_done`,
+`ciclo_li_traffic`, mais os de terceiros `_ga`, `_fbp`, `_fbc`.
+
+### 2.6 UTM
+
+Lidos em `src/lib/attribution.ts`: `utm_source`, `utm_medium`, `utm_campaign`,
+`utm_term`, `utm_content`, além de `gclid`, `fbclid`, `ttclid`.
+
+### 2.7 SEO
+
+- 11 canonicais declarados, um por página indexável.
+- 3 páginas `noindex`: `/aplicacao`, `/link-bio`, `/obrigado`. Nenhuma outra pode
+  ganhar `noindex`.
+- JSON-LD em 8 páginas: artigo do blog, as duas consultorias, ecomshift, ofatorm,
+  playbook, serviços, soluções e tiktok-shop.
+- 153 regras de redirect em `next.config.ts`, a maior parte do acervo WordPress.
+- 884 páginas estáticas geradas no build.
+
+### 2.8 Conteúdo
+
+42 artigos em `content/blog/*.mdoc` mais o acervo WordPress em
+`src/data/wp-posts.json`. O redesign muda o template de leitura, nunca o texto.
+
+---
+
+## 3. Isolamento do /playbook-social-commerce
+
+A página já é razoavelmente isolada, o que ajuda.
+
+**Arquivos próprios:** `page.tsx`, `PlaybookForm.tsx`, `StickyCta.tsx`.
+Não usa `Header` nem `Footer` globais. Carrega a própria Playfair Display.
+Define o próprio fundo na raiz: `.lp-playbook` com `#EDE7DB` e texto `#1A1917`.
+
+**Compartilhado que ela consome:**
+
+| Dependência | Risco |
+|---|---|
+| `src/app/globals.css` | Alto. Ver abaixo |
+| `src/app/layout.tsx` | Médio. Fonte Inter, classe `grain` no body, GTM, provedores |
+| `src/components/ui/PhoneField.tsx` | Médio. Componente compartilhado do telefone |
+| `src/lib/attribution`, `conversions`, `track` | Nenhum. É lógica, não muda |
+
+**O que em `globals.css` escapa para dentro dela:**
+
+1. `:root` com `--purple: #A100FF` e os tokens de fundo escuro.
+2. `body` com fundo `#050505`, texto branco e Inter.
+3. `html { scroll-behavior: smooth }`.
+4. `:focus-visible` com contorno roxo `#A100FF`.
+5. `::-webkit-scrollbar` com barra roxa.
+6. `.grain::before`, a textura aplicada no body.
+7. As 6 regras `.lp-*` próprias dela e a base `.ciclo-phone-input`.
+
+**Plano de isolamento.** O design novo não pode redefinir `:root`, `body`,
+`:focus-visible`, a barra de rolagem nem a base de `.ciclo-phone-input` sem
+preservar o efeito atual nessa página. Três caminhos, nesta ordem de preferência:
+
+1. Os tokens novos entram sob uma classe de escopo na raiz de cada página
+   redesenhada, não em `:root`. O playbook, que não recebe a classe, fica intacto.
+2. Se algum token global for inevitável, a página ganha um bloco de restauração
+   explícito, no mesmo espírito das regras `.lp-*` que já existem.
+3. `PhoneField` recebe uma variante nova em vez de ter a base alterada. A
+   variante `lp-phone-light` que o playbook usa continua como está.
+
+**Prova.** O baseline visual e de estilo computado está capturado em
+`playbook-antes.json`, com screenshots de desktop e celular. Inclui fundo,
+cores, fontes, altura da página, lista de títulos, campos, botões, links,
+imagens, meta robots, canonical e JSON-LD. A comparação depois do redesign é
+item obrigatório do PR.
+
+Medidas de referência: altura 3112px no desktop e 5147px no celular, 10 títulos,
+6 campos de formulário.
+
+---
+
+## 4. Matriz página → componentes → lógica
+
+| Rota | Componentes visuais | Lógica preservada |
+|---|---|---|
+| `/` | Hero, BrandsStrip, CommonErrorSection, ThesisSection, ServicesSection, CasesSection, TestimonialsSection, PodcastSection, RecentBlogSection, LeadForm, Header, Footer | AttributionTracker, Recaptcha, `/api/pipedrive` |
+| `/blog` | Header, Footer, PlaybookPopup | `blog`, `keystatic-posts` |
+| `/blog/[slug]` | Header, Footer | `blog`, `keystatic-posts`, JSON-LD Article + FAQPage |
+| `/servicos/[slug]` | Header, Footer, Button | `servicos`, JSON-LD |
+| `/solucoes/[slug]` | Header, Footer, Button | `solucoes`, JSON-LD |
+| `/consultoria-para-e-commerce` | Header, Footer, LeadForm | `/api/pipedrive` |
+| `/consultoria-ecom-shift` | 6 componentes `shift/*` | `cases`, JSON-LD, CTAs para `/aplicacao` |
+| `/aplicacao` | PhoneField, fonts | `attribution`, `conversions`, `track`, `/api/aplicacao` |
+| `/link-bio` | PhoneField | `attribution`, `conversions`, `track`, `/api/link-bio` |
+| `/ofatorm` | Header, Footer, Button | `youtube`, JSON-LD |
+| `/ecomshift` | Header, Footer, YouTubeFacade | `attribution`, `conversions`, JSON-LD |
+| `/tiktok-shop` | Header, Footer, LeadForm | `/api/pipedrive`, JSON-LD |
+| `/depoimentos` | Header, Footer | — |
+| `/obrigado` | CasesSection | `noindex` |
+| `/politica-de-privacidade` | OptOutNotice | opt-out de telemetria |
+| `/mapa-do-site` | — | — |
+| `/playbook-social-commerce` | **Não entra no redesign** | PlaybookForm, StickyCta |
+
+---
+
+## 5. Verificações executadas e problemas prévios
+
+| Verificação | Resultado |
+|---|---|
+| `tsc --noEmit` | Limpo |
+| `next build` | Verde, 884 páginas estáticas |
+| Todas as 16 rotas servidas localmente | 200 |
+| `eslint src` | **8 erros e 4 avisos, todos preexistentes** |
+
+Os problemas do lint existem hoje, antes de qualquer mudança minha, e ficam
+registrados para não serem atribuídos ao redesign:
+
+- `api/youtube/latest/route.ts`: uso de `any`.
+- `consultoria-para-e-commerce/interactive.tsx`: aspas não escapadas e import
+  não usado.
+- `playbook-social-commerce/PlaybookForm.tsx`: dois casos de `setState` dentro
+  de efeito.
+- `politica-de-privacidade/OptOutNotice.tsx`: mesmo caso.
+- `link-bio/page.tsx` e `components/Header.tsx`: `<a>` em vez de `<Link>`.
+- `servicos/[slug]/page.tsx`: import não usado.
+- `aplicacao/AplicacaoForm.tsx` e `link-bio/LinkBioForm.tsx`: aviso do React
+  Compiler sobre o `watch()` do react-hook-form.
+
+O lint não faz parte do script de build, por isso o build passa mesmo assim.
+
+---
+
+## 6. Bloqueios
+
+1. **O pacote do design não chegou.** `ciclo-layouts-para-claude.zip` não está no
+   repositório nem foi anexado. Sem ele não começo a interface.
+2. **A prévia pode exigir acesso do proprietário.** Não vou tentar contornar.
+3. Pendência herdada, fora deste escopo: a Meta ainda aguarda o aceite dos termos
+   para a conversão da consultoria.
+
+---
+
+## 7. Como a preservação será provada no PR
+
+- Diff de hash dos 47 arquivos protegidos: esperado vazio.
+- Comparação campo a campo dos payloads e nomes de evento, com a API
+  interceptada no processo. Nenhum lead de teste sai para sistemas reais.
+- `playbook-antes.json` contra `playbook-depois.json`, mais screenshots lado a
+  lado de desktop e celular.
+- Build verde, typecheck limpo e lint sem erros novos além dos 8 registrados.
+- Screenshots de cada grupo de páginas em desktop e celular.
