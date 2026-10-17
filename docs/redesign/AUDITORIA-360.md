@@ -1415,15 +1415,16 @@ Para não marcar como aprovado o que não é:
 | Item | Valor |
 |---|---|
 | Branch | `claude/redesign-ciclo-2026-HVyvT` |
-| Último commit de **código** | `e0f5bc2d2ca7afaf12356393773c4c2816f25557` |
-| Preview desse commit | https://ciclo-dl2o-db01c5gxc-flavioberaldos-projects.vercel.app · **success** |
+| Último commit de **código** | `b5a45dcf0a61a79624f4f128ba0243da046ade40` |
+| Preview desse commit | https://ciclo-dl2o-khob0pt76-flavioberaldos-projects.vercel.app · **success** |
 | Produção, revalidada hoje | `7ae962bad1758ef0c77e775af6a683e7e5a0e280` — **não avançou** |
 
 Commits das páginas: `ac58a47` (/ofatorm), `af7b8b9` (/ecomshift),
 `7e3b63c` (/consultoria-para-e-commerce), `9df6eff` (as quatro últimas),
 `8684981` (UX das páginas de formulário), `3c5d176` (as três correções de
 frontend e o tempo limite do podcast — **este quebrou o build no Preview**,
-ver 27.10) e `e0f5bc2` (a correção do gerador; Preview verde).
+ver 27.10), `e0f5bc2` (a correção do gerador; Preview verde) e `b5a45dc`
+(bug da Gringa, teste dos webhooks e plano de migração).
 
 **Sobre o SHA a liberar:** o commit que grava esta seção vem depois de
 `8684981` e toca **só `docs/`**, então o site que o Preview acima mostra é o
@@ -1461,7 +1462,7 @@ Todas as rotas públicas estão no design 2026. Conferido arquivo por arquivo.
 
 | Verificação | Resultado |
 |---|---|
-| `verificar.sh comparar` | **17 passos, tudo verde** |
+| `verificar.sh comparar` | **19 passos, tudo verde** |
 | 1 · Camada protegida | 41 arquivos, nenhuma mudança não autorizada; 5 exceções registradas e impressas |
 | 2 · Typecheck e lint | typecheck limpo; lint sem erro novo |
 | 3 · Build | verde, 883 páginas |
@@ -1478,7 +1479,9 @@ Todas as rotas públicas estão no design 2026. Conferido arquivo por arquivo.
 | 14 · ECOM Shift | `begin_checkout` idêntico nos dois `placement`; vídeos no player interno |
 | 15 · Formulários em etapas | etapas, conversão, **idempotência** e `/obrigado` sem contagem dupla |
 | 16 · Responsivo | 11 rotas sem estouro horizontal em 1440 e 390 |
-| 17 · Podcast no servidor | API, episódio novo, **tempo limite medido em 3501ms**, cota, sem chave, só Shorts e sem snapshot |
+| 17 · Indicadores de case | 9 indicadores inteiros e dentro da célula em 7 cenários (320 a 1440, texto a 150% e 200%), em 3 rotas |
+| 18 · Podcast no servidor | API, episódio novo, **tempo limite medido em 3501ms**, cota, sem chave, só Shorts, sem snapshot e gerador com descrição real |
+| 19 · Webhooks do Pipedrive | autenticação, filtros, etapas, ganho, idempotência, v1/v2, enrich e **11 arquivos byte a byte iguais à base** |
 | Crawl | **0 destinos quebrados, 0 âncoras sem alvo** (eram 3) |
 | Diff protegido vs produção | só os 5 arquivos autorizados |
 | `content/` vs produção | **sem diferença** — nenhum artigo novo a preservar |
@@ -1507,7 +1510,7 @@ Nos passos 14 e 15 a rede fica interceptada e `/api/*` é respondida por mock:
 | 6 | `mamo.jpg` em resolução maior (hoje 399×501) | **estético, não crítico** | arquivo do Flávio |
 | 8 | Isolamento do Preview nos relatórios | risco demonstrado, efeito não medido | alteração no container, **que eu não faço** |
 | 9 | Revisão técnica independente do SHA exato | **pendente** | a sua. Este gate é só seu: nada que eu faça o fecha |
-| 11 | Rollback disponível na Vercel | **não verificado por mim** | leitura do painel — ver 27.5 |
+| 11 | Rollback disponível na Vercel | **parcial** — o deployment existe, Ready/Production/Current; a operação de Promote **nunca foi executada nem testada** | leitura do painel e, se quiserem certeza, um ensaio |
 
 **NÃO VALIDADO — evidência de integração bloqueada.**
 
@@ -1520,9 +1523,9 @@ não validação.
 |---|---|---|---|
 | 12 | `generate_lead` chega ao GA4 a partir desta branch | O hit depende do container e de credencial que o Preview não tem | Um envio real, com o Assistente de Tags aberto, no domínio de produção ou em ambiente dedicado |
 | 13 | Negócio criado no Pipedrive no funil e etapa certos | Sem token no Preview | `PIPEDRIVE_API_TOKEN` válido em ambiente de teste, ou envio em produção |
-| 14 | As 8 chaves de campo de atribuição existem na conta | Só sei que o código as usa | Leitura de campos personalizados na conta do Pipedrive |
+| 14 | As 8 **chaves** de campo de atribuição existem na conta | Os 8 **nomes** foram confirmados na revisão de 17/10; as chaves de hash, não | Leitura de campos personalizados na conta do Pipedrive |
 | 15 | `consultoria_ecom_shift_lead` chega ao GA4 | Nunca houve streaming desse evento (26) | Um envio real pela `/aplicacao` |
-| 16 | Dedup Pixel/CAPI pelo mesmo `event_id` | `events_received=1` diz que a Meta recebeu, não que casou | Gerenciador de Eventos aberto, com os dois envios do mesmo `event_id` |
+| 16 | Dedup Pixel/CAPI pelo mesmo `event_id` **neste candidato** | A cobertura de 100% vista no Events Manager é da base, em janela de 7 dias, com amostra de 1 navegador + 1 servidor. E a lista de permissão não tem `vercel.app`, o que impede o teste de Pixel no Preview | Gerenciador de Eventos aberto, no domínio real, com os dois envios do mesmo `event_id` |
 | 17 | Linha gravada no Supabase a partir desta branch | Sem credencial no Preview | Consulta a `conversion_events` depois do envio |
 | 18 | Webhook do Pipedrive processa, não só responde 200 | `HTTP 200` prova resposta, não processamento | Mudança de etapa real seguida de leitura de `conversion_events` |
 
