@@ -101,13 +101,14 @@ export default async function BlogPage({
             <div className="wrap narrow">
               <Breadcrumb etapas={[{ rotulo: 'Início', href: '/' }, { rotulo: 'Blog' }]} />
 
-              <div className="eyebrow">
-                <span />
-                Ciclo Insights
-              </div>
-
               <div className="blog-title-row">
+                {/* O nome da página abre o h1. "Ciclo Insights" continua no
+                    caminho da página e no rodapé de cada artigo. */}
                 <h1>
+                  <span className="eyebrow h1-kicker">
+                    <span />
+                    Blog de E-commerce · Ciclo Insights
+                  </span>
                   Estratégias que geram
                   <br />
                   <em>crescimento real.</em>

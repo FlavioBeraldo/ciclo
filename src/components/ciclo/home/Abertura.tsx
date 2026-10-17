@@ -57,12 +57,14 @@ export default function Abertura() {
     <>
       <section className="hero" id="inicio">
         <div className="wrap">
-          <div className="eyebrow">
-            <span />
-            Agência de Marketing para E-commerce - Full Funnel
-          </div>
-
+          {/* O nome da página abre o h1, pequeno, acima da chamada. Visualmente
+              é a mesma linha de antes; no código ela virou o começo do
+              título da página, que é o que o buscador lê primeiro. */}
           <h1>
+            <span className="eyebrow h1-kicker">
+              <span />
+              Agência de Marketing para E-commerce - Full Funnel
+            </span>
             Decodificamos o futuro
             <br />
             do e-commerce.

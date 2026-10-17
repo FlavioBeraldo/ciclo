@@ -161,6 +161,16 @@ else
 fi
 cd "$RAIZ"
 
+# ── 10. O título da página no h1 ────────────────────────────────────────────
+titulo "10. Título no h1"
+cd "$RAIZ"
+if RAIZ_CICLO="$RAIZ" node --experimental-strip-types --no-warnings \
+     "$DOCS/h1-das-paginas.mjs" "$BASE" > "$TMP/h1.log" 2>&1; then
+  ok "$(tail -1 "$TMP/h1.log")"
+else
+  falha "h1 fora do padrão:"; head -20 "$TMP/h1.log"
+fi
+
 pkill -f "next-server" 2>/dev/null
 printf "\n%s\n" "────────────────────────────────"
 if [ "$falhas" -eq 0 ]; then echo "TUDO OK"; else echo "$falhas FALHA(S)"; fi

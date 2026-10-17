@@ -148,3 +148,25 @@
     align-items: center;
   }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   O nome da página dentro do h1 — pedido do Flávio em 17/10/2026.
+   A linha pequena que ficava acima da chamada passa a ser o começo do próprio
+   <h1>, para o título da página estar no h1 sem mudar nada do desenho. A
+   chamada grande continua dentro do mesmo h1, então ela não some do índice de
+   títulos de quem usa leitor de tela.
+   Nas páginas de artigo nada disso se aplica: lá o h1 já é o título.
+   ═══════════════════════════════════════════════════════════════════════════ */
+.ciclo2026 .h1-kicker {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: .05em;
+  line-height: 1.4;
+  margin-bottom: 20px;
+  text-wrap: wrap;
+  color: var(--ink);
+}
+.ciclo2026 .hero .h1-kicker { margin-bottom: 24px; }
+@media (max-width: 760px) {
+  .ciclo2026 .h1-kicker { font-size: 10px; margin-bottom: 14px; }
+}

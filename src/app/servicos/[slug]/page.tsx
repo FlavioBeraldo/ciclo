@@ -126,12 +126,15 @@ export default async function ServicoPage({ params }: PageProps) {
 
               <div className="service-hero-layout">
                 <div>
-                  <div className="eyebrow">
-                    <span />
-                    {servico.parentTitle}
-                  </div>
-
-                  <h1>{servico.heroHeadline}</h1>
+                  {/* O nome do serviço abre o h1. A solução de origem continua
+                      visível no caminho da página e sob o símbolo. */}
+                  <h1>
+                    <span className="eyebrow h1-kicker">
+                      <span />
+                      {servico.title}
+                    </span>
+                    {servico.heroHeadline}
+                  </h1>
 
                   <p className="inner-signature">{servico.tagline}</p>
 

@@ -99,14 +99,16 @@ export default async function SolucaoPage({ params }: PageProps) {
 
             <div className="service-hero-layout">
               <div>
-                <div className="eyebrow">
-                  <span />
-                  Full Funnel Marketing
-                </div>
-
-                <h1>{solucao.heroHeadline}</h1>
-
-                <p className="inner-signature">{solucao.heroSub}</p>
+                {/* O nome da solução abre o h1. Ele estava na linha de
+                    assinatura, logo abaixo; agora aparece uma vez só, no
+                    lugar que o buscador lê primeiro. */}
+                <h1>
+                  <span className="eyebrow h1-kicker">
+                    <span />
+                    {solucao.heroSub}
+                  </span>
+                  {solucao.heroHeadline}
+                </h1>
 
                 <p className="inner-lead">{solucao.heroDescription}</p>
 
