@@ -30,8 +30,9 @@ mergeadas. Nada foi sobrescrito.
 
 ## 2. Camada protegida: o que não pode mudar
 
-O baseline de hash de cada arquivo está em `BASELINE-PROTEGIDO.md`: 47 arquivos
-entre `src/lib` e `src/app/api`. Qualquer alteração aparece no diff de hash.
+O baseline de hash está em `hashes-protegidos.txt`: **39 arquivos** entre
+`src/lib` e `src/app/api`. Qualquer alteração aparece no diff de hash, gerado
+pelo comando de verificação da seção 7.
 
 ### 2.1 Eventos do dataLayer
 
@@ -62,6 +63,33 @@ Variáveis de ambiente: `META_CAPI_TOKEN`, `META_PIXEL_ID`, `META_TEST_EVENT_COD
 | `PlaybookForm` | `/api/pipedrive` | `name`, `email`, `company`, `phone`, `message`, `source: 'LP Playbook Social Commerce'`, `pipeline: 'Playbook'`, `attribution`, `event_id`, `page_url` |
 | `AplicacaoForm` | `/api/aplicacao` | 8 respostas, `attribution`, `event_id`, `page_url` |
 | `LinkBioForm` | `/api/link-bio` | `step`, `data`, `attribution`, `complete`, `event_id`, `page_url` |
+
+#### `/link-bio` — contrato próprio, a preservar na íntegra
+
+A página apareceu no inventário e **permanece no site**. A ausência de um
+exemplo equivalente no kit de layouts não autoriza removê-la nem simplificá-la.
+O que precisa continuar funcionando exatamente como hoje:
+
+- **Envio por etapa.** Cada uma das 5 etapas faz seu próprio POST para
+  `/api/link-bio`, em fila, para a etapa 1 criar a sessão antes das seguintes
+  atualizarem o mesmo negócio. A interface avança na hora, sem esperar a rede.
+- **Campo `complete`.** Vai `false` nas quatro primeiras etapas e `true` na
+  última. É ele que dispara a conversão Lead na Meta no servidor.
+- **`event_id` único.** Gerado uma vez ao montar o formulário e repetido em
+  todos os POSTs, para o Pixel e a CAPI deduplicarem.
+- **`attribution`** em todos os POSTs, com a carga completa de UTM, cliques e
+  cookies do GA.
+- **Cookie `ciclo_lb`**, httpOnly e assinado, que carrega os ids do Pipedrive
+  entre as etapas. Os ids nunca trafegam em texto claro.
+- **Eventos do dataLayer:** `link_bio_step_view` e `link_bio_step_complete` em
+  cada etapa, mais `generate_lead` na conclusão.
+- **Lead parcial.** Quem abandona no meio já virou negócio no CRM. Esse
+  comportamento é intencional e não pode ser perdido.
+- A página segue `noindex, nofollow`, por ser exclusiva de redes sociais.
+
+Medido no baseline: 5 eventos de visualização, 5 de conclusão, 1 `generate_lead`
+e 5 POSTs com as chaves `step`, `data`, `complete`, `event_id`, `attribution` e
+`page_url`.
 
 O LinkedIn do playbook **não** viaja no body: a rota lê o cookie assinado
 `ciclo_li` no servidor. Nenhum redesign pode passar esses dados pelo cliente.
@@ -208,12 +236,83 @@ O lint não faz parte do script de build, por isso o build passa mesmo assim.
 
 ---
 
-## 7. Como a preservação será provada no PR
+## 7. Comando de verificação repetível
 
-- Diff de hash dos 47 arquivos protegidos: esperado vazio.
-- Comparação campo a campo dos payloads e nomes de evento, com a API
-  interceptada no processo. Nenhum lead de teste sai para sistemas reais.
-- `playbook-antes.json` contra `playbook-depois.json`, mais screenshots lado a
-  lado de desktop e celular.
-- Build verde, typecheck limpo e lint sem erros novos além dos 8 registrados.
-- Screenshots de cada grupo de páginas em desktop e celular.
+Tudo acima é verificável com um comando só, versionado na branch:
+
+```bash
+bash docs/redesign/verificar.sh baseline   # grava a referência (já feito)
+bash docs/redesign/verificar.sh comparar   # compara o estado atual com ela
+```
+
+Ele executa, em ordem: diff de hash dos 39 arquivos protegidos; typecheck;
+lint contra o número de erros preexistentes; build; as 17 rotas servidas;
+a impressão digital do playbook em desktop e celular; e os eventos e payloads
+dos quatro formulários. Sai com código diferente de zero se qualquer item
+falhar, e imprime o diff do que mudou.
+
+**Nenhuma chamada real sai durante os testes.** Os dois scripts de captura
+cortam tudo que não é o host local e respondem as rotas `/api/*` por mock.
+Confirmado na execução: `googletagmanager.com` e o CDN de bandeiras foram
+bloqueados. Pipedrive, Meta CAPI, GA4, GTM e a telemetria interna não recebem
+nada, e nenhum lead de teste é criado.
+
+### Arquivos de referência versionados
+
+| Arquivo | Conteúdo |
+|---|---|
+| `hashes-protegidos.txt` | SHA-256 dos 39 arquivos de lógica |
+| `lint-erros-baseline.txt` | 8, o número de erros de lint que já existiam |
+| `playbook-antes.json` | Fontes carregadas, estilo computado e estados do playbook |
+| `medicao-antes.json` | Eventos e payloads dos quatro formulários |
+| `playbook-fingerprint.mjs` | Script que captura o playbook |
+| `medicao-fingerprint.mjs` | Script que captura a medição |
+| `verificar.sh` | O comando acima |
+
+### Resultado da execução de referência
+
+Commit base: **`e608981`**, na branch `claude/redesign-ciclo-2026-HVyvT`,
+criada a partir da produção `7ae962b`.
+
+| Verificação | Resultado |
+|---|---|
+| Arquivos protegidos | 39 registrados |
+| Typecheck | Limpo |
+| Lint | 8 erros, todos preexistentes, registrados como teto |
+| Build | Verde, 884 páginas estáticas |
+| 17 rotas | Todas 200 |
+| Playbook | Capturado em desktop e celular |
+| Medição | Capturada nos quatro formulários |
+
+O modo `comparar` foi executado em seguida contra esse mesmo estado e passou em
+todos os itens, o que prova que a comparação funciona e não dá falso positivo.
+
+### Baseline do playbook, em detalhe
+
+Capturado com as mesmas fontes carregadas, os mesmos estados e os mesmos
+viewports que serão usados depois. Hash de arquivo não cobre efeito de CSS
+global; por isso a comparação é feita sobre o que o navegador computa.
+
+| Dimensão | Desktop 1440 | Celular 390 |
+|---|---|---|
+| Altura do documento | 3112px | 5147px |
+| Overflow horizontal | Não | Não |
+| Títulos | 10 | 10 |
+| Campos de formulário | 6 | 6 |
+| Fontes carregadas | Inter e Playfair Display | Inter e Playfair Display |
+| Mensagens de validação | 2 | 2 |
+
+Fundo herdado do `body`: `rgb(5,5,5)`. Fundo da raiz da própria página:
+`rgb(237,231,219)`. Essa diferença é exatamente o ponto de vazamento a vigiar.
+
+Estados capturados em cada viewport: inicial no topo, rolado com o CTA fixo, e
+erro de validação disparado sem rede. Três screenshots por viewport, seis no
+total, com os mesmos nomes de arquivo no `depois`.
+
+### O que o PR precisará apresentar
+
+- Saída completa de `verificar.sh comparar`, sem falhas.
+- Diff de `playbook-antes.json` contra `playbook-depois.json`: vazio.
+- Diff de `medicao-antes.json` contra `medicao-depois.json`: vazio.
+- Screenshots lado a lado do playbook, desktop e celular, nos três estados.
+- Screenshots de cada grupo de páginas redesenhadas, desktop e celular.

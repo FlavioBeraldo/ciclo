@@ -1,10 +1,3 @@
-# Baseline da camada protegida
-
-Base: produção `7ae962b` em 2026-10-16 23:51 UTC
-
-## Hash SHA-256 por arquivo protegido
-
-```
 06190c7760d080f40a5553543cd4fe87de4657bfc3b25a0c9654deaf9e2be700 src/app/api/aplicacao/route.ts
 da50da6351473ed6a6df1c3483520ae11afd9ad800e180848587e822ec374a29 src/app/api/auth/linkedin/callback/route.ts
 18e69414f7fb2945df79246f8ff9c9b37da90eaeb897ac7ef35ddabc30ee2769 src/app/api/auth/linkedin/me/route.ts
@@ -44,4 +37,3 @@ c086e8ee63076033ee16a3b7ea27f94d0ef200e891cb13085c8857b7281d7810 src/lib/servico
 e46429536f43f5910f5b2b0c50bb2769b510a4558bb4b5d20a3b0a9091dbf7c3 src/lib/utils.ts
 327cd06824b5ea9ef2906288d7b6e3aa5345ed7704c563246ad7afca69da8b2c src/lib/webhook-auth.ts
 c5996fca72749809d3172105557085418684d8b8b5aa098815ee31cffaee1813 src/lib/youtube.ts
-```

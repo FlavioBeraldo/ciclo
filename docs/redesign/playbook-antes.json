@@ -1,97 +1,139 @@
 {
  "tag": "antes",
  "base": "http://127.0.0.1:3100",
- "capturadoEm": "2026-10-16T23:55:44.736Z",
+ "rota": "/playbook-social-commerce",
+ "capturadoEm": "2026-10-16T23:58:43.649Z",
+ "bloqueadas": [
+  "https://purecatamphetamine.github.io/country-flag-icons/3x2/BR.svg",
+  "https://www.googletagmanager.com/gtm.js"
+ ],
  "viewports": {
   "desktop": {
-   "altura": 3112,
+   "viewport": {
+    "width": 1440,
+    "height": 900
+   },
+   "isMobile": false,
+   "fontesCarregadas": [
+    "Inter normal 100 900",
+    "Playfair Display normal 400 900"
+   ],
+   "html": {
+    "scrollBehavior": "smooth"
+   },
+   "body": {
+    "backgroundColor": "rgb(5, 5, 5)",
+    "color": "rgb(255, 255, 255)",
+    "fontFamily": "Inter, \"Inter Fallback\", system-ui, -apple-system, sans-serif"
+   },
+   "raiz": {
+    "backgroundColor": "rgb(237, 231, 219)",
+    "color": "rgb(26, 25, 23)",
+    "fontFamily": "Inter, \"Inter Fallback\", system-ui, -apple-system, sans-serif"
+   },
+   "h1": {
+    "fontFamily": "\"Playfair Display\", \"Playfair Display Fallback\", Georgia, \"Times New Roman\", serif",
+    "fontSize": "48px",
+    "fontWeight": "400",
+    "color": "rgb(26, 25, 23)",
+    "lineHeight": "54.72px"
+   },
+   "serif": {
+    "fontFamily": "\"Playfair Display\", \"Playfair Display Fallback\", Georgia, \"Times New Roman\", serif",
+    "fontStyle": "normal",
+    "fontWeight": "400"
+   },
+   "submit": {
+    "backgroundColor": "rgb(26, 25, 23)",
+    "color": "rgb(237, 231, 219)",
+    "borderRadius": "12px",
+    "fontSize": "14px",
+    "padding": "16px 24px"
+   },
+   "telefone": {
+    "backgroundColor": "rgb(255, 255, 255)",
+    "borderColor": "rgba(26, 25, 23, 0.15)",
+    "borderRadius": "12px",
+    "padding": "14px 16px"
+   },
+   "titulos": [
+    "H1|Um em cada cinco reais do e-commerce mundial já nasce dentro de uma re",
+    "H2|O que você leva no playbook",
+    "H3|Fundamentos",
+    "H3|Canais",
+    "H3|Motores da operação",
+    "H3|Creative strategy",
+    "H3|Método e operação",
+    "H3|Cases com número",
+    "H2|Quem escreveu este playbook opera o que ensina.",
+    "H2|Comece antes da sua concorrência."
+   ],
+   "campos": [
+    "INPUT|name|text",
+    "INPUT|email|email",
+    "INPUT|company|text",
+    "SELECT||select-one",
+    "INPUT||tel",
+    "INPUT|lgpd|checkbox"
+   ],
+   "botoes": [
+    "Baixar o playbook gratuito →"
+   ],
+   "links": [
+    "/",
+    "/politica-de-privacidade",
+    "#baixar",
+    "#baixar",
+    "/politica-de-privacidade"
+   ],
+   "imagens": [
+    "image|1010x250",
+    "image|576x814",
+    "BR.svg|0x0",
+    "image|0x0",
+    "image|0x0",
+    "image|0x0",
+    "image|0x0",
+    "image|0x0",
+    "image|0x0"
+   ],
+   "metaRobots": "index, follow",
+   "canonical": "https://cicloecommerce.com.br/playbook-social-commerce",
+   "jsonLd": [
+    "DigitalDocument"
+   ],
+   "alturaDoc": 3112,
    "larguraDoc": 1440,
-   "body": {
-    "backgroundColor": "rgb(5, 5, 5)",
-    "color": "rgb(255, 255, 255)",
-    "fontFamily": "Inter, \"Inter Fallback\", system-ui, -apple-system, sans-serif"
-   },
-   "raiz": {
-    "backgroundColor": "rgb(237, 231, 219)",
-    "color": "rgb(26, 25, 23)",
-    "minHeight": "900px"
-   },
-   "h1": {
-    "estilo": {
-     "fontFamily": "\"Playfair Display\", \"Playfair Display Fallback\", Georgia, \"Times New Roman\", serif",
-     "fontSize": "48px",
-     "fontWeight": "400",
-     "color": "rgb(26, 25, 23)"
+   "larguraJanela": 1440,
+   "estados": {
+    "inicial": {
+     "ok": true
     },
-    "texto": "Um em cada cinco reais do e-commerce mundial já nasce dentro de uma rede social. O seu ain"
-   },
-   "serif": {
-    "fontFamily": "\"Playfair Display\", \"Playfair Display Fallback\", Georgia, \"Times New Roman\", serif",
-    "fontStyle": "normal"
-   },
-   "botaoPrincipal": {
-    "backgroundColor": "rgb(26, 25, 23)",
-    "color": "rgb(237, 231, 219)",
-    "borderRadius": "12px",
-    "fontSize": "14px"
-   },
-   "campoTelefone": {
-    "backgroundColor": "rgb(255, 255, 255)",
-    "borderColor": "rgba(26, 25, 23, 0.15)",
-    "borderRadius": "12px"
-   },
-   "titulos": [
-    "H1|Um em cada cinco reais do e-commerce mundial já nasce dentro",
-    "H2|O que você leva no playbook",
-    "H3|Fundamentos",
-    "H3|Canais",
-    "H3|Motores da operação",
-    "H3|Creative strategy",
-    "H3|Método e operação",
-    "H3|Cases com número",
-    "H2|Quem escreveu este playbook opera o que ensina.",
-    "H2|Comece antes da sua concorrência."
-   ],
-   "campos": [
-    "INPUT|name|text",
-    "INPUT|email|email",
-    "INPUT|company|text",
-    "SELECT||select-one",
-    "INPUT||tel",
-    "INPUT|lgpd|checkbox"
-   ],
-   "botoes": [
-    "Baixar o playbook gratuito →",
-    "Quero o playbook gratuito ↑",
-    "Baixar o playbook gratuito ↓"
-   ],
-   "links": [
-    "/",
-    "/politica-de-privacidade",
-    "#baixar",
-    "#baixar",
-    "/politica-de-privacidade"
-   ],
-   "imagens": [
-    "image?url=%2Flogo-ciclo-black.png&w=2048&q=75|1010x250",
-    "image?url=%2Fplaybook%2Fcapa-playbook-social-commerce.jpg&w=3840&q=75|576x814",
-    "BR.svg|0x0",
-    "image?url=%2Fbrands%2Fgopro.png&w=384&q=75|0x0",
-    "image?url=%2Fbrands%2Fshiseido.png&w=384&q=75|0x0",
-    "image?url=%2Fbrands%2Fnars.png&w=384&q=75|0x0",
-    "image?url=%2Fbrands%2Fmotorola.png&w=384&q=75|0x0",
-    "image?url=%2Fbrands%2Flaura-mercier.png&w=384&q=75|0x0",
-    "image?url=%2Fbrands%2Fjacklinks.png&w=384&q=75|0x0"
-   ],
-   "metaRobots": "index, follow",
-   "canonical": "https://cicloecommerce.com.br/playbook-social-commerce",
-   "jsonLd": [
-    "DigitalDocument"
-   ]
+    "rolado": {
+     "ctaFixoVisivel": true,
+     "scrollY": 1600
+    },
+    "erroDeValidacao": {
+     "mensagens": [
+      "Aceite a política de privacidade para continuar",
+      "E-mail inválido"
+     ]
+    }
+   }
   },
-  "mobile": {
-   "altura": 5147,
-   "larguraDoc": 393,
+  "celular": {
+   "viewport": {
+    "width": 390,
+    "height": 844
+   },
+   "isMobile": true,
+   "fontesCarregadas": [
+    "Inter normal 100 900",
+    "Playfair Display normal 400 900"
+   ],
+   "html": {
+    "scrollBehavior": "smooth"
+   },
    "body": {
     "backgroundColor": "rgb(5, 5, 5)",
     "color": "rgb(255, 255, 255)",
@@ -100,34 +142,35 @@
    "raiz": {
     "backgroundColor": "rgb(237, 231, 219)",
     "color": "rgb(26, 25, 23)",
-    "minHeight": "844px"
+    "fontFamily": "Inter, \"Inter Fallback\", system-ui, -apple-system, sans-serif"
    },
    "h1": {
-    "estilo": {
-     "fontFamily": "\"Playfair Display\", \"Playfair Display Fallback\", Georgia, \"Times New Roman\", serif",
-     "fontSize": "36px",
-     "fontWeight": "400",
-     "color": "rgb(26, 25, 23)"
-    },
-    "texto": "Um em cada cinco reais do e-commerce mundial já nasce dentro de uma rede social. O seu ain"
+    "fontFamily": "\"Playfair Display\", \"Playfair Display Fallback\", Georgia, \"Times New Roman\", serif",
+    "fontSize": "36px",
+    "fontWeight": "400",
+    "color": "rgb(26, 25, 23)",
+    "lineHeight": "41.04px"
    },
    "serif": {
     "fontFamily": "\"Playfair Display\", \"Playfair Display Fallback\", Georgia, \"Times New Roman\", serif",
-    "fontStyle": "normal"
+    "fontStyle": "normal",
+    "fontWeight": "400"
    },
-   "botaoPrincipal": {
+   "submit": {
     "backgroundColor": "rgb(26, 25, 23)",
     "color": "rgb(237, 231, 219)",
     "borderRadius": "12px",
-    "fontSize": "14px"
+    "fontSize": "14px",
+    "padding": "16px 24px"
    },
-   "campoTelefone": {
+   "telefone": {
     "backgroundColor": "rgb(255, 255, 255)",
     "borderColor": "rgba(26, 25, 23, 0.15)",
-    "borderRadius": "12px"
+    "borderRadius": "12px",
+    "padding": "14px 16px"
    },
    "titulos": [
-    "H1|Um em cada cinco reais do e-commerce mundial já nasce dentro",
+    "H1|Um em cada cinco reais do e-commerce mundial já nasce dentro de uma re",
     "H2|O que você leva no playbook",
     "H3|Fundamentos",
     "H3|Canais",
@@ -147,9 +190,7 @@
     "INPUT|lgpd|checkbox"
    ],
    "botoes": [
-    "Baixar o playbook gratuito →",
-    "Quero o playbook gratuito ↑",
-    "Baixar o playbook gratuito ↓"
+    "Baixar o playbook gratuito →"
    ],
    "links": [
     "/",
@@ -159,21 +200,39 @@
     "/politica-de-privacidade"
    ],
    "imagens": [
-    "image?url=%2Flogo-ciclo-black.png&w=2048&q=75|1010x250",
-    "image?url=%2Fplaybook%2Fcapa-playbook-social-commerce.jpg&w=3840&q=75|390x551",
+    "image|1010x250",
+    "image|390x551",
     "BR.svg|0x0",
-    "image?url=%2Fbrands%2Fgopro.png&w=384&q=75|0x0",
-    "image?url=%2Fbrands%2Fshiseido.png&w=384&q=75|0x0",
-    "image?url=%2Fbrands%2Fnars.png&w=384&q=75|0x0",
-    "image?url=%2Fbrands%2Fmotorola.png&w=384&q=75|0x0",
-    "image?url=%2Fbrands%2Flaura-mercier.png&w=384&q=75|0x0",
-    "image?url=%2Fbrands%2Fjacklinks.png&w=384&q=75|0x0"
+    "image|0x0",
+    "image|0x0",
+    "image|0x0",
+    "image|0x0",
+    "image|0x0",
+    "image|0x0"
    ],
    "metaRobots": "index, follow",
    "canonical": "https://cicloecommerce.com.br/playbook-social-commerce",
    "jsonLd": [
     "DigitalDocument"
-   ]
+   ],
+   "alturaDoc": 5147,
+   "larguraDoc": 393,
+   "larguraJanela": 393,
+   "estados": {
+    "inicial": {
+     "ok": true
+    },
+    "rolado": {
+     "ctaFixoVisivel": true,
+     "scrollY": 1600
+    },
+    "erroDeValidacao": {
+     "mensagens": [
+      "Aceite a política de privacidade para continuar",
+      "E-mail inválido"
+     ]
+    }
+   }
   }
  }
 }
