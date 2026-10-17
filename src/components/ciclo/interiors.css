@@ -333,3 +333,43 @@
 .ciclo2026 .vantagens { gap: 10px 22px; font-size: 12px; color: var(--muted); }
 .ciclo2026 .vantagens .module-icon { height: 16px; width: 16px; }
 .ciclo2026 .vantagens > .module-flex { gap: 7px; }
+
+/* Lista numerada dos pilares, na consultoria */
+.ciclo2026 .lista-numerada { list-style: none; padding: 0; margin: 0; }
+.ciclo2026 .lista-numerada li {
+  display: flex;
+  gap: 12px;
+  align-items: baseline;
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--muted);
+  padding: 10px 0;
+  border-top: 1px solid var(--line);
+}
+.ciclo2026 .lista-numerada li:first-child { border-top: 0; padding-top: 0; }
+.ciclo2026 .lista-numerada li > span:first-child {
+  color: var(--ink);
+  font-size: 11px;
+  flex: none;
+  min-width: 18px;
+}
+.ciclo2026 .special-module blockquote footer {
+  font-family: Inter, Arial, sans-serif;
+  font-style: normal;
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 14px;
+}
+
+/* Depoimento longo: continua em itálico, mas em Inter.
+   A Playfair é para frase editorial CURTA — esta citação tem três linhas, e
+   em serifa itálica o bloco fica pesado de ler. Mesma regra que já vale para
+   o corpo dos artigos. */
+.ciclo2026 .special-module blockquote.citacao-longa,
+.ciclo2026 .special-module blockquote.citacao-longa p {
+  font-family: var(--font-inter), Inter, Arial, sans-serif;
+  font-style: italic;
+  font-size: 15px;
+  line-height: 1.65;
+  letter-spacing: normal;
+}

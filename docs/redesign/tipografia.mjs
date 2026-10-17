@@ -32,6 +32,7 @@ const ROTAS = [
   '/depoimentos',
   '/ofatorm',
   '/ecomshift',
+  '/consultoria-para-e-commerce',
   '/mapa-do-site',
   '/politica-de-privacidade',
 ]

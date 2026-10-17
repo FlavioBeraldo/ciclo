@@ -40,6 +40,7 @@ const CASOS = [
   { rota: '/depoimentos', comeca: 'Depoimentos' },
   { rota: '/ofatorm', comeca: 'O Fator M' },
   { rota: '/ecomshift', comeca: 'ECOM Shift' },
+  { rota: '/consultoria-para-e-commerce', comeca: 'Consultoria para E-commerce' },
   { rota: '/mapa-do-site', comeca: 'Mapa do Site' },
   // Exceção registrada: na política o rótulo pequeno continua sendo
   // "Conformidade Legal", que era o texto que já estava na página. Trocá-lo
