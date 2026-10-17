@@ -503,3 +503,13 @@
   color: #4a8a5c;
 }
 .ciclo2026 .application-field.is-valid .application-ok { opacity: 1; }
+
+/* As duas páginas de formulário são curtas: sem isto, o fundo escuro do
+   `body` global aparece numa faixa abaixo do rodapé. */
+.ciclo2026 .application-page {
+  min-height: 100vh;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+}
+.ciclo2026 .application-page > main { flex: 1; }

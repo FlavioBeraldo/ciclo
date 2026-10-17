@@ -42,7 +42,7 @@ export default function AplicacaoPage() {
                 aria-label="Voltar para a Consultoria E-com Shift"
               >
                 <Image
-                  src="/logo-ciclo.png"
+                  src="/logo-ciclo-black.png"
                   alt="Ciclo E-commerce"
                   width={1010}
                   height={250}

@@ -33,7 +33,7 @@ export default function LinkBioPage() {
             <div className="application-topo">
               <Link href="/" aria-label="Ir para a home da Ciclo E-commerce">
                 <Image
-                  src="/logo-ciclo.png"
+                  src="/logo-ciclo-black.png"
                   alt="Ciclo E-commerce"
                   width={1010}
                   height={250}
