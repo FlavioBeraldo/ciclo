@@ -240,6 +240,27 @@ else
 fi
 cd "$RAIZ"
 
+# ── 15. Formulários em etapas: /aplicacao e /link-bio ──────────────────────
+titulo "15. Formulários em etapas"
+cd "$TMP"
+cp "$DOCS/formularios-etapas.mjs" "$DOCS/responsivo.mjs" .
+if node formularios-etapas.mjs "$BASE" > "$TMP/etapas.log" 2>&1; then
+  ok "$(tail -1 "$TMP/etapas.log")"
+else
+  falha "mensuração dos formulários em etapas mudou:"; grep FALHA "$TMP/etapas.log" | head -10
+fi
+
+# ── 16. Responsivo: sem estouro e com um h1 ────────────────────────────────
+titulo "16. Responsivo"
+if node responsivo.mjs "$BASE" / /blog /ofatorm /ecomshift \
+     /consultoria-para-e-commerce /consultoria-ecom-shift /aplicacao /link-bio \
+     /obrigado /tiktok-shop /depoimentos > "$TMP/resp.log" 2>&1; then
+  ok "11 rotas sem estouro horizontal em 1440 e 390"
+else
+  falha "estouro horizontal ou h1 fora do lugar:"; grep FALHA "$TMP/resp.log" | head -10
+fi
+cd "$RAIZ"
+
 pkill -f "next-server" 2>/dev/null
 printf "\n%s\n" "────────────────────────────────"
 if [ "$falhas" -eq 0 ]; then echo "TUDO OK"; else echo "$falhas FALHA(S)"; fi

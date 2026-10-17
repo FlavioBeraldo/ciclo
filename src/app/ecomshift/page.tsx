@@ -5,8 +5,8 @@ import CicloFooter from '@/components/ciclo/CicloFooter'
 import Breadcrumb from '@/components/ciclo/interior/Breadcrumb'
 import PlayerVideo from '@/components/ciclo/PlayerVideo'
 import { playfair2026 } from '@/components/ciclo/fonts'
-import BotaoCheckout from './BotaoCheckout'
-import CtaFlutuante from './CtaFlutuante'
+import BotaoCheckout, { PRECO } from './BotaoCheckout'
+import CtaFlutuante from '@/components/ciclo/CtaFlutuante'
 import '@/components/ciclo/base.css'
 import '@/components/ciclo/interiors.css'
 
@@ -529,7 +529,14 @@ export default function EcomShiftPage() {
           </section>
         </main>
 
-        <CtaFlutuante idAbertura="es-abertura" idFinal="es-final" />
+        <CtaFlutuante
+          idAbertura="es-abertura"
+          idFinal="es-final"
+          titulo="ECOM Shift"
+          subtitulo={PRECO}
+        >
+          <BotaoCheckout placement="header" />
+        </CtaFlutuante>
 
         <CicloFooter />
       </div>

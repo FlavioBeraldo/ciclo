@@ -41,6 +41,11 @@ const CASOS = [
   { rota: '/ofatorm', comeca: 'O Fator M' },
   { rota: '/ecomshift', comeca: 'ECOM Shift' },
   { rota: '/consultoria-para-e-commerce', comeca: 'Consultoria para E-commerce' },
+  { rota: '/consultoria-ecom-shift', comeca: 'Consultoria E-com Shift' },
+  { rota: '/obrigado', comeca: 'Obrigado pelo contato' },
+  // As duas páginas de formulário são noindex, mas seguem a mesma regra.
+  { rota: '/aplicacao', comeca: 'Aplicação' },
+  { rota: '/link-bio', comeca: 'Aplicação' },
   { rota: '/mapa-do-site', comeca: 'Mapa do Site' },
   // Exceção registrada: na política o rótulo pequeno continua sendo
   // "Conformidade Legal", que era o texto que já estava na página. Trocá-lo

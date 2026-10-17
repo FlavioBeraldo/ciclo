@@ -288,15 +288,18 @@ export default function AplicacaoForm() {
   if (finished) {
     return (
       <div>
-        <span className="shift-eyebrow shift-eyebrow--purple">Aplicação enviada</span>
-        <h2 className="shift-display shift-h2 mt-4">Recebemos a sua aplicação.</h2>
-        <p className="shift-lead shift-measure mt-6">
+        <div className="eyebrow">
+          <span />
+          Aplicação enviada
+        </div>
+        <h2>Recebemos a sua aplicação.</h2>
+        <p>
           As informações seguiram para avaliação do time da Ciclo E-commerce. Se fizer sentido para
           o momento da sua operação, entramos em contato pelo WhatsApp ou pelo e-mail que você
           deixou.
         </p>
-        <div className="mt-9 flex flex-wrap gap-3">
-          <Link href="/consultoria-ecom-shift" className="shift-cta-ghost">
+        <div className="application-nav">
+          <Link href="/consultoria-ecom-shift" className="textlink">
             Voltar para a consultoria
           </Link>
         </div>
@@ -309,24 +312,18 @@ export default function AplicacaoForm() {
   return (
     <div>
       {/* Progresso */}
-      <div className="flex items-center gap-4 mb-10">
-        <div
-          className="flex-1 h-px relative overflow-hidden"
-          style={{ backgroundColor: 'rgba(239,238,237,0.18)' }}
-          role="progressbar"
-          aria-valuemin={1}
-          aria-valuemax={STEPS.length}
-          aria-valuenow={index + 1}
-          aria-label={`Etapa ${index + 1} de ${STEPS.length}`}
-        >
-          <div
-            className="absolute inset-y-0 left-0 transition-[width] duration-500 ease-out"
-            style={{ width: `${progress}%`, backgroundColor: '#9451ff' }}
-          />
-        </div>
-        <span className="shift-eyebrow whitespace-nowrap">
-          {String(index + 1).padStart(2, '0')} de {STEPS.length} · cerca de 2 minutos
-        </span>
+      <p className="application-step-label">
+        {String(index + 1).padStart(2, '0')} de {STEPS.length} · cerca de 2 minutos
+      </p>
+      <div
+        className="application-progress"
+        role="progressbar"
+        aria-valuemin={1}
+        aria-valuemax={STEPS.length}
+        aria-valuenow={index + 1}
+        aria-label={`Etapa ${index + 1} de ${STEPS.length}`}
+      >
+        <span style={{ width: `${progress}%` }} />
       </div>
 
       <form
@@ -335,15 +332,15 @@ export default function AplicacaoForm() {
           advance(current)
         }}
       >
-        <label className="shift-label" htmlFor={`campo-${step.id}`}>
+        <label className="application-step-label" htmlFor={`campo-${step.id}`}>
           {step.label}
           {step.optional ? ' (opcional)' : ''}
         </label>
-        <h2 className="shift-display shift-h3 mb-2">{step.question}</h2>
-        {step.hint && <p className="shift-body mb-6 shift-measure">{step.hint}</p>}
+        <h2>{step.question}</h2>
+        {step.hint && <p className="application-hint">{step.hint}</p>}
 
         {step.type === 'choice' ? (
-          <div className="flex flex-col gap-2 max-w-xl" id={`campo-${step.id}`}>
+          <div className="application-options" id={`campo-${step.id}`}>
             {step.options!.map((option) => {
               const selected = current === option
               return (
@@ -355,12 +352,6 @@ export default function AplicacaoForm() {
                     setError(null)
                     if (!isLast) advance(option)
                   }}
-                  className="shift-cta-ghost"
-                  style={{
-                    justifyContent: 'space-between',
-                    textAlign: 'left',
-                    borderColor: selected ? '#9451ff' : undefined,
-                  }}
                   aria-pressed={selected}
                 >
                   {option}
@@ -370,11 +361,10 @@ export default function AplicacaoForm() {
             })}
           </div>
         ) : step.type === 'textarea' ? (
-          <div className="max-w-xl">
+          <div>
             <textarea
               id={`campo-${step.id}`}
               ref={textareaRef}
-              className="shift-textarea"
               rows={5}
               value={value}
               placeholder={step.placeholder}
@@ -384,21 +374,25 @@ export default function AplicacaoForm() {
                 if (error) setError(null)
               }}
             />
-            <p id={`contador-${step.id}`} className="shift-counter" aria-live="polite">
+            <p id={`contador-${step.id}`} className="application-counter" aria-live="polite">
               {value.trim().length < 20
                 ? `Faltam ${20 - value.trim().length} caracteres`
                 : `${value.trim().length} caracteres`}
             </p>
           </div>
         ) : isPhone ? (
-          <div className="max-w-xl" id={`campo-${step.id}`}>
-            <PhoneField name="phone" control={control} placeholder={step.placeholder} />
+          <div id={`campo-${step.id}`}>
+            <PhoneField
+              name="phone"
+              control={control}
+              placeholder={step.placeholder}
+              variant="ciclo2026"
+            />
           </div>
         ) : (
           <input
             id={`campo-${step.id}`}
             ref={inputRef}
-            className="shift-input max-w-xl"
             // type="url" acionaria a validação nativa, que exige esquema
             // (https://) e barraria "sualoja.com.br". O teclado certo vem do
             // inputMode; quem valida o endereço é a regra do próprio passo.
@@ -425,7 +419,7 @@ export default function AplicacaoForm() {
         )}
 
         {isLast && (
-          <label className="shift-check max-w-xl mt-8">
+          <label className="application-consent">
             <input
               type="checkbox"
               checked={lgpd}
@@ -434,14 +428,9 @@ export default function AplicacaoForm() {
                 if (error) setError(null)
               }}
             />
-            <span className="shift-body">
+            <span>
               Aceito a{' '}
-              <a
-                href="/politica-de-privacidade"
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{ color: '#9451ff', textDecoration: 'underline' }}
-              >
+              <a href="/politica-de-privacidade" target="_blank" rel="noopener noreferrer">
                 Política de Privacidade
               </a>{' '}
               e autorizo o contato da Ciclo e o registro da minha navegação no site para
@@ -451,19 +440,19 @@ export default function AplicacaoForm() {
         )}
 
         {error && (
-          <p className="shift-error" role="alert">
+          <p className="application-error" role="alert">
             {error}
           </p>
         )}
         {sendError && (
-          <p className="shift-error" role="alert">
+          <p className="application-error" role="alert">
             {sendError}
           </p>
         )}
 
         {step.type !== 'choice' && (
-          <div className="mt-8 flex flex-wrap items-center gap-4">
-            <button type="submit" className="shift-cta" disabled={sending}>
+          <div className="application-nav">
+            <button type="submit" className="next" disabled={sending}>
               {isLast
                 ? sending
                   ? 'Enviando…'
@@ -471,9 +460,7 @@ export default function AplicacaoForm() {
                 : 'Continuar'}
               <span aria-hidden="true">→</span>
             </button>
-            {!isLast && (
-              <span className="shift-body hidden sm:inline">ou pressione Enter</span>
-            )}
+            {!isLast && <span className="application-local-note">ou pressione Enter</span>}
           </div>
         )}
 
@@ -482,7 +469,7 @@ export default function AplicacaoForm() {
             type="button"
             onClick={back}
             disabled={sending}
-            className="shift-body mt-6 underline underline-offset-4"
+            className="application-voltar"
           >
             Voltar para a etapa anterior
           </button>

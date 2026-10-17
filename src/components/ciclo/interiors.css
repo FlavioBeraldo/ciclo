@@ -373,3 +373,133 @@
   line-height: 1.65;
   letter-spacing: normal;
 }
+
+/* ── /consultoria-ecom-shift ───────────────────────────────────────────── */
+
+/* Assinatura da abertura: dois rótulos nas pontas */
+.ciclo2026 .assinatura {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 14px;
+}
+.ciclo2026 .assinatura .section-kicker { margin: 0; }
+
+/* Faixa de marcas */
+.ciclo2026 .faixa-marcas { justify-content: center; gap: 22px 34px; }
+
+/* Rótulos e métricas dos cartões de case */
+.ciclo2026 .rotulo-case {
+  font-size: 10px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: #898077;
+  margin: 18px 0 6px;
+}
+.ciclo2026 .metricas-case { display: flex; flex-wrap: wrap; gap: 18px; margin: 0; }
+.ciclo2026 .metricas-case dt { font-size: 22px; letter-spacing: -.03em; }
+.ciclo2026 .metricas-case dd { margin: 2px 0 0; font-size: 11px; color: var(--muted); }
+
+/* Os diagramas aprovados do E-com Shift dentro de uma seção escura do 2026.
+   `.shift` traz o próprio fundo; aqui ele só precisa deixar de pintar por
+   cima da seção e ganhar respiro. */
+.ciclo2026 .diagrama-shift { background: transparent; margin: 38px 0; }
+.ciclo2026 .diagrama-shift.shift { background-color: transparent; }
+
+/* Os três indicadores sob a ampulheta, na seção escura */
+.ciclo2026 .section.dark .indicadores { margin: 34px 0 18px; }
+.ciclo2026 .section.dark .indicadores h3 { font-size: 22px; }
+.ciclo2026 .section.dark .indicadores p { font-size: 14px; margin-top: 10px; opacity: .72; }
+
+/* ── /aplicacao ────────────────────────────────────────────────────────── */
+
+.ciclo2026 .application-topo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 28px 0 0;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 18px;
+}
+.ciclo2026 .application-topo .section-kicker { margin: 0; font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: #898077; }
+.ciclo2026 .application-marca { height: 22px; width: auto; }
+
+.ciclo2026 .application-intro .eyebrow { margin-bottom: 22px; }
+.ciclo2026 .application-intro h1 { margin-bottom: 22px; }
+.ciclo2026 .application-intro p + p { margin-top: 16px; }
+
+/* Dentro do cartão: rótulo da etapa, dica e contador */
+.ciclo2026 .application-card label.application-step-label { display: block; margin-bottom: 10px; }
+.ciclo2026 .application-hint { font-size: 14px; color: var(--muted); margin: 0 0 22px; }
+.ciclo2026 .application-counter { font-size: 11px; color: var(--muted); margin-top: 10px; }
+.ciclo2026 .application-card h2 em { font-style: italic; }
+.ciclo2026 .application-options button { cursor: pointer; display: flex; justify-content: space-between; gap: 16px; }
+.ciclo2026 .application-nav .next { cursor: pointer; display: inline-flex; align-items: center; gap: 10px; }
+.ciclo2026 .application-nav button[disabled] { opacity: .6; cursor: default; }
+.ciclo2026 .application-consent a { text-decoration: underline; text-underline-offset: 3px; }
+.ciclo2026 .application-voltar {
+  display: inline-block;
+  margin-top: 22px;
+  font-size: 12px;
+  color: var(--muted);
+  background: none;
+  border: 0;
+  padding: 0;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.ciclo2026 .application-rodape { border-top: 1px solid var(--line); padding: 22px 0 40px; }
+.ciclo2026 .application-rodape p { font-size: 11px; color: var(--muted); margin: 0; }
+.ciclo2026 .application-rodape a { text-decoration: underline; text-underline-offset: 3px; }
+
+/* ── /obrigado ─────────────────────────────────────────────────────────── */
+
+.ciclo2026 .prazo-resposta {
+  display: inline-block;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 14px 20px;
+  font-size: 13px;
+  margin: 0;
+}
+.ciclo2026 .prazo-resposta strong { color: var(--ink); }
+
+/* Lista de pontos dos pilares */
+.ciclo2026 .lista-pontos { list-style: none; padding: 0; margin: 18px 0 0; }
+.ciclo2026 .lista-pontos li {
+  position: relative;
+  padding-left: 16px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+.ciclo2026 .lista-pontos li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 9px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+.ciclo2026 .lista-pontos a { text-decoration: underline; text-underline-offset: 3px; }
+
+/* Campo de uma linha com marca de validado, usado em /link-bio */
+.ciclo2026 .application-field { position: relative; }
+.ciclo2026 .application-field .application-ok {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 18px;
+  height: 18px;
+  opacity: 0;
+  transition: opacity .2s;
+  color: #4a8a5c;
+}
+.ciclo2026 .application-field.is-valid .application-ok { opacity: 1; }

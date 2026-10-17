@@ -177,28 +177,22 @@ export default function LinkBioForm() {
 
   if (finished) {
     return (
-      <div className="animate-[lbIn_.45s_cubic-bezier(.16,1,.3,1)]">
-        <div className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center mb-8">
-          <Check className="w-6 h-6 text-white" />
+      <div>
+        <div className="eyebrow">
+          <span />
+          Aplicação enviada
         </div>
-        <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-white mb-5">
-          Recebemos sua aplicação.
-        </h2>
-        <p className="text-white/50 text-base leading-relaxed max-w-md mb-10">
+        <h2>Recebemos sua aplicação.</h2>
+        <p>
           Nosso time vai analisar as informações e retorna pelo WhatsApp ou e-mail que você deixou.
           Enquanto isso, você pode conhecer o método que aplicamos em mais de 300 marcas.
         </p>
-        <div className="flex flex-wrap gap-3">
-          <a
-            href="/consultoria-para-e-commerce"
-            className="inline-flex items-center gap-2 bg-white text-black rounded-full px-6 py-3 text-sm font-semibold hover:bg-white/90 transition-colors"
-          >
-            Conhecer o método <ArrowRight className="w-4 h-4" />
+        <div className="application-nav">
+          <a href="/consultoria-para-e-commerce" className="semibold action-link">
+            Conhecer o método
+            <ArrowRight className="module-icon" aria-hidden="true" />
           </a>
-          <a
-            href="/ofatorm"
-            className="inline-flex items-center gap-2 border border-white/20 text-white rounded-full px-6 py-3 text-sm font-semibold hover:border-white/50 transition-colors"
-          >
+          <a href="/ofatorm" className="textlink">
             Ouvir o Fator M
           </a>
         </div>
@@ -209,41 +203,42 @@ export default function LinkBioForm() {
   return (
     <div>
       {/* Progresso */}
-      <div className="flex items-center gap-3 mb-10">
-        <div className="flex-1 h-px bg-white/10 relative overflow-hidden">
-          <div
-            className="absolute inset-y-0 left-0 bg-white/70 transition-[width] duration-500 ease-out"
-            style={{ width: `${(index / STEPS.length) * 100}%` }}
-          />
-        </div>
-        <span className="text-white/40 text-xs tabular-nums">
-          {index + 1}/{STEPS.length}
-        </span>
+      <p className="application-step-label">
+        {index + 1} de {STEPS.length}
+      </p>
+      <div
+        className="application-progress"
+        role="progressbar"
+        aria-valuemin={1}
+        aria-valuemax={STEPS.length}
+        aria-valuenow={index + 1}
+        aria-label={`Etapa ${index + 1} de ${STEPS.length}`}
+      >
+        <span style={{ width: `${(index / STEPS.length) * 100}%` }} />
       </div>
 
-      <p className="text-white/60 text-sm mb-2">Olá,</p>
-      <p className="text-white/40 text-sm leading-relaxed mb-10 max-w-md">
+      <p className="application-hint">Olá,</p>
+      <p className="application-hint">
         Precisamos de algumas informações para termos certeza de que temos uma solução que te atenda no momento.
       </p>
 
-      <div key={step.id} className="animate-[lbIn_.45s_cubic-bezier(.16,1,.3,1)]">
-        <h2 className="text-2xl sm:text-[2rem] font-bold tracking-tight leading-tight text-white mb-3">
+      <div key={step.id}>
+        <h2>
           {step.question}
-          <span className="text-white/30 font-normal">*</span>
+          <span aria-hidden="true">*</span>
         </h2>
-        {step.hint && <p className="text-white/40 text-sm mb-8">{step.hint}</p>}
+        {step.hint && <p className="application-hint">{step.hint}</p>}
 
         {step.type === 'choice' ? (
-          <div className="flex flex-col gap-2.5 mb-6 max-w-lg">
+          <div className="application-options">
             {step.options!.map((option) => (
               <button
                 key={option}
                 type="button"
                 onClick={() => submitStep(option)}
-                className="group flex items-center justify-between text-left border border-white/15 rounded-xl px-5 py-4 text-white/80 text-sm hover:border-white hover:bg-white/5 hover:text-white transition-all"
               >
                 {option}
-                <ArrowRight className="w-4 h-4 opacity-0 -translate-x-1 group-hover:opacity-60 group-hover:translate-x-0 transition-all" />
+                <ArrowRight className="module-icon" aria-hidden="true" />
               </button>
             ))}
           </div>
@@ -253,14 +248,15 @@ export default function LinkBioForm() {
               e.preventDefault()
               submitStep(current)
             }}
-            className="max-w-lg"
           >
-            {/* Campo: linha que "acende" no foco e marca de validado quando pronto */}
-            <div className={`lb-field ${filled ? 'is-filled' : ''} ${valid ? 'is-valid' : ''} mb-8`}>
+            <div className={`application-field ${filled ? 'is-filled' : ''} ${valid ? 'is-valid' : ''}`}>
               {isPhone ? (
-                <div className="lb-phone">
-                  <PhoneField name="phone" control={control} placeholder={step.placeholder} />
-                </div>
+                <PhoneField
+                  name="phone"
+                  control={control}
+                  placeholder={step.placeholder}
+                  variant="ciclo2026"
+                />
               ) : (
                 <input
                   ref={inputRef}
@@ -275,26 +271,26 @@ export default function LinkBioForm() {
                     if (error) setError(null)
                   }}
                   placeholder={step.placeholder}
-                  className="lb-input"
                 />
               )}
-              <span className="lb-line" aria-hidden="true" />
-              <Check className="lb-check" aria-hidden="true" />
+              <Check className="application-ok" aria-hidden="true" />
             </div>
 
-            <button
-              type="submit"
-              className="group inline-flex items-center gap-2.5 bg-white text-black rounded-full pl-6 pr-5 py-3 text-sm font-semibold tracking-wide hover:gap-4 transition-all disabled:opacity-40"
-              disabled={!filled}
-            >
-              Continuar
-              <ArrowRight className="w-4 h-4" />
-            </button>
-            <span className="hidden sm:inline text-white/25 text-xs ml-4">ou pressione Enter</span>
+            <div className="application-nav">
+              <button type="submit" className="next" disabled={!filled}>
+                Continuar
+                <ArrowRight className="module-icon" aria-hidden="true" />
+              </button>
+              <span className="application-local-note">ou pressione Enter</span>
+            </div>
           </form>
         )}
 
-        {error && <p className="text-red-400 text-sm mt-4">{error}</p>}
+        {error && (
+          <p className="application-error" role="alert">
+            {error}
+          </p>
+        )}
       </div>
     </div>
   )

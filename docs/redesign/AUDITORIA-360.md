@@ -1182,11 +1182,16 @@ personalizados". **Vale confirmar no container** se esses quatro chegam ao
 GA4 como evento — não é regressão do redesign, é um ponto cego que a leitura
 expôs.
 
-**d) Preview polui os relatórios — agora com evidência.** Não há bloqueio por
-hostname nos gatilhos atuais, e o filtro de Internal Traffic do GA4 está em
-**TESTE**, sem isolamento confirmado. O item 10 da seção 23 deixa de ser
-"não sei" e vira **risco confirmado**. Ação fora do repositório, antes ou
-junto da migração; **eu não altero o container**.
+**d) Preview sem isolamento — risco demonstrado, poluição não medida.** Não
+há bloqueio por hostname nos gatilhos atuais, e o filtro de Internal Traffic
+do GA4 está em **TESTE**, sem isolamento confirmado. Isso demonstra que
+**não existe barreira** entre o Preview e os relatórios.
+
+O que isso **não** demonstra: que os relatórios já estejam poluídos. Para
+afirmar poluição efetiva seria preciso observar, no destino, eventos com
+hostname de Preview — o que não foi feito. A formulação correta é: **risco
+demonstrado, efeito não medido.** Ação fora do repositório, antes ou junto
+da migração; **eu não altero o container**.
 
 ### 26.2 GTM servidor `GTM-M4K3G2GK`
 
@@ -1197,15 +1202,21 @@ junto da migração; **eu não altero o container**.
 | Alterações | 0 |
 | No container web | **sem `server_container_url` visível**; tags de proxy GA4 legadas pausadas |
 
-**Conclusão:** o container de servidor existe, mas **não há prova de que
-receba tráfego do web** — e há evidência contra: o GA4 do container web não
-aponta para ele, e as tags que fariam o proxy estão pausadas. A versão ativa
-é de maio de 2025, quinze meses atrás.
+**Conclusão, com o cuidado que eu não tive na primeira redação:** o container
+de servidor existe e **não há prova de que receba tráfego do container web**.
+Só isso.
 
-O que isso quer dizer na prática: o CAPI que roda hoje é o **do código**
-(`src/lib/meta-capi.ts`), não o do sGTM. O item 9 da seção 23 fica assim:
-não é "não verificável", é **provavelmente fora do caminho**. Relação e
-tráfego atuais continuam não provados. **Não mexer.**
+Eu tinha escrito "provavelmente fora do caminho". **Retiro.** Ausência de
+`server_container_url` visível no GA4 do web e uma versão de maio de 2025 não
+provam que ele esteja fora do caminho: um container de servidor pode receber
+de outras origens — app, backend, outro container, chamada direta ao endpoint
+— e uma configuração antiga que funciona não precisa de versão nova. Idade
+não é inatividade.
+
+O que posso dizer: **o código do site envia CAPI por conta própria**
+(`src/lib/meta-capi.ts`), e nada no repositório aponta para o sGTM. Se ele
+também recebe, por onde, e se há dupla contagem, **continua não verificável
+daqui** — exatamente como o item 9 já dizia. **Não mexer.**
 
 ### 26.3 Pipedrive — webhooks
 
@@ -1239,7 +1250,8 @@ do inventário.
 | GA4 | 6 `sent` — 4 `qualify_lead` (último 02/10) e 2 `close_convert_lead` (último 18/09) |
 | Meta por evento | Lead 54, ProposalSent 14, Opportunity 19, QualifiedLead 8, MeetingHeld 14, Schedule 4, Purchase 2. Último Lead 16/10 20:46 UTC |
 
-Isto fecha dois itens da seção 23:
+Isto fecha dois itens da seção 23, **sobre a base `7ae962b`, não sobre o
+redesign**:
 
 - **Item 6 — PROVADO.** As três tabelas existem com o formato que o código
   espera.
@@ -1252,10 +1264,20 @@ Isto fecha dois itens da seção 23:
 Confirma também que a idempotência grava de fato: há linhas `skipped`, não
 só `sent`.
 
-**Ressalva mantida, deles e minha:** são evidências históricas de envio e de
-aceite pela API. **Não** são teste ponta a ponta do redesign, e **não** são
-prova de deduplicação no Gerenciador de Eventos — `events_received=1` diz
-que a Meta recebeu, não que casou com o evento do Pixel.
+**Ressalva, e ela é maior do que parece.** Tudo aqui é **histórico de
+produção rodando `7ae962b`** — o código de antes do redesign. Um `HTTP 200`
+do webhook e 115 linhas `sent` provam que **aquele** código enviou e que a
+API aceitou. **Não provam nada sobre esta branch**, porque o redesign ainda
+não rodou em produção e nenhum lead passou por ele.
+
+Também não são prova de deduplicação no Gerenciador de Eventos:
+`events_received=1` diz que a Meta recebeu, não que casou com o evento do
+Pixel. E `HTTP 200` diz que a rota respondeu, não que processou e gravou o
+que devia.
+
+**Em uma frase: isto é linha de base, não validação do redesign.** A prova
+ponta a ponta só existe depois da publicação, no teste controlado da seção
+26.11.
 
 ### 26.5 Consentimento — estado herdado
 
@@ -1308,11 +1330,17 @@ Três ajustes, todos procedentes:
 | 6 | Tabelas do Supabase no formato esperado | não provado | **PROVADO** |
 | 7 | `qualify_lead` e `close_convert_lead` disparam | não provado | **PROVADO** historicamente (4 e 2 envios) |
 | 8 | Gatilhos por seletor continuam casando | não provado | **RESOLVIDO** — nenhuma tag usa seletor CSS |
-| 9 | Container de servidor está no caminho | não verificável | **provavelmente fora** — sem `server_container_url`, versão de 05/2025 |
-| 10 | Preview não polui os relatórios | não provado | **RISCO CONFIRMADO** — sem bloqueio de hostname; filtro em teste |
+| 9 | Container de servidor está no caminho | não verificável | **continua não verificável** — nada no repositório aponta para ele; a ausência de `server_container_url` no web não prova que esteja fora |
+| 10 | Preview não polui os relatórios | não provado | **risco demonstrado, efeito não medido** — sem bloqueio de hostname e filtro em teste; poluição efetiva exigiria observar eventos no destino |
 
 Sobram **quatro** pendências reais de integração: os itens 1, 2, 3 e 4, mais
-a parte de processamento do 5. Todas dependem de acesso a conta, não de
+a parte de processamento do 5. Os itens 9 e 10 não são pendências de
+integração: o 9 continua não verificável daqui e o 10 é um risco de
+configuração, a tratar no container.
+
+**Nenhum item desta tabela vale como validação do redesign.** O que está
+provado é o comportamento da base `7ae962b` em produção. Esta branch nunca
+recebeu um lead. Todas dependem de acesso a conta, não de
 código.
 
 ### 26.9 Autorização e gates — atualizado
