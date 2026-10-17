@@ -22,6 +22,7 @@ import CicloHeader from '@/components/ciclo/CicloHeader'
 import CicloFooter from '@/components/ciclo/CicloFooter'
 import Breadcrumb from '@/components/ciclo/interior/Breadcrumb'
 import { comSumario, type ItemDeSumario } from '@/components/ciclo/blog/sumario'
+import { playfair2026 } from '@/components/ciclo/fonts'
 import '@/components/ciclo/base.css'
 import '@/components/ciclo/interiors.css'
 
@@ -218,7 +219,7 @@ export default async function BlogPostPage({ params }: Props) {
   let indiceDeTitulo = 0
 
   return (
-    <div className="ciclo2026">
+    <div className={`ciclo2026 ${playfair2026.variable}`}>
       <JsonLd data={articleLd} />
       {faqLd && <JsonLd data={faqLd} />}
 

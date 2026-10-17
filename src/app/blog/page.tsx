@@ -5,6 +5,7 @@ import { getKeystatiPosts } from '@/lib/keystatic-posts'
 import CicloHeader from '@/components/ciclo/CicloHeader'
 import CicloFooter from '@/components/ciclo/CicloFooter'
 import Breadcrumb from '@/components/ciclo/interior/Breadcrumb'
+import { playfair2026 } from '@/components/ciclo/fonts'
 import '@/components/ciclo/base.css'
 import '@/components/ciclo/interiors.css'
 
@@ -88,7 +89,7 @@ export default async function BlogPage({
     .sort((a, b) => a - b)
 
   return (
-    <div className="ciclo2026">
+    <div className={`ciclo2026 ${playfair2026.variable}`}>
       <div className="inner blog-page">
         <a className="skip" href="#conteudo">
           Pular para o conteúdo

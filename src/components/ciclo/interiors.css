@@ -77,34 +77,36 @@
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   APENAS INTER — ordem do Flávio em 17/10/2026.
-   Substitui a regra do kit, que usava Playfair Display em itálico nas frases
-   editoriais. Esta folha é a última carregada em toda página do escopo, então
-   é daqui que a família vale. A hierarquia que a serifa fazia passa a ser
-   feita com peso, tamanho e espaço.
-   O <em> do corpo do artigo continua em itálico: ali é ênfase de texto, não
-   ornamento, e tirar o itálico mudaria o sentido de quem escreveu.
+   PLAYFAIR DISPLAY NAS FRASES EDITORIAIS — padrão do design 2026.
+   Definido pelo Flávio e restabelecido em 17/10/2026, depois de um período em
+   que o escopo ficou só com Inter.
+   Esta folha é a última carregada em toda página do escopo, então é daqui que
+   a família vale. A fonte chega pelo next/font, com variável própria.
+   REGRA PARA PÁGINAS E TEXTOS NOVOS: Inter estrutura e informa; a Playfair em
+   itálico entra só nas frases curtas de voz editorial — a segunda linha de
+   uma chamada, a assinatura de uma página, um destaque de abertura. Para
+   aplicar numa frase nova, use .editorial-accent ou um <em> dentro de .inner.
    ═══════════════════════════════════════════════════════════════════════════ */
 .ciclo2026 .editorial-accent,
 .ciclo2026 .hero-sub,
 .ciclo2026 .inner em,
 .ciclo2026 .inner-signature,
 .ciclo2026 .special-module blockquote {
-  font-family: var(--font-inter), Inter, Arial, sans-serif;
-  font-style: normal;
+  font-family: var(--font-playfair-2026), 'Playfair Display', Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
   font-synthesis: none;
+  letter-spacing: -.025em;
 }
 
-/* A segunda linha das chamadas: mais leve e um pouco mais fechada, para
-   continuar contrastando com a primeira sem trocar de família. */
-.ciclo2026 .editorial-accent { font-weight: 300; letter-spacing: -.045em; }
-.ciclo2026 .hero-sub { font-weight: 400; letter-spacing: -.03em; }
-.ciclo2026 .inner-signature { font-weight: 400; letter-spacing: -.025em; }
-.ciclo2026 .story-editorial em { font-weight: 300; }
-.ciclo2026 .special-module blockquote { font-weight: 400; }
-
-/* Ênfase de verdade, dentro do texto do artigo */
-.ciclo2026 .article-body em { font-style: italic; }
+/* Dentro do corpo do artigo o <em> é ênfase de quem escreveu, não ornamento.
+   Continua em Inter itálico: trocar a família ali mudaria o sentido da
+   marcação e deixaria o texto corrido com duas fontes brigando. */
+.ciclo2026 .article-body em {
+  font-family: var(--font-inter), Inter, Arial, sans-serif;
+  font-style: italic;
+  letter-spacing: normal;
+}
 
 /* ═══════════════════════════════════════════════════════════════════════════
    UX móvel das internas — achados da auditoria de 17/10/2026.

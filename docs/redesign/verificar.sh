@@ -169,13 +169,13 @@ else
 fi
 
 # ── 9. Tipografia e cabeçalho ───────────────────────────────────────────────
-titulo "9. Apenas Inter e menu móvel"
+titulo "9. Tipografia e menu móvel"
 cd "$TMP"
-cp "$DOCS/so-inter.mjs" "$DOCS/menu-movel.mjs" .
-if node so-inter.mjs "$BASE" > "$TMP/inter.log" 2>&1; then
+cp "$DOCS/tipografia.mjs" "$DOCS/menu-movel.mjs" .
+if node tipografia.mjs "$BASE" > "$TMP/inter.log" 2>&1; then
   ok "$(tail -1 "$TMP/inter.log")"
 else
-  falha "fonte fora da Inter no escopo:"; grep FALHA "$TMP/inter.log" | head -8
+  falha "tipografia fora do padrão:"; grep FALHA "$TMP/inter.log" | head -8
 fi
 if node menu-movel.mjs "$BASE" > "$TMP/menu.log" 2>&1; then
   ok "menu móvel: abre, Escape fecha, foco volta, Tab preso, destinos válidos"

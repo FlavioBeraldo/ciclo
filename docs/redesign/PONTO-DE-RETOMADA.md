@@ -35,13 +35,28 @@ e `docs/INTEGRACOES-E-PENDENCIAS.md`.
 Entram no escopo e valem daqui para a frente. Onde contradizem algo escrito
 antes neste documento, o que vale é o que está aqui.
 
-### 1. Tipografia: apenas Inter
+### 1. Tipografia: Inter estrutura, Playfair dá voz
 
-**Revoga** a regra anterior de usar Playfair Display Italic em frases
-editoriais curtas. Todo o escopo `.ciclo2026` passa a ser Inter — home,
-serviços, soluções, blog e o que vier. A hierarquia se faz com peso, tamanho
-e espaço, não com troca de família. O `/playbook-social-commerce` **não** é
-tocado para isso: ele continua congelado com a tipografia que tem.
+**Esta regra foi trocada duas vezes no mesmo dia. A que vale é esta.**
+
+Em 17/10, pelo Codex, veio a ordem de usar APENAS INTER, e eu tirei a
+Playfair de todo o escopo. Horas depois o próprio Flávio pediu a Playfair de
+volta — "precisa ter a Playfair Display para ficar mais bonito" — e mandou
+deixar isso como **padrão para páginas novas e para os textos do blog**. A
+palavra dele prevalece sobre o recado intermediário.
+
+**O padrão, para quem for escrever página ou texto novo:** Inter estrutura e
+informa; Playfair Display em itálico entra só nas frases curtas de voz
+editorial — a segunda linha de uma chamada, a assinatura de uma página, um
+destaque de abertura. Para aplicar numa frase nova, basta usar
+`.editorial-accent` ou um `<em>` dentro de `.inner`.
+
+Uma exceção deliberada: o `<em>` dentro do corpo do artigo segue em Inter
+itálico. Ali é ênfase de quem escreveu, não ornamento, e trocar a família
+deixaria o texto corrido com duas fontes brigando.
+
+O `/playbook-social-commerce` não é tocado por nada disso: continua
+congelado, com a Playfair dele, carregada por outra variável.
 
 ### 2. Dois serviços saem do ar
 

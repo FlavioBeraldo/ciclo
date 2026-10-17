@@ -11,6 +11,7 @@ import CartoesDeServico from '@/components/ciclo/interior/CartoesDeServico'
 import { diagramasPorServico, simboloPorServico } from '@/components/ciclo/servicos/diagramas'
 import { simboloExtraPorServico } from '@/components/ciclo/servicos/extras'
 import { getServicoBySlug, getAllServicoSlugs, getRelatedServicos } from '@/lib/servicos'
+import { playfair2026 } from '@/components/ciclo/fonts'
 import '@/components/ciclo/base.css'
 import '@/components/ciclo/interiors.css'
 import '@/components/ciclo/explicacoes.css'
@@ -102,7 +103,7 @@ export default async function ServicoPage({ params }: PageProps) {
   }
 
   return (
-    <div className="ciclo2026">
+    <div className={`ciclo2026 ${playfair2026.variable}`}>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}

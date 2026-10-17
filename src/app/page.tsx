@@ -13,6 +13,7 @@ import Artigos from '@/components/ciclo/home/Artigos'
 import Contato from '@/components/ciclo/Contato'
 // Mesmas duas folhas que a home do kit carrega, nesta ordem: `interiors.css`
 // redefine `--accent` para #933dc9 e é o que vale.
+import { playfair2026 } from '@/components/ciclo/fonts'
 import '@/components/ciclo/base.css'
 import '@/components/ciclo/interiors.css'
 
@@ -30,7 +31,7 @@ export const revalidate = 900
 export default function Home() {
   return (
     <RecaptchaProvider>
-      <div className="ciclo2026">
+      <div className={`ciclo2026 ${playfair2026.variable}`}>
         <a className="skip" href="#inicio">
           Pular para o conteúdo
         </a>

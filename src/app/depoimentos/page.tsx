@@ -4,6 +4,7 @@ import CicloHeader from '@/components/ciclo/CicloHeader'
 import CicloFooter from '@/components/ciclo/CicloFooter'
 import Breadcrumb from '@/components/ciclo/interior/Breadcrumb'
 import VideosDepoimento from '@/components/ciclo/VideosDepoimento'
+import { playfair2026 } from '@/components/ciclo/fonts'
 import '@/components/ciclo/base.css'
 import '@/components/ciclo/interiors.css'
 
@@ -51,7 +52,7 @@ const DEPOIMENTOS = [
 // teclado e o foco já testados.
 export default function DepoimentosPage() {
   return (
-    <div className="ciclo2026">
+    <div className={`ciclo2026 ${playfair2026.variable}`}>
       <div className="inner">
         <a className="skip" href="#conteudo">
           Pular para o conteúdo
@@ -69,7 +70,7 @@ export default function DepoimentosPage() {
                   <span />
                   Depoimentos
                 </span>
-                Quem vive, recomenda
+                <em>Quem vive, recomenda</em>
               </h1>
 
               <p className="inner-lead">

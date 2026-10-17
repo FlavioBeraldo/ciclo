@@ -14,6 +14,7 @@ import {
   FAQ,
   CTA_FINAL,
 } from '@/components/ciclo/tiktok/conteudo'
+import { playfair2026 } from '@/components/ciclo/fonts'
 import '@/components/ciclo/base.css'
 import '@/components/ciclo/interiors.css'
 import '@/components/ciclo/tiktok.css'
@@ -171,7 +172,7 @@ const faqSchema = {
 // iguais de serviço viraram quatro frentes de uma operação só.
 export default function TikTokShopPage() {
   return (
-    <div className="ciclo2026">
+    <div className={`ciclo2026 ${playfair2026.variable}`}>
       <script
         id="tiktok-shop-service-schema"
         type="application/ld+json"

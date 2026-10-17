@@ -4,6 +4,7 @@ import OptOutNotice from './OptOutNotice'
 import CicloHeader from '@/components/ciclo/CicloHeader'
 import CicloFooter from '@/components/ciclo/CicloFooter'
 import Breadcrumb from '@/components/ciclo/interior/Breadcrumb'
+import { playfair2026 } from '@/components/ciclo/fonts'
 import '@/components/ciclo/base.css'
 import '@/components/ciclo/interiors.css'
 
@@ -216,7 +217,7 @@ const sections = [
 // link externo que aponte para uma âncora seguem funcionando.
 export default function PoliticaDePrivacidade() {
   return (
-    <div className="ciclo2026">
+    <div className={`ciclo2026 ${playfair2026.variable}`}>
       <div className="inner legal-page">
         <a className="skip" href="#conteudo">
           Pular para o conteúdo

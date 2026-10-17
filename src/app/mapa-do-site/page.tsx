@@ -3,6 +3,7 @@ import Link from 'next/link'
 import CicloHeader from '@/components/ciclo/CicloHeader'
 import CicloFooter from '@/components/ciclo/CicloFooter'
 import Breadcrumb from '@/components/ciclo/interior/Breadcrumb'
+import { playfair2026 } from '@/components/ciclo/fonts'
 import '@/components/ciclo/base.css'
 import '@/components/ciclo/interiors.css'
 
@@ -84,7 +85,7 @@ const sections = [
 // transformaria a página numa rolagem longa sem ganho nenhum.
 export default function MapaDoSite() {
   return (
-    <div className="ciclo2026">
+    <div className={`ciclo2026 ${playfair2026.variable}`}>
       <div className="inner legal-page">
         <a className="skip" href="#conteudo">
           Pular para o conteúdo
@@ -102,7 +103,9 @@ export default function MapaDoSite() {
                   <span />
                   Mapa do Site
                 </span>
-                Todas as conexões para crescer.
+                Todas as conexões
+                <br />
+                <em>para crescer.</em>
               </h1>
 
               <p className="inner-lead">
