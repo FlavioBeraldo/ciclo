@@ -271,3 +271,15 @@
   color: var(--accent);
   border-bottom: 1px solid currentColor;
 }
+
+/* Num módulo centralizado, o rótulo pequeno do h1 também centraliza — o
+   `.eyebrow` é flex, e sem isto ficaria encostado à esquerda. */
+.ciclo2026 .centered .h1-kicker,
+.ciclo2026 .centered .module-flex { justify-content: center; }
+.ciclo2026 .module-stack.centered { align-items: center; gap: 12px; }
+.ciclo2026 .module-stack.centered span { font-size: 13px; }
+
+/* Os três retratos dos apresentadores têm proporções de origem diferentes.
+   Sem uma proporção fixa, cada cartão começa o texto numa altura, e a linha
+   dos nomes fica desalinhada. */
+.ciclo2026 .retrato-fixo { aspect-ratio: 3 / 4; max-height: none; height: auto; }

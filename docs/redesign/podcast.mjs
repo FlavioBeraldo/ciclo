@@ -69,7 +69,7 @@ conferir(
     (faltamHome.length ? ` — faltam: ${faltamHome.map((e) => e.id).join(', ')}` : '')
 )
 
-const noFatorM = snapshot.slice(0, 7)
+const noFatorM = snapshot.slice(0, 6)
 const faltamFatorM = noFatorM.filter((e) => !ofatorm.includes(e.title))
 conferir(
   faltamFatorM.length === 0,

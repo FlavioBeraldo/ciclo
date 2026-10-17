@@ -30,6 +30,7 @@ const ROTAS = [
   '/blog/full-funnel-marketing-por-que-sua-marca-perde-dinheiro',
   '/tiktok-shop',
   '/depoimentos',
+  '/ofatorm',
   '/mapa-do-site',
   '/politica-de-privacidade',
 ]
