@@ -491,3 +491,25 @@ Cuidado em três delas: `/aplicacao` e `/link-bio` têm formulário com
 mensuração por etapa, e `/obrigado` depende de a conversão sair **antes** do
 redirecionamento. Qualquer mexida ali tem de manter o passo 6 da verificação
 verde.
+
+---
+
+## Candidato final — 17/10/2026
+
+**Redesign completo.** Todas as rotas públicas estão no design 2026; só
+`/playbook-social-commerce` segue fora, congelado de propósito.
+
+| Item | Valor |
+|---|---|
+| SHA do candidato | `9df6eff512b242fe05ac261cec08f00bdb0687c1` |
+| Preview | https://ciclo-dl2o-orll219ix-flavioberaldos-projects.vercel.app |
+| Produção | `7ae962b`, revalidada e **não avançou** |
+| Verificação | 16 passos, tudo verde |
+| Crawl | 0 destinos quebrados, 0 âncoras sem alvo |
+
+Commits das páginas: `ac58a47` (/ofatorm), `af7b8b9` (/ecomshift), `7e3b63c`
+(/consultoria-para-e-commerce), `9df6eff` (as quatro últimas).
+
+**Não publicar sem a liberação técnica do SHA exato.** Os gates abertos, o
+plano de rollback e o que falta para o teste real estão na seção 27 da
+auditoria.

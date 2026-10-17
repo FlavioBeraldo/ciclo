@@ -1403,3 +1403,154 @@ Para não marcar como aprovado o que não é:
 | Ambiente dedicado para teste antes do merge | decisão de infraestrutura |
 
 **Playbook permanece congelado.**
+
+---
+
+# Candidato final — 17/10/2026
+
+## 27. O que está pronto para revisão técnica
+
+### 27.1 Identificação
+
+| Item | Valor |
+|---|---|
+| Branch | `claude/redesign-ciclo-2026-HVyvT` |
+| SHA do candidato | `9df6eff512b242fe05ac261cec08f00bdb0687c1` |
+| Preview | https://ciclo-dl2o-orll219ix-flavioberaldos-projects.vercel.app |
+| Produção, revalidada hoje | `7ae962bad1758ef0c77e775af6a683e7e5a0e280` — **não avançou** |
+
+### 27.2 Inventário de cascas, rota por rota
+
+Todas as rotas públicas estão no design 2026. Conferido arquivo por arquivo.
+
+| Rota | Casca |
+|---|---|
+| `/` | 2026 |
+| `/blog` e `/blog/[slug]` | 2026 |
+| `/servicos/[slug]` (19) | 2026 |
+| `/solucoes/[slug]` (4) | 2026 |
+| `/tiktok-shop` | 2026 |
+| `/depoimentos` | 2026 |
+| `/ofatorm` | 2026 |
+| `/ecomshift` | 2026 |
+| `/consultoria-para-e-commerce` | 2026 |
+| `/consultoria-ecom-shift` | 2026 |
+| `/mapa-do-site` | 2026 |
+| `/politica-de-privacidade` | 2026 |
+| `/obrigado` | 2026 |
+| `/aplicacao` | 2026, sem cabeçalho do site — é página de formulário, como já era |
+| `/link-bio` | idem |
+| `/playbook-social-commerce` | **intocado, de propósito** |
+| `/keystatic` | painel do CMS, fora do escopo |
+
+**Nenhuma página importa mais o cabeçalho antigo.**
+
+### 27.3 Evidências no SHA do candidato
+
+| Verificação | Resultado |
+|---|---|
+| `verificar.sh comparar` | **16 passos, tudo verde** |
+| 1 · Camada protegida | 41 arquivos, nenhuma mudança não autorizada; 5 exceções registradas e impressas |
+| 2 · Typecheck e lint | typecheck limpo; lint sem erro novo |
+| 3 · Build | verde, 883 páginas |
+| 4 · Rotas | 17 rotas em 200 |
+| 5 · Playbook | **idêntico** em desktop e celular, por impressão digital de fontes, estilo computado e três estados |
+| 6 · Mensuração | eventos e payloads **idênticos** nos quatro formulários |
+| 7 · Internas | 22 páginas com conteúdo, URLs e SEO preservados |
+| 8 · Blog | listagem e 87 artigos preservados |
+| 9 · Tipografia | 18 rotas: Inter na estrutura, Playfair em 27 frases editoriais |
+| 10 · h1 | 38 páginas com um h1 só, começando pelo título |
+| 11 · Serviços encerrados | dois 308 sem laço nem cadeia |
+| 12 · TikTok Shop | conteúdo, SEO e schema preservados |
+| 13 · Podcast | episódio real no HTML servido, sem depoimento reetiquetado |
+| 14 · ECOM Shift | `begin_checkout` idêntico nos dois `placement`; vídeos no player interno |
+| 15 · Formulários em etapas | etapas, conversão, **idempotência** e `/obrigado` sem contagem dupla |
+| 16 · Responsivo | 11 rotas sem estouro horizontal em 1440 e 390 |
+| Crawl | **0 destinos quebrados, 0 âncoras sem alvo** (eram 3) |
+| Diff protegido vs produção | só os 5 arquivos autorizados |
+| `content/` vs produção | **sem diferença** — nenhum artigo novo a preservar |
+
+Nos passos 14 e 15 a rede fica interceptada e `/api/*` é respondida por mock:
+**nenhum lead foi criado em lugar nenhum**, nem de teste.
+
+### 27.4 Gates
+
+**Aprovados:**
+
+| # | Gate | Como foi fechado |
+|---|---|---|
+| 1 | Produção não avançou | `git rev-parse origin/claude/elegant-darwin-HVyvT` = `7ae962b`, igual à base |
+| 2 | Suíte verde no SHA exato | 16 passos |
+| 3 | Crawl sem destino quebrado | 0 quebrados, 0 âncoras órfãs |
+| 4 | 7 páginas pendentes refeitas | todas, mais a limpeza dos órfãos |
+| 5 | Gatilhos do GTM por seletor | resolvido pela leitura do container (26.1) |
+| 7 | Fallback do podcast honesto | seção 25 |
+| 10 | SHA final revisado e rollback pronto | 27.1 e 27.5 |
+
+**Bloqueados, e não dependem de código:**
+
+| # | Gate | Quem destrava |
+|---|---|---|
+| 6 | `mamo.jpg` em resolução maior (hoje 399×501), ou aceite da pendência | arquivo do Flávio |
+| 8 | Isolamento do Preview nos relatórios, ou aceite do risco | alteração no container, **que eu não faço** |
+| 9 | Revisão técnica do SHA exato | a sua |
+
+### 27.5 Rollback, revalidado hoje
+
+| Item | Valor |
+|---|---|
+| Versão de retorno | `7ae962bad1758ef0c77e775af6a683e7e5a0e280` |
+| Deployment a promover | `Hb5TEUapVasyUCm9amGRnRzDyAhe` · `ciclo-dl2o-93six9eyy` |
+| Como | **Promote** no painel da Vercel: imediato, sem build |
+| Disponibilidade | a branch de produção continua apontando para esse commit, conferido agora por `git fetch` |
+| Alternativa | `git revert` do merge — mais lento, dispara build |
+| O que **não** fazer | force-push, reset, apagar deployment, trocar plano |
+
+O rollback restaura o código. **Não desfaz** o que tiver sido gravado em
+sistema externo no intervalo — lead no Pipedrive, evento no GA4 e no Meta,
+linha no Supabase. Por isso a janela de validação pós-deploy é curta.
+
+### 27.6 O que falta para o teste real controlado
+
+Registrado sem inventar identidade e sem usar e-mail interno como prova de
+Meta.
+
+| Falta | Por quê | Quem destrava |
+|---|---|---|
+| Uma identidade de teste combinada — nome, e-mail e telefone de alguém do time, **fora** de `INTERNAL_EMAIL_DOMAINS` | Com e-mail interno o CAPI pula o envio de propósito; o teste provaria Pipedrive, GA4, Supabase e atribuição, mas **não** a Meta nem a dedup | decisão do time; **não invento dado de pessoa** |
+| Janela combinada e time avisado | O teste cria um negócio real no funil e hits reais nos relatórios | coordenação |
+| Acesso de leitura ao Gerenciador de Eventos da Meta | Único lugar onde a dedup por `event_id` se confirma | conta Meta |
+| Acesso ao Pipedrive para conferir as 8 chaves de campo e os ids de funil/etapa da Aplicação | Hoje só sei que o código as usa, não que existem na conta | conta Pipedrive |
+| Decisão sobre ambiente dedicado | Com projeto próprio e contas de teste, quase tudo fecha **antes** do merge. Sem ele, só depois | infraestrutura |
+| Combinação de como limpar | Arquivar o negócio de teste e registrar `event_id` e `deal_id` usados | coordenação |
+
+**Nenhum teste real será executado sem coordenação explícita.**
+
+### 27.7 Pendências que seguem abertas
+
+| Pendência | Situação |
+|---|---|
+| `mamo.jpg` 399×501 num cartão de 546px | Depende de arquivo novo. `gringa.jpg` maior também seria bom |
+| Miniaturas de Líquido e KVRA | `maxresdefault` não existe no YouTube para esses dois vídeos. É limite da origem, não do código |
+| reCAPTCHA carrega e nenhum formulário verifica | **Dívida herdada. Não corrigida nesta migração**, por instrução |
+| Quatro `interactive.tsx` órfãos do design antigo, mais `LeadForm`, `CasesSection` e `PodcastSection` | Nenhuma página os importa. Removê-los é um commit de limpeza à parte, para não misturar com a revisão das páginas |
+| `/politica-de-privacidade` não aparece no rodapé do kit | O rodapé aprovado não traz o link. A página continua alcançável pelo mapa do site e pelo aceite dos formulários. **Vale decidir** |
+| ISR de `/blog/[slug]` em 900s | Recomendação de subir para 6h permanece, não aplicada |
+| Atualização automática do podcast ao longo do tempo | Ver 27.8 |
+
+### 27.8 O que o checkpoint do podcast **não** prova
+
+A conferência independente em `4f9f6d6` viu episódios reais e miniaturas boas
+na home e em `/ofatorm`. Isso prova que **a busca no servidor funciona e que o
+conteúdo exibido é real naquele momento**.
+
+**Não prova que a atualização automática funciona ao longo do tempo.** Para
+isso seria preciso observar a página depois de o canal publicar um episódio
+novo e confirmar que ele aparece dentro da janela esperada — 15 minutos na
+home, 1 hora em `/ofatorm`. Também não distingue, de fora, se a lista veio da
+API ou do snapshot gravado no build: as duas são reais, e nesta data o
+snapshot é igual aos últimos episódios.
+
+A checagem que separa os dois casos está no roteiro pós-publicação: se os
+episódios exibidos empatarem com o snapshot do build por vários dias depois
+de o canal publicar algo novo, a chave não está respondendo em produção.
