@@ -2,7 +2,6 @@ import type { Metadata } from 'next'
 import RecaptchaProvider from '@/components/RecaptchaProvider'
 import CicloHeader from '@/components/ciclo/CicloHeader'
 import CicloFooter from '@/components/ciclo/CicloFooter'
-import { playfair2026 } from '@/components/ciclo/fonts'
 import Abertura from '@/components/ciclo/home/Abertura'
 import Metodo from '@/components/ciclo/home/Metodo'
 import Problema from '@/components/ciclo/home/Problema'
@@ -31,7 +30,7 @@ export const revalidate = 900
 export default function Home() {
   return (
     <RecaptchaProvider>
-      <div className={`ciclo2026 ${playfair2026.variable}`}>
+      <div className="ciclo2026">
         <a className="skip" href="#inicio">
           Pular para o conteúdo
         </a>

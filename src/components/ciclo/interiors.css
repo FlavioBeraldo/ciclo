@@ -14,16 +14,6 @@
 .ciclo2026 .special-module .brandmark{width:110px;height:42px;object-fit:contain;filter:grayscale(1);opacity:.65;border-radius:0}.ciclo2026 .special-module .module-flex:has(.special-logo){justify-content:center}.ciclo2026 .special-module .centered h1{margin-left:auto;margin-right:auto}.ciclo2026 .creative-gallery{grid-template-columns:1fr 1fr}.ciclo2026 .creative-gallery figcaption{font-size:13px;line-height:1.7}.ciclo2026 .special-module .video-trigger{width:100%}.ciclo2026 .special-module .video-trigger img{margin:0}
 @media(max-width:760px){.ciclo2026 .creative-gallery{grid-template-columns:1fr}}
 
-/* ═══════════════════════════════════════════════════════════════════════════
-   Ponte com o projeto — acrescentado à folha do kit, não substitui nada dela.
-   Precisa vir depois das regras acima, que pedem 'Playfair Display' pelo nome
-   da família; aqui a mesma fonte chega pelo next/font.
-   ═══════════════════════════════════════════════════════════════════════════ */
-.ciclo2026 .inner em,
-.ciclo2026 .inner-signature,
-.ciclo2026 .special-module blockquote {
-  font-family: var(--font-playfair-2026), 'Playfair Display', Georgia, serif;
-}
 
 /* No kit a listagem do blog é filtrada por JavaScript, então as categorias e
    a paginação são <button>. Aqui elas continuam sendo links renderizados no
@@ -84,4 +74,77 @@
    senão o texto de cada categoria é espremido. */
 @media (max-width: 760px) {
   .ciclo2026 .category-tabs a { flex-shrink: 0; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   APENAS INTER — ordem do Flávio em 17/10/2026.
+   Substitui a regra do kit, que usava Playfair Display em itálico nas frases
+   editoriais. Esta folha é a última carregada em toda página do escopo, então
+   é daqui que a família vale. A hierarquia que a serifa fazia passa a ser
+   feita com peso, tamanho e espaço.
+   O <em> do corpo do artigo continua em itálico: ali é ênfase de texto, não
+   ornamento, e tirar o itálico mudaria o sentido de quem escreveu.
+   ═══════════════════════════════════════════════════════════════════════════ */
+.ciclo2026 .editorial-accent,
+.ciclo2026 .hero-sub,
+.ciclo2026 .inner em,
+.ciclo2026 .inner-signature,
+.ciclo2026 .special-module blockquote {
+  font-family: var(--font-inter), Inter, Arial, sans-serif;
+  font-style: normal;
+  font-synthesis: none;
+}
+
+/* A segunda linha das chamadas: mais leve e um pouco mais fechada, para
+   continuar contrastando com a primeira sem trocar de família. */
+.ciclo2026 .editorial-accent { font-weight: 300; letter-spacing: -.045em; }
+.ciclo2026 .hero-sub { font-weight: 400; letter-spacing: -.03em; }
+.ciclo2026 .inner-signature { font-weight: 400; letter-spacing: -.025em; }
+.ciclo2026 .story-editorial em { font-weight: 300; }
+.ciclo2026 .special-module blockquote { font-weight: 400; }
+
+/* Ênfase de verdade, dentro do texto do artigo */
+.ciclo2026 .article-body em { font-style: italic; }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   UX móvel das internas — achados da auditoria de 17/10/2026.
+   Dois problemas, nenhum deles de conteúdo: a abertura ocupava quase a tela
+   inteira antes do primeiro parágrafo, e o índice de seções estava em 11px,
+   quebrando em duas linhas, com área de toque pequena demais.
+   Nada de texto sai: o que muda é respiro, corpo e área de clique.
+   ═══════════════════════════════════════════════════════════════════════════ */
+@media (max-width: 760px) {
+  /* Abertura mais curta: o leitor chega ao conteúdo sem uma rolagem inteira */
+  .ciclo2026 .inner-hero { padding-top: 24px; }
+  .ciclo2026 .breadcrumb { margin-bottom: 28px; }
+  .ciclo2026 .inner h1 { margin: 14px 0; }
+  .ciclo2026 .inner-signature { font-size: 20px; margin: 14px 0; }
+  .ciclo2026 .inner-lead { margin-top: 14px; }
+  .ciclo2026 .inner-actions { margin-top: 22px; gap: 14px 20px; }
+
+  /* A ação principal ocupa a linha; as secundárias vêm abaixo, menores e
+     lado a lado, com a hierarquia explícita em vez de três itens iguais. */
+  .ciclo2026 .inner-actions > .button { width: 100%; }
+  .ciclo2026 .inner-actions > .button span { flex: 1; }
+  .ciclo2026 .inner-actions > .textlink { font-size: 12px; padding: 10px 0; }
+
+  /* Índice de seções: corpo maior, alvo de toque de 44px e sem quebra no
+     meio do rótulo. Rola na horizontal, como as abas do blog. */
+  .ciclo2026 .section-index {
+    margin-top: 32px;
+    padding: 8px 0;
+    gap: 0 20px;
+    font-size: 13px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .ciclo2026 .section-index::-webkit-scrollbar { display: none; }
+  .ciclo2026 .section-index a {
+    flex-shrink: 0;
+    white-space: nowrap;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
 }

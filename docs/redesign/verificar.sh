@@ -145,6 +145,22 @@ else
   falha "conteúdo ou SEO do blog mudou:"; head -25 "$TMP/blog.log"
 fi
 
+# ── 9. Tipografia e cabeçalho ───────────────────────────────────────────────
+titulo "9. Apenas Inter e menu móvel"
+cd "$TMP"
+cp "$DOCS/so-inter.mjs" "$DOCS/menu-movel.mjs" .
+if node so-inter.mjs "$BASE" > "$TMP/inter.log" 2>&1; then
+  ok "$(tail -1 "$TMP/inter.log")"
+else
+  falha "fonte fora da Inter no escopo:"; grep FALHA "$TMP/inter.log" | head -8
+fi
+if node menu-movel.mjs "$BASE" > "$TMP/menu.log" 2>&1; then
+  ok "menu móvel: abre, Escape fecha, foco volta, Tab preso, destinos válidos"
+else
+  falha "menu móvel com defeito:"; grep FALHA "$TMP/menu.log" | head -8
+fi
+cd "$RAIZ"
+
 pkill -f "next-server" 2>/dev/null
 printf "\n%s\n" "────────────────────────────────"
 if [ "$falhas" -eq 0 ]; then echo "TUDO OK"; else echo "$falhas FALHA(S)"; fi

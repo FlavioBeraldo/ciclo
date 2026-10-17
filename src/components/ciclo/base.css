@@ -79,10 +79,6 @@
 .ciclo2026 {
   font-family: var(--font-inter), Inter, Arial, sans-serif;
 }
-.ciclo2026 .editorial-accent,
-.ciclo2026 .hero-sub {
-  font-family: var(--font-playfair-2026), 'Playfair Display', Georgia, serif;
-}
 
 /* `scroll-padding-top` só funciona no elemento que rola, que é o html, e o
    projeto já tem o seu. A âncora resolve no próprio alvo. */
