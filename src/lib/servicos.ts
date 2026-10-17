@@ -247,6 +247,102 @@ export const servicos: Servico[] = [
       ],
     },
   },
+  {
+    slug: 'agencia-ugc',
+    parentSlug: 'geracao-de-demanda',
+    parentTitle: 'Geração de Demanda',
+    title: 'Agência de UGC para E-commerce',
+    tagline: 'Conteúdo que parece de gente, feito para vender',
+    heroHeadline: 'UGC não é um vídeo bonito. É um ativo de performance.',
+    heroDescription:
+      'Produção de UGC em volume e cadência para e-commerces: roteiro orientado a conversão, criadores selecionados por fit de audiência, direitos de uso resolvidos e cada peça lida pela métrica de mídia, não por curtida.',
+    what:
+      'UGC, ou user generated content, é o conteúdo gravado por pessoas reais — clientes, criadores e consumidores do seu produto — no formato nativo das redes: vertical, sem produção de estúdio, com a voz de quem usa. Como agência de UGC, a Ciclo cuida da esteira inteira: o que precisa ser dito, quem grava, como grava, quem pode veicular aquilo e por quanto tempo, e o que o número diz depois que a peça entra no ar.',
+    why:
+      'O consumidor aprendeu a reconhecer e ignorar anúncio de marca, mas continua assistindo a alguém falando de um produto que usou. O UGC entra nesse espaço e serve a dois propósitos ao mesmo tempo: alimenta o orgânico com prova social e vira criativo de mídia paga com custo de produção muito abaixo do estúdio. Como as plataformas passaram a decidir a segmentação sozinhas, a mensagem virou a principal alavanca que sobra para o anunciante — e volume de criativo deixou de ser luxo para virar requisito da operação.',
+    howItWorks: [
+      {
+        step: 'Diagnóstico de criativo e de objeções',
+        detail:
+          'Olhamos o que já rodou, o que fadigou e quais dúvidas aparecem no atendimento e nas avaliações. É daí que saem os ângulos — não de brainstorm.',
+      },
+      {
+        step: 'Matriz de ângulos e roteiros',
+        detail:
+          'Montamos a matriz que cruza ângulo, formato e etapa do funil, e escrevemos o roteiro de cada peça com gancho, demonstração e desfecho definidos.',
+      },
+      {
+        step: 'Seleção e briefing dos criadores',
+        detail:
+          'Escolhemos criadores por fit com o público do produto e entregamos briefing que orienta sem engessar: o que precisa aparecer, o que não pode ser dito, e o que fica a critério de quem grava.',
+      },
+      {
+        step: 'Produção, revisão e direitos de uso',
+        detail:
+          'Acompanhamos a gravação, revisamos antes da entrega e fechamos a licença de uso por escrito, com prazo e praça definidos, para a peça poder virar anúncio sem risco.',
+      },
+      {
+        step: 'Teste, leitura e nova rodada',
+        detail:
+          'Cada peça entra com régua de leitura declarada. O que funciona vira variação; o que não funciona vira aprendizado para o próximo ciclo de roteiro.',
+      },
+    ],
+    deliverables: [
+      'Matriz de ângulos ligada às objeções reais do seu público',
+      'Roteiros por peça, com gancho, demonstração e desfecho',
+      'Curadoria e contratação dos criadores, com fit de audiência',
+      'Cadência mensal de peças novas, combinada com a verba de mídia',
+      'Licença de uso por escrito, com prazo e praça definidos',
+      'Entrega em formatos nativos, prontos para feed, Reels, TikTok e anúncio',
+      'Leitura de performance por peça e por ângulo, não só do conjunto',
+    ],
+    // Sem números aqui: resultado e exemplo desta página ficam em branco até o
+    // Flávio passar os dados reais de operação. Inventar métrica seria pior
+    // que a seção não existir.
+    results: [],
+    examples: [],
+    faq: [
+      {
+        q: 'O que é UGC e por que ele funciona no e-commerce?',
+        a: 'UGC é o conteúdo gravado por pessoas reais usando o produto, no formato nativo das redes. Funciona porque o consumidor confia mais em alguém parecido com ele do que no anúncio da marca, e porque o formato não interrompe a navegação: ele se parece com o que a pessoa já estava assistindo. No e-commerce, isso se traduz em mais tempo de atenção e em uma objeção a menos antes da compra.',
+      },
+      {
+        q: 'Qual a diferença entre UGC e influenciador?',
+        a: 'Influenciador entrega audiência: você paga pelo alcance do perfil dele. UGC entrega conteúdo: você paga pela peça, que roda na sua mídia, no seu perfil e nos seus anúncios, com direito de uso contratado. São trabalhos complementares, e a Ciclo opera os dois — a gestão de creators e influenciadores tem página própria.',
+      },
+      {
+        q: 'Quantas peças de UGC preciso por mês?',
+        a: 'Depende da verba de mídia: quanto maior o investimento, mais rápido a conta consome audiência e o criativo fadiga. A régua que usamos é casar a cadência de produção com o ritmo de fadiga da conta, medido nos dados da sua operação, e não escolher um número fixo antes de olhar a conta.',
+      },
+      {
+        q: 'Os vídeos podem ser usados como anúncio?',
+        a: 'Sim, e é para isso que são feitos. A licença de uso é fechada por escrito antes da entrega, com prazo e praça definidos, para a peça poder ser veiculada como anúncio sem risco jurídico e sem caça a e-mail antigo quando a campanha escalar.',
+      },
+      {
+        q: 'Quem grava: clientes reais ou criadores contratados?',
+        a: 'Os dois, conforme o ângulo. Depoimento de cliente real tem uma credibilidade que não se reproduz, mas depende de quem já comprou e nem sempre cobre o ângulo que falta. Criador contratado dá controle de roteiro, prazo e volume. Na prática, a esteira combina os dois.',
+      },
+      {
+        q: 'Como vocês medem se o UGC está dando resultado?',
+        a: 'Pela mesma régua da mídia: custo por aquisição, taxa de clique e retenção nos primeiros segundos, peça a peça e ângulo a ângulo. Curtida e visualização entram como sinal, nunca como resultado. A leitura por ângulo é o que permite decidir o que produzir no ciclo seguinte.',
+      },
+    ],
+    relatedSlugs: ['gestao-creators-influenciadores', 'creative-strategy', 'tiktok-ads'],
+    seo: {
+      title: 'Agência de UGC para E-commerce | Produção de Conteúdo que Converte | Ciclo',
+      description:
+        'Agência de UGC para e-commerce: roteiro orientado a conversão, criadores com fit de audiência, direitos de uso resolvidos e leitura por métrica de mídia. Fale com a Ciclo.',
+      keywords: [
+        'agência de ugc',
+        'ugc para ecommerce',
+        'produção de ugc',
+        'user generated content ecommerce',
+        'criadores de ugc',
+        'vídeo ugc para anúncio',
+        'conteúdo gerado por usuário',
+      ],
+    },
+  },
 
   // ── Captação de Demanda ───────────────────────────────────────────────────────
   {

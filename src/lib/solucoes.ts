@@ -50,10 +50,12 @@ export const solucoes: Solucao[] = [
     services: [
       'TikTok Shop (Social Commerce)',
       'Gestão de Creators e Influenciadores',
+      'Agência de UGC para E-commerce',
     ],
     serviceLinks: [
       { label: 'TikTok Shop & Social Commerce', slug: 'tiktok-shop-social-commerce' },
       { label: 'Gestão de Creators e Influenciadores', slug: 'gestao-creators-influenciadores' },
+      { label: 'Agência de UGC para E-commerce', slug: 'agencia-ugc' },
     ],
     results: [
       {

@@ -33,6 +33,7 @@ const SOLUCOES: {
         href: '/servicos/gestao-creators-influenciadores',
         icone: 'creators',
       },
+      { rotulo: 'Agência de UGC para E-commerce', href: '/servicos/agencia-ugc', icone: 'creative' },
     ],
   },
   {

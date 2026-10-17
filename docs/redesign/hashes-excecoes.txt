@@ -7,5 +7,5 @@
 #
 # Formato:  caminho<TAB ou espaços>motivo
 #
-src/lib/servicos.ts    Serviços /servicos/processos-playbooks e /servicos/growth-continuo encerrados por ordem do Flávio em 17/10/2026
-src/lib/solucoes.ts    Os dois serviços saíram da lista de Inteligência & Operação e o FAQ da solução absorveu o conteúdo deles
+src/lib/servicos.ts    Dois serviços encerrados em 17/10/2026 e a página /servicos/agencia-ugc criada a pedido do Flávio
+src/lib/solucoes.ts    Os dois encerrados saíram de Inteligência & Operação, com o FAQ absorvendo o conteúdo, e a UGC entrou em Geração de Demanda

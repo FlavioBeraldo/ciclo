@@ -9,6 +9,7 @@ import Breadcrumb from '@/components/ciclo/interior/Breadcrumb'
 import Faq from '@/components/ciclo/interior/Faq'
 import CartoesDeServico from '@/components/ciclo/interior/CartoesDeServico'
 import { diagramasPorServico, simboloPorServico } from '@/components/ciclo/servicos/diagramas'
+import { simboloExtraPorServico } from '@/components/ciclo/servicos/extras'
 import { getServicoBySlug, getAllServicoSlugs, getRelatedServicos } from '@/lib/servicos'
 import '@/components/ciclo/base.css'
 import '@/components/ciclo/interiors.css'
@@ -60,6 +61,8 @@ export default async function ServicoPage({ params }: PageProps) {
 
   const relacionados = getRelatedServicos(servico.relatedSlugs)
   const capitulos = diagramasPorServico[slug] ?? []
+  // Serviços criados depois do kit não têm símbolo no arquivo gerado
+  const simbolo = simboloPorServico[slug] ?? simboloExtraPorServico[slug] ?? ''
 
   // "Por que importa" continua no texto da visão geral, frase a frase
   const porQue = servico.why.split(/(?<=[.!?])\s+/).filter(Boolean)
@@ -161,7 +164,7 @@ export default async function ServicoPage({ params }: PageProps) {
                   <div className="symbol-orbit second" />
                   <div
                     className="symbol-logo"
-                    dangerouslySetInnerHTML={{ __html: simboloPorServico[slug] ?? '' }}
+                    dangerouslySetInnerHTML={{ __html: simbolo }}
                   />
                   <span>{servico.parentTitle}</span>
                 </div>
@@ -281,6 +284,7 @@ export default async function ServicoPage({ params }: PageProps) {
             </div>
           </section>
 
+          {servico.results.length > 0 && (
           <section className="inner-section service-light-results" id="resultados">
             <div className="wrap narrow">
               <div className="inner-section-heading">
@@ -302,7 +306,9 @@ export default async function ServicoPage({ params }: PageProps) {
               </div>
             </div>
           </section>
+          )}
 
+          {servico.examples.length > 0 && (
           <section className="inner-section">
             <div className="wrap narrow">
               <div className="inner-section-heading">
@@ -326,6 +332,7 @@ export default async function ServicoPage({ params }: PageProps) {
               </div>
             </div>
           </section>
+          )}
 
           <Faq perguntas={servico.faq} />
 

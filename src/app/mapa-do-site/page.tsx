@@ -43,6 +43,7 @@ const sections = [
     links: [
       { label: 'TikTok Shop (Social Commerce)', href: '/tiktok-shop' },
       { label: 'Gestão de Creators e Influenciadores', href: '/servicos/gestao-creators-influenciadores' },
+      { label: 'Agência de UGC para E-commerce', href: '/servicos/agencia-ugc' },
     ],
   },
   {

@@ -84,7 +84,14 @@ conferir(
 conferir(sitemap.includes(DESTINO), 'o destino está no sitemap')
 
 // ── 6. Os serviços que ficaram continuam de pé ──────────────────────────────
-conferir(servicos.length === 17, `restaram ${servicos.length} serviços (esperado 17)`)
+//
+// O que importa é que nenhum dos encerrados tenha voltado para a lib, não um
+// número fixo: a lista cresce quando um serviço novo entra, como foi o caso
+// da página de UGC.
+conferir(
+  ENCERRADOS.every((s) => !servicos.some((x) => x.slug === s)),
+  `nenhum serviço encerrado voltou para a lib (${servicos.length} na lista)`
+)
 let vivos = 0
 for (const s of servicos) {
   const r = await fetch(`${BASE}/servicos/${s.slug}`, { redirect: 'manual' })
