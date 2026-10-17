@@ -429,3 +429,65 @@ PID=$(ps -eo pid,args | grep "[n]ext-server" | awk '{print $1}'); [ -n "$PID" ] 
 | 8 erros de lint preexistentes | Registrados. Não são do redesign e não serão corrigidos de carona. Os 2 do PlaybookForm ficam por definição, já que o arquivo é congelado |
 | Meta aguardando aceite dos termos | Herdada, fora deste escopo |
 | Episódio do Fator M no artigo do Creator Hub | Herdada, fora deste escopo |
+
+---
+
+## Atualização de 17/10/2026, fim do dia
+
+### Estado
+
+| Item | Valor |
+|---|---|
+| Branch | `claude/redesign-ciclo-2026-HVyvT` |
+| Matriz de integrações (seções 21–24 da auditoria) | `8e6e43a` |
+| Checkpoint do podcast (seção 25) | `4f9f6d6` |
+| Verificação | **13 passos, 32 checagens, tudo verde**, com 5 notas de exceção autorizada |
+| Produção | segue em `7ae962b`, intocada |
+
+### Autorização — mudou quem libera, não o que falta
+
+Em **17/10, 14:31 de Brasília**, o Flávio autorizou que a **revisão técnica
+independente coordene a migração** quando considerar seguro, depois de tudo
+terminado e corrigido, com validação completa pós-publicação. **Não é preciso
+novo OK dele.**
+
+**Isso NÃO libera publicar.** A ordem continua: terminar o podcast (feito), as
+7 páginas, as correções de UX, links e imagens, e os gates do relatório.
+Depois disso, produzir um **candidato final com evidências** para revisão, e
+só então coordenar merge e deploy no SHA exato liberado.
+
+Permanece proibido: alterar token, domínio, conta, GTM, banco; testar com
+dado de cliente; usar e-mail interno bloqueado como prova de CAPI.
+
+### O que a leitura externa dos painéis fechou
+
+Detalhe na seção 26 da auditoria. O resumo para quem retoma:
+
+- **Gatilhos por seletor CSS do GTM: risco encerrado.** Têm zero tags. A
+  troca de classes do formulário e dos CTAs no redesign **não quebra nada**.
+- **Supabase: tabelas confirmadas**, e `qualify_lead`/`close_convert_lead` já
+  dispararam historicamente — a ausência recente no painel do GA4 não é
+  regressão.
+- **Webhooks do Pipedrive cadastrados e respondendo 200**, nos dois
+  endpoints. Um deles, `/api/pipedrive/enrich`, eu tinha deixado de fora do
+  inventário; está preservado byte a byte.
+- **Container de servidor `GTM-M4K3G2GK`: provavelmente fora do caminho.**
+  Versão de 05/2025, sem `server_container_url` no web.
+- **Preview polui os relatórios — risco confirmado.** Sem bloqueio por
+  hostname; filtro de Internal Traffic em teste. Resolver fora do
+  repositório; **não alterar o container daqui**.
+- **Consentimento:** os quatro sinais estão inativos. Estado herdado,
+  registrado, não alterado.
+- **reCAPTCHA:** dívida herdada pendente. **Não corrigir nesta migração
+  visual.**
+
+### Próximo
+
+As 7 páginas pendentes, nesta ordem:
+`/ofatorm`, `/ecomshift`, `/consultoria-para-e-commerce`,
+`/consultoria-ecom-shift`, `/aplicacao`, `/link-bio`, `/obrigado`.
+
+Cuidado em três delas: `/aplicacao` e `/link-bio` têm formulário com
+mensuração por etapa, e `/obrigado` depende de a conversão sair **antes** do
+redirecionamento. Qualquer mexida ali tem de manter o passo 6 da verificação
+verde.

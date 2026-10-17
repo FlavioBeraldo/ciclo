@@ -480,6 +480,11 @@ produção, com o Assistente de Tags aberto.
 precisa listar os gatilhos que usam seletor CSS e conferir contra a tabela
 acima. É a única parte desta auditoria que não cabe no repositório.
 
+> **RESOLVIDO em 17/10 — ver seção 26.1.** A leitura do container mostrou que
+> os gatilhos por seletor CSS têm **zero tags associadas** e que os gatilhos
+> de conversão em uso são por evento customizado. As duas linhas marcadas
+> como risco nesta tabela **não quebram nada**.
+
 ## 10. Playbook: a comparação não é só hash
 
 Correto, e o método já vai além do hash — mas eu não tinha explicado.
@@ -625,6 +630,9 @@ mudam **fora do git** e precisam de checagem no dia:
 tiver avançado, rebase antes, nunca force-push por cima.
 
 ### 16.3 Gates para liberar a migração
+
+> **Substituída pela seção 26.9.** A tabela abaixo é o estado de então; o
+> gate 5 foi resolvido, o 7 concluído, e o gate "OK do Flávio" mudou de dono.
 
 | # | Gate | Como se verifica | Estado |
 |---|---|---|---|
@@ -780,6 +788,7 @@ entrega. A coluna de evidência separa o que eu medi do que só posso ler.
 | Playbook | hint por nome "Playbook" → primeira etapa do funil | `lib/pipedrive-server.ts:76` |
 | Campos de atribuição | 8 campos com chave de hash fixa: Origem, Mídia, Campanha, GA Client ID, GA Session ID, Landing Page, gclid, Atribuição extra (JSON) | `lib/pipedrive-fields.ts:25-32` |
 | Webhook | `POST /api/pipedrive/webhook`, Basic auth com `PIPEDRIVE_WEBHOOK_SECRET` ou `?secret=`; aceita payload v1 e v2 | `api/pipedrive/webhook/route.ts:16-19` |
+| Segundo webhook | `POST /api/pipedrive/enrich`, no gatilho "Criar negócio" — **faltou nesta tabela, ver 26.3** | `api/pipedrive/enrich/route.ts` |
 
 **Preservado:** todos esses arquivos estão **idênticos** a `7ae962b`.
 **NÃO VALIDADO:** se as chaves de campo ainda correspondem aos campos da
@@ -915,6 +924,10 @@ dos gatilhos precisa cobrir os dois, não só o web.
 
 ## 23. O que eu ainda não consigo provar
 
+> **Quadro atualizado na seção 26.8.** Depois da leitura dos painéis, os
+> itens 6, 7 e 8 saíram provados, o 9 e o 10 mudaram de veredito, e sobraram
+> quatro pendências reais.
+
 | # | Afirmação que **não** posso fazer | Por quê |
 |---|---|---|
 | 1 | "O `generate_lead` chega ao GA4" | O hit depende do container; o Preview não dá leitura do painel |
@@ -968,9 +981,14 @@ e-mail interno faz o CAPI pular o envio de propósito.
 Arquivar o negócio de teste e registrar no relatório qual `event_id` e qual
 `deal_id` foram usados, para rastrear depois.
 
-**Custo:** um negócio de teste no CRM e alguns hits nos relatórios. É o
-preço mínimo para fechar os dez itens, e não existe caminho que os feche
-sem tocar em produção.
+**Custo:** um negócio de teste no CRM e alguns hits nos relatórios.
+
+> **Corrigido na seção 26.7.** Eu escrevia aqui que "não existe caminho que
+> os feche sem tocar em produção" — está errado, e a frase saiu. Com
+> ambiente dedicado dá para fechar quase tudo antes do merge. E o passo 5
+> desta fase precisa de e-mail **fora** de `INTERNAL_EMAIL_DOMAINS`: com
+> e-mail interno o CAPI pula o envio de propósito, então esse teste **não
+> aprova a Meta**.
 
 ---
 
@@ -1093,3 +1111,267 @@ checagem não entrou na suíte porque exige recompilar com outro conteúdo.
 - **NÃO VALIDADO daqui:** se `YOUTUBE_API_KEY` responde em produção. Esta
   sessão não alcança `googleapis.com`; a lista de episódios foi conferida por
   outra via de leitura do canal, sem usar a chave do projeto.
+
+---
+
+# Quarta rodada — 17/10, evidência externa de leitura
+
+## 26. O que a leitura dos painéis fechou, e o que abriu
+
+Tudo nesta seção veio de **leitura externa independente** nos painéis do GTM,
+Pipedrive, Supabase e GA4. Nenhum lead enviado, nenhuma configuração
+alterada. Eu não executei nada disto e não tenho acesso a esses painéis; o
+que faço aqui é cruzar com o código e dizer o que muda no veredito.
+
+### 26.1 GTM web `GTM-5NNPNZ`
+
+| Item | Leitura |
+|---|---|
+| Versão ativa | **107**, de 17/09/2026 |
+| Volume | 39 tags, 29 gatilhos, 37 variáveis |
+| Workspace | **0 alterações pendentes** |
+| Histórico 99–107 | playbook, dedup, mensuração v2 / Ads enhanced, UID, renomeação `ciclo_uid` → `ciclo_ga4_uid`, filtro de bots, consultoria |
+
+**O achado que mais importa para o redesign:**
+
+> Os gatilhos antigos por seletor CSS — `Form Classes js-submit-popup` e
+> `Click Classes button` — têm **ZERO tags associadas**. Os gatilhos de
+> conversão em uso são por **evento customizado**, sem filtro CSS.
+
+Isto **resolve o risco da seção 9.1**. O redesign trocou a classe do
+`<form>` (`grid sm:grid-cols-2 gap-5` → `contact-form`) e as classes
+utilitárias dos CTAs pela `.button` do kit. Eu tinha marcado os dois como
+"gatilho por aquela classe deixaria de casar". **Nenhuma tag depende dessas
+classes.** O item 8 da seção 23 sai da lista de coisas que não consigo
+provar — e sai provado a favor.
+
+**Demais tags e gatilhos, como lidos:**
+
+| Peça | Estado |
+|---|---|
+| CE Conversões (regex) | `generate_lead`, `playbook_form_submit`, `begin_checkout`, `purchase`, `playbook_popup_view/_click/_dismiss`, `consultoria_ecom_shift_lead`, mais "Todos eventos personalizados" |
+| GA4 base | All Pages, exceção só BLK bots; `send_page_view=true`; `user_id` por cJS |
+| GA4 Evento Conversões | envia Event, `event_id`, `lead_source`, `medium`, `campaign`, `form`, `content_name`, `method`, `trigger`, `value`, `currency`, `user_data` |
+| Meta Lead | `eventID = DLV event_id` — **estrutura de dedup confirmada**; a dedup efetiva, não |
+| Ads Lead | CE `generate_lead`, transação = `event_id`, UPD UserData |
+| Ads por `/obrigado` | **PAUSADA** |
+| GA4/Meta legadas e 4 tags do playbook | **PAUSADAS — não reativar** |
+| Também ativos | TikTok Setup / Pixel Event, LinkedIn Insight, Clarity |
+
+Três leituras minhas sobre isso:
+
+**a) A tag de Ads por `/obrigado` estar pausada confirma a seção 21.8.** Eu
+tinha registrado que `/obrigado` não dispara nada e que a conversão sai
+**antes** do redirecionamento, por `waitForTags`. O container concorda: a
+tag que dependia da página de obrigado foi desligada e a de conversão passou
+a pendurar no evento. Nada a fazer.
+
+**b) O LinkedIn Insight roda pelo container, não pelo código.** No
+repositório o LinkedIn está atrás de `NEXT_PUBLIC_LINKEDIN_ENABLED`,
+desligado por padrão (seção 21.8). Isso não é contradição: são duas coisas
+diferentes, e a que mede está no GTM. O mesmo vale para TikTok e Clarity —
+**nenhum dos três tem código no repositório**, então o redesign não os
+afeta.
+
+**c) Quatro eventos do código não aparecem na regex de conversões.**
+`aplicacao_step_view`, `aplicacao_step_complete`, `link_bio_step_view` e
+`link_bio_step_complete` são emitidos pelo código (conferido agora:
+`AplicacaoForm.tsx:174` e `:279`, `LinkBioForm.tsx:107` e `:150`) e **não
+estão na regex de CE Conversões**. Devem depender do gatilho "Todos eventos
+personalizados". **Vale confirmar no container** se esses quatro chegam ao
+GA4 como evento — não é regressão do redesign, é um ponto cego que a leitura
+expôs.
+
+**d) Preview polui os relatórios — agora com evidência.** Não há bloqueio por
+hostname nos gatilhos atuais, e o filtro de Internal Traffic do GA4 está em
+**TESTE**, sem isolamento confirmado. O item 10 da seção 23 deixa de ser
+"não sei" e vira **risco confirmado**. Ação fora do repositório, antes ou
+junto da migração; **eu não altero o container**.
+
+### 26.2 GTM servidor `GTM-M4K3G2GK`
+
+| Item | Leitura |
+|---|---|
+| Versão ativa | **5**, de **27/05/2025** |
+| Conteúdo | 3 tags (Meta CAPI, GA4, TikTok EAPI), 1 cliente |
+| Alterações | 0 |
+| No container web | **sem `server_container_url` visível**; tags de proxy GA4 legadas pausadas |
+
+**Conclusão:** o container de servidor existe, mas **não há prova de que
+receba tráfego do web** — e há evidência contra: o GA4 do container web não
+aponta para ele, e as tags que fariam o proxy estão pausadas. A versão ativa
+é de maio de 2025, quinze meses atrás.
+
+O que isso quer dizer na prática: o CAPI que roda hoje é o **do código**
+(`src/lib/meta-capi.ts`), não o do sGTM. O item 9 da seção 23 fica assim:
+não é "não verificável", é **provavelmente fora do caminho**. Relação e
+tráfego atuais continuam não provados. **Não mexer.**
+
+### 26.3 Pipedrive — webhooks
+
+| Webhook | Destino | Última tentativa |
+|---|---|---|
+| Alterar negócio | `https://cicloecommerce.com.br/api/pipedrive/webhook` | 16/10/2026 17:46, **HTTP 200** |
+| Criar negócio | `https://cicloecommerce.com.br/api/pipedrive/enrich` | 16/10/2026 17:46, **HTTP 200** |
+
+Fecha parcialmente o item 5 da seção 23: os webhooks **estão cadastrados,
+apontam para o domínio de produção e respondem 200**. Isso prova resposta,
+**não** processamento nem destino final.
+
+**Correção à minha matriz:** a seção 21.2 listou só
+`/api/pipedrive/webhook`. Existe um **segundo** endpoint em uso,
+`/api/pipedrive/enrich`, no gatilho "Criar negócio". Ele existe no
+repositório (`src/app/api/pipedrive/enrich/route.ts`) e está **byte a byte
+idêntico à base** — o passo 1 da verificação cobre `src/app/api` inteiro e
+ele não aparece entre as exceções. Preservado, mas eu tinha deixado de fora
+do inventário.
+
+### 26.4 Supabase — projeto `ciclo-site`
+
+| Item | Leitura |
+|---|---|
+| Saúde | Healthy |
+| Schema `public` | `site_visitors` (12 colunas), `site_events` (11), `conversion_events` (12) |
+| RLS | ativo, **sem policies** nos três — o backend usa service role. **Não mexer** |
+| Volume | 3.775 visitantes, 1.713 eventos; última navegação 17/10 16:42 UTC |
+| `conversion_events` | 123 no total |
+| Meta | 115 `sent`, resposta `events_received=1` sem `error.code`; 2 `skipped` em 15/09 |
+| GA4 | 6 `sent` — 4 `qualify_lead` (último 02/10) e 2 `close_convert_lead` (último 18/09) |
+| Meta por evento | Lead 54, ProposalSent 14, Opportunity 19, QualifiedLead 8, MeetingHeld 14, Schedule 4, Purchase 2. Último Lead 16/10 20:46 UTC |
+
+Isto fecha dois itens da seção 23:
+
+- **Item 6 — PROVADO.** As três tabelas existem com o formato que o código
+  espera.
+- **Item 7 — PROVADO historicamente.** `qualify_lead` e `close_convert_lead`
+  já dispararam, 4 e 2 vezes. Confirma a leitura da seção 21.3: o
+  `close_convert_lead` de 18/09 está **fora dos últimos 28 dias**, e é por
+  isso que o painel do GA4 não mostra streaming. **Ausência recente não é
+  falha**, e não tem relação com o redesign.
+
+Confirma também que a idempotência grava de fato: há linhas `skipped`, não
+só `sent`.
+
+**Ressalva mantida, deles e minha:** são evidências históricas de envio e de
+aceite pela API. **Não** são teste ponta a ponta do redesign, e **não** são
+prova de deduplicação no Gerenciador de Eventos — `events_received=1` diz
+que a Meta recebeu, não que casou com o evento do Pixel.
+
+### 26.5 Consentimento — estado herdado
+
+O painel do GA4 diz "Bom", mas `analytics_storage`, `ad_storage`,
+`ad_user_data` e `ad_personalization` estão **INATIVOS**, e "Adopt GTM" está
+pausado.
+
+**Registrado como estado herdado. Não declaro consentimento validado e não
+altero nada.** É anterior ao redesign e não é afetado por ele.
+
+### 26.6 reCAPTCHA
+
+A descoberta da seção 21.7 — o provider carrega na home, mas nenhum
+formulário chama `executeRecaptcha` nem posta para `/api/verify-recaptcha` —
+fica como **dívida herdada pendente**. Instrução expressa: **não corrigir
+backend global nesta migração visual.** Não toquei.
+
+### 26.7 Correções ao roteiro da seção 24
+
+Três ajustes, todos procedentes:
+
+1. **E-mail interno não aprova a Meta.** `isInternalEmail` faz o CAPI
+   **pular o envio de propósito** (seção 21.4). O passo 5 da minha Fase 2
+   ficou ambíguo: um teste com e-mail interno prova Pipedrive, GA4, Supabase
+   e atribuição, mas **não** prova Meta nem dedup. Para Meta é preciso
+   e-mail fora de `INTERNAL_EMAIL_DOMAINS` — e por isso o teste exige
+   coordenação explícita, não é um "lead de teste qualquer".
+2. **Comparar conta, campos e pipelines continua pendente.** As 8 chaves de
+   hash de `pipedrive-fields.ts` e os ids fixos de funil e etapa da
+   Aplicação (`api/aplicacao/route.ts:125`) ainda não foram conferidos
+   contra a conta.
+3. **Retiro a frase final da seção 24.** Eu escrevi que "não existe caminho
+   que feche os dez itens sem tocar em produção". Está errada: com ambiente
+   dedicado — projeto próprio na Vercel e contas de teste de Pipedrive, Meta
+   e GA4 — dá para fechar quase tudo antes do merge. O que **não** se pode
+   fazer é copiar token de produção para o Preview. Se esse ambiente existir,
+   o teste vai antes; se não existir, vai depois, coordenado.
+
+**Nenhum teste real será executado sem coordenação explícita.**
+
+### 26.8 Quadro atualizado dos dez itens da seção 23
+
+| # | Afirmação | Antes | Agora |
+|---|---|---|---|
+| 1 | `generate_lead` chega ao GA4 | não provado | **parcial** — tag e gatilho existem e casam; o hit, não |
+| 2 | Dedup Pixel/CAPI funciona | não provado | **parcial** — `eventID = DLV event_id` confirmado; efetividade, não |
+| 3 | Negócio no funil e etapa certos | não provado | **não provado** |
+| 4 | As 8 chaves de campo existem na conta | não provado | **não provado** |
+| 5 | Webhook cadastrado e autenticando | não provado | **parcial** — 2 webhooks cadastrados, domínio certo, HTTP 200 |
+| 6 | Tabelas do Supabase no formato esperado | não provado | **PROVADO** |
+| 7 | `qualify_lead` e `close_convert_lead` disparam | não provado | **PROVADO** historicamente (4 e 2 envios) |
+| 8 | Gatilhos por seletor continuam casando | não provado | **RESOLVIDO** — nenhuma tag usa seletor CSS |
+| 9 | Container de servidor está no caminho | não verificável | **provavelmente fora** — sem `server_container_url`, versão de 05/2025 |
+| 10 | Preview não polui os relatórios | não provado | **RISCO CONFIRMADO** — sem bloqueio de hostname; filtro em teste |
+
+Sobram **quatro** pendências reais de integração: os itens 1, 2, 3 e 4, mais
+a parte de processamento do 5. Todas dependem de acesso a conta, não de
+código.
+
+### 26.9 Autorização e gates — atualizado
+
+Em 17/10, 14:31 de Brasília, o Flávio autorizou que a **revisão técnica
+independente coordene a migração** quando considerar seguro, depois de tudo
+terminado e corrigido, com validação completa pós-publicação. **Não é preciso
+novo OK dele.**
+
+**Isso não libera publicar agora.** O que muda é quem dá a liberação, não o
+que precisa estar pronto antes. Gates revisados:
+
+| # | Gate | Estado |
+|---|---|---|
+| 1 | Produção não avançou, ou a branch foi rebaseada | A conferir no dia |
+| 2 | `verificar.sh` verde no SHA exato — hoje 13 passos, 32 checagens | **Verde** |
+| 3 | Crawl sem destino quebrado | **Verde** |
+| 4 | 7 páginas pendentes refeitas | **Pendente** — `/ofatorm`, `/ecomshift`, `/consultoria-para-e-commerce`, `/consultoria-ecom-shift`, `/aplicacao`, `/link-bio`, `/obrigado` |
+| 5 | Gatilhos do GTM por seletor conferidos | **RESOLVIDO** (26.1) |
+| 6 | Imagem do Mamô substituída, ou aceite da pendência | **Pendente** — depende de arquivo novo do Flávio |
+| 7 | Fallback do podcast honesto | **Concluído** (seção 25) |
+| 8 | Correções de UX, links e imagens | **Pendente** |
+| 9 | Isolamento do Preview nos relatórios, ou aceite do risco | **Pendente**, fora do repositório (26.1 d) |
+| 10 | SHA final revisado e rollback pronto | **Pendente** — candidato final com evidências, para liberação técnica |
+
+Rollback inalterado: **Promote** do deployment `Hb5TEUapVasyUCm9amGRnRzDyAhe`,
+`7ae962bad1758ef0c77e775af6a683e7e5a0e280`. Sem force-push, sem reset, sem
+apagar deployment, sem trocar plano.
+
+### 26.10 Validação pós-publicação
+
+Além dos sete passos da seção 16.5, a conferência precisa cobrir, na ordem:
+rotas, conteúdo, SEO, responsivo, formulários, atribuição, GTM, GA4, Meta,
+Pipedrive, Supabase, **podcast** e cron. Regressão crítica em qualquer um
+deles → volta para a versão anterior pelo Promote.
+
+Acréscimos ao roteiro, por causa desta rodada:
+
+- **Podcast:** confirmar que o HTML servido traz episódio real com
+  JavaScript desligado, e que a lista veio da API e não do snapshot — se vier
+  do snapshot, a chave não está respondendo em produção.
+- **`/api/pipedrive/enrich`:** confirmar que o webhook "Criar negócio"
+  continua recebendo 200 depois do deploy. É o endpoint que eu tinha deixado
+  de fora do inventário.
+- **Os quatro eventos de etapa** (`aplicacao_step_*`, `link_bio_step_*`):
+  confirmar se chegam ao GA4 pelo gatilho "Todos eventos personalizados".
+
+### 26.11 O que falta de material ou acesso, dito na cara
+
+Para não marcar como aprovado o que não é:
+
+| Falta | Quem destrava |
+|---|---|
+| Conferir as 8 chaves de campo e os ids de funil/etapa contra a conta do Pipedrive | acesso à conta |
+| Dedup no Gerenciador de Eventos da Meta | acesso à conta |
+| Hit real de `generate_lead` no GA4 | teste coordenado |
+| `mamo.jpg` com pelo menos 1100px de largura (hoje 399×501) | arquivo do Flávio |
+| `gringa.jpg` em resolução maior, desejável | arquivo do Flávio |
+| Isolamento do Preview nos relatórios | alteração no container, **que eu não faço** |
+| Ambiente dedicado para teste antes do merge | decisão de infraestrutura |
+
+**Playbook permanece congelado.**
