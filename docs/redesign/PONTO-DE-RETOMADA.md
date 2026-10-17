@@ -40,7 +40,9 @@ e `docs/INTEGRACOES-E-PENDENCIAS.md`. Só depois disso, o plano por grupo.
 
 ## Decisões já tomadas
 
-1. **Escopo.** Todas as páginas entram, menos `/playbook-social-commerce`.
+1. **Escopo.** Todas as páginas entram, menos `/playbook-social-commerce`, que
+   é **referência congelada de regressão**: nada nela é refeito, nem layout,
+   nem formulário, nem lint, nem markup, nem fluxo. Serve só para comparar.
 2. **`/link-bio` permanece.** O kit não ter um exemplo equivalente não autoriza
    remover a página. O contrato dela está na seção 2.4 da auditoria.
 3. **Isolamento por escopo, não por `:root`.** Os tokens do design novo entram
@@ -117,6 +119,6 @@ verificação reinstala o segundo sozinho.
 |---|---|
 | Pacote do design | **Bloqueia a implementação.** Não recebido |
 | Acesso à prévia | Pode exigir permissão do proprietário. Não vou contornar |
-| 8 erros de lint preexistentes | Registrados. Não são do redesign e não serão corrigidos de carona |
+| 8 erros de lint preexistentes | Registrados. Não são do redesign e não serão corrigidos de carona. Os 2 do PlaybookForm ficam por definição, já que o arquivo é congelado |
 | Meta aguardando aceite dos termos | Herdada, fora deste escopo |
 | Episódio do Fator M no artigo do Creator Hub | Herdada, fora deste escopo |

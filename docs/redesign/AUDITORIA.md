@@ -91,8 +91,11 @@ Medido no baseline: 5 eventos de visualização, 5 de conclusão, 1 `generate_le
 e 5 POSTs com as chaves `step`, `data`, `complete`, `event_id`, `attribution` e
 `page_url`.
 
-O LinkedIn do playbook **não** viaja no body: a rota lê o cookie assinado
-`ciclo_li` no servidor. Nenhum redesign pode passar esses dados pelo cliente.
+O `PlaybookForm` consta nesta tabela apenas como **referência congelada de
+regressão**. Ele não será refeito, não recebe ajuste de lint, de markup nem de
+fluxo. Está aqui para que a comparação antes e depois prove que continuou
+idêntico. Detalhe registrado pelo mesmo motivo: o LinkedIn não viaja no body,
+a rota lê o cookie assinado `ciclo_li` no servidor.
 
 Identificador fixo da consultoria: `consultoria_ecom_shift`, usado no dataLayer,
 na CAPI e no `origem_formulario` do Pipedrive. Destino fixo no CRM da rota
@@ -195,7 +198,7 @@ Medidas de referência: altura 3112px no desktop e 5147px no celular, 10 título
 | `/obrigado` | CasesSection | `noindex` |
 | `/politica-de-privacidade` | OptOutNotice | opt-out de telemetria |
 | `/mapa-do-site` | — | — |
-| `/playbook-social-commerce` | **Não entra no redesign** | PlaybookForm, StickyCta |
+| `/playbook-social-commerce` | **Fora do redesign: referência congelada** | PlaybookForm, StickyCta, intocados |
 
 ---
 
@@ -215,7 +218,8 @@ registrados para não serem atribuídos ao redesign:
 - `consultoria-para-e-commerce/interactive.tsx`: aspas não escapadas e import
   não usado.
 - `playbook-social-commerce/PlaybookForm.tsx`: dois casos de `setState` dentro
-  de efeito.
+  de efeito. **Permanecem como estão**: o arquivo é referência congelada e não
+  recebe correção de carona.
 - `politica-de-privacidade/OptOutNotice.tsx`: mesmo caso.
 - `link-bio/page.tsx` e `components/Header.tsx`: `<a>` em vez de `<Link>`.
 - `servicos/[slug]/page.tsx`: import não usado.
