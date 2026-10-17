@@ -48,14 +48,31 @@ fi
 # ── 2. Typecheck e lint ─────────────────────────────────────────────────────
 titulo "2. Typecheck e lint"
 if npx tsc --noEmit > "$TMP/tsc.log" 2>&1; then ok "typecheck limpo"; else falha "typecheck com erros"; head -5 "$TMP/tsc.log"; fi
-npx eslint src > "$TMP/lint.log" 2>&1
-erros=$(grep -cE "^\s+[0-9]+:[0-9]+\s+error" "$TMP/lint.log" || true)
+# Comparação por ARQUIVO e REGRA, não por contagem: um erro novo em um
+# arquivo não é mascarado por outro corrigido em outro lugar.
+npx eslint src -f json 2>/dev/null | node -e "
+let s='';process.stdin.on('data',d=>s+=d).on('end',()=>{
+  const r=JSON.parse(s), linhas=[];
+  for(const f of r) for(const m of f.messages) if(m.severity===2)
+    linhas.push(f.filePath.replace(process.cwd()+'/','')+'|'+(m.ruleId||'sem-regra'));
+  linhas.sort(); console.log(linhas.join('\n'));
+})" > "$TMP/lint-atual.txt"
+erros=$(grep -c . "$TMP/lint-atual.txt" || true)
 if [ "$MODO" = "baseline" ]; then
-  echo "$erros" > "$DOCS/lint-erros-baseline.txt"; ok "$erros erros de lint registrados como preexistentes"
+  cp "$TMP/lint-atual.txt" "$DOCS/lint-erros-baseline.txt"
+  ok "$erros erros de lint registrados por arquivo e regra"
 else
-  base=$(cat "$DOCS/lint-erros-baseline.txt" 2>/dev/null || echo 0)
-  if [ "$erros" -le "$base" ]; then ok "lint com $erros erros (baseline $base, sem erro novo)"
-  else falha "lint com $erros erros contra $base do baseline"; fi
+  if diff -u "$DOCS/lint-erros-baseline.txt" "$TMP/lint-atual.txt" > "$TMP/lint.diff"; then
+    ok "lint idêntico ao baseline ($erros erros, mesmos arquivos e regras)"
+  else
+    novos=$(grep -c "^+[^+]" "$TMP/lint.diff" || true)
+    sumidos=$(grep -c "^-[^-]" "$TMP/lint.diff" || true)
+    if [ "$novos" -gt 0 ]; then
+      falha "$novos erro(s) NOVO(S) de lint:"; grep "^+[^+]" "$TMP/lint.diff" | sed 's/^+/      /'
+    else
+      ok "lint sem erro novo ($sumidos corrigido(s) em relação ao baseline)"
+    fi
+  fi
 fi
 
 # ── 3. Build ────────────────────────────────────────────────────────────────

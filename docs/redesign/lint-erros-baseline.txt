@@ -1,1 +1,8 @@
-8
+src/app/api/youtube/latest/route.ts|@typescript-eslint/no-explicit-any
+src/app/consultoria-para-e-commerce/interactive.tsx|react/no-unescaped-entities
+src/app/consultoria-para-e-commerce/interactive.tsx|react/no-unescaped-entities
+src/app/link-bio/page.tsx|@next/next/no-html-link-for-pages
+src/app/playbook-social-commerce/PlaybookForm.tsx|react-hooks/set-state-in-effect
+src/app/playbook-social-commerce/PlaybookForm.tsx|react-hooks/set-state-in-effect
+src/app/politica-de-privacidade/OptOutNotice.tsx|react-hooks/set-state-in-effect
+src/components/Header.tsx|@next/next/no-html-link-for-pages

@@ -38,6 +38,106 @@ e `docs/INTEGRACOES-E-PENDENCIAS.md`. Só depois disso, o plano por grupo.
 
 ---
 
+## Configuração externa verificada em 17/10/2026
+
+Levantado só com os acessos já disponíveis. Nenhum valor de segredo foi lido,
+nenhuma configuração foi alterada.
+
+### Repositório e branch de produção
+
+| Item | Valor |
+|---|---|
+| Remoto | `github.com/FlavioBeraldo/ciclo`, público |
+| Branch padrão do repositório | `claude/elegant-darwin-HVyvT` |
+| Branch de produção na Vercel | a mesma, confirmada pelos deployments |
+
+**A branch do redesign gera somente Preview.** Isso foi confirmado por
+evidência, não pelo nome: os três pushes de `claude/redesign-ciclo-2026-HVyvT`
+geraram deployments com `environment: "Preview"`, enquanto o merge em
+`claude/elegant-darwin-HVyvT` gerou `environment: "Production"`.
+
+| Commit | Ambiente | Estado |
+|---|---|---|
+| `7fcf734` (redesign) | Preview | success |
+| `53dc116` (redesign) | Preview | success |
+| `e608981` (redesign) | Preview | success |
+| `7ae962b` (produção) | Production | success |
+
+### Projeto Vercel
+
+| Item | Valor |
+|---|---|
+| Projeto | `ciclo-dl2o`, escopo `flavioberaldos-projects` |
+| Ligação | Deployments disparados por push no repositório acima |
+| Framework | `nextjs`, declarado em `vercel.json` |
+| Build | `npm run build`, que roda fetch-youtube, next build e postbuild |
+| Install | `npm install` |
+| Saída | `.next`, com `output: 'standalone'` no next.config |
+| Diretório raiz | Raiz do repositório |
+| Runtime | Node >= 20 por `engines`; rotas de API em `runtime = 'nodejs'` |
+| Cron | 1 job: `/api/cron/site-digest` às `0 12 * * *` |
+| Redirects | 153 regras em `next.config.ts` |
+| GitHub Actions | Nenhum workflow no repositório |
+| Checks no commit | Um contexto `Vercel` e o check `Vercel Preview Comments` |
+
+### Variáveis de ambiente necessárias, só os nomes
+
+`ANTHROPIC_API_KEY`, `ANTHROPIC_MODEL`, `CRON_SECRET`, `GA4_API_SECRET`,
+`GA4_LEAD_QUALIFY_STAGES`, `GA4_MEASUREMENT_ID`, `INTERNAL_EMAIL_DOMAINS`,
+`LINKEDIN_CLIENT_ID`, `LINKEDIN_CLIENT_SECRET`, `LINKEDIN_REDIRECT_URI`,
+`META_CAPI_TOKEN`, `META_PIXEL_ID`, `META_TEST_EVENT_CODE`,
+`NEXT_PUBLIC_LINKEDIN_ENABLED`, `NEXT_PUBLIC_RECAPTCHA_SITE_KEY`,
+`PIPEDRIVE_API_TOKEN`, `PIPEDRIVE_PIPELINE_NAME`, `PIPEDRIVE_STAGE_ID`,
+`PIPEDRIVE_STAGE_NAME`, `PIPEDRIVE_WEBHOOK_SECRET`, `RECAPTCHA_SECRET_KEY`,
+`SUPABASE_SERVICE_ROLE_KEY`, `SUPABASE_URL`, `YOUTUBE_API_KEY`,
+`YOUTUBE_CHANNEL_HANDLE`.
+
+O único arquivo de ambiente versionado é `.env.example`. Nenhum valor foi lido
+nem será copiado para commit ou relatório.
+
+### Referência de retorno, sem executar rollback
+
+| Item | Valor |
+|---|---|
+| Deployment de produção atual | id `6665805577` |
+| Commit | `7ae962bad1758ef0c77e775af6a683e7e5a0e280` |
+| URL do deployment | `ciclo-dl2o-93six9eyy-flavioberaldos-projects.vercel.app` |
+| Data | 25/09/2026, estado success |
+
+### Não verificado
+
+O painel da Vercel em si não é acessível desta sessão. Ficam **não
+verificados** por leitura direta: a configuração de production branch no painel,
+os escopos de cada variável por ambiente, a configuração de diretório raiz e a
+versão de Node escolhida no projeto. O que está acima foi deduzido de evidência
+observável: rótulos de ambiente nos deployments, `vercel.json` e `package.json`.
+Até confirmação do painel, **nenhum push é tratado como inofensivo por suposição**:
+a branch isolada continua sendo a única usada, e o merge fica com o Flávio.
+
+---
+
+## Regras de operação desta etapa
+
+- Implementação por grupos na branch isolada, sem pedir aprovação a cada edição
+  reversível.
+- Não recriar projeto ou repositório. Não alterar domínio, DNS, variáveis,
+  integrações, banco ou CMS.
+- Sem force-push, sem reset destrutivo, sem apagar branch, sem reescrever
+  histórico.
+- Preservar workflows, lockfile e dependências, salvo necessidade concreta do
+  front-end, explicada no commit.
+- Nunca copiar `.env` ou credenciais para commit ou relatório.
+- Testes de formulário e medição sempre com rede externa bloqueada e APIs
+  simuladas.
+- Por grupo, entregar: commit, arquivos alterados, verificações e URL de Preview.
+- Conferir os checks do GitHub e o deployment **do mesmo commit**, não um build
+  local anterior.
+- Lint comparado por arquivo e regra, não por contagem.
+- Playbook integralmente congelado.
+- Nenhum merge ou publicação antes da revisão final do Flávio.
+
+---
+
 ## Decisões já tomadas
 
 1. **Escopo.** Todas as páginas entram, menos `/playbook-social-commerce`, que
