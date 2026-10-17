@@ -538,36 +538,83 @@
 */
 .ciclo2026 .case-content { container-type: inline-size; }
 
+/*
+   ATENÇÃO ao seletor: a folha do kit tem `.case-results span`, pensada para a
+   LEGENDA, e ela pega qualquer span dentro do bloco — inclusive os spans que
+   envolvem o número. Sem o reset abaixo, o número herda 10px, peso 400 e a
+   cor cinza da legenda: fica do tamanho de rodapé. Foi o que aconteceu e o
+   teste não pegou, porque media o `strong`, não o nó com os dígitos.
+   Aqui o número volta a herdar tudo do `strong`, e só a unidade fica menor.
+*/
+.ciclo2026 .case-results strong .valor-numero,
+.ciclo2026 .case-results strong .valor-unidade,
+.ciclo2026 .metricas-case dt .valor-numero,
+.ciclo2026 .metricas-case dt .valor-unidade {
+  display: inline;
+  font: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  color: inherit;
+  letter-spacing: inherit;
+  line-height: inherit;
+  margin: 0;
+  /*
+     Sem `nowrap`. Em tamanho normal o número nunca quebra, porque cabe; mas
+     com texto ampliado a 200% num celular de 390px nem uma coluna só é
+     suficiente, e aí quebrar é o certo — quem amplia o texto espera que a
+     página reflua, não que o número saia pela borda. `break-word` só age
+     quando não há alternativa.
+  */
+  overflow-wrap: break-word;
+}
+.ciclo2026 .case-results strong .valor-unidade,
+.ciclo2026 .metricas-case dt .valor-unidade { white-space: nowrap; }
+/* A unidade por extenso é a única coisa que encolhe, e só porque "dias" ao
+   lado de "120→55" no mesmo corpo não caberia na célula. */
+.ciclo2026 .case-results strong .valor-unidade,
+.ciclo2026 .metricas-case dt .valor-unidade {
+  font-size: .5em;
+  letter-spacing: -.01em;
+}
+
 .ciclo2026 .case-results strong {
   white-space: normal;
   overflow-wrap: break-word;
-}
-.ciclo2026 .case-results .valor-numero { white-space: nowrap; }
-.ciclo2026 .case-results .valor-unidade {
-  white-space: nowrap;
-  font-size: .5em;
-  letter-spacing: -.01em;
 }
 
 /* Três resultados dividem a mesma linha: cada célula fica com um terço. */
 .ciclo2026 .case-results:has(> div:nth-child(3)) strong { font-size: 23px; }
 
+/*
+   Cartão estreito: três colunas iguais deixam de caber, e espremer o número
+   até caber foi justamente o erro anterior. Aqui a grade passa a QUEBRAR —
+   `auto-fit` com um mínimo em `em`, ancorado no corpo do próprio número.
+   Quando o texto é ampliado, o mínimo cresce junto e sobra uma coluna a
+   menos, em vez de o número vazar. A divisória vertical sai, porque linha
+   em pé no começo de uma linha nova não quer dizer nada; o espaçamento
+   separa.
+*/
 @container (max-width: 470px) {
-  .ciclo2026 .case-results strong { font-size: 25px; }
-  .ciclo2026 .case-results:has(> div:nth-child(3)) strong { font-size: 20px; }
-  .ciclo2026 .case-results { gap: 10px; }
-  .ciclo2026 .case-results > div + div { padding-left: 10px; }
+  .ciclo2026 .case-results {
+    grid-auto-flow: row;
+    grid-auto-columns: auto;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 6.5em), 1fr));
+    font-size: 22px;
+    gap: 18px 16px;
+  }
+  .ciclo2026 .case-results strong,
+  .ciclo2026 .case-results:has(> div:nth-child(3)) strong { font-size: 1em; }
+  .ciclo2026 .case-results > div + div { padding-left: 0; border-left: 0; }
+  /* `> span` de propósito: só a legenda, que é filha direta da célula. O
+     span do número vive dentro do `strong` e não pode ser atingido aqui. */
+  .ciclo2026 .case-results > div > span { font-size: 10px; }
 }
-@container (max-width: 340px) {
-  .ciclo2026 .case-results strong { font-size: 21px; }
-  .ciclo2026 .case-results:has(> div:nth-child(3)) strong { font-size: 17px; }
-  .ciclo2026 .case-results span { font-size: 9px; }
+@container (max-width: 300px) {
+  .ciclo2026 .case-results { font-size: 20px; }
 }
 
 /* O mesmo bloco na landing da consultoria, que usa <dl> */
 .ciclo2026 .metricas-case dt { white-space: normal; overflow-wrap: break-word; }
-.ciclo2026 .metricas-case .valor-numero { white-space: nowrap; }
-.ciclo2026 .metricas-case .valor-unidade { white-space: nowrap; font-size: .55em; }
 
 /* Os chips de canal do diagrama usam `rem` no espaçamento, então dobram
    junto com a ampliação de texto. Em 390px com texto a 200% o chip mais

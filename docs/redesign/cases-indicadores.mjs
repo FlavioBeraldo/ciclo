@@ -11,6 +11,12 @@
 // Também confere que nenhum número foi abreviado: o texto de cada resultado
 // tem de bater, caractere a caractere, com `src/lib/cases.ts`.
 //
+// E confere o ESTILO NO NÓ QUE CONTÉM OS DÍGITOS, não no elemento em volta.
+// A primeira versão deste teste media o `strong` e deu tudo verde enquanto o
+// número aparecia a 10px na cor da legenda: a regra `.case-results span` do
+// kit estava pegando o span do número. Medir o contêiner não serve; tem de
+// ser o nó com o texto.
+//
 // Uso:  node --experimental-strip-types cases-indicadores.mjs [baseURL]
 
 import { chromium } from 'playwright-core'
@@ -68,8 +74,14 @@ for (const { rota, seletor } of ROTAS) {
     // página — é assim que a pessoa que precisa de texto maior configura.
     if (cen.zoom !== 1) {
       await p.addStyleTag({ content: `html { font-size: ${16 * cen.zoom}px }` })
+      // Ampliação de texto do navegador aumenta TODAS as fontes, inclusive a
+      // do contêiner da grade — é isso que permite a grade reagir. Simular só
+      // o número seria mais severo do que a realidade e esconderia a adaptação.
       await p.evaluate((z) => {
-        for (const e of document.querySelectorAll('.case-results strong, .metricas-case dt')) {
+        const alvos = document.querySelectorAll(
+          '.case-results, .case-results strong, .case-results > div > span, .metricas-case, .metricas-case dt, .metricas-case dd'
+        )
+        for (const e of alvos) {
           const atual = parseFloat(getComputedStyle(e).fontSize)
           e.style.fontSize = `${atual * z}px`
         }
@@ -82,6 +94,7 @@ for (const { rota, seletor } of ROTAS) {
       ({ seletor }) => {
         const vazou = []
         const textos = []
+        const tipografia = []
         for (const grupo of document.querySelectorAll(seletor)) {
           for (const celula of grupo.children) {
             const caixa = celula.getBoundingClientRect()
@@ -107,10 +120,27 @@ for (const { rota, seletor } of ROTAS) {
               })
             }
             textos.push((celula.textContent || '').replace(/\s+/g, ' ').trim())
+
+            // O nó que REALMENTE contém os dígitos, e a legenda ao lado dele.
+            const numero =
+              celula.querySelector('.valor-numero') ?? celula.querySelector('strong, dt')
+            const legenda = celula.querySelector(':scope > span, :scope > dd')
+            const ler = (e) => {
+              if (!e) return null
+              const s = getComputedStyle(e)
+              return {
+                texto: (e.textContent || '').trim(),
+                px: parseFloat(s.fontSize),
+                peso: Number(s.fontWeight),
+                cor: s.color,
+                display: s.display,
+              }
+            }
+            tipografia.push({ numero: ler(numero), legenda: ler(legenda) })
           }
         }
         const doc = document.documentElement
-        return { vazou, textos, estouroPagina: doc.scrollWidth - doc.clientWidth }
+        return { vazou, textos, tipografia, estouroPagina: doc.scrollWidth - doc.clientWidth }
       },
       { seletor }
     )
@@ -141,6 +171,66 @@ for (const { rota, seletor } of ROTAS) {
         (faltando.length ? ` — faltam: ${faltando.slice(0, 3).join(' / ')}` : '')
     )
 
+    // ── Tipografia: o número tem de parecer número, não legenda ───────────
+    const minimo = 14 * cen.zoom
+    const miudos = medida.tipografia.filter((t) => t.numero && t.numero.px < minimo)
+    conferir(
+      miudos.length === 0,
+      `${rotulo} — nenhum número menor que ${minimo}px` +
+        (miudos.length
+          ? ' — ' + miudos.slice(0, 3).map((t) => `"${t.numero.texto}" ${t.numero.px}px`).join(' | ')
+          : ` (menor: ${Math.min(...medida.tipografia.map((t) => t.numero?.px ?? 999))}px)`)
+    )
+
+    const invertidos = medida.tipografia.filter(
+      (t) => t.numero && t.legenda && t.numero.px <= t.legenda.px
+    )
+    conferir(
+      invertidos.length === 0,
+      `${rotulo} — o número é maior que a legenda em todas as células` +
+        (invertidos.length
+          ? ' — ' +
+            invertidos
+              .slice(0, 3)
+              .map((t) => `"${t.numero.texto}" ${t.numero.px}px vs legenda ${t.legenda.px}px`)
+              .join(' | ')
+          : '')
+    )
+
+    const palidos = medida.tipografia.filter(
+      (t) => t.numero && t.legenda && t.numero.cor === t.legenda.cor
+    )
+    conferir(
+      palidos.length === 0,
+      `${rotulo} — o número não usa a cor da legenda` +
+        (palidos.length ? ` — ${palidos.length} célula(s) com a mesma cor` : '')
+    )
+
+    const leves = medida.tipografia.filter(
+      (t) => t.numero && t.legenda && t.numero.peso < t.legenda.peso
+    )
+    conferir(leves.length === 0, `${rotulo} — o número não é mais leve que a legenda`)
+
+    await ctx.close()
+  }
+}
+
+// ── Captura de tela do cartão com três resultados, para olho humano ────────
+{
+  for (const [tag, largura] of [['desktop', 1440], ['celular', 390]]) {
+    const ctx = await navegador.newContext({ viewport: { width: largura, height: 900 } })
+    const p = await ctx.newPage()
+    await p.route('**', (r) =>
+      r.request().url().startsWith(BASE) ? r.continue() : r.fulfill({ status: 204, body: '' })
+    )
+    await p.goto(BASE + '/', { waitUntil: 'domcontentloaded' })
+    await p.waitForTimeout(1200)
+    const cartao = p.locator('#case-3')
+    await cartao.scrollIntoViewIfNeeded()
+    await p.waitForTimeout(500)
+    const destino = `${process.env.SAIDA_CASES ?? '.'}/cases-gringa-${tag}.png`
+    await cartao.screenshot({ path: destino })
+    ok(`captura do cartão de três resultados em ${tag}: ${destino}`)
     await ctx.close()
   }
 }
@@ -150,6 +240,6 @@ console.log(
   '\n' +
     (falhas
       ? `${falhas} FALHA(S)`
-      : `TUDO OK — ${esperados.length} indicadores inteiros e dentro da célula em ${CENARIOS.length} cenários, em 3 rotas`)
+      : `TUDO OK — ${esperados.length} indicadores inteiros e dentro da célula em ${CENARIOS.length} cenários, em 3 rotas, com número legível e acima da legenda`)
 )
 process.exit(falhas ? 1 : 0)

@@ -1,5 +1,5 @@
 Verificação do redesign — modo: comparar
-commit: 26e2e99  branch: claude/redesign-ciclo-2026-HVyvT
+commit: dcc424a  branch: claude/redesign-ciclo-2026-HVyvT
 
 == 1. Camada protegida (src/lib e src/app/api)
   ok    40 arquivos, nenhuma mudança não autorizada
@@ -74,7 +74,7 @@ commit: 26e2e99  branch: claude/redesign-ciclo-2026-HVyvT
   ok    11 rotas sem estouro horizontal em 1440 e 390
 
 == 17. Indicadores de case
-  ok    TUDO OK — 9 indicadores inteiros e dentro da célula em 7 cenários, em 3 rotas
+  ok    TUDO OK — 9 indicadores inteiros e dentro da célula em 7 cenários, em 3 rotas, com número legível e acima da legenda
 
 == 18. Podcast no servidor
   ok    TUDO OK — API, episódio novo, tempo limite, cota, sem chave, só Shorts, sem snapshot e gerador com descrição real

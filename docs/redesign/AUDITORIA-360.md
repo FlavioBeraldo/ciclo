@@ -1426,11 +1426,15 @@ frontend e o tempo limite do podcast — **este quebrou o build no Preview**,
 ver 27.10), `e0f5bc2` (a correção do gerador; Preview verde) e `b5a45dc`
 (bug da Gringa, teste dos webhooks e plano de migração).
 
-**Sobre o SHA a liberar:** o commit que grava esta seção vem depois de
-`8684981` e toca **só `docs/`**, então o site que o Preview acima mostra é o
-mesmo do HEAD da branch. Confira com
-`git diff --stat 8684981..HEAD` antes de liberar: se só aparecer `docs/`, o
-SHA a liberar é o HEAD; se aparecer qualquer outro caminho, me avise.
+**Sobre o SHA a liberar.** Mantenha esta regra, e não o número de um commit
+antigo — foi assim que a seção ficou com `8684981` desatualizado por três
+rodadas:
+
+> O **último commit de código** está na tabela acima. Qualquer commit depois
+> dele nesta branch toca só `docs/`. Confira antes de liberar com
+> `git diff --stat <último commit de código>..HEAD`: se só aparecer `docs/`,
+> o SHA a liberar é o HEAD e o Preview da tabela mostra o mesmo site. Se
+> aparecer qualquer outro caminho, a tabela está velha — me avise.
 
 ### 27.2 Inventário de cascas, rota por rota
 
@@ -1862,3 +1866,100 @@ A **mudança funcional do podcast está separada da troca visual** na seção
 **O playbook está no plano como item de pré-requisito**, e o passo 5 da
 suíte cobre efeito indireto de CSS e de componente compartilhado — ele mede
 o que o navegador aplicou, não o que o arquivo diz.
+
+---
+
+# Sexta rodada — 17/10, a correção da Gringa estava errada
+
+## 32. Eu consertei o estouro quebrando os números
+
+A revisão independente reprovou `b5a45dc`, e com razão. **Todos** os números
+dos cases estavam saindo a **10px, peso 500, na cor cinza da legenda, em
+`display: block`** — o `strong` em volta tinha 29px, mas o nó com os dígitos,
+não.
+
+### 32.1 A causa
+
+A folha do kit tem uma regra de legenda:
+
+```css
+.ciclo2026 .case-results span { display:block; font-size:10px; color:#827681; margin-top:6px }
+```
+
+Ela foi escrita para o rótulo, e pega **qualquer** `span` dentro do bloco.
+Quando eu envolvi o número num `<span class="valor-numero">` para separar a
+unidade, o número virou legenda.
+
+### 32.2 Por que o meu teste não pegou
+
+**Porque eu media o elemento errado.** O teste olhava o `font-size` do
+`strong` e o estouro da célula. O `strong` continuava com 29px. E o estouro
+tinha sumido — mas pelo motivo errado: um número de 10px cabe em qualquer
+lugar.
+
+Ou seja: a correção anterior passou no teste **porque o defeito que ela
+introduziu mascarava o defeito que ela deveria corrigir**. É o pior tipo de
+verde.
+
+### 32.3 Correção
+
+**No CSS:**
+
+- `.valor-numero` e `.valor-unidade` passam a herdar fonte, peso, cor,
+  espaçamento e entrelinha do `strong`, em `display: inline`. Só a unidade
+  encolhe, para `.5em`, e só porque "dias" ao lado de "120→55" no mesmo corpo
+  não caberia.
+- A regra de legenda que eu mesmo tinha escrito na container query passou a
+  ser `> div > span`: **só o rótulo, que é filho direto da célula.** O span
+  do número vive dentro do `strong` e deixou de ser alcançável.
+- Em cartão estreito a grade **quebra** em vez de espremer: `auto-fit` com
+  mínimo em `em`, ancorado no corpo do próprio número. Texto ampliado faz o
+  mínimo crescer e sobra uma coluna a menos — em vez de o número vazar. A
+  divisória vertical sai quando quebra, porque linha em pé no começo de uma
+  linha nova não quer dizer nada.
+- Último recurso, só para ampliação extrema: o número pode quebrar em vez de
+  sair pela borda. Em tamanho normal ele nunca quebra, porque cabe.
+
+**No teste** — e esta é a parte que importa mais que a correção:
+
+| Agora mede | Antes |
+|---|---|
+| `font-size`, peso e cor **no nó que contém os dígitos** | só o `strong` em volta |
+| Número **maior** que a legenda, em toda célula | nada |
+| Número **sem a cor** da legenda | nada |
+| Número **não mais leve** que a legenda | nada |
+| Nenhum número abaixo de 14px (escalado pela ampliação) | nada |
+| Estouro por célula, nos 7 cenários e 3 rotas | isto já existia |
+| **Captura de tela** do cartão de três resultados, desktop e celular | nada |
+
+A simulação de ampliação de texto também foi corrigida: agora escala **o
+contêiner da grade junto com o número**, que é o que o navegador faz. Antes
+escalava só o número, o que era mais severo que a realidade e escondia a
+adaptação da grade.
+
+### 32.4 Medido depois
+
+| | Antes da correção | Depois |
+|---|---|---|
+| Número na home | 10px / peso 500 / `rgb(130,118,129)` / block | **29px** / peso 500 / `rgb(29,29,27)` / inline |
+| Número na Gringa | 10px | **23px** |
+| Unidade "dias" | 11,5px na cor da legenda | 11,5px **na cor do número** |
+| Legenda | 10px / peso 400 / cinza | igual, inalterada |
+
+Suíte: **19 passos verdes**, com o passo 17 agora reprovando este defeito se
+ele voltar.
+
+## 33. O que a revisão confirmou nesta rodada
+
+| Item | Resultado |
+|---|---|
+| Delta de produção de `b5a45dc` | lido por inteiro; as mudanças extras do podcast são só comentários de numeração de teste |
+| Playbook em `e0f5bc2` × produção | **63 elementos iguais** em conteúdo, estilo computado e geometria, em desktop e 390px, depois do cache da fonte. A diferença do primeiro carregamento vem do `display: optional` do Inter e some no reload |
+| Produção e rollback | `Hb5TEUapVasyUCm9amGRnRzDyAhe`, Ready, Current, em `7ae962b` — reconfirmados |
+| Erro documental em 27.1 | corrigido, e a frase virou **regra** em vez de número fixo, que foi o que a deixou desatualizada por três rodadas |
+
+O novo candidato precisa manter os 63 elementos do playbook idênticos. O
+passo 5 da suíte continua medindo exatamente isso, nas mesmas duas larguras.
+
+**A validação da entrega real de eventos continua separada da preservação de
+código**, e segue NÃO VALIDADA — gates 12 a 18.
