@@ -744,3 +744,230 @@ menos de 320px decodificados. O último degrau não desce mais.
 | Alerta de ISR Writes | **Pendente** — origem diagnosticada, correção recomendada e não aplicada |
 | 7 páginas no design antigo | **Pendente** |
 | Migração | **NÃO APROVADA** pelo Flávio |
+
+---
+
+# Quarta rodada — inventário completo de integrações
+
+Levantado do código em `47a024a`, do histórico git e do PR #18. Nenhum token,
+chave ou dado pessoal aparece aqui. Nada foi alterado em produção, no GTM, em
+conta, credencial ou banco. Nenhum lead real foi enviado.
+
+**A regra que organiza tudo abaixo:** presença de env e de código **não é**
+entrega. A coluna de evidência separa o que eu medi do que só posso ler.
+
+## 21. Matriz de fluxos
+
+### 21.1 Conversão do site — `generate_lead`
+
+| | |
+|---|---|
+| **Origem** | `ciclo/Contato.tsx` (páginas refeitas) e `components/LeadForm.tsx` (4 páginas antigas) |
+| **Caminho** | `pushConversion('generate_lead')` → `lib/conversions.ts` → dataLayer → GTM |
+| **Servidor** | `POST /api/pipedrive` → `lib/pipedrive-server.ts` |
+| **Destinos** | GTM web `GTM-5NNPNZ` → GA4 `G-EY1FLE5C0J` e Google Ads `AW-975154282`; Pipedrive; Meta Pixel + CAPI; Supabase |
+| **Configuração** | `PIPEDRIVE_API_TOKEN`, `META_CAPI_TOKEN`, `META_PIXEL_ID`, `SUPABASE_*` |
+| **Preservado** | **Sim, medido.** Nome do evento e as 12 chaves do payload idênticos ao baseline |
+| **NÃO VALIDADO** | Se o hit chega ao GA4 e ao Meta; se o negócio é criado no funil certo |
+
+### 21.2 Pipedrive — funil, etapa e campos
+
+| Item | Valor no código | Arquivo |
+|---|---|---|
+| Funil padrão | por nome em `PIPEDRIVE_PIPELINE_NAME`, senão o que contém "entrada" | `lib/pipedrive-server.ts:113` |
+| Etapa | `PIPEDRIVE_STAGE_ID`, senão por `PIPEDRIVE_STAGE_NAME`, senão `/entrada/i` | `:79, :110, :122` |
+| Aplicação E-com Shift | `PIPELINE_ID` e `STAGE_ID` fixos no módulo | `api/aplicacao/route.ts:125` |
+| Playbook | hint por nome "Playbook" → primeira etapa do funil | `lib/pipedrive-server.ts:76` |
+| Campos de atribuição | 8 campos com chave de hash fixa: Origem, Mídia, Campanha, GA Client ID, GA Session ID, Landing Page, gclid, Atribuição extra (JSON) | `lib/pipedrive-fields.ts:25-32` |
+| Webhook | `POST /api/pipedrive/webhook`, Basic auth com `PIPEDRIVE_WEBHOOK_SECRET` ou `?secret=`; aceita payload v1 e v2 | `api/pipedrive/webhook/route.ts:16-19` |
+
+**Preservado:** todos esses arquivos estão **idênticos** a `7ae962b`.
+**NÃO VALIDADO:** se as chaves de campo ainda correspondem aos campos da
+conta, se o webhook está cadastrado e apontando para o domínio certo, e se
+os ids de funil e etapa da Aplicação continuam válidos.
+
+### 21.3 GA4 — dois caminhos distintos
+
+**Caminho A, navegador:** `generate_lead`, `playbook_form_submit`,
+`consultoria_ecom_shift_lead`, `begin_checkout`, os eventos de etapa do
+link-bio e da aplicação, e os três do popup. Vão ao dataLayer e dependem do
+container para virar hit.
+
+**Caminho B, servidor, pelo Measurement Protocol:** `qualify_lead` e
+`close_convert_lead`, disparados pelo **webhook do Pipedrive**, não pelo
+site. Regra em `lib/ga4-lead-events.ts`:
+
+| Funil | `qualify_lead` | `close_convert_lead` |
+|---|---|---|
+| 2 — Site/Whats | etapa 11, "Lead Qualificado" | negócio ganho |
+| 13 — Playbooks | etapa 96, "SQL / Oportunidade" | negócio ganho |
+
+- Pular a etapa também dispara; negócio ganho sem `qualify_lead` prévio
+  recebe os dois.
+- `client_id` e `session_id` saem de campos do próprio negócio
+  (`ga_client_id`, `ga_session_id`); sem `client_id` real usa um de
+  fallback, e aí **não** envia `session_id`.
+- Idempotente por (negócio, evento) na tabela `conversion_events`,
+  plataforma `ga4`.
+- Override sem deploy por `GA4_LEAD_QUALIFY_STAGES="2:11,13:96"`.
+- Origem: PR **#18** `feat/ga4-lead-events`, merge `54a2dea`, commits
+  `9e65c96` e `927fdf2`.
+
+**Sobre o que você viu no painel:** `generate_lead`, `playbook_form_submit` e
+`qualify_lead` com atividade nos últimos 28 dias, e `close_convert_lead` e
+`consultoria_ecom_shift_lead` sem streaming. **Isso é consistente com o
+código e não indica regressão:**
+
+- `close_convert_lead` só dispara quando um negócio é **marcado como ganho**
+  nos funis 2 ou 13. Sem ganho no período, não há evento.
+- `consultoria_ecom_shift_lead` só existe em `/aplicacao`, que é página
+  `noindex` de campanha. Sem envio no período, não há evento.
+
+Nenhum dos dois depende do redesign: `/aplicacao` ainda está no design
+antigo e o webhook não foi tocado.
+
+### 21.4 Meta — Pixel e CAPI
+
+| | |
+|---|---|
+| Dedup | O `event_id` do CAPI é **o mesmo** que o Pixel usa no navegador — `lib/meta-capi.ts:4` |
+| Dados pessoais | normalizados e hasheados em SHA-256 antes de sair: e-mail, telefone, nome, sobrenome, cidade, estado, país, `external_id` |
+| Cookies | `fbp` e `fbc` enviados sem hash, como manda a API |
+| E-mail interno | `isInternalEmail` descarta envio, por `INTERNAL_EMAIL_DOMAINS` |
+| Eventos de funil | por mudança de etapa, via webhook: `Schedule`, `MeetingHeld`, `QualifiedLead`, `Opportunity`, `ProposalSent` — `lib/pipedrive-funnel-events.ts:18-22` |
+| Idempotência | `conversionAlreadySent('meta', evento, dealId)` |
+
+**Preservado:** arquivos idênticos à base.
+**NÃO VALIDADO:** se a deduplicação funciona de fato no Gerenciador de
+Eventos, e se o `test_event_code` está ou não ligado em produção.
+
+### 21.5 Atribuição
+
+| Item | Comportamento | Arquivo |
+|---|---|---|
+| Primeiro toque | cookie próprio `ciclo_attr`, 90 dias, **só grava se ainda não existir** | `lib/attribution.ts:71, :100` |
+| Precedência da origem | utm_source → gclid (google/cpc) → fbclid (facebook/paid_social) → referrer → (direct)/(none) | `:47-52` |
+| Campos | source, medium, campaign, term, content, gclid, fbclid, landing_page, first_visit | `:88-96` |
+| Último toque | lido do cookie do GA4 no momento do envio | `:1-2` |
+| `_fbc` | lido do cookie; se não houver mas existir `fbclid`, montado no formato oficial `fb.1.<ts>.<fbclid>` | `:168-169` |
+| `_fbp` | lido do cookie do Pixel | `:28` |
+| LinkedIn | detecta `utm_source` linkedin ou `li_fat_id` | `:108` |
+
+**Preservado:** idêntico à base, e o payload com `attribution` foi medido nos
+quatro formulários.
+
+### 21.6 Supabase
+
+| Item | Detalhe |
+|---|---|
+| Acesso | PostgREST puro, sem SDK — `lib/supabase-server.ts:1` |
+| Operações | `upsertVisitor`, `insertEvent`, e registro em `conversion_events` |
+| Idempotência | consulta por `platform + event_name + deal_id + status=sent` antes de enviar — `:157` |
+| Erros | capturados e logados, **não derrubam o fluxo** — `:95, :120` |
+| Tipos de evento | `page_view`, `form_submit`, `material_download`, `popup_view`, `popup_click` |
+
+**NÃO VALIDADO:** se as tabelas existem com esse formato na instância atual.
+
+### 21.7 reCAPTCHA — achado
+
+`/api/verify-recaptcha` existe e valida com limiar de score 0,5
+(`route.ts:16`). `RecaptchaProvider` envolve **apenas a home**
+(`src/app/page.tsx`).
+
+**Nenhum formulário do site chama `executeRecaptcha` nem posta para
+`/api/verify-recaptcha`.** Busquei em todo o `src/`: as únicas ocorrências
+estão no próprio provider e na própria rota.
+
+**Ou seja: o reCAPTCHA é carregado, mas não protege formulário nenhum.**
+Isso é dívida herdada, idêntica em `7ae962b` — não foi o redesign. Vale
+decidir: ligar de verdade, ou remover o provider e a chave pública para
+parar de carregar script e de criar superfície de consentimento à toa.
+
+### 21.8 Demais fluxos
+
+| Fluxo | Eventos | Servidor | Observação |
+|---|---|---|---|
+| `/link-bio` | `link_bio_step_view`, `link_bio_step_complete`, `generate_lead` | `POST /api/link-bio` por etapa, com `complete` e cookie assinado `ciclo_lb` | Lead parcial vira negócio desde a 1ª etapa |
+| `/aplicacao` | 8 `step_view`, 7 `step_complete`, `consultoria_ecom_shift_lead` | `POST /api/aplicacao`, funil e etapa fixos, cookie `ciclo_apl` | Reenvio com mesmo `event_id` devolve `duplicate: true` e não conta duas vezes |
+| `/obrigado` | **nenhum** | — | Página estática. A conversão é disparada **antes** do redirecionamento, por `waitForTags` |
+| Playbook | `playbook_form_submit` | `POST /api/pipedrive` com `pipeline` | Congelado |
+| Popup do playbook | `playbook_popup_view`, `_click`, `_dismiss` | `/api/track` | Só nas rotas do blog |
+| Cron | — | `GET /api/cron/site-digest`, Bearer `CRON_SECRET`, 0 12 * * * UTC | Resumo de navegação vira Note na pessoa e no negócio aberto |
+| LinkedIn | — | `/api/auth/linkedin/*`, atrás de `NEXT_PUBLIC_LINKEDIN_ENABLED` | Desligado por padrão |
+| WhatsApp | — | — | **Nenhum link `wa.me` ou `api.whatsapp.com` no código.** O nome aparece como canal no conteúdo e como campo de formulário, não como integração |
+
+## 22. GTM: dois containers
+
+| Container | Onde aparece |
+|---|---|
+| `GTM-5NNPNZ`, web | `src/app/layout.tsx`, em código |
+| **`GTM-M4K3G2GK`, servidor** | **Não existe no repositório.** Busquei o id em todo o `src/` — zero ocorrência |
+
+O container de servidor, se estiver em uso, está configurado **fora do
+código**: ou o container web envia para ele por um endpoint próprio, ou ele
+recebe de outra origem. **NÃO VERIFICÁVEL daqui.** Precisa de leitura do
+container web para saber se há tag apontando para o endpoint do servidor, e
+qual domínio ele usa.
+
+Isso importa para o redesign por um motivo prático: se o container de
+servidor faz a deduplicação do Meta ou o encaminhamento ao GA4, a conferência
+dos gatilhos precisa cobrir os dois, não só o web.
+
+## 23. O que eu ainda não consigo provar
+
+| # | Afirmação que **não** posso fazer | Por quê |
+|---|---|---|
+| 1 | "O `generate_lead` chega ao GA4" | O hit depende do container; o Preview não dá leitura do painel |
+| 2 | "A dedup Pixel/CAPI funciona" | Precisa do Gerenciador de Eventos com dois envios do mesmo `event_id` |
+| 3 | "O negócio entra no funil e etapa certos" | Precisa de credencial do Pipedrive, ausente no Preview |
+| 4 | "As 8 chaves de campo ainda existem na conta" | Mesma razão |
+| 5 | "O webhook está cadastrado e autenticando" | Configuração vive no Pipedrive |
+| 6 | "As tabelas do Supabase têm o formato esperado" | Sem credencial no Preview |
+| 7 | "`qualify_lead` e `close_convert_lead` disparam hoje" | Dependem de mudança de etapa e de ganho reais |
+| 8 | "Os gatilhos do GTM por seletor continuam casando" | A classe do `<form>` e as dos CTAs mudaram; a regra vive no container |
+| 9 | "O container de servidor está no caminho" | `GTM-M4K3G2GK` não existe no código |
+| 10 | "O Preview não polui os relatórios" | As tags carregam lá; o filtro por hostname é configuração do container |
+
+## 24. Teste controlado proposto — para executar depois da aprovação
+
+**Não executei nada disto.** É o roteiro que fecharia os dez itens acima.
+
+### Fase 1 — leitura, sem tocar em nada
+
+1. No GTM web `GTM-5NNPNZ`: listar os gatilhos, marcar os que usam seletor
+   CSS e conferir contra a tabela da seção 9.1. Verificar se existe tag
+   apontando para o container de servidor e qual domínio.
+2. No GTM servidor `GTM-M4K3G2GK`: identificar clientes e tags, e se ele
+   recebe do web.
+3. No Meta: confirmar se há `test_event_code` ativo e se a dedup por
+   `event_id` está configurada.
+4. No Pipedrive: confirmar que as 8 chaves de campo existem e que o webhook
+   aponta para `cicloecommerce.com.br`.
+
+### Fase 2 — um lead controlado, em produção, depois do merge
+
+Com o time avisado, janela combinada, e um e-mail interno em
+`INTERNAL_EMAIL_DOMAINS` **ou** fora dele, conforme o que se queira testar —
+e-mail interno faz o CAPI pular o envio de propósito.
+
+| Passo | O que conferir |
+|---|---|
+| 1 | Entrar por URL com UTM conhecida. Cookie `ciclo_attr` gravado com a origem certa |
+| 2 | Enviar o formulário da home. `generate_lead` no dataLayer com `event_id` |
+| 3 | Assistente de Tags do GTM: a tag do GA4 e a do Ads dispararam |
+| 4 | GA4 em tempo real: `generate_lead` com os parâmetros |
+| 5 | Gerenciador de Eventos da Meta: `Lead` do navegador e do servidor, **deduplicados pelo mesmo `event_id`** |
+| 6 | Pipedrive: negócio no funil 2, etapa de entrada, com os 8 campos preenchidos |
+| 7 | Supabase: linha em `conversion_events` e o visitante |
+| 8 | Mover o negócio para a etapa 11: `qualify_lead` no GA4 e `QualifiedLead` na Meta |
+| 9 | Marcar como ganho: `close_convert_lead` no GA4 |
+| 10 | Mover de novo para a mesma etapa: **nada é reenviado** — prova a idempotência |
+
+### Fase 3 — limpeza
+
+Arquivar o negócio de teste e registrar no relatório qual `event_id` e qual
+`deal_id` foram usados, para rastrear depois.
+
+**Custo:** um negócio de teste no CRM e alguns hits nos relatórios. É o
+preço mínimo para fechar os dez itens, e não existe caminho que os feche
+sem tocar em produção.
