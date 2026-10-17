@@ -4,14 +4,7 @@ import { useEffect, useState, useCallback, useRef } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { X } from 'lucide-react'
-import { Playfair_Display } from 'next/font/google'
 import { track } from '@/lib/track'
-
-const playfair = Playfair_Display({
-  subsets: ['latin'],
-  variable: '--font-playfair',
-  display: 'swap',
-})
 
 const STORAGE_KEY = 'ciclo-playbook-popup-dismissed-at'
 const COOLDOWN_DAYS = 7
@@ -89,7 +82,7 @@ export default function PlaybookPopup() {
 
   return (
     <div
-      className={`${playfair.variable} lp-playbook fixed inset-0 z-[100] flex items-center justify-center p-4`}
+      className="fixed inset-0 z-[100] flex items-center justify-center p-4"
       role="dialog"
       aria-modal="true"
       aria-label="Playbook gratuito de Social Commerce"
@@ -130,7 +123,7 @@ export default function PlaybookPopup() {
             <p className="text-[10px] font-semibold tracking-[0.22em] uppercase text-[#C0564A] mb-2.5">
               Playbook gratuito · 2026
             </p>
-            <p className="font-serif-lp text-2xl sm:text-[1.7rem] leading-tight mb-2.5">
+            <p className="text-2xl sm:text-[1.7rem] font-medium tracking-[-0.02em] leading-tight mb-2.5">
               Social Commerce: a nova era do e-commerce.
             </p>
             <p className="text-sm text-[#6E6A60] leading-relaxed mb-5">

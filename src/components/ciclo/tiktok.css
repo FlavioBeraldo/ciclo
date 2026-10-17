@@ -1,0 +1,269 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   /tiktok-shop — design 2026
+   Escrito já dentro do escopo `.ciclo2026`, como o resto do redesign.
+   Só Inter, neutros #1d1d1b / #efeeed / #ffffff e o roxo #933dc9 de acento.
+   Nada de neon, gradiente multicolorido ou logo de terceiro.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Números da abertura ─────────────────────────────────────────────────── */
+.ciclo2026 .tts-hero-numeros {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 56px;
+  border-top: 1px solid var(--line);
+  margin-top: 44px;
+  padding-top: 28px;
+}
+.ciclo2026 .tts-hero-numeros strong {
+  display: block;
+  font-size: clamp(30px, 3vw, 44px);
+  font-weight: 400;
+  letter-spacing: -.05em;
+  line-height: 1.1;
+}
+.ciclo2026 .tts-hero-numeros span {
+  display: block;
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 8px;
+}
+
+/* ── Pilares da plataforma ───────────────────────────────────────────────── */
+.ciclo2026 .tts-pilares {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0 48px;
+}
+.ciclo2026 .tts-pilares > div {
+  border-top: 1px solid var(--line);
+  padding-top: 24px;
+}
+.ciclo2026 .tts-pilares h3 { font-size: 20px; margin-bottom: 12px; }
+.ciclo2026 .tts-pilares p { font-size: 14px; color: var(--muted); line-height: 1.7; margin: 0; }
+
+/* ── O mapa das quatro frentes ───────────────────────────────────────────── */
+.ciclo2026 .tts-frentes-lead {
+  font-size: 15px;
+  color: var(--muted);
+  max-width: 640px;
+  margin: 18px 0 0;
+}
+.ciclo2026 .tts-mapa {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr minmax(180px, 230px) 1fr;
+  grid-template-rows: auto auto;
+  gap: 28px 34px;
+  align-items: start;
+}
+.ciclo2026 .tts-tracos {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+.ciclo2026 .tts-tracos line {
+  stroke: #cfc8d6;
+  stroke-width: 1;
+  stroke-dasharray: 3 5;
+  vector-effect: non-scaling-stroke;
+}
+.ciclo2026 .tts-nucleo {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  align-self: center;
+  position: relative;
+  z-index: 1;
+  aspect-ratio: 1;
+  display: grid;
+  place-content: center;
+  text-align: center;
+  padding: 20px;
+  border: 1px solid #c9bcd2;
+  border-radius: 50%;
+  background: radial-gradient(circle, #faf5fc 0%, #ffffff 72%);
+}
+.ciclo2026 .tts-nucleo span {
+  display: block;
+  font-size: 10px;
+  letter-spacing: .06em;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+.ciclo2026 .tts-nucleo strong {
+  display: block;
+  font-size: 23px;
+  font-weight: 500;
+  letter-spacing: -.04em;
+  line-height: 1.2;
+}
+.ciclo2026 .tts-frente {
+  position: relative;
+  z-index: 1;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 26px;
+}
+.ciclo2026 .tts-afiliacao-creators { grid-column: 1; grid-row: 1; }
+.ciclo2026 .tts-operacao-da-loja   { grid-column: 3; grid-row: 1; }
+.ciclo2026 .tts-conteudo-e-lives   { grid-column: 1; grid-row: 2; }
+.ciclo2026 .tts-midia              { grid-column: 3; grid-row: 2; }
+
+.ciclo2026 .tts-frente-topo {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+.ciclo2026 .tts-numero { font-size: 10px; color: #97938d; }
+.ciclo2026 .tts-frente h3 { font-size: 21px; margin: 0; }
+.ciclo2026 .tts-servico + .tts-servico {
+  border-top: 1px solid #ece8e2;
+  margin-top: 22px;
+  padding-top: 22px;
+}
+.ciclo2026 .tts-servico h4 {
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: -.02em;
+  margin: 0 0 10px;
+}
+.ciclo2026 .tts-frente p {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.75;
+  margin: 0 0 20px;
+}
+.ciclo2026 .tts-entregaveis {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+.ciclo2026 .tts-entregaveis li {
+  font-size: 11px;
+  line-height: 1.4;
+  color: #5e5b55;
+  border: 1px solid #ded9d2;
+  border-radius: 6px;
+  padding: 6px 10px;
+}
+
+/* ── Conversão: barras e jornada ─────────────────────────────────────────── */
+.ciclo2026 .tts-conversao { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; }
+.ciclo2026 .tts-barras { margin-top: 28px; display: grid; gap: 22px; }
+.ciclo2026 .tts-barra-topo {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  font-size: 12px;
+  margin-bottom: 9px;
+}
+.ciclo2026 .tts-barra-topo b { font-weight: 500; }
+.ciclo2026 .tts-barra-trilho {
+  height: 8px;
+  border-radius: 4px;
+  background: #e7e3dd;
+  overflow: hidden;
+}
+.ciclo2026 .tts-barra-valor { height: 100%; border-radius: 4px; background: var(--accent); }
+.ciclo2026 .tts-barra-valor.fraca { background: #b9b3ab; }
+
+.ciclo2026 .tts-jornada { list-style: none; padding: 0; margin: 0; }
+.ciclo2026 .tts-jornada li {
+  display: grid;
+  grid-template-columns: 38px 1fr;
+  gap: 16px;
+  align-items: center;
+  border-top: 1px solid var(--line);
+  padding: 18px 0;
+  font-size: 14px;
+}
+.ciclo2026 .tts-jornada li:last-child { border-bottom: 1px solid var(--line); font-weight: 500; }
+.ciclo2026 .tts-jornada small { font-size: 11px; color: var(--muted); }
+
+/* ── Big numbers, no escuro ──────────────────────────────────────────────── */
+.ciclo2026 .tts-numeros-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px 48px; }
+.ciclo2026 .tts-numeros-grid > div { border-top: 1px solid #484743; padding-top: 24px; }
+.ciclo2026 .tts-numeros-grid .destaque { grid-column: 1 / -1; }
+.ciclo2026 .tts-numeros-grid strong {
+  display: block;
+  font-size: clamp(34px, 3.4vw, 56px);
+  font-weight: 400;
+  letter-spacing: -.05em;
+  line-height: 1.1;
+}
+.ciclo2026 .tts-numeros-grid p { font-size: 13px; color: #aaa8a3; margin: 14px 0 0; max-width: 300px; }
+.ciclo2026 .tts-numeros-grid em { font-style: normal; display: block; font-size: 11px; color: #8e8a85; margin-top: 8px; }
+.ciclo2026 .tts-nota {
+  border-top: 1px solid #484743;
+  margin-top: 44px;
+  padding-top: 28px;
+  max-width: 720px;
+}
+.ciclo2026 .tts-nota h3 { font-size: 22px; margin: 0 0 12px; }
+.ciclo2026 .tts-nota p { font-size: 14px; color: #aaa8a3; margin: 0; }
+
+/* ── Roadmap ─────────────────────────────────────────────────────────────── */
+.ciclo2026 .tts-roadmap { list-style: none; padding: 0; margin: 0; }
+.ciclo2026 .tts-roadmap li {
+  display: grid;
+  grid-template-columns: 46px 1fr;
+  gap: 22px;
+  border-top: 1px solid var(--line);
+  padding: 28px 0;
+}
+.ciclo2026 .tts-roadmap h3 { margin: 0 0 12px; }
+.ciclo2026 .tts-roadmap p { font-size: 14px; color: var(--muted); margin: 0; }
+.ciclo2026 .tts-roadmap .tts-entregaveis { margin-top: 2px; }
+
+/* ── Chamada final ───────────────────────────────────────────────────────── */
+.ciclo2026 .tts-cta { background: var(--paper); border-radius: 16px; padding: 44px; text-align: center; }
+.ciclo2026 .tts-cta .eyebrow { justify-content: center; margin-bottom: 18px; }
+.ciclo2026 .tts-cta h2 { margin: 0 auto 16px; max-width: 640px; }
+.ciclo2026 .tts-cta p { font-size: 15px; color: var(--muted); max-width: 620px; margin: 0 auto 28px; }
+
+/* ── Celular: tudo empilhado, sem traço e sem texto miúdo ────────────────── */
+@media (max-width: 980px) {
+  .ciclo2026 .tts-conversao { grid-template-columns: 1fr; gap: 40px; }
+  .ciclo2026 .tts-pilares { grid-template-columns: 1fr; gap: 0; }
+  .ciclo2026 .tts-pilares > div { padding: 22px 0; }
+}
+@media (max-width: 860px) {
+  /* O mapa vira uma lista: núcleo no topo, frentes em sequência */
+  .ciclo2026 .tts-mapa { grid-template-columns: 1fr; gap: 18px; }
+  .ciclo2026 .tts-tracos { display: none; }
+  .ciclo2026 .tts-nucleo {
+    grid-column: 1;
+    grid-row: auto;
+    aspect-ratio: auto;
+    border-radius: 14px;
+    padding: 22px;
+    margin-bottom: 6px;
+  }
+  .ciclo2026 .tts-afiliacao-creators,
+  .ciclo2026 .tts-operacao-da-loja,
+  .ciclo2026 .tts-conteudo-e-lives,
+  .ciclo2026 .tts-midia { grid-column: 1; grid-row: auto; }
+  .ciclo2026 .tts-numeros-grid { grid-template-columns: 1fr; gap: 0; }
+  .ciclo2026 .tts-numeros-grid > div { padding: 24px 0; }
+  .ciclo2026 .tts-hero-numeros { gap: 0 34px; }
+  .ciclo2026 .tts-cta { padding: 30px 22px; }
+}
+@media (max-width: 560px) {
+  .ciclo2026 .tts-hero-numeros { display: grid; grid-template-columns: 1fr; gap: 0; }
+  .ciclo2026 .tts-hero-numeros > div { border-top: 1px solid var(--line); padding: 16px 0; }
+  .ciclo2026 .tts-hero-numeros > div:first-child { border-top: 0; padding-top: 0; }
+  .ciclo2026 .tts-frente { padding: 22px; }
+  .ciclo2026 .tts-roadmap li { grid-template-columns: 34px 1fr; gap: 14px; }
+}
+
+/* Nada abaixo de 11px no celular: os rótulos de 10px do diagrama sobem */
+@media (max-width: 860px) {
+  .ciclo2026 .tts-numero,
+  .ciclo2026 .tts-nucleo span { font-size: 11px; }
+}

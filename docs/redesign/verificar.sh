@@ -95,6 +95,11 @@ fi
 
 # ── 3. Build ────────────────────────────────────────────────────────────────
 titulo "3. Build"
+# O servidor de uma rodada anterior grava imagens otimizadas em
+# .next/standalone/.next/cache, e o postbuild tropeça nisso com ENOTEMPTY.
+# Derruba o servidor e limpa a saída antes de compilar.
+pkill -f "next-server" 2>/dev/null; sleep 2
+rm -rf .next/standalone
 if NEXT_PUBLIC_LINKEDIN_ENABLED=1 npm run build > "$TMP/build.log" 2>&1; then
   ok "build verde ($(grep -oE 'Generating static pages using [0-9]+ workers \(0/[0-9]+\)' "$TMP/build.log" | grep -oE '[0-9]+\)$' | tr -d ')' | tail -1) páginas)"
 else
@@ -197,6 +202,18 @@ if RAIZ_CICLO="$RAIZ" node --experimental-strip-types --no-warnings \
 else
   falha "problema nas rotas encerradas:"; grep FALHA "$TMP/encerrados.log" | head -10
 fi
+
+# ── 12. /tiktok-shop ────────────────────────────────────────────────────────
+titulo "12. TikTok Shop"
+cd "$TMP"
+cp "$DOCS/tiktok-shop.mjs" .
+if RAIZ_CICLO="$RAIZ" node --experimental-strip-types --no-warnings \
+     tiktok-shop.mjs "$BASE" > "$TMP/tts.log" 2>&1; then
+  ok "$(tail -1 "$TMP/tts.log")"
+else
+  falha "problema em /tiktok-shop:"; grep FALHA "$TMP/tts.log" | head -10
+fi
+cd "$RAIZ"
 
 pkill -f "next-server" 2>/dev/null
 printf "\n%s\n" "────────────────────────────────"

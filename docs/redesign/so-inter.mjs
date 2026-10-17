@@ -78,6 +78,64 @@ for (const rota of ROTAS) {
   await ctx.close()
 }
 
+// ── O popup do playbook, que aparece sobre as rotas do blog ────────────────
+//
+// Ele é montado no layout do blog, FORA do escopo `.ciclo2026`, então não
+// entra na varredura acima. Aparece depois de 10 segundos, por isso o teste
+// espera. A página /playbook-social-commerce é outra rota, está congelada e
+// continua com a Playfair dela — aqui só se olha o popup.
+{
+  const ctx = await navegador.newContext({ viewport: { width: 1440, height: 1000 } })
+  await ctx.route('**/*', (r) =>
+    r.request().url().startsWith(BASE) || r.request().url().startsWith('data:')
+      ? r.continue()
+      : r.abort()
+  )
+  const p = await ctx.newPage()
+  await p.goto(BASE + '/blog', { waitUntil: 'load' })
+  await p.evaluate(() => {
+    try {
+      localStorage.removeItem('ciclo-playbook-popup-dismissed-at')
+    } catch {
+      /* sem armazenamento, o popup aparece do mesmo jeito */
+    }
+  })
+  await p.reload({ waitUntil: 'load' })
+
+  const dialogo = p.locator('[role="dialog"][aria-label="Playbook gratuito de Social Commerce"]')
+  let apareceu = true
+  try {
+    await dialogo.waitFor({ state: 'visible', timeout: 15000 })
+  } catch {
+    apareceu = false
+  }
+
+  if (!apareceu) {
+    console.log('  nota  popup do playbook não apareceu em 15s; nada a conferir nesta rodada')
+  } else {
+    const fora = await dialogo.evaluate((raiz) => {
+      const ruins = []
+      for (const el of raiz.querySelectorAll('*')) {
+        const temTexto = [...el.childNodes].some(
+          (n) => n.nodeType === 3 && n.textContent.trim().length > 0
+        )
+        if (!temTexto) continue
+        const f = getComputedStyle(el).fontFamily.split(',')[0].trim().replace(/^["']|["']$/g, '')
+        if (!/^inter$/i.test(f)) ruins.push({ familia: f, txt: el.textContent.trim().slice(0, 44) })
+      }
+      return ruins
+    })
+    if (fora.length) {
+      falhas += fora.length
+      console.log(`  FALHA popup do playbook — ${fora.length} elemento(s) fora da Inter`)
+      for (const a of fora.slice(0, 4)) console.log('        ' + JSON.stringify(a))
+    } else {
+      console.log('  ok    popup do playbook sobre /blog, só com Inter')
+    }
+  }
+  await ctx.close()
+}
+
 await navegador.close()
-console.log(falhas ? `\n${falhas} FALHA(S)` : `\nTUDO OK — ${ROTAS.length} rotas só com Inter`)
+console.log(falhas ? `\n${falhas} FALHA(S)` : `\nTUDO OK — ${ROTAS.length} rotas e o popup do blog, só com Inter`)
 process.exit(falhas ? 1 : 0)
