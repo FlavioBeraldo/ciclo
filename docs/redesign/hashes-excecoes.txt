@@ -9,6 +9,6 @@
 #
 src/lib/servicos.ts    Dois serviços encerrados em 17/10/2026 e a página /servicos/agencia-ugc criada a pedido do Flávio
 src/lib/solucoes.ts    Os dois encerrados saíram de Inteligência & Operação, com o FAQ absorvendo o conteúdo, e a UGC entrou em Geração de Demanda
-src/lib/youtube.ts    Fallback do podcast deixou de ser depoimento de cliente reetiquetado e passou a ler o snapshot real de src/data/youtube-videos.json
-src/lib/youtube-server.ts    Arquivo novo: busca dos episódios no servidor, para o HTML sair com episódio real em vez do fallback
+src/lib/youtube.ts    Fallback do podcast deixou de ser depoimento de cliente reetiquetado e passou a ler o snapshot real de src/data/episodios-fator-m.ts
+src/lib/youtube-server.ts    Arquivo novo: busca dos episódios no servidor, com tempo limite de 3500ms por chamada, para o HTML sair com episódio real sem segurar a renderização
 src/app/api/youtube/latest/route.ts    Mesma resposta e mesmo cache; a regra de busca saiu daqui para lib/youtube-server e a rota passou a usá-la

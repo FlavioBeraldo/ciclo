@@ -9,12 +9,24 @@ import { EPISODIOS_SNAPSHOT, type YouTubeVideo } from './youtube'
 // servidor e o HTML já sai com episódio de verdade; a rota continua existindo
 // e usa exatamente esta mesma função, para não haver duas versões da regra.
 
-const API_KEY = process.env.YOUTUBE_API_KEY
-const CHANNEL_HANDLE = process.env.YOUTUBE_CHANNEL_HANDLE || '@ofatorm'
+// Lidas por chamada, não no carregamento do módulo: assim o teste consegue
+// exercitar "sem chave" e "com chave" sem recarregar nada.
+const chave = () => process.env.YOUTUBE_API_KEY
+const canal = () => process.env.YOUTUBE_CHANNEL_HANDLE || '@ofatorm'
 
 // Mesma janela de cache de sempre. A home revalida a cada 900s e consulta o
 // cache de dados do Next; não há mais uma chamada por visitante.
 const CACHE = { next: { revalidate: 600 } } as const
+
+// Tempo limite por chamada.
+//
+// Isto existe porque a busca agora roda DENTRO da renderização da página: sem
+// limite, uma API do YouTube lenta seguraria a regeneração da home até o
+// tempo limite da plataforma. Com limite, ela desiste rápido e cai para o
+// snapshot — o visitante vê episódio real de qualquer jeito.
+//
+// São três chamadas em série, então o pior caso é ~3× este valor.
+const TEMPO_LIMITE_MS = 3500
 
 /** De onde veio a lista que está na tela. */
 export type OrigemEpisodios =
@@ -37,7 +49,10 @@ function segundos(iso: string): number {
 }
 
 async function pedir(url: string, oque: string) {
-  const r = await fetch(url, CACHE)
+  // `signal` desliga a memoização do fetch do Next (dedup dentro de um mesmo
+  // render), não o cache de dados. Aqui as três URLs são diferentes, então a
+  // memoização não fazia diferença.
+  const r = await fetch(url, { ...CACHE, signal: AbortSignal.timeout(TEMPO_LIMITE_MS) })
   if (!r.ok) {
     // 403 costuma ser cota estourada ou chave sem permissão; o motivo entra
     // no log para a falha não virar "sumiu o podcast" sem explicação.
@@ -47,13 +62,14 @@ async function pedir(url: string, oque: string) {
 }
 
 async function daApi(): Promise<YouTubeVideo[]> {
+  const API_KEY = chave()
   if (!API_KEY) throw new Error('YOUTUBE_API_KEY ausente')
 
-  const canal = await pedir(
-    `https://www.googleapis.com/youtube/v3/channels?part=contentDetails&forHandle=${CHANNEL_HANDLE}&key=${API_KEY}`,
+  const dadosDoCanal = await pedir(
+    `https://www.googleapis.com/youtube/v3/channels?part=contentDetails&forHandle=${canal()}&key=${API_KEY}`,
     'canal'
   )
-  const uploads = canal.items?.[0]?.contentDetails?.relatedPlaylists?.uploads
+  const uploads = dadosDoCanal.items?.[0]?.contentDetails?.relatedPlaylists?.uploads
   if (!uploads) throw new Error('playlist de uploads não encontrada')
 
   // Pede mais do que precisa porque os Shorts são descartados depois.
@@ -106,13 +122,17 @@ async function daApi(): Promise<YouTubeVideo[]> {
  * porque a função é chamada durante a renderização da página — uma exceção
  * aqui derrubaria a home inteira.
  */
-export async function buscarEpisodios(): Promise<Episodios> {
+export async function buscarEpisodios(
+  // O snapshot entra por parâmetro só para o teste conseguir exercitar o caso
+  // "sem snapshot nenhum". Em produção ninguém passa nada.
+  snapshot: YouTubeVideo[] = EPISODIOS_SNAPSHOT
+): Promise<Episodios> {
   try {
     return { lista: await daApi(), origem: 'api' }
   } catch (err) {
     console.warn('[youtube] usando snapshot:', err instanceof Error ? err.message : err)
-    return EPISODIOS_SNAPSHOT.length
-      ? { lista: EPISODIOS_SNAPSHOT, origem: 'snapshot' }
+    return snapshot.length
+      ? { lista: snapshot, origem: 'snapshot' }
       : { lista: [], origem: 'vazio' }
   }
 }

@@ -98,6 +98,12 @@ export default function CicloFooter() {
             CNPJ: 23.757.895/0001-09 · Ciclo - Assessoria de Marketing e Inteligencia Digital
             Para E-Commerce LTDA
           </span>
+          {/* O rodapé do kit não trazia a política. Ela entra aqui, na faixa
+              legal, para ficar a um clique de qualquer página — até então só
+              era alcançável pelo mapa do site e pelo aceite dos formulários. */}
+          <span>
+            <Link href="/politica-de-privacidade">Política de Privacidade</Link>
+          </span>
         </div>
       </div>
     </footer>

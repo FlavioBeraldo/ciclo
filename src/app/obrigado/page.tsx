@@ -23,10 +23,14 @@ const NUMEROS = [
   { valor: '-35%', rotulo: 'de CAC em média' },
 ]
 
+// A faixa de números logo acima já traz "+300 marcas atendidas" e
+// "+R$ 350MM em receita gerada". Repetir os dois aqui, dois blocos depois,
+// era contagem dupla do mesmo indicador — ficaram só os dois fatos que não
+// aparecem em nenhum outro lugar da página. Nenhum número se perdeu: os
+// outros dois continuam na faixa, e o texto ao lado repete "mais de 300
+// marcas" por extenso.
 const MARCOS = [
   { valor: '2015', rotulo: 'Fundação da Ciclo' },
-  { valor: '+300', rotulo: 'Marcas atendidas' },
-  { valor: '+R$ 350MM', rotulo: 'Receita gerada' },
   { valor: '4', rotulo: 'Pilares do método' },
 ]
 
@@ -59,7 +63,11 @@ const PILARES: { titulo: string; desc: string; itens: ItemDePilar[] }[] = [
       { label: 'Meta Ads', href: '/servicos/meta-ads' },
       { label: 'Google Ads', href: '/servicos/google-ads' },
       { label: 'TikTok Ads', href: '/servicos/tiktok-ads' },
-      { label: 'Mercado Livre, Shopee e Amazon', href: '/servicos/mercado-livre-ads' },
+      // Três marketplaces, três páginas: o link único mandava os três para o
+      // Mercado Livre. Separados conforme a instrução do Flávio.
+      { label: 'Mercado Livre Ads', href: '/servicos/mercado-livre-ads' },
+      { label: 'Shopee Ads', href: '/servicos/shopee-ads' },
+      { label: 'Amazon Ads', href: '/servicos/amazon-ads' },
     ],
   },
   {

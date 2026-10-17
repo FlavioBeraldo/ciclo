@@ -14,16 +14,13 @@
 //      podcast (fora dela eles são legítimos: são os depoimentos mesmo);
 //   d) que /api/youtube/latest continua devolvendo o mesmo contrato.
 //
-// Uso:  node podcast.mjs [baseURL]
-
-import { readFileSync } from 'node:fs'
-import { fileURLToPath } from 'node:url'
-import { dirname, join } from 'node:path'
+// Uso:  node --experimental-strip-types podcast.mjs [baseURL]
 
 const BASE = process.argv[2] ?? 'http://127.0.0.1:3100'
-const RAIZ = join(dirname(fileURLToPath(import.meta.url)), '..', '..')
+const RAIZ = process.env.RAIZ_CICLO ?? '/home/user/ciclo'
 
-const snapshot = JSON.parse(readFileSync(join(RAIZ, 'src/data/youtube-videos.json'), 'utf8'))
+// O snapshot virou módulo TS; carrego com strip-types, como os outros testes.
+const { EPISODIOS: snapshot } = await import(`${RAIZ}/src/data/episodios-fator-m.ts`)
 
 // Os quatro que ESTAVAM no fallback, com o título inventado para cada um.
 const REETIQUETADOS = [

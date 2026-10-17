@@ -1,4 +1,7 @@
-import snapshot from '@/data/youtube-videos.json'
+// Importação RELATIVA de propósito: assim o teste do passo 17 consegue
+// carregar este módulo com `node --experimental-strip-types`, sem depender do
+// resolvedor de `@/` do Next.
+import { EPISODIOS } from '../data/episodios-fator-m'
 
 export const CANAL_URL = 'https://www.youtube.com/@ofatorm'
 
@@ -12,7 +15,7 @@ export interface YouTubeVideo {
 }
 
 // Último conjunto de episódios REAIS do canal @ofatorm, gravado em
-// `src/data/youtube-videos.json` por `scripts/fetch-youtube.js` antes do
+// `src/data/episodios-fator-m.ts` por `scripts/fetch-youtube.js` antes do
 // `next build`. É o que aparece quando a API do YouTube não responde.
 //
 // Antes daqui saíam quatro VÍDEOS DE DEPOIMENTO DE CLIENTE reetiquetados com
@@ -23,4 +26,4 @@ export interface YouTubeVideo {
 //
 // Se o snapshot estiver vazio, quem consome mostra o estado de indisponível
 // com link para o canal — nunca inventa, nunca reaproveita depoimento.
-export const EPISODIOS_SNAPSHOT: YouTubeVideo[] = snapshot
+export const EPISODIOS_SNAPSHOT: YouTubeVideo[] = EPISODIOS

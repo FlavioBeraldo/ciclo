@@ -223,7 +223,8 @@ cd "$RAIZ"
 
 # ── 13. Podcast: episódio real no HTML servido ──────────────────────────────
 titulo "13. Podcast"
-if node "$DOCS/podcast.mjs" "$BASE" > "$TMP/podcast.log" 2>&1; then
+if RAIZ_CICLO="$RAIZ" node --experimental-strip-types --no-warnings \
+     "$DOCS/podcast.mjs" "$BASE" > "$TMP/podcast.log" 2>&1; then
   ok "$(tail -1 "$TMP/podcast.log")"
 else
   falha "problema no podcast:"; grep FALHA "$TMP/podcast.log" | head -10
@@ -258,6 +259,18 @@ if node responsivo.mjs "$BASE" / /blog /ofatorm /ecomshift \
   ok "11 rotas sem estouro horizontal em 1440 e 390"
 else
   falha "estouro horizontal ou h1 fora do lugar:"; grep FALHA "$TMP/resp.log" | head -10
+fi
+cd "$RAIZ"
+
+# ── 17. Podcast no servidor: tempo limite, cota, sem chave, episódio novo ──
+titulo "17. Podcast no servidor"
+cd "$RAIZ"
+if RAIZ_CICLO="$RAIZ" node --experimental-strip-types --no-warnings \
+     --import ./docs/redesign/resolve-ts.mjs \
+     "$DOCS/podcast-servidor.mjs" > "$TMP/podsrv.log" 2>&1; then
+  ok "$(tail -1 "$TMP/podsrv.log")"
+else
+  falha "buscarEpisodios mudou de comportamento:"; grep FALHA "$TMP/podsrv.log" | head -10
 fi
 cd "$RAIZ"
 

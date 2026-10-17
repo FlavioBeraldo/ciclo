@@ -513,3 +513,7 @@
   flex-direction: column;
 }
 .ciclo2026 .application-page > main { flex: 1; }
+
+/* O link da política na faixa legal do rodapé */
+.ciclo2026 .footer-bottom a { text-decoration: underline; text-underline-offset: 3px; }
+.ciclo2026 .footer-bottom a:hover { color: #fff; }

@@ -1,11 +1,13 @@
-// Roda antes do `next build`. Grava em src/data/youtube-videos.json o último
+// Roda antes do `next build`. Grava em src/data/episodios-fator-m.ts o último
 // conjunto REAL de episódios de "O Fator M".
 //
 // Esse arquivo é o fallback do site: é o que aparece quando a API do YouTube
 // não responde em tempo de execução. Antes o passo existia mas ninguém lia o
 // resultado, e o fallback de verdade era uma lista fixa de vídeos de
 // depoimento de cliente reetiquetados como episódio. Agora src/lib/youtube.ts
-// lê este JSON, então o fallback é um retrato real do canal, do dia do build.
+// lê este módulo, então o fallback é um retrato real do canal, do dia do
+// build. É .ts e não .json para o teste do passo 17 conseguir importá-lo sem
+// o resolvedor do Next.
 //
 // O filtro aqui é O MESMO de src/lib/youtube-server.ts (nada abaixo de 300s,
 // nada marcado como short, nada vertical). Se divergirem, o fallback mostra
@@ -18,7 +20,7 @@ const { join } = require('path')
 
 const API_KEY = process.env.YOUTUBE_API_KEY
 const CHANNEL_HANDLE = process.env.YOUTUBE_CHANNEL_HANDLE || '@ofatorm'
-const OUT = join(__dirname, '..', 'src', 'data', 'youtube-videos.json')
+const OUT = join(__dirname, '..', 'src', 'data', 'episodios-fator-m.ts')
 
 function segundos(iso) {
   const m = iso.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/)
@@ -30,6 +32,39 @@ async function pedir(url, oque) {
   const r = await fetch(url)
   if (!r.ok) throw new Error(`${oque}: HTTP ${r.status}`)
   return r.json()
+}
+
+// Escreve o módulo com o mesmo formato que src/lib/youtube.ts espera.
+function moduloTs(episodios) {
+  const aspas = (v) => "'" + String(v).replace(/\\/g, '\\\\').replace(/'/g, "\\'") + "'"
+  const item = (e) =>
+    '  {\n' +
+    ['id', 'title', 'description', 'publishedAt', 'thumbnail', 'url']
+      .map((k) => `    ${k}: ${aspas(e[k] ?? '')},`)
+      .join('\n') +
+    '\n  },'
+  return [
+    '// GERADO POR scripts/fetch-youtube.js antes do `next build`. Não edite à mão:',
+    '// o próximo build sobrescreve.',
+    '//',
+    '// Último conjunto REAL de episódios de "O Fator M". É o que o site mostra',
+    '// quando a API do YouTube não responde. Era um arquivo .json; virou módulo',
+    '// para o teste do passo 17 conseguir importá-lo sem o resolvedor do Next.',
+    '',
+    'export interface EpisodioGravado {',
+    '  id: string',
+    '  title: string',
+    '  description: string',
+    '  publishedAt: string',
+    '  thumbnail: string',
+    '  url: string',
+    '}',
+    '',
+    'export const EPISODIOS: EpisodioGravado[] = [',
+    ...episodios.map(item),
+    ']',
+    '',
+  ].join('\n')
 }
 
 async function main() {
@@ -86,7 +121,7 @@ async function main() {
     // nada, e o site passaria a mostrar "indisponível" por causa do build.
     if (!episodios.length) throw new Error('nenhum episódio horizontal na resposta')
 
-    writeFileSync(OUT, JSON.stringify(episodios, null, 2) + '\n')
+    writeFileSync(OUT, moduloTs(episodios))
     console.log(`[youtube] snapshot atualizado com ${episodios.length} episódios.`)
   } catch (err) {
     console.warn('[youtube] falhou, mantendo o snapshot atual:', err.message)

@@ -1459,7 +1459,7 @@ Todas as rotas públicas estão no design 2026. Conferido arquivo por arquivo.
 
 | Verificação | Resultado |
 |---|---|
-| `verificar.sh comparar` | **16 passos, tudo verde** |
+| `verificar.sh comparar` | **17 passos, tudo verde** |
 | 1 · Camada protegida | 41 arquivos, nenhuma mudança não autorizada; 5 exceções registradas e impressas |
 | 2 · Typecheck e lint | typecheck limpo; lint sem erro novo |
 | 3 · Build | verde, 883 páginas |
@@ -1476,6 +1476,7 @@ Todas as rotas públicas estão no design 2026. Conferido arquivo por arquivo.
 | 14 · ECOM Shift | `begin_checkout` idêntico nos dois `placement`; vídeos no player interno |
 | 15 · Formulários em etapas | etapas, conversão, **idempotência** e `/obrigado` sem contagem dupla |
 | 16 · Responsivo | 11 rotas sem estouro horizontal em 1440 e 390 |
+| 17 · Podcast no servidor | API, episódio novo, **tempo limite medido em 3501ms**, cota, sem chave, só Shorts e sem snapshot |
 | Crawl | **0 destinos quebrados, 0 âncoras sem alvo** (eram 3) |
 | Diff protegido vs produção | só os 5 arquivos autorizados |
 | `content/` vs produção | **sem diferença** — nenhum artigo novo a preservar |
@@ -1485,25 +1486,47 @@ Nos passos 14 e 15 a rede fica interceptada e `/api/*` é respondida por mock:
 
 ### 27.4 Gates
 
-**Aprovados:**
+**Aprovados — o que eu consigo provar daqui:**
 
 | # | Gate | Como foi fechado |
 |---|---|---|
 | 1 | Produção não avançou | `git rev-parse origin/claude/elegant-darwin-HVyvT` = `7ae962b`, igual à base |
-| 2 | Suíte verde no SHA exato | 16 passos |
+| 2 | Suíte verde no SHA exato | 17 passos |
 | 3 | Crawl sem destino quebrado | 0 quebrados, 0 âncoras órfãs |
-| 4 | 7 páginas pendentes refeitas | todas, mais a limpeza dos órfãos |
+| 4 | 7 páginas pendentes refeitas | todas |
 | 5 | Gatilhos do GTM por seletor | resolvido pela leitura do container (26.1) |
-| 7 | Fallback do podcast honesto | seção 25 |
-| 10 | SHA final revisado e rollback pronto | 27.1 e 27.5 |
+| 7 | Fallback do podcast honesto, com tempo limite e teste determinístico | seções 25 e 27.8 |
+| 10 | Plano de rollback escrito, com a prova de **commit** feita | 27.5 — a prova de **deployment** não é minha |
 
-**Bloqueados, e não dependem de código:**
+**Bloqueados — nenhum depende de código:**
 
-| # | Gate | Quem destrava |
-|---|---|---|
-| 6 | `mamo.jpg` em resolução maior (hoje 399×501), ou aceite da pendência | arquivo do Flávio |
-| 8 | Isolamento do Preview nos relatórios, ou aceite do risco | alteração no container, **que eu não faço** |
-| 9 | Revisão técnica do SHA exato | a sua |
+| # | Gate | Estado | Quem destrava |
+|---|---|---|---|
+| 6 | `mamo.jpg` em resolução maior (hoje 399×501) | **estético, não crítico** | arquivo do Flávio |
+| 8 | Isolamento do Preview nos relatórios | risco demonstrado, efeito não medido | alteração no container, **que eu não faço** |
+| 9 | Revisão técnica independente do SHA exato | **pendente** | a sua. Este gate é só seu: nada que eu faça o fecha |
+| 11 | Rollback disponível na Vercel | **não verificado por mim** | leitura do painel — ver 27.5 |
+
+**NÃO VALIDADO — evidência de integração bloqueada.**
+
+Isto não é nota de rodapé: são gates abertos, e nenhum deles tem evidência
+hoje. **Nada abaixo foi provado para esta branch.** O que existe é o
+histórico da base `7ae962b` rodando em produção (26.4), que é linha de base,
+não validação.
+
+| # | O que precisa ser provado | Por que está bloqueado | Requisito concreto |
+|---|---|---|---|
+| 12 | `generate_lead` chega ao GA4 a partir desta branch | O hit depende do container e de credencial que o Preview não tem | Um envio real, com o Assistente de Tags aberto, no domínio de produção ou em ambiente dedicado |
+| 13 | Negócio criado no Pipedrive no funil e etapa certos | Sem token no Preview | `PIPEDRIVE_API_TOKEN` válido em ambiente de teste, ou envio em produção |
+| 14 | As 8 chaves de campo de atribuição existem na conta | Só sei que o código as usa | Leitura de campos personalizados na conta do Pipedrive |
+| 15 | `consultoria_ecom_shift_lead` chega ao GA4 | Nunca houve streaming desse evento (26) | Um envio real pela `/aplicacao` |
+| 16 | Dedup Pixel/CAPI pelo mesmo `event_id` | `events_received=1` diz que a Meta recebeu, não que casou | Gerenciador de Eventos aberto, com os dois envios do mesmo `event_id` |
+| 17 | Linha gravada no Supabase a partir desta branch | Sem credencial no Preview | Consulta a `conversion_events` depois do envio |
+| 18 | Webhook do Pipedrive processa, não só responde 200 | `HTTP 200` prova resposta, não processamento | Mudança de etapa real seguida de leitura de `conversion_events` |
+
+Os requisitos de identidade, janela e limpeza desse teste estão em 27.6.
+**Nenhum deles é desbloqueável por código, e eu não executo nenhum sem
+coordenação explícita.**
 
 ### 27.5 Rollback, revalidado hoje
 
@@ -1512,9 +1535,29 @@ Nos passos 14 e 15 a rede fica interceptada e `/api/*` é respondida por mock:
 | Versão de retorno | `7ae962bad1758ef0c77e775af6a683e7e5a0e280` |
 | Deployment a promover | `Hb5TEUapVasyUCm9amGRnRzDyAhe` · `ciclo-dl2o-93six9eyy` |
 | Como | **Promote** no painel da Vercel: imediato, sem build |
-| Disponibilidade | a branch de produção continua apontando para esse commit, conferido agora por `git fetch` |
 | Alternativa | `git revert` do merge — mais lento, dispara build |
 | O que **não** fazer | force-push, reset, apagar deployment, trocar plano |
+
+**Duas provas diferentes, e eu só tenho uma delas.** Eu tinha escrito
+"disponibilidade conferida por `git fetch`", e isso estava errado:
+
+| Prova | O que mostra | Quem fez |
+|---|---|---|
+| **De commit** | A branch de produção aponta para `7ae962b`. Conferido por mim agora, com `git fetch` + `git rev-parse` | **eu** |
+| **De deployment** | O build `Hb5TEUapVasyUCm9amGRnRzDyAhe` continua existindo na Vercel, íntegro e promovível | **não eu.** Só se vê no painel |
+
+`git fetch` prova que o **código** de retorno existe e qual é. Não prova que
+há um build pronto para promover: um deployment pode ter sido removido, ter
+expirado por política de retenção, ou estar num estado que não aceita
+Promote. Nesse caso o rollback deixa de ser imediato e vira `git revert` com
+build novo — minutos em vez de segundos.
+
+Na revisão de 17/10 o painel foi lido de forma independente e confirmou
+produção em `7ae962b` / `Hb5TEUapVasyUCm9amGRnRzDyAhe`. **Essa é a prova de
+deployment, e ela tem data.** Antes de publicar, vale reconfirmá-la no dia:
+é a diferença entre rollback de segundos e rollback de minutos.
+
+**Gate 11 fica aberto até essa releitura.**
 
 O rollback restaura o código. **Não desfaz** o que tiver sido gravado em
 sistema externo no intervalo — lead no Pipedrive, evento no GA4 e no Meta,
@@ -1536,31 +1579,104 @@ Meta.
 
 **Nenhum teste real será executado sem coordenação explícita.**
 
-### 27.7 Pendências que seguem abertas
+### 27.7 Pendências, separadas por natureza
+
+A distinção importa: uma lista impede publicar, a outra não.
+
+**A. Bloqueios de integração — sem evidência, impedem declarar a mensuração
+validada.** São os gates 12 a 18 da seção 27.4. Nenhum é desbloqueável por
+código; todos exigem conta, credencial ou um envio real coordenado. Até lá, o
+estado correto de GA4, Meta, Pipedrive e Supabase **nesta branch** é
+**NÃO VALIDADO** — não "provavelmente ok".
+
+**B. Risco de configuração — fora do repositório.**
 
 | Pendência | Situação |
 |---|---|
-| `mamo.jpg` 399×501 num cartão de 546px | Depende de arquivo novo. `gringa.jpg` maior também seria bom |
-| Miniaturas de Líquido e KVRA | `maxresdefault` não existe no YouTube para esses dois vídeos. É limite da origem, não do código |
-| reCAPTCHA carrega e nenhum formulário verifica | **Dívida herdada. Não corrigida nesta migração**, por instrução |
-| Quatro `interactive.tsx` órfãos do design antigo, mais `LeadForm`, `CasesSection` e `PodcastSection` | Nenhuma página os importa. Removê-los é um commit de limpeza à parte, para não misturar com a revisão das páginas |
-| `/politica-de-privacidade` não aparece no rodapé do kit | O rodapé aprovado não traz o link. A página continua alcançável pelo mapa do site e pelo aceite dos formulários. **Vale decidir** |
+| Preview sem isolamento nos relatórios | Risco demonstrado, efeito não medido. Resolver no container, **que eu não altero** |
+| Consentimento: os quatro sinais inativos | Estado herdado, registrado, não alterado |
+| Rollback disponível na Vercel | Prova de deployment é leitura de painel, com data. Ver 27.5 |
+
+**C. Estética não crítica — não impede publicar.**
+
+| Pendência | Situação |
+|---|---|
+| `mamo.jpg` 399×501 num cartão de 546px | A imagem amplia. Depende de arquivo novo do Flávio; `gringa.jpg` maior também seria bom. **Não bloqueia** |
+| Miniaturas de Líquido e KVRA caem para `hqdefault` | `maxresdefault` não existe no YouTube para esses dois vídeos. Limite da origem, não do código. **Não bloqueia** |
+
+**D. Dívida herdada — anterior ao redesign, fora deste escopo.**
+
+| Pendência | Situação |
+|---|---|
+| reCAPTCHA carrega e nenhum formulário verifica | **Não corrigida nesta migração**, por instrução expressa |
+| 340 artigos do WordPress com hierarquia de títulos irregular | Herdada. 739 órfãos de link interno, idem |
 | ISR de `/blog/[slug]` em 900s | Recomendação de subir para 6h permanece, não aplicada |
-| Atualização automática do podcast ao longo do tempo | Ver 27.8 |
 
-### 27.8 O que o checkpoint do podcast **não** prova
+**E. Limpeza adiada por decisão de escopo.**
 
-A conferência independente em `4f9f6d6` viu episódios reais e miniaturas boas
-na home e em `/ofatorm`. Isso prova que **a busca no servidor funciona e que o
-conteúdo exibido é real naquele momento**.
+| Pendência | Situação |
+|---|---|
+| `LeadForm`, `CasesSection`, `PodcastSection` e quatro `interactive.tsx` órfãos | Nenhuma página os importa. Commit de limpeza à parte, **não misturado** com a revisão das páginas |
 
-**Não prova que a atualização automática funciona ao longo do tempo.** Para
-isso seria preciso observar a página depois de o canal publicar um episódio
-novo e confirmar que ele aparece dentro da janela esperada — 15 minutos na
-home, 1 hora em `/ofatorm`. Também não distingue, de fora, se a lista veio da
-API ou do snapshot gravado no build: as duas são reais, e nesta data o
-snapshot é igual aos últimos episódios.
+### 27.8 Podcast: o que está provado e o que não está
 
-A checagem que separa os dois casos está no roteiro pós-publicação: se os
-episódios exibidos empatarem com o snapshot do build por vários dias depois
-de o canal publicar algo novo, a chave não está respondendo em produção.
+**Correção.** Eu tinha escrito que a conferência independente "prova que a
+busca no servidor funciona". **Não prova.** Ver episódio real na tela não
+distingue API de snapshot: as duas fontes servem episódio real, e hoje elas
+coincidem — o snapshot foi gravado dos mesmos últimos episódios. O que a
+conferência prova é que **o HTML servido traz episódio real e miniatura boa**,
+que já é o que o checkpoint se propunha a corrigir.
+
+Como a arquitetura mudou — a busca passou a rodar dentro da renderização da
+página —, ela trouxe riscos novos que mereciam teste próprio. Passo 17 novo,
+`docs/redesign/podcast-servidor.mjs`, que ataca `buscarEpisodios()` direto com
+o `fetch` global trocado por mock. Nenhuma chamada sai.
+
+| Caso | Resultado medido |
+|---|---|
+| API responde | `origem: 'api'`, lista vinda da API |
+| **Episódio novo numa chamada seguinte** | a 2ª chamada traz o episódio novo; a função não guarda nada por conta própria |
+| **API trava** | `AbortSignal.timeout(3500)` corta; medido: desistiu em **3501ms** e caiu para o snapshot |
+| Cota estourada (403) | snapshot |
+| Sem `YOUTUBE_API_KEY` | snapshot, e **nenhuma chamada sai** |
+| Resposta só com Shorts | snapshot; nenhum Short entra na lista |
+| Sem API e sem snapshot | `origem: 'vazio'` → a página mostra indisponível com link do canal |
+| Conteúdo do snapshot | nenhum vídeo de depoimento, nenhuma data de marcador 2024-01-01 |
+
+**O tempo limite é a parte que mais importa** e não existia antes: sem ele,
+uma API lenta seguraria a regeneração da home até o limite da plataforma.
+São três chamadas em série, então o pior caso é ~10,5s antes de cair para o
+snapshot.
+
+**O que este teste NÃO prova, e continua pendente:**
+
+| Pendência | Por quê |
+|---|---|
+| Que a janela de 600s do cache de dados do Next se comporta como esperado | É do framework. O mock prova que a função não cacheia por conta própria; a janela em si só se observa com o tempo passando |
+| Que a home mostra um episódio novo até 15 min depois de o canal publicar | **Teste temporal.** Exige um episódio novo real e observação ao longo do tempo |
+| Que a `YOUTUBE_API_KEY` responde em produção | Esta sessão não alcança `googleapis.com`. Se a lista exibida empatar com o snapshot do build por vários dias depois de o canal publicar, a chave não está respondendo |
+| Se o `signal` muda o comportamento do cache de dados do Next | A documentação só diz que ele desliga a **memoização** por render. O efeito no cache persistente não está documentado e não consigo medir daqui sem rede |
+
+Os três primeiros entram no roteiro pós-publicação.
+
+### 27.9 Correções desta rodada
+
+Pedidas na revisão independente de `e917a54`.
+
+**Frontend:**
+
+| # | O que estava errado | Correção |
+|---|---|---|
+| 1 | `/obrigado` tinha um link único "Mercado Livre, Shopee e Amazon" apontando **só** para o Mercado Livre | Três links separados: `/servicos/mercado-livre-ads`, `/servicos/shopee-ads`, `/servicos/amazon-ads` |
+| 2 | `/obrigado` repetia `+300` e `+R$ 350MM` em dois blocos seguidos | Os dois saíram do bloco "Nossa história", que ficou com `2015 · Fundação da Ciclo` e `4 · Pilares do método`. Nenhum número se perdeu: os dois continuam na faixa logo acima, e o texto ao lado repete "mais de 300 marcas" por extenso. Conferido no HTML: cada indicador aparece **uma vez** |
+| 3 | O rodapé do kit não levava à Política de Privacidade | Entrou na faixa legal do `CicloFooter`, presente em toda página com o rodapé do site. Playbook intocado |
+
+**Relatório:**
+
+| # | O que estava errado | Correção |
+|---|---|---|
+| 4 | Gate 10 aparecia como aprovado dizendo "SHA final revisado", e o gate 9 dizia que a revisão estava pendente | Gate 10 virou "plano de rollback escrito"; a revisão independente é o gate 9, **só seu**. E os gates 12 a 18 passaram a registrar a evidência de integração como **NÃO VALIDADO**, dentro da matriz, com o requisito concreto de cada um — não mais numa nota |
+| 5 | "Disponibilidade conferida por `git fetch`" | `git fetch` é prova de **commit**. A prova de **deployment** é leitura de painel e não é minha. Separadas em 27.5, com o gate 11 aberto |
+| 6 | 27.8 dizia que ver conteúdo real prova a busca pela API | Não prova: snapshot também serve episódio real, e hoje os dois coincidem. Reescrita, com o passo 17 novo cobrindo tempo limite, cota, sem chave, só Shorts, sem snapshot e episódio novo numa chamada seguinte — e dizendo o que continua pendente |
+
+**Limpeza de órfãos não foi misturada**, como pedido.
