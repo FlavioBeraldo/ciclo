@@ -24,6 +24,17 @@ import { useState } from 'react'
 
 const DEGRAUS = ['maxresdefault', 'hq720', 'sddefault', 'hqdefault'] as const
 
+// O 404 não é o único jeito de a miniatura não existir.
+//
+// Para `maxresdefault` e `hq720` ausentes, o YouTube às vezes responde 404 —
+// e às vezes responde **200 com uma imagem cinza de 120×90**, o placeholder
+// dele. Só o `onError` não pega o segundo caso: a imagem carrega, o navegador
+// fica satisfeito, e o cartão exibe um retângulo cinza.
+//
+// Por isso a checagem é por tamanho decodificado, no `onLoad`: qualquer coisa
+// abaixo disto é placeholder, não miniatura.
+const LARGURA_MINIMA = 320
+
 export default function MiniaturaYouTube({
   videoId,
   alt,
@@ -38,9 +49,16 @@ export default function MiniaturaYouTube({
 }) {
   const [degrau, setDegrau] = useState(0)
   const nome = DEGRAUS[degrau]
+  const ultimo = degrau >= DEGRAUS.length - 1
+
+  // Desce um degrau. No último não desce mais: `hqdefault` sempre existe.
+  const descer = () => setDegrau((d) => Math.min(d + 1, DEGRAUS.length - 1))
 
   return (
     <Image
+      // A chave força um elemento novo a cada degrau, para o navegador
+      // refazer a decisão de srcset em vez de reaproveitar a imagem falha.
+      key={nome}
       src={`https://img.youtube.com/vi/${videoId}/${nome}.jpg`}
       alt={alt}
       // 16:9, a proporção dos degraus grandes. O recorte é do CSS.
@@ -49,7 +67,12 @@ export default function MiniaturaYouTube({
       sizes={sizes}
       className={className}
       loading="lazy"
-      onError={() => setDegrau((d) => Math.min(d + 1, DEGRAUS.length - 1))}
+      onError={descer}
+      onLoad={(e) => {
+        if (ultimo) return
+        const img = e.currentTarget
+        if (img.naturalWidth && img.naturalWidth < LARGURA_MINIMA) descer()
+      }}
     />
   )
 }

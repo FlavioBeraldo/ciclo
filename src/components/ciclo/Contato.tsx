@@ -215,7 +215,7 @@ export default function Contato() {
 
           <div className="form-bottom">
             <button type="submit" disabled={isSubmitting}>
-              {isSubmitting ? 'Enviando…' : 'Fale com um especialista'} <span>↗</span>
+              {isSubmitting ? 'Enviando...' : 'Fale com um especialista'} <span>↗</span>
             </button>
           </div>
         </form>

@@ -49,8 +49,9 @@ podem divergir, está dito.
 | `/playbook-social-commerce` | `app/playbook-social-commerce/page.tsx` | 1 | **Congelado, fora do escopo** |
 | `/keystatic/[[...params]]` | painel do CMS | — | Não é página pública |
 
-**9 de 17 rotas públicas refeitas.** Em páginas geradas, 853 de 858 — o blog
-responde pelo volume.
+**17 templates ou rotas públicas: 9 feitos, 7 pendentes e 1 congelado.** A
+18ª linha da tabela é o painel do CMS, que não é público. Em páginas
+geradas, 853 de 858 — o blog responde pelo volume.
 
 ### 1.2 Rotas novas e retiradas
 
@@ -388,7 +389,7 @@ ainda são os mais recentes.
 | Imagens dos cases | Diagnosticado — depende de arquivo novo |
 | Miniaturas de depoimento e episódio | Diagnosticado — correção possível em código |
 | Atualização do podcast | Diagnosticado — 3 problemas, todos pré-existentes |
-| 8 páginas pendentes de redesign | Pendente |
+| 7 páginas pendentes de redesign | Pendente |
 
 ---
 
@@ -404,3 +405,240 @@ ainda são os mais recentes.
 5. Imagens de case novas, quando o Flávio enviar.
 
 A migração só acontece depois do OK explícito dele.
+
+---
+
+# Segunda rodada — respostas aos achados de 17/10
+
+## 9. Mensuração: o snippet idêntico não basta
+
+A observação está certa e eu tinha sido vago. Script igual **não garante**
+que os gatilhos do GTM continuem casando: muitos gatilhos são configurados
+por classe, id, texto ou seletor CSS, e isso vive no container, fora do
+repositório.
+
+### 9.1 O que foi comparado, elemento a elemento
+
+| Gancho | Base `7ae962b` | HEAD | Risco |
+|---|---|---|---|
+| `id` dos campos do lead | `lead-name`, `lead-email`, `lead-company`, `lead-annual-revenue`, `lead-segment`, `lead-message` | **Idênticos** | Nenhum |
+| `id="contato"` na seção | presente | **Presente** | Nenhum |
+| `data-*` | nenhum | nenhum | Nenhum |
+| Texto do botão de envio | "Fale com um especialista" | **Idêntico** | Nenhum |
+| Texto do estado de envio | "Enviando..." | "Enviando..." — eu havia trocado por reticência tipográfica e **revertí** | Evitado |
+| `<form>` | sem `id`, classe `grid sm:grid-cols-2 gap-5` | `id="contact-form"`, classe `contact-form` | **Gatilho por aquela classe deixaria de casar** |
+| Botões de CTA | utilitários Tailwind, incluindo `bg-[#A100FF]` e `rounded-full` | classe `.button` do kit | **Gatilho por classe utilitária deixaria de casar** |
+| Nomes de evento no dataLayer | 11 eventos | **Idênticos**, medidos | Nenhum |
+| Chaves de payload | 4 contratos | **Idênticos**, medidos | Nenhum |
+
+### 9.2 O que isso quer dizer
+
+- **Gatilho de evento customizado do dataLayer:** seguro. Os nomes e as
+  chaves foram medidos e são idênticos.
+- **Gatilho de clique por seletor CSS:** **precisa de conferência no
+  container.** Qualquer regra apoiada na classe antiga do formulário ou nas
+  classes utilitárias dos botões deixa de casar nas páginas refeitas.
+- **Gatilho por texto visível:** sobrevive, com a ressalva do "Enviando...",
+  já revertido.
+
+**Não declaro GA4 nem Meta entregues.** O que posso afirmar é que o código
+emite os mesmos eventos com o mesmo payload. Se o disparo chega ao GA4 e ao
+Meta depende do container e das credenciais, e isso só se confirma em
+produção, com o Assistente de Tags aberto.
+
+**Ação necessária fora daqui:** alguém com acesso ao container `GTM-5NNPNZ`
+precisa listar os gatilhos que usam seletor CSS e conferir contra a tabela
+acima. É a única parte desta auditoria que não cabe no repositório.
+
+## 10. Playbook: a comparação não é só hash
+
+Correto, e o método já vai além do hash — mas eu não tinha explicado.
+
+`playbook-fingerprint.mjs` captura, em **desktop 1440 e celular 390**, com
+`isMobile` e `hasTouch` no celular:
+
+- **Fontes efetivamente carregadas**, pela `document.fonts`, depois de
+  `document.fonts.ready` — pega regressão de fonte compartilhada.
+- **Estilo computado** de `html`, `body`, `.lp-playbook`, `h1`,
+  `.font-serif-lp` e `button[type="submit"]`: família, tamanho, peso, cor,
+  fundo, entrelinha, raio e espaçamento.
+- **Três estados**: inicial, rolado a 1600px e com erro de validação, com
+  captura de tela inteira em cada um.
+- Altura e largura do documento, e a visibilidade do CTA fixo.
+
+O `.font-serif-lp` está ali de propósito: é a regra que o popup do playbook
+compartilhava. Quando passei o popup para Inter, **não toquei nessa regra** —
+dei ao popup uma marcação própria —, e a impressão digital continuou idêntica
+em todas as rodadas desde então.
+
+**Status: aprovado, por comparação visual e funcional**, não por hash.
+
+## 11. Barras literais em `/blog/email-marketing-para-ecommerce`
+
+**Não se reproduz no texto visível.** Medido no DOM renderizado:
+
+```
+"…sem distorcer — e-mails "teaser", que escondem a proposta…"
+contém barra invertida: false
+```
+
+- No `.mdoc` de origem: `e-mails "teaser"`, aspas retas, sem escape.
+- No HTML servido: `&quot;teaser&quot;` — correto.
+- No payload do React Server Components, no fim do HTML: `&quot;` —
+  **serialização normal do framework**, invisível para quem lê a página e
+  para quem rastreia o corpo do documento.
+
+Se a barra apareceu em `view-source`, era o payload. **Herdado e inofensivo,
+nada a editar.** Se aparecer na tela em algum navegador, me mandem a captura
+que eu reabro.
+
+## 12. ISR Writes: origem investigada
+
+**Não é do redesign.** Os três `revalidate` são idênticos à base:
+
+| Rota | Base | HEAD |
+|---|---|---|
+| `/` | 900 | 900 |
+| `/blog` | 900 | 900 |
+| `/blog/[slug]` | 900 | 900 |
+| `/sitemap.xml` | 3600 | 3600 |
+
+**A origem quase certa é `/blog/[slug]` com `revalidate: 900` em 825
+páginas.** Cada artigo pode regravar o cache 96 vezes por dia. O teto teórico
+é 79.200 gravações diárias; o observado, 343 mil em 30 dias, dá ~11,4 mil por
+dia — compatível com cerca de 14% dos artigos sendo pedidos em cada janela.
+As 30 invocações de cron em 30 dias são o `site-digest` diário e não
+explicam nada disso.
+
+**Recomendação, com número:** os 900 segundos existem para o post agendado do
+Keystatic entrar no ar às 9h. Isso importa para a **listagem** e para o
+**sitemap**, não para os 825 artigos já publicados, que raramente mudam.
+Subir `revalidate` só em `/blog/[slug]` para 6 horas cortaria a fonte
+dominante por volta de 24×, sem atrasar publicação nenhuma. É mudança de
+comportamento, então **fica como recomendação, não aplicada.**
+
+**Sobre amplificação ao mover o podcast para o servidor:** a busca entraria
+na home, que **já** revalida a cada 900s. Zero gravação nova. `/ofatorm`
+ainda não foi refeita; quando for, entra com a mesma ressalva.
+
+## 13. Miniaturas: o placeholder de 120×90
+
+Observação procedente, e corrigida. Para `maxresdefault` e `hq720` ausentes o
+YouTube às vezes responde 404 — e às vezes **200 com uma imagem cinza de
+120×90**. O `onError` sozinho não pega o segundo caso: a imagem carrega e o
+cartão mostra um retângulo cinza.
+
+`MiniaturaYouTube` agora desce de degrau também quando a imagem **carrega**
+com menos de 320px de largura decodificada. A verificação é por vídeo, em
+tempo de execução, nos dois caminhos de falha. O último degrau é
+`hqdefault`, que sempre existe.
+
+## 14. Imagem do case Mamô
+
+Procurei fonte melhor em todos os lugares plausíveis:
+
+| Onde | Resultado |
+|---|---|
+| `public/cases/` | só `mamo.jpg` 399×501 e `mamo.svg`, que é logotipo |
+| `public/brands/mamo.png` | logotipo, não foto |
+| Kit de layouts | mesmo arquivo, 34.155 bytes, idêntico |
+| Miniatura do vídeo do cliente | `MlDyvGg7rGs` é **depoimento em estúdio**, não imagem de marca. Usar como foto do case trocaria a identidade visual do bloco |
+
+**Pendência explícita: não há fonte melhor no projeto.** Não farei upscale
+nem gerarei imagem. Preciso de `mamo.jpg` com no mínimo 1100px de largura.
+`gringa.jpg`, 855×481, atende em tela comum e fica curto em Retina.
+
+## 15. Dívida herdada, separada de regressão
+
+Para não misturar as duas coisas no mesmo balde:
+
+| Item | Natureza | Veio de |
+|---|---|---|
+| 340 artigos saltando de `h1` para `h3`/`h4` | **Dívida herdada** | Importação do WordPress |
+| Fallback do podcast com depoimento renomeado | **Dívida herdada** | Base `7ae962b` |
+| `scripts/fetch-youtube.js` escrevendo JSON que ninguém lê | **Dívida herdada** | Base |
+| ISR Writes acima da franquia | **Dívida herdada** | `revalidate: 900` em 825 páginas, igual à base |
+| `/obrigado` com `#depoimentos` sem alvo | **Dívida herdada** | Rodapé antigo |
+| `#resultados` sem alvo na página de UGC | **Regressão minha** | Corrigida em `935291a` |
+| Busca do blog ignorando o destaque | **Herdado, revelado por mim** | A exclusão vinha da base; a busca que acrescentei tornou visível. Corrigida |
+| `sizes` ausente nas imagens | **Herdado** | Corrigido |
+
+**Nenhuma correção em massa dos 340 artigos agora**, conforme orientado.
+
+## 16. Base de produção e plano de migração
+
+### 16.1 Base atual, confirmada nos dois lados
+
+| Item | Valor |
+|---|---|
+| Produção | **Ready** em `7ae962bad1758ef0c77e775af6a683e7e5a0e280` |
+| Deployment | `Hb5TEUapVasyUCm9amGRnRzDyAhe` · `ciclo-dl2o-93six9eyy` |
+| Branch | `claude/elegant-darwin-HVyvT` |
+| Domínio | `cicloecommerce.com.br` |
+
+Conferido também pela API do GitHub: deployment `6665805577`, ambiente
+Production, estado success, no mesmo SHA. **A produção não avançou desde a
+ramificação** — `7ae962b` é ao mesmo tempo a base histórica e o estado atual.
+
+### 16.2 Conteúdo que pode ter mudado em produção
+
+A ramificação foi do próprio `7ae962b`, e o HEAD de produção segue nele.
+**Não há commit novo em produção para preservar.** Mas há duas fontes que
+mudam **fora do git** e precisam de checagem no dia:
+
+| Fonte | Como muda | O que fazer antes do merge |
+|---|---|---|
+| Artigos do Keystatic | commit em `content/blog/*.mdoc`, pelo painel | `git log origin/claude/elegant-darwin-HVyvT -- content/blog` e rebase da branch se houver commit novo |
+| Episódios do YouTube | API externa, sem commit | Nada: o conteúdo é buscado em tempo de execução |
+
+**Gate 1: conferir, na hora do merge, se a branch de produção avançou.** Se
+tiver avançado, rebase antes, nunca force-push por cima.
+
+### 16.3 Gates para liberar a migração
+
+| # | Gate | Como se verifica | Estado |
+|---|---|---|---|
+| 1 | Produção não avançou, ou a branch foi rebaseada | `git log` comparando os dois HEADs | A conferir no dia |
+| 2 | As 12 etapas do `verificar.sh` verdes no SHA exato | rodar e anexar a saída | Verde hoje |
+| 3 | Crawl sem destino quebrado | `crawl.mjs` | Verde hoje |
+| 4 | 7 páginas pendentes refeitas, ou decisão explícita de ir ao ar com elas antigas | inventário | **Pendente** |
+| 5 | Gatilhos do GTM por seletor conferidos no container | fora do repositório | **Pendente** |
+| 6 | Imagem do Mamô substituída, ou aceite da pendência | arquivo novo | **Pendente** |
+| 7 | Fallback do podcast honesto | checkpoint próprio | **Em andamento** |
+| 8 | OK explícito do Flávio | — | **Pendente** |
+
+### 16.4 Rollback
+
+| Item | Valor |
+|---|---|
+| Versão de retorno | `7ae962bad1758ef0c77e775af6a683e7e5a0e280` |
+| Deployment a promover | `Hb5TEUapVasyUCm9amGRnRzDyAhe` |
+| Como | **Promote** desse deployment no painel da Vercel, que é imediato e não depende de build |
+| Alternativa pelo git | `git revert` do merge na branch de produção, que dispara um build novo — mais lento |
+| O que **não** fazer | force-push, reset, apagar deployment ou trocar plano |
+
+O rollback restaura o código. **Não desfaz** o que tiver sido gravado em
+sistema externo no intervalo — lead no Pipedrive, evento no GA4 e no Meta,
+linha no Supabase. Por isso a janela de validação pós-deploy é curta.
+
+### 16.5 Validação pós-deploy, em produção
+
+Na ordem, logo depois do merge:
+
+1. **Fumaça**: home, um serviço, uma solução, `/blog`, um artigo,
+   `/tiktok-shop`, `/depoimentos` — todas em 200, com o visual novo.
+2. **Mensuração, com o Assistente de Tags aberto**: carregar a home e
+   confirmar `page_view` no GA4 e `PageView` no Meta.
+3. **Um lead de teste real**, combinado com o time, com e-mail interno
+   identificável: confirmar `generate_lead` no dataLayer, o negócio no
+   Pipedrive no funil e etapa certos, o `Lead` no Meta com o mesmo
+   `event_id` de Pixel e CAPI, e a linha no Supabase. **É o único teste que
+   fecha o que o Preview não alcança.**
+4. **Atribuição**: entrar por uma URL com UTM, verificar o cookie
+   `ciclo_attr` e o payload do envio.
+5. **SEO**: `sitemap.xml` com 856 URLs, três canonicals por amostragem, e os
+   dois redirects das rotas encerradas devolvendo 308.
+6. **Cron**: confirmar a execução seguinte do `site-digest`.
+7. **ISR**: acompanhar o painel por 48h, pelo histórico de franquia estourada.
+
+Se 1, 2 ou 3 falharem, **rollback pelo Promote** e investigação na branch.
