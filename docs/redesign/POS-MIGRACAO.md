@@ -152,7 +152,50 @@ de cada item**.
 | Supabase desde 23:30:50Z | 49 `page_view` posteriores — a telemetria está gravando depois da migração |
 | Logs do deployment, últimos 30 min | Warning 0, Error 0, Fatal 0 |
 
-### 8.2 NÃO aprovado — e não pode ser classificado como tal
+### 8.2 Fechamento da inspeção imediata — contagens do painel
+
+Deployment `9wDAEozub4kNH11R6dsnRDmo1YjX`, janela **20:17–20:47 BRT**:
+
+| Código | Requisições |
+|---|---|
+| 200 | **478** |
+| 304 | **73** |
+| 204 | **56** |
+| 4xx / 5xx | **nenhum na distribuição** |
+
+Warning 0, Error 0, Fatal 0.
+
+| Item | Resultado |
+|---|---|
+| Os dois redirects antigos, navegados | terminam em `/solucoes/inteligencia-e-operacao`. O **308** está confirmado localmente; no navegador se vê só o destino |
+| Meta Base no GTM **LIVE** | `init 780524645411912` e `PageView`, status **Concluída** |
+| GA4 em tempo real | `page_view` e `link_bio_step_view` vindos do domínio; **nenhuma conversão** |
+
+### 8.3 Limite de ferramenta, não falha do site
+
+O navegador da inspeção **recusou abrir** três coisas, com
+`ERR_BLOCKED_BY_CLIENT`:
+
+- `robots.txt`
+- `/api/youtube/latest`
+- os XML (sitemap), já bloqueados antes
+
+`ERR_BLOCKED_BY_CLIENT` é recusa do **cliente** — extensão ou política do
+navegador —, não resposta do servidor. **Não é falha comprovada do site, e
+não deve ser lida como tal.** Também não vou contornar por outro mecanismo.
+
+Consequência, dita com clareza:
+
+| O que fica sem leitura direta externa | O que existe no lugar |
+|---|---|
+| `robots.txt` no domínio | Conferido localmente na árvore do merge (seção 5) |
+| `sitemap.xml` no domínio | 856 URLs conferidas localmente (seção 5) |
+| Frescor da API do podcast no domínio | Episódios **renderizam** na home e em `/ofatorm`, mas isso não distingue API de snapshot. Procedimento na seção 9 |
+
+Código e verificação local aprovados **não substituem** a leitura externa.
+Os três continuam **sem confirmação no domínio**.
+
+### 8.4 NÃO aprovado — e não pode ser classificado como tal
 
 | Item | Estado | Por quê |
 |---|---|---|
@@ -160,12 +203,21 @@ de cada item**.
 | `conversion_events` no Supabase | **sem linha nova** | Coerente com o acima. O histórico (115 Meta sent, 6 GA4 sent, 2 skipped) está intacto, e é da base |
 | **Entrega real dos webhooks do Pipedrive** | **NÃO PROVADA** | Os 2 webhooks seguem nos mesmos endpoints, mas a última tentativa continua sendo **16/10 17:46, HTTP 200** — anterior à migração. Nada foi entregue depois dela |
 | **Cron** | **NÃO VALIDADO** | A próxima execução natural de `0 12 * * *` ainda não aconteceu. Não foi executado à mão, e não deve ser |
-| Status Code nos logs da Vercel | em conferência | — |
+| Status Code nos logs da Vercel | **conferido** — ver 8.2 | sem 4xx/5xx na distribuição |
+| **Qualificação e ganho** no Pipedrive → GA4 | **aguardando** | depende de movimento comercial real |
+| **`/api/pipedrive/enrich`** depois da migração | **aguardando** | depende de negócio novo real |
+| **CAPI e deduplicação** por `event_id` | **aguardando** | depende de envio real e de leitura no Gerenciador de Eventos |
+| **Atribuição ponta a ponta** | **aguardando** | depende de envio real com UTM conhecida |
 
-**O que o conjunto permite afirmar:** o site responde, as tags carregam no
-ambiente ativo, a telemetria passiva grava, e nada quebrou. **O que ele não
-permite afirmar:** que uma conversão percorre o caminho inteiro. Isso só com
-um envio real coordenado, e ele não aconteceu.
+**O que o conjunto permite afirmar:** nos itens medidos, o site responde, as
+tags carregam no ambiente ativo e a telemetria passiva grava. **Nenhuma
+regressão crítica foi detectada nos itens medidos.**
+
+**O que ele NÃO permite afirmar:** que "nada quebrou". Isso seria uma
+garantia geral, e ela não existe — o que existe é uma lista de verificações
+que passaram e outra, maior do que parece, do que não foi medido (8.3 e 10).
+Também não permite afirmar que uma conversão percorre o caminho inteiro:
+isso exige um envio real coordenado, que não aconteceu.
 
 ## 9. Podcast: a URL pública e como saber a origem
 
@@ -262,12 +314,25 @@ mas nenhum item virou "aprovado":
 | Site responde, tags carregam no ambiente ativo, telemetria passiva grava | **confirmado** pela revisão independente (8.1) |
 | **Conversão ponta a ponta** — `generate_lead` → GA4, Meta com dedup, negócio no Pipedrive com os 8 campos, linha em `conversion_events` | **NÃO VALIDADO.** Zero eventos principais no GA4, nenhuma linha nova em `conversion_events`. Não houve envio |
 | **Entrega real dos webhooks** do Pipedrive depois da migração | **NÃO PROVADA.** Última tentativa continua 16/10 17:46 |
-| **Cron** `/api/cron/site-digest` | **NÃO VALIDADO.** Próxima execução natural ainda não ocorreu. Não executar à mão |
+| **Cron** `/api/cron/site-digest` | **NÃO VALIDADO.** Próxima execução natural prevista para **18/10, 09–10 BRT**. Não executar à mão |
+| **`robots.txt`, `sitemap.xml` e frescor da API** lidos do domínio | **SEM LEITURA DIRETA** — limite de ferramenta, não falha do site (8.3) |
+| Qualificação, ganho, enrich, CAPI/dedup e atribuição ponta a ponta | **aguardando** evento real ou contato autorizado |
 | **Podcast: API ou snapshot em produção** | **NÃO DETERMINADO.** Procedimento na seção 9 |
 
 Nada disso é falha: são verificações que dependem de um envio real
-coordenado ou da passagem do tempo. **Nenhuma delas pode ser marcada como
-aprovada agora.**
+coordenado, de um limite de ferramenta, ou da passagem do tempo. **Nenhuma
+delas pode ser marcada como aprovada agora.**
+
+## 10.1 Estado em uma frase
+
+**Nenhuma regressão crítica foi detectada nos itens medidos.** Não é a mesma
+coisa que dizer que está tudo certo: a lista acima é o que ainda não foi
+medido, e ela não encolhe sozinha.
+
+Próximo marco sem ação humana: a execução natural do cron, **18/10 entre 09 e
+10 BRT**. Os demais dependem de evento real ou de contato autorizado.
+
+Nenhum código novo e nenhuma migração adicional são necessários agora.
 
 **Nenhum lead foi criado, nenhum registro de CRM foi movido, nenhum cron foi
 executado à mão.** Nos passos 14, 15, 18 e 19 a rede fica interceptada e as
