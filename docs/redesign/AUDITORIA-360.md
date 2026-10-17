@@ -1965,3 +1965,108 @@ passo 5 da suíte continua medindo exatamente isso, nas mesmas duas larguras.
 
 **A validação da entrega real de eventos continua separada da preservação de
 código**, e segue NÃO VALIDADA — gates 12 a 18.
+
+---
+
+# Sétima rodada — 17/10, 20:08: o modelo de liberação mudou
+
+## 34. A comprovação real passa para depois da publicação
+
+Instrução do Flávio, 17/10 às 20:08:
+
+> "Você só vai conseguir fazer essas comprovações quando migrarmos e o seu
+> papel caso tenha algo errado será consertar a nossa forma de mensuração
+> igual do jeito que estava."
+
+Isto resolve o impasse que eu vinha registrando. Os gates 12 a 18 pediam
+evidência que **o Preview não tem como produzir**: as treze variáveis de
+integração existem só em Production (30.1), então nem com coordenação
+perfeita o Preview falaria com Pipedrive, Meta, GA4 ou Supabase.
+
+**O que muda:**
+
+| Antes | Agora |
+|---|---|
+| Gates 12 a 18 bloqueavam a migração | **Não bloqueiam.** Viram verificação pós-publicação, no domínio real |
+| Faltava OK comercial | **Não falta.** Não pedir de novo |
+| Teste real prévio no Preview era pré-requisito | **Não é**, e nunca poderia ter sido |
+
+**O que NÃO muda:**
+
+- A liberação técnica do SHA exato, pela revisão independente, continua
+  obrigatória antes do merge.
+- Os gates que eu consigo fechar daqui continuam valendo: suíte verde, crawl
+  limpo, diff protegido, conteúdo preservado, playbook intocado.
+- A publicação é **build novo de Production pela branch**. Promover artefato
+  de Preview continua sendo errado (30.1).
+
+**E o meu papel se algo quebrar está definido:** consertar a mensuração para
+voltar a se comportar **como na base**. Não redesenhar regra de negócio, não
+reativar tag legada, não mexer em credencial, banco ou domínio sem
+necessidade autorizada. Se a regressão for crítica, rollback.
+
+É por isso que o passo 19 existe com a forma que tem: ele descreve o
+comportamento da base, ramo por ramo, derivado do código dela. Se algo
+divergir em produção, é contra esse retrato que eu conserto.
+
+### 34.1 Teste real sem contato coordenado
+
+Continua valendo, e não é formalidade: **sem identidade de teste autorizada,
+não há teste real**. Não uso dado inventado nem de terceiro.
+
+Enquanto isso não for combinado, a prioridade é **evidência passiva** — ler
+o que as integrações reais produzirem sozinhas com o tráfego normal:
+
+| Evidência passiva | Onde |
+|---|---|
+| `generate_lead` de visitante real, com `event_id` | GA4 em tempo real e DebugView |
+| `Lead` de navegador e de servidor com o mesmo `event_id` | Gerenciador de Eventos da Meta |
+| Negócio novo com os 8 campos de atribuição preenchidos | Pipedrive |
+| Linha nova em `conversion_events` | Supabase |
+| `qualify_lead` / `close_convert_lead` em movimento comercial real | GA4 + `conversion_events` |
+| Execução do cron | próxima execução natural de `0 12 * * *` |
+
+Nenhuma delas exige criar nada. Todas exigem olhar depois de publicar.
+
+## 35. Playbook: a única dependência compartilhada que mudou
+
+A revisão pediu atenção a **efeito indireto** de CSS e componente
+compartilhado. Fiz a conta de forma exaustiva, não por amostragem:
+percorri a árvore de importação da página do playbook, recursivamente.
+
+**7 arquivos na árvore. 6 idênticos à produção. 1 mudou:**
+`src/components/ui/PhoneField.tsx`.
+
+A mudança é **puramente aditiva**:
+
+```
++ variant?: 'padrao' | 'ciclo2026'      // novo, opcional
++ variant = 'padrao'                    // default
++ const novo = variant === 'ciclo2026'
+```
+
+Todas as linhas tocadas viraram ternários cujo ramo falso é **exatamente o
+código anterior**: `className={novo ? 'field' : undefined}`,
+`className={novo ? 'ciclo2026-phone-input' : 'ciclo-phone-input'}`, e assim
+por diante. O playbook **não passa `variant`**, então cai no ramo padrão e
+gera marcação idêntica.
+
+Isso explica, por construção, o resultado que a revisão mediu de fora: **63
+elementos iguais em conteúdo, estilo computado e geometria**, em desktop e
+390px. O passo 5 da suíte mede a mesma coisa a cada rodada.
+
+Nenhum outro arquivo da árvore do playbook foi tocado, e o diretório
+`src/app/playbook-social-commerce` está intocado contra a produção.
+
+## 36. Reconferência antes do PR
+
+| Verificação | Resultado |
+|---|---|
+| HEAD de produção | `7ae962bad1758ef0c77e775af6a683e7e5a0e280` — **não avançou** |
+| Commits em produção fora desta branch | **nenhum** |
+| `content/` | **sem diferença** — nenhum artigo novo a preservar |
+| `src/data/` | só a troca do snapshot do podcast, documentada na seção 25 |
+| Camada protegida | só os 5 arquivos de `hashes-excecoes.txt` |
+| `src/app/playbook-social-commerce` | **intocado** |
+| Árvore de dependências do playbook | 1 arquivo aditivo, ramo padrão idêntico (35) |
+| Suíte | **19 passos verdes** |

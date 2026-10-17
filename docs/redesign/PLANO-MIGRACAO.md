@@ -3,9 +3,17 @@
 Documento operacional. Quem executa a publicação segue daqui, na ordem.
 Atualizado em 17/10/2026.
 
-**Estado: NÃO PUBLICAR.** A liberação técnica do SHA exato é da revisão
-independente e continua pendente. Este documento existe para que, quando ela
-vier, a publicação seja uma sequência conferida e não uma improvisação.
+**Estado: aguardando a liberação técnica do SHA exato.** A migração está
+autorizada pelo Flávio; o que falta é a revisão independente aprovar o SHA.
+Este documento existe para que, quando ela vier, a publicação seja uma
+sequência conferida e não uma improvisação.
+
+**Mudança de 17/10, 20:08.** A comprovação real das integrações passa para
+**depois da publicação**, no domínio real. Ela não é mais pré-requisito, e
+nunca poderia ter sido: as treze variáveis de integração existem só em
+Production, então o Preview não tem com o que falar (seção 4). Se algo
+quebrar, o conserto é **restaurar o comportamento da base** — não redesenhar
+regra — e rollback se for crítico.
 
 ---
 
@@ -57,7 +65,7 @@ Tudo abaixo é pré-requisito. Nenhum item é dispensável.
 | 8 | **Redirects permanentes sem laço** | Passo 11 da suíte | automático |
 | 9 | **Variáveis e configurações de produção preservadas** | Seção 4 | quem publica |
 | 10 | **Rollback disponível** | Seção 6 — e a prova é de **deployment**, não de commit | quem publica |
-| 11 | **Teste real preparado** | Identidade, janela e limpeza combinadas. Seção 7 | revisão + time |
+| 11 | ~~Teste real preparado~~ | **Deixou de ser pré-requisito em 17/10.** Vira verificação pós-publicação, seção 6.2. O que falta combinar está na seção 7 | — |
 
 ---
 
