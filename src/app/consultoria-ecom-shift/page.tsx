@@ -5,6 +5,7 @@ import CicloHeader from '@/components/ciclo/CicloHeader'
 import CicloFooter from '@/components/ciclo/CicloFooter'
 import Breadcrumb from '@/components/ciclo/interior/Breadcrumb'
 import PlayerVideo from '@/components/ciclo/PlayerVideo'
+import ValorDeCase from '@/components/ciclo/ValorDeCase'
 import CtaFlutuante from '@/components/ciclo/CtaFlutuante'
 import Hourglass from '@/components/shift/Hourglass'
 import FunnelCompare from '@/components/shift/FunnelCompare'
@@ -506,7 +507,9 @@ export default function ConsultoriaEcomShiftPage() {
                       <dl className="metricas-case">
                         {c.metrics.map((m) => (
                           <div key={m.label}>
-                            <dt>{m.value}</dt>
+                            <dt>
+                              <ValorDeCase valor={m.value} />
+                            </dt>
                             <dd>{m.label}</dd>
                           </div>
                         ))}

@@ -6,7 +6,7 @@
 // resultado, e o fallback de verdade era uma lista fixa de vídeos de
 // depoimento de cliente reetiquetados como episódio. Agora src/lib/youtube.ts
 // lê este módulo, então o fallback é um retrato real do canal, do dia do
-// build. É .ts e não .json para o teste do passo 17 conseguir importá-lo sem
+// build. É .ts e não .json para o teste do passo 18 conseguir importá-lo sem
 // o resolvedor do Next.
 //
 // O filtro aqui é O MESMO de src/lib/youtube-server.ts (nada abaixo de 300s,
@@ -56,7 +56,7 @@ function moduloTs(episodios) {
     '//',
     '// Último conjunto REAL de episódios de "O Fator M". É o que o site mostra',
     '// quando a API do YouTube não responde. Era um arquivo .json; virou módulo',
-    '// para o teste do passo 17 conseguir importá-lo sem o resolvedor do Next.',
+    '// para o teste do passo 18 conseguir importá-lo sem o resolvedor do Next.',
     '',
     'export interface EpisodioGravado {',
     '  id: string',

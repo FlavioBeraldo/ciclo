@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import { cases } from '@/lib/cases'
+import ValorDeCase from '../ValorDeCase'
 
 // Cases da home. O conteúdo vem de @/lib/cases, a mesma fonte que a landing da
 // Consultoria E-com Shift lê — nenhum número é escrito aqui.
@@ -71,7 +72,9 @@ export default function Cases() {
                   <div className="case-results" aria-label="Resultado">
                     {c.metrics.map((m) => (
                       <div key={m.label}>
-                        <strong>{m.value}</strong>
+                        <strong>
+                          <ValorDeCase valor={m.value} />
+                        </strong>
                         <span>{m.label}</span>
                       </div>
                     ))}

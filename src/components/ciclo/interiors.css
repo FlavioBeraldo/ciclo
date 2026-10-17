@@ -522,3 +522,59 @@
    estica até a altura da coluna de texto e sobra painel vazio. */
 .ciclo2026 .marcos { align-content: start; align-items: start; }
 .ciclo2026 .marcos .module-panel { padding: 26px 20px; }
+
+/* ── Resultados dos cases: o número não pode sair do cartão ─────────────── */
+/*
+   O cartão da Gringa tem TRÊS resultados, e um deles é "120→55 dias". Com
+   `white-space: nowrap` e 29px de corpo, ele precisava de 162px numa célula
+   de 124px e vazava por fora da borda.
+   Três mudanças, nenhuma delas escondendo conteúdo:
+   1. a unidade ("dias") sai do corpo grande e vira palavra menor ao lado;
+   2. o número continua inquebrável, mas a unidade pode cair para a linha
+      debaixo em vez de empurrar tudo para fora;
+   3. o corpo encolhe quando há três resultados na mesma linha, e encolhe de
+      novo conforme a largura do cartão, por container query.
+   Sem `overflow: hidden`, sem reticências, sem número abreviado.
+*/
+.ciclo2026 .case-content { container-type: inline-size; }
+
+.ciclo2026 .case-results strong {
+  white-space: normal;
+  overflow-wrap: break-word;
+}
+.ciclo2026 .case-results .valor-numero { white-space: nowrap; }
+.ciclo2026 .case-results .valor-unidade {
+  white-space: nowrap;
+  font-size: .5em;
+  letter-spacing: -.01em;
+}
+
+/* Três resultados dividem a mesma linha: cada célula fica com um terço. */
+.ciclo2026 .case-results:has(> div:nth-child(3)) strong { font-size: 23px; }
+
+@container (max-width: 470px) {
+  .ciclo2026 .case-results strong { font-size: 25px; }
+  .ciclo2026 .case-results:has(> div:nth-child(3)) strong { font-size: 20px; }
+  .ciclo2026 .case-results { gap: 10px; }
+  .ciclo2026 .case-results > div + div { padding-left: 10px; }
+}
+@container (max-width: 340px) {
+  .ciclo2026 .case-results strong { font-size: 21px; }
+  .ciclo2026 .case-results:has(> div:nth-child(3)) strong { font-size: 17px; }
+  .ciclo2026 .case-results span { font-size: 9px; }
+}
+
+/* O mesmo bloco na landing da consultoria, que usa <dl> */
+.ciclo2026 .metricas-case dt { white-space: normal; overflow-wrap: break-word; }
+.ciclo2026 .metricas-case .valor-numero { white-space: nowrap; }
+.ciclo2026 .metricas-case .valor-unidade { white-space: nowrap; font-size: .55em; }
+
+/* Os chips de canal do diagrama usam `rem` no espaçamento, então dobram
+   junto com a ampliação de texto. Em 390px com texto a 200% o chip mais
+   longo passava da tela. Deixo ele encolher e quebrar a linha — a folha do
+   `.shift` em si continua intocada; isto vale só dentro da página 2026. */
+.ciclo2026 .diagrama-shift .shift-chip {
+  max-width: 100%;
+  min-width: 0;
+  white-space: normal;
+}

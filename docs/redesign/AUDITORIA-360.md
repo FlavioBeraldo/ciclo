@@ -1721,3 +1721,141 @@ vezes. O Preview tem a chave, roda o gerador de verdade, e quebrou.
 build que depende de variável de ambiente que só existe na plataforma. A
 prova de que esse passo funciona continua sendo **o deployment verde**, não
 a minha suíte.
+
+---
+
+# Quinta rodada — 17/10, bug da Gringa, webhooks e plano
+
+## 28. Correção do indicador que vazava
+
+**Bug real, confirmado nos dois lados.** No cartão da Gringa, "120→55 dias"
+saía para fora do cartão: célula de 124px, `scrollWidth` 162px, corpo de
+29px e `white-space: nowrap`.
+
+**Por que acontecia.** `.case-results` é grade de colunas iguais. A Gringa é
+o único case com **três** resultados, então cada célula fica com um terço. E
+é o único valor com unidade por extenso. Os dois juntos estouravam.
+
+**Correção, sem esconder nada** — nada de `overflow: hidden`, reticências ou
+número abreviado:
+
+1. A unidade sai do corpo grande e vira palavra menor ao lado
+   (`ValorDeCase`). O texto lido continua "120→55 dias"; `src/lib/cases.ts`
+   não mudou.
+2. O número segue inquebrável, mas a unidade pode descer de linha em vez de
+   empurrar tudo para fora.
+3. O corpo encolhe quando há três resultados, e encolhe de novo conforme a
+   largura do cartão, por **container query** — é a largura do cartão que
+   manda, não a da janela.
+
+**Medição, passo 17 novo** (`docs/redesign/cases-indicadores.mjs`). Mede por
+**elemento**, não pela página: `scrollWidth` maior que `clientWidth` da
+própria célula já reprova, que era o caso que passava batido.
+
+| | |
+|---|---|
+| Larguras | 320, 390, 768, 1024, 1440 |
+| Ampliação de texto | 150% em 1440 e **200% em 390** |
+| Rotas | `/`, `/obrigado`, `/consultoria-ecom-shift` |
+| Resultado | **9 indicadores inteiros e dentro da célula nos 7 cenários, nas 3 rotas** |
+
+Depois da correção, no cartão da Gringa: célula 140px e `scrollWidth` 140px
+em 1440; 82px e 82px em 390.
+
+**Um segundo achado, do mesmo teste.** Em 390px com texto a 200%, um chip de
+canal do diagrama do E-com Shift passava 7px da tela — o espaçamento dele é
+em `rem` e dobra junto com o texto. Corrigido com uma regra escopada à
+página 2026; a folha do `.shift` em si não foi tocada.
+
+## 29. Webhooks do Pipedrive, provados em isolamento
+
+Os seis arquivos já estavam byte a byte iguais à base — a revisão
+independente conferiu o conteúdo integral e eu conferi o hash. Mas arquivo
+igual não é comportamento provado, e esta é a mensuração que mais importa
+preservar.
+
+**Passo 19 novo** (`docs/redesign/pipedrive-webhooks.mjs`). Carrega as rotas
+reais com o `fetch` global trocado por mock. **Nenhuma chamada sai, nenhum
+registro real é movido, nenhum contato inventado é usado** — os e-mails são
+`@exemplo.test`, domínio reservado, e as variáveis recebem valores de
+mentira marcados como tal.
+
+Os resultados esperados saem do **código da base**, não de regra inventada.
+
+| Caso | Esperado, pelo código | Resultado |
+|---|---|---|
+| Sem segredo | 401, e nada é consultado | ok |
+| Basic `pipedrive:<segredo>` | 200 | ok |
+| Mudança de título | ignorada, sem buscar o negócio | ok |
+| `previous` sem a chave `stage_id` (v2 manda só o que mudou) | não conta como mudança de etapa | ok |
+| **Etapa não qualificadora** (10, ordem 2 < 3) | **sem** `qualify_lead`; só `Schedule` na Meta | ok |
+| **Funil fora da regra** (7) | **nenhum** evento de lead no GA4 | ok |
+| Etapa 11 do funil 2 | `qualify_lead` + `QualifiedLead` | ok |
+| Pulou para Proposta (ordem 4 > 3) | `qualify_lead` também + `ProposalSent` | ok |
+| Etapa 96 do funil 13 | `qualify_lead` + `Opportunity` | ok |
+| **Ganho sem qualify anterior** | `qualify_lead` + `close_convert_lead` + `purchase` + `Purchase`; **sem** evento de funil por etapa | ok |
+| **Ganho depois de já ter qualificado** | `qualify_lead` **não repete** (`already_sent`); `close_convert_lead` vai | ok |
+| Mesmo webhook duas vezes | conta uma vez; grava em `conversion_events` com plataforma, evento e `deal_id` | ok |
+| Ganho sem `ga_client_id` | `purchase` **não** vai ao GA4 (`no_ga_client_id`); `Purchase` da Meta vai | ok |
+| Payload v2 | lido igual ao v1 | ok |
+| `/enrich` sem segredo | 401 | ok |
+| `/enrich` com evento que não é `added.deal` | ignorado, nada sai | ok |
+| As 8 chaves de atribuição | os mesmos 8 campos, com hash de 40 caracteres | ok |
+| **Hashes contra a base `7ae962b`** | **11 arquivos byte a byte iguais** | ok |
+
+Os 11: as duas rotas de webhook, `ga4-lead-events`,
+`pipedrive-funnel-events`, `pipedrive-server`, `pipedrive-fields`,
+`meta-capi`, `attribution`, `conversions`, `supabase-server` e
+`webhook-auth`.
+
+**O que isto prova e o que não prova.** Prova que a **regra** sobreviveu ao
+redesign, com cada ramo exercitado. **Não prova** que a conta do Pipedrive, o
+GA4 e a Meta respondem como o mock — isso são os gates 12 a 18, e continuam
+**NÃO VALIDADOS**.
+
+## 30. Evidência externa desta rodada
+
+| Fonte | O que mostrou | O que NÃO mostrou |
+|---|---|---|
+| Meta Events Manager, dataset `780524645411912` | `Lead` ativo, score 9,3/10, navegador + CAPI, cobertura de `eventID` 100% na janela de 7 dias | **Nada sobre este candidato.** É histórico da base. A amostra citada é de 1 evento de navegador e 1 de servidor |
+| Lista de permissão da Meta | `cicloecommerce.com.br` e subdomínios, **sem `vercel.app`** | Impede o teste de Pixel de navegador no Preview. **Não prova isolamento** de CAPI nem de GA4 |
+| Alerta de domínios externos na Meta | Existe | **Sem nexo demonstrado** com o redesign |
+| Pipedrive | Os **8 nomes** dos campos de atribuição existem | As **chaves** ainda não foram conferidas — gate 14 segue aberto |
+| Vercel, deployments | `Hb5TEUapVasyUCm9amGRnRzDyAhe` existe, Ready, Production, Current, em `7ae962b` | **A operação de Promote nunca foi executada nem testada** |
+| Vercel, variáveis | 13 variáveis **somente em Production**; YouTube em Production + Preview | Ver 30.1 — isto muda o caminho da publicação |
+| Vercel, cron | Habilitado, `/api/cron/site-digest`, `0 12 * * *`, plano Hobby com janela de 1h | Histórico do horário de hoje fora da retenção; **Run não foi executado** |
+| Comparação dos 6 arquivos, base × candidato | Todos idênticos | Revalidar no SHA final — e o passo 19 agora faz isso sozinho, com 11 arquivos |
+
+### 30.1 Promote de Preview não é publicação
+
+Treze variáveis de ambiente existem **somente em Production**. Um artefato
+de Preview foi compilado sem elas.
+
+**Consequência direta:** a publicação precisa gerar um **build novo de
+Production** pelo fluxo da branch `claude/elegant-darwin-HVyvT`. Promover o
+artefato de Preview não publica o site — publica uma versão sem Pipedrive,
+sem Meta CAPI, sem Supabase e sem GA4 Measurement Protocol.
+
+Isso também explica, de forma definitiva, por que **teste real em Preview
+não equivale a produção**: o Preview não tem com o que falar.
+
+Para o rollback a lógica é a mesma, e a favor: `Hb5TEUapVasyUCm9amGRnRzDyAhe`
+**é** um artefato de Production, então Promote ali é válido.
+
+Está tudo em `docs/redesign/PLANO-MIGRACAO.md`, seções 4 e 8.
+
+## 31. Plano de migração versionado
+
+`docs/redesign/PLANO-MIGRACAO.md`, primeira versão. Cobre: pré-requisitos,
+inventário URL antiga → final com status e indexação, as duas remoções
+autorizadas com os 308 conferidos, variáveis preservadas, sequência da
+publicação, verificação pós-publicação com evidência correlacionada por
+evento e horário, o que falta combinar para o teste real, e o rollback com a
+distinção entre prova de commit e prova de deployment.
+
+A **mudança funcional do podcast está separada da troca visual** na seção
+1.1, com os commits que a isolam.
+
+**O playbook está no plano como item de pré-requisito**, e o passo 5 da
+suíte cobre efeito indireto de CSS e de componente compartilhado — ele mede
+o que o navegador aplicou, não o que o arquivo diz.

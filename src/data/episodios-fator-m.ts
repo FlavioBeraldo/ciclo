@@ -3,7 +3,7 @@
 //
 // Último conjunto REAL de episódios de "O Fator M". É o que o site mostra
 // quando a API do YouTube não responde. Era um arquivo .json; virou módulo
-// para o teste do passo 17 conseguir importá-lo sem o resolvedor do Next.
+// para o teste do passo 18 conseguir importá-lo sem o resolvedor do Next.
 
 export interface EpisodioGravado {
   id: string

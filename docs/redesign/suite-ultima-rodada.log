@@ -1,5 +1,5 @@
 Verificação do redesign — modo: comparar
-commit: 3c5d176  branch: claude/redesign-ciclo-2026-HVyvT
+commit: 26e2e99  branch: claude/redesign-ciclo-2026-HVyvT
 
 == 1. Camada protegida (src/lib e src/app/api)
   ok    40 arquivos, nenhuma mudança não autorizada
@@ -73,8 +73,14 @@ commit: 3c5d176  branch: claude/redesign-ciclo-2026-HVyvT
 == 16. Responsivo
   ok    11 rotas sem estouro horizontal em 1440 e 390
 
-== 17. Podcast no servidor
+== 17. Indicadores de case
+  ok    TUDO OK — 9 indicadores inteiros e dentro da célula em 7 cenários, em 3 rotas
+
+== 18. Podcast no servidor
   ok    TUDO OK — API, episódio novo, tempo limite, cota, sem chave, só Shorts, sem snapshot e gerador com descrição real
+
+== 19. Webhooks do Pipedrive
+  ok    TUDO OK — autenticação, filtros, etapas, ganho, idempotência, v1/v2, enrich e hashes contra a base
 
 ────────────────────────────────
 TUDO OK

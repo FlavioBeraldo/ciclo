@@ -1,4 +1,4 @@
-// Importação RELATIVA de propósito: assim o teste do passo 17 consegue
+// Importação RELATIVA de propósito: assim o teste do passo 18 consegue
 // carregar este módulo com `node --experimental-strip-types`, sem depender do
 // resolvedor de `@/` do Next.
 import { EPISODIOS } from '../data/episodios-fator-m'

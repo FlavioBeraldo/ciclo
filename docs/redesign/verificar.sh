@@ -262,8 +262,21 @@ else
 fi
 cd "$RAIZ"
 
-# ── 17. Podcast no servidor: tempo limite, cota, sem chave, episódio novo ──
-titulo "17. Podcast no servidor"
+# ── 17. Indicadores de case: nada vaza da célula ──────────────────────────
+titulo "17. Indicadores de case"
+cd "$TMP"
+cp "$DOCS/cases-indicadores.mjs" .
+if RAIZ_CICLO="$RAIZ" node --experimental-strip-types --no-warnings \
+     --import "$DOCS/resolve-ts.mjs" \
+     cases-indicadores.mjs "$BASE" > "$TMP/cases.log" 2>&1; then
+  ok "$(tail -1 "$TMP/cases.log")"
+else
+  falha "indicador de case vazando ou abreviado:"; grep FALHA "$TMP/cases.log" | head -8
+fi
+cd "$RAIZ"
+
+# ── 18. Podcast no servidor: tempo limite, cota, sem chave, episódio novo ──
+titulo "18. Podcast no servidor"
 cd "$RAIZ"
 if RAIZ_CICLO="$RAIZ" node --experimental-strip-types --no-warnings \
      --import ./docs/redesign/resolve-ts.mjs \
@@ -273,6 +286,18 @@ else
   falha "buscarEpisodios mudou de comportamento:"; grep FALHA "$TMP/podsrv.log" | head -10
 fi
 cd "$RAIZ"
+
+# ── 19. Webhooks do Pipedrive, em isolamento ───────────────────────────────
+titulo "19. Webhooks do Pipedrive"
+cd "$RAIZ"
+if RAIZ_CICLO="$RAIZ" node --experimental-strip-types --no-warnings \
+     --import ./docs/redesign/resolve-ts.mjs \
+     "$DOCS/pipedrive-webhooks.mjs" > "$TMP/pdwh.log" 2>&1; then
+  ok "$(tail -1 "$TMP/pdwh.log")"
+else
+  falha "regra dos webhooks mudou:"; grep FALHA "$TMP/pdwh.log" | head -10
+fi
+
 
 pkill -f "next-server" 2>/dev/null
 printf "\n%s\n" "────────────────────────────────"
