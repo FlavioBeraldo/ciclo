@@ -98,12 +98,6 @@ const SOLUCOES: {
     ferramentas: ['analytics', 'automacao', 'growth'],
     servicos: [
       { rotulo: 'Analytics & BI', href: '/servicos/analytics-bi', icone: 'analytics' },
-      {
-        rotulo: 'Processos e Playbooks',
-        href: '/servicos/processos-playbooks',
-        icone: 'automacao',
-      },
-      { rotulo: 'Growth Contínuo', href: '/servicos/growth-continuo', icone: 'growth' },
     ],
   },
 ]

@@ -38,10 +38,28 @@ if [ "$MODO" = "baseline" ]; then
   cp "$TMP/hashes-atual.txt" "$DOCS/hashes-protegidos.txt"
   ok "$(wc -l < "$TMP/hashes-atual.txt") arquivos registrados"
 else
-  if diff -u "$DOCS/hashes-protegidos.txt" "$TMP/hashes-atual.txt" > "$TMP/hashes.diff"; then
-    ok "$(wc -l < "$TMP/hashes-atual.txt") arquivos, nenhum alterado"
+  # Arquivos com mudança autorizada: não reprovam, mas aparecem sempre, com
+  # o motivo. A exceção fica à vista em vez de sumir num rebaseline.
+  grep -vE '^\s*(#|$)' "$DOCS/hashes-excecoes.txt" 2>/dev/null \
+    | awk '{print $1}' | sort > "$TMP/excecoes.txt"
+
+  diff -u "$DOCS/hashes-protegidos.txt" "$TMP/hashes-atual.txt" > "$TMP/hashes.diff"
+  grep -E '^[+-][^+-]' "$TMP/hashes.diff" 2>/dev/null \
+    | awk '{print $2}' | sort -u > "$TMP/mudaram.txt"
+  comm -23 "$TMP/mudaram.txt" "$TMP/excecoes.txt" > "$TMP/mudaram-sem-permissao.txt"
+  comm -12 "$TMP/mudaram.txt" "$TMP/excecoes.txt" > "$TMP/mudaram-com-permissao.txt"
+
+  if [ -s "$TMP/mudaram-sem-permissao.txt" ]; then
+    falha "arquivos protegidos mudaram sem autorização:"
+    sed 's/^/      /' "$TMP/mudaram-sem-permissao.txt"
   else
-    falha "arquivos protegidos mudaram:"; sed -n '4,30p' "$TMP/hashes.diff"
+    ok "$(wc -l < "$TMP/hashes-atual.txt") arquivos, nenhuma mudança não autorizada"
+  fi
+  if [ -s "$TMP/mudaram-com-permissao.txt" ]; then
+    while read -r arquivo; do
+      printf "  nota  %s — %s\n" "$arquivo" \
+        "$(grep -F "$arquivo" "$DOCS/hashes-excecoes.txt" | head -1 | sed "s|^$arquivo[[:space:]]*||")"
+    done < "$TMP/mudaram-com-permissao.txt"
   fi
 fi
 
@@ -169,6 +187,15 @@ if RAIZ_CICLO="$RAIZ" node --experimental-strip-types --no-warnings \
   ok "$(tail -1 "$TMP/h1.log")"
 else
   falha "h1 fora do padrão:"; head -20 "$TMP/h1.log"
+fi
+
+# ── 11. Serviços encerrados ─────────────────────────────────────────────────
+titulo "11. Serviços encerrados"
+if RAIZ_CICLO="$RAIZ" node --experimental-strip-types --no-warnings \
+     "$DOCS/servicos-encerrados.mjs" "$BASE" > "$TMP/encerrados.log" 2>&1; then
+  ok "$(tail -1 "$TMP/encerrados.log")"
+else
+  falha "problema nas rotas encerradas:"; grep FALHA "$TMP/encerrados.log" | head -10
 fi
 
 pkill -f "next-server" 2>/dev/null

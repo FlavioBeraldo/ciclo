@@ -334,11 +334,9 @@ export const solucoes: Solucao[] = [
           'Estabelecemos cadências de revisão, testes e otimização que garantem melhoria contínua em todas as frentes.',
       },
     ],
-    services: ['Analytics & BI', 'Processos e Playbooks', 'Growth Contínuo'],
+    services: ['Analytics & BI'],
     serviceLinks: [
       { label: 'Analytics & BI para E-commerce', slug: 'analytics-bi' },
-      { label: 'Processos e Playbooks', slug: 'processos-playbooks' },
-      { label: 'Growth Contínuo', slug: 'growth-continuo' },
     ],
     results: [
       {
@@ -365,11 +363,11 @@ export const solucoes: Solucao[] = [
       },
       {
         q: 'O que são Playbooks de marketing?',
-        a: 'Playbooks são documentos que descrevem como executar processos repetíveis: como lançar uma campanha, como responder a uma queda de ROAS, como onboardar um novo canal. Eles permitem que a operação escale sem depender de conhecimento tácito de pessoas específicas.',
+        a: 'Playbooks são documentos que descrevem como executar processos repetíveis: como lançar uma campanha, como responder a uma queda de ROAS, como onboardar um novo canal. Eles transformam conhecimento tácito, que vive na cabeça das pessoas, em conhecimento explícito e replicável. A maioria dos e-commerces que não escala tem o mesmo problema: dependência crítica de uma ou duas pessoas. O trabalho envolve mapear os processos que mais impactam o resultado, documentar passo a passo com responsáveis e checklists, validar com a equipe e treinar o time no uso.',
       },
       {
         q: 'O que é Growth Contínuo?',
-        a: 'Growth Contínuo é a prática estruturada de testar hipóteses de crescimento em ciclos curtos — semanas, não meses. Cada ciclo tem uma hipótese, um experimento e uma conclusão que alimenta o próximo ciclo. É o método que permite aprender rápido e crescer de forma consistente.',
+        a: 'Growth Contínuo é a prática estruturada de testar hipóteses de crescimento em ciclos curtos — semanas, não trimestres. Cada ciclo tem uma hipótese, um experimento com métrica clara e uma conclusão que alimenta o próximo. Começa pelo diagnóstico dos gargalos do funil, segue com um backlog de hipóteses priorizado por impacto e esforço, sprints de experimento de duas semanas e a decisão de escalar, iterar ou descartar. Uma estrutura com quatro a cinco testes por mês acumula dezenas de aprendizados comprovados ao longo de um ano.',
       },
       {
         q: 'A Ciclo cuida da implementação técnica de ferramentas?',

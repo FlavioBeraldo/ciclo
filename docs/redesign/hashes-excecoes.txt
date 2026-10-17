@@ -1,0 +1,11 @@
+# Arquivos da camada protegida cuja mudança foi autorizada, com o motivo.
+#
+# O passo 1 do verificar.sh compara o hash de tudo em src/lib e src/app/api.
+# Um arquivo listado aqui deixa de reprovar a verificação, mas continua sendo
+# IMPRESSO a cada rodada — a ideia é que a exceção fique à vista, não que
+# desapareça. Para tirar um arquivo da lista, basta apagar a linha.
+#
+# Formato:  caminho<TAB ou espaços>motivo
+#
+src/lib/servicos.ts    Serviços /servicos/processos-playbooks e /servicos/growth-continuo encerrados por ordem do Flávio em 17/10/2026
+src/lib/solucoes.ts    Os dois serviços saíram da lista de Inteligência & Operação e o FAQ da solução absorveu o conteúdo deles

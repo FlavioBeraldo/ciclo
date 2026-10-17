@@ -68,8 +68,6 @@ const sections = [
     heading: 'Inteligência & Operação — serviços',
     links: [
       { label: 'Analytics & BI', href: '/servicos/analytics-bi' },
-      { label: 'Processos e Playbooks', href: '/servicos/processos-playbooks' },
-      { label: 'Growth Contínuo', href: '/servicos/growth-continuo' },
     ],
   },
 ]
