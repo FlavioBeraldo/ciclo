@@ -177,6 +177,12 @@ if node tipografia.mjs "$BASE" > "$TMP/inter.log" 2>&1; then
 else
   falha "tipografia fora do padrão:"; grep FALHA "$TMP/inter.log" | head -8
 fi
+cp "$DOCS/miniaturas.mjs" .
+if node miniaturas.mjs > "$TMP/mini.log" 2>&1; then
+  ok "miniatura desce de degrau no 404 e no placeholder de 200"
+else
+  falha "queda de degrau da miniatura com defeito:"; grep FALHA "$TMP/mini.log" | head -5
+fi
 if node menu-movel.mjs "$BASE" > "$TMP/menu.log" 2>&1; then
   ok "menu móvel: abre, Escape fecha, foco volta, Tab preso, destinos válidos"
 else

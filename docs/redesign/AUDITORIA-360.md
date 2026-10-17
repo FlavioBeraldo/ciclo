@@ -233,17 +233,47 @@ eles. Nenhum valor foi lido, exibido ou copiado.
 
 ### 4.5 O que NÃO é verificável aqui
 
-| Integração | Por quê |
-|---|---|
-| Meta Pixel e CAPI ponta a ponta | O escopo Preview não tem `META_*`; e o domínio `*.vercel.app` não é verificado no Business Manager, o que gera o aviso de restrição já registrado |
-| Pipedrive: pipeline, etapa, campos | Sem `PIPEDRIVE_*` no Preview. O código que monta o payload não mudou, mas a criação de negócio real só se confirma em produção |
-| Supabase (telemetria) | Sem `SUPABASE_*` no Preview |
-| GA4 e reCAPTCHA | Sem chave no Preview |
-| Cron `/api/cron/site-digest` | Só dispara em produção |
+> **Correção de 17/10, de auditoria independente.** A versão anterior desta
+> seção dizia que, por faltarem variáveis no Preview, as tags não rodavam
+> ali. **Está errado para as tags de navegador.** Conferido no DOM real do
+> Preview: carregam `googletagmanager.com/gtm.js?id=GTM-5NNPNZ`,
+> `gtag/js?id=G-EY1FLE5C0J` e `gtag/js?id=AW-975154282`. Eles vêm do
+> `layout.tsx`, em código, e **não dependem de variável de ambiente**.
+> Ausência de env no Preview **não** significa isolamento das tags.
 
-Isso é **proteção, não defeito**: sem credencial, um envio de teste no Preview
-não alcança sistema real. O preço é que esses caminhos só fecham depois do
-merge. **Não copiar credencial de produção para o Preview.**
+### O que roda no Preview
+
+| Camada | No Preview | Observação |
+|---|---|---|
+| GTM, GA4 e Google Ads, no navegador | **Carregam** | Vêm do layout, sem env |
+| Meta Pixel, no navegador | **Carrega**, com aviso de restrição de domínio no console | `*.vercel.app` não é verificado no Business Manager |
+| YouTube | **Funciona** | Única integração de servidor com variável no escopo Preview |
+| Meta CAPI (servidor) | Não roda | Sem `META_*` |
+| Pipedrive | Não roda | Sem `PIPEDRIVE_*` |
+| Supabase | Não roda | Sem `SUPABASE_*` |
+| reCAPTCHA | Não roda | Sem chave |
+| Cron `site-digest` | Não dispara | Só em produção |
+
+### NÃO VERIFICADO
+
+- Se o container **filtra por hostname**, e portanto se os hits do Preview
+  chegam ou não ao GA4, ao Google Ads e ao Meta.
+- Se há **deduplicação** configurada entre Pixel e CAPI pelo `event_id`.
+- Como o **consentimento** está ligado no container.
+- Quais **domínios** estão autorizados em cada tag.
+
+Isso vive no container e no Business Manager, fora do repositório, e precisa
+ser conferido **antes da liberação**. Enquanto não for, não dá para afirmar
+nem que o Preview está isolado, nem que está poluindo os relatórios.
+
+**O que posso afirmar:** os testes automatizados deste repositório rodam com
+a rede externa cortada e `/api/*` em mock, e **nenhum lead de teste saiu**.
+Mas **navegação humana no Preview carrega as tags** e pode gerar hit.
+
+**Não desativar tag global nem alterar produção** para resolver isso.
+
+Sem credencial de servidor, um envio no Preview não cria negócio no CRM nem
+linha no Supabase. **Não copiar credencial de produção para o Preview.**
 
 ---
 
@@ -642,3 +672,75 @@ Na ordem, logo depois do merge:
 7. **ISR**: acompanhar o painel por 48h, pelo histórico de franquia estourada.
 
 Se 1, 2 ou 3 falharem, **rollback pelo Promote** e investigação na branch.
+
+---
+
+# Terceira rodada — 17/10, revalidação do `935291a`
+
+## 17. O que a auditoria independente confirmou
+
+| Item | Resultado |
+|---|---|
+| `/blog?q=full+funnel` | **1 artigo, o correto** — corrigido |
+| Mapa do site | **5 destinos novos presentes** |
+| 6 miniaturas do podcast | **maxresdefault** |
+| Depoimentos Mamô e DANKI | **maxresdefault** |
+| Depoimentos Líquido e KVRA | **caem para hqdefault** |
+| Player do Mamô | reproduz, Escape fecha, foco volta ao botão |
+
+## 18. Miniaturas: parcial, não aprovado
+
+**Dois dos quatro depoimentos continuam limitados pela origem.** `djykk9EFghg`
+(Líquido) e `xVdqhprwKWw` (KVRA) não têm `maxresdefault` nem `hq720` no
+YouTube — foram enviados em resolução menor. Para esses dois, `hqdefault` é
+o melhor que existe, e o cartão de 546px continua ampliando.
+
+**Não declarar os depoimentos em HD.** O status correto:
+
+| Vídeo | Melhor degrau real | Veredito |
+|---|---|---|
+| Mamô `MlDyvGg7rGs` | maxresdefault | Aprovado |
+| DANKI `6B2XYATbK3Q` | maxresdefault | Aprovado |
+| Líquido `djykk9EFghg` | hqdefault | **Parcial — limitado pela origem** |
+| KVRA `xVdqhprwKWw` | hqdefault | **Parcial — limitado pela origem** |
+| 6 episódios do podcast | maxresdefault | Aprovado |
+
+Só reenviar o vídeo ao YouTube em resolução maior resolve os dois. Não é
+coisa de código.
+
+## 19. Fallback para resposta 200 com placeholder: confirmado por teste
+
+O Preview `935291a` que a auditoria revalidou **ainda não tinha** essa
+proteção — ela entrou no `628116d`. Agora está coberta e provada.
+
+`docs/redesign/miniaturas.mjs` força os dois caminhos de falha com resposta
+fabricada, sem rede:
+
+```
+ok  maxres existe de verdade              → para em maxresdefault
+ok  maxres responde 404                   → desce para hq720
+ok  maxres responde 200 com 120×90        → desce para hq720
+ok  maxres e hq720 placeholder            → desce para sddefault
+ok  nada existe a não ser hqdefault       → para em hqdefault
+```
+
+A regra: desce de degrau no `onError` **e** quando a imagem carrega com
+menos de 320px decodificados. O último degrau não desce mais.
+
+## 20. Quadro corrigido de status
+
+| Área | Status |
+|---|---|
+| Busca e filtros do blog | **Aprovado** |
+| Mapa do site | **Aprovado** |
+| Miniaturas de episódio | **Aprovado** |
+| Miniaturas de depoimento | **Parcial** — 2 de 4 limitados pela origem |
+| Queda de degrau da miniatura | **Aprovado**, com teste dos dois caminhos |
+| Player: teclado, Escape, foco | **Aprovado**, confirmado em navegador real |
+| Imagem do case Mamô | **Pendente** — não há fonte melhor no projeto |
+| Fallback e SSR do podcast | **Pendente** — próximo checkpoint |
+| Tags no Preview: GTM, GA4, Ads, Pixel carregam | **Fato registrado** |
+| Container do GTM: hostname, consentimento, deduplicação, domínios | **NÃO VERIFICADO** |
+| Alerta de ISR Writes | **Pendente** — origem diagnosticada, correção recomendada e não aplicada |
+| 7 páginas no design antigo | **Pendente** |
+| Migração | **NÃO APROVADA** pelo Flávio |
