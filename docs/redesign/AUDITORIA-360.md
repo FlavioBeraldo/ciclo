@@ -1415,9 +1415,19 @@ Para não marcar como aprovado o que não é:
 | Item | Valor |
 |---|---|
 | Branch | `claude/redesign-ciclo-2026-HVyvT` |
-| SHA do candidato | `9df6eff512b242fe05ac261cec08f00bdb0687c1` |
-| Preview | https://ciclo-dl2o-orll219ix-flavioberaldos-projects.vercel.app |
+| Último commit de **código** | `86849812ddeaefc34f907c4a7a2f26404c1a3b5e` |
+| Preview desse commit | https://ciclo-dl2o-kli0zzua4-flavioberaldos-projects.vercel.app |
 | Produção, revalidada hoje | `7ae962bad1758ef0c77e775af6a683e7e5a0e280` — **não avançou** |
+
+Commits anteriores das páginas: `ac58a47` (/ofatorm), `af7b8b9` (/ecomshift),
+`7e3b63c` (/consultoria-para-e-commerce), `9df6eff` (as quatro últimas) e
+`8684981` (duas correções de UX nas páginas de formulário).
+
+**Sobre o SHA a liberar:** o commit que grava esta seção vem depois de
+`8684981` e toca **só `docs/`**, então o site que o Preview acima mostra é o
+mesmo do HEAD da branch. Confira com
+`git diff --stat 8684981..HEAD` antes de liberar: se só aparecer `docs/`, o
+SHA a liberar é o HEAD; se aparecer qualquer outro caminho, me avise.
 
 ### 27.2 Inventário de cascas, rota por rota
 
