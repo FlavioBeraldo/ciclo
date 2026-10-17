@@ -1,5 +1,5 @@
 Verificação do redesign — modo: comparar
-commit: e917a54  branch: claude/redesign-ciclo-2026-HVyvT
+commit: 3c5d176  branch: claude/redesign-ciclo-2026-HVyvT
 
 == 1. Camada protegida (src/lib e src/app/api)
   ok    40 arquivos, nenhuma mudança não autorizada
@@ -74,7 +74,7 @@ commit: e917a54  branch: claude/redesign-ciclo-2026-HVyvT
   ok    11 rotas sem estouro horizontal em 1440 e 390
 
 == 17. Podcast no servidor
-  ok    TUDO OK — API, episódio novo, tempo limite, cota, sem chave, só Shorts e sem snapshot
+  ok    TUDO OK — API, episódio novo, tempo limite, cota, sem chave, só Shorts, sem snapshot e gerador com descrição real
 
 ────────────────────────────────
 TUDO OK

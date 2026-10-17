@@ -517,3 +517,8 @@
 /* O link da política na faixa legal do rodapé */
 .ciclo2026 .footer-bottom a { text-decoration: underline; text-underline-offset: 3px; }
 .ciclo2026 .footer-bottom a:hover { color: #fff; }
+
+/* Os dois marcos ao lado do texto de "Nossa história": sem isto a grade os
+   estica até a altura da coluna de texto e sobra painel vazio. */
+.ciclo2026 .marcos { align-content: start; align-items: start; }
+.ciclo2026 .marcos .module-panel { padding: 26px 20px; }

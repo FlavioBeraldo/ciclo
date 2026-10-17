@@ -35,12 +35,19 @@ async function pedir(url, oque) {
 }
 
 // Escreve o módulo com o mesmo formato que src/lib/youtube.ts espera.
+//
+// Os valores saem por JSON.stringify, não por aspas montadas à mão. Descrição
+// de vídeo do YouTube tem quebra de linha, aspas e emoji; uma versão anterior
+// disto montava a string na unha e gerava TypeScript inválido assim que a
+// primeira descrição real chegava — o build local passava porque sem chave o
+// script nem roda, e quebrava no Preview, que tem chave. Literal JSON é
+// literal JavaScript válido, e escapa tudo.
 function moduloTs(episodios) {
-  const aspas = (v) => "'" + String(v).replace(/\\/g, '\\\\').replace(/'/g, "\\'") + "'"
+  const aspas = (v) => JSON.stringify(String(v ?? ''))
   const item = (e) =>
     '  {\n' +
     ['id', 'title', 'description', 'publishedAt', 'thumbnail', 'url']
-      .map((k) => `    ${k}: ${aspas(e[k] ?? '')},`)
+      .map((k) => `    ${k}: ${aspas(e[k])},`)
       .join('\n') +
     '\n  },'
   return [

@@ -221,10 +221,67 @@ const { EPISODIOS_SNAPSHOT } = await import(`${RAIZ}/src/lib/youtube.ts`)
   )
 }
 
+// ── 9. O gerador do snapshot aguenta descrição real ────────────────────────
+//
+// Descrição de vídeo do YouTube tem quebra de linha, aspas, barra invertida e
+// emoji. Uma versão deste gerador montava a string na unha e produzia
+// TypeScript inválido no primeiro episódio real — e isso NÃO aparecia no
+// build local, porque sem `YOUTUBE_API_KEY` o script nem roda. Quebrou no
+// Preview, que tem chave. Este caso existe para não acontecer de novo.
+
+{
+  const { readFileSync, writeFileSync, mkdtempSync } = await import('node:fs')
+  const { join } = await import('node:path')
+  const { tmpdir } = await import('node:os')
+
+  const fonte = readFileSync(`${RAIZ}/scripts/fetch-youtube.js`, 'utf8')
+  const trecho = fonte.match(/function moduloTs[\s\S]*?\n}/)
+  conferir(Boolean(trecho), 'achei a função moduloTs em scripts/fetch-youtube.js')
+
+  if (trecho) {
+    const moduloTs = new Function(`${trecho[0]}; return moduloTs`)()
+    const hostil = [
+      {
+        id: 'teste-1',
+        title: 'Aspas " simples \' e barra \\',
+        description: 'Primeira linha\nSegunda linha\n\nInscreva-se: https://exemplo — 🎙',
+        publishedAt: '2026-01-01T00:00:00Z',
+        thumbnail: 'https://i.ytimg.com/vi/teste-1/hqdefault.jpg',
+        url: 'https://www.youtube.com/watch?v=teste-1',
+      },
+    ]
+    const pasta = mkdtempSync(join(tmpdir(), 'snapshot-'))
+    const arquivo = join(pasta, 'episodios-fator-m.ts')
+    writeFileSync(arquivo, moduloTs(hostil))
+
+    let gerado = null
+    let erro = null
+    try {
+      gerado = await import(arquivo)
+    } catch (e) {
+      erro = e
+    }
+
+    conferir(
+      gerado !== null,
+      `o módulo gerado é TypeScript válido${erro ? ' — ' + erro.message : ''}`
+    )
+    if (gerado) {
+      const e = gerado.EPISODIOS[0]
+      conferir(e.id === 'teste-1', 'o id sobrevive')
+      conferir(
+        e.description.split('\n').length === 4,
+        `a descrição mantém as quebras de linha (${e.description.split('\n').length})`
+      )
+      conferir(e.title === hostil[0].title, 'aspas e barra invertida sobrevivem ao ida e volta')
+    }
+  }
+}
+
 console.log(
   '\n' +
     (falhas
       ? `${falhas} FALHA(S)`
-      : 'TUDO OK — API, episódio novo, tempo limite, cota, sem chave, só Shorts e sem snapshot')
+      : 'TUDO OK — API, episódio novo, tempo limite, cota, sem chave, só Shorts, sem snapshot e gerador com descrição real')
 )
 process.exit(falhas ? 1 : 0)

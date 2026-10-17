@@ -1680,3 +1680,42 @@ Pedidas na revisão independente de `e917a54`.
 | 6 | 27.8 dizia que ver conteúdo real prova a busca pela API | Não prova: snapshot também serve episódio real, e hoje os dois coincidem. Reescrita, com o passo 17 novo cobrindo tempo limite, cota, sem chave, só Shorts, sem snapshot e episódio novo numa chamada seguinte — e dizendo o que continua pendente |
 
 **Limpeza de órfãos não foi misturada**, como pedido.
+
+### 27.10 Um erro meu, e como ele passou
+
+O primeiro commit desta rodada, `3c5d176`, **quebrou o build no Preview**.
+Registro porque o modo de falha é instrutivo.
+
+**O que eu fiz.** Para o teste do passo 17 conseguir importar o snapshot fora
+do Next, troquei `src/data/youtube-videos.json` por um módulo `.ts`. O
+gerador em `scripts/fetch-youtube.js` passou a escrever esse módulo montando
+as strings na unha, escapando só barra invertida e aspa simples.
+
+**Por que quebrou.** Descrição de vídeo do YouTube tem **quebra de linha** —
+e aspas, e emoji. Uma quebra de linha dentro de literal de string é erro de
+sintaxe. O primeiro episódio real derrubava o `next build`.
+
+**Por que não apareceu aqui.** Sem `YOUTUBE_API_KEY`, o gerador nem roda:
+imprime "mantendo o snapshot atual" e sai. Local passava verde todas as
+vezes. O Preview tem a chave, roda o gerador de verdade, e quebrou.
+
+**É exatamente o tipo de coisa que o meu relatório não pegava**: eu dizia
+"build verde, 883 páginas" sem distinguir *build com o gerador rodando* de
+*build com o gerador pulando*.
+
+**Correção, em três camadas:**
+
+1. O gerador passou a usar `JSON.stringify` em cada valor. Literal JSON é
+   literal JavaScript válido e escapa quebra de linha, aspas, barra e emoji.
+2. O passo 17 ganhou um caso que roda o gerador com uma descrição hostil —
+   quatro linhas, aspas dos dois tipos, barra invertida e emoji — escreve o
+   módulo e **importa de volta**, conferindo que o conteúdo sobrevive ao ida
+   e volta. Esse caso falha se alguém voltar a montar string na unha.
+3. Reproduzi a falha do jeito que a Vercel a produz: gerei o snapshot com
+   descrição real, rodei `tsc --noEmit` e o `next build` inteiro, e os dois
+   passaram. Depois restaurei o snapshot limpo.
+
+**O que isso diz sobre o candidato:** a suíte local não cobre o passo do
+build que depende de variável de ambiente que só existe na plataforma. A
+prova de que esse passo funciona continua sendo **o deployment verde**, não
+a minha suíte.

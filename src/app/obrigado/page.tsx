@@ -210,7 +210,7 @@ export default function ObrigadoPage() {
                     </p>
                   </div>
 
-                  <div className="module-grid cols-2">
+                  <div className="module-grid cols-2 marcos">
                     {MARCOS.map((m) => (
                       <div className="module-panel centered" key={m.rotulo}>
                         <p className="semibold module-number">{m.valor}</p>
