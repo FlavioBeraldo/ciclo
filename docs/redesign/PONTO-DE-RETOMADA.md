@@ -115,6 +115,9 @@ capturas locais, porque aqui a rede externa é cortada.
 
 | Data | Commit | O que foi conferido |
 |---|---|---|
+| 17/10 | `159ba1a` | **TikTok Shop conferido por comparação de DOM com o Preview anterior.** title, description, canonical, as 6 perguntas e respostas do FAQ e os 3 JSON-LD iguais. Todas as frases dos parágrafos antigos presentes; a única diferença é o texto do rodapé, que agora fica fora do `main`, com CNPJ e copyright conferidos. Só Inter. Todas as âncoras internas com destino. Em 390×844 sem rolagem lateral, menu abre, Escape fecha, FAQ abre. **Um ajuste de UX pedido:** a seção `#frentes` mede ~1104px de altura em 1397×889 e mistura visão geral com descrição longa — é difícil ver as quatro frentes e o núcleo juntos. Separar em visão geral compacta e detalhes abaixo, sem duplicar as descrições inteiras. |
+| 17/10 | `9febef7` | **Remoção dos dois serviços conferida.** Os dois endereços antigos terminam em `/solucoes/inteligencia-e-operacao`; os links não aparecem mais na home, na solução nem em `/mapa-do-site`; as respostas ampliadas do FAQ da solução foram lidas. Ressalva registrada pela própria auditoria: o 308 vem dos meus testes, não foi medido na leitura de UI. |
+| 17/10 | `5b3e380` | **Correções do 3.1 e 3.2a confirmadas.** `/servicos/meta-ads` só com Inter; sem rolagem lateral em 390×844; menu abre e o Escape fecha devolvendo o foco ao botão. O h1 começa por "Meta Ads para E-commerce" e contém a chamada grande. No blog: busca sem resultado mostra estado vazio com link para todos, o filtro CRM traz 3 artigos, o artigo aberto tem um h1 só, sumário com todos os ids, só Inter e sem imagem quebrada. **Um defeito achado:** o popup "Playbook gratuito de Social Commerce", sobre `/blog`, estava em Playfair. |
 | 17/10 | `f8c6437` | **Três defeitos achados.** (a) Playfair Display computada no subtítulo de `/servicos/meta-ads` e no destaque "em movimento", e no subtítulo de `/solucoes/captacao-de-demanda` — contra a ordem de usar só Inter. (b) Em 390×844, o Escape sobre o botão Fechar **não fecha** o menu móvel. (c) UX móvel: a abertura de Meta Ads ocupa quase a primeira tela inteira, e o índice de seções está em 11px quebrando em duas linhas, com área de toque pequena. Sem estouro horizontal e com âncoras válidas nas duas rotas — resultado pontual, não aprovação do site. |
 | 17/10 | `9fd52eb` | Home no Preview: 20 logos e 4 miniaturas carregaram; menu móvel abre e fecha ao navegar; sem estouro horizontal em 390 px; formulário centralizado e bandeira BR carregada; frase editorial em Playfair Display itálico. Achado: aviso do Pixel por domínio de Preview. |
 | 17/10 | `2007992` | Player dos depoimentos no Preview: o vídeo da Mamô tocou no modal real do YouTube, o Escape fechou e devolveu o foco ao cartão, sem sair da URL. |
@@ -322,9 +325,10 @@ Um grupo por vez, com build válido, preview revisável e
 | 2 | Serviços e soluções | `/servicos/*`, `/solucoes/*` | A sequência própria dos serviços; JSON-LD | **Feito** (`05a241d`) |
 | 3 | Blog | `/blog`, `/blog/[slug]` | Template de artigo; 884 páginas; Article e FAQPage | **Feito** (`4f4da9c`) |
 | 3.1 | Correções transversais | tudo que já saiu | Só Inter; Escape e foco no menu móvel; altura da abertura e legibilidade do índice no celular | Próximo |
-| 3.2 | Remoção de dois serviços | `/servicos/processos-playbooks`, `/servicos/growth-continuo` | Redirecionamento permanente sem cadeia; tirar de home, soluções, mapa e sitemap | |
-| 4 | TikTok Shop | `/tiktok-shop` | Prioridade de UX. Diagrama das quatro frentes; FAQ e os três JSON-LD intactos | |
-| 5 | Demais institucionais | `/ofatorm`, `/depoimentos`, `/ecomshift`, `/mapa-do-site`, `/politica-de-privacidade` | Opt-out da privacidade | |
+| 3.2a | Título no h1 | todas as refeitas | O nome da página abre o h1, pequeno | **Feito** (`5b3e380`) |
+| 3.2 | Remoção de dois serviços | `/servicos/processos-playbooks`, `/servicos/growth-continuo` | Redirecionamento permanente sem cadeia; tirar de home, soluções, mapa e sitemap | **Feito** (`9febef7`) |
+| 4 | TikTok Shop | `/tiktok-shop` | Prioridade de UX. Diagrama das quatro frentes; FAQ e os três JSON-LD intactos | **Feito** (`159ba1a`) |
+| 5 | Demais institucionais | `/ofatorm`, `/depoimentos`, `/ecomshift`, `/mapa-do-site`, `/politica-de-privacidade` | Opt-out da privacidade | Próximo |
 | 6 | Consultorias | `/consultoria-para-e-commerce`, `/consultoria-ecom-shift` | A identidade `shift` será substituída | |
 | 7 | Formulários | `/aplicacao`, `/link-bio`, `/obrigado`, LeadForm | O mais sensível. Handlers reais, payload idêntico | |
 

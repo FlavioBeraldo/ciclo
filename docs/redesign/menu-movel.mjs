@@ -18,6 +18,8 @@ const ROTAS = [
   '/solucoes/captacao-de-demanda',
   '/blog',
   '/blog/meta-creator-marketing-hub',
+  '/tiktok-shop',
+  '/depoimentos',
 ]
 
 let falhas = 0

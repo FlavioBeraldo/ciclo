@@ -36,6 +36,14 @@ const texto = (html) =>
 const CASOS = [
   { rota: '/', comeca: 'Agência de Marketing para E-commerce - Full Funnel' },
   { rota: '/blog', comeca: 'Blog de E-commerce · Ciclo Insights' },
+  { rota: '/tiktok-shop', comeca: 'Agência TikTok Shop' },
+  { rota: '/depoimentos', comeca: 'Depoimentos' },
+  { rota: '/mapa-do-site', comeca: 'Mapa do Site' },
+  // Exceção registrada: na política o rótulo pequeno continua sendo
+  // "Conformidade Legal", que era o texto que já estava na página. Trocá-lo
+  // pelo título apagaria copy existente; o nome da página vem logo depois,
+  // dentro do mesmo h1.
+  { rota: '/politica-de-privacidade', comeca: 'Conformidade Legal Política de Privacidade' },
   ...servicos.map((s) => ({ rota: `/servicos/${s.slug}`, comeca: s.title })),
   ...solucoes.map((s) => ({ rota: `/solucoes/${s.slug}`, comeca: s.heroSub })),
 ]

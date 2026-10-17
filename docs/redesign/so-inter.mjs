@@ -22,6 +22,10 @@ const ROTAS = [
   '/blog',
   '/blog/meta-creator-marketing-hub',
   '/blog/full-funnel-marketing-por-que-sua-marca-perde-dinheiro',
+  '/tiktok-shop',
+  '/depoimentos',
+  '/mapa-do-site',
+  '/politica-de-privacidade',
 ]
 
 const navegador = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium' })

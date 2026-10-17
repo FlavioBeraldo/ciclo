@@ -1,14 +1,19 @@
 import { FRENTES } from './conteudo'
 
-// A operação de TikTok Shop vista como um todo: o núcleo no centro e as quatro
-// frentes conectadas em volta, conforme o desenho que o Flávio mandou.
+// A operação de TikTok Shop em dois tempos, como a auditoria pediu.
 //
-// O texto é HTML de verdade — selecionável, pesquisável e lido na ordem certa
-// por leitor de tela. O SVG entra só para os traços que ligam o centro às
-// frentes, e é decorativo. No celular as frentes viram uma lista empilhada e
-// os traços somem: não há texto miúdo nem rolagem lateral.
+//   1. Visão geral compacta: o núcleo no centro e as quatro frentes em volta,
+//      com rótulo curto. Dá para entender o serviço em poucos segundos e ver
+//      tudo junto na mesma tela.
+//   2. Os blocos completos logo abaixo, com os subtítulos de serviço, as
+//      descrições e os entregáveis.
 //
-// Nenhum conteúdo de SEO virou imagem.
+// A descrição inteira aparece uma vez só, no detalhe. Na visão geral vão os
+// nomes dos serviços, que já são o conteúdo do bloco — serve de índice.
+//
+// O texto é HTML de verdade: selecionável, pesquisável e lido na ordem certa.
+// O SVG entra só nos traços que ligam o centro às frentes, e é decorativo.
+// No celular tudo empilha numa coluna, sem traço e sem texto miúdo.
 
 export default function Frentes() {
   return (
@@ -29,13 +34,18 @@ export default function Frentes() {
           </p>
         </div>
 
+        {/* ── 1. Visão geral ── */}
         <div className="tts-mapa">
-          {/* Só os traços. O conteúdo é o HTML abaixo. */}
-          <svg className="tts-tracos" viewBox="0 0 900 520" preserveAspectRatio="none" aria-hidden="true">
-            <line x1="300" y1="150" x2="450" y2="260" />
-            <line x1="600" y1="150" x2="450" y2="260" />
-            <line x1="300" y1="370" x2="450" y2="260" />
-            <line x1="600" y1="370" x2="450" y2="260" />
+          <svg
+            className="tts-tracos"
+            viewBox="0 0 900 360"
+            preserveAspectRatio="none"
+            aria-hidden="true"
+          >
+            <line x1="270" y1="90" x2="450" y2="180" />
+            <line x1="630" y1="90" x2="450" y2="180" />
+            <line x1="270" y1="270" x2="450" y2="180" />
+            <line x1="630" y1="270" x2="450" y2="180" />
           </svg>
 
           <div className="tts-nucleo">
@@ -44,7 +54,20 @@ export default function Frentes() {
           </div>
 
           {FRENTES.map((f) => (
-            <article className={`tts-frente tts-${f.id}`} key={f.id} id={f.id}>
+            <a className={`tts-resumo tts-${f.id}`} href={`#${f.id}`} key={f.id}>
+              <span className="tts-numero">{f.numero}</span>
+              <strong>{f.titulo}</strong>
+              <span className="tts-resumo-itens">
+                {f.servicos.map((s) => s.titulo).join(' · ')}
+              </span>
+            </a>
+          ))}
+        </div>
+
+        {/* ── 2. Os blocos completos ── */}
+        <div className="tts-detalhes">
+          {FRENTES.map((f) => (
+            <article className="tts-frente" key={f.id} id={f.id}>
               <div className="tts-frente-topo">
                 <span className="tts-numero">{f.numero}</span>
                 <h3>{f.titulo}</h3>

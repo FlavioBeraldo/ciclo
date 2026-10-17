@@ -1,7 +1,11 @@
 import type { Metadata } from 'next'
-import Header from '@/components/Header'
-import Footer from '@/components/Footer'
-import DepoimentosInteractive from './interactive'
+import Link from 'next/link'
+import CicloHeader from '@/components/ciclo/CicloHeader'
+import CicloFooter from '@/components/ciclo/CicloFooter'
+import Breadcrumb from '@/components/ciclo/interior/Breadcrumb'
+import VideosDepoimento from '@/components/ciclo/VideosDepoimento'
+import '@/components/ciclo/base.css'
+import '@/components/ciclo/interiors.css'
 
 export const metadata: Metadata = {
   title: 'Depoimentos | Cases de Sucesso em E-commerce — Ciclo E-commerce',
@@ -18,17 +22,87 @@ export const metadata: Metadata = {
   alternates: { canonical: 'https://cicloecommerce.com.br/depoimentos' },
 }
 
+// Os mesmos quatro vídeos, com as mesmas descrições que a página já trazia.
+const DEPOIMENTOS = [
+  {
+    id: 'djykk9EFghg',
+    marca: 'Líquido',
+    descricao: 'Como a Líquido escalou seu e-commerce com Full Funnel Marketing.',
+  },
+  {
+    id: 'xVdqhprwKWw',
+    marca: 'KVRA',
+    descricao: 'A jornada de crescimento da KVRA com Ciclo E-commerce.',
+  },
+  {
+    id: '6B2XYATbK3Q',
+    marca: 'DANKI',
+    descricao: 'DANKI e os resultados de Full Funnel Marketing com a Ciclo.',
+  },
+  {
+    id: 'MlDyvGg7rGs',
+    marca: 'Mamô Brasil',
+    descricao: 'Mamô Brasil e sua estratégia de crescimento sustentável.',
+  },
+]
+
+// /depoimentos no design 2026. Mesmos vídeos, mesmas descrições, mesma
+// metadata e mesmo canonical. O player é o mesmo componente da home, com o
+// teclado e o foco já testados.
 export default function DepoimentosPage() {
   return (
-    <main className="min-h-screen bg-[#050505] pt-20">
-      {/* Background glow */}
-      <div className="fixed inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
-        <div className="absolute top-0 right-0 w-[600px] h-[600px] rounded-full bg-[#A100FF]/8 blur-[80px]" />
-        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] rounded-full bg-[#A100FF]/5 blur-[80px]" />
+    <div className="ciclo2026">
+      <div className="inner">
+        <a className="skip" href="#conteudo">
+          Pular para o conteúdo
+        </a>
+
+        <CicloHeader />
+
+        <main id="conteudo">
+          <section className="inner-hero">
+            <div className="wrap narrow">
+              <Breadcrumb etapas={[{ rotulo: 'Início', href: '/' }, { rotulo: 'Depoimentos' }]} />
+
+              <h1>
+                <span className="eyebrow h1-kicker">
+                  <span />
+                  Depoimentos
+                </span>
+                Quem vive, recomenda
+              </h1>
+
+              <p className="inner-lead">
+                Veja o que as marcas que cresceram com a Ciclo têm a dizer sobre a parceria.
+              </p>
+            </div>
+          </section>
+
+          <div className="section-fade paper-dark" aria-hidden="true" />
+
+          <section className="section dark proof">
+            <div className="wrap narrow">
+              <VideosDepoimento itens={DEPOIMENTOS} />
+            </div>
+          </section>
+
+          <div className="section-fade dark-white" aria-hidden="true" />
+
+          <section className="inner-section">
+            <div className="wrap narrow">
+              <div className="tts-cta">
+                <h2>Quer ser o próximo case de sucesso?</h2>
+                <Link className="button" href="/#contato">
+                  <span>Fale com um especialista</span>
+                  <b aria-hidden="true">↗</b>
+                </Link>
+              </div>
+            </div>
+          </section>
+        </main>
+
+        <CicloFooter />
       </div>
-      <Header />
-      <DepoimentosInteractive />
-      <Footer />
-    </main>
+    </div>
   )
 }

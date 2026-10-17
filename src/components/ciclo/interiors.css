@@ -170,3 +170,87 @@
 @media (max-width: 760px) {
   .ciclo2026 .h1-kicker { font-size: 10px; margin-bottom: 14px; }
 }
+
+/* ── Mapa do site ────────────────────────────────────────────────────────── */
+.ciclo2026 .mapa-grupos {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px 64px;
+}
+.ciclo2026 .mapa-grupo h2 {
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: .02em;
+  color: #6f6c66;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 14px;
+  margin: 0 0 4px;
+}
+.ciclo2026 .mapa-grupo ul { list-style: none; padding: 0; margin: 0; }
+.ciclo2026 .mapa-grupo a {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 18px;
+  border-bottom: 1px solid #e8e4de;
+  padding: 14px 0;
+  font-size: 15px;
+  min-height: 44px;
+}
+.ciclo2026 .mapa-grupo a:hover { color: var(--accent); }
+.ciclo2026 .mapa-grupo a b { font-size: 16px; font-weight: 400; color: #9a958e; }
+@media (max-width: 760px) {
+  .ciclo2026 .mapa-grupos { grid-template-columns: 1fr; gap: 32px; }
+}
+
+/* ── Páginas legais ──────────────────────────────────────────────────────── */
+.ciclo2026 .legal-data { font-size: 12px; color: var(--muted); margin: 14px 0 0; }
+.ciclo2026 .legal-indice {
+  background: var(--paper);
+  border-radius: 14px;
+  padding: 28px 32px;
+  margin: 40px 0 48px;
+  max-width: 760px;
+}
+.ciclo2026 .legal-indice h2 {
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: .02em;
+  color: #6f6c66;
+  margin: 0 0 16px;
+}
+.ciclo2026 .legal-indice ol { margin: 0; padding-left: 0; list-style: none; }
+.ciclo2026 .legal-indice li { margin: 0; }
+.ciclo2026 .legal-indice a {
+  display: block;
+  font-size: 14px;
+  line-height: 1.5;
+  padding: 9px 0;
+  min-height: 40px;
+}
+.ciclo2026 .legal-indice a:hover { color: var(--accent); }
+.ciclo2026 .legal-body section { scroll-margin-top: 110px; }
+.ciclo2026 .legal-body h2 {
+  font-size: 24px;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 14px;
+  margin: 52px 0 22px;
+}
+.ciclo2026 .legal-body section:first-child h2 { margin-top: 0; }
+.ciclo2026 .legal-body { max-width: 760px; }
+@media (max-width: 760px) {
+  .ciclo2026 .legal-indice { padding: 22px; margin: 30px 0 36px; }
+  .ciclo2026 .legal-body h2 { font-size: 21px; margin-top: 40px; }
+}
+
+/* A descrição de cada depoimento, que só a página /depoimentos mostra */
+.ciclo2026 .proof-descricao {
+  font-size: 12px;
+  line-height: 1.65;
+  color: #a9a7a2;
+  margin: 0;
+  padding: 0 18px 20px;
+}
+@media (max-width: 760px) {
+  .ciclo2026 .proof-descricao { padding: 0 14px 16px; }
+}
