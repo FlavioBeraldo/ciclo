@@ -1415,13 +1415,15 @@ Para não marcar como aprovado o que não é:
 | Item | Valor |
 |---|---|
 | Branch | `claude/redesign-ciclo-2026-HVyvT` |
-| Último commit de **código** | `86849812ddeaefc34f907c4a7a2f26404c1a3b5e` |
-| Preview desse commit | https://ciclo-dl2o-kli0zzua4-flavioberaldos-projects.vercel.app |
+| Último commit de **código** | `e0f5bc2d2ca7afaf12356393773c4c2816f25557` |
+| Preview desse commit | https://ciclo-dl2o-db01c5gxc-flavioberaldos-projects.vercel.app · **success** |
 | Produção, revalidada hoje | `7ae962bad1758ef0c77e775af6a683e7e5a0e280` — **não avançou** |
 
-Commits anteriores das páginas: `ac58a47` (/ofatorm), `af7b8b9` (/ecomshift),
-`7e3b63c` (/consultoria-para-e-commerce), `9df6eff` (as quatro últimas) e
-`8684981` (duas correções de UX nas páginas de formulário).
+Commits das páginas: `ac58a47` (/ofatorm), `af7b8b9` (/ecomshift),
+`7e3b63c` (/consultoria-para-e-commerce), `9df6eff` (as quatro últimas),
+`8684981` (UX das páginas de formulário), `3c5d176` (as três correções de
+frontend e o tempo limite do podcast — **este quebrou o build no Preview**,
+ver 27.10) e `e0f5bc2` (a correção do gerador; Preview verde).
 
 **Sobre o SHA a liberar:** o commit que grava esta seção vem depois de
 `8684981` e toca **só `docs/`**, então o site que o Preview acima mostra é o
