@@ -13,3 +13,14 @@
 @media(prefers-reduced-motion:reduce){.ciclo2026{scroll-behavior:auto}.ciclo2026 *,.ciclo2026 *:before,.ciclo2026 *:after{transition:none!important}}
 .ciclo2026 .special-module .brandmark{width:110px;height:42px;object-fit:contain;filter:grayscale(1);opacity:.65;border-radius:0}.ciclo2026 .special-module .module-flex:has(.special-logo){justify-content:center}.ciclo2026 .special-module .centered h1{margin-left:auto;margin-right:auto}.ciclo2026 .creative-gallery{grid-template-columns:1fr 1fr}.ciclo2026 .creative-gallery figcaption{font-size:13px;line-height:1.7}.ciclo2026 .special-module .video-trigger{width:100%}.ciclo2026 .special-module .video-trigger img{margin:0}
 @media(max-width:760px){.ciclo2026 .creative-gallery{grid-template-columns:1fr}}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Ponte com o projeto — acrescentado à folha do kit, não substitui nada dela.
+   Precisa vir depois das regras acima, que pedem 'Playfair Display' pelo nome
+   da família; aqui a mesma fonte chega pelo next/font.
+   ═══════════════════════════════════════════════════════════════════════════ */
+.ciclo2026 .inner em,
+.ciclo2026 .inner-signature,
+.ciclo2026 .special-module blockquote {
+  font-family: var(--font-playfair-2026), 'Playfair Display', Georgia, serif;
+}

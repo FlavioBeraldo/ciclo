@@ -126,6 +126,16 @@ else
   else falha "captura de medição falhou"; tail -5 "$TMP/med.log"; fi
 fi
 
+# ── 7. Internas: conteúdo, URLs e SEO preservados ───────────────────────────
+titulo "7. Conteúdo e SEO das internas"
+cd "$RAIZ"
+if RAIZ_CICLO="$RAIZ" node --experimental-strip-types --no-warnings \
+     "$DOCS/internas-seo.mjs" "$BASE" > "$TMP/seo.log" 2>&1; then
+  ok "$(tail -1 "$TMP/seo.log")"
+else
+  falha "conteúdo ou SEO das internas mudou:"; head -25 "$TMP/seo.log"
+fi
+
 pkill -f "next-server" 2>/dev/null
 printf "\n%s\n" "────────────────────────────────"
 if [ "$falhas" -eq 0 ]; then echo "TUDO OK"; else echo "$falhas FALHA(S)"; fi

@@ -7,34 +7,36 @@ Atualizado em 17/10/2026.
 
 ## Onde estamos
 
-**Etapa concluída:** auditoria, baseline e ferramental de verificação.
-**Etapa seguinte, bloqueada:** a implementação visual, à espera do pacote.
+**Concluído:** auditoria, baseline, ferramental de verificação e o grupo 1 —
+base visual com escopo, cabeçalho, rodapé e home.
+**Em andamento:** grupo 2, serviços e soluções.
 
-Nenhuma linha de interface foi alterada. O que existe na branch é documentação
-e os scripts que vão provar, depois, que nada quebrou.
+O pacote `ciclo-layouts-para-claude.zip` chegou e é a referência autorizada.
+Os cinco documentos dele foram lidos na ordem pedida: `LEIA-PRIMEIRO.md`,
+`docs/GUIA-PARA-CLAUDE.md`, `docs/SISTEMA-VISUAL.md`, `docs/LAYOUTS-E-CAMPOS.md`
+e `docs/INTEGRACOES-E-PENDENCIAS.md`.
 
 | Item | Valor |
 |---|---|
 | Branch de trabalho | `claude/redesign-ciclo-2026-HVyvT` |
 | Base | produção `claude/elegant-darwin-HVyvT` no commit `7ae962b` |
 | Commit da auditoria | `e608981` |
+| Grupo 1, entrega | `9fd52eb` |
+| Grupo 1, correção do player | `2007992` |
 | Build, typecheck, rotas | Verdes. 884 páginas, 17 rotas em 200 |
 | Lint | 8 erros preexistentes, registrados como teto |
 
 ---
 
-## O bloqueio
+## Limitações conhecidas da validação
 
-O pacote `ciclo-layouts-para-claude.zip` **não chegou**. Não está no
-repositório e não foi anexado à conversa. Sem ele não começo interface, porque
-deduzir o design a partir do resumo em texto seria inventar.
+O que **não** dá para provar daqui, registrado para não virar falsa segurança:
 
-A prévia em `ciclo-direcao-visual-1610...chatgpt.site` pode exigir acesso do
-proprietário, e não vou tentar contornar.
-
-Quando o arquivo chegar, a primeira ação é ler, nesta ordem: `LEIA-PRIMEIRO.md`,
-`docs/GUIA-PARA-CLAUDE.md`, `docs/SISTEMA-VISUAL.md`, `docs/LAYOUTS-E-CAMPOS.md`
-e `docs/INTEGRACOES-E-PENDENCIAS.md`. Só depois disso, o plano por grupo.
+| Limitação | Detalhe |
+|---|---|
+| Meta Pixel no domínio de Preview | O console do Preview mostra aviso do Pixel sobre restrição de tráfego no domínio `*.vercel.app`. É comportamento esperado de domínio não verificado no Business Manager. A validação ponta a ponta de `Lead` (Pixel + CAPI) só fecha em produção. **Não mexer em pixel, permissões de domínio nem domínio para contornar.** |
+| Saída de rede da sessão | Esta sessão não alcança `*.vercel.app`, `img.youtube.com` nem o CDN de bandeiras do campo de telefone. As miniaturas do YouTube e a bandeira BR não renderizam nas capturas locais; foram conferidas no Preview real por revisão independente. |
+| Painel da Vercel | Ver "Não verificado", abaixo. |
 
 ---
 
@@ -183,18 +185,35 @@ a branch isolada continua sendo a única usada, e o merge fica com o Flávio.
 Um grupo por vez, com build válido, preview revisável e
 `verificar.sh comparar` limpo antes de seguir.
 
-| # | Grupo | Páginas | Cuidado principal |
-|---|---|---|---|
-| 1 | Base visual | tokens, tipografia, Header, Footer | Escopo que não alcance o playbook |
-| 2 | Home | `/` | Manter clientes, mídia, parceiros, cases, vídeos e formulário |
-| 3 | Serviços e soluções | `/servicos/*`, `/solucoes/*` | A sequência própria dos serviços; JSON-LD |
-| 4 | Blog | `/blog`, `/blog/[slug]` | Template de artigo; 884 páginas; Article e FAQPage |
-| 5 | Institucionais | `/ofatorm`, `/depoimentos`, `/ecomshift`, `/tiktok-shop`, `/mapa-do-site`, `/politica-de-privacidade` | Opt-out da privacidade |
-| 6 | Consultorias | `/consultoria-para-e-commerce`, `/consultoria-ecom-shift` | A identidade `shift` será substituída |
-| 7 | Formulários | `/aplicacao`, `/link-bio`, `/obrigado`, LeadForm | O mais sensível. Handlers reais, payload idêntico |
+| # | Grupo | Páginas | Cuidado principal | Situação |
+|---|---|---|---|---|
+| 1 | Base visual e home | tokens, tipografia, Header, Footer, `/` | Escopo que não alcance o playbook; manter clientes, mídia, parceiros, cases, vídeos e formulário | **Feito** (`9fd52eb`, `2007992`) |
+| 2 | Serviços e soluções | `/servicos/*`, `/solucoes/*` | A sequência própria dos serviços; JSON-LD | Em andamento |
+| 3 | Blog | `/blog`, `/blog/[slug]` | Template de artigo; 884 páginas; Article e FAQPage | |
+| 4 | Institucionais | `/ofatorm`, `/depoimentos`, `/ecomshift`, `/tiktok-shop`, `/mapa-do-site`, `/politica-de-privacidade` | Opt-out da privacidade | |
+| 5 | Consultorias | `/consultoria-para-e-commerce`, `/consultoria-ecom-shift` | A identidade `shift` será substituída | |
+| 6 | Formulários | `/aplicacao`, `/link-bio`, `/obrigado`, LeadForm | O mais sensível. Handlers reais, payload idêntico | |
 
-O grupo 7 fica por último de propósito: é onde um descuido quebra a medição sem
-aparecer na tela.
+A base visual e a home saíram no mesmo grupo porque o kit entrega a home como
+a página que define os tokens: separar as duas só geraria um commit que não dá
+para olhar. O grupo dos formulários fica por último de propósito: é onde um
+descuido quebra a medição sem aparecer na tela.
+
+### Lições do grupo 1, para não repetir
+
+- **O kit é layout, não conteúdo nem comportamento.** Ele usa links externos
+  para o YouTube "para demonstração" e o próprio
+  `docs/INTEGRACOES-E-PENDENCIAS.md` pede para integrar o player existente. Eu
+  segui o markup ao pé da letra e quebrei o player interno dos depoimentos.
+  Antes de copiar um `<a>`, conferir o que a página fazia antes.
+- **Métrica vem de `@/lib/*`, nunca do kit.** O kit escreve a terceira métrica
+  da Gringa diferente de `cases.ts`; vale o dado do projeto.
+- **Processo velho na porta 3100.** O `next-server` não casa com
+  `pkill -f "standalone/server.js"`, e `pkill -f next-server` mata o próprio
+  shell. Matar por PID (`ps -eo pid,args | grep "[n]ext-server"`) e reiniciar
+  sempre depois de um build, senão o teste roda contra o bundle anterior.
+- **`deployments?sha=` exige SHA completo.** Com o abreviado a resposta vem
+  vazia e parece que o deploy falhou.
 
 ---
 
@@ -217,8 +236,8 @@ verificação reinstala o segundo sozinho.
 
 | Pendência | Situação |
 |---|---|
-| Pacote do design | **Bloqueia a implementação.** Não recebido |
-| Acesso à prévia | Pode exigir permissão do proprietário. Não vou contornar |
+| Validação do Pixel no Preview | Bloqueada por domínio. Só fecha em produção. Ver "Limitações conhecidas da validação" |
+| 8 componentes órfãos da home antiga | `Hero`, `BrandsStrip`, `CommonErrorSection`, `ThesisSection`, `ServicesSection`, `TestimonialsSection`, `PodcastSection`, `RecentBlogSection`. Mantidos de propósito até os grupos seguintes; `LeadForm` e `CasesSection` seguem em uso |
 | 8 erros de lint preexistentes | Registrados. Não são do redesign e não serão corrigidos de carona. Os 2 do PlaybookForm ficam por definição, já que o arquivo é congelado |
 | Meta aguardando aceite dos termos | Herdada, fora deste escopo |
 | Episódio do Fator M no artigo do Creator Hub | Herdada, fora deste escopo |

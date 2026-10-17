@@ -11,8 +11,11 @@ import Cases from '@/components/ciclo/home/Cases'
 import Depoimentos from '@/components/ciclo/home/Depoimentos'
 import Podcast from '@/components/ciclo/home/Podcast'
 import Artigos from '@/components/ciclo/home/Artigos'
-import Contato from '@/components/ciclo/home/Contato'
+import Contato from '@/components/ciclo/Contato'
+// Mesmas duas folhas que a home do kit carrega, nesta ordem: `interiors.css`
+// redefine `--accent` para #933dc9 e é o que vale.
 import '@/components/ciclo/base.css'
+import '@/components/ciclo/interiors.css'
 
 export const metadata: Metadata = {
   alternates: { canonical: 'https://cicloecommerce.com.br' },
