@@ -30,6 +30,84 @@ e `docs/INTEGRACOES-E-PENDENCIAS.md`.
 
 ---
 
+## Ordens do Flávio em 17/10/2026, por meio do Codex
+
+Entram no escopo e valem daqui para a frente. Onde contradizem algo escrito
+antes neste documento, o que vale é o que está aqui.
+
+### 1. Tipografia: apenas Inter
+
+**Revoga** a regra anterior de usar Playfair Display Italic em frases
+editoriais curtas. Todo o escopo `.ciclo2026` passa a ser Inter — home,
+serviços, soluções, blog e o que vier. A hierarquia se faz com peso, tamanho
+e espaço, não com troca de família. O `/playbook-social-commerce` **não** é
+tocado para isso: ele continua congelado com a tipografia que tem.
+
+### 2. Dois serviços saem do ar
+
+`/servicos/processos-playbooks` e `/servicos/growth-continuo` deixam de
+existir. O que precisa acontecer junto:
+
+- Tirar os cartões e links da home, das soluções, da navegação e do mapa do
+  site e do sitemap.
+- Aproveitar na solução Inteligência & Operação o conteúdo que ainda fizer
+  sentido.
+- Redirecionamento permanente para destino semanticamente equivalente, sem
+  404, sem laço e sem cadeia de redirecionamento.
+- Registrar as duas exceções nos testes de preservação, para o
+  `internas-seo.mjs` parar de exigir essas páginas.
+
+**Isto não tem relação com `/playbook-social-commerce`**, que segue
+integralmente congelado. A semelhança é só no nome.
+
+### 3. `/tiktok-shop` — prioridade de UX do grupo 4
+
+A página está visualmente fraca e é a primeira do grupo 4. Preservar sem
+exceção: a URL, a metadata e o canonical, o conteúdo de SEO, o FAQ completo,
+os três JSON-LD (Service, BreadcrumbList e FAQPage), os links e a integração
+de conversão e mensuração.
+
+Ordem das seções acordada:
+
+1. Abertura atual, bem diagramada, com CTA
+2. Visão da operação integrada
+3. As frentes, com entregáveis reais
+4. Conteúdo educativo, números e roadmap que já existem, preservados
+5. FAQ
+6. Contato
+
+Evitar repetição e mural de cartões iguais. **Não inventar resultado,
+garantia, parceiro nem estatística.**
+
+### 4. Diagrama das quatro frentes
+
+Seção explicativa própria, a partir da imagem que o Flávio mandou: operação
+TikTok Shop no centro e quatro frentes conectadas ao redor — afiliação e
+creators, operação da loja, conteúdo e lives, e mídia —, com rótulos de
+entregável nas bordas, dentro do escopo já documentado.
+
+- HTML e SVG acessíveis, com texto selecionável e ordem de leitura correta.
+- Design editorial da Ciclo: só Inter, neutros `#1d1d1b`, `#efeeed` e
+  `#ffffff`, roxo `#933dc9` de acento, cantos suaves.
+- Nada de neon, gradiente multicolorido, logo de terceiro ou texto em inglês.
+- No celular, empilhado, sem texto minúsculo e sem rolagem horizontal.
+- **Conteúdo de SEO não vira imagem.**
+
+### 5. Referência autorizada: uptickk.com/solutions
+
+Serve **só** como estrutura de apresentação: visão geral da operação e blocos
+por frente com título claro, explicação, entregáveis e um visual. Não copiar
+texto, promessa, identidade nem serviço que a Ciclo não oferece. O conteúdo
+da Ciclo é a base.
+
+### 6. Dúvida em aberto: "manter a parte do fake"
+
+O Flávio pediu para manter "a parte do fake" em `/tiktok-shop`. Não há nada
+com esse nome no código. Nada foi removido por interpretação; a dúvida fica
+registrada e a página segue inteira até ele apontar qual bloco é.
+
+---
+
 ## Auditorias independentes
 
 Conferências feitas fora desta sessão, em navegador real. Valem mais que as
@@ -37,6 +115,7 @@ capturas locais, porque aqui a rede externa é cortada.
 
 | Data | Commit | O que foi conferido |
 |---|---|---|
+| 17/10 | `f8c6437` | **Três defeitos achados.** (a) Playfair Display computada no subtítulo de `/servicos/meta-ads` e no destaque "em movimento", e no subtítulo de `/solucoes/captacao-de-demanda` — contra a ordem de usar só Inter. (b) Em 390×844, o Escape sobre o botão Fechar **não fecha** o menu móvel. (c) UX móvel: a abertura de Meta Ads ocupa quase a primeira tela inteira, e o índice de seções está em 11px quebrando em duas linhas, com área de toque pequena. Sem estouro horizontal e com âncoras válidas nas duas rotas — resultado pontual, não aprovação do site. |
 | 17/10 | `9fd52eb` | Home no Preview: 20 logos e 4 miniaturas carregaram; menu móvel abre e fecha ao navegar; sem estouro horizontal em 390 px; formulário centralizado e bandeira BR carregada; frase editorial em Playfair Display itálico. Achado: aviso do Pixel por domínio de Preview. |
 | 17/10 | `2007992` | Player dos depoimentos no Preview: o vídeo da Mamô tocou no modal real do YouTube, o Escape fechou e devolveu o foco ao cartão, sem sair da URL. |
 | 17/10 | — | Painel da Vercel lido sem alterar nada. Ver a seção do painel. |
@@ -241,10 +320,13 @@ Um grupo por vez, com build válido, preview revisável e
 |---|---|---|---|---|
 | 1 | Base visual e home | tokens, tipografia, Header, Footer, `/` | Escopo que não alcance o playbook; manter clientes, mídia, parceiros, cases, vídeos e formulário | **Feito** (`9fd52eb`, `2007992`) |
 | 2 | Serviços e soluções | `/servicos/*`, `/solucoes/*` | A sequência própria dos serviços; JSON-LD | **Feito** (`05a241d`) |
-| 3 | Blog | `/blog`, `/blog/[slug]` | Template de artigo; 884 páginas; Article e FAQPage | Próximo |
-| 4 | Institucionais | `/ofatorm`, `/depoimentos`, `/ecomshift`, `/tiktok-shop`, `/mapa-do-site`, `/politica-de-privacidade` | Opt-out da privacidade | |
-| 5 | Consultorias | `/consultoria-para-e-commerce`, `/consultoria-ecom-shift` | A identidade `shift` será substituída | |
-| 6 | Formulários | `/aplicacao`, `/link-bio`, `/obrigado`, LeadForm | O mais sensível. Handlers reais, payload idêntico | |
+| 3 | Blog | `/blog`, `/blog/[slug]` | Template de artigo; 884 páginas; Article e FAQPage | **Feito** (`4f4da9c`) |
+| 3.1 | Correções transversais | tudo que já saiu | Só Inter; Escape e foco no menu móvel; altura da abertura e legibilidade do índice no celular | Próximo |
+| 3.2 | Remoção de dois serviços | `/servicos/processos-playbooks`, `/servicos/growth-continuo` | Redirecionamento permanente sem cadeia; tirar de home, soluções, mapa e sitemap | |
+| 4 | TikTok Shop | `/tiktok-shop` | Prioridade de UX. Diagrama das quatro frentes; FAQ e os três JSON-LD intactos | |
+| 5 | Demais institucionais | `/ofatorm`, `/depoimentos`, `/ecomshift`, `/mapa-do-site`, `/politica-de-privacidade` | Opt-out da privacidade | |
+| 6 | Consultorias | `/consultoria-para-e-commerce`, `/consultoria-ecom-shift` | A identidade `shift` será substituída | |
+| 7 | Formulários | `/aplicacao`, `/link-bio`, `/obrigado`, LeadForm | O mais sensível. Handlers reais, payload idêntico | |
 
 A base visual e a home saíram no mesmo grupo porque o kit entrega a home como
 a página que define os tokens: separar as duas só geraria um commit que não dá
