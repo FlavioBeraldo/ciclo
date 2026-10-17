@@ -24,3 +24,64 @@
 .ciclo2026 .special-module blockquote {
   font-family: var(--font-playfair-2026), 'Playfair Display', Georgia, serif;
 }
+
+/* No kit a listagem do blog é filtrada por JavaScript, então as categorias e
+   a paginação são <button>. Aqui elas continuam sendo links renderizados no
+   servidor — as URLs ?cat= e ?page= que o Google já conhece —, então as
+   mesmas regras precisam valer para <a>. */
+.ciclo2026 .category-tabs a {
+  border: 1px solid #d6d2cc;
+  background: transparent;
+  padding: 9px 13px;
+  border-radius: 6px;
+  font-size: 11px;
+  line-height: 1.4;
+  color: #706d66;
+}
+.ciclo2026 .category-tabs a[aria-current] {
+  background: var(--ink);
+  color: #fff;
+  border-color: var(--ink);
+}
+.ciclo2026 .pagination a {
+  height: 40px;
+  min-width: 40px;
+  padding: 0 12px;
+  border: 1px solid #d4d0ca;
+  border-radius: 6px;
+  font-size: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.ciclo2026 .pagination a[aria-current='page'] {
+  color: #fff;
+  background: var(--ink);
+}
+
+/* O rótulo da busca é um <label>, não um <span>, para apontar para o campo */
+.ciclo2026 .search-field > label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+
+.ciclo2026 .empty-state h3 { font-size: 24px; margin-bottom: 12px; }
+.ciclo2026 .empty-state p { font-size: 14px; color: var(--muted); margin-bottom: 20px; }
+
+/* Os rótulos de CTA dos posts curados são mais longos que os do kit, e
+   `.button` é nowrap. Em tela estreita o botão passava da margem; aqui ele
+   quebra a linha em vez de estourar. */
+@media (max-width: 560px) {
+  .ciclo2026 .article-body .button { max-width: 100%; white-space: normal; }
+  .ciclo2026 .article-body .button span { white-space: normal; text-align: left; }
+}
+
+/* No celular as categorias viram uma régua que rola na horizontal, como no
+   kit. Os <button> do kit têm flex-shrink:0; os links precisam do mesmo,
+   senão o texto de cada categoria é espremido. */
+@media (max-width: 760px) {
+  .ciclo2026 .category-tabs a { flex-shrink: 0; }
+}

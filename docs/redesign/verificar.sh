@@ -136,6 +136,15 @@ else
   falha "conteúdo ou SEO das internas mudou:"; head -25 "$TMP/seo.log"
 fi
 
+# ── 8. Blog: conteúdo, listagem e SEO preservados ───────────────────────────
+titulo "8. Conteúdo e SEO do blog"
+if RAIZ_CICLO="$RAIZ" node --experimental-strip-types --no-warnings \
+     "$DOCS/blog-seo.mjs" "$BASE" > "$TMP/blog.log" 2>&1; then
+  ok "$(tail -1 "$TMP/blog.log")"
+else
+  falha "conteúdo ou SEO do blog mudou:"; head -25 "$TMP/blog.log"
+fi
+
 pkill -f "next-server" 2>/dev/null
 printf "\n%s\n" "────────────────────────────────"
 if [ "$falhas" -eq 0 ]; then echo "TUDO OK"; else echo "$falhas FALHA(S)"; fi

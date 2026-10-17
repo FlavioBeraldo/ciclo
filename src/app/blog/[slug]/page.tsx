@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import { notFound, permanentRedirect } from 'next/navigation'
 import Link from 'next/link'
-import { ArrowLeft, Clock, ArrowRight, ExternalLink } from 'lucide-react'
 import {
   getPostBySlug,
   getWpPostBySlug,
@@ -9,7 +8,6 @@ import {
   getAllWpSlugs,
   posts,
   getWpPosts,
-  getCategoryGradient,
   formatDate,
   resolveCategory,
   supersededWpPosts,
@@ -20,8 +18,13 @@ import {
   getKeystatiPostBySlug,
   getKeystatiPosts,
 } from '@/lib/keystatic-posts'
-import Header from '@/components/Header'
-import Footer from '@/components/Footer'
+import CicloHeader from '@/components/ciclo/CicloHeader'
+import CicloFooter from '@/components/ciclo/CicloFooter'
+import Breadcrumb from '@/components/ciclo/interior/Breadcrumb'
+import { comSumario, type ItemDeSumario } from '@/components/ciclo/blog/sumario'
+import { playfair2026 } from '@/components/ciclo/fonts'
+import '@/components/ciclo/base.css'
+import '@/components/ciclo/interiors.css'
 
 interface Props {
   params: Promise<{ slug: string }>
@@ -77,42 +80,38 @@ function JsonLd({ data }: { data: object }) {
   )
 }
 
-function RenderSection({ section }: { section: BlogSection }) {
-  switch (section.type) {
+// Os posts curados vêm em blocos estruturados, não em HTML
+function Bloco({ secao, id }: { secao: BlogSection; id?: string }) {
+  switch (secao.type) {
     case 'paragraph':
-      return <p className="text-gray-700 leading-[1.9] text-[1.0625rem]">{section.text}</p>
+      return <p>{secao.text}</p>
     case 'heading':
-      return <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mt-10 mb-3">{section.text}</h2>
+      return <h2 id={id}>{secao.text}</h2>
     case 'subheading':
-      return <h3 className="text-lg sm:text-xl font-bold text-[#A100FF] mt-8 mb-2">{section.text}</h3>
+      return <h3>{secao.text}</h3>
     case 'list':
       return (
-        <ul className="space-y-3 my-2">
-          {section.items?.map((item, i) => (
-            <li key={i} className="flex items-start gap-3 text-gray-700 text-[1.0625rem] leading-relaxed">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#A100FF] mt-[0.6rem] flex-shrink-0" />
-              {item}
-            </li>
+        <ul>
+          {secao.items?.map((item, i) => (
+            <li key={i}>{item}</li>
           ))}
         </ul>
       )
     case 'highlight':
       return (
-        <blockquote className="border-l-4 border-[#A100FF] pl-6 py-4 bg-purple-50 rounded-r-2xl my-6">
-          <p className="text-gray-800 font-medium text-[1.0625rem] leading-relaxed italic">{section.text}</p>
+        <blockquote>
+          <p>{secao.text}</p>
         </blockquote>
       )
     case 'divider':
-      return <hr className="border-gray-200 my-8" />
+      return <hr />
     case 'ctaCard':
       return (
-        <div className="my-8 bg-gray-50 border border-gray-200 rounded-2xl p-6 flex flex-col sm:flex-row items-start sm:items-center gap-4 justify-between">
-          <p className="text-gray-800 font-medium text-sm leading-relaxed">{section.text}</p>
-          <Link
-            href={section.ctaHref ?? '/'}
-            className="inline-flex items-center gap-2 bg-[#A100FF] text-white font-semibold px-5 py-2.5 rounded-full text-sm flex-shrink-0 hover:bg-[#8800DD] transition-all"
-          >
-            {section.ctaLabel} <ExternalLink className="w-3.5 h-3.5" />
+        <div className="article-cta">
+          <h2>{secao.text}</h2>
+          <Link className="button" href={secao.ctaHref ?? '/'}>
+            <span>{secao.ctaLabel}</span>
+            <b aria-hidden="true">↗</b>
           </Link>
         </div>
       )
@@ -121,6 +120,13 @@ function RenderSection({ section }: { section: BlogSection }) {
   }
 }
 
+// Artigo no design 2026.
+//
+// Tudo que é conteúdo e SEO continua igual: as três fontes (curados, acervo
+// WordPress e Keystatic), o redirecionamento 308 dos posts substituídos, a
+// metadata, o canonical e os dois JSON-LD, Article e FAQPage. O layout passa a
+// ser o do kit — capa editorial, sumário fixo à esquerda, corpo largo —, e os
+// `h2` ganham `id` para o sumário funcionar.
 export default async function BlogPostPage({ params }: Props) {
   const { slug } = await params
 
@@ -149,7 +155,20 @@ export default async function BlogPostPage({ params }: Props) {
     : ks
     ? ks.readTime
     : Math.max(3, Math.round((wp!.html.replace(/<[^>]+>/g, '').length) / 1200))
-  const coverGradient = curated ? curated.coverGradient : getCategoryGradient(category)
+
+  // Corpo do artigo e sumário, conforme a fonte
+  let corpoHtml: string | null = null
+  let sumario: ItemDeSumario[] = []
+  if (curated) {
+    let n = 0
+    sumario = curated.content
+      .filter((s) => s.type === 'heading' && s.text)
+      .map((s) => ({ id: `secao-${++n}`, texto: s.text! }))
+  } else {
+    const resultado = comSumario(wp?.html ?? ks!.html)
+    corpoHtml = resultado.html
+    sumario = resultado.sumario
+  }
 
   const ksPosts = await getKeystatiPosts()
   const wpRelated = getWpPosts()
@@ -196,126 +215,151 @@ export default async function BlogPostPage({ params }: Props) {
         }
       : null
 
+  // Contador próprio para casar o id do heading curado com o do sumário
+  let indiceDeTitulo = 0
+
   return (
-    <div className="theme-light">
+    <div className={`ciclo2026 ${playfair2026.variable}`}>
       <JsonLd data={articleLd} />
       {faqLd && <JsonLd data={faqLd} />}
-      <Header />
-      <main className="min-h-screen">
-        {/* Dark branded hero */}
-        <div className={`relative bg-gradient-to-br ${coverGradient} pt-28 pb-14 sm:pb-20`}>
-          <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-            <Link href="/blog" className="inline-flex items-center gap-2 text-white/60 hover:text-white transition-colors text-sm mb-8">
-              <ArrowLeft className="w-4 h-4" /> Voltar para o Blog
-            </Link>
-            <div className="flex items-center gap-3 mb-5">
-              <span className="text-xs font-semibold px-3 py-1 rounded-full border bg-[#A100FF]/20 text-white border-[#A100FF]/40">
-                {category}
-              </span>
-              <span className="flex items-center gap-1.5 text-xs text-white/60">
-                <Clock className="w-3 h-3" /> {readTime} min de leitura
-              </span>
+
+      <div className="inner blog-page">
+        <a className="skip" href="#conteudo">
+          Pular para o conteúdo
+        </a>
+
+        <CicloHeader />
+
+        <main id="conteudo">
+          <header className="article-hero wrap narrow">
+            <Breadcrumb
+              etapas={[
+                { rotulo: 'Início', href: '/' },
+                { rotulo: 'Ciclo Insights', href: '/blog' },
+                { rotulo: category },
+              ]}
+            />
+
+            <div className="eyebrow">
+              <span />
+              {category}
             </div>
-            <h1 className="text-3xl sm:text-4xl lg:text-[2.75rem] font-bold text-white leading-tight mb-5">{title}</h1>
-            <p className="text-white/70 text-lg leading-relaxed mb-8 max-w-2xl">{excerpt}</p>
-            <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center text-white font-bold text-sm">
-                {author.charAt(0)}
-              </div>
+
+            <h1>{title}</h1>
+
+            <p className="article-deck">{excerpt}</p>
+
+            <div className="article-byline">
+              <span className="author-mark">{author.charAt(0)}</span>
               <div>
-                <p className="text-white text-sm font-semibold">{author}</p>
-                <p className="text-white/50 text-xs">{authorRole} · {formatDate(date)}</p>
+                <strong>{author}</strong>
+                <p>
+                  {authorRole} <span>·</span> {formatDate(date)} <span>·</span> {readTime} min de
+                  leitura
+                </p>
               </div>
             </div>
-          </div>
-        </div>
+          </header>
 
-        {/* Light reading area */}
-        <div className="bg-[#FAFAF8] min-h-screen">
-          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
-            <div className="grid lg:grid-cols-[1fr_260px] gap-14 items-start">
+          <div className="reading-layout wrap narrow">
+            <aside className="article-toc">
+              <span>NESTE ARTIGO</span>
+              {sumario.length > 0 && (
+                <nav aria-label="Seções do artigo">
+                  {sumario.map((s) => (
+                    <a href={`#${s.id}`} key={s.id}>
+                      {s.texto}
+                    </a>
+                  ))}
+                </nav>
+              )}
 
-              {/* Article content */}
-              <article className="article-light max-w-[700px]">
-                {curated ? (
-                  <div className="space-y-6">
-                    {curated.content.map((section, i) => (
-                      <RenderSection key={i} section={section} />
-                    ))}
-                  </div>
-                ) : (
-                  <div
-                    className="wp-content"
-                    dangerouslySetInnerHTML={{ __html: wp?.html ?? ks!.html }}
+              <div className="toc-contact">
+                <p>
+                  Do conhecimento
+                  <br />
+                  <em>à prática.</em>
+                </p>
+
+                <Link href="/#contato">Converse com a Ciclo ↗</Link>
+              </div>
+            </aside>
+
+            <article className="article-body">
+              {corpoHtml !== null ? (
+                <div dangerouslySetInnerHTML={{ __html: corpoHtml }} />
+              ) : (
+                curated!.content.map((secao, i) => (
+                  <Bloco
+                    key={i}
+                    secao={secao}
+                    id={secao.type === 'heading' ? `secao-${++indiceDeTitulo}` : undefined}
                   />
-                )}
+                ))
+              )}
 
-                {/* Mid-article CTA */}
-                <div className="mt-14 border border-[#A100FF]/20 bg-white rounded-2xl p-8 text-center shadow-sm">
-                  <p className="text-[#A100FF] text-xs font-bold uppercase tracking-widest mb-3">Pronto para crescer?</p>
-                  <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-3">Aplique essa estratégia na sua marca</h3>
-                  <p className="text-gray-500 text-sm mb-6 max-w-md mx-auto">
-                    Fale com um especialista da Ciclo e descubra como o Full Funnel Marketing pode transformar seu e-commerce.
-                  </p>
-                  <Link
-                    href="/#contato"
-                    className="inline-flex items-center gap-2 bg-[#A100FF] text-white font-semibold px-6 py-3 rounded-full hover:bg-[#8800DD] hover:shadow-[0_0_30px_rgba(161,0,255,0.3)] transition-all"
-                  >
-                    Fale com um especialista <ArrowRight className="w-4 h-4" />
-                  </Link>
-                </div>
-              </article>
+              <div className="article-end">
+                <span>Ciclo Insights</span>
+                <Link href="/blog">Ver todos os artigos ↗</Link>
+              </div>
 
-              {/* Sidebar */}
-              <aside className="space-y-5 lg:sticky lg:top-24">
-                {/* About Ciclo */}
-                <div className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm">
-                  <p className="text-xs font-bold text-[#A100FF] uppercase tracking-widest mb-3">Sobre a Ciclo</p>
-                  <p className="text-gray-500 text-xs leading-relaxed mb-4">
-                    Especialistas em Full Funnel Marketing para marcas de e-commerce. +300 marcas. +R$ 350MM em receita gerada.
-                  </p>
-                  <Link
-                    href="/#contato"
-                    className="flex items-center justify-center gap-2 bg-[#A100FF] text-white text-xs font-semibold px-4 py-2.5 rounded-full hover:bg-[#8800DD] transition-all w-full"
-                  >
-                    Falar com especialista <ArrowRight className="w-3 h-3" />
-                  </Link>
-                </div>
+              <div className="article-cta">
+                <h2>
+                  Leve essa estratégia
+                  <br />
+                  <em>para a sua marca.</em>
+                </h2>
 
-                {/* Related posts */}
-                {related.length > 0 && (
-                  <div className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm">
-                    <p className="text-xs font-bold text-[#A100FF] uppercase tracking-widest mb-4">Leia também</p>
-                    <div className="space-y-4">
-                      {related.map((r) => {
-                        const rCat = resolveCategory(r.category, r.title, r.excerpt)
-                        const rt = 'readTime' in r ? r.readTime : 5
-                        return (
-                          <Link key={r.slug} href={`/blog/${r.slug}`} className="group block">
-                            <p className="text-gray-800 text-xs font-semibold leading-snug group-hover:text-[#A100FF] transition-colors">
-                              {r.title}
-                            </p>
-                            <p className="text-gray-400 text-[10px] mt-1">{rt} min · {rCat}</p>
-                          </Link>
-                        )
-                      })}
-                    </div>
-                  </div>
-                )}
-
-                {/* Back to blog */}
-                <Link
-                  href="/blog"
-                  className="flex items-center gap-2 text-gray-400 hover:text-[#A100FF] text-xs transition-colors"
-                >
-                  <ArrowLeft className="w-3.5 h-3.5" /> Ver todos os artigos
+                <Link className="button" href="/#contato">
+                  <span>Fale com especialista</span>
+                  <b aria-hidden="true">↗</b>
                 </Link>
-              </aside>
-            </div>
+              </div>
+            </article>
           </div>
-        </div>
-      </main>
-      <Footer />
+
+          {related.length > 0 && (
+            <section className="inner-section paper">
+              <div className="wrap narrow">
+                <div className="inner-section-heading">
+                  <div className="eyebrow">
+                    <span />
+                    Continue a leitura
+                  </div>
+
+                  <h2>Mais ideias para o seu e-commerce.</h2>
+                </div>
+
+                <div className="article-grid">
+                  {related.map((r) => {
+                    const rCat = resolveCategory(r.category, r.title, r.excerpt)
+                    const rt = 'readTime' in r ? r.readTime : 5
+                    return (
+                      <Link className="article-card" href={`/blog/${r.slug}`} key={r.slug}>
+                        <div className="article-card-top">
+                          <span>{rCat}</span>
+                          <b>↗</b>
+                        </div>
+
+                        <h3>{r.title}</h3>
+
+                        <p>{r.excerpt}</p>
+
+                        <div className="article-card-foot">
+                          <span>{formatDate(r.date)}</span>
+                          <span>{rt} min de leitura</span>
+                        </div>
+                      </Link>
+                    )
+                  })}
+                </div>
+              </div>
+            </section>
+          )}
+        </main>
+
+        <CicloFooter />
+      </div>
     </div>
   )
 }
