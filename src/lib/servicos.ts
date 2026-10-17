@@ -247,6 +247,102 @@ export const servicos: Servico[] = [
       ],
     },
   },
+  {
+    slug: 'agencia-ugc',
+    parentSlug: 'geracao-de-demanda',
+    parentTitle: 'Geração de Demanda',
+    title: 'Agência de UGC para E-commerce',
+    tagline: 'Conteúdo que parece de gente, feito para vender',
+    heroHeadline: 'UGC não é um vídeo bonito. É um ativo de performance.',
+    heroDescription:
+      'Produção de UGC em volume e cadência para e-commerces: roteiro orientado a conversão, criadores selecionados por fit de audiência, direitos de uso resolvidos e cada peça lida pela métrica de mídia, não por curtida.',
+    what:
+      'UGC, ou user generated content, é o conteúdo gravado por pessoas reais — clientes, criadores e consumidores do seu produto — no formato nativo das redes: vertical, sem produção de estúdio, com a voz de quem usa. Como agência de UGC, a Ciclo cuida da esteira inteira: o que precisa ser dito, quem grava, como grava, quem pode veicular aquilo e por quanto tempo, e o que o número diz depois que a peça entra no ar.',
+    why:
+      'O consumidor aprendeu a reconhecer e ignorar anúncio de marca, mas continua assistindo a alguém falando de um produto que usou. O UGC entra nesse espaço e serve a dois propósitos ao mesmo tempo: alimenta o orgânico com prova social e vira criativo de mídia paga com custo de produção muito abaixo do estúdio. Como as plataformas passaram a decidir a segmentação sozinhas, a mensagem virou a principal alavanca que sobra para o anunciante — e volume de criativo deixou de ser luxo para virar requisito da operação.',
+    howItWorks: [
+      {
+        step: 'Diagnóstico de criativo e de objeções',
+        detail:
+          'Olhamos o que já rodou, o que fadigou e quais dúvidas aparecem no atendimento e nas avaliações. É daí que saem os ângulos — não de brainstorm.',
+      },
+      {
+        step: 'Matriz de ângulos e roteiros',
+        detail:
+          'Montamos a matriz que cruza ângulo, formato e etapa do funil, e escrevemos o roteiro de cada peça com gancho, demonstração e desfecho definidos.',
+      },
+      {
+        step: 'Seleção e briefing dos criadores',
+        detail:
+          'Escolhemos criadores por fit com o público do produto e entregamos briefing que orienta sem engessar: o que precisa aparecer, o que não pode ser dito, e o que fica a critério de quem grava.',
+      },
+      {
+        step: 'Produção, revisão e direitos de uso',
+        detail:
+          'Acompanhamos a gravação, revisamos antes da entrega e fechamos a licença de uso por escrito, com prazo e praça definidos, para a peça poder virar anúncio sem risco.',
+      },
+      {
+        step: 'Teste, leitura e nova rodada',
+        detail:
+          'Cada peça entra com régua de leitura declarada. O que funciona vira variação; o que não funciona vira aprendizado para o próximo ciclo de roteiro.',
+      },
+    ],
+    deliverables: [
+      'Matriz de ângulos ligada às objeções reais do seu público',
+      'Roteiros por peça, com gancho, demonstração e desfecho',
+      'Curadoria e contratação dos criadores, com fit de audiência',
+      'Cadência mensal de peças novas, combinada com a verba de mídia',
+      'Licença de uso por escrito, com prazo e praça definidos',
+      'Entrega em formatos nativos, prontos para feed, Reels, TikTok e anúncio',
+      'Leitura de performance por peça e por ângulo, não só do conjunto',
+    ],
+    // Sem números aqui: resultado e exemplo desta página ficam em branco até o
+    // Flávio passar os dados reais de operação. Inventar métrica seria pior
+    // que a seção não existir.
+    results: [],
+    examples: [],
+    faq: [
+      {
+        q: 'O que é UGC e por que ele funciona no e-commerce?',
+        a: 'UGC é o conteúdo gravado por pessoas reais usando o produto, no formato nativo das redes. Funciona porque o consumidor confia mais em alguém parecido com ele do que no anúncio da marca, e porque o formato não interrompe a navegação: ele se parece com o que a pessoa já estava assistindo. No e-commerce, isso se traduz em mais tempo de atenção e em uma objeção a menos antes da compra.',
+      },
+      {
+        q: 'Qual a diferença entre UGC e influenciador?',
+        a: 'Influenciador entrega audiência: você paga pelo alcance do perfil dele. UGC entrega conteúdo: você paga pela peça, que roda na sua mídia, no seu perfil e nos seus anúncios, com direito de uso contratado. São trabalhos complementares, e a Ciclo opera os dois — a gestão de creators e influenciadores tem página própria.',
+      },
+      {
+        q: 'Quantas peças de UGC preciso por mês?',
+        a: 'Depende da verba de mídia: quanto maior o investimento, mais rápido a conta consome audiência e o criativo fadiga. A régua que usamos é casar a cadência de produção com o ritmo de fadiga da conta, medido nos dados da sua operação, e não escolher um número fixo antes de olhar a conta.',
+      },
+      {
+        q: 'Os vídeos podem ser usados como anúncio?',
+        a: 'Sim, e é para isso que são feitos. A licença de uso é fechada por escrito antes da entrega, com prazo e praça definidos, para a peça poder ser veiculada como anúncio sem risco jurídico e sem caça a e-mail antigo quando a campanha escalar.',
+      },
+      {
+        q: 'Quem grava: clientes reais ou criadores contratados?',
+        a: 'Os dois, conforme o ângulo. Depoimento de cliente real tem uma credibilidade que não se reproduz, mas depende de quem já comprou e nem sempre cobre o ângulo que falta. Criador contratado dá controle de roteiro, prazo e volume. Na prática, a esteira combina os dois.',
+      },
+      {
+        q: 'Como vocês medem se o UGC está dando resultado?',
+        a: 'Pela mesma régua da mídia: custo por aquisição, taxa de clique e retenção nos primeiros segundos, peça a peça e ângulo a ângulo. Curtida e visualização entram como sinal, nunca como resultado. A leitura por ângulo é o que permite decidir o que produzir no ciclo seguinte.',
+      },
+    ],
+    relatedSlugs: ['gestao-creators-influenciadores', 'creative-strategy', 'tiktok-ads'],
+    seo: {
+      title: 'Agência de UGC para E-commerce | Produção de Conteúdo que Converte | Ciclo',
+      description:
+        'Agência de UGC para e-commerce: roteiro orientado a conversão, criadores com fit de audiência, direitos de uso resolvidos e leitura por métrica de mídia. Fale com a Ciclo.',
+      keywords: [
+        'agência de ugc',
+        'ugc para ecommerce',
+        'produção de ugc',
+        'user generated content ecommerce',
+        'criadores de ugc',
+        'vídeo ugc para anúncio',
+        'conteúdo gerado por usuário',
+      ],
+    },
+  },
 
   // ── Captação de Demanda ───────────────────────────────────────────────────────
   {
@@ -1821,7 +1917,7 @@ export const servicos: Servico[] = [
         a: 'Os essenciais: receita, pedidos, ticket médio, taxa de conversão por dispositivo e canal, CAC por canal, ROAS por canal, e sessões vs. dia anterior. Semanalmente: LTV por coorte, churn de base ativa, e performance de CRM.',
       },
     ],
-    relatedSlugs: ['processos-playbooks', 'growth-continuo', 'crm-email-sms-push-whatsapp'],
+    relatedSlugs: ['crm-email-sms-push-whatsapp', 'creative-strategy', 'meta-ads'],
     seo: {
       title: 'Analytics e BI para E-commerce | Ciclo E-commerce',
       description:
@@ -1832,209 +1928,6 @@ export const servicos: Servico[] = [
         'bi para ecommerce',
         'dashboard ecommerce',
         'ga4 ecommerce',
-      ],
-    },
-  },
-  {
-    slug: 'processos-playbooks',
-    parentSlug: 'inteligencia-e-operacao',
-    parentTitle: 'Inteligência & Operação',
-    title: 'Processos e Playbooks para E-commerce',
-    tagline: 'Crescimento que não depende de uma pessoa específica',
-    heroHeadline: 'Escale sem o caos. Processe tudo que pode ser repetido.',
-    heroDescription:
-      'Estruturação de processos e playbooks para e-commerces em crescimento: documentação operacional que permite escalar com consistência, velocidade e sem dependência de conhecimento tácito.',
-    what: 'Processos e Playbooks são a documentação dos fluxos operacionais do e-commerce — como lançar uma campanha, responder a uma queda de ROAS, contratar um creator, fazer uma live. Eles transformam conhecimento tácito (na cabeça das pessoas) em conhecimento explícito (documentado e replicável).',
-    why: 'A maioria dos e-commerces que não escalam tem o mesmo problema: dependência crítica de 1-2 pessoas. Quando esse conhecimento está apenas na cabeça, a operação não escala, a qualidade é inconsistente e o risco de perda é enorme. Processos resolvem isso.',
-    howItWorks: [
-      {
-        step: 'Mapeamento de processos críticos',
-        detail:
-          'Identificamos os processos que mais impactam o resultado e que mais dependem de conhecimento tácito.',
-      },
-      {
-        step: 'Documentação estruturada',
-        detail:
-          'Criamos os playbooks com passo a passo, responsáveis, checklists e materiais de referência.',
-      },
-      {
-        step: 'Revisão e validação',
-        detail:
-          'Testamos os processos documentados com a equipe para garantir que são claros e executáveis.',
-      },
-      {
-        step: 'Treinamento e implementação',
-        detail:
-          'Treinamos a equipe no uso dos playbooks e os incorporamos à rotina operacional.',
-      },
-      {
-        step: 'Atualização contínua',
-        detail:
-          'Revisamos e atualizamos os playbooks periodicamente ou após mudanças significativas.',
-      },
-    ],
-    deliverables: [
-      'Mapeamento dos processos críticos',
-      'Playbooks documentados por área (mídia, conteúdo, CRM, operação)',
-      'Checklists de execução',
-      'Onboarding de novos colaboradores',
-      'Treinamento da equipe',
-    ],
-    results: [
-      { metric: '-50%', label: 'de tempo de onboarding de novos colaboradores' },
-      { metric: '+40%', label: 'de consistência na execução de campanhas' },
-      { metric: '3x', label: 'mais velocidade de escala operacional' },
-      { metric: '-30%', label: 'de retrabalho com processos documentados' },
-    ],
-    examples: [
-      {
-        title: 'Agência de marketing parceira',
-        description:
-          'Playbooks de gestão de campanha reduziram o tempo de setup de nova conta de 3 semanas para 4 dias.',
-        highlight: 'Setup -87%',
-      },
-      {
-        title: 'E-commerce de moda',
-        description:
-          'Documentação do processo de lançamento de coleção. Time de 3 pessoas passou a executar o mesmo trabalho de uma equipe de 7.',
-        highlight: 'Eficiência +133%',
-      },
-      {
-        title: 'Marca de beleza DTC',
-        description:
-          'Playbook de gestão de creators: briefing, contratação, entrega, métricas. Consistência de campanha subiu drasticamente após implementação.',
-        highlight: 'Consistência +200%',
-      },
-    ],
-    faq: [
-      {
-        q: 'Quanto tempo leva para documentar os processos de um e-commerce?',
-        a: 'Para os processos críticos (5-8 áreas), de 4 a 8 semanas. A documentação é iterativa — começamos pelos processos de maior impacto e expandimos ao longo do tempo.',
-      },
-      {
-        q: 'Playbooks ficam desatualizados?',
-        a: 'Sim, se não houver um processo de revisão. Recomendamos revisão trimestral dos playbooks de alta frequência e revisão semestral dos demais. A documentação não é um projeto — é uma prática contínua.',
-      },
-      {
-        q: 'Como engajar a equipe na criação dos playbooks?',
-        a: 'Os melhores playbooks são criados com a equipe — não para a equipe. Entrevistamos as pessoas que executam os processos, documentamos o que elas já fazem de forma excelente, e depois melhoramos. Isso gera adoção e senso de ownership.',
-      },
-      {
-        q: 'Ferramenta específica para playbooks?',
-        a: 'Notion, Confluence e Google Sites são as mais usadas. O importante é que a ferramenta seja acessível para toda a equipe e fácil de manter. Começamos com o que a empresa já usa antes de recomendar uma nova ferramenta.',
-      },
-    ],
-    relatedSlugs: ['analytics-bi', 'growth-continuo', 'creative-strategy'],
-    seo: {
-      title: 'Processos e Playbooks para E-commerce | Ciclo E-commerce',
-      description:
-        'Estruturação de processos e playbooks para e-commerces que querem escalar com consistência e sem dependência de pessoas específicas.',
-      keywords: [
-        'processos ecommerce',
-        'playbooks marketing digital',
-        'documentação operacional ecommerce',
-        'escalar ecommerce',
-        'gestão de operação ecommerce',
-      ],
-    },
-  },
-  {
-    slug: 'growth-continuo',
-    parentSlug: 'inteligencia-e-operacao',
-    parentTitle: 'Inteligência & Operação',
-    title: 'Growth Contínuo',
-    tagline: 'Crescimento sistemático por hipóteses, não por intuição',
-    heroHeadline: 'Teste rápido, aprenda rápido, cresça de forma consistente',
-    heroDescription:
-      'Growth Contínuo: metodologia estruturada de experimentos de crescimento em ciclos curtos para e-commerces que querem escalar com previsibilidade.',
-    what: 'Growth Contínuo é a prática estruturada de testar hipóteses de crescimento em ciclos curtos — semanas, não trimestres. Cada ciclo tem uma hipótese, um experimento com métricas claras, e uma conclusão que alimenta o próximo ciclo. É o método que separa e-commerces que crescem de forma consistente dos que crescem por sorte.',
-    why: 'A maioria dos e-commerces testa pouco e tarda muito para aprender. Uma estrutura de growth com 4-5 testes por mês, ao longo de 12 meses, gera 48-60 aprendizados comprovados — que se acumulam em vantagem competitiva difícil de replicar.',
-    howItWorks: [
-      {
-        step: 'Diagnóstico de gargalos',
-        detail:
-          'Identificamos os maiores limitantes de crescimento atual: onde o funil perde mais, onde há mais oportunidade.',
-      },
-      {
-        step: 'Backlog de hipóteses',
-        detail:
-          'Construímos um banco de hipóteses priorizado por potencial de impacto, facilidade de implementação e dados disponíveis.',
-      },
-      {
-        step: 'Sprint de experimentos',
-        detail: 'Executamos os experimentos de maior prioridade em ciclos de 2 semanas.',
-      },
-      {
-        step: 'Análise e decisão',
-        detail: 'Analisamos os resultados e decidimos: escalar, iterar ou descartar.',
-      },
-      {
-        step: 'Acumulação de aprendizados',
-        detail: 'Documentamos os aprendizados para guiar os próximos ciclos.',
-      },
-    ],
-    deliverables: [
-      'Diagnóstico de gargalos do funil',
-      'Backlog priorizado de hipóteses',
-      'Execução de experimentos mensais',
-      'Relatório de resultados por ciclo',
-      'Base de conhecimento de aprendizados',
-    ],
-    results: [
-      { metric: '4-6', label: 'experimentos por mês em média' },
-      { metric: '+35%', label: 'de eficiência operacional após 6 meses' },
-      { metric: '70%', label: 'das hipóteses validadas geram melhoria mensurável' },
-      { metric: '2x', label: 'mais velocidade de crescimento vs. operações sem growth' },
-    ],
-    examples: [
-      {
-        title: 'E-commerce de fitness',
-        description:
-          '18 experimentos em 3 meses: checkout, criativos, landing pages, CRM. Conversão geral subiu 38%.',
-        highlight: 'Conversão +38%',
-      },
-      {
-        title: 'Marca de beleza',
-        description:
-          'Hipótese: adicionar chat no checkout reduz abandono. Teste de 2 semanas: taxa de abandono caiu 22%.',
-        highlight: 'Abandono -22%',
-      },
-      {
-        title: 'Alimentos DTC',
-        description:
-          'Teste de preço com 3 variações. Versão com preço 15% maior e descrição mais detalhada converteu 8% mais.',
-        highlight: 'Receita +23%',
-      },
-    ],
-    faq: [
-      {
-        q: 'O que é um "experimento de growth"?',
-        a: 'É um teste controlado de uma hipótese de crescimento. Tem hipótese clara ("se fizermos X, Y vai melhorar em Z%"), grupo de controle, grupo de teste, métrica primária e duração definida. Ao final, você tem um resultado comprovado — não uma opinião.',
-      },
-      {
-        q: 'Quanto tempo leva para ver resultados com growth?',
-        a: 'Os primeiros resultados aparecem nos primeiros 30-45 dias, com os experimentos de maior impacto e menor complexidade. O valor acumulado fica evidente a partir de 3-6 meses, quando os aprendizados se somam.',
-      },
-      {
-        q: 'Qual volume de operação o Growth Contínuo exige?',
-        a: 'O método pressupõe volume suficiente para testes com significância estatística — é por isso que trabalhamos com operações consolidadas, de médio e grande porte. Com tráfego e receita relevantes, o ciclo de experimentação entrega aprendizado acionável a cada sprint.',
-      },
-      {
-        q: 'A Ciclo faz growth junto com o time do cliente?',
-        a: 'Sim. Growth Contínuo é sempre um trabalho conjunto: a Ciclo traz a metodologia, os dados e a análise; o time do cliente traz o conhecimento do produto, do cliente e da operação. O resultado é melhor quando as duas partes estão envolvidas.',
-      },
-    ],
-    relatedSlugs: ['analytics-bi', 'processos-playbooks', 'creative-strategy'],
-    seo: {
-      title: 'Growth Contínuo para E-commerce | Ciclo E-commerce',
-      description:
-        'Metodologia de growth para e-commerce: experimentos em ciclos curtos que geram aprendizados e crescimento consistente.',
-      keywords: [
-        'growth hacking ecommerce',
-        'growth contínuo ecommerce',
-        'experimentos crescimento ecommerce',
-        'metodologia growth ecommerce',
-        'crescimento ecommerce',
       ],
     },
   },

@@ -1,6 +1,10 @@
 import type { Metadata } from 'next'
 import Image from 'next/image'
+import Link from 'next/link'
 import LinkBioForm from './LinkBioForm'
+import { playfair2026 } from '@/components/ciclo/fonts'
+import '@/components/ciclo/base.css'
+import '@/components/ciclo/interiors.css'
 
 // Página de uso exclusivo nas redes sociais: fora do índice e fora do sitemap.
 export const metadata: Metadata = {
@@ -9,20 +13,60 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false, nocache: true },
 }
 
+// /link-bio no design 2026, com a mesma casca de /aplicacao: as duas são
+// páginas de formulário em etapas, e agora se parecem.
+//
+// A LÓGICA DO FORMULÁRIO NÃO FOI TOCADA. Os eventos `link_bio_step_view` e
+// `link_bio_step_complete`, o POST por etapa para /api/link-bio, o cookie
+// assinado `ciclo_lb`, o `complete` da última etapa e o `generate_lead`
+// continuam iguais — só as classes de estilo mudaram.
 export default function LinkBioPage() {
   return (
-    <main className="lb-root min-h-screen bg-black text-white flex items-center">
-      <div className="w-full max-w-2xl mx-auto px-6 sm:px-10 py-16">
-        <a href="/" className="inline-block mb-12 opacity-90 hover:opacity-100 transition-opacity">
-          <Image src="/logo-ciclo-white.png" alt="Ciclo E-commerce" width={1010} height={250} className="h-6 w-auto" priority />
+    <div className={`ciclo2026 ${playfair2026.variable}`}>
+      <div className="inner application-page">
+        <a className="skip" href="#conteudo">
+          Pular para o conteúdo
         </a>
 
-        <h1 className="text-4xl sm:text-5xl font-bold tracking-tight text-white mb-10">
-          Aplicação
-        </h1>
+        <main id="conteudo">
+          <div className="wrap narrow">
+            <div className="application-topo">
+              <Link href="/" aria-label="Ir para a home da Ciclo E-commerce">
+                <Image
+                  src="/logo-ciclo-black.png"
+                  alt="Ciclo E-commerce"
+                  width={1010}
+                  height={250}
+                  className="application-marca"
+                  priority
+                />
+              </Link>
+              <span className="section-kicker">Aplicação</span>
+            </div>
+          </div>
 
-        <LinkBioForm />
+          <div className="wrap narrow application-shell">
+            <div className="application-intro">
+              {/* O h1 é o que a página já tinha: "Aplicação", e nada mais.
+                  O texto de apoio continua dentro do formulário, como era. */}
+              <h1>Aplicação</h1>
+            </div>
+
+            <div className="application-card" id="link-bio-form">
+              <LinkBioForm />
+            </div>
+          </div>
+
+          <div className="wrap narrow">
+            <footer className="application-rodape">
+              <p>
+                © {new Date().getFullYear()} Ciclo E-commerce · CNPJ 23.757.895/0001-09 ·{' '}
+                <a href="/politica-de-privacidade">Política de Privacidade</a>
+              </p>
+            </footer>
+          </div>
+        </main>
       </div>
-    </main>
+    </div>
   )
 }

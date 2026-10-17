@@ -1,14 +1,21 @@
 import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
-import ShiftHeader from '@/components/shift/ShiftHeader'
-import ShiftFooter from '@/components/shift/ShiftFooter'
+import CicloHeader from '@/components/ciclo/CicloHeader'
+import CicloFooter from '@/components/ciclo/CicloFooter'
+import Breadcrumb from '@/components/ciclo/interior/Breadcrumb'
+import PlayerVideo from '@/components/ciclo/PlayerVideo'
+import ValorDeCase from '@/components/ciclo/ValorDeCase'
+import CtaFlutuante from '@/components/ciclo/CtaFlutuante'
 import Hourglass from '@/components/shift/Hourglass'
 import FunnelCompare from '@/components/shift/FunnelCompare'
-import ShiftVideoCarousel from '@/components/shift/ShiftVideoCarousel'
-import ShiftMobileCta from '@/components/shift/ShiftMobileCta'
 import { cases } from '@/lib/cases'
-import { anton } from '@/components/shift/fonts'
+import { playfair2026 } from '@/components/ciclo/fonts'
+import '@/components/ciclo/base.css'
+import '@/components/ciclo/interiors.css'
+// O diagrama da ampulheta e a comparação de funis continuam sendo os mesmos
+// componentes aprovados. A folha deles vive inteira sob `.shift` e não toca
+// em nada do site — por isso dá para reaproveitá-los sem risco de vazamento.
 import '@/components/shift/shift.css'
 
 export const metadata: Metadata = {
@@ -43,26 +50,32 @@ export const metadata: Metadata = {
   alternates: { canonical: 'https://cicloecommerce.com.br/consultoria-ecom-shift' },
 }
 
-const pillars = [
+// ─── Conteúdo, o mesmo que a página já trazia ───────────────────────────────
+
+const MOTORES = [
   {
+    num: '01',
     title: 'Canais de venda',
     desc: 'Loja própria, marketplaces, WhatsApp, televendas, social commerce. Onde o cliente já compra e onde a sua marca ainda não está.',
   },
   {
+    num: '02',
     title: 'Canais de mídia',
     desc: 'Cada canal com um papel definido, em vez de todos disputando o mesmo clique no fim do funil.',
   },
   {
+    num: '03',
     title: 'Recompra',
     desc: 'A base que já comprou entra na meta do mês, não no fim da lista.',
   },
   {
+    num: '04',
     title: 'Geração de demanda',
     desc: 'Ser lembrado antes de o cliente pesquisar. Quem chega procurando pela marca custa menos.',
   },
 ]
 
-const modules = [
+const FRENTES = [
   {
     num: '01',
     title: 'Canais de venda',
@@ -85,14 +98,16 @@ const modules = [
   },
 ]
 
-// Os cases vêm da MESMA constante que a home usa (src/lib/cases.ts): categoria,
-// marca, desafio, ação, métricas e imagem. Só o estilo é próprio daqui, para as
-// duas páginas nunca divergirem no conteúdo.
+const INDICADORES = [
+  { sigla: 'CAC', texto: 'Quanto custa conquistar um novo cliente.' },
+  { sigla: 'LTV', texto: 'Quanto esse cliente rende até a última compra.' },
+  { sigla: 'Recompra', texto: 'Quanto da receita do mês vem de quem já comprou.' },
+]
 
 // Depoimentos em vídeo já publicados em /depoimentos — mesmas fontes, marcas e
 // descrições, sem nenhuma associação nova entre marca e depoimento. O cargo do
 // depoente não é exibido em lugar nenhum, então nem viaja para o cliente.
-const videos = [
+const DEPOIMENTOS = [
   {
     id: 'djykk9EFghg',
     brand: 'Líquido',
@@ -116,7 +131,7 @@ const videos = [
   },
 ]
 
-const logos = [
+const LOGOS = [
   { name: 'Motorola', src: '/brands/motorola.png' },
   { name: 'GoPro', src: '/brands/gopro.png' },
   { name: 'Shiseido', src: '/brands/shiseido.png' },
@@ -128,7 +143,7 @@ const logos = [
 ]
 
 // Nomes, cargos e bios conforme já publicados no próprio site (página /ofatorm).
-const team = [
+const TIME = [
   {
     name: 'Felipe Beraldo',
     role: 'Sócio e CEO',
@@ -149,7 +164,22 @@ const team = [
   },
 ]
 
-const faq = [
+const PUBLICOS = [
+  {
+    rotulo: 'Negócio',
+    titulo: 'Empresários, donos, fundadores e sócios',
+    texto:
+      'Para quem quer desenvolver a operação com prioridades claras, visão de negócio e uma estratégia que conecte aquisição e recompra.',
+  },
+  {
+    rotulo: 'Marketing e e-commerce',
+    titulo: 'Líderes de Marketing e E-commerce',
+    texto:
+      'Para C-levels, diretores, gestores e supervisores que precisam conectar canais, equipe e indicadores a uma estratégia de crescimento.',
+  },
+]
+
+const FAQ = [
   {
     q: 'O que é a Consultoria E-com Shift?',
     a: 'É uma consultoria de marketing e e-commerce de 4 meses baseada nos quatro motores do E-com Shift — canais de venda, canais de mídia, recompra e geração de demanda — e na jornada completa do cliente, do reconhecimento à expansão.',
@@ -196,28 +226,55 @@ const serviceLd = {
 const faqLd = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
-  mainEntity: faq.map((item) => ({
+  mainEntity: FAQ.map((item) => ({
     '@type': 'Question',
     name: item.q,
     acceptedAnswer: { '@type': 'Answer', text: item.a },
   })),
 }
 
-function Cta({ ghost = false, children }: { ghost?: boolean; children: React.ReactNode }) {
+// Rótulo único de todos os CTAs da landing
+const CTA_LABEL = 'Aplicar para a consultoria'
+
+function Seta() {
   return (
-    <Link href="/aplicacao" className={ghost ? 'shift-cta-ghost' : 'shift-cta'}>
-      {children}
-      <span aria-hidden="true">→</span>
+    <svg
+      width="24"
+      height="24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      viewBox="0 0 24 24"
+      className="module-icon"
+      aria-hidden="true"
+    >
+      <path d="M5 12h14" />
+      <path d="m12 5 7 7-7 7" />
+    </svg>
+  )
+}
+
+function Aplicar() {
+  return (
+    <Link href="/aplicacao" className="semibold action-link">
+      {CTA_LABEL}
+      <Seta />
     </Link>
   )
 }
 
-// Rótulo único de todos os CTAs da landing
-const CTA_LABEL = 'Aplicar para a consultoria'
-
+// /consultoria-ecom-shift no design 2026, pelo layout do kit.
+//
+// Conteúdo, metadata, canonical e os dois JSON-LD (Service e FAQPage)
+// preservados. Os destinos continuam os mesmos: todo CTA vai para /aplicacao,
+// e as âncoras #metodo, #a-consultoria e #quem-conduz seguem existindo.
+//
+// Esta página não emite evento nenhum: a conversão acontece em /aplicacao.
 export default function ConsultoriaEcomShiftPage() {
   return (
-    <>
+    <div className={`ciclo2026 ${playfair2026.variable}`}>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceLd) }}
@@ -227,351 +284,372 @@ export default function ConsultoriaEcomShiftPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }}
       />
 
-      <div className={`shift ${anton.variable}`}>
-        {/* Destino do logo do cabeçalho e do rodapé */}
-        <span id="topo" aria-hidden="true" />
-        <ShiftHeader />
+      <div className="inner">
+        <a className="skip" href="#conteudo">
+          Pular para o conteúdo
+        </a>
 
-        <main>
-          {/* ── 1. HERO ─────────────────────────────────────────────────── */}
-          <section className="shift-container pt-8 md:pt-10">
-            <div className="shift-signature shift-signature--hero">
-              <span className="shift-eyebrow">Ciclo E-commerce</span>
-              <span className="shift-eyebrow">Consultoria · 4 meses</span>
-            </div>
+        <CicloHeader />
 
-            <div className="grid gap-12 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] lg:gap-16 pt-12 pb-14 md:pt-16 md:pb-20">
-              <div>
-                <h1 className="shift-display shift-h1">
-                  Seu funil termina na compra.{' '}
-                  <span className="block">Seu cliente não.</span>
-                </h1>
+        <main id="conteudo">
+          {/* ── Abertura ──────────────────────────────────────────────── */}
+          <section className="inner-section special-section special-hero" id="ces-abertura">
+            <div className="wrap narrow">
+              <Breadcrumb
+                etapas={[{ rotulo: 'Início', href: '/' }, { rotulo: 'Consultoria E-com Shift' }]}
+              />
 
-                <p className="shift-serif mt-6 text-xl md:text-2xl" style={{ color: '#efeeed' }}>
-                  Consultoria de 4 meses para e-commerces que já vendem e querem crescer sem
-                  depender de um único canal.
-                </p>
-
-                <p className="shift-lead shift-measure mt-6">
-                  Quatro meses com os sócios da Ciclo dentro da sua operação: canais de venda,
-                  canais de mídia, recompra e geração de demanda lidos juntos, com CAC, LTV e
-                  recompra na mesma tabela.
-                </p>
-
-                <div className="mt-9 flex flex-wrap items-center gap-3">
-                  <Cta>{CTA_LABEL}</Cta>
-                  <Link href="#metodo" className="shift-cta-ghost">
-                    Ver o método
-                  </Link>
+              <div className="special-module">
+                <div className="assinatura module-gap-after">
+                  <span className="section-kicker">Ciclo E-commerce</span>
+                  <span className="section-kicker">Consultoria · 4 meses</span>
                 </div>
-                <p className="shift-body mt-3">8 perguntas, cerca de 2 minutos.</p>
-              </div>
 
-              <div>
-                <div className="grid grid-cols-3 gap-2 md:gap-3">
-                  {team.map((person, i) => (
-                    <div key={person.name}>
-                      <div className="shift-photo-frame">
-                        <Image
-                          src={person.photo}
-                          alt={`${person.name}, ${person.role} da Ciclo E-commerce`}
-                          width={1333}
-                          height={1300}
-                          sizes="(max-width: 1024px) 30vw, 180px"
-                          className="shift-photo"
-                          priority={i === 0}
-                        />
-                      </div>
-                      <p className="shift-eyebrow mt-2 block leading-tight">{person.name}</p>
+                <div className="module-grid cols-2">
+                  <div>
+                    <h1>
+                      <span className="eyebrow h1-kicker">
+                        <span />
+                        Consultoria E-com Shift
+                      </span>
+                      Seu funil termina na compra. <em>Seu cliente não.</em>
+                    </h1>
+
+                    <p className="module-gap-before">
+                      Consultoria de 4 meses para e-commerces que já vendem e querem crescer sem
+                      depender de um único canal.
+                    </p>
+
+                    <p className="module-gap-before">
+                      Quatro meses com os sócios da Ciclo dentro da sua operação: canais de venda,
+                      canais de mídia, recompra e geração de demanda lidos juntos, com CAC, LTV e
+                      recompra na mesma tabela.
+                    </p>
+
+                    <div className="module-flex module-gap-before">
+                      <Aplicar />
+                      <a href="#metodo" className="textlink">
+                        Ver o método
+                      </a>
+                    </div>
+
+                    <p className="module-gap-before">8 perguntas, cerca de 2 minutos.</p>
+                  </div>
+
+                  <div>
+                    <div className="module-grid cols-3">
+                      {TIME.map((p, i) => (
+                        <div key={p.name}>
+                          <Image
+                            src={p.photo}
+                            alt={`${p.name}, ${p.role} da Ciclo E-commerce`}
+                            width={600}
+                            height={800}
+                            sizes="(max-width: 760px) 30vw, 180px"
+                            className="module-image portrait retrato-fixo"
+                            priority={i === 0}
+                          />
+                          <p className="module-gap-before">{p.name}</p>
+                        </div>
+                      ))}
+                    </div>
+                    <p className="module-gap-before">
+                      Felipe, Flávio e Alan conduzem a consultoria pessoalmente.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* ── Os quatro motores ─────────────────────────────────────── */}
+          <section className="inner-section special-section paper">
+            <div className="wrap narrow">
+              <div className="special-module">
+                <h2 className="semibold module-gap-after">Os quatro motores</h2>
+
+                <div className="module-grid cols-4">
+                  {MOTORES.map((m) => (
+                    <div className="module-panel" key={m.num}>
+                      <span className="section-kicker">{m.num}</span>
+                      <h3 className="semibold">{m.title}</h3>
+                      <p className="module-gap-before">{m.desc}</p>
                     </div>
                   ))}
                 </div>
-                <p className="shift-body mt-4">
-                  Felipe, Flávio e Alan conduzem a consultoria pessoalmente.
-                </p>
               </div>
             </div>
-            {/* A partir daqui a barra fixa do mobile entra em cena */}
-            <div id="fim-do-hero" aria-hidden="true" className="h-px w-full" />
           </section>
 
-          {/* ── 2. OS QUATRO MOTORES ────────────────────────────────────── */}
-          <section className="shift-container pb-10 md:pb-14">
-            <h2 className="shift-display shift-h2 mb-8">Os quatro motores</h2>
-            <div className="shift-pillars">
-              {pillars.map((pillar, i) => (
-                <div key={pillar.title} className="shift-pillar">
-                  <span className="shift-pillar-index">{String(i + 1).padStart(2, '0')}</span>
-                  <h3 className="shift-display shift-h3 shift-pillar-title">{pillar.title}</h3>
-                  <p className="shift-body mt-3">{pillar.desc}</p>
+          {/* ── Marcas ────────────────────────────────────────────────── */}
+          <section className="inner-section special-section">
+            <div className="wrap narrow">
+              <div className="special-module">
+                <p className="centered">Mais de 300 marcas atendidas pela Ciclo E-commerce</p>
+                <div className="module-flex faixa-marcas module-gap-before">
+                  {LOGOS.map((l) => (
+                    <Image
+                      key={l.name}
+                      src={l.src}
+                      alt={l.name}
+                      width={220}
+                      height={84}
+                      sizes="110px"
+                      className="module-image brandmark"
+                      loading="lazy"
+                    />
+                  ))}
                 </div>
-              ))}
+              </div>
             </div>
           </section>
 
-          {/* ── 3. PROVA: MARCAS ATENDIDAS ──────────────────────────────── */}
-          <section className="shift-container pb-14 md:pb-20">
-            <p className="shift-eyebrow text-center">
-              Mais de 300 marcas atendidas pela Ciclo E-commerce
-            </p>
-            <div className="shift-logos mt-7">
-              {logos.map((logo) => (
-                <div key={logo.name} className="shift-logo-cell">
-                  <Image src={logo.src} alt={logo.name} width={160} height={60} sizes="140px" />
-                </div>
-              ))}
-            </div>
-          </section>
+          <div className="section-fade paper-dark" aria-hidden="true" />
 
-          {/* ── 4. MÉTODO + COMPARAÇÃO, em um bloco só ──────────────────── */}
-          <section id="metodo" className="shift-paper shift-section">
-            <div className="shift-container">
-              <span className="shift-eyebrow shift-eyebrow--purple">O método</span>
-              <h2 className="shift-display shift-h2 shift-measure-wide mt-4">
-                A mesma jornada, da primeira lembrança à indicação
-              </h2>
-              <p className="shift-lead shift-measure-wide mt-6">
+          {/* ── O método ──────────────────────────────────────────────── */}
+          <section className="section dark" id="metodo">
+            <div className="wrap narrow">
+              <div className="eyebrow">
+                <span />O método
+              </div>
+              <h2>A mesma jornada, da primeira lembrança à indicação</h2>
+              <p className="lead">
                 Seis etapas, cada uma com um papel na receita e um indicador para decidir. O funil
                 tradicional para na terceira.
               </p>
 
-              <div className="mt-14 md:mt-20">
+              {/* O diagrama aprovado, com a folha própria dele */}
+              <div className="shift diagrama-shift">
                 <Hourglass />
               </div>
 
-              <div className="mt-14 md:mt-20">
-                <hr className="shift-rule" />
-                <div className="grid gap-6 md:grid-cols-3 pt-6">
-                  {[
-                    { k: 'CAC', v: 'Quanto custa conquistar um novo cliente.' },
-                    { k: 'LTV', v: 'Quanto esse cliente rende até a última compra.' },
-                    { k: 'Recompra', v: 'Quanto da receita do mês vem de quem já comprou.' },
-                  ].map((item) => (
-                    <div key={item.k}>
-                      <h3 className="shift-display shift-h3">{item.k}</h3>
-                      <p className="shift-body mt-2">{item.v}</p>
+              <div className="module-grid cols-3 indicadores">
+                {INDICADORES.map((i) => (
+                  <div key={i.sigla}>
+                    <h3>{i.sigla}</h3>
+                    <p>{i.texto}</p>
+                  </div>
+                ))}
+              </div>
+              <p className="lead">
+                Lidos juntos. Separados, cada um justifica a decisão errada.
+              </p>
+
+              <h2 className="module-gap-before">
+                O funil tradicional para onde o seu cliente começa
+              </h2>
+              <div className="shift diagrama-shift">
+                <FunnelCompare />
+              </div>
+              <p className="lead">
+                Você para de decidir olhando só o custo do último clique.
+              </p>
+            </div>
+          </section>
+
+          <div className="section-fade dark-paper" aria-hidden="true" />
+
+          {/* ── O que acontece nos 4 meses ────────────────────────────── */}
+          <section className="inner-section special-section paper" id="a-consultoria">
+            <div className="wrap narrow">
+              <div className="special-module">
+                <p className="semibold section-kicker module-gap-after">Como funciona</p>
+                <h2 className="semibold">O que acontece nos 4 meses</h2>
+                <p className="module-gap-before">
+                  Quatro frentes, conduzidas na ordem que a sua operação pedir.
+                </p>
+
+                <div className="module-grid cols-4 module-gap-before">
+                  {FRENTES.map((f) => (
+                    <div className="module-panel" key={f.num}>
+                      <span className="section-kicker">{f.num}</span>
+                      <h3 className="semibold">{f.title}</h3>
+                      <p className="module-gap-before">{f.desc}</p>
                     </div>
                   ))}
                 </div>
-                <p className="shift-body mt-6">
-                  Lidos juntos. Separados, cada um justifica a decisão errada.
-                </p>
-              </div>
-
-              {/* Comparação, no mesmo bloco: sem nova introdução e sem CTA no meio */}
-              <div className="mt-16 md:mt-24">
-                <h2 className="shift-display shift-h2 shift-measure-wide">
-                  O funil tradicional para onde o seu cliente começa
-                </h2>
-
-                <div className="mt-12">
-                  <FunnelCompare />
-                </div>
-
-                <p className="shift-lead shift-measure-wide mt-12">
-                  Você para de decidir olhando só o custo do último clique.
-                </p>
               </div>
             </div>
           </section>
 
-          {/* ── 5. COMO FUNCIONA ────────────────────────────────────────── */}
-          <section id="a-consultoria" className="shift-paper shift-section">
-            <div className="shift-container">
-              <span className="shift-eyebrow shift-eyebrow--purple">Como funciona</span>
-              <h2 className="shift-display shift-h2 shift-measure-wide mt-4">
-                O que acontece nos 4 meses
-              </h2>
-              <p className="shift-lead shift-measure-wide mt-6">
-                Quatro frentes, conduzidas na ordem que a sua operação pedir.
-              </p>
+          {/* ── Cases ─────────────────────────────────────────────────── */}
+          <section className="inner-section special-section">
+            <div className="wrap narrow">
+              <div className="special-module">
+                <p className="semibold section-kicker module-gap-after">Experiência</p>
+                <h2 className="semibold">O que já aconteceu em operações reais</h2>
+                <p className="module-gap-before">Quatro operações, com número.</p>
 
-              <div className="mt-12">
-                {modules.map((mod) => (
-                  <article key={mod.num} className="shift-module">
-                    <span className="shift-module-num">{mod.num}</span>
-                    <h3 className="shift-display shift-h3">{mod.title}</h3>
-                    <p className="shift-body">{mod.desc}</p>
-                  </article>
-                ))}
-              </div>
-            </div>
-          </section>
-
-          {/* ── 6. PROVAS ───────────────────────────────────────────────── */}
-          <section className="shift-section">
-            <div className="shift-container">
-              <span className="shift-eyebrow shift-eyebrow--purple">Experiência</span>
-              <h2 className="shift-display shift-h2 shift-measure-wide mt-4">
-                O que já aconteceu em operações reais
-              </h2>
-              <p className="shift-lead shift-measure-wide mt-6">Quatro operações, com número.</p>
-
-              <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4 mt-12">
-                {cases.map((c) => (
-                  <article key={c.brand} className="shift-case">
-                    {c.image && (
-                      <div className="shift-case-media">
+                <div className="module-grid cols-4 module-gap-before">
+                  {cases.map((c) => (
+                    <div className="module-panel" key={c.brand}>
+                      {c.image && (
                         <Image
                           src={c.image}
                           alt={`${c.brand}, marca atendida pela Ciclo E-commerce`}
-                          width={800}
+                          width={900}
                           height={600}
-                          sizes="(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 290px"
-                          className={c.imagePosition === 'object-top' ? 'object-top' : undefined}
+                          sizes="(max-width: 760px) 100vw, 300px"
+                          className="module-image"
+                          loading="lazy"
                         />
-                      </div>
-                    )}
-                    <span className="shift-eyebrow shift-eyebrow--purple mt-5 block">
-                      {c.category}
-                    </span>
-                    <h3 className="shift-display shift-h3 mt-2">{c.brand}</h3>
+                      )}
+                      <span className="section-kicker module-gap-before">{c.category}</span>
+                      <h3 className="semibold">{c.brand}</h3>
 
-                    <div className="shift-case-block">
-                      <p className="shift-eyebrow">Desafio</p>
-                      <p className="shift-body mt-1">{c.challenge}</p>
-                    </div>
-                    <div className="shift-case-block">
-                      <p className="shift-eyebrow">Ação</p>
-                      <p className="shift-body mt-1">{c.action}</p>
-                    </div>
+                      <p className="semibold rotulo-case module-gap-before">Desafio</p>
+                      <p>{c.challenge}</p>
 
-                    <div className="shift-case-block">
-                      <p className="shift-eyebrow shift-eyebrow--purple">Resultado</p>
-                      <dl className="shift-case-metrics">
-                        {c.metrics.map((metric) => (
-                          <div key={metric.label}>
-                            <dt className="shift-case-figure">{metric.value}</dt>
-                            <dd className="shift-eyebrow mt-1">{metric.label}</dd>
+                      <p className="semibold rotulo-case">Ação</p>
+                      <p>{c.action}</p>
+
+                      <p className="semibold rotulo-case">Resultado</p>
+                      <dl className="metricas-case">
+                        {c.metrics.map((m) => (
+                          <div key={m.label}>
+                            <dt>
+                              <ValorDeCase valor={m.value} />
+                            </dt>
+                            <dd>{m.label}</dd>
                           </div>
                         ))}
                       </dl>
                     </div>
-                  </article>
-                ))}
+                  ))}
+                </div>
+
+                <p className="module-gap-before">
+                  Resultados de projetos conduzidos pela Ciclo E-commerce para essas marcas, não
+                  uma promessa de resultado da consultoria.
+                </p>
               </div>
-
-              <p className="shift-body mt-10 shift-measure-wide">
-                Resultados de projetos conduzidos pela Ciclo E-commerce para essas marcas, não uma
-                promessa de resultado da consultoria.
-              </p>
             </div>
           </section>
 
-          {/* ── 7. DEPOIMENTOS EM VÍDEO ─────────────────────────────────── */}
-          <section className="shift-section shift-section--tight">
-            <div className="shift-container">
-              <h2 className="shift-display shift-h2 shift-measure-wide mb-8">
-                Quem viveu a operação, conta
-              </h2>
-              <ShiftVideoCarousel videos={videos} />
-            </div>
-          </section>
+          {/* ── Depoimentos ───────────────────────────────────────────── */}
+          <section className="inner-section special-section">
+            <div className="wrap narrow">
+              <div className="special-module">
+                <h2 className="semibold module-gap-after">Quem viveu a operação, conta</h2>
 
-          {/* ── 7. EQUIPE ───────────────────────────────────────────────── */}
-          <section id="quem-conduz" className="shift-section" style={{ backgroundColor: '#191917' }}>
-            <div className="shift-container">
-              <span className="shift-eyebrow shift-eyebrow--purple">Quem conduz</span>
-              <h2 className="shift-display shift-h2 shift-measure-wide mt-4">
-                Estratégia com quem conhece a operação
-              </h2>
-
-              <div className="grid gap-8 sm:grid-cols-3 mt-12">
-                {team.map((person) => (
-                  <article key={person.name}>
-                    <div className="shift-photo-frame">
-                      <Image
-                        src={person.photo}
-                        alt={`Retrato de ${person.name}, ${person.role} da Ciclo E-commerce`}
-                        width={1333}
-                        height={1300}
-                        sizes="(max-width: 640px) 90vw, 33vw"
-                        className="shift-photo"
+                <div className="module-grid cols-4">
+                  {DEPOIMENTOS.map((d) => (
+                    <div key={d.id}>
+                      <PlayerVideo
+                        videoId={d.id}
+                        titulo={`Depoimento ${d.brand} — ${d.description}`}
+                        sizes="(max-width: 760px) 100vw, 300px"
                       />
+                      <h3 className="semibold module-gap-before">{d.brand}</h3>
+                      <p className="module-gap-before">{d.description}</p>
                     </div>
-                    <h3 className="shift-display shift-h3 mt-5">{person.name}</h3>
-                    <p className="shift-eyebrow mt-2 block">{person.role} · Ciclo E-commerce</p>
-                    <p className="shift-body mt-3">{person.bio}</p>
-                  </article>
-                ))}
-              </div>
-
-              <div className="mt-12">
-                <Cta>{CTA_LABEL}</Cta>
-              </div>
-            </div>
-          </section>
-
-          {/* ── 8. PÚBLICO ──────────────────────────────────────────────── */}
-          <section className="shift-paper shift-section">
-            <div className="shift-container">
-              <span className="shift-eyebrow shift-eyebrow--purple">Para quem é</span>
-              <h2 className="shift-display shift-h2 shift-measure-wide mt-4">
-                Para quem decide o próximo passo do e-commerce
-              </h2>
-
-              <div className="shift-compare mt-12">
-                <div className="shift-compare-col">
-                  <span className="shift-eyebrow">Negócio</span>
-                  <h3 className="shift-display shift-h3 mt-3">
-                    Empresários, donos, fundadores e sócios
-                  </h3>
-                  <p className="shift-body mt-4 shift-measure">
-                    Para quem quer desenvolver a operação com prioridades claras, visão de negócio e
-                    uma estratégia que conecte aquisição e recompra.
-                  </p>
-                </div>
-                <div className="shift-compare-col">
-                  <span className="shift-eyebrow">Marketing e e-commerce</span>
-                  <h3 className="shift-display shift-h3 mt-3">
-                    Líderes de Marketing e E-commerce
-                  </h3>
-                  <p className="shift-body mt-4 shift-measure">
-                    Para C-levels, diretores, gestores e supervisores que precisam conectar canais,
-                    equipe e indicadores a uma estratégia de crescimento.
-                  </p>
+                  ))}
                 </div>
               </div>
             </div>
           </section>
 
-          {/* ── 9. FECHAMENTO ───────────────────────────────────────────── */}
-          <section className="shift-section">
-            <div className="shift-container">
-              <h2 className="shift-display shift-h2 shift-measure-wide">
-                Conte o momento da sua operação
-              </h2>
-              <p className="shift-lead shift-measure-wide mt-6">
-                8 perguntas, cerca de 2 minutos. O time da Ciclo lê cada aplicação e responde se
-                faz sentido conversar.
-              </p>
-              <div className="mt-9 flex flex-wrap items-center gap-5">
-                <Cta>{CTA_LABEL}</Cta>
-                <span className="shift-eyebrow">Consultoria de 4 meses</span>
+          {/* ── Quem conduz ───────────────────────────────────────────── */}
+          <section className="inner-section special-section paper" id="quem-conduz">
+            <div className="wrap narrow">
+              <div className="special-module">
+                <p className="semibold section-kicker module-gap-after">Quem conduz</p>
+                <h2 className="semibold">Estratégia com quem conhece a operação</h2>
+
+                <div className="module-grid cols-3 module-gap-before">
+                  {TIME.map((p) => (
+                    <div className="module-panel" key={p.name}>
+                      <Image
+                        src={p.photo}
+                        alt={`Retrato de ${p.name}, ${p.role} da Ciclo E-commerce`}
+                        width={600}
+                        height={800}
+                        sizes="(max-width: 760px) 100vw, 33vw"
+                        className="module-image portrait retrato-fixo"
+                        loading="lazy"
+                      />
+                      <h3 className="semibold module-gap-before">{p.name}</h3>
+                      <p className="module-gap-before">{p.role} · Ciclo E-commerce</p>
+                      <p className="module-gap-before">{p.bio}</p>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="module-gap-before">
+                  <Aplicar />
+                </div>
               </div>
             </div>
           </section>
 
-          {/* ── 10. FAQ ─────────────────────────────────────────────────── */}
-          <section className="shift-section shift-section--tight">
-            <div className="shift-container">
-              <span className="shift-eyebrow shift-eyebrow--purple">Perguntas frequentes</span>
-              <div className="mt-8 max-w-3xl">
-                <hr className="shift-rule" />
-                {faq.map((item) => (
-                  <details key={item.q} className="shift-faq-item">
-                    <summary>{item.q}</summary>
-                    <p className="shift-body shift-faq-answer">{item.a}</p>
-                  </details>
-                ))}
+          {/* ── Para quem é ───────────────────────────────────────────── */}
+          <section className="inner-section special-section">
+            <div className="wrap narrow">
+              <div className="special-module">
+                <p className="semibold section-kicker module-gap-after">Para quem é</p>
+                <h2 className="semibold">Para quem decide o próximo passo do e-commerce</h2>
+
+                <div className="module-grid cols-2 module-gap-before">
+                  {PUBLICOS.map((p) => (
+                    <div className="module-panel" key={p.titulo}>
+                      <span className="section-kicker">{p.rotulo}</span>
+                      <h3 className="semibold">{p.titulo}</h3>
+                      <p className="module-gap-before">{p.texto}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* ── Chamada final ─────────────────────────────────────────── */}
+          <section className="inner-section special-section" id="ces-final">
+            <div className="wrap narrow">
+              <div className="special-module">
+                <h2 className="semibold">Conte o momento da sua operação</h2>
+                <p className="module-gap-before">
+                  8 perguntas, cerca de 2 minutos. O time da Ciclo lê cada aplicação e responde se
+                  faz sentido conversar.
+                </p>
+
+                <div className="module-flex module-gap-before">
+                  <Aplicar />
+                  <span className="section-kicker">Consultoria de 4 meses</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* ── Perguntas frequentes ──────────────────────────────────── */}
+          <section className="inner-section special-section paper" id="faq">
+            <div className="wrap narrow">
+              <div className="special-module">
+                <p className="semibold section-kicker module-gap-after">Perguntas frequentes</p>
+
+                <div>
+                  {FAQ.map(({ q, a }) => (
+                    <details key={q}>
+                      <summary>{q}</summary>
+                      <p>{a}</p>
+                    </details>
+                  ))}
+                </div>
               </div>
             </div>
           </section>
         </main>
 
-        <ShiftFooter />
-        <ShiftMobileCta />
+        <CtaFlutuante
+          idAbertura="ces-abertura"
+          idFinal="ces-final"
+          titulo="Consultoria E-com Shift"
+          subtitulo="4 meses"
+        >
+          <Aplicar />
+        </CtaFlutuante>
+
+        <CicloFooter />
       </div>
-    </>
+    </div>
   )
 }

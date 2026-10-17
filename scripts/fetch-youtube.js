@@ -1,50 +1,115 @@
-// Runs before `next build`. Fetches the latest videos from the Fator M
-// YouTube channel and writes them to src/data/youtube-videos.json.
-// If YOUTUBE_API_KEY is not set or the request fails, the existing
-// fallback file is left untouched.
-const { writeFileSync, existsSync } = require('fs')
+// Roda antes do `next build`. Grava em src/data/episodios-fator-m.ts o último
+// conjunto REAL de episódios de "O Fator M".
+//
+// Esse arquivo é o fallback do site: é o que aparece quando a API do YouTube
+// não responde em tempo de execução. Antes o passo existia mas ninguém lia o
+// resultado, e o fallback de verdade era uma lista fixa de vídeos de
+// depoimento de cliente reetiquetados como episódio. Agora src/lib/youtube.ts
+// lê este módulo, então o fallback é um retrato real do canal, do dia do
+// build. É .ts e não .json para o teste do passo 18 conseguir importá-lo sem
+// o resolvedor do Next.
+//
+// O filtro aqui é O MESMO de src/lib/youtube-server.ts (nada abaixo de 300s,
+// nada marcado como short, nada vertical). Se divergirem, o fallback mostra
+// uma lista que o site nunca mostraria.
+//
+// Sem YOUTUBE_API_KEY, ou com a API fora do ar, o arquivo existente fica como
+// está — nunca é apagado nem substituído por conteúdo inventado.
+const { writeFileSync } = require('fs')
 const { join } = require('path')
 
 const API_KEY = process.env.YOUTUBE_API_KEY
 const CHANNEL_HANDLE = process.env.YOUTUBE_CHANNEL_HANDLE || '@ofatorm'
-const OUT = join(__dirname, '..', 'src', 'data', 'youtube-videos.json')
+const OUT = join(__dirname, '..', 'src', 'data', 'episodios-fator-m.ts')
 
-function parseIsoDuration(iso) {
-  const match = iso.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/)
-  if (!match) return 0
-  return parseInt(match[1] || '0') * 3600 + parseInt(match[2] || '0') * 60 + parseInt(match[3] || '0')
+function segundos(iso) {
+  const m = iso.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/)
+  if (!m) return 0
+  return parseInt(m[1] || '0') * 3600 + parseInt(m[2] || '0') * 60 + parseInt(m[3] || '0')
+}
+
+async function pedir(url, oque) {
+  const r = await fetch(url)
+  if (!r.ok) throw new Error(`${oque}: HTTP ${r.status}`)
+  return r.json()
+}
+
+// Escreve o módulo com o mesmo formato que src/lib/youtube.ts espera.
+//
+// Os valores saem por JSON.stringify, não por aspas montadas à mão. Descrição
+// de vídeo do YouTube tem quebra de linha, aspas e emoji; uma versão anterior
+// disto montava a string na unha e gerava TypeScript inválido assim que a
+// primeira descrição real chegava — o build local passava porque sem chave o
+// script nem roda, e quebrava no Preview, que tem chave. Literal JSON é
+// literal JavaScript válido, e escapa tudo.
+function moduloTs(episodios) {
+  const aspas = (v) => JSON.stringify(String(v ?? ''))
+  const item = (e) =>
+    '  {\n' +
+    ['id', 'title', 'description', 'publishedAt', 'thumbnail', 'url']
+      .map((k) => `    ${k}: ${aspas(e[k])},`)
+      .join('\n') +
+    '\n  },'
+  return [
+    '// GERADO POR scripts/fetch-youtube.js antes do `next build`. Não edite à mão:',
+    '// o próximo build sobrescreve.',
+    '//',
+    '// Último conjunto REAL de episódios de "O Fator M". É o que o site mostra',
+    '// quando a API do YouTube não responde. Era um arquivo .json; virou módulo',
+    '// para o teste do passo 18 conseguir importá-lo sem o resolvedor do Next.',
+    '',
+    'export interface EpisodioGravado {',
+    '  id: string',
+    '  title: string',
+    '  description: string',
+    '  publishedAt: string',
+    '  thumbnail: string',
+    '  url: string',
+    '}',
+    '',
+    'export const EPISODIOS: EpisodioGravado[] = [',
+    ...episodios.map(item),
+    ']',
+    '',
+  ].join('\n')
 }
 
 async function main() {
   if (!API_KEY) {
-    console.log('[youtube] YOUTUBE_API_KEY not set — keeping existing fallback data.')
+    console.log('[youtube] YOUTUBE_API_KEY ausente — mantendo o snapshot atual.')
     return
   }
 
   try {
-    const channelRes = await fetch(
-      `https://www.googleapis.com/youtube/v3/channels?part=contentDetails&forHandle=${CHANNEL_HANDLE}&key=${API_KEY}`
+    const canal = await pedir(
+      `https://www.googleapis.com/youtube/v3/channels?part=contentDetails&forHandle=${CHANNEL_HANDLE}&key=${API_KEY}`,
+      'canal'
     )
-    const channelData = await channelRes.json()
-    const uploadsId = channelData.items?.[0]?.contentDetails?.relatedPlaylists?.uploads
-    if (!uploadsId) throw new Error('Uploads playlist not found')
+    const uploads = canal.items?.[0]?.contentDetails?.relatedPlaylists?.uploads
+    if (!uploads) throw new Error('playlist de uploads não encontrada')
 
-    const playlistRes = await fetch(
-      `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${uploadsId}&maxResults=30&key=${API_KEY}`
+    const playlist = await pedir(
+      `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${uploads}&maxResults=30&key=${API_KEY}`,
+      'playlist'
     )
-    const playlistData = await playlistRes.json()
-    const ids = (playlistData.items || []).map((i) => i.snippet.resourceId.videoId).join(',')
+    const ids = (playlist.items || []).map((i) => i.snippet.resourceId.videoId).join(',')
+    if (!ids) throw new Error('playlist vazia')
 
-    const detailsRes = await fetch(
-      `https://www.googleapis.com/youtube/v3/videos?part=contentDetails,snippet&id=${ids}&key=${API_KEY}`
+    const detalhes = await pedir(
+      `https://www.googleapis.com/youtube/v3/videos?part=contentDetails,snippet,player&id=${ids}&key=${API_KEY}`,
+      'detalhes'
     )
-    const detailsData = await detailsRes.json()
 
-    const videos = (detailsData.items || [])
+    const episodios = (detalhes.items || [])
       .filter((v) => {
-        const dur = parseIsoDuration(v.contentDetails?.duration || '')
-        const title = v.snippet?.title?.toLowerCase() || ''
-        return dur > 60 && !title.includes('#short')
+        const titulo = v.snippet?.title?.toLowerCase() || ''
+        const vertical = (v.player?.embedHeight ?? 0) > (v.player?.embedWidth ?? 1)
+        return !(
+          segundos(v.contentDetails?.duration || '') < 300 ||
+          titulo.includes('#short') ||
+          titulo.includes('#shorts') ||
+          vertical
+        )
       })
       .slice(0, 8)
       .map((v) => ({
@@ -59,10 +124,14 @@ async function main() {
         url: `https://www.youtube.com/watch?v=${v.id}`,
       }))
 
-    writeFileSync(OUT, JSON.stringify(videos, null, 2))
-    console.log(`[youtube] Wrote ${videos.length} videos to youtube-videos.json`)
+    // Lista vazia não substitui o snapshot: seria trocar episódio real por
+    // nada, e o site passaria a mostrar "indisponível" por causa do build.
+    if (!episodios.length) throw new Error('nenhum episódio horizontal na resposta')
+
+    writeFileSync(OUT, moduloTs(episodios))
+    console.log(`[youtube] snapshot atualizado com ${episodios.length} episódios.`)
   } catch (err) {
-    console.warn('[youtube] Fetch failed, keeping existing fallback:', err.message)
+    console.warn('[youtube] falhou, mantendo o snapshot atual:', err.message)
   }
 }
 

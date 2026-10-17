@@ -1,6 +1,12 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import OptOutNotice from './OptOutNotice'
+import CicloHeader from '@/components/ciclo/CicloHeader'
+import CicloFooter from '@/components/ciclo/CicloFooter'
+import Breadcrumb from '@/components/ciclo/interior/Breadcrumb'
+import { playfair2026 } from '@/components/ciclo/fonts'
+import '@/components/ciclo/base.css'
+import '@/components/ciclo/interiors.css'
 
 export const metadata: Metadata = {
   title: 'Política de Privacidade e LGPD | Ciclo E-commerce',
@@ -203,101 +209,108 @@ const sections = [
   },
 ]
 
+// Política de privacidade no design 2026.
+//
+// O array `sections` acima, que é o texto legal inteiro, não foi tocado: nem
+// uma vírgula. O que muda é a casca e a tipografia, agora a mesma do corpo de
+// artigo. Os ids das seções continuam os mesmos, então o índice e qualquer
+// link externo que aponte para uma âncora seguem funcionando.
 export default function PoliticaDePrivacidade() {
   return (
-    <main className="min-h-screen bg-[#050505] pt-32 pb-20">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <OptOutNotice />
+    <div className={`ciclo2026 ${playfair2026.variable}`}>
+      <div className="inner legal-page">
+        <a className="skip" href="#conteudo">
+          Pular para o conteúdo
+        </a>
 
-        {/* Header */}
-        <div className="mb-12 text-center">
-          <p className="text-[#A100FF] text-xs font-bold uppercase tracking-widest mb-4">
-            Conformidade Legal
-          </p>
-          <h1 className="text-4xl sm:text-5xl font-bold mb-4">
-            Política de Privacidade
-          </h1>
-          <p className="text-[#A1A1AA] text-lg max-w-2xl mx-auto mb-4">
-            Em conformidade com a Lei Geral de Proteção de Dados Pessoais
-            (LGPD — Lei nº 13.709/2018).
-          </p>
-          <p className="text-sm text-[#71717A]">
-            Última atualização: setembro de 2026
-          </p>
-        </div>
+        <CicloHeader />
 
-        {/* Index */}
-        <div className="bg-white/3 border border-white/8 rounded-2xl p-6 mb-10">
-          <h2 className="text-sm font-bold uppercase tracking-widest text-[#A100FF] mb-4">
-            Índice
-          </h2>
-          <ol className="space-y-2">
-            {sections.map((s) => (
-              <li key={s.id}>
-                <a
-                  href={`#${s.id}`}
-                  className="text-sm text-[#D4D4D8] hover:text-[#A100FF] transition-colors"
-                >
-                  {s.title}
-                </a>
-              </li>
-            ))}
-          </ol>
-        </div>
+        <main id="conteudo">
+          <section className="inner-hero">
+            <div className="wrap narrow">
+              <Breadcrumb
+                etapas={[{ rotulo: 'Início', href: '/' }, { rotulo: 'Política de Privacidade' }]}
+              />
+            </div>
+          </section>
 
-        {/* Sections */}
-        <div className="space-y-10">
-          {sections.map((s) => (
-            <section key={s.id} id={s.id} className="scroll-mt-24">
-              <h2 className="text-xl font-bold text-white mb-4 pb-3 border-b border-white/8">
-                {s.title}
-              </h2>
-              {s.content.map((p, i) => (
-                <p key={i} className="text-[#A1A1AA] text-sm leading-relaxed mb-3">
-                  {p}
-                </p>
-              ))}
-              {s.list && (
-                <ul className="space-y-2 my-3 ml-2">
-                  {s.list.map((item, i) => (
-                    <li key={i} className="flex items-start gap-3">
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#A100FF]/60 flex-shrink-0 mt-1.5" />
-                      <span className="text-[#D4D4D8] text-sm leading-relaxed">{item}</span>
+          <section className="inner-section">
+            <div className="wrap narrow">
+              <OptOutNotice />
+
+              <h1>
+                {/* Exceção à regra do h1: aqui o rótulo pequeno continua sendo
+                    "Conformidade Legal", que era o texto que já estava na
+                    página. Trocá-lo pelo título apagaria copy existente, e o
+                    nome da página já vem logo em seguida, dentro do mesmo h1. */}
+                <span className="eyebrow h1-kicker">
+                  <span />
+                  Conformidade Legal
+                </span>
+                Política de Privacidade
+              </h1>
+
+              <p className="inner-lead">
+                Em conformidade com a Lei Geral de Proteção de Dados Pessoais (LGPD — Lei nº
+                13.709/2018).
+              </p>
+
+              <p className="legal-data">Última atualização: setembro de 2026</p>
+
+              <nav className="legal-indice" aria-label="Índice da política">
+                <h2>Índice</h2>
+                <ol>
+                  {sections.map((s) => (
+                    <li key={s.id}>
+                      <a href={`#${s.id}`}>{s.title}</a>
                     </li>
                   ))}
-                </ul>
-              )}
-              {'cta' in s && s.cta && (
-                <a
-                  href={s.cta.href}
-                  className="inline-block my-2 text-sm font-semibold text-[#A100FF] underline hover:text-[#8800DD]"
-                >
-                  {s.cta.label}
-                </a>
-              )}
-              {s.extra?.map((p, i) => (
-                <p key={i} className="text-[#A1A1AA] text-sm leading-relaxed mt-3">
-                  {p}
-                </p>
-              ))}
-            </section>
-          ))}
-        </div>
+                </ol>
+              </nav>
 
-        {/* Footer CTA */}
-        <div className="mt-16 text-center border-t border-white/8 pt-10">
-          <p className="text-sm text-[#A1A1AA] mb-6">
-            Dúvidas sobre privacidade? Fale com nosso time.
-          </p>
-          <Link
-            href="/#contato"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#A100FF] text-white font-semibold text-sm hover:bg-[#8800DD] transition-colors"
-          >
-            Entrar em contato
-          </Link>
-        </div>
+              <div className="article-body legal-body">
+                {sections.map((s) => (
+                  <section key={s.id} id={s.id}>
+                    <h2>{s.title}</h2>
 
+                    {s.content.map((p, i) => (
+                      <p key={i}>{p}</p>
+                    ))}
+
+                    {s.list && (
+                      <ul>
+                        {s.list.map((item, i) => (
+                          <li key={i}>{item}</li>
+                        ))}
+                      </ul>
+                    )}
+
+                    {'cta' in s && s.cta && (
+                      <p>
+                        <a href={s.cta.href}>{s.cta.label}</a>
+                      </p>
+                    )}
+
+                    {s.extra?.map((p, i) => (
+                      <p key={i}>{p}</p>
+                    ))}
+                  </section>
+                ))}
+              </div>
+
+              <div className="tts-cta">
+                <h2>Dúvidas sobre privacidade? Fale com nosso time.</h2>
+                <Link className="button" href="/#contato">
+                  <span>Entrar em contato</span>
+                  <b aria-hidden="true">↗</b>
+                </Link>
+              </div>
+            </div>
+          </section>
+        </main>
+
+        <CicloFooter />
       </div>
-    </main>
+    </div>
   )
 }

@@ -1,0 +1,515 @@
+# Ponto de retomada — redesign da Ciclo
+
+Para quem continuar este trabalho, inclusive eu mesmo em outra sessão.
+Atualizado em 17/10/2026.
+
+---
+
+## Onde estamos
+
+**Concluído:** auditoria, baseline, ferramental de verificação, o grupo 1 —
+base visual com escopo, cabeçalho, rodapé e home — e o grupo 2, as 19 páginas
+de serviço e as 4 de solução.
+**Próximo:** grupo 3, o blog.
+
+O pacote `ciclo-layouts-para-claude.zip` chegou e é a referência autorizada.
+Os cinco documentos dele foram lidos na ordem pedida: `LEIA-PRIMEIRO.md`,
+`docs/GUIA-PARA-CLAUDE.md`, `docs/SISTEMA-VISUAL.md`, `docs/LAYOUTS-E-CAMPOS.md`
+e `docs/INTEGRACOES-E-PENDENCIAS.md`.
+
+| Item | Valor |
+|---|---|
+| Branch de trabalho | `claude/redesign-ciclo-2026-HVyvT` |
+| Base | produção `claude/elegant-darwin-HVyvT` no commit `7ae962b` |
+| Commit da auditoria | `e608981` |
+| Grupo 1, entrega | `9fd52eb` |
+| Grupo 1, correção do player | `2007992` |
+| Grupo 2, serviços e soluções | `05a241d` |
+| Build, typecheck, rotas | Verdes. 884 páginas, 17 rotas em 200 |
+| Lint | 8 erros preexistentes, registrados como teto |
+
+---
+
+## Ordens do Flávio em 17/10/2026, por meio do Codex
+
+Entram no escopo e valem daqui para a frente. Onde contradizem algo escrito
+antes neste documento, o que vale é o que está aqui.
+
+### 1. Tipografia: Inter estrutura, Playfair dá voz
+
+**Esta regra foi trocada duas vezes no mesmo dia. A que vale é esta.**
+
+Em 17/10, pelo Codex, veio a ordem de usar APENAS INTER, e eu tirei a
+Playfair de todo o escopo. Horas depois o próprio Flávio pediu a Playfair de
+volta — "precisa ter a Playfair Display para ficar mais bonito" — e mandou
+deixar isso como **padrão para páginas novas e para os textos do blog**. A
+palavra dele prevalece sobre o recado intermediário.
+
+**O padrão, para quem for escrever página ou texto novo:** Inter estrutura e
+informa; Playfair Display em itálico entra só nas frases curtas de voz
+editorial — a segunda linha de uma chamada, a assinatura de uma página, um
+destaque de abertura. Para aplicar numa frase nova, basta usar
+`.editorial-accent` ou um `<em>` dentro de `.inner`.
+
+Uma exceção deliberada: o `<em>` dentro do corpo do artigo segue em Inter
+itálico. Ali é ênfase de quem escreveu, não ornamento, e trocar a família
+deixaria o texto corrido com duas fontes brigando.
+
+O `/playbook-social-commerce` não é tocado por nada disso: continua
+congelado, com a Playfair dele, carregada por outra variável.
+
+### 2. Dois serviços saem do ar
+
+`/servicos/processos-playbooks` e `/servicos/growth-continuo` deixam de
+existir. O que precisa acontecer junto:
+
+- Tirar os cartões e links da home, das soluções, da navegação e do mapa do
+  site e do sitemap.
+- Aproveitar na solução Inteligência & Operação o conteúdo que ainda fizer
+  sentido.
+- Redirecionamento permanente para destino semanticamente equivalente, sem
+  404, sem laço e sem cadeia de redirecionamento.
+- Registrar as duas exceções nos testes de preservação, para o
+  `internas-seo.mjs` parar de exigir essas páginas.
+
+**Isto não tem relação com `/playbook-social-commerce`**, que segue
+integralmente congelado. A semelhança é só no nome.
+
+### 3. `/tiktok-shop` — prioridade de UX do grupo 4
+
+A página está visualmente fraca e é a primeira do grupo 4. Preservar sem
+exceção: a URL, a metadata e o canonical, o conteúdo de SEO, o FAQ completo,
+os três JSON-LD (Service, BreadcrumbList e FAQPage), os links e a integração
+de conversão e mensuração.
+
+Ordem das seções acordada:
+
+1. Abertura atual, bem diagramada, com CTA
+2. Visão da operação integrada
+3. As frentes, com entregáveis reais
+4. Conteúdo educativo, números e roadmap que já existem, preservados
+5. FAQ
+6. Contato
+
+Evitar repetição e mural de cartões iguais. **Não inventar resultado,
+garantia, parceiro nem estatística.**
+
+### 4. Diagrama das quatro frentes
+
+Seção explicativa própria, a partir da imagem que o Flávio mandou: operação
+TikTok Shop no centro e quatro frentes conectadas ao redor — afiliação e
+creators, operação da loja, conteúdo e lives, e mídia —, com rótulos de
+entregável nas bordas, dentro do escopo já documentado.
+
+- HTML e SVG acessíveis, com texto selecionável e ordem de leitura correta.
+- Design editorial da Ciclo: só Inter, neutros `#1d1d1b`, `#efeeed` e
+  `#ffffff`, roxo `#933dc9` de acento, cantos suaves.
+- Nada de neon, gradiente multicolorido, logo de terceiro ou texto em inglês.
+- No celular, empilhado, sem texto minúsculo e sem rolagem horizontal.
+- **Conteúdo de SEO não vira imagem.**
+
+### 5. Referência autorizada: uptickk.com/solutions
+
+Serve **só** como estrutura de apresentação: visão geral da operação e blocos
+por frente com título claro, explicação, entregáveis e um visual. Não copiar
+texto, promessa, identidade nem serviço que a Ciclo não oferece. O conteúdo
+da Ciclo é a base.
+
+### 6. Dúvida em aberto: "manter a parte do fake"
+
+O Flávio pediu para manter "a parte do fake" em `/tiktok-shop`. Não há nada
+com esse nome no código. Nada foi removido por interpretação; a dúvida fica
+registrada e a página segue inteira até ele apontar qual bloco é.
+
+---
+
+## Auditorias independentes
+
+Conferências feitas fora desta sessão, em navegador real. Valem mais que as
+capturas locais, porque aqui a rede externa é cortada.
+
+| Data | Commit | O que foi conferido |
+|---|---|---|
+| 17/10 | `159ba1a` | **TikTok Shop conferido por comparação de DOM com o Preview anterior.** title, description, canonical, as 6 perguntas e respostas do FAQ e os 3 JSON-LD iguais. Todas as frases dos parágrafos antigos presentes; a única diferença é o texto do rodapé, que agora fica fora do `main`, com CNPJ e copyright conferidos. Só Inter. Todas as âncoras internas com destino. Em 390×844 sem rolagem lateral, menu abre, Escape fecha, FAQ abre. **Um ajuste de UX pedido:** a seção `#frentes` mede ~1104px de altura em 1397×889 e mistura visão geral com descrição longa — é difícil ver as quatro frentes e o núcleo juntos. Separar em visão geral compacta e detalhes abaixo, sem duplicar as descrições inteiras. |
+| 17/10 | `9febef7` | **Remoção dos dois serviços conferida.** Os dois endereços antigos terminam em `/solucoes/inteligencia-e-operacao`; os links não aparecem mais na home, na solução nem em `/mapa-do-site`; as respostas ampliadas do FAQ da solução foram lidas. Ressalva registrada pela própria auditoria: o 308 vem dos meus testes, não foi medido na leitura de UI. |
+| 17/10 | `5b3e380` | **Correções do 3.1 e 3.2a confirmadas.** `/servicos/meta-ads` só com Inter; sem rolagem lateral em 390×844; menu abre e o Escape fecha devolvendo o foco ao botão. O h1 começa por "Meta Ads para E-commerce" e contém a chamada grande. No blog: busca sem resultado mostra estado vazio com link para todos, o filtro CRM traz 3 artigos, o artigo aberto tem um h1 só, sumário com todos os ids, só Inter e sem imagem quebrada. **Um defeito achado:** o popup "Playbook gratuito de Social Commerce", sobre `/blog`, estava em Playfair. |
+| 17/10 | `f8c6437` | **Três defeitos achados.** (a) Playfair Display computada no subtítulo de `/servicos/meta-ads` e no destaque "em movimento", e no subtítulo de `/solucoes/captacao-de-demanda` — contra a ordem de usar só Inter. (b) Em 390×844, o Escape sobre o botão Fechar **não fecha** o menu móvel. (c) UX móvel: a abertura de Meta Ads ocupa quase a primeira tela inteira, e o índice de seções está em 11px quebrando em duas linhas, com área de toque pequena. Sem estouro horizontal e com âncoras válidas nas duas rotas — resultado pontual, não aprovação do site. |
+| 17/10 | `9fd52eb` | Home no Preview: 20 logos e 4 miniaturas carregaram; menu móvel abre e fecha ao navegar; sem estouro horizontal em 390 px; formulário centralizado e bandeira BR carregada; frase editorial em Playfair Display itálico. Achado: aviso do Pixel por domínio de Preview. |
+| 17/10 | `2007992` | Player dos depoimentos no Preview: o vídeo da Mamô tocou no modal real do YouTube, o Escape fechou e devolveu o foco ao cartão, sem sair da URL. |
+| 17/10 | — | Painel da Vercel lido sem alterar nada. Ver a seção do painel. |
+
+---
+
+## Limitações conhecidas da validação
+
+O que **não** dá para provar daqui, registrado para não virar falsa segurança:
+
+| Limitação | Detalhe |
+|---|---|
+| Meta Pixel no domínio de Preview | O console do Preview mostra aviso do Pixel sobre restrição de tráfego no domínio `*.vercel.app`. É comportamento esperado de domínio não verificado no Business Manager, e o Preview não tem domínio customizado. A validação ponta a ponta de `Lead` (Pixel + CAPI) só fecha em produção. **Não mexer em pixel, permissões de domínio nem domínio para contornar.** |
+| CRM, CAPI e telemetria no Preview | O escopo Preview só tem as duas variáveis do YouTube. Sem credencial, Pipedrive, Supabase e CAPI não respondem — o que protege contra lead de teste, mas também impede validar esses caminhos fora de produção. **Não copiar credencial de produção para o Preview.** Detalhe na seção do painel. |
+| Saída de rede da sessão | Esta sessão não alcança `*.vercel.app`, `img.youtube.com` nem o CDN de bandeiras do campo de telefone. As miniaturas do YouTube e a bandeira BR não renderizam nas capturas locais; foram conferidas no Preview real por auditoria independente. |
+| Node diferente do da Vercel | Local 22.22, Vercel 24.x. Build verde local não substitui o check do deployment do mesmo commit. |
+
+---
+
+## Configuração externa verificada em 17/10/2026
+
+Levantado só com os acessos já disponíveis. Nenhum valor de segredo foi lido,
+nenhuma configuração foi alterada.
+
+### Repositório e branch de produção
+
+| Item | Valor |
+|---|---|
+| Remoto | `github.com/FlavioBeraldo/ciclo`, público |
+| Branch padrão do repositório | `claude/elegant-darwin-HVyvT` |
+| Branch de produção na Vercel | a mesma, confirmada pelos deployments |
+
+**A branch do redesign gera somente Preview.** Isso foi confirmado por
+evidência, não pelo nome: os três pushes de `claude/redesign-ciclo-2026-HVyvT`
+geraram deployments com `environment: "Preview"`, enquanto o merge em
+`claude/elegant-darwin-HVyvT` gerou `environment: "Production"`.
+
+| Commit | Ambiente | Estado |
+|---|---|---|
+| `7fcf734` (redesign) | Preview | success |
+| `53dc116` (redesign) | Preview | success |
+| `e608981` (redesign) | Preview | success |
+| `7ae962b` (produção) | Production | success |
+
+### Projeto Vercel
+
+| Item | Valor |
+|---|---|
+| Projeto | `ciclo-dl2o`, escopo `flavioberaldos-projects` |
+| Ligação | Deployments disparados por push no repositório acima |
+| Framework | `nextjs`, declarado em `vercel.json` |
+| Build | `npm run build`, que roda fetch-youtube, next build e postbuild |
+| Install | `npm install` |
+| Saída | `.next`, com `output: 'standalone'` no next.config |
+| Diretório raiz | Raiz do repositório |
+| Runtime | Node >= 20 por `engines`; rotas de API em `runtime = 'nodejs'` |
+| Cron | 1 job: `/api/cron/site-digest` às `0 12 * * *` |
+| Redirects | 153 regras em `next.config.ts` |
+| GitHub Actions | Nenhum workflow no repositório |
+| Checks no commit | Um contexto `Vercel` e o check `Vercel Preview Comments` |
+
+### Variáveis de ambiente necessárias, só os nomes
+
+`ANTHROPIC_API_KEY`, `ANTHROPIC_MODEL`, `CRON_SECRET`, `GA4_API_SECRET`,
+`GA4_LEAD_QUALIFY_STAGES`, `GA4_MEASUREMENT_ID`, `INTERNAL_EMAIL_DOMAINS`,
+`LINKEDIN_CLIENT_ID`, `LINKEDIN_CLIENT_SECRET`, `LINKEDIN_REDIRECT_URI`,
+`META_CAPI_TOKEN`, `META_PIXEL_ID`, `META_TEST_EVENT_CODE`,
+`NEXT_PUBLIC_LINKEDIN_ENABLED`, `NEXT_PUBLIC_RECAPTCHA_SITE_KEY`,
+`PIPEDRIVE_API_TOKEN`, `PIPEDRIVE_PIPELINE_NAME`, `PIPEDRIVE_STAGE_ID`,
+`PIPEDRIVE_STAGE_NAME`, `PIPEDRIVE_WEBHOOK_SECRET`, `RECAPTCHA_SECRET_KEY`,
+`SUPABASE_SERVICE_ROLE_KEY`, `SUPABASE_URL`, `YOUTUBE_API_KEY`,
+`YOUTUBE_CHANNEL_HANDLE`.
+
+O único arquivo de ambiente versionado é `.env.example`. Nenhum valor foi lido
+nem será copiado para commit ou relatório.
+
+### Referência de retorno, sem executar rollback
+
+| Item | Valor |
+|---|---|
+| Deployment de produção atual | id `6665805577` |
+| Commit | `7ae962bad1758ef0c77e775af6a683e7e5a0e280` |
+| URL do deployment | `ciclo-dl2o-93six9eyy-flavioberaldos-projects.vercel.app` |
+| Data | 25/09/2026, estado success |
+
+### Painel da Vercel, conferido por auditoria independente em 17/10/2026
+
+O painel não é acessível desta sessão. O que segue foi lido por outra pessoa,
+sem alterar nenhuma configuração, e confirma por leitura direta o que antes
+era só dedução a partir dos rótulos de ambiente dos deployments.
+
+| Item | Valor conferido no painel |
+|---|---|
+| Git | conectado a `FlavioBeraldo/ciclo` |
+| Production | rastreia `claude/elegant-darwin-HVyvT` e tem `cicloecommerce.com.br` |
+| Preview | rastreia as demais branches, **sem domínio customizado** |
+| Diretório raiz | vazio, isto é, a raiz do repositório |
+| Node | 24.x |
+| Framework exibido | "Other", mas os *Production Overrides* usam Next.js, `npm run build`, `.next`, `npm install` e `npm run dev` — coerente com o `vercel.json` |
+
+Isso fecha a dúvida de origem: a branch do redesign publica em Preview porque
+a Production rastreia outra branch, não por acaso.
+
+#### Variáveis por ambiente — a parte que muda o teste
+
+No escopo Preview existem **apenas** `YOUTUBE_API_KEY` e
+`YOUTUBE_CHANNEL_HANDLE` (presentes em Production e Preview). `META_CAPI_*`,
+Supabase, Pipedrive, GA4, reCAPTCHA e LinkedIn são **exclusivas de
+Production**. Nenhum valor foi revelado.
+
+Consequências práticas, a tratar como projeto e não como defeito:
+
+- No Preview, `/api/pipedrive`, `/api/track` e a CAPI **não têm credencial** e
+  por isso não criam lead, não gravam telemetria e não enviam conversão. É a
+  proteção que queremos: um envio de teste no Preview não alcança sistema real.
+- Em compensação, **CRM, CAPI e telemetria não são validáveis ponta a ponta no
+  Preview.** Some-se a isso o aviso do Pixel por domínio, e a conclusão é que
+  essa validação só fecha em produção, depois do merge.
+- `/api/youtube/latest` funciona no Preview, então O Fator M mostra os
+  episódios reais lá — ao contrário das capturas locais, onde a sessão não
+  alcança a API.
+- **Não copiar credencial de produção para o Preview** e **não usar env real
+  nos testes.** Os testes continuam com rede externa cortada e `/api/*` em
+  mock.
+
+#### Diferença de runtime a ter em mente
+
+A Vercel compila em Node 24.x; esta sessão compila em Node 22.22. Os dois
+builds passam, mas um verde local não substitui o check do deployment do mesmo
+commit.
+
+---
+
+## Regras de operação desta etapa
+
+- Implementação por grupos na branch isolada, sem pedir aprovação a cada edição
+  reversível.
+- Não recriar projeto ou repositório. Não alterar domínio, DNS, variáveis,
+  integrações, banco ou CMS.
+- Sem force-push, sem reset destrutivo, sem apagar branch, sem reescrever
+  histórico.
+- Preservar workflows, lockfile e dependências, salvo necessidade concreta do
+  front-end, explicada no commit.
+- Nunca copiar `.env` ou credenciais para commit ou relatório.
+- Testes de formulário e medição sempre com rede externa bloqueada e APIs
+  simuladas.
+- Por grupo, entregar: commit, arquivos alterados, verificações e URL de Preview.
+- Conferir os checks do GitHub e o deployment **do mesmo commit**, não um build
+  local anterior.
+- Lint comparado por arquivo e regra, não por contagem.
+- Playbook integralmente congelado.
+- Nenhum merge ou publicação antes da revisão final do Flávio.
+
+---
+
+## Decisões já tomadas
+
+1. **Escopo.** Todas as páginas entram, menos `/playbook-social-commerce`, que
+   é **referência congelada de regressão**: nada nela é refeito, nem layout,
+   nem formulário, nem lint, nem markup, nem fluxo. Serve só para comparar.
+2. **`/link-bio` permanece.** O kit não ter um exemplo equivalente não autoriza
+   remover a página. O contrato dela está na seção 2.4 da auditoria.
+3. **Isolamento por escopo, não por `:root`.** Os tokens do design novo entram
+   sob uma classe na raiz de cada página redesenhada. O playbook, sem a classe,
+   não é alcançado. `body`, `:root`, `:focus-visible`, a barra de rolagem e a
+   base de `.ciclo-phone-input` não são redefinidos globalmente.
+4. **`PhoneField` ganha variante**, nunca alteração na base. A variante
+   `lp-phone-light` do playbook fica intocada.
+5. **Só a camada de apresentação muda.** Os handlers reais são reutilizados; os
+   formulários demonstrativos do kit são descartados.
+6. **Nenhum lead de teste** vai para sistemas reais. Toda verificação roda com
+   a rede externa cortada e as rotas `/api/*` em mock.
+7. **Sem merge nem deploy** antes da revisão final do Flávio.
+
+---
+
+## Regras visuais acordadas, a aplicar quando o pacote chegar
+
+- A home aprovada é a base de todo o site.
+- Tipografia: Inter. Playfair Display Italic 400 só em frases editoriais curtas.
+- Cores: preto `#1d1d1b`, branco, off-white `#efeeed`, roxo `#933dc9` discreto.
+  Sem verde e sem Space Grotesk.
+- A sequência clara → fade → explicações escuras com SVG → fade → processo e
+  provas claros vale **só** para as páginas individuais `/servicos/*`. Não é o
+  conceito do site inteiro.
+- Manter na home: clientes, mídia e parceiros; soluções com ícones; cases
+  agrupados; vídeos em 16:9; formulário centralizado.
+- Não reintroduzir a galeria nem os dois botões centrais removidos do hero.
+- Não importar do kit: `noindex`, robots bloqueador ou redirect demonstrativo.
+- O kit traz layouts, não conteúdo. Os textos e os seis artigos de demonstração
+  não substituem o CMS. O conteúdo real entra nos layouts novos, com as URLs
+  preservadas.
+
+---
+
+## Ordem de implementação proposta
+
+Um grupo por vez, com build válido, preview revisável e
+`verificar.sh comparar` limpo antes de seguir.
+
+| # | Grupo | Páginas | Cuidado principal | Situação |
+|---|---|---|---|---|
+| 1 | Base visual e home | tokens, tipografia, Header, Footer, `/` | Escopo que não alcance o playbook; manter clientes, mídia, parceiros, cases, vídeos e formulário | **Feito** (`9fd52eb`, `2007992`) |
+| 2 | Serviços e soluções | `/servicos/*`, `/solucoes/*` | A sequência própria dos serviços; JSON-LD | **Feito** (`05a241d`) |
+| 3 | Blog | `/blog`, `/blog/[slug]` | Template de artigo; 884 páginas; Article e FAQPage | **Feito** (`4f4da9c`) |
+| 3.1 | Correções transversais | tudo que já saiu | Só Inter; Escape e foco no menu móvel; altura da abertura e legibilidade do índice no celular | Próximo |
+| 3.2a | Título no h1 | todas as refeitas | O nome da página abre o h1, pequeno | **Feito** (`5b3e380`) |
+| 3.2 | Remoção de dois serviços | `/servicos/processos-playbooks`, `/servicos/growth-continuo` | Redirecionamento permanente sem cadeia; tirar de home, soluções, mapa e sitemap | **Feito** (`9febef7`) |
+| 4 | TikTok Shop | `/tiktok-shop` | Prioridade de UX. Diagrama das quatro frentes; FAQ e os três JSON-LD intactos | **Feito** (`159ba1a`) |
+| 5 | Demais institucionais | `/ofatorm`, `/depoimentos`, `/ecomshift`, `/mapa-do-site`, `/politica-de-privacidade` | Opt-out da privacidade | Próximo |
+| 6 | Consultorias | `/consultoria-para-e-commerce`, `/consultoria-ecom-shift` | A identidade `shift` será substituída | |
+| 7 | Formulários | `/aplicacao`, `/link-bio`, `/obrigado`, LeadForm | O mais sensível. Handlers reais, payload idêntico | |
+
+A base visual e a home saíram no mesmo grupo porque o kit entrega a home como
+a página que define os tokens: separar as duas só geraria um commit que não dá
+para olhar. O grupo dos formulários fica por último de propósito: é onde um
+descuido quebra a medição sem aparecer na tela.
+
+### Lições do grupo 1, para não repetir
+
+- **O kit é layout, não conteúdo nem comportamento.** Ele usa links externos
+  para o YouTube "para demonstração" e o próprio
+  `docs/INTEGRACOES-E-PENDENCIAS.md` pede para integrar o player existente. Eu
+  segui o markup ao pé da letra e quebrei o player interno dos depoimentos.
+  Antes de copiar um `<a>`, conferir o que a página fazia antes.
+- **Métrica vem de `@/lib/*`, nunca do kit.** O kit escreve a terceira métrica
+  da Gringa diferente de `cases.ts`; vale o dado do projeto.
+- **Processo velho na porta 3100.** O `next-server` não casa com
+  `pkill -f "standalone/server.js"`, e `pkill -f next-server` mata o próprio
+  shell. Matar por PID (`ps -eo pid,args | grep "[n]ext-server"`) e reiniciar
+  sempre depois de um build, senão o teste roda contra o bundle anterior.
+- **`deployments?sha=` exige SHA completo.** Com o abreviado a resposta vem
+  vazia e parece que o deploy falhou.
+
+### Lições do grupo 2
+
+- **`.inner` não pode dividir o nó com `.ciclo2026`.** As regras do kit são
+  `.inner h1`; com o escopo viram `.ciclo2026 .inner h1`, que exige um
+  descendente de verdade. Com as duas classes no mesmo elemento o `h1` sai do
+  tamanho do corpo do texto e o erro passa despercebido.
+- **Conferir quais folhas a página do kit carrega.** A home carrega
+  `base.css` e `interiors.css`; as internas carregam as duas mais
+  `service-explanations.css`. Faltou a segunda na home do grupo 1 e o
+  `--accent` ficou `#b400ff` em vez de `#933dc9`.
+- **`git checkout <arquivo>` apaga trabalho não commitado.** Perdi a página de
+  serviço inteira assim. Em arquivo novo ainda não commitado, não existe
+  versão para voltar.
+- **Dá para ler os dados de `src/lib/*.ts` num script de verificação** com
+  `node --experimental-strip-types`. Evita manter uma segunda cópia da
+  verdade dentro do teste.
+
+---
+
+## Como retomar, na prática
+
+```bash
+cd /home/user/ciclo
+git fetch origin && git checkout claude/redesign-ciclo-2026-HVyvT
+npm ci                                    # o container recicla e perde node_modules
+bash docs/redesign/verificar.sh comparar  # confirma que a base segue íntegra
+```
+
+Se o container tiver sido reciclado, `node_modules` e o `playwright-core` do
+diretório temporário somem. O `npm ci` resolve o primeiro; o script de
+verificação reinstala o segundo sozinho.
+
+O `verificar.sh comparar` tem sete etapas: hashes da camada protegida,
+typecheck e lint por arquivo e regra, build, rotas, impressão digital do
+playbook, eventos e payloads dos quatro formulários e, por último,
+`internas-seo.mjs`, que confere conteúdo, URLs e SEO das 23 páginas internas.
+Há ainda um teste à parte para o player dos depoimentos:
+
+```bash
+node docs/redesign/depoimentos-player.mjs http://127.0.0.1:3100
+```
+
+Para mexer no servidor local, matar por PID — `pkill -f next-server` mata o
+próprio shell:
+
+```bash
+PID=$(ps -eo pid,args | grep "[n]ext-server" | awk '{print $1}'); [ -n "$PID" ] && kill $PID
+(PORT=3100 HOSTNAME=127.0.0.1 nohup node .next/standalone/server.js >/tmp/srv.log 2>&1 &)
+```
+
+---
+
+## Pendências reais
+
+| Pendência | Situação |
+|---|---|
+| Validação do Pixel no Preview | Bloqueada por domínio. Só fecha em produção. Ver "Limitações conhecidas da validação" |
+| 8 componentes órfãos da home antiga | `Hero`, `BrandsStrip`, `CommonErrorSection`, `ThesisSection`, `ServicesSection`, `TestimonialsSection`, `PodcastSection`, `RecentBlogSection`. Mantidos de propósito até os grupos seguintes; `LeadForm` e `CasesSection` seguem em uso |
+| 8 erros de lint preexistentes | Registrados. Não são do redesign e não serão corrigidos de carona. Os 2 do PlaybookForm ficam por definição, já que o arquivo é congelado |
+| Meta aguardando aceite dos termos | Herdada, fora deste escopo |
+| Episódio do Fator M no artigo do Creator Hub | Herdada, fora deste escopo |
+
+---
+
+## Atualização de 17/10/2026, fim do dia
+
+### Estado
+
+| Item | Valor |
+|---|---|
+| Branch | `claude/redesign-ciclo-2026-HVyvT` |
+| Matriz de integrações (seções 21–24 da auditoria) | `8e6e43a` |
+| Checkpoint do podcast (seção 25) | `4f9f6d6` |
+| Verificação | **13 passos, 32 checagens, tudo verde**, com 5 notas de exceção autorizada |
+| Produção | segue em `7ae962b`, intocada |
+
+### Autorização — mudou quem libera, não o que falta
+
+Em **17/10, 14:31 de Brasília**, o Flávio autorizou que a **revisão técnica
+independente coordene a migração** quando considerar seguro, depois de tudo
+terminado e corrigido, com validação completa pós-publicação. **Não é preciso
+novo OK dele.**
+
+**Isso NÃO libera publicar.** A ordem continua: terminar o podcast (feito), as
+7 páginas, as correções de UX, links e imagens, e os gates do relatório.
+Depois disso, produzir um **candidato final com evidências** para revisão, e
+só então coordenar merge e deploy no SHA exato liberado.
+
+Permanece proibido: alterar token, domínio, conta, GTM, banco; testar com
+dado de cliente; usar e-mail interno bloqueado como prova de CAPI.
+
+### O que a leitura externa dos painéis fechou
+
+Detalhe na seção 26 da auditoria. O resumo para quem retoma:
+
+- **Gatilhos por seletor CSS do GTM: risco encerrado.** Têm zero tags. A
+  troca de classes do formulário e dos CTAs no redesign **não quebra nada**.
+- **Supabase: tabelas confirmadas**, e `qualify_lead`/`close_convert_lead` já
+  dispararam historicamente — a ausência recente no painel do GA4 não é
+  regressão.
+- **Webhooks do Pipedrive cadastrados e respondendo 200**, nos dois
+  endpoints. Um deles, `/api/pipedrive/enrich`, eu tinha deixado de fora do
+  inventário; está preservado byte a byte.
+- **Container de servidor `GTM-M4K3G2GK`: provavelmente fora do caminho.**
+  Versão de 05/2025, sem `server_container_url` no web.
+- **Preview polui os relatórios — risco confirmado.** Sem bloqueio por
+  hostname; filtro de Internal Traffic em teste. Resolver fora do
+  repositório; **não alterar o container daqui**.
+- **Consentimento:** os quatro sinais estão inativos. Estado herdado,
+  registrado, não alterado.
+- **reCAPTCHA:** dívida herdada pendente. **Não corrigir nesta migração
+  visual.**
+
+### Próximo
+
+As 7 páginas pendentes, nesta ordem:
+`/ofatorm`, `/ecomshift`, `/consultoria-para-e-commerce`,
+`/consultoria-ecom-shift`, `/aplicacao`, `/link-bio`, `/obrigado`.
+
+Cuidado em três delas: `/aplicacao` e `/link-bio` têm formulário com
+mensuração por etapa, e `/obrigado` depende de a conversão sair **antes** do
+redirecionamento. Qualquer mexida ali tem de manter o passo 6 da verificação
+verde.
+
+---
+
+## Candidato final — 17/10/2026
+
+**Redesign completo.** Todas as rotas públicas estão no design 2026; só
+`/playbook-social-commerce` segue fora, congelado de propósito.
+
+| Item | Valor |
+|---|---|
+| SHA do candidato | `9df6eff512b242fe05ac261cec08f00bdb0687c1` |
+| Preview | https://ciclo-dl2o-orll219ix-flavioberaldos-projects.vercel.app |
+| Produção | `7ae962b`, revalidada e **não avançou** |
+| Verificação | 16 passos, tudo verde |
+| Crawl | 0 destinos quebrados, 0 âncoras sem alvo |
+
+Commits das páginas: `ac58a47` (/ofatorm), `af7b8b9` (/ecomshift), `7e3b63c`
+(/consultoria-para-e-commerce), `9df6eff` (as quatro últimas).
+
+**Não publicar sem a liberação técnica do SHA exato.** Os gates abertos, o
+plano de rollback e o que falta para o teste real estão na seção 27 da
+auditoria.

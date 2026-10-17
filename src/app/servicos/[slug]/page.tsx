@@ -2,39 +2,27 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
-import {
-  ArrowRight,
-  Check,
-  ChevronRight,
-  TrendingUp,
-  Lightbulb,
-  Target,
-  BarChart3,
-} from 'lucide-react'
-import Header from '@/components/Header'
-import Footer from '@/components/Footer'
-import Button from '@/components/ui/Button'
-import {
-  servicos,
-  getServicoBySlug,
-  getAllServicoSlugs,
-  getRelatedServicos,
-} from '@/lib/servicos'
-import { ServicosInteractive } from './interactive'
-
-// ─── Types ────────────────────────────────────────────────────────────────────
+import CicloHeader from '@/components/ciclo/CicloHeader'
+import CicloFooter from '@/components/ciclo/CicloFooter'
+import Contato from '@/components/ciclo/Contato'
+import Breadcrumb from '@/components/ciclo/interior/Breadcrumb'
+import Faq from '@/components/ciclo/interior/Faq'
+import CartoesDeServico from '@/components/ciclo/interior/CartoesDeServico'
+import { diagramasPorServico, simboloPorServico } from '@/components/ciclo/servicos/diagramas'
+import { simboloExtraPorServico } from '@/components/ciclo/servicos/extras'
+import { getServicoBySlug, getAllServicoSlugs, getRelatedServicos } from '@/lib/servicos'
+import { playfair2026 } from '@/components/ciclo/fonts'
+import '@/components/ciclo/base.css'
+import '@/components/ciclo/interiors.css'
+import '@/components/ciclo/explicacoes.css'
 
 interface PageProps {
   params: Promise<{ slug: string }>
 }
 
-// ─── Static generation ───────────────────────────────────────────────────────
-
 export function generateStaticParams() {
   return getAllServicoSlugs().map((slug) => ({ slug }))
 }
-
-// ─── SEO metadata ─────────────────────────────────────────────────────────────
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params
@@ -56,24 +44,29 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   }
 }
 
-// ─── Why-it-matters icons (cycle through 3) ──────────────────────────────────
-
-const whyIcons = [TrendingUp, Lightbulb, Target]
-
-// ─── Server page ─────────────────────────────────────────────────────────────
-
+// Página de serviço no design 2026.
+//
+// O conteúdo é o mesmo de @/lib/servicos — título, tagline, o que é, por que
+// importa, processo, entregas, resultados, exemplos, FAQ e relacionados —, com
+// o mesmo canonical, a mesma metadata e o mesmo JSON-LD de FAQPage. O que muda
+// é a casca: a sequência clara → escuro com diagramas → claro que o kit define
+// para as páginas individuais de serviço.
+//
+// Atenção à estrutura: `inner` fica num elemento DENTRO do escopo, nunca no
+// mesmo nó. As regras do kit são `.inner h1`, que depois do escopo viram
+// `.ciclo2026 .inner h1` e exigem um descendente de verdade.
 export default async function ServicoPage({ params }: PageProps) {
   const { slug } = await params
   const servico = getServicoBySlug(slug)
   if (!servico) notFound()
 
-  const related = getRelatedServicos(servico.relatedSlugs)
+  const relacionados = getRelatedServicos(servico.relatedSlugs)
+  const capitulos = diagramasPorServico[slug] ?? []
+  // Serviços criados depois do kit não têm símbolo no arquivo gerado
+  const simbolo = simboloPorServico[slug] ?? simboloExtraPorServico[slug] ?? ''
 
-  // Split "why" into sentences for the 3-column cards
-  const whySentences = servico.why
-    .split(/(?<=[.!?])\s+/)
-    .filter(Boolean)
-    .slice(0, 3)
+  // "Por que importa" continua no texto da visão geral, frase a frase
+  const porQue = servico.why.split(/(?<=[.!?])\s+/).filter(Boolean)
 
   const faqJsonLd = {
     '@context': 'https://schema.org',
@@ -81,416 +74,296 @@ export default async function ServicoPage({ params }: PageProps) {
     mainEntity: servico.faq.map(({ q, a }) => ({
       '@type': 'Question',
       name: q,
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: a,
-      },
+      acceptedAnswer: { '@type': 'Answer', text: a },
     })),
   }
 
-
-  // Diagramas explicativos opcionais (ver campo `visuals` em src/lib/servicos.ts)
-  const renderVisual = (position: 'mechanism' | 'process') => {
-    const v = servico.visuals?.find((x) => x.position === position)
+  // Diagramas próprios do serviço, quando a lib traz (campo `visuals`)
+  const renderVisual = (posicao: 'mechanism' | 'process') => {
+    const v = servico.visuals?.find((x) => x.position === posicao)
     if (!v) return null
     return (
-      <section aria-labelledby={`visual-${position}-heading`}>
-        <div className="mb-8">
-          <p className="text-xs font-bold text-[#A100FF] uppercase tracking-widest mb-3">
-            {v.eyebrow}
-          </p>
-          <h2
-            id={`visual-${position}-heading`}
-            className="text-2xl sm:text-3xl font-bold text-white max-w-xl"
-          >
-            {v.title}
-          </h2>
+      <section className="inner-section" aria-labelledby={`visual-${posicao}`}>
+        <div className="wrap narrow">
+          <div className="inner-section-heading">
+            <div className="eyebrow">
+              <span />
+              {v.eyebrow}
+            </div>
+            <h2 id={`visual-${posicao}`}>{v.title}</h2>
+          </div>
+
+          <figure className="service-diagram">
+            <Image src={v.src} alt={v.alt} width={880} height={470} />
+            {v.caption && <figcaption>{v.caption}</figcaption>}
+          </figure>
         </div>
-        <div className="bg-white/3 border border-white/8 rounded-2xl p-4 sm:p-6">
-          <Image
-            src={v.src}
-            alt={v.alt}
-            width={880}
-            height={470}
-            className="w-full h-auto rounded-xl"
-          />
-        </div>
-        {v.caption && (
-          <p className="text-[#A1A1AA] text-sm leading-relaxed mt-5 max-w-3xl">{v.caption}</p>
-        )}
       </section>
     )
   }
 
   return (
-    <div className="theme-light">
-      {/* JSON-LD structured data */}
+    <div className={`ciclo2026 ${playfair2026.variable}`}>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
       />
 
-      <Header />
-      <main className="min-h-screen bg-[#050505] pt-20">
-        {/* Ambient glow */}
-        <div className="fixed inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
-          <div className="absolute top-0 right-0 w-[600px] h-[600px] rounded-full bg-[#A100FF]/6 blur-[150px]" />
-          <div className="absolute bottom-0 left-0 w-[400px] h-[400px] rounded-full bg-[#A100FF]/4 blur-[120px]" />
-        </div>
+      <div className="inner service-page individual-service">
+        <a className="skip" href="#conteudo">
+          Pular para o conteúdo
+        </a>
 
-        {/* ── 1. Hero ── */}
-        <section className="relative bg-gradient-to-br from-[#1a0030] via-[#0d0020] to-[#050505] py-20 sm:py-28 overflow-hidden">
-          <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] rounded-full bg-[#A100FF]/15 blur-[120px]" />
-            <div className="absolute top-0 right-0 w-[300px] h-[300px] rounded-full bg-[#A100FF]/10 blur-[80px]" />
-          </div>
+        <CicloHeader />
 
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            {/* 2. Breadcrumb */}
-            <nav aria-label="Breadcrumb" className="mb-8">
-              <ol className="flex flex-wrap items-center gap-1.5 text-xs text-[#A1A1AA]">
-                <li>
-                  <Link href="/" className="hover:text-white transition-colors">
-                    Home
-                  </Link>
-                </li>
-                <li aria-hidden="true">
-                  <ChevronRight className="w-3 h-3 opacity-40" />
-                </li>
-                <li>
-                  <span className="text-[#A1A1AA]">Soluções</span>
-                </li>
-                <li aria-hidden="true">
-                  <ChevronRight className="w-3 h-3 opacity-40" />
-                </li>
-                <li>
-                  <Link
-                    href={`/solucoes/${servico.parentSlug}`}
-                    className="hover:text-white transition-colors"
-                  >
-                    {servico.parentTitle}
-                  </Link>
-                </li>
-                <li aria-hidden="true">
-                  <ChevronRight className="w-3 h-3 opacity-40" />
-                </li>
-                <li aria-current="page">
-                  <span className="text-white">{servico.title}</span>
-                </li>
-              </ol>
-            </nav>
+        <main id="conteudo">
+          <section className="inner-hero">
+            <div className="wrap narrow">
+              <Breadcrumb
+                etapas={[
+                  { rotulo: 'Início', href: '/' },
+                  { rotulo: 'Soluções', href: '/#solucoes' },
+                  { rotulo: servico.parentTitle, href: `/solucoes/${servico.parentSlug}` },
+                  { rotulo: servico.title },
+                ]}
+              />
 
-            <div className="max-w-4xl">
-              <p className="inline-block text-xs font-bold text-[#A100FF] bg-[#A100FF]/10 border border-[#A100FF]/20 rounded-full px-4 py-1.5 uppercase tracking-widest mb-5">
-                {servico.parentTitle}
-              </p>
+              <div className="service-hero-layout">
+                <div>
+                  {/* O nome do serviço abre o h1. A solução de origem continua
+                      visível no caminho da página e sob o símbolo. */}
+                  <h1>
+                    <span className="eyebrow h1-kicker">
+                      <span />
+                      {servico.title}
+                    </span>
+                    {servico.heroHeadline}
+                  </h1>
 
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight mb-4">
-                {servico.heroHeadline}
-              </h1>
+                  <p className="inner-signature">{servico.tagline}</p>
 
-              <p className="text-base sm:text-lg text-[#A100FF] font-medium mb-5">
-                {servico.tagline}
-              </p>
+                  <p className="inner-lead">{servico.heroDescription}</p>
 
-              <p className="text-lg sm:text-xl text-[#D4D4D8] leading-relaxed mb-10 max-w-2xl">
-                {servico.heroDescription}
-              </p>
+                  <div className="inner-actions">
+                    <a className="button" href="#contato">
+                      <span>Fale com especialista</span>
+                      <b aria-hidden="true">↗</b>
+                    </a>
+                    <a href="#como-funciona" className="textlink">
+                      Conheça o processo <span>↓</span>
+                    </a>
+                    {/* A chamada para a solução de origem já existia no hero
+                        antes do redesign; volta aqui como link de texto. */}
+                    <Link href={`/solucoes/${servico.parentSlug}`} className="textlink">
+                      Ver solução completa <span>↗</span>
+                    </Link>
+                  </div>
+                </div>
 
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Button href="/#contato" arrow size="lg">
-                  Fale com especialista
-                </Button>
-                <Button
-                  href={`/solucoes/${servico.parentSlug}`}
-                  variant="outline"
-                  size="lg"
-                >
-                  Ver solução completa
-                </Button>
+                <div className="service-symbol" aria-hidden="true">
+                  <div className="symbol-orbit" />
+                  <div className="symbol-orbit second" />
+                  <div
+                    className="symbol-logo"
+                    dangerouslySetInnerHTML={{ __html: simbolo }}
+                  />
+                  <span>{servico.parentTitle}</span>
+                </div>
               </div>
+
+              {/* "Resultados" só entra quando a seção existe: serviços sem
+                  número publicado não renderizam esse bloco, e um item de
+                  índice sem destino é link quebrado. */}
+              <nav className="section-index" aria-label="Nesta página">
+                <a href="#visao">Visão geral</a>
+                <a href="#como-funciona">Como funciona</a>
+                <a href="#entregas">Entregas</a>
+                {servico.results.length > 0 && <a href="#resultados">Resultados</a>}
+                <a href="#faq">Perguntas frequentes</a>
+              </nav>
             </div>
-          </div>
-        </section>
+          </section>
 
-        {/* ── Main content ── */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 relative z-10 space-y-24">
+          <div className="service-tone-entry" aria-hidden="true" />
 
-          {/* ── 3. O que é — split layout ── */}
-          <section aria-labelledby="o-que-e-heading">
-            <div className="grid lg:grid-cols-2 gap-12 items-center">
-              {/* Left: text */}
-              <div>
-                <p className="text-xs font-bold text-[#A100FF] uppercase tracking-widest mb-3">
-                  Entenda o conceito
-                </p>
-                <h2
-                  id="o-que-e-heading"
-                  className="text-2xl sm:text-3xl font-bold text-white mb-5"
-                >
-                  O que é {servico.title}?
-                </h2>
-                <p className="text-[#D4D4D8] leading-relaxed text-base sm:text-lg">
-                  {servico.what}
-                </p>
-              </div>
+          <section id="visao" className="service-dark-story">
+            <div className="wrap narrow">
+              <div className="story-overview">
+                <div className="eyebrow">
+                  <span />
+                  Entenda a estratégia
+                </div>
 
-              {/* Right: colored stat box */}
-              <div className="relative">
-                <div className="absolute inset-0 bg-[#A100FF]/10 rounded-3xl blur-[60px]" />
-                <div className="relative bg-gradient-to-br from-[#A100FF]/20 to-[#A100FF]/5 border border-[#A100FF]/30 rounded-3xl p-8">
-                  <BarChart3 className="w-10 h-10 text-[#A100FF] mb-4" />
-                  <p className="text-4xl font-bold text-white mb-2">
-                    {servico.results[0].metric}
-                  </p>
-                  <p className="text-[#D4D4D8] text-sm mb-6">{servico.results[0].label}</p>
-                  <div className="border-t border-white/10 pt-5">
-                    <p className="text-xs text-[#A1A1AA] mb-3">Outros resultados</p>
-                    <div className="space-y-2">
-                      {servico.results.slice(1).map(({ metric, label }) => (
-                        <div key={label} className="flex items-center gap-3">
-                          <span className="text-[#A100FF] font-bold text-sm w-16 flex-shrink-0">
-                            {metric}
-                          </span>
-                          <span className="text-[#A1A1AA] text-xs leading-tight">{label}</span>
-                        </div>
-                      ))}
-                    </div>
+                <div className="overview-grid">
+                  <h2>O que é {servico.title}?</h2>
+
+                  <div>
+                    <p>{servico.what}</p>
+                    {porQue.map((frase, i) => (
+                      <p key={i}>{frase}</p>
+                    ))}
                   </div>
                 </div>
               </div>
-            </div>
-          </section>
 
-          {/* ── 4. Por que importa — 3-column icon cards ── */}
-          <section aria-labelledby="por-que-heading">
-            <div className="mb-10">
-              <p className="text-xs font-bold text-[#A100FF] uppercase tracking-widest mb-3">
-                Por que faz diferença
-              </p>
-              <h2
-                id="por-que-heading"
-                className="text-2xl sm:text-3xl font-bold text-white max-w-xl"
-              >
-                Por que {servico.title} importa para o seu e-commerce
-              </h2>
-            </div>
-
-            <div className="grid sm:grid-cols-3 gap-5">
-              {whySentences.map((sentence, i) => {
-                const Icon = whyIcons[i % whyIcons.length]
-                return (
-                  <div
-                    key={i}
-                    className="bg-white/3 border border-white/8 rounded-2xl p-6 hover:border-[#A100FF]/30 hover:bg-[#A100FF]/5 transition-all duration-300"
-                  >
-                    <div className="w-10 h-10 rounded-xl bg-[#A100FF]/20 flex items-center justify-center mb-4">
-                      <Icon className="w-5 h-5 text-[#A100FF]" />
-                    </div>
-                    <p className="text-[#D4D4D8] text-sm leading-relaxed">{sentence}</p>
+              {capitulos.length > 0 && (
+                <>
+                  <div className="story-editorial">
+                    <span>A estratégia</span> <em>em movimento.</em>
                   </div>
-                )
-              })}
+
+                  <div className="service-explanations">
+                    {capitulos.map((c) => (
+                      <article className="visual-chapter" key={c.numero}>
+                        <div className="visual-chapter-copy">
+                          <span className="chapter-number">{c.numero}</span>
+                          <h3>{c.titulo}</h3>
+                          <p>{c.texto}</p>
+                          <div className="visual-key">{c.chave}</div>
+                        </div>
+
+                        <figure
+                          className="service-diagram"
+                          dangerouslySetInnerHTML={{
+                            __html: `${c.svg}<figcaption>${c.legenda}</figcaption>`,
+                          }}
+                        />
+                      </article>
+                    ))}
+                  </div>
+                </>
+              )}
             </div>
           </section>
+
+          <div className="service-tone-exit" aria-hidden="true" />
 
           {renderVisual('mechanism')}
 
-          {/* ── 5. Como funciona — numbered steps ── */}
-          <section id="como-funciona" aria-labelledby="como-funciona-heading">
-            <div className="mb-10">
-              <p className="text-xs font-bold text-[#A100FF] uppercase tracking-widest mb-3">
-                Nosso processo
-              </p>
-              <h2
-                id="como-funciona-heading"
-                className="text-2xl sm:text-3xl font-bold text-white"
-              >
-                Como funciona
-              </h2>
-            </div>
+          <section className="inner-section process-section" id="como-funciona">
+            <div className="wrap narrow">
+              <div className="inner-section-heading">
+                <div className="eyebrow">
+                  <span />
+                  Nosso processo
+                </div>
 
-            <div className="relative">
-              {/* Connecting line */}
-              <div
-                className="absolute left-5 top-10 bottom-10 w-0.5 bg-gradient-to-b from-[#A100FF]/60 via-[#A100FF]/20 to-transparent hidden sm:block"
-                aria-hidden="true"
-              />
-
-              <div className="space-y-4">
-                {servico.howItWorks.map(({ step, detail }, i) => (
-                  <div key={step} className="relative flex gap-6">
-                    {/* Step number bubble */}
-                    <div className="flex-shrink-0 relative z-10">
-                      <div className="w-10 h-10 rounded-full bg-[#A100FF] flex items-center justify-center text-white font-bold text-sm shadow-[0_0_20px_rgba(161,0,255,0.4)]">
-                        {i + 1}
-                      </div>
-                    </div>
-
-                    {/* Content */}
-                    <div className="flex-1 bg-white/3 border border-white/8 rounded-2xl p-6 hover:border-[#A100FF]/20 transition-colors">
-                      <p className="font-semibold text-white mb-2">{step}</p>
-                      <p className="text-[#A1A1AA] text-sm leading-relaxed">{detail}</p>
-                    </div>
-                  </div>
-                ))}
+                <h2>Estratégia com direção. Execução com método.</h2>
               </div>
+
+              <ol className="process-list">
+                {servico.howItWorks.map(({ step, detail }, i) => (
+                  <li key={step}>
+                    <span className="step-number">{String(i + 1).padStart(2, '0')}</span>
+                    <div>
+                      <h3>{step}</h3>
+                      <p>{detail}</p>
+                    </div>
+                  </li>
+                ))}
+              </ol>
             </div>
           </section>
 
           {renderVisual('process')}
 
-          {/* ── 6. Nossas entregas — checklist grid ── */}
-          <section aria-labelledby="entregas-heading">
-            <div className="mb-8">
-              <p className="text-xs font-bold text-[#A100FF] uppercase tracking-widest mb-3">
-                O que você recebe
-              </p>
-              <h2
-                id="entregas-heading"
-                className="text-2xl sm:text-3xl font-bold text-white"
-              >
-                Nossas entregas
-              </h2>
-            </div>
-
-            <div className="grid sm:grid-cols-2 gap-3">
-              {servico.deliverables.map((item) => (
-                <div
-                  key={item}
-                  className="flex items-start gap-3 bg-white/3 border border-white/8 rounded-2xl px-5 py-4 hover:border-[#A100FF]/20 transition-colors"
-                >
-                  <div className="flex-shrink-0 w-6 h-6 rounded-full bg-[#A100FF]/20 flex items-center justify-center mt-0.5">
-                    <Check className="w-3.5 h-3.5 text-[#A100FF]" />
-                  </div>
-                  <span className="text-[#D4D4D8] text-sm leading-relaxed">{item}</span>
+          <section className="inner-section paper" id="entregas">
+            <div className="wrap narrow">
+              <div className="inner-section-heading">
+                <div className="eyebrow">
+                  <span />O que você recebe
                 </div>
-              ))}
-            </div>
-          </section>
 
-          {/* ── 7. Resultados — 2×2 metric grid ── */}
-          <section aria-labelledby="resultados-heading">
-            <div className="mb-8">
-              <p className="text-xs font-bold text-[#A100FF] uppercase tracking-widest mb-3">
-                Números reais
-              </p>
-              <h2
-                id="resultados-heading"
-                className="text-2xl sm:text-3xl font-bold text-white"
-              >
-                Resultados que entregamos
-              </h2>
-            </div>
-
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-              {servico.results.map(({ metric, label }, i) => (
-                <div
-                  key={metric + i}
-                  className="relative overflow-hidden bg-gradient-to-br from-[#A100FF]/15 to-[#A100FF]/5 border border-[#A100FF]/25 rounded-2xl p-6 text-center"
-                >
-                  <div className="absolute inset-0 bg-[#A100FF]/5 blur-[40px]" />
-                  <p className="relative text-3xl sm:text-4xl font-bold text-[#A100FF] mb-2">
-                    {metric}
-                  </p>
-                  <p className="relative text-[#A1A1AA] text-xs leading-tight">{label}</p>
-                </div>
-              ))}
-            </div>
-          </section>
-
-          {/* ── 8. Exemplos reais — 3 gradient cards ── */}
-          <section aria-labelledby="exemplos-heading">
-            <div className="mb-8">
-              <p className="text-xs font-bold text-[#A100FF] uppercase tracking-widest mb-3">
-                Casos práticos
-              </p>
-              <h2
-                id="exemplos-heading"
-                className="text-2xl sm:text-3xl font-bold text-white"
-              >
-                Exemplos reais de resultado
-              </h2>
-            </div>
-
-            <div className="grid sm:grid-cols-3 gap-5">
-              {servico.examples.map(({ title, description, highlight }, i) => {
-                const gradients = [
-                  'from-[#4a0080]/40 via-[#2a0050]/30 to-[#0d0020]/20',
-                  'from-[#6600aa]/40 via-[#3a0070]/30 to-[#0d0020]/20',
-                  'from-[#3300cc]/40 via-[#220055]/30 to-[#0d0020]/20',
-                ]
-                return (
-                  <div
-                    key={title}
-                    className={`relative overflow-hidden bg-gradient-to-br ${gradients[i % gradients.length]} border border-[#A100FF]/20 rounded-2xl p-6 flex flex-col`}
-                  >
-                    <div
-                      className="absolute top-0 right-0 w-32 h-32 rounded-full bg-[#A100FF]/10 blur-[50px]"
-                      aria-hidden="true"
-                    />
-
-                    <div className="relative z-10 flex-1">
-                      <p className="text-xs font-bold text-[#A100FF] uppercase tracking-widest mb-3">
-                        {title}
-                      </p>
-                      <p className="text-[#D4D4D8] text-sm leading-relaxed mb-5">{description}</p>
-                    </div>
-
-                    <div className="relative z-10 pt-4 border-t border-white/10">
-                      <span className="inline-block bg-[#A100FF]/20 border border-[#A100FF]/40 text-[#A100FF] text-xs font-bold px-3 py-1.5 rounded-full">
-                        {highlight}
-                      </span>
-                    </div>
-                  </div>
-                )
-              })}
-            </div>
-          </section>
-
-          {/* ── 9. FAQ + CTA form (client components) ── */}
-          <ServicosInteractive servico={servico} />
-
-          {/* ── 10. Serviços relacionados ── */}
-          {related.length > 0 && (
-            <section aria-labelledby="relacionados-heading">
-              <div className="mb-8">
-                <p className="text-xs font-bold text-[#A100FF] uppercase tracking-widest mb-3">
-                  Continue explorando
-                </p>
-                <h2
-                  id="relacionados-heading"
-                  className="text-2xl sm:text-3xl font-bold text-white"
-                >
-                  Veja também
-                </h2>
+                <h2>Nossas entregas.</h2>
               </div>
 
-              <div className="grid sm:grid-cols-3 gap-5">
-                {related.map((r) => (
-                  <Link
-                    key={r.slug}
-                    href={`/servicos/${r.slug}`}
-                    className="group bg-white/3 border border-white/8 rounded-2xl p-6 hover:border-[#A100FF]/40 hover:bg-[#A100FF]/5 transition-all duration-300 flex flex-col"
-                  >
-                    <p className="text-xs font-bold text-[#A100FF] uppercase tracking-widest mb-2">
-                      {r.parentTitle}
-                    </p>
-                    <h3 className="font-semibold text-white text-sm mb-2 flex-1 leading-snug">
-                      {r.title}
-                    </h3>
-                    <p className="text-[#A1A1AA] text-xs leading-relaxed mb-4">{r.tagline}</p>
-                    <div className="flex items-center gap-1.5 text-xs text-[#A100FF] font-semibold group-hover:gap-2.5 transition-all mt-auto pt-4 border-t border-white/8">
-                      Ver serviço <ArrowRight className="w-3 h-3" />
-                    </div>
-                  </Link>
+              <ul className="deliverable-list">
+                {servico.deliverables.map((item) => (
+                  <li key={item}>
+                    <span aria-hidden="true">↗</span>
+                    {item}
+                  </li>
                 ))}
+              </ul>
+            </div>
+          </section>
+
+          {servico.results.length > 0 && (
+          <section className="inner-section service-light-results" id="resultados">
+            <div className="wrap narrow">
+              <div className="inner-section-heading">
+                <div className="eyebrow">
+                  <span />
+                  Resultados
+                </div>
+
+                <h2>O impacto da estratégia no negócio.</h2>
+              </div>
+
+              <div className="result-grid">
+                {servico.results.map(({ metric, label }) => (
+                  <div key={metric + label}>
+                    <strong>{metric}</strong>
+                    <p>{label}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+          )}
+
+          {servico.examples.length > 0 && (
+          <section className="inner-section">
+            <div className="wrap narrow">
+              <div className="inner-section-heading">
+                <div className="eyebrow">
+                  <span />
+                  Casos práticos
+                </div>
+
+                <h2>Estratégia aplicada ao mundo real.</h2>
+              </div>
+
+              <div className="example-grid">
+                {servico.examples.map(({ title, description, highlight }, i) => (
+                  <article key={title}>
+                    <span className="example-index">{String(i + 1).padStart(2, '0')}</span>
+                    <h3>{title}</h3>
+                    <p>{description}</p>
+                    <strong>{highlight}</strong>
+                  </article>
+                ))}
+              </div>
+            </div>
+          </section>
+          )}
+
+          <Faq perguntas={servico.faq} />
+
+          {relacionados.length > 0 && (
+            <section className="inner-section">
+              <div className="wrap narrow">
+                <div className="inner-section-heading">
+                  <div className="eyebrow">
+                    <span />
+                    Continue explorando
+                  </div>
+
+                  <h2>Conecte as próximas etapas.</h2>
+                </div>
+
+                <CartoesDeServico servicos={relacionados} />
               </div>
             </section>
           )}
-        </div>
-      </main>
-      <Footer />
+
+          <div className="section-fade paper-dark" aria-hidden="true" />
+
+          <Contato />
+        </main>
+
+        <CicloFooter />
+      </div>
     </div>
   )
 }

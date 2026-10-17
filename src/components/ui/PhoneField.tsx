@@ -14,6 +14,13 @@ interface Props<T extends FieldValues> {
   required?: boolean
   error?: string
   placeholder?: string
+  /**
+   * Aparência. 'padrao' é a de sempre e continua sendo o default, para que as
+   * telas já no ar — inclusive o playbook — não mudem um pixel. 'ciclo2026'
+   * veste o campo com as classes do design novo, cujo CSS vive no escopo
+   * `.ciclo2026`.
+   */
+  variant?: 'padrao' | 'ciclo2026'
 }
 
 export default function PhoneField<T extends FieldValues>({
@@ -23,11 +30,14 @@ export default function PhoneField<T extends FieldValues>({
   required,
   error,
   placeholder = '+55 (11) 99999-9999',
+  variant = 'padrao',
 }: Props<T>) {
+  const novo = variant === 'ciclo2026'
+
   return (
-    <div>
+    <div className={novo ? 'field' : undefined}>
       {label && (
-        <label className="block text-sm text-[#A1A1AA] mb-1.5">
+        <label className={novo ? undefined : 'block text-sm text-[#A1A1AA] mb-1.5'}>
           {label}
           {required && ' *'}
         </label>
@@ -42,11 +52,13 @@ export default function PhoneField<T extends FieldValues>({
             value={field.value ?? ''}
             onChange={field.onChange}
             placeholder={placeholder}
-            className="ciclo-phone-input"
+            className={novo ? 'ciclo2026-phone-input' : 'ciclo-phone-input'}
           />
         )}
       />
-      {error && <p className="text-red-400 text-xs mt-1">{error}</p>}
+      {error && (
+        <p className={novo ? 'field-error' : 'text-red-400 text-xs mt-1'}>{error}</p>
+      )}
     </div>
   )
 }

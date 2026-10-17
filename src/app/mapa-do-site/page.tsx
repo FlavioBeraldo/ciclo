@@ -1,5 +1,11 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import CicloHeader from '@/components/ciclo/CicloHeader'
+import CicloFooter from '@/components/ciclo/CicloFooter'
+import Breadcrumb from '@/components/ciclo/interior/Breadcrumb'
+import { playfair2026 } from '@/components/ciclo/fonts'
+import '@/components/ciclo/base.css'
+import '@/components/ciclo/interiors.css'
 
 export const metadata: Metadata = {
   title: 'Mapa do Site | Ciclo E-commerce',
@@ -9,12 +15,19 @@ export const metadata: Metadata = {
 }
 
 const sections = [
+  // Só páginas públicas e indexáveis. /aplicacao, /link-bio e /obrigado são
+  // de conversão, estão marcadas como noindex e ficam de fora daqui de
+  // propósito — como já ficam fora do sitemap.
   {
     heading: 'Páginas principais',
     links: [
       { label: 'Home', href: '/' },
       { label: 'Blog', href: '/blog' },
       { label: 'Depoimentos', href: '/depoimentos' },
+      { label: 'O Fator M · Podcast', href: '/ofatorm' },
+      { label: 'ECOM Shift · Treinamento', href: '/ecomshift' },
+      { label: 'Playbook de Social Commerce', href: '/playbook-social-commerce' },
+      { label: 'Política de Privacidade', href: '/politica-de-privacidade' },
     ],
   },
   {
@@ -22,6 +35,7 @@ const sections = [
     links: [
       { label: 'TikTok Shop & Social Commerce', href: '/tiktok-shop' },
       { label: 'Consultoria para E-commerce', href: '/consultoria-para-e-commerce' },
+      { label: 'Consultoria E-com Shift', href: '/consultoria-ecom-shift' },
     ],
   },
   {
@@ -38,6 +52,7 @@ const sections = [
     links: [
       { label: 'TikTok Shop (Social Commerce)', href: '/tiktok-shop' },
       { label: 'Gestão de Creators e Influenciadores', href: '/servicos/gestao-creators-influenciadores' },
+      { label: 'Agência de UGC para E-commerce', href: '/servicos/agencia-ugc' },
     ],
   },
   {
@@ -68,59 +83,82 @@ const sections = [
     heading: 'Inteligência & Operação — serviços',
     links: [
       { label: 'Analytics & BI', href: '/servicos/analytics-bi' },
-      { label: 'Processos e Playbooks', href: '/servicos/processos-playbooks' },
-      { label: 'Growth Contínuo', href: '/servicos/growth-continuo' },
     ],
   },
 ]
 
+// Mapa do site no design 2026. Os grupos e os links são exatamente os mesmos;
+// o que muda é a casca. O kit usa cartões grandes com ícone para esta página;
+// aqui as listas continuam listas, porque são 26 links e o cartão grande
+// transformaria a página numa rolagem longa sem ganho nenhum.
 export default function MapaDoSite() {
   return (
-    <main className="min-h-screen bg-[#050505] pt-32 pb-20">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="mb-14 text-center">
-          <p className="text-[#A100FF] text-xs font-bold uppercase tracking-widest mb-4">Navegação</p>
-          <h1 className="text-4xl sm:text-5xl font-bold mb-4">Mapa do Site</h1>
-          <p className="text-[#A1A1AA] text-lg max-w-xl mx-auto">
-            Todas as páginas e seções do site da Ciclo E-commerce organizadas por categoria.
-          </p>
-        </div>
+    <div className={`ciclo2026 ${playfair2026.variable}`}>
+      <div className="inner legal-page">
+        <a className="skip" href="#conteudo">
+          Pular para o conteúdo
+        </a>
 
-        <div className="grid sm:grid-cols-2 gap-10">
-          {sections.map((section) => (
-            <div key={section.heading} className="bg-white/3 border border-white/8 rounded-2xl p-6">
-              <h2 className="text-sm font-bold uppercase tracking-widest text-[#A100FF] mb-5">
-                {section.heading}
-              </h2>
-              <ul className="space-y-3">
-                {section.links.map(({ label, href }) => (
-                  <li key={href} className="flex items-center gap-2">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#A100FF]/50 flex-shrink-0" />
-                    <Link
-                      href={href}
-                      className="text-sm text-[#D4D4D8] hover:text-[#A100FF] transition-colors"
-                    >
-                      {label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
+        <CicloHeader />
+
+        <main id="conteudo">
+          <section className="inner-hero">
+            <div className="wrap narrow">
+              <Breadcrumb etapas={[{ rotulo: 'Início', href: '/' }, { rotulo: 'Mapa do site' }]} />
+
+              <h1>
+                <span className="eyebrow h1-kicker">
+                  <span />
+                  Mapa do Site
+                </span>
+                Todas as conexões
+                <br />
+                <em>para crescer.</em>
+              </h1>
+
+              <p className="inner-lead">
+                Todas as páginas e seções do site da Ciclo E-commerce organizadas por categoria.
+              </p>
             </div>
-          ))}
-        </div>
+          </section>
 
-        <div className="mt-14 text-center">
-          <p className="text-sm text-[#A1A1AA] mb-4">
-            Precisa de algo específico? Fale com um especialista.
-          </p>
-          <Link
-            href="/#contato"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#A100FF] text-white font-semibold text-sm hover:bg-[#8800DD] transition-colors"
-          >
-            Entrar em contato
-          </Link>
-        </div>
+          <section className="inner-section paper">
+            <div className="wrap narrow">
+              <div className="mapa-grupos">
+                {sections.map((section) => (
+                  <div className="mapa-grupo" key={section.heading}>
+                    <h2>{section.heading}</h2>
+                    <ul>
+                      {section.links.map(({ label, href }) => (
+                        <li key={href + label}>
+                          <Link href={href}>
+                            {label}
+                            <b aria-hidden="true">↗</b>
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          <section className="inner-section">
+            <div className="wrap narrow">
+              <div className="tts-cta">
+                <h2>Precisa de algo específico? Fale com um especialista.</h2>
+                <Link className="button" href="/#contato">
+                  <span>Entrar em contato</span>
+                  <b aria-hidden="true">↗</b>
+                </Link>
+              </div>
+            </div>
+          </section>
+        </main>
+
+        <CicloFooter />
       </div>
-    </main>
+    </div>
   )
 }

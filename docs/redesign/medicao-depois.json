@@ -1,0 +1,616 @@
+{
+ "tag": "depois",
+ "base": "http://127.0.0.1:3100",
+ "capturadoEm": "2026-10-17T23:13:55.199Z",
+ "formularios": {
+  "leadForm": {
+   "rota": "/#contato",
+   "eventos": [
+    {
+     "evento": "generate_lead",
+     "chaves": [
+      "annual_revenue",
+      "content_name",
+      "currency",
+      "event_id",
+      "form",
+      "lead_campaign",
+      "lead_medium",
+      "lead_source",
+      "method",
+      "segment",
+      "user_data",
+      "value"
+     ]
+    }
+   ],
+   "posts": [
+    {
+     "rota": "/api/track",
+     "chaves": [
+      "path",
+      "title",
+      "type"
+     ],
+     "amostra": {
+      "type": "string",
+      "path": "string",
+      "title": "string"
+     }
+    },
+    {
+     "rota": "/api/track",
+     "chaves": [
+      "meta",
+      "path",
+      "title",
+      "type"
+     ],
+     "amostra": {
+      "type": "string",
+      "path": "string",
+      "title": "string",
+      "meta": "objeto{form}"
+     }
+    },
+    {
+     "rota": "/api/pipedrive",
+     "chaves": [
+      "annualRevenue",
+      "attribution",
+      "company",
+      "email",
+      "event_id",
+      "lgpd",
+      "message",
+      "name",
+      "page_url",
+      "phone",
+      "segment",
+      "source"
+     ],
+     "amostra": {
+      "name": "string",
+      "email": "string",
+      "company": "string",
+      "phone": "string",
+      "annualRevenue": "string",
+      "segment": "string",
+      "message": "string",
+      "lgpd": "boolean",
+      "source": "string",
+      "attribution": "objeto{first_visit,landing_page,medium,source}",
+      "event_id": "string",
+      "page_url": "string"
+     }
+    },
+    {
+     "rota": "/api/track",
+     "chaves": [
+      "path",
+      "title",
+      "type"
+     ],
+     "amostra": {
+      "type": "string",
+      "path": "string",
+      "title": "string"
+     }
+    }
+   ]
+  },
+  "playbookForm": {
+   "rota": "/playbook-social-commerce",
+   "eventos": [
+    {
+     "evento": "playbook_form_submit",
+     "chaves": [
+      "content_name",
+      "currency",
+      "event_id",
+      "form",
+      "lead_campaign",
+      "lead_medium",
+      "lead_source",
+      "method",
+      "user_data",
+      "value"
+     ]
+    }
+   ],
+   "posts": [
+    {
+     "rota": "/api/track",
+     "chaves": [
+      "path",
+      "title",
+      "type"
+     ],
+     "amostra": {
+      "type": "string",
+      "path": "string",
+      "title": "string"
+     }
+    },
+    {
+     "rota": "/api/pipedrive",
+     "chaves": [
+      "attribution",
+      "company",
+      "email",
+      "event_id",
+      "message",
+      "name",
+      "page_url",
+      "phone",
+      "pipeline",
+      "source"
+     ],
+     "amostra": {
+      "name": "string",
+      "email": "string",
+      "company": "string",
+      "phone": "string",
+      "message": "string",
+      "source": "string",
+      "pipeline": "string",
+      "attribution": "objeto{first_visit,landing_page,medium,source}",
+      "event_id": "string",
+      "page_url": "string"
+     }
+    },
+    {
+     "rota": "/api/track",
+     "chaves": [
+      "meta",
+      "path",
+      "title",
+      "type"
+     ],
+     "amostra": {
+      "type": "string",
+      "path": "string",
+      "title": "string",
+      "meta": "objeto{form,method}"
+     }
+    },
+    {
+     "rota": "/api/track",
+     "chaves": [
+      "meta",
+      "path",
+      "title",
+      "type"
+     ],
+     "amostra": {
+      "type": "string",
+      "path": "string",
+      "title": "string",
+      "meta": "objeto{material}"
+     }
+    }
+   ]
+  },
+  "linkBioForm": {
+   "rota": "/link-bio",
+   "eventos": [
+    {
+     "evento": "link_bio_step_view",
+     "chaves": [
+      "step",
+      "step_number"
+     ]
+    },
+    {
+     "evento": "link_bio_step_complete",
+     "chaves": [
+      "step",
+      "step_number"
+     ]
+    },
+    {
+     "evento": "link_bio_step_view",
+     "chaves": [
+      "step",
+      "step_number"
+     ]
+    },
+    {
+     "evento": "link_bio_step_complete",
+     "chaves": [
+      "step",
+      "step_number"
+     ]
+    },
+    {
+     "evento": "link_bio_step_view",
+     "chaves": [
+      "step",
+      "step_number"
+     ]
+    },
+    {
+     "evento": "link_bio_step_complete",
+     "chaves": [
+      "step",
+      "step_number"
+     ]
+    },
+    {
+     "evento": "link_bio_step_view",
+     "chaves": [
+      "step",
+      "step_number"
+     ]
+    },
+    {
+     "evento": "link_bio_step_complete",
+     "chaves": [
+      "step",
+      "step_number"
+     ]
+    },
+    {
+     "evento": "link_bio_step_view",
+     "chaves": [
+      "step",
+      "step_number"
+     ]
+    },
+    {
+     "evento": "link_bio_step_complete",
+     "chaves": [
+      "step",
+      "step_number"
+     ]
+    },
+    {
+     "evento": "generate_lead",
+     "chaves": [
+      "annual_revenue",
+      "content_name",
+      "currency",
+      "event_id",
+      "form",
+      "lead_campaign",
+      "lead_medium",
+      "lead_source",
+      "lead_type",
+      "method",
+      "user_data",
+      "value"
+     ]
+    }
+   ],
+   "posts": [
+    {
+     "rota": "/api/track",
+     "chaves": [
+      "path",
+      "title",
+      "type"
+     ],
+     "amostra": {
+      "type": "string",
+      "path": "string",
+      "title": "string"
+     }
+    },
+    {
+     "rota": "/api/link-bio",
+     "chaves": [
+      "attribution",
+      "complete",
+      "data",
+      "event_id",
+      "page_url",
+      "step"
+     ],
+     "amostra": {
+      "step": "string",
+      "data": "objeto{email}",
+      "attribution": "objeto{first_visit,landing_page,medium,source}",
+      "complete": "boolean",
+      "event_id": "string",
+      "page_url": "string"
+     }
+    },
+    {
+     "rota": "/api/link-bio",
+     "chaves": [
+      "attribution",
+      "complete",
+      "data",
+      "event_id",
+      "page_url",
+      "step"
+     ],
+     "amostra": {
+      "step": "string",
+      "data": "objeto{email,whatsapp}",
+      "attribution": "objeto{first_visit,landing_page,medium,source}",
+      "complete": "boolean",
+      "event_id": "string",
+      "page_url": "string"
+     }
+    },
+    {
+     "rota": "/api/link-bio",
+     "chaves": [
+      "attribution",
+      "complete",
+      "data",
+      "event_id",
+      "page_url",
+      "step"
+     ],
+     "amostra": {
+      "step": "string",
+      "data": "objeto{email,empresa,whatsapp}",
+      "attribution": "objeto{first_visit,landing_page,medium,source}",
+      "complete": "boolean",
+      "event_id": "string",
+      "page_url": "string"
+     }
+    },
+    {
+     "rota": "/api/link-bio",
+     "chaves": [
+      "attribution",
+      "complete",
+      "data",
+      "event_id",
+      "page_url",
+      "step"
+     ],
+     "amostra": {
+      "step": "string",
+      "data": "objeto{cargo,email,empresa,whatsapp}",
+      "attribution": "objeto{first_visit,landing_page,medium,source}",
+      "complete": "boolean",
+      "event_id": "string",
+      "page_url": "string"
+     }
+    },
+    {
+     "rota": "/api/track",
+     "chaves": [
+      "meta",
+      "path",
+      "title",
+      "type"
+     ],
+     "amostra": {
+      "type": "string",
+      "path": "string",
+      "title": "string",
+      "meta": "objeto{form}"
+     }
+    },
+    {
+     "rota": "/api/link-bio",
+     "chaves": [
+      "attribution",
+      "complete",
+      "data",
+      "event_id",
+      "page_url",
+      "step"
+     ],
+     "amostra": {
+      "step": "string",
+      "data": "objeto{cargo,email,empresa,faturamento,whatsapp}",
+      "attribution": "objeto{first_visit,landing_page,medium,source}",
+      "complete": "boolean",
+      "event_id": "string",
+      "page_url": "string"
+     }
+    }
+   ]
+  },
+  "aplicacaoForm": {
+   "rota": "/aplicacao",
+   "eventos": [
+    {
+     "evento": "aplicacao_step_view",
+     "chaves": [
+      "form",
+      "step",
+      "step_number"
+     ]
+    },
+    {
+     "evento": "aplicacao_step_complete",
+     "chaves": [
+      "form",
+      "step",
+      "step_number"
+     ]
+    },
+    {
+     "evento": "aplicacao_step_view",
+     "chaves": [
+      "form",
+      "step",
+      "step_number"
+     ]
+    },
+    {
+     "evento": "aplicacao_step_complete",
+     "chaves": [
+      "form",
+      "step",
+      "step_number"
+     ]
+    },
+    {
+     "evento": "aplicacao_step_view",
+     "chaves": [
+      "form",
+      "step",
+      "step_number"
+     ]
+    },
+    {
+     "evento": "aplicacao_step_complete",
+     "chaves": [
+      "form",
+      "step",
+      "step_number"
+     ]
+    },
+    {
+     "evento": "aplicacao_step_view",
+     "chaves": [
+      "form",
+      "step",
+      "step_number"
+     ]
+    },
+    {
+     "evento": "aplicacao_step_complete",
+     "chaves": [
+      "form",
+      "step",
+      "step_number"
+     ]
+    },
+    {
+     "evento": "aplicacao_step_view",
+     "chaves": [
+      "form",
+      "step",
+      "step_number"
+     ]
+    },
+    {
+     "evento": "aplicacao_step_complete",
+     "chaves": [
+      "form",
+      "step",
+      "step_number"
+     ]
+    },
+    {
+     "evento": "aplicacao_step_view",
+     "chaves": [
+      "form",
+      "step",
+      "step_number"
+     ]
+    },
+    {
+     "evento": "aplicacao_step_complete",
+     "chaves": [
+      "form",
+      "step",
+      "step_number"
+     ]
+    },
+    {
+     "evento": "aplicacao_step_view",
+     "chaves": [
+      "form",
+      "step",
+      "step_number"
+     ]
+    },
+    {
+     "evento": "aplicacao_step_complete",
+     "chaves": [
+      "form",
+      "step",
+      "step_number"
+     ]
+    },
+    {
+     "evento": "aplicacao_step_view",
+     "chaves": [
+      "form",
+      "step",
+      "step_number"
+     ]
+    },
+    {
+     "evento": "consultoria_ecom_shift_lead",
+     "chaves": [
+      "content_name",
+      "currency",
+      "event_id",
+      "form",
+      "lead_campaign",
+      "lead_medium",
+      "lead_source",
+      "lead_type",
+      "method",
+      "user_data",
+      "value"
+     ]
+    }
+   ],
+   "posts": [
+    {
+     "rota": "/api/track",
+     "chaves": [
+      "path",
+      "title",
+      "type"
+     ],
+     "amostra": {
+      "type": "string",
+      "path": "string",
+      "title": "string"
+     }
+    },
+    {
+     "rota": "/api/aplicacao",
+     "chaves": [
+      "attribution",
+      "cargo",
+      "desafio",
+      "email",
+      "empresa",
+      "event_id",
+      "faturamento",
+      "nome",
+      "page_url",
+      "site",
+      "whatsapp"
+     ],
+     "amostra": {
+      "empresa": "string",
+      "site": "string",
+      "cargo": "string",
+      "faturamento": "string",
+      "desafio": "string",
+      "nome": "string",
+      "email": "string",
+      "whatsapp": "string",
+      "attribution": "objeto{first_visit,landing_page,medium,source}",
+      "event_id": "string",
+      "page_url": "string"
+     }
+    },
+    {
+     "rota": "/api/track",
+     "chaves": [
+      "meta",
+      "path",
+      "title",
+      "type"
+     ],
+     "amostra": {
+      "type": "string",
+      "path": "string",
+      "title": "string",
+      "meta": "objeto{form}"
+     }
+    }
+   ]
+  }
+ },
+ "externasBloqueadas": [
+  "https://purecatamphetamine.github.io/country-flag-icons/3x2/BR.svg",
+  "https://www.googletagmanager.com/gtm.js"
+ ]
+}

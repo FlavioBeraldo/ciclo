@@ -1,8 +1,23 @@
 import type { Metadata } from 'next'
-import Script from 'next/script'
-import Header from '@/components/Header'
-import Footer from '@/components/Footer'
-import TikTokShopContent from './interactive'
+import CicloHeader from '@/components/ciclo/CicloHeader'
+import CicloFooter from '@/components/ciclo/CicloFooter'
+import Contato from '@/components/ciclo/Contato'
+import Breadcrumb from '@/components/ciclo/interior/Breadcrumb'
+import Faq from '@/components/ciclo/interior/Faq'
+import Frentes from '@/components/ciclo/tiktok/Frentes'
+import {
+  HERO,
+  PILARES,
+  CONVERSAO,
+  NUMEROS,
+  ROADMAP,
+  FAQ,
+  CTA_FINAL,
+} from '@/components/ciclo/tiktok/conteudo'
+import { playfair2026 } from '@/components/ciclo/fonts'
+import '@/components/ciclo/base.css'
+import '@/components/ciclo/interiors.css'
+import '@/components/ciclo/tiktok.css'
 
 export const metadata: Metadata = {
   title: 'Agência TikTok Shop | Gestão e Escala no Social Commerce — Ciclo E-commerce',
@@ -140,27 +155,283 @@ const faqSchema = {
   ],
 }
 
+// /tiktok-shop no design 2026.
+//
+// Um detalhe que melhorou: os três JSON-LD eram injetados por next/script com
+// a estratégia padrão, isto é, só depois que o JavaScript roda — não estavam
+// no HTML servido. Agora são <script> comuns, renderizados no servidor. O
+// conteúdo dos três é idêntico ao de antes.
+//
+// O que NÃO mudou: a URL, a metadata, o canonical, os três JSON-LD acima e
+// todo o texto da página — incluindo as seis perguntas do FAQ, que o Flávio
+// confirmou que precisam ficar por causa do SEO.
+//
+// O que mudou: a casca e a ordem. Abertura com CTA, visão da operação
+// integrada, as quatro frentes com os entregáveis reais, o conteúdo educativo
+// e os números e o roadmap que já existiam, FAQ e contato. Os cinco cartões
+// iguais de serviço viraram quatro frentes de uma operação só.
 export default function TikTokShopPage() {
   return (
-    <main>
-      <Script
+    <div className={`ciclo2026 ${playfair2026.variable}`}>
+      <script
         id="tiktok-shop-service-schema"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
       />
-      <Script
+      <script
         id="tiktok-shop-breadcrumb-schema"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
-      <Script
+      <script
         id="tiktok-shop-faq-schema"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
-      <Header />
-      <TikTokShopContent />
-      <Footer />
-    </main>
+
+      <div className="inner service-page">
+        <a className="skip" href="#conteudo">
+          Pular para o conteúdo
+        </a>
+
+        <CicloHeader />
+
+        <main id="conteudo">
+          {/* ── 1. Abertura ── */}
+          <section className="inner-hero">
+            <div className="wrap narrow">
+              <Breadcrumb
+                etapas={[{ rotulo: 'Início', href: '/' }, { rotulo: 'TikTok Shop' }]}
+              />
+
+              <h1>
+                <span className="eyebrow h1-kicker">
+                  <span />
+                  Agência TikTok Shop
+                </span>
+                {HERO.titulo}
+              </h1>
+
+              <p className="inner-signature">{HERO.selo}</p>
+
+              <p className="inner-lead">{HERO.lead}</p>
+
+              <div className="inner-actions">
+                <a className="button" href="#contato">
+                  <span>{HERO.ctaPrimario}</span>
+                  <b aria-hidden="true">↗</b>
+                </a>
+                <a href="#ecossistema" className="textlink">
+                  {HERO.ctaSecundario} <span>↓</span>
+                </a>
+              </div>
+
+              <div className="tts-hero-numeros">
+                {HERO.numeros.map((n) => (
+                  <div key={n.rotulo}>
+                    <strong>{n.valor}</strong>
+                    <span>{n.rotulo}</span>
+                  </div>
+                ))}
+              </div>
+
+              <nav className="section-index" aria-label="Nesta página">
+                <a href="#ecossistema">O ecossistema</a>
+                <a href="#frentes">As quatro frentes</a>
+                <a href="#numeros">Números</a>
+                <a href="#roadmap">Roadmap</a>
+                <a href="#faq">Perguntas frequentes</a>
+              </nav>
+            </div>
+          </section>
+
+          {/* ── 2. Visão da operação integrada ── */}
+          <section className="inner-section paper" id="ecossistema">
+            <div className="wrap narrow">
+              <div className="inner-section-heading">
+                <div className="eyebrow">
+                  <span />
+                  Entenda o ecossistema
+                </div>
+
+                <h2>O TikTok é muito mais do que entretenimento</h2>
+
+                <p className="tts-frentes-lead">
+                  Antes de falar sobre TikTok Shop, é importante conhecer os três pilares da
+                  plataforma.
+                </p>
+              </div>
+
+              <div className="tts-pilares">
+                {PILARES.map((p) => (
+                  <div key={p.titulo}>
+                    <h3>{p.titulo}</h3>
+                    <p>{p.texto}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* ── 3. As quatro frentes ── */}
+          <Frentes />
+
+          {/* ── 4a. Conteúdo educativo: conversão e jornada ── */}
+          <section className="inner-section paper" id="conversao">
+            <div className="wrap narrow">
+              <div className="tts-conversao">
+                <div>
+                  <div className="eyebrow">
+                    <span />
+                    {CONVERSAO.eyebrow}
+                  </div>
+
+                  <h2>{CONVERSAO.titulo}</h2>
+
+                  <p className="tts-frentes-lead">{CONVERSAO.texto}</p>
+
+                  <div className="tts-barras">
+                    {CONVERSAO.barras.map((b) => (
+                      <div key={b.rotulo}>
+                        <div className="tts-barra-topo">
+                          <span>{b.rotulo}</span>
+                          <b>{b.valor}</b>
+                        </div>
+                        <div className="tts-barra-trilho">
+                          <div
+                            className={`tts-barra-valor${b.proporcao < 50 ? ' fraca' : ''}`}
+                            style={{ width: `${b.proporcao}%` }}
+                          />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div>
+                  <div className="eyebrow">
+                    <span />
+                    Processo de compra no TikTok Shop
+                  </div>
+
+                  <ol className="tts-jornada">
+                    {CONVERSAO.jornada.map((j) => (
+                      <li key={j.numero}>
+                        <small>{j.numero}</small>
+                        <span>{j.rotulo}</span>
+                      </li>
+                    ))}
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* ── 4b. Big numbers ── */}
+          <div className="section-fade paper-dark" aria-hidden="true" />
+
+          <section className="inner-section dark outcome-section" id="numeros">
+            <div className="wrap narrow">
+              <div className="inner-section-heading">
+                <div className="eyebrow">
+                  <span />
+                  {NUMEROS.eyebrow}
+                </div>
+
+                <h2>{NUMEROS.titulo}</h2>
+
+                <p className="tts-frentes-lead">{NUMEROS.lead}</p>
+              </div>
+
+              <div className="tts-numeros-grid">
+                <div className="destaque">
+                  <strong>{NUMEROS.destaque.valor}</strong>
+                  <p>{NUMEROS.destaque.rotulo}</p>
+                </div>
+                {NUMEROS.cartoes.map((c) => (
+                  <div key={c.valor + c.rotulo}>
+                    <strong>{c.valor}</strong>
+                    <p>{c.rotulo}</p>
+                    {c.fonte && <em>{c.fonte}</em>}
+                  </div>
+                ))}
+              </div>
+
+              <div className="tts-nota">
+                <h3>{NUMEROS.nota.titulo}</h3>
+                <p>{NUMEROS.nota.texto}</p>
+              </div>
+            </div>
+          </section>
+
+          <div className="section-fade dark-white" aria-hidden="true" />
+
+          {/* ── 4c. Roadmap ── */}
+          <section className="inner-section" id="roadmap">
+            <div className="wrap narrow">
+              <div className="inner-section-heading">
+                <div className="eyebrow">
+                  <span />
+                  {ROADMAP.eyebrow}
+                </div>
+
+                <h2>{ROADMAP.titulo}</h2>
+
+                <p className="tts-frentes-lead">{ROADMAP.lead}</p>
+              </div>
+
+              <ol className="tts-roadmap">
+                {ROADMAP.passos.map((p) => (
+                  <li key={p.numero}>
+                    <span className="step-number">{p.numero}</span>
+                    <div>
+                      <h3>{p.titulo}</h3>
+                      {p.texto && <p>{p.texto}</p>}
+                      {p.lista && (
+                        <ul className="tts-entregaveis">
+                          {p.lista.map((i) => (
+                            <li key={i}>{i}</li>
+                          ))}
+                        </ul>
+                      )}
+                    </div>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          </section>
+
+          {/* ── 5. FAQ ── */}
+          <Faq perguntas={FAQ} titulo="Perguntas sobre gestão de TikTok Shop" />
+
+          {/* ── 6. Chamada final e contato ── */}
+          <section className="inner-section">
+            <div className="wrap narrow">
+              <div className="tts-cta">
+                <div className="eyebrow">
+                  <span />
+                  {CTA_FINAL.eyebrow}
+                </div>
+
+                <h2>{CTA_FINAL.titulo}</h2>
+
+                <p>{CTA_FINAL.texto}</p>
+
+                <a className="button" href="#contato">
+                  <span>{CTA_FINAL.botao}</span>
+                  <b aria-hidden="true">↗</b>
+                </a>
+              </div>
+            </div>
+          </section>
+
+          <div className="section-fade paper-dark" aria-hidden="true" />
+
+          <Contato />
+        </main>
+
+        <CicloFooter />
+      </div>
+    </div>
   )
 }

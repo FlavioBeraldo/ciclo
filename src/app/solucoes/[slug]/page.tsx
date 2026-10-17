@@ -1,26 +1,26 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
-import { ArrowRight, Check } from 'lucide-react'
-import Header from '@/components/Header'
-import Footer from '@/components/Footer'
-import Button from '@/components/ui/Button'
+import CicloHeader from '@/components/ciclo/CicloHeader'
+import CicloFooter from '@/components/ciclo/CicloFooter'
+import Contato from '@/components/ciclo/Contato'
+import Breadcrumb from '@/components/ciclo/interior/Breadcrumb'
+import Faq from '@/components/ciclo/interior/Faq'
+import CartoesDeServico from '@/components/ciclo/interior/CartoesDeServico'
+import { simboloPorSolucao } from '@/components/ciclo/servicos/diagramas'
 import { solucoes, getSolucaoBySlug, getAllSolucaoSlugs } from '@/lib/solucoes'
-import { SolucaoInteractive } from './interactive'
-
-// ─── Types ────────────────────────────────────────────────────────────────────
+import { getServicoBySlug } from '@/lib/servicos'
+import { playfair2026 } from '@/components/ciclo/fonts'
+import '@/components/ciclo/base.css'
+import '@/components/ciclo/interiors.css'
 
 interface PageProps {
   params: Promise<{ slug: string }>
 }
 
-// ─── Static generation ───────────────────────────────────────────────────────
-
 export function generateStaticParams() {
   return getAllSolucaoSlugs().map((slug) => ({ slug }))
 }
-
-// ─── SEO metadata ─────────────────────────────────────────────────────────────
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params
@@ -42,12 +42,24 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   }
 }
 
-// ─── Server page ─────────────────────────────────────────────────────────────
-
+// Página de solução no design 2026.
+//
+// Mesmo conteúdo de @/lib/solucoes, mesmo canonical, mesma metadata e o mesmo
+// JSON-LD de FAQPage. Os serviços-filhos continuam linkados um a um, agora nos
+// cartões do kit, e o bloco de "Outras soluções" que estava na barra lateral
+// vira uma lista ao pé da página.
 export default async function SolucaoPage({ params }: PageProps) {
   const { slug } = await params
   const solucao = getSolucaoBySlug(slug)
   if (!solucao) notFound()
+
+  // Cada serviço-filho com o título e a chamada que a própria página dele usa
+  const servicos = solucao.serviceLinks.map(({ label, slug: s }) => {
+    const servico = getServicoBySlug(s)
+    return { slug: s, title: servico?.title ?? label, tagline: servico?.tagline ?? '' }
+  })
+
+  const outras = solucoes.filter((s) => s.slug !== solucao.slug)
 
   const faqJsonLd = {
     '@context': 'https://schema.org',
@@ -55,257 +67,197 @@ export default async function SolucaoPage({ params }: PageProps) {
     mainEntity: solucao.faq.map(({ q, a }) => ({
       '@type': 'Question',
       name: q,
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: a,
-      },
+      acceptedAnswer: { '@type': 'Answer', text: a },
     })),
   }
 
   return (
-    <div className="theme-light">
-      {/* JSON-LD structured data for GEO/AO */}
+    <div className={`ciclo2026 ${playfair2026.variable}`}>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
       />
 
-      <Header />
-      <main className="min-h-screen bg-[#050505] pt-20">
-        {/* Ambient glow */}
-        <div className="fixed inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
-          <div className="absolute top-0 right-0 w-[600px] h-[600px] rounded-full bg-[#A100FF]/6 blur-[150px]" />
-          <div className="absolute bottom-0 left-0 w-[400px] h-[400px] rounded-full bg-[#A100FF]/4 blur-[120px]" />
-        </div>
+      {/* `inner` precisa ficar DENTRO do escopo: as regras do kit são
+          `.inner h1`, que depois do escopo viram `.ciclo2026 .inner h1`. */}
+      <div className="inner service-page">
+      <a className="skip" href="#conteudo">
+        Pular para o conteúdo
+      </a>
 
-        {/* ── Hero ── */}
-        <section className="relative bg-gradient-to-br from-[#1a0030] via-[#0d0020] to-[#050505] py-20 sm:py-28 overflow-hidden">
-          <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] rounded-full bg-[#A100FF]/15 blur-[100px]" />
-          </div>
+      <CicloHeader />
 
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            {/* Breadcrumb */}
-            <nav aria-label="Breadcrumb" className="mb-8">
-              <ol className="flex items-center gap-2 text-xs text-[#A1A1AA]">
-                <li>
-                  <Link href="/" className="hover:text-white transition-colors">
-                    Home
-                  </Link>
-                </li>
-                <li aria-hidden="true" className="opacity-40">/</li>
-                <li>
-                  <span className="text-[#A1A1AA]">Soluções</span>
-                </li>
-                <li aria-hidden="true" className="opacity-40">/</li>
-                <li aria-current="page">
-                  <span className="text-white">{solucao.shortTitle}</span>
-                </li>
-              </ol>
+      <main id="conteudo">
+        <section className="inner-hero">
+          <div className="wrap narrow">
+            <Breadcrumb
+              etapas={[
+                { rotulo: 'Início', href: '/' },
+                { rotulo: 'Soluções', href: '/#solucoes' },
+                { rotulo: solucao.shortTitle },
+              ]}
+            />
+
+            <div className="service-hero-layout">
+              <div>
+                {/* O nome da solução abre o h1. Ele estava na linha de
+                    assinatura, logo abaixo; agora aparece uma vez só, no
+                    lugar que o buscador lê primeiro. */}
+                <h1>
+                  <span className="eyebrow h1-kicker">
+                    <span />
+                    {solucao.heroSub}
+                  </span>
+                  {solucao.heroHeadline}
+                </h1>
+
+                <p className="inner-lead">{solucao.heroDescription}</p>
+
+                <div className="inner-actions">
+                  <a className="button" href="#contato">
+                    <span>Fale com especialista</span>
+                    <b aria-hidden="true">↗</b>
+                  </a>
+                  <a href="#como-funciona" className="textlink">
+                    Conheça o processo <span>↓</span>
+                  </a>
+                </div>
+              </div>
+
+              <div className="service-symbol" aria-hidden="true">
+                <div className="symbol-orbit" />
+                <div className="symbol-orbit second" />
+                <div
+                  className="symbol-logo"
+                  dangerouslySetInnerHTML={{ __html: simboloPorSolucao[slug] ?? '' }}
+                />
+                <span>Full Funnel Marketing</span>
+              </div>
+            </div>
+
+            <nav className="section-index" aria-label="Nesta página">
+              <a href="#visao">Visão geral</a>
+              <a href="#como-funciona">Como funciona</a>
+              <a href="#entregas">Entregas</a>
+              <a href="#resultados">Resultados</a>
+              <a href="#faq">Perguntas frequentes</a>
             </nav>
+          </div>
+        </section>
 
-            <div className="max-w-4xl">
-              <p className="text-xs font-bold text-[#A100FF] uppercase tracking-widest mb-4">
-                {solucao.heroSub}
-              </p>
+        <section id="visao" className="inner-section paper">
+          <div className="wrap narrow">
+            <div className="eyebrow">
+              <span />
+              Entenda a estratégia
+            </div>
 
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6">
-                {solucao.heroHeadline}
-              </h1>
+            <div className="overview-grid">
+              <h2>O que é {solucao.title}?</h2>
 
-              <p className="text-lg sm:text-xl text-[#D4D4D8] leading-relaxed mb-10 max-w-2xl">
-                {solucao.heroDescription}
-              </p>
-
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Button href="/#contato" arrow size="lg">
-                  Fale com um especialista
-                </Button>
-                <Button href="#como-funciona" variant="outline" size="lg">
-                  Como funciona
-                </Button>
+              <div>
+                <p>{solucao.whatIs}</p>
               </div>
             </div>
           </div>
         </section>
 
-        {/* ── Body ── */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 relative z-10">
-          <div className="grid lg:grid-cols-[1fr_300px] gap-12 items-start">
-            {/* Main content */}
-            <div className="space-y-20">
+        <section className="inner-section process-section" id="como-funciona">
+          <div className="wrap narrow">
+            <div className="inner-section-heading">
+              <div className="eyebrow">
+                <span />
+                Nosso processo
+              </div>
 
-              {/* O que é */}
-              <section aria-labelledby="o-que-e-heading">
-                <p className="text-xs font-bold text-[#A100FF] uppercase tracking-widest mb-3">
-                  Entenda o conceito
-                </p>
-                <h2
-                  id="o-que-e-heading"
-                  className="text-2xl sm:text-3xl font-bold text-white mb-5"
-                >
-                  O que é {solucao.title}?
-                </h2>
-                <p className="text-[#D4D4D8] leading-relaxed text-base sm:text-lg">
-                  {solucao.whatIs}
-                </p>
-
-                {/* Inline CTA */}
-                <div className="mt-8 bg-gradient-to-br from-[#A100FF]/15 to-[#A100FF]/5 border border-[#A100FF]/30 rounded-2xl p-6 flex flex-col sm:flex-row items-start sm:items-center gap-4 justify-between">
-                  <p className="text-white font-medium text-sm">
-                    Quer aplicar essa estratégia na sua marca?
-                  </p>
-                  <Link
-                    href="/#contato"
-                    className="inline-flex items-center gap-2 bg-[#A100FF] text-white font-semibold px-5 py-2.5 rounded-full hover:bg-[#8800DD] hover:shadow-[0_0_30px_rgba(161,0,255,0.4)] transition-all text-sm flex-shrink-0"
-                  >
-                    Falar com especialista <ArrowRight className="w-4 h-4" />
-                  </Link>
-                </div>
-              </section>
-
-              {/* Como funciona */}
-              <section id="como-funciona" aria-labelledby="como-funciona-heading">
-                <div className="mb-10">
-                  <p className="text-xs font-bold text-[#A100FF] uppercase tracking-widest mb-3">
-                    Nosso processo
-                  </p>
-                  <h2
-                    id="como-funciona-heading"
-                    className="text-2xl sm:text-3xl font-bold text-white"
-                  >
-                    Como funciona
-                  </h2>
-                </div>
-
-                <div className="space-y-4">
-                  {solucao.howItWorks.map(({ step, description }, i) => (
-                    <div
-                      key={step}
-                      className="flex gap-5 bg-white/3 border border-white/8 rounded-2xl p-6"
-                    >
-                      <div className="flex-shrink-0 w-10 h-10 rounded-full bg-[#A100FF]/20 border border-[#A100FF]/40 flex items-center justify-center text-[#A100FF] font-bold text-sm">
-                        {i + 1}
-                      </div>
-                      <div>
-                        <p className="font-semibold text-white mb-1">{step}</p>
-                        <p className="text-[#A1A1AA] text-sm leading-relaxed">{description}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </section>
-
-              {/* Nossas entregas */}
-              <section aria-labelledby="entregas-heading">
-                <div className="mb-8">
-                  <p className="text-xs font-bold text-[#A100FF] uppercase tracking-widest mb-3">
-                    O que você recebe
-                  </p>
-                  <h2
-                    id="entregas-heading"
-                    className="text-2xl sm:text-3xl font-bold text-white"
-                  >
-                    Nossas entregas
-                  </h2>
-                </div>
-
-                <div className="grid sm:grid-cols-2 gap-3">
-                  {solucao.serviceLinks.map(({ label, slug }) => (
-                    <Link
-                      key={slug}
-                      href={`/servicos/${slug}`}
-                      className="group flex items-start gap-3 bg-white/3 border border-white/8 rounded-2xl px-5 py-4 hover:border-[#A100FF]/30 hover:bg-[#A100FF]/5 transition-all"
-                    >
-                      <div className="flex-shrink-0 w-6 h-6 rounded-full bg-[#A100FF]/20 flex items-center justify-center mt-0.5">
-                        <Check className="w-3.5 h-3.5 text-[#A100FF]" />
-                      </div>
-                      <div className="flex-1 flex items-center justify-between gap-2">
-                        <span className="text-[#D4D4D8] text-sm leading-relaxed group-hover:text-white transition-colors">{label}</span>
-                        <ArrowRight className="w-3 h-3 text-[#A100FF] opacity-0 group-hover:opacity-100 flex-shrink-0 transition-opacity" />
-                      </div>
-                    </Link>
-                  ))}
-                </div>
-              </section>
-
-              {/* Resultados */}
-              <section aria-labelledby="resultados-heading">
-                <div className="mb-8">
-                  <p className="text-xs font-bold text-[#A100FF] uppercase tracking-widest mb-3">
-                    Números reais
-                  </p>
-                  <h2
-                    id="resultados-heading"
-                    className="text-2xl sm:text-3xl font-bold text-white"
-                  >
-                    Resultados que entregamos
-                  </h2>
-                </div>
-
-                <div className="grid sm:grid-cols-2 gap-4">
-                  {solucao.results.map(({ metric, description }, i) => (
-                    <div
-                      key={metric + i}
-                      className="bg-white/3 border border-white/8 rounded-2xl p-6 shadow-[0_0_40px_rgba(161,0,255,0.08)]"
-                    >
-                      <p className="text-3xl sm:text-4xl font-bold text-[#A100FF] mb-2">
-                        {metric}
-                      </p>
-                      <p className="text-[#A1A1AA] text-sm leading-relaxed">{description}</p>
-                    </div>
-                  ))}
-                </div>
-              </section>
-
-              {/* FAQ + Lead Form — client interactive */}
-              <SolucaoInteractive solucao={solucao} />
-
+              <h2>Estratégia com direção. Execução com método.</h2>
             </div>
 
-            {/* Sidebar */}
-            <aside className="space-y-6 hidden lg:block">
-              {/* Sidebar CTA */}
-              <div className="bg-white/3 border border-white/8 rounded-2xl p-5 sticky top-24">
-                <p className="text-xs font-bold text-[#A100FF] uppercase tracking-widest mb-3">
-                  Sobre a Ciclo
-                </p>
-                <p className="text-[#A1A1AA] text-xs leading-relaxed mb-4">
-                  Somos especialistas em Full Funnel Marketing para marcas de e-commerce. +300 marcas atendidas. +R$ 350MM em receita gerada.
-                </p>
-                <Link
-                  href="/#contato"
-                  className="flex items-center justify-center gap-2 bg-[#A100FF] text-white text-xs font-semibold px-4 py-2.5 rounded-full hover:bg-[#8800DD] transition-all w-full"
-                >
-                  Falar com especialista <ArrowRight className="w-3 h-3" />
-                </Link>
+            <ol className="process-list">
+              {solucao.howItWorks.map(({ step, description }, i) => (
+                <li key={step}>
+                  <span className="step-number">{String(i + 1).padStart(2, '0')}</span>
+                  <div>
+                    <h3>{step}</h3>
+                    <p>{description}</p>
+                  </div>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </section>
+
+        <section className="inner-section paper" id="entregas">
+          <div className="wrap narrow">
+            <div className="inner-section-heading">
+              <div className="eyebrow">
+                <span />O que a Ciclo entrega
               </div>
 
-              {/* Other solutions */}
-              <div className="bg-white/3 border border-white/8 rounded-2xl p-5">
-                <p className="text-xs font-bold text-[#A100FF] uppercase tracking-widest mb-4">
-                  Outras soluções
-                </p>
-                <div className="space-y-3">
-                  {solucoes
-                    .filter((s) => s.slug !== solucao.slug)
-                    .map((s) => (
-                      <Link
-                        key={s.slug}
-                        href={`/solucoes/${s.slug}`}
-                        className="group flex items-center gap-2 text-[#A1A1AA] hover:text-white transition-colors text-xs"
-                      >
-                        <ArrowRight className="w-3 h-3 text-[#A100FF] flex-shrink-0" />
-                        {s.shortTitle}
-                      </Link>
-                    ))}
-                </div>
-              </div>
-            </aside>
+              <h2>Soluções que se complementam.</h2>
+            </div>
+
+            <CartoesDeServico servicos={servicos} />
           </div>
-        </div>
+        </section>
+
+        <div className="section-fade paper-dark" aria-hidden="true" />
+
+        <section className="inner-section dark outcome-section" id="resultados">
+          <div className="wrap narrow">
+            <div className="inner-section-heading">
+              <div className="eyebrow">
+                <span />
+                Resultados
+              </div>
+
+              <h2>O impacto da estratégia no negócio.</h2>
+            </div>
+
+            <div className="result-grid">
+              {solucao.results.map(({ metric, description }) => (
+                <div key={metric + description}>
+                  <strong>{metric}</strong>
+                  <p>{description}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <div className="section-fade dark-white" aria-hidden="true" />
+
+        <Faq perguntas={solucao.faq} />
+
+        <section className="inner-section">
+          <div className="wrap narrow">
+            <div className="inner-section-heading">
+              <div className="eyebrow">
+                <span />
+                Continue explorando
+              </div>
+
+              <h2>Outras soluções.</h2>
+            </div>
+
+            <div className="directory-links">
+              {outras.map((s) => (
+                <Link href={`/solucoes/${s.slug}`} key={s.slug}>
+                  {s.shortTitle}
+                  <b aria-hidden="true">↗</b>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <div className="section-fade paper-dark" aria-hidden="true" />
+
+        <Contato />
       </main>
-      <Footer />
+
+      <CicloFooter />
+      </div>
     </div>
   )
 }

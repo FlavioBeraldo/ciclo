@@ -1,0 +1,627 @@
+/* Ciclo design system. Inter structures; Playfair adds editorial emphasis. */
+.ciclo2026{--ink:#1d1d1b;--paper:#efeeed;--muted:#6f6e69;--line:#d9d7d3;--accent:#933dc9;--space-section:96px}
+.ciclo2026{scroll-padding-top:106px}.ciclo2026{color:var(--ink)}.ciclo2026 button,.ciclo2026 input,.ciclo2026 select,.ciclo2026 textarea{font:inherit}.ciclo2026 button,.ciclo2026 a{-webkit-tap-highlight-color:transparent}.ciclo2026 button{cursor:pointer}.ciclo2026 a:focus-visible,.ciclo2026 button:focus-visible,.ciclo2026 input:focus-visible,.ciclo2026 summary:focus-visible,.ciclo2026 select:focus-visible{outline:2px solid var(--accent);outline-offset:5px}.ciclo2026 img{max-width:100%}.ciclo2026 .inner{background:#fff}.ciclo2026 .inner main{min-height:60vh}.ciclo2026 .inner h1,.ciclo2026 .inner h2,.ciclo2026 .inner h3{font-weight:500}.ciclo2026 .inner h1{font-size:clamp(42px,4.5vw,68px);letter-spacing:-.055em;line-height:1.07;text-wrap:balance;margin:22px 0}.ciclo2026 .inner h2{font-size:clamp(31px,3.1vw,48px);letter-spacing:-.05em;line-height:1.12;text-wrap:balance}.ciclo2026 .inner h3{font-size:22px;letter-spacing:-.035em;line-height:1.25}.ciclo2026 .inner em,.ciclo2026 .inner-signature{font-family:'Playfair Display',Georgia,serif;font-style:italic;font-weight:400;font-synthesis:none;letter-spacing:-.02em}.ciclo2026 .inner p{line-height:1.7}.ciclo2026 .inner .eyebrow{font-size:11px}.ciclo2026 .inner-hero{padding:40px 0 0}.ciclo2026 .breadcrumb{display:flex;align-items:center;gap:12px;flex-wrap:wrap;font-size:11px;line-height:1.5;color:#828079;margin-bottom:64px}.ciclo2026 .breadcrumb a{color:#62615c}.ciclo2026 .breadcrumb [aria-current]{max-width:460px}.ciclo2026 .service-hero-layout{display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:64px;align-items:center}.ciclo2026 .inner-lead{font-size:17px;color:var(--muted);max-width:700px;margin:24px 0 0}.ciclo2026 .inner-signature{font-size:26px;line-height:1.35!important;color:#55544f;max-width:660px;text-wrap:balance;margin:24px 0}.ciclo2026 .inner-actions{display:flex;align-items:center;gap:28px;flex-wrap:wrap;margin-top:36px}.ciclo2026 .service-symbol{width:280px;height:320px;position:relative;display:grid;place-items:center}.ciclo2026 .symbol-orbit{position:absolute;inset:30px 0 10px;border:1px solid #d9d5df;border-radius:50%;transform:rotate(-24deg) scaleX(.72)}.ciclo2026 .symbol-orbit.second{transform:rotate(24deg) scaleX(.72)}.ciclo2026 .service-symbol:before{content:'';width:190px;height:190px;border-radius:50%;background:radial-gradient(circle,#f4eaf8,transparent 70%);position:absolute}.ciclo2026 .symbol-logo{z-index:1;width:76px;height:76px;display:grid;place-items:center}.ciclo2026 .symbol-logo svg{width:76px;height:76px}.ciclo2026 .service-symbol>span{position:absolute;bottom:28px;font-size:10px;color:var(--muted)}.ciclo2026 .section-index{display:flex;gap:32px;flex-wrap:wrap;border-top:1px solid var(--line);margin-top:64px;padding:24px 0;font-size:11px;color:#74726b}.ciclo2026 .section-index a:hover{color:var(--ink)}.ciclo2026 .inner-section{padding:var(--space-section) 0}.ciclo2026 .paper{background:var(--paper)}.ciclo2026 .inner-section-heading{margin-bottom:44px;max-width:780px}.ciclo2026 .inner-section-heading .eyebrow{margin-bottom:20px}.ciclo2026 .overview-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:88px;margin-top:24px}.ciclo2026 .overview-grid p{font-size:17px;color:#68665f;margin:0 0 24px}.ciclo2026 .process-section>.wrap{display:grid;grid-template-columns:.8fr 1.2fr;gap:88px}.ciclo2026 .process-section .inner-section-heading{position:sticky;top:130px;align-self:start}.ciclo2026 .process-list{list-style:none;padding:0;margin:0}.ciclo2026 .process-list li{display:grid;grid-template-columns:40px 1fr;gap:22px;border-top:1px solid var(--line);padding:28px 0}.ciclo2026 .step-number{font-size:11px;color:var(--muted);padding-top:5px}.ciclo2026 .process-list h3{margin:0 0 12px}.ciclo2026 .process-list p{font-size:14px;color:var(--muted);margin:0}.ciclo2026 .deliverable-list{list-style:none;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:0 48px}.ciclo2026 .deliverable-list li{padding:22px 0;border-top:1px solid #d4d1cc;display:flex;gap:20px;line-height:1.6;font-size:16px}.ciclo2026 .deliverable-list span{color:var(--accent)}.ciclo2026 .result-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:32px}.ciclo2026 .result-grid>div{border-top:1px solid #484743;padding-top:26px}.ciclo2026 .result-grid strong{display:block;font-size:clamp(36px,3.3vw,58px);letter-spacing:-.05em;font-weight:400;line-height:1.1}.ciclo2026 .result-grid p{font-size:13px;color:#aaa8a3;margin-top:14px;max-width:220px}.ciclo2026 .outcome-section{padding:40px 0 64px}.ciclo2026 .example-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}.ciclo2026 .example-grid article{border:1px solid var(--line);border-radius:14px;padding:28px;display:flex;flex-direction:column}.ciclo2026 .example-index{font-size:10px;color:#97938d;margin-bottom:28px}.ciclo2026 .example-grid h3{font-size:24px;margin-bottom:16px}.ciclo2026 .example-grid p{font-size:14px;color:var(--muted);flex:1}.ciclo2026 .example-grid strong{border-top:1px solid var(--line);margin-top:28px;padding-top:22px;font-size:26px;letter-spacing:-.04em;font-weight:500}.ciclo2026 .faq-list{max-width:900px}.ciclo2026 .faq-list details{border-top:1px solid #ccc9c3}.ciclo2026 .faq-list summary{list-style:none;display:flex;align-items:center;justify-content:space-between;gap:24px;padding:25px 0;font-size:17px;font-weight:500;line-height:1.5;cursor:pointer}.ciclo2026 .faq-list summary::-webkit-details-marker{display:none}.ciclo2026 .faq-list summary span{font-weight:400;font-size:24px;color:var(--muted)}.ciclo2026 .faq-list details[open] summary span{transform:rotate(45deg)}.ciclo2026 .faq-answer{padding:0 40px 26px 0;max-width:800px;font-size:15px;color:#68655f}.ciclo2026 .directory-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}.ciclo2026 .directory-card{padding:28px;border:1px solid var(--line);border-radius:14px;display:flex;flex-direction:column;min-height:270px;background:#fff;transition:transform .2s,border-color .2s}.ciclo2026 .directory-card:hover{transform:translateY(-4px);border-color:#aaa1b2}.ciclo2026 .directory-card .card-icon{width:34px;height:34px;margin-bottom:28px}.ciclo2026 .card-icon svg{width:100%;height:100%}.ciclo2026 .directory-card h3{font-size:23px;margin-bottom:14px}.ciclo2026 .directory-card p{font-size:13px;color:var(--muted);flex:1}.ciclo2026 .read-more{display:flex;align-items:center;justify-content:space-between;gap:20px;font-size:11px;border-top:1px solid var(--line);padding-top:20px;margin-top:26px}.ciclo2026 .read-more b{font-size:19px;font-weight:400}.ciclo2026 .directory-links{display:grid;grid-template-columns:1fr 1fr;gap:0 48px}.ciclo2026 .directory-links a{border-top:1px solid var(--line);padding:22px 0;display:flex;justify-content:space-between;gap:20px;font-size:17px}.ciclo2026 .directory-links a:hover{color:var(--accent)}.ciclo2026 .inner .contact h2{font-size:clamp(36px,4vw,56px)}
+/* Editorial blog, archive and long-form reading */
+.ciclo2026 .blog-hero{padding-bottom:52px}.ciclo2026 .blog-title-row{display:grid;grid-template-columns:1.4fr .6fr;gap:90px;align-items:end}.ciclo2026 .blog-title-row h1{margin-bottom:0}.ciclo2026 .blog-title-row p{font-size:15px;color:var(--muted);margin:0 0 4px}.ciclo2026 .blog-feature{padding-bottom:72px}.ciclo2026 .feature-link{background:#f3f2f0;border-radius:18px;padding:48px;display:grid;grid-template-columns:1.2fr .8fr;gap:60px;min-height:380px}.ciclo2026 .feature-link h2{font-size:38px;margin:24px 0}.ciclo2026 .feature-link p{font-size:14px;color:var(--muted);max-width:550px}.ciclo2026 .feature-link .read-more{max-width:220px}.ciclo2026 .feature-orbit{position:relative;display:grid;place-items:center;min-height:260px}.ciclo2026 .feature-orbit i{position:absolute;width:220px;height:270px;border:1px solid #c6b6d2;border-radius:50%;transform:rotate(-45deg)}.ciclo2026 .feature-orbit i:nth-child(2){transform:rotate(45deg)}.ciclo2026 .feature-orbit i:nth-child(3){transform:rotate(90deg)}.ciclo2026 .feature-orbit strong{z-index:1;text-align:center;font-size:26px;font-weight:400;line-height:1.25;letter-spacing:-.03em}.ciclo2026 .archive-toolbar{display:flex;align-items:center;justify-content:space-between;gap:36px}.ciclo2026 .archive-toolbar h2{font-size:34px}.ciclo2026 .search-field{position:relative;display:block;width:360px}.ciclo2026 .search-field>span{position:absolute;width:1px;height:1px;overflow:hidden}.ciclo2026 .search-field input{border:1px solid #d4d0c9;background:white;width:100%;padding:16px 42px 16px 18px;border-radius:8px;color:var(--ink);font-size:13px}.ciclo2026 .search-field>b{position:absolute;right:16px;top:10px;font-size:25px;color:var(--muted)}.ciclo2026 .category-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-top:32px}.ciclo2026 .category-tabs button{border:1px solid #d6d2cc;background:transparent;padding:9px 13px;border-radius:6px;font-size:11px;line-height:1.4;color:#706d66}.ciclo2026 .category-tabs button[aria-pressed=true]{background:var(--ink);color:#fff;border-color:var(--ink)}.ciclo2026 #blog-status{font-size:11px;color:#77726b;margin:28px 0 22px}.ciclo2026 .article-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}.ciclo2026 .article-card{display:flex;flex-direction:column;background:#fff;border:1px solid #dedad3;border-radius:14px;padding:28px;min-height:330px;transition:transform .2s}.ciclo2026 .article-card:hover{transform:translateY(-4px)}.ciclo2026 .article-card-top{display:flex;justify-content:space-between;gap:18px;font-size:10px;margin-bottom:34px;color:#77716a}.ciclo2026 .article-card-top b{font-size:21px;font-weight:400;color:#555}.ciclo2026 .article-card h3{font-size:23px;line-height:1.25;margin-bottom:18px}.ciclo2026 .article-card p{font-size:13px;color:var(--muted);display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;flex:1}.ciclo2026 .article-card-foot{display:flex;justify-content:space-between;gap:12px;border-top:1px solid #e3dfd9;padding-top:20px;margin-top:28px;color:#898278;font-size:9px;line-height:1.4}.ciclo2026 .pagination{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:46px}.ciclo2026 .pagination button{height:40px;min-width:40px;padding:0 12px;border:1px solid #d4d0ca;background:transparent;border-radius:6px;font-size:12px}.ciclo2026 .pagination button[aria-current=page]{color:white;background:var(--ink)}.ciclo2026 .pagination button:disabled{opacity:.4;cursor:default}.ciclo2026 .empty-state{text-align:center;padding:60px 20px}.ciclo2026 .article-hero{padding-top:36px;padding-bottom:48px;max-width:1120px}.ciclo2026 .article-hero .breadcrumb{margin-bottom:54px}.ciclo2026 .article-hero h1{font-size:clamp(38px,3.8vw,60px);max-width:1000px;margin:24px 0}.ciclo2026 .article-deck{font-size:19px;color:#75716a;max-width:850px;line-height:1.6!important}.ciclo2026 .article-byline{display:flex;align-items:center;gap:14px;margin-top:28px;font-size:12px}.ciclo2026 .article-byline p{font-size:11px;color:#8a847c;margin:5px 0 0}.ciclo2026 .article-byline p span{padding:0 8px}.ciclo2026 .author-mark{height:38px;width:38px;border:1px solid #cdc6d3;display:grid;place-items:center;border-radius:50%;font-size:18px;font-weight:500}.ciclo2026 .article-cover{margin-bottom:48px}.ciclo2026 .article-cover img{width:100%;max-height:450px;object-fit:cover;border-radius:14px}.ciclo2026 .reading-layout{display:grid;grid-template-columns:235px minmax(0,740px);gap:90px;padding-top:42px;padding-bottom:96px;border-top:1px solid var(--line)}.ciclo2026 .article-toc{position:sticky;top:124px;align-self:start}.ciclo2026 .article-toc>span{font-size:9px;letter-spacing:.12em;color:#8a847c}.ciclo2026 .article-toc nav{display:flex;flex-direction:column;margin-top:20px;max-height:48vh;overflow:auto}.ciclo2026 .article-toc nav a{font-size:11px;color:#787268;padding:9px 0;border-bottom:1px solid #ece8e2;line-height:1.5}.ciclo2026 .article-toc nav a:hover{color:var(--ink)}.ciclo2026 .toc-contact{margin-top:36px;padding-top:28px;border-top:1px solid var(--line)}.ciclo2026 .toc-contact p{font-size:24px;line-height:1.25!important;letter-spacing:-.04em;margin-bottom:20px}.ciclo2026 .toc-contact a{font-size:10px}.ciclo2026 .article-body{font-size:16px;line-height:1.85;color:#55524b;min-width:0}.ciclo2026 .article-body p{margin:0 0 24px;line-height:1.85}.ciclo2026 .article-body h2{font-size:30px;line-height:1.25;margin:48px 0 22px;letter-spacing:-.04em;color:var(--ink);text-wrap:pretty}.ciclo2026 .article-body h3{font-size:22px;margin:32px 0 16px;color:var(--ink)}.ciclo2026 .article-body ul,.ciclo2026 .article-body ol{padding-left:24px;margin:0 0 28px}.ciclo2026 .article-body li{padding-left:5px;margin-bottom:12px}.ciclo2026 .article-body a{color:var(--ink);text-decoration:underline;text-decoration-color:#aa96b6;text-underline-offset:4px}.ciclo2026 .article-body img{max-width:100%;height:auto;border-radius:10px;margin:12px 0}.ciclo2026 .article-body figure{margin:28px 0}.ciclo2026 .article-body figcaption{font-size:11px;color:var(--muted);line-height:1.5}.ciclo2026 .article-body table{border-collapse:collapse;display:block;overflow:auto;max-width:100%;font-size:13px;margin:28px 0}.ciclo2026 .article-body th,.ciclo2026 .article-body td{border:1px solid var(--line);padding:12px;text-align:left}.ciclo2026 .article-body th{background:#efeeed;font-weight:500}.ciclo2026 .article-body blockquote{border-left:2px solid #b19abd;padding-left:24px;margin:30px 0;font-size:21px}.ciclo2026 .article-body iframe{width:100%;max-width:100%;min-height:300px;border:0}.ciclo2026 .article-body pre{overflow:auto;background:#f4f2ee;padding:18px;border-radius:8px}.ciclo2026 .article-end{border-top:1px solid var(--line);display:flex;justify-content:space-between;margin-top:56px;padding-top:22px;font-size:11px}.ciclo2026 .copy-article{border:0;background:none;font-size:11px}.ciclo2026 .article-cta{background:var(--paper);border-radius:14px;padding:34px;margin-top:48px}.ciclo2026 .article-cta h2{margin:0 0 25px}.ciclo2026 .article-cta a{text-decoration:none}.ciclo2026 .legal-body{max-width:780px;margin:auto;padding:0 24px}.ciclo2026 .legal-body h1{font-size:46px}.ciclo2026 .legal-page .inner-hero{padding:24px 0 0}.ciclo2026 .legal-page .breadcrumb{margin-bottom:0}
+/* Rich landing pages retain their own editorial sequence and assets */
+.ciclo2026 .special-section{overflow:hidden}.ciclo2026 .special-hero{padding-top:36px;padding-bottom:76px}.ciclo2026 .special-module h1{max-width:900px}.ciclo2026 .special-module h2{max-width:820px;margin:16px 0 28px}.ciclo2026 .special-module h3{margin:12px 0 14px}.ciclo2026 .special-module p{font-size:15px;color:var(--muted);margin:0 0 20px;max-width:850px}.ciclo2026 .special-module .section-kicker{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:#898077;margin-bottom:18px;font-weight:500}.ciclo2026 .module-grid{display:grid;gap:32px}.ciclo2026 .cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}.ciclo2026 .cols-3{grid-template-columns:repeat(3,minmax(0,1fr))}.ciclo2026 .cols-4{grid-template-columns:repeat(4,minmax(0,1fr))}.ciclo2026 .cols-5,.ciclo2026 .cols-6{grid-template-columns:repeat(3,minmax(0,1fr))}.ciclo2026 .module-flex{display:flex;gap:14px;align-items:center;flex-wrap:wrap}.ciclo2026 .module-stack{display:flex;flex-direction:column;gap:20px}.ciclo2026 .module-panel{padding:28px;border:1px solid #d9d5cf;border-radius:14px;background:#fff}.ciclo2026 .module-panel h3{font-size:24px}.ciclo2026 .module-panel p{font-size:14px}.ciclo2026 .module-gap-after{margin-bottom:22px}.ciclo2026 .module-gap-before{margin-top:28px}.ciclo2026 .module-number{font-size:42px!important;font-weight:400!important;letter-spacing:-.04em;color:var(--ink)!important;line-height:1.15!important}.ciclo2026 .semibold{font-weight:500}.ciclo2026 .centered{text-align:center}.ciclo2026 .centered>p,.ciclo2026 .centered>h2{margin-left:auto;margin-right:auto}.ciclo2026 .module-icon{height:24px;width:24px;flex:none}.ciclo2026 .module-image{border-radius:14px;object-fit:cover;max-height:600px}.ciclo2026 .portrait{max-height:420px;width:100%;object-fit:cover;object-position:50% 25%}.ciclo2026 .special-logo{max-height:80px;max-width:260px;object-fit:contain;filter:brightness(0);border-radius:0!important}.ciclo2026 .special-module li{margin-bottom:12px;line-height:1.6}.ciclo2026 .special-module ul{padding-left:20px}.ciclo2026 .action-link{display:inline-flex;align-items:center;justify-content:center;gap:12px;background:var(--ink);color:white!important;padding:16px 23px;border-radius:7px;font-size:12px;font-weight:500;min-height:46px}.ciclo2026 .action-link:hover{background:#343330}.ciclo2026 .special-module details{border-top:1px solid var(--line);padding:22px 0}.ciclo2026 .special-module summary{cursor:pointer;font-size:17px;line-height:1.5;font-weight:500}.ciclo2026 .special-module details p{margin-top:18px}.ciclo2026 .special-module iframe{width:100%;border:0;border-radius:14px}.ciclo2026 .special-module blockquote{margin:28px 0;padding:24px 0;font-family:'Playfair Display',Georgia,serif;font-style:italic;font-size:26px;line-height:1.5}.ciclo2026 .video-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px;margin:30px 0}.ciclo2026 .video-card{display:block;border:1px solid #d0ccc4;border-radius:14px;overflow:hidden;background:#fff}.ciclo2026 .video-thumb{position:relative;aspect-ratio:16/9;overflow:hidden;background:#161614}.ciclo2026 .video-thumb img{width:100%;height:100%;object-fit:cover}.ciclo2026 .video-thumb .play{position:absolute;inset:0;margin:auto;display:grid;place-items:center;width:52px;height:52px;background:#fff;border-radius:50%;color:#222;font-size:14px;box-shadow:0 4px 20px #0002}.ciclo2026 .video-caption{padding:22px;display:flex;align-items:center;justify-content:space-between;gap:24px}.ciclo2026 .video-caption h3{font-size:18px;margin:0}.ciclo2026 .video-caption>span{font-size:10px;white-space:nowrap;color:var(--muted)}.ciclo2026 .video-trigger{position:relative;display:block;aspect-ratio:16/9;overflow:hidden;background:#121211;border-radius:14px}.ciclo2026 .video-trigger img{width:100%;height:100%;object-fit:cover;max-height:none}.ciclo2026 .video-trigger:after{content:'▶';position:absolute;inset:0;margin:auto;width:56px;height:56px;border-radius:50%;background:white;color:#222;display:grid;place-items:center;font-size:16px}.ciclo2026 .video-trigger .module-icon{display:none}.ciclo2026 .video-trigger>div:has(svg){display:none}.ciclo2026 .creative-gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}.ciclo2026 .creative-gallery img{width:100%;border-radius:12px}.ciclo2026 .creative-gallery figcaption{margin-top:14px;font-size:12px;color:var(--muted)}
+/* Eight-step application, prototype state only */
+.ciclo2026 .application-shell{min-height:78vh;display:grid;grid-template-columns:.8fr 1.2fr;gap:96px;align-items:start;padding:70px 0 100px}.ciclo2026 .application-intro{position:sticky;top:130px}.ciclo2026 .application-intro h1{font-size:48px}.ciclo2026 .application-intro p{color:var(--muted);font-size:15px}.ciclo2026 .application-card{border:1px solid var(--line);border-radius:16px;padding:40px;background:#fff}.ciclo2026 .application-progress{height:3px;background:#e8e4df;border-radius:3px;margin:16px 0 32px}.ciclo2026 .application-progress>span{display:block;height:100%;background:#8e5bac;transition:width .3s}.ciclo2026 .application-step-label{font-size:11px;color:var(--muted)}.ciclo2026 .application-card h2{font-size:30px;margin-bottom:28px}.ciclo2026 .application-card input,.ciclo2026 .application-card textarea{width:100%;border:1px solid #c9c4bd;border-radius:8px;background:#fff;padding:17px;font-size:16px;color:var(--ink)}.ciclo2026 .application-card textarea{min-height:130px;resize:vertical}.ciclo2026 .application-options{display:grid;gap:10px}.ciclo2026 .application-options button{padding:16px 18px;text-align:left;background:#fff;border:1px solid var(--line);border-radius:8px;font-size:14px;line-height:1.4}.ciclo2026 .application-options button[aria-pressed=true]{border-color:#926baa;background:#f6f1fa}.ciclo2026 .application-nav{display:flex;justify-content:space-between;align-items:center;gap:20px;margin-top:28px}.ciclo2026 .application-nav button{padding:13px 20px;border-radius:6px;border:1px solid var(--line);background:white;font-size:12px}.ciclo2026 .application-nav .next{background:var(--ink);color:white}.ciclo2026 .application-error{color:#a53434;font-size:12px!important;margin-top:16px!important}.ciclo2026 .application-consent{display:flex;gap:10px;align-items:flex-start;font-size:11px;line-height:1.6;margin-top:24px}.ciclo2026 .application-consent input{width:16px;flex:none}.ciclo2026 .application-local-note{font-size:11px!important;color:#868079!important;margin-top:20px!important}
+@media(max-width:1000px){.ciclo2026 .service-hero-layout{grid-template-columns:1fr 210px;gap:32px}.ciclo2026 .service-symbol{width:210px;height:270px}.ciclo2026 .overview-grid,.ciclo2026 .process-section>.wrap{gap:48px}.ciclo2026 .directory-grid,.ciclo2026 .article-grid{grid-template-columns:repeat(2,1fr)}.ciclo2026 .reading-layout{grid-template-columns:190px 1fr;gap:42px}.ciclo2026 .feature-link{gap:26px;padding:36px}.ciclo2026 .blog-title-row{gap:42px}.ciclo2026 .application-shell{gap:48px}.ciclo2026 .inner h1{font-size:52px}.ciclo2026 .cols-4{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:760px){.ciclo2026{--space-section:64px}.ciclo2026 .inner h1{font-size:42px;letter-spacing:-.05em}.ciclo2026 .inner h2{font-size:34px}.ciclo2026 .inner .wrap.narrow{width:calc(100% - 40px)}.ciclo2026 .inner-hero{padding-top:24px}.ciclo2026 .breadcrumb{font-size:10px;gap:8px;margin-bottom:38px}.ciclo2026 .service-hero-layout{grid-template-columns:1fr}.ciclo2026 .service-symbol{display:none}.ciclo2026 .inner-signature{font-size:23px}.ciclo2026 .inner-lead{font-size:15px}.ciclo2026 .inner-actions{gap:20px;margin-top:28px}.ciclo2026 .section-index{gap:12px 22px;margin-top:40px;padding:22px 0}.ciclo2026 .overview-grid,.ciclo2026 .process-section>.wrap{grid-template-columns:1fr;gap:28px}.ciclo2026 .overview-grid p{font-size:15px}.ciclo2026 .process-section .inner-section-heading{position:static;margin-bottom:0}.ciclo2026 .inner-section-heading{margin-bottom:30px}.ciclo2026 .deliverable-list{grid-template-columns:1fr}.ciclo2026 .result-grid{grid-template-columns:1fr 1fr;gap:28px}.ciclo2026 .result-grid strong{font-size:40px}.ciclo2026 .example-grid{grid-template-columns:1fr}.ciclo2026 .example-grid article{padding:26px}.ciclo2026 .faq-list summary{font-size:16px;padding:22px 0}.ciclo2026 .faq-answer{padding-right:0;font-size:14px}.ciclo2026 .directory-grid{gap:16px}.ciclo2026 .directory-card{padding:23px;min-height:260px}.ciclo2026 .directory-card h3{font-size:20px}.ciclo2026 .directory-links{grid-template-columns:1fr}.ciclo2026 .blog-title-row{grid-template-columns:1fr;gap:24px}.ciclo2026 .blog-title-row p{max-width:420px}.ciclo2026 .blog-feature{padding-bottom:44px}.ciclo2026 .feature-link{grid-template-columns:1fr;padding:30px;min-height:0}.ciclo2026 .feature-link h2{font-size:31px}.ciclo2026 .feature-orbit{display:none}.ciclo2026 .archive-toolbar{flex-direction:column;align-items:start;gap:24px}.ciclo2026 .search-field{width:100%}.ciclo2026 .category-tabs{flex-wrap:nowrap;overflow-x:auto;padding-bottom:12px;gap:8px}.ciclo2026 .category-tabs button{flex-shrink:0}.ciclo2026 .article-grid{gap:16px}.ciclo2026 .article-card{padding:23px;min-height:300px}.ciclo2026 .article-card h3{font-size:22px}.ciclo2026 .article-hero{padding-top:24px;padding-bottom:36px}.ciclo2026 .article-hero h1{font-size:38px}.ciclo2026 .article-deck{font-size:17px}.ciclo2026 .reading-layout{grid-template-columns:1fr;gap:28px;padding-top:30px;padding-bottom:64px}.ciclo2026 .article-toc{position:static;border-bottom:1px solid var(--line);padding-bottom:28px}.ciclo2026 .article-toc nav{max-height:160px}.ciclo2026 .toc-contact{display:none}.ciclo2026 .article-body{font-size:16px}.ciclo2026 .article-body h2{font-size:28px}.ciclo2026 .article-cta{padding:26px}.ciclo2026 .special-hero{padding-top:24px}.ciclo2026 .module-grid{gap:24px}.ciclo2026 .cols-2,.ciclo2026 .cols-3{grid-template-columns:1fr}.ciclo2026 .cols-4,.ciclo2026 .cols-5,.ciclo2026 .cols-6{grid-template-columns:repeat(2,1fr)}.ciclo2026 .module-panel{padding:24px}.ciclo2026 .special-module .portrait{max-height:420px}.ciclo2026 .video-grid{grid-template-columns:1fr;gap:22px}.ciclo2026 .video-caption{padding:20px}.ciclo2026 .special-module h1{font-size:42px}.ciclo2026 .special-module p{font-size:14px}.ciclo2026 .module-number{font-size:34px!important}.ciclo2026 .module-flex{gap:14px}.ciclo2026 .application-shell{grid-template-columns:1fr;gap:30px;padding:40px 0 64px}.ciclo2026 .application-intro{position:static}.ciclo2026 .application-intro h1{font-size:36px}.ciclo2026 .application-card{padding:26px}.ciclo2026 .application-card h2{font-size:27px}.ciclo2026 .creative-gallery{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){.ciclo2026 .inner h1{font-size:38px}.ciclo2026 .directory-grid,.ciclo2026 .article-grid{grid-template-columns:1fr}.ciclo2026 .directory-card{min-height:0}.ciclo2026 .directory-card .card-icon{margin-bottom:22px}.ciclo2026 .article-card{min-height:290px}.ciclo2026 .article-hero h1{font-size:34px}.ciclo2026 .article-byline p{font-size:10px}.ciclo2026 .special-module h1{font-size:38px}.ciclo2026 .cols-4,.ciclo2026 .cols-5,.ciclo2026 .cols-6{grid-template-columns:1fr}.ciclo2026 .result-grid strong{font-size:35px}.ciclo2026 .result-grid p{font-size:12px}.ciclo2026 .creative-gallery{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){.ciclo2026{scroll-behavior:auto}.ciclo2026 *,.ciclo2026 *:before,.ciclo2026 *:after{transition:none!important}}
+.ciclo2026 .special-module .brandmark{width:110px;height:42px;object-fit:contain;filter:grayscale(1);opacity:.65;border-radius:0}.ciclo2026 .special-module .module-flex:has(.special-logo){justify-content:center}.ciclo2026 .special-module .centered h1{margin-left:auto;margin-right:auto}.ciclo2026 .creative-gallery{grid-template-columns:1fr 1fr}.ciclo2026 .creative-gallery figcaption{font-size:13px;line-height:1.7}.ciclo2026 .special-module .video-trigger{width:100%}.ciclo2026 .special-module .video-trigger img{margin:0}
+@media(max-width:760px){.ciclo2026 .creative-gallery{grid-template-columns:1fr}}
+
+
+/* No kit a listagem do blog é filtrada por JavaScript, então as categorias e
+   a paginação são <button>. Aqui elas continuam sendo links renderizados no
+   servidor — as URLs ?cat= e ?page= que o Google já conhece —, então as
+   mesmas regras precisam valer para <a>. */
+.ciclo2026 .category-tabs a {
+  border: 1px solid #d6d2cc;
+  background: transparent;
+  padding: 9px 13px;
+  border-radius: 6px;
+  font-size: 11px;
+  line-height: 1.4;
+  color: #706d66;
+}
+.ciclo2026 .category-tabs a[aria-current] {
+  background: var(--ink);
+  color: #fff;
+  border-color: var(--ink);
+}
+.ciclo2026 .pagination a {
+  height: 40px;
+  min-width: 40px;
+  padding: 0 12px;
+  border: 1px solid #d4d0ca;
+  border-radius: 6px;
+  font-size: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.ciclo2026 .pagination a[aria-current='page'] {
+  color: #fff;
+  background: var(--ink);
+}
+
+/* O rótulo da busca é um <label>, não um <span>, para apontar para o campo */
+.ciclo2026 .search-field > label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+
+.ciclo2026 .empty-state h3 { font-size: 24px; margin-bottom: 12px; }
+.ciclo2026 .empty-state p { font-size: 14px; color: var(--muted); margin-bottom: 20px; }
+
+/* Os rótulos de CTA dos posts curados são mais longos que os do kit, e
+   `.button` é nowrap. Em tela estreita o botão passava da margem; aqui ele
+   quebra a linha em vez de estourar. */
+@media (max-width: 560px) {
+  .ciclo2026 .article-body .button { max-width: 100%; white-space: normal; }
+  .ciclo2026 .article-body .button span { white-space: normal; text-align: left; }
+}
+
+/* No celular as categorias viram uma régua que rola na horizontal, como no
+   kit. Os <button> do kit têm flex-shrink:0; os links precisam do mesmo,
+   senão o texto de cada categoria é espremido. */
+@media (max-width: 760px) {
+  .ciclo2026 .category-tabs a { flex-shrink: 0; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   PLAYFAIR DISPLAY NAS FRASES EDITORIAIS — padrão do design 2026.
+   Definido pelo Flávio e restabelecido em 17/10/2026, depois de um período em
+   que o escopo ficou só com Inter.
+   Esta folha é a última carregada em toda página do escopo, então é daqui que
+   a família vale. A fonte chega pelo next/font, com variável própria.
+   REGRA PARA PÁGINAS E TEXTOS NOVOS: Inter estrutura e informa; a Playfair em
+   itálico entra só nas frases curtas de voz editorial — a segunda linha de
+   uma chamada, a assinatura de uma página, um destaque de abertura. Para
+   aplicar numa frase nova, use .editorial-accent ou um <em> dentro de .inner.
+   ═══════════════════════════════════════════════════════════════════════════ */
+.ciclo2026 .editorial-accent,
+.ciclo2026 .hero-sub,
+.ciclo2026 .inner em,
+.ciclo2026 .inner-signature,
+.ciclo2026 .special-module blockquote {
+  font-family: var(--font-playfair-2026), 'Playfair Display', Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  font-synthesis: none;
+  letter-spacing: -.025em;
+}
+
+/* Dentro do corpo do artigo o <em> é ênfase de quem escreveu, não ornamento.
+   Continua em Inter itálico: trocar a família ali mudaria o sentido da
+   marcação e deixaria o texto corrido com duas fontes brigando. */
+.ciclo2026 .article-body em {
+  font-family: var(--font-inter), Inter, Arial, sans-serif;
+  font-style: italic;
+  letter-spacing: normal;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   UX móvel das internas — achados da auditoria de 17/10/2026.
+   Dois problemas, nenhum deles de conteúdo: a abertura ocupava quase a tela
+   inteira antes do primeiro parágrafo, e o índice de seções estava em 11px,
+   quebrando em duas linhas, com área de toque pequena demais.
+   Nada de texto sai: o que muda é respiro, corpo e área de clique.
+   ═══════════════════════════════════════════════════════════════════════════ */
+@media (max-width: 760px) {
+  /* Abertura mais curta: o leitor chega ao conteúdo sem uma rolagem inteira */
+  .ciclo2026 .inner-hero { padding-top: 24px; }
+  .ciclo2026 .breadcrumb { margin-bottom: 28px; }
+  .ciclo2026 .inner h1 { margin: 14px 0; }
+  .ciclo2026 .inner-signature { font-size: 20px; margin: 14px 0; }
+  .ciclo2026 .inner-lead { margin-top: 14px; }
+  .ciclo2026 .inner-actions { margin-top: 22px; gap: 14px 20px; }
+
+  /* A ação principal ocupa a linha; as secundárias vêm abaixo, menores e
+     lado a lado, com a hierarquia explícita em vez de três itens iguais. */
+  .ciclo2026 .inner-actions > .button { width: 100%; }
+  .ciclo2026 .inner-actions > .button span { flex: 1; }
+  .ciclo2026 .inner-actions > .textlink { font-size: 12px; padding: 10px 0; }
+
+  /* Índice de seções: corpo maior, alvo de toque de 44px e sem quebra no
+     meio do rótulo. Rola na horizontal, como as abas do blog. */
+  .ciclo2026 .section-index {
+    margin-top: 32px;
+    padding: 8px 0;
+    gap: 0 20px;
+    font-size: 13px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .ciclo2026 .section-index::-webkit-scrollbar { display: none; }
+  .ciclo2026 .section-index a {
+    flex-shrink: 0;
+    white-space: nowrap;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   O nome da página dentro do h1 — pedido do Flávio em 17/10/2026.
+   A linha pequena que ficava acima da chamada passa a ser o começo do próprio
+   <h1>, para o título da página estar no h1 sem mudar nada do desenho. A
+   chamada grande continua dentro do mesmo h1, então ela não some do índice de
+   títulos de quem usa leitor de tela.
+   Nas páginas de artigo nada disso se aplica: lá o h1 já é o título.
+   ═══════════════════════════════════════════════════════════════════════════ */
+.ciclo2026 .h1-kicker {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: .05em;
+  line-height: 1.4;
+  margin-bottom: 20px;
+  text-wrap: wrap;
+  color: var(--ink);
+}
+.ciclo2026 .hero .h1-kicker { margin-bottom: 24px; }
+@media (max-width: 760px) {
+  .ciclo2026 .h1-kicker { font-size: 10px; margin-bottom: 14px; }
+}
+
+/* ── Mapa do site ────────────────────────────────────────────────────────── */
+.ciclo2026 .mapa-grupos {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px 64px;
+}
+.ciclo2026 .mapa-grupo h2 {
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: .02em;
+  color: #6f6c66;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 14px;
+  margin: 0 0 4px;
+}
+.ciclo2026 .mapa-grupo ul { list-style: none; padding: 0; margin: 0; }
+.ciclo2026 .mapa-grupo a {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 18px;
+  border-bottom: 1px solid #e8e4de;
+  padding: 14px 0;
+  font-size: 15px;
+  min-height: 44px;
+}
+.ciclo2026 .mapa-grupo a:hover { color: var(--accent); }
+.ciclo2026 .mapa-grupo a b { font-size: 16px; font-weight: 400; color: #9a958e; }
+@media (max-width: 760px) {
+  .ciclo2026 .mapa-grupos { grid-template-columns: 1fr; gap: 32px; }
+}
+
+/* ── Páginas legais ──────────────────────────────────────────────────────── */
+.ciclo2026 .legal-data { font-size: 12px; color: var(--muted); margin: 14px 0 0; }
+.ciclo2026 .legal-indice {
+  background: var(--paper);
+  border-radius: 14px;
+  padding: 28px 32px;
+  margin: 40px 0 48px;
+  max-width: 760px;
+}
+.ciclo2026 .legal-indice h2 {
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: .02em;
+  color: #6f6c66;
+  margin: 0 0 16px;
+}
+.ciclo2026 .legal-indice ol { margin: 0; padding-left: 0; list-style: none; }
+.ciclo2026 .legal-indice li { margin: 0; }
+.ciclo2026 .legal-indice a {
+  display: block;
+  font-size: 14px;
+  line-height: 1.5;
+  padding: 9px 0;
+  min-height: 40px;
+}
+.ciclo2026 .legal-indice a:hover { color: var(--accent); }
+.ciclo2026 .legal-body section { scroll-margin-top: 110px; }
+.ciclo2026 .legal-body h2 {
+  font-size: 24px;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 14px;
+  margin: 52px 0 22px;
+}
+.ciclo2026 .legal-body section:first-child h2 { margin-top: 0; }
+.ciclo2026 .legal-body { max-width: 760px; }
+@media (max-width: 760px) {
+  .ciclo2026 .legal-indice { padding: 22px; margin: 30px 0 36px; }
+  .ciclo2026 .legal-body h2 { font-size: 21px; margin-top: 40px; }
+}
+
+/* A descrição de cada depoimento, que só a página /depoimentos mostra */
+.ciclo2026 .proof-descricao {
+  font-size: 12px;
+  line-height: 1.65;
+  color: #a9a7a2;
+  margin: 0;
+  padding: 0 18px 20px;
+}
+@media (max-width: 760px) {
+  .ciclo2026 .proof-descricao { padding: 0 14px 16px; }
+}
+
+/* Fator M sem lista: a API não respondeu e não há snapshot gravado. A seção
+   não inventa episódio nem reaproveita depoimento — diz isso e manda para o
+   canal. */
+.ciclo2026 .episodes-vazio {
+  font-size: 14px;
+  line-height: 1.65;
+  color: #6b6964;
+  margin: 0;
+  padding: 28px 0;
+}
+.ciclo2026 .episodes-vazio a {
+  color: var(--accent);
+  border-bottom: 1px solid currentColor;
+}
+
+/* Num módulo centralizado, o rótulo pequeno do h1 também centraliza — o
+   `.eyebrow` é flex, e sem isto ficaria encostado à esquerda. */
+.ciclo2026 .centered .h1-kicker,
+.ciclo2026 .centered .module-flex { justify-content: center; }
+.ciclo2026 .module-stack.centered { align-items: center; gap: 12px; }
+.ciclo2026 .module-stack.centered span { font-size: 13px; }
+
+/* Os três retratos dos apresentadores têm proporções de origem diferentes.
+   Sem uma proporção fixa, cada cartão começa o texto numa altura, e a linha
+   dos nomes fica desalinhada. */
+.ciclo2026 .retrato-fixo { aspect-ratio: 3 / 4; max-height: none; height: auto; }
+
+/* O vídeo quando está tocando ocupa exatamente o espaço que a capa ocupava. */
+.ciclo2026 .video-embed {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 0;
+  border-radius: 14px;
+}
+
+/* Barra flutuante de checkout do /ecomshift */
+.ciclo2026 .cta-flutuante {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 16px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  box-shadow: 0 10px 40px #0000001f;
+}
+.ciclo2026 .cta-flutuante > div p { margin: 0; font-size: 12px; line-height: 1.4; }
+.ciclo2026 .cta-flutuante > div p:last-child { color: var(--muted); }
+.ciclo2026 .cta-flutuante .action-link { padding: 12px 18px; min-height: 42px; }
+@media (max-width: 520px) {
+  .ciclo2026 .cta-flutuante { left: 16px; right: 16px; bottom: 16px; justify-content: space-between; }
+  .ciclo2026 .cta-flutuante > div { display: none; }
+  .ciclo2026 .cta-flutuante .action-link { width: 100%; }
+}
+
+/* Marcas atendidas, como texto, na página do ECOM Shift */
+.ciclo2026 .marcas-lista {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 18px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* Preço riscado e preço atual, lado a lado, na abertura do ECOM Shift */
+.ciclo2026 .preco { display: flex; align-items: baseline; gap: 10px; font-size: 13px; }
+.ciclo2026 .preco s { color: #a39d94; }
+.ciclo2026 .preco strong { font-size: 18px; color: var(--ink); }
+.ciclo2026 .vantagens { gap: 10px 22px; font-size: 12px; color: var(--muted); }
+.ciclo2026 .vantagens .module-icon { height: 16px; width: 16px; }
+.ciclo2026 .vantagens > .module-flex { gap: 7px; }
+
+/* Lista numerada dos pilares, na consultoria */
+.ciclo2026 .lista-numerada { list-style: none; padding: 0; margin: 0; }
+.ciclo2026 .lista-numerada li {
+  display: flex;
+  gap: 12px;
+  align-items: baseline;
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--muted);
+  padding: 10px 0;
+  border-top: 1px solid var(--line);
+}
+.ciclo2026 .lista-numerada li:first-child { border-top: 0; padding-top: 0; }
+.ciclo2026 .lista-numerada li > span:first-child {
+  color: var(--ink);
+  font-size: 11px;
+  flex: none;
+  min-width: 18px;
+}
+.ciclo2026 .special-module blockquote footer {
+  font-family: Inter, Arial, sans-serif;
+  font-style: normal;
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 14px;
+}
+
+/* Depoimento longo: continua em itálico, mas em Inter.
+   A Playfair é para frase editorial CURTA — esta citação tem três linhas, e
+   em serifa itálica o bloco fica pesado de ler. Mesma regra que já vale para
+   o corpo dos artigos. */
+.ciclo2026 .special-module blockquote.citacao-longa,
+.ciclo2026 .special-module blockquote.citacao-longa p {
+  font-family: var(--font-inter), Inter, Arial, sans-serif;
+  font-style: italic;
+  font-size: 15px;
+  line-height: 1.65;
+  letter-spacing: normal;
+}
+
+/* ── /consultoria-ecom-shift ───────────────────────────────────────────── */
+
+/* Assinatura da abertura: dois rótulos nas pontas */
+.ciclo2026 .assinatura {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 14px;
+}
+.ciclo2026 .assinatura .section-kicker { margin: 0; }
+
+/* Faixa de marcas */
+.ciclo2026 .faixa-marcas { justify-content: center; gap: 22px 34px; }
+
+/* Rótulos e métricas dos cartões de case */
+.ciclo2026 .rotulo-case {
+  font-size: 10px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: #898077;
+  margin: 18px 0 6px;
+}
+.ciclo2026 .metricas-case { display: flex; flex-wrap: wrap; gap: 18px; margin: 0; }
+.ciclo2026 .metricas-case dt { font-size: 22px; letter-spacing: -.03em; }
+.ciclo2026 .metricas-case dd { margin: 2px 0 0; font-size: 11px; color: var(--muted); }
+
+/* Os diagramas aprovados do E-com Shift dentro de uma seção escura do 2026.
+   `.shift` traz o próprio fundo; aqui ele só precisa deixar de pintar por
+   cima da seção e ganhar respiro. */
+.ciclo2026 .diagrama-shift { background: transparent; margin: 38px 0; }
+.ciclo2026 .diagrama-shift.shift { background-color: transparent; }
+
+/* Os três indicadores sob a ampulheta, na seção escura */
+.ciclo2026 .section.dark .indicadores { margin: 34px 0 18px; }
+.ciclo2026 .section.dark .indicadores h3 { font-size: 22px; }
+.ciclo2026 .section.dark .indicadores p { font-size: 14px; margin-top: 10px; opacity: .72; }
+
+/* ── /aplicacao ────────────────────────────────────────────────────────── */
+
+.ciclo2026 .application-topo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 28px 0 0;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 18px;
+}
+.ciclo2026 .application-topo .section-kicker { margin: 0; font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: #898077; }
+.ciclo2026 .application-marca { height: 22px; width: auto; }
+
+.ciclo2026 .application-intro .eyebrow { margin-bottom: 22px; }
+.ciclo2026 .application-intro h1 { margin-bottom: 22px; }
+.ciclo2026 .application-intro p + p { margin-top: 16px; }
+
+/* Dentro do cartão: rótulo da etapa, dica e contador */
+.ciclo2026 .application-card label.application-step-label { display: block; margin-bottom: 10px; }
+.ciclo2026 .application-hint { font-size: 14px; color: var(--muted); margin: 0 0 22px; }
+.ciclo2026 .application-counter { font-size: 11px; color: var(--muted); margin-top: 10px; }
+.ciclo2026 .application-card h2 em { font-style: italic; }
+.ciclo2026 .application-options button { cursor: pointer; display: flex; justify-content: space-between; gap: 16px; }
+.ciclo2026 .application-nav .next { cursor: pointer; display: inline-flex; align-items: center; gap: 10px; }
+.ciclo2026 .application-nav button[disabled] { opacity: .6; cursor: default; }
+.ciclo2026 .application-consent a { text-decoration: underline; text-underline-offset: 3px; }
+.ciclo2026 .application-voltar {
+  display: inline-block;
+  margin-top: 22px;
+  font-size: 12px;
+  color: var(--muted);
+  background: none;
+  border: 0;
+  padding: 0;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.ciclo2026 .application-rodape { border-top: 1px solid var(--line); padding: 22px 0 40px; }
+.ciclo2026 .application-rodape p { font-size: 11px; color: var(--muted); margin: 0; }
+.ciclo2026 .application-rodape a { text-decoration: underline; text-underline-offset: 3px; }
+
+/* ── /obrigado ─────────────────────────────────────────────────────────── */
+
+.ciclo2026 .prazo-resposta {
+  display: inline-block;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 14px 20px;
+  font-size: 13px;
+  margin: 0;
+}
+.ciclo2026 .prazo-resposta strong { color: var(--ink); }
+
+/* Lista de pontos dos pilares */
+.ciclo2026 .lista-pontos { list-style: none; padding: 0; margin: 18px 0 0; }
+.ciclo2026 .lista-pontos li {
+  position: relative;
+  padding-left: 16px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+.ciclo2026 .lista-pontos li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 9px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+.ciclo2026 .lista-pontos a { text-decoration: underline; text-underline-offset: 3px; }
+
+/* Campo de uma linha com marca de validado, usado em /link-bio */
+.ciclo2026 .application-field { position: relative; }
+.ciclo2026 .application-field .application-ok {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 18px;
+  height: 18px;
+  opacity: 0;
+  transition: opacity .2s;
+  color: #4a8a5c;
+}
+.ciclo2026 .application-field.is-valid .application-ok { opacity: 1; }
+
+/* As duas páginas de formulário são curtas: sem isto, o fundo escuro do
+   `body` global aparece numa faixa abaixo do rodapé. */
+.ciclo2026 .application-page {
+  min-height: 100vh;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+}
+.ciclo2026 .application-page > main { flex: 1; }
+
+/* O link da política na faixa legal do rodapé */
+.ciclo2026 .footer-bottom a { text-decoration: underline; text-underline-offset: 3px; }
+.ciclo2026 .footer-bottom a:hover { color: #fff; }
+
+/* Os dois marcos ao lado do texto de "Nossa história": sem isto a grade os
+   estica até a altura da coluna de texto e sobra painel vazio. */
+.ciclo2026 .marcos { align-content: start; align-items: start; }
+.ciclo2026 .marcos .module-panel { padding: 26px 20px; }
+
+/* ── Resultados dos cases: o número não pode sair do cartão ─────────────── */
+/*
+   O cartão da Gringa tem TRÊS resultados, e um deles é "120→55 dias". Com
+   `white-space: nowrap` e 29px de corpo, ele precisava de 162px numa célula
+   de 124px e vazava por fora da borda.
+   Três mudanças, nenhuma delas escondendo conteúdo:
+   1. a unidade ("dias") sai do corpo grande e vira palavra menor ao lado;
+   2. o número continua inquebrável, mas a unidade pode cair para a linha
+      debaixo em vez de empurrar tudo para fora;
+   3. o corpo encolhe quando há três resultados na mesma linha, e encolhe de
+      novo conforme a largura do cartão, por container query.
+   Sem `overflow: hidden`, sem reticências, sem número abreviado.
+*/
+.ciclo2026 .case-content { container-type: inline-size; }
+
+/*
+   ATENÇÃO ao seletor: a folha do kit tem `.case-results span`, pensada para a
+   LEGENDA, e ela pega qualquer span dentro do bloco — inclusive os spans que
+   envolvem o número. Sem o reset abaixo, o número herda 10px, peso 400 e a
+   cor cinza da legenda: fica do tamanho de rodapé. Foi o que aconteceu e o
+   teste não pegou, porque media o `strong`, não o nó com os dígitos.
+   Aqui o número volta a herdar tudo do `strong`, e só a unidade fica menor.
+*/
+.ciclo2026 .case-results strong .valor-numero,
+.ciclo2026 .case-results strong .valor-unidade,
+.ciclo2026 .metricas-case dt .valor-numero,
+.ciclo2026 .metricas-case dt .valor-unidade {
+  display: inline;
+  font: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  color: inherit;
+  letter-spacing: inherit;
+  line-height: inherit;
+  margin: 0;
+  /*
+     Sem `nowrap`. Em tamanho normal o número nunca quebra, porque cabe; mas
+     com texto ampliado a 200% num celular de 390px nem uma coluna só é
+     suficiente, e aí quebrar é o certo — quem amplia o texto espera que a
+     página reflua, não que o número saia pela borda. `break-word` só age
+     quando não há alternativa.
+  */
+  overflow-wrap: break-word;
+}
+.ciclo2026 .case-results strong .valor-unidade,
+.ciclo2026 .metricas-case dt .valor-unidade { white-space: nowrap; }
+/* A unidade por extenso é a única coisa que encolhe, e só porque "dias" ao
+   lado de "120→55" no mesmo corpo não caberia na célula. */
+.ciclo2026 .case-results strong .valor-unidade,
+.ciclo2026 .metricas-case dt .valor-unidade {
+  font-size: .5em;
+  letter-spacing: -.01em;
+}
+
+.ciclo2026 .case-results strong {
+  white-space: normal;
+  overflow-wrap: break-word;
+}
+
+/* Três resultados dividem a mesma linha: cada célula fica com um terço. */
+.ciclo2026 .case-results:has(> div:nth-child(3)) strong { font-size: 23px; }
+
+/*
+   Cartão estreito: três colunas iguais deixam de caber, e espremer o número
+   até caber foi justamente o erro anterior. Aqui a grade passa a QUEBRAR —
+   `auto-fit` com um mínimo em `em`, ancorado no corpo do próprio número.
+   Quando o texto é ampliado, o mínimo cresce junto e sobra uma coluna a
+   menos, em vez de o número vazar. A divisória vertical sai, porque linha
+   em pé no começo de uma linha nova não quer dizer nada; o espaçamento
+   separa.
+*/
+@container (max-width: 470px) {
+  .ciclo2026 .case-results {
+    grid-auto-flow: row;
+    grid-auto-columns: auto;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 6.5em), 1fr));
+    font-size: 22px;
+    gap: 18px 16px;
+  }
+  .ciclo2026 .case-results strong,
+  .ciclo2026 .case-results:has(> div:nth-child(3)) strong { font-size: 1em; }
+  .ciclo2026 .case-results > div + div { padding-left: 0; border-left: 0; }
+  /* `> span` de propósito: só a legenda, que é filha direta da célula. O
+     span do número vive dentro do `strong` e não pode ser atingido aqui. */
+  .ciclo2026 .case-results > div > span { font-size: 10px; }
+}
+@container (max-width: 300px) {
+  .ciclo2026 .case-results { font-size: 20px; }
+}
+
+/* O mesmo bloco na landing da consultoria, que usa <dl> */
+.ciclo2026 .metricas-case dt { white-space: normal; overflow-wrap: break-word; }
+
+/* Os chips de canal do diagrama usam `rem` no espaçamento, então dobram
+   junto com a ampliação de texto. Em 390px com texto a 200% o chip mais
+   longo passava da tela. Deixo ele encolher e quebrar a linha — a folha do
+   `.shift` em si continua intocada; isto vale só dentro da página 2026. */
+.ciclo2026 .diagrama-shift .shift-chip {
+  max-width: 100%;
+  min-width: 0;
+  white-space: normal;
+}

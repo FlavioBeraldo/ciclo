@@ -70,6 +70,18 @@ const nextConfig: NextConfig = {
       { source: '/servicos/programatica-pinterest-ads',       destination: '/servicos/programatica',        permanent: true },
       { source: '/servicos/retail-media',                     destination: '/servicos/mercado-livre-ads',   permanent: true },
 
+      // ── Serviços encerrados em 17/10/2026 ─────────────────────────────────
+      // Os dois temas continuam cobertos pela solução Inteligência & Operação,
+      // que já os descreve em "como funciona" e responde a ambos no FAQ — por
+      // isso o destino é ela, e não a home. Uma parada só, para uma página
+      // que responde 200.
+      //
+      // Não há regra para a versão com barra no fim: o Next normaliza
+      // `/rota/` para `/rota` antes de olhar estas regras, em todo o site.
+      // Uma regra com barra nunca chega a casar.
+      { source: '/servicos/processos-playbooks',              destination: '/solucoes/inteligencia-e-operacao', permanent: true },
+      { source: '/servicos/growth-continuo',                  destination: '/solucoes/inteligencia-e-operacao', permanent: true },
+
       // ── /servicos/ hub (no index page in new site) ────────────────────────
       { source: '/servicos',  destination: '/', permanent: true },
       { source: '/servicos/', destination: '/', permanent: true },
