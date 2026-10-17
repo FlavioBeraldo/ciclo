@@ -171,11 +171,14 @@ export default async function ServicoPage({ params }: PageProps) {
                 </div>
               </div>
 
+              {/* "Resultados" só entra quando a seção existe: serviços sem
+                  número publicado não renderizam esse bloco, e um item de
+                  índice sem destino é link quebrado. */}
               <nav className="section-index" aria-label="Nesta página">
                 <a href="#visao">Visão geral</a>
                 <a href="#como-funciona">Como funciona</a>
                 <a href="#entregas">Entregas</a>
-                <a href="#resultados">Resultados</a>
+                {servico.results.length > 0 && <a href="#resultados">Resultados</a>}
                 <a href="#faq">Perguntas frequentes</a>
               </nav>
             </div>
