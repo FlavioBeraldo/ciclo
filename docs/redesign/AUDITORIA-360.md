@@ -1415,16 +1415,18 @@ Para não marcar como aprovado o que não é:
 | Item | Valor |
 |---|---|
 | Branch | `claude/redesign-ciclo-2026-HVyvT` |
-| Último commit de **código** | `b5a45dcf0a61a79624f4f128ba0243da046ade40` |
-| Preview desse commit | https://ciclo-dl2o-khob0pt76-flavioberaldos-projects.vercel.app · **success** |
+| Último commit de **código** | `d23b49219cf3f68936f5c8db99047ad37be3f6c4` |
+| Preview desse commit | https://ciclo-dl2o-qj4okmzdq-flavioberaldos-projects.vercel.app · **success** |
 | Produção, revalidada hoje | `7ae962bad1758ef0c77e775af6a683e7e5a0e280` — **não avançou** |
 
 Commits das páginas: `ac58a47` (/ofatorm), `af7b8b9` (/ecomshift),
 `7e3b63c` (/consultoria-para-e-commerce), `9df6eff` (as quatro últimas),
 `8684981` (UX das páginas de formulário), `3c5d176` (as três correções de
 frontend e o tempo limite do podcast — **este quebrou o build no Preview**,
-ver 27.10), `e0f5bc2` (a correção do gerador; Preview verde) e `b5a45dc`
-(bug da Gringa, teste dos webhooks e plano de migração).
+ver 27.10), `e0f5bc2` (a correção do gerador; Preview verde), `b5a45dc`
+(primeira tentativa no bug da Gringa — **reprovada, ver 32**, mais o teste
+dos webhooks e o plano de migração) e `d23b492` (a correção de verdade dos
+indicadores).
 
 **Sobre o SHA a liberar.** Mantenha esta regra, e não o número de um commit
 antigo — foi assim que a seção ficou com `8684981` desatualizado por três
@@ -1483,7 +1485,7 @@ Todas as rotas públicas estão no design 2026. Conferido arquivo por arquivo.
 | 14 · ECOM Shift | `begin_checkout` idêntico nos dois `placement`; vídeos no player interno |
 | 15 · Formulários em etapas | etapas, conversão, **idempotência** e `/obrigado` sem contagem dupla |
 | 16 · Responsivo | 11 rotas sem estouro horizontal em 1440 e 390 |
-| 17 · Indicadores de case | 9 indicadores inteiros e dentro da célula em 7 cenários (320 a 1440, texto a 150% e 200%), em 3 rotas |
+| 17 · Indicadores de case | 9 indicadores inteiros e dentro da célula em 7 cenários (320 a 1440, texto a 150% e 200%), em 3 rotas, **com tamanho, peso e cor medidos no nó dos dígitos** e captura de tela |
 | 18 · Podcast no servidor | API, episódio novo, **tempo limite medido em 3501ms**, cota, sem chave, só Shorts, sem snapshot e gerador com descrição real |
 | 19 · Webhooks do Pipedrive | autenticação, filtros, etapas, ganho, idempotência, v1/v2, enrich e **11 arquivos byte a byte iguais à base** |
 | Crawl | **0 destinos quebrados, 0 âncoras sem alvo** (eram 3) |
