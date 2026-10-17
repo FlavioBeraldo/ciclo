@@ -1,6 +1,6 @@
 'use client'
 
-import Image from 'next/image'
+import MiniaturaYouTube from '../MiniaturaYouTube'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import type { YouTubeVideo } from '@/lib/youtube'
@@ -62,7 +62,13 @@ export default function Podcast() {
               rel="noopener noreferrer"
             >
               <div className="episode-picture">
-                <Image src={v.thumbnail} alt={v.title} width={480} height={270} loading="lazy" />
+                {/* A URL que a API devolve é a hqdefault; o componente pede
+                    a maior que o vídeo tiver e cai para ela se não houver. */}
+                <MiniaturaYouTube
+                  videoId={v.id}
+                  alt={v.title}
+                  sizes="(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 33vw"
+                />
                 <span className="play" aria-hidden="true">
                   ▶
                 </span>

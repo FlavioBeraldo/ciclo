@@ -1,5 +1,9 @@
 # Auditoria 360 do redesign
 
+> **Atualizado.** A versão original auditou o `dc62559`. Os achados objetivos
+> foram corrigidos e estão marcados abaixo; o que depende de decisão ou de
+> arquivo novo segue pendente.
+
 **HEAD auditado:** `dc62559` · **Base de produção:** `7ae962b`
 **Data:** 17/10/2026 · **Branch:** `claude/redesign-ciclo-2026-HVyvT`
 

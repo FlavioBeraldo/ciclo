@@ -33,6 +33,11 @@ export default function Cases() {
                     alt={c.brand}
                     width={900}
                     height={660}
+                    // Sem `sizes`, o navegador numa tela Retina baixa a
+                    // variante de 1920px para um espaço de ~546px. Isto é
+                    // peso, não nitidez: a nitidez depende do arquivo de
+                    // origem, e `mamo.jpg` tem só 399px de largura.
+                    sizes="(max-width: 760px) 100vw, 546px"
                     loading="lazy"
                     style={c.imagePosition === 'object-top' ? { objectPosition: 'top' } : undefined}
                   />

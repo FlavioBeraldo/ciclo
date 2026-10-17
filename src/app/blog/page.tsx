@@ -42,11 +42,18 @@ export default async function BlogPage({
 
   const wpPosts = getWpPosts()
   const keystatiPosts = await getKeystatiPosts()
-  const [destaque, ...curados] = posts
+  const destaque = posts[0]
 
+  // O acervo é COMPLETO, com o artigo de destaque dentro.
+  //
+  // Ele é o primeiro dos curados e ficava de fora desta lista, então não
+  // aparecia na busca nem no filtro de categoria: procurar por "full funnel"
+  // devolvia zero resultado justamente enquanto o artigo era o destaque da
+  // página. Quem sai da grade, mais abaixo, é só a cópia duplicada, e apenas
+  // quando o bloco de destaque está visível.
   const todos = [
     ...keystatiPosts.map((p) => ({ ...p, category: resolveCategory(p.category, p.title, p.excerpt) })),
-    ...curados.map((p) => ({ ...p, category: resolveCategory(p.category, p.title, p.excerpt) })),
+    ...posts.map((p) => ({ ...p, category: resolveCategory(p.category, p.title, p.excerpt) })),
     ...wpPosts.map((p) => ({ ...p, category: resolveCategory(p.category, p.title, p.excerpt) })),
   ].sort((a, b) => b.date.localeCompare(a.date))
 
@@ -63,16 +70,22 @@ export default async function BlogPage({
       (!alvo || normalizar(`${p.title} ${p.excerpt} ${p.category}`).includes(alvo))
   )
 
-  const totalPaginas = Math.max(1, Math.ceil(filtrados.length / PAGE_SIZE))
-  const paginaAtual = Math.min(page, totalPaginas)
-  const fatia = filtrados.slice((paginaAtual - 1) * PAGE_SIZE, paginaAtual * PAGE_SIZE)
-
   const destaqueResolvido = {
     ...destaque,
     category: resolveCategory(destaque.category, destaque.title, destaque.excerpt),
   }
-  // O destaque só aparece na primeira página sem filtro nem busca, como antes
-  const mostrarDestaque = paginaAtual === 1 && !categoriaAtiva && !busca
+  // O bloco de destaque só aparece na primeira página, sem filtro e sem
+  // busca, como antes. Quando aparece, o artigo sai da grade para não
+  // repetir; em qualquer outro caso ele é um artigo como os demais.
+  const mostrarDestaque = page === 1 && !categoriaAtiva && !busca
+  const naGrade = mostrarDestaque
+    ? filtrados.filter((p) => p.slug !== destaque.slug)
+    : filtrados
+
+  const totalPaginas = Math.max(1, Math.ceil(naGrade.length / PAGE_SIZE))
+  const paginaAtual = Math.min(page, totalPaginas)
+  const fatia = naGrade.slice((paginaAtual - 1) * PAGE_SIZE, paginaAtual * PAGE_SIZE)
+  const totalVisivel = naGrade.length + (mostrarDestaque ? 1 : 0)
 
   function href(p: number, cat = categoriaAtiva) {
     const params = new URLSearchParams()
@@ -116,7 +129,7 @@ export default async function BlogPage({
                 </h1>
 
                 <p>
-                  {todos.length + 1} artigos sobre Full Funnel Marketing, performance, CRM e
+                  {todos.length} artigos sobre Full Funnel Marketing, performance, CRM e
                   crescimento sustentável.
                 </p>
               </div>
@@ -192,7 +205,7 @@ export default async function BlogPage({
               </div>
 
               <p id="blog-status" aria-live="polite">
-                {filtrados.length} {filtrados.length === 1 ? 'artigo' : 'artigos'}
+                {totalVisivel} {totalVisivel === 1 ? 'artigo' : 'artigos'}
                 {busca ? ` para “${busca}”` : ''}
                 {categoriaAtiva ? ` em ${categoriaAtiva}` : ''}
               </p>

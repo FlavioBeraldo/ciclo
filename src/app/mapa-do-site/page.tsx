@@ -15,12 +15,19 @@ export const metadata: Metadata = {
 }
 
 const sections = [
+  // Só páginas públicas e indexáveis. /aplicacao, /link-bio e /obrigado são
+  // de conversão, estão marcadas como noindex e ficam de fora daqui de
+  // propósito — como já ficam fora do sitemap.
   {
     heading: 'Páginas principais',
     links: [
       { label: 'Home', href: '/' },
       { label: 'Blog', href: '/blog' },
       { label: 'Depoimentos', href: '/depoimentos' },
+      { label: 'O Fator M · Podcast', href: '/ofatorm' },
+      { label: 'ECOM Shift · Treinamento', href: '/ecomshift' },
+      { label: 'Playbook de Social Commerce', href: '/playbook-social-commerce' },
+      { label: 'Política de Privacidade', href: '/politica-de-privacidade' },
     ],
   },
   {
@@ -28,6 +35,7 @@ const sections = [
     links: [
       { label: 'TikTok Shop & Social Commerce', href: '/tiktok-shop' },
       { label: 'Consultoria para E-commerce', href: '/consultoria-para-e-commerce' },
+      { label: 'Consultoria E-com Shift', href: '/consultoria-ecom-shift' },
     ],
   },
   {

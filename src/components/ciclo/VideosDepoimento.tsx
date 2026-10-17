@@ -1,6 +1,6 @@
 'use client'
 
-import Image from 'next/image'
+import MiniaturaYouTube from './MiniaturaYouTube'
 import { useCallback, useEffect, useRef, useState } from 'react'
 
 // Grade de depoimentos em vídeo, com o player dentro do site.
@@ -93,12 +93,11 @@ export default function VideosDepoimento({ itens }: { itens: Depoimento[] }) {
           >
             <div className="thumb">
               <span className="video-eyebrow">Depoimento</span>
-              <Image
-                src={`https://img.youtube.com/vi/${d.id}/hqdefault.jpg`}
+              <MiniaturaYouTube
+                videoId={d.id}
                 alt=""
-                width={480}
-                height={360}
-                loading="lazy"
+                // Medido no navegador: o cartão tem 546px no desktop e ~344px no celular
+                sizes="(max-width: 760px) 100vw, 546px"
               />
               <span className="play" aria-hidden="true">
                 <svg viewBox="0 0 24 24" fill="currentColor">

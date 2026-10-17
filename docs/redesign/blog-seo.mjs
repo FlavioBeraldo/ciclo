@@ -136,6 +136,42 @@ function jsonLd(html, tipo) {
   const hVazio = await vazio.text()
   conferir(vazio.status === 200, '/blog?cat=NaoExiste', `respondeu ${vazio.status}`)
   conferir(/empty-state/.test(hVazio), '/blog?cat=NaoExiste', 'sem estado vazio')
+
+  // ── Regressão: o artigo de destaque faz parte do acervo ──────────────────
+  //
+  // Ele ficava fora da coleção, então a busca e o filtro de categoria nunca o
+  // encontravam: procurar por "full funnel" devolvia zero enquanto o artigo
+  // era justamente o destaque da página.
+  const destaque = blog.posts[0]
+  const contar = (h) => (h.match(/class="article-card"/g) ?? []).length
+
+  const termo = destaque.title.split(':')[0].slice(0, 20)
+  const hBusca = await (await fetch(`${BASE}/blog?q=${encodeURIComponent(termo)}`)).text()
+  conferir(
+    hBusca.includes(normalizar(destaque.title)),
+    `/blog?q=${termo}`,
+    'a busca não encontra o artigo de destaque'
+  )
+  conferir(contar(hBusca) >= 1, `/blog?q=${termo}`, 'busca pelo destaque não devolveu cartão')
+
+  const cat = encodeURIComponent(destaque.category)
+  const hCat = await (await fetch(`${BASE}/blog?cat=${cat}`)).text()
+  conferir(
+    hCat.includes(normalizar(destaque.title)),
+    `/blog?cat=${destaque.category}`,
+    'o filtro de categoria não encontra o artigo de destaque'
+  )
+
+  // Na primeira página sem filtro ele é o bloco de destaque e NÃO se repete
+  // na grade
+  const hHome = await (await fetch(`${BASE}/blog`)).text()
+  const noHtml = (hHome.match(new RegExp(`href="/blog/${destaque.slug}"`, 'g')) ?? []).length
+  conferir(noHtml === 1, '/blog', `o destaque aparece ${noHtml}x no HTML, deveria ser 1`)
+
+  // Paginação: a última página existe e traz pelo menos um cartão
+  const ultima = await fetch(`${BASE}/blog?page=35`)
+  conferir(ultima.status === 200, '/blog?page=35', `respondeu ${ultima.status}`)
+  conferir(contar(await ultima.text()) > 0, '/blog?page=35', 'última página sem cartão')
 }
 
 // ── Artigos ─────────────────────────────────────────────────────────────────
