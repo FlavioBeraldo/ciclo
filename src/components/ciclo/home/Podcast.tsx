@@ -1,26 +1,18 @@
-'use client'
-
 import MiniaturaYouTube from '../MiniaturaYouTube'
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
-import type { YouTubeVideo } from '@/lib/youtube'
-import { FALLBACK_VIDEOS } from '@/lib/youtube'
+import { CANAL_URL, type YouTubeVideo } from '@/lib/youtube'
 
-// O Fator M na home. Mesma busca de sempre: a lista chega de /api/youtube/latest
-// e o fallback local cobre a primeira pintura e qualquer falha da API.
+// O Fator M na home.
+//
+// A lista chega pronta da página, que a busca no SERVIDOR — o HTML já sai com
+// episódio real. Antes a busca era no navegador e o HTML servido trazia o
+// fallback; quem rastreia sem executar JavaScript via títulos que não existem.
+//
+// Sem episódio nenhum (API fora do ar e snapshot vazio), a seção não inventa
+// nem reaproveita depoimento de cliente: diz que a lista está indisponível e
+// manda para o canal.
 
-export default function Podcast() {
-  const [videos, setVideos] = useState<YouTubeVideo[]>(FALLBACK_VIDEOS)
-
-  useEffect(() => {
-    fetch('/api/youtube/latest')
-      .then((r) => r.json())
-      .then((data: YouTubeVideo[]) => {
-        if (data?.length) setVideos(data)
-      })
-      .catch(() => {})
-  }, [])
-
+export default function Podcast({ episodios }: { episodios: YouTubeVideo[] }) {
   return (
     <section className="section podcast" id="podcast">
       <div className="wrap">
@@ -42,7 +34,7 @@ export default function Podcast() {
 
             <a
               className="button"
-              href="https://www.youtube.com/@ofatorm?sub_confirmation=1"
+              href={`${CANAL_URL}?sub_confirmation=1`}
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -52,32 +44,41 @@ export default function Podcast() {
           </div>
         </div>
 
-        <div className="episodes">
-          {videos.slice(0, 6).map((v) => (
-            <a
-              className="episode"
-              key={v.id}
-              href={v.url}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <div className="episode-picture">
-                {/* A URL que a API devolve é a hqdefault; o componente pede
-                    a maior que o vídeo tiver e cai para ela se não houver. */}
-                <MiniaturaYouTube
-                  videoId={v.id}
-                  alt={v.title}
-                  sizes="(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 33vw"
-                />
-                <span className="play" aria-hidden="true">
-                  ▶
-                </span>
-              </div>
-              <small>O FATOR M · ASSISTA AO EPISÓDIO ↗</small>
-              <h3>{v.title}</h3>
+        {episodios.length ? (
+          <div className="episodes">
+            {episodios.slice(0, 6).map((v) => (
+              <a
+                className="episode"
+                key={v.id}
+                href={v.url}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <div className="episode-picture">
+                  {/* A URL que a API devolve é a hqdefault; o componente pede
+                      a maior que o vídeo tiver e cai para ela se não houver. */}
+                  <MiniaturaYouTube
+                    videoId={v.id}
+                    alt={v.title}
+                    sizes="(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 33vw"
+                  />
+                  <span className="play" aria-hidden="true">
+                    ▶
+                  </span>
+                </div>
+                <small>O FATOR M · ASSISTA AO EPISÓDIO ↗</small>
+                <h3>{v.title}</h3>
+              </a>
+            ))}
+          </div>
+        ) : (
+          <p className="episodes-vazio">
+            A lista de episódios está indisponível no momento.{' '}
+            <a href={CANAL_URL} target="_blank" rel="noopener noreferrer">
+              Veja os episódios no canal ↗
             </a>
-          ))}
-        </div>
+          </p>
+        )}
 
         <div className="training">
           <div>

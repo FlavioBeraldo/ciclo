@@ -971,3 +971,125 @@ Arquivar o negócio de teste e registrar no relatório qual `event_id` e qual
 **Custo:** um negócio de teste no CRM e alguns hits nos relatórios. É o
 preço mínimo para fechar os dez itens, e não existe caminho que os feche
 sem tocar em produção.
+
+---
+
+## 25. Podcast: checkpoint executado
+
+Fecha os três problemas da seção 6.2, sem tocar em credencial, produção ou
+conta.
+
+### 25.1 O que mudou
+
+| Antes | Agora |
+|---|---|
+| Busca no **navegador**, depois da montagem. O HTML servido saía com o fallback | Busca no **servidor**, dentro da página. O HTML já sai com episódio real |
+| Fallback = 4 **vídeos de depoimento de cliente** reetiquetados, com título inventado e data 2024-01-01 | Fallback = os 8 episódios reais mais recentes do canal, com o título e a data que o canal publicou |
+| `scripts/fetch-youtube.js` escrevia um JSON que **ninguém lia** | O mesmo JSON é o fallback: `src/lib/youtube.ts` o lê, e o build o atualiza |
+| Sem episódio nenhum, mostrava os 4 falsos | Sem episódio nenhum, mostra "lista indisponível" com link para o canal |
+| Regra de busca só em `/api/youtube/latest` | Regra em `src/lib/youtube-server.ts`; a rota e as páginas usam a **mesma** |
+
+### 25.2 Arquivos
+
+| Arquivo | O que é |
+|---|---|
+| `src/lib/youtube-server.ts` | **Novo.** `buscarEpisodios()`: API → snapshot → vazio, com a origem explícita. Nunca lança — é chamada durante a renderização, e uma exceção derrubaria a home |
+| `src/lib/youtube.ts` | Passou a ler `src/data/youtube-videos.json`; `FALLBACK_VIDEOS` virou `EPISODIOS_SNAPSHOT` |
+| `src/data/youtube-videos.json` | Os 8 episódios reais mais recentes, conferidos no canal em 17/10/2026 |
+| `src/app/api/youtube/latest/route.ts` | Mesma resposta, mesmo cache; delega para `buscarEpisodios()` |
+| `src/app/page.tsx` | `async`; passa a lista para `<Podcast>` |
+| `src/app/ofatorm/page.tsx` | `async` + `revalidate = 3600`; passa a lista |
+| `src/components/ciclo/home/Podcast.tsx` | Deixou de ser cliente: recebe a lista por prop e tem o estado de indisponível |
+| `src/app/ofatorm/interactive.tsx` | Recebe por prop; saíram o `useEffect`, o esqueleto e o `AnimatePresence` |
+| `scripts/fetch-youtube.js` | Mesmo filtro do servidor; lista vazia **não** substitui o snapshot |
+
+As três mudanças na camada protegida estão em `hashes-excecoes.txt`, com o
+motivo, e aparecem como `nota` a cada rodada da verificação.
+
+### 25.3 Episódios do snapshot
+
+Conferidos no canal `@ofatorm` (`UCRBJjfLbUd0tG5W2MBWFAwA`) em 17/10/2026.
+São os 8 mais recentes com mais de 5 minutos — o mesmo corte que o site
+aplica. **Nenhum título foi escrito por mim.** A descrição ficou vazia porque
+não consegui lê-la; `/ofatorm` só mostra descrição quando existe, então nada
+inventado aparece.
+
+| # | id | publicado |
+|---|---|---|
+| 1 | `ytBr2WZmJJo` | 2026-10-15 |
+| 2 | `6pwvTi-HexM` | 2026-10-14 |
+| 3 | `7iKdQ8Xheks` | 2026-10-13 |
+| 4 | `YjTTiJ2WPmk` | 2026-10-08 |
+| 5 | `4TIw-6oM4xY` | 2026-10-06 |
+| 6 | `tbvkX5i8jN0` | 2026-09-29 |
+| 7 | `D06oE_kezXM` | 2026-09-22 |
+| 8 | `wAEP7gpww1s` | 2026-09-01 |
+
+Os seis primeiros são exatamente os que o kit tinha capturado da produção em
+setembro (seção 6.4) — agora com o título real, não o reetiquetado.
+
+### 25.4 Frequência efetiva de atualização
+
+| Caminho | Janela | Comentário |
+|---|---|---|
+| Home | **15 min** | `revalidate = 900`, que já existia por causa de "Últimos artigos". O fetch usa o cache de dados do Next com 600s. Nenhuma regeneração nova |
+| `/ofatorm` | **1 hora** | `revalidate = 3600`. Antes a página era estática e a lista vinha do navegador a cada visita |
+| `/api/youtube/latest` | **10 min** | `s-maxage=600` no sucesso, `s-maxage=3600` no fallback. Igual a antes |
+| Build | a cada deploy | `scripts/fetch-youtube.js` regrava o snapshot |
+
+**Efeito em ISR Writes:** a home não muda. `/ofatorm` passa a regenerar:
+1 página × 24/dia ≈ **720 por mês**, cerca de 0,2% das 343K medidas. Em troca,
+some uma chamada a `/api/youtube/latest` por visita na home e em `/ofatorm`.
+
+### 25.5 Falhas tratadas
+
+| Situação | O que acontece |
+|---|---|
+| `YOUTUBE_API_KEY` ausente | Snapshot, com aviso no log |
+| API fora do ar, 5xx | Snapshot |
+| Cota estourada, 403 | Snapshot, com o status no log |
+| Canal ou playlist não encontrados | Snapshot |
+| Resposta só com Shorts | Snapshot — a lista vazia não vira tela vazia |
+| Snapshot vazio | Estado de indisponível com link para o canal |
+| Build sem rede | Snapshot anterior fica como está; o script nunca apaga |
+
+### 25.6 Evidência
+
+Teste novo: `docs/redesign/podcast.mjs`, passo 13 da verificação. Pede o HTML
+**cru**, sem executar JavaScript.
+
+```
+== 13. Podcast
+  ok    home traz os 6 episódios no HTML servido, sem JavaScript
+  ok    /ofatorm traz os 7 episódios no HTML servido, sem JavaScript
+  ok    home aponta para o episódio mais recente (ytBr2WZmJJo)
+  ok    título inventado fora do ar: "Líquido - Crescimento E-commerce"
+  ok    título inventado fora do ar: "KVRA - Estratégia de Crescimento"
+  ok    título inventado fora do ar: "DANKI - Resultados Full Funnel"
+  ok    título inventado fora do ar: "Mamô Brasil - E-commerce de Sucesso"
+  ok    seção #podcast sem vídeo de depoimento
+  ok    /api/youtube/latest devolve 8 itens com os 6 campos de sempre
+  ok    cache-control preservado: public, s-maxage=3600
+  ok    a rota não devolve vídeo de depoimento
+```
+
+O teste confere que os quatro vídeos de depoimento não aparecem **dentro da
+seção `#podcast`** — fora dela eles continuam, porque ali são depoimentos
+mesmo, que é o lugar certo.
+
+**Estado de indisponível, medido:** esvaziei o snapshot, subi o servidor e pedi
+as duas páginas. Resultado nas duas: o aviso presente, o link do canal
+presente, e **zero** cartões de episódio. Depois restaurei o snapshot. Essa
+checagem não entrou na suíte porque exige recompilar com outro conteúdo.
+
+### 25.7 O que continua em aberto
+
+- **`src/components/PodcastSection.tsx`** é a seção de podcast da home antiga.
+  **Nenhuma página o importa.** Ficou no lugar; vale decidir junto com o resto
+  do que sobrou do design anterior.
+- O snapshot só se atualiza em deploy. Entre um deploy e outro, se a API ficar
+  fora do ar por muito tempo, o fallback envelhece — continua real, mas
+  desatualizado.
+- **NÃO VALIDADO daqui:** se `YOUTUBE_API_KEY` responde em produção. Esta
+  sessão não alcança `googleapis.com`; a lista de episódios foi conferida por
+  outra via de leitura do canal, sem usar a chave do projeto.

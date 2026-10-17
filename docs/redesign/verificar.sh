@@ -221,6 +221,14 @@ else
 fi
 cd "$RAIZ"
 
+# ── 13. Podcast: episódio real no HTML servido ──────────────────────────────
+titulo "13. Podcast"
+if node "$DOCS/podcast.mjs" "$BASE" > "$TMP/podcast.log" 2>&1; then
+  ok "$(tail -1 "$TMP/podcast.log")"
+else
+  falha "problema no podcast:"; grep FALHA "$TMP/podcast.log" | head -10
+fi
+
 pkill -f "next-server" 2>/dev/null
 printf "\n%s\n" "────────────────────────────────"
 if [ "$falhas" -eq 0 ]; then echo "TUDO OK"; else echo "$falhas FALHA(S)"; fi

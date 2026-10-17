@@ -1,13 +1,11 @@
 'use client'
 
-import { useState, useEffect } from 'react'
 import Image from 'next/image'
-import { m, AnimatePresence } from 'framer-motion'
+import { m } from 'framer-motion'
 import MotionProvider from '@/components/MotionProvider'
 import { Play, MonitorPlay, Headphones, Camera, BookOpen, ExternalLink } from 'lucide-react'
 import Button from '@/components/ui/Button'
-import type { YouTubeVideo } from '@/lib/youtube'
-import { FALLBACK_VIDEOS } from '@/lib/youtube'
+import { CANAL_URL, type YouTubeVideo } from '@/lib/youtube'
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
@@ -180,22 +178,11 @@ function EpisodeCard({ video, index }: { video: YouTubeVideo; index: number }) {
 
 // ─── Main component ────────────────────────────────────────────────────────────
 
-export default function OFatorMInteractive() {
-  const [videos, setVideos] = useState<YouTubeVideo[]>(FALLBACK_VIDEOS)
-  const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    fetch('/api/youtube/latest')
-      .then((r) => r.json())
-      .then((data: YouTubeVideo[]) => {
-        if (Array.isArray(data) && data.length > 0) setVideos(data)
-      })
-      .catch(() => {})
-      .finally(() => setLoading(false))
-  }, [])
-
-  const featured = videos[0]
-  const grid = videos.slice(1, 7)
+export default function OFatorMInteractive({ episodios }: { episodios: YouTubeVideo[] }) {
+  // A lista chega pronta da página, buscada no servidor: o HTML já sai com
+  // episódio real, sem esqueleto e sem a troca depois da montagem.
+  const featured = episodios[0]
+  const grid = episodios.slice(1, 7)
 
   return (
     <MotionProvider>
@@ -351,44 +338,36 @@ export default function OFatorMInteractive() {
             </div>
           </m.div>
 
-          <AnimatePresence mode="wait">
-            {loading ? (
-              <m.div
-                key="skeleton"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                className="grid lg:grid-cols-[3fr_2fr] gap-6"
-              >
-                <div className="rounded-2xl bg-white/5 aspect-video animate-pulse" />
-                <div className="grid sm:grid-cols-2 lg:grid-cols-2 gap-4">
-                  {[...Array(4)].map((_, i) => (
-                    <div key={i} className="rounded-xl bg-white/5 aspect-video animate-pulse" />
-                  ))}
-                </div>
-              </m.div>
-            ) : (
-              <m.div
-                key="content"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="grid lg:grid-cols-[3fr_2fr] gap-6"
-              >
-                {/* Featured latest episode */}
-                {featured && <FeaturedEpisode video={featured} />}
+          {featured ? (
+            <div className="grid lg:grid-cols-[3fr_2fr] gap-6">
+              {/* Featured latest episode */}
+              <FeaturedEpisode video={featured} />
 
-                {/* Side grid */}
-                <div className="grid sm:grid-cols-2 gap-4 content-start">
-                  {grid.slice(0, 4).map((video, i) => (
-                    <EpisodeCard key={video.id} video={video} index={i} />
-                  ))}
-                </div>
-              </m.div>
-            )}
-          </AnimatePresence>
+              {/* Side grid */}
+              <div className="grid sm:grid-cols-2 gap-4 content-start">
+                {grid.slice(0, 4).map((video, i) => (
+                  <EpisodeCard key={video.id} video={video} index={i} />
+                ))}
+              </div>
+            </div>
+          ) : (
+            /* Nem API nem snapshot. Não inventa episódio: manda para o canal. */
+            <p className="text-sm text-[#A1A1AA]">
+              A lista de episódios está indisponível no momento.{' '}
+              <a
+                href={CANAL_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[#A100FF] underline underline-offset-4"
+              >
+                Veja os episódios no canal
+              </a>
+              .
+            </p>
+          )}
 
           {/* Second row of episodes */}
-          {!loading && grid.length > 4 && (
+          {grid.length > 4 && (
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
               {grid.slice(4).map((video, i) => (
                 <EpisodeCard key={video.id} video={video} index={i + 4} />

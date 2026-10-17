@@ -5,11 +5,12 @@ import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import Button from './ui/Button'
 import Section from './ui/Section'
-import type { YouTubeVideo } from '@/lib/youtube'
-import { FALLBACK_VIDEOS } from '@/lib/youtube'
+import { EPISODIOS_SNAPSHOT, type YouTubeVideo } from '@/lib/youtube'
 
+// Componente da versão antiga da home. Nenhuma página o importa hoje — fica
+// aqui só até a decisão de remover o que sobrou do design anterior.
 export default function PodcastSection() {
-  const [videos, setVideos] = useState<YouTubeVideo[]>(FALLBACK_VIDEOS)
+  const [videos, setVideos] = useState<YouTubeVideo[]>(EPISODIOS_SNAPSHOT)
 
   useEffect(() => {
     fetch('/api/youtube/latest')

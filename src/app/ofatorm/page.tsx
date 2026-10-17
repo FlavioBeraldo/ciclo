@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import OFatorMInteractive from './interactive'
+import { buscarEpisodios } from '@/lib/youtube-server'
 
 export const metadata: Metadata = {
   title: 'O Fator M | Podcast de Marketing e E-commerce | Ciclo E-commerce',
@@ -85,7 +86,14 @@ const podcastSchema = {
   ],
 }
 
-export default function OFatorMPage() {
+// Uma página só, de hora em hora: o suficiente para um canal que publica
+// alguns episódios por semana, e um acréscimo pequeno de regeneração (720
+// por mês) perto das 900s da home.
+export const revalidate = 3600
+
+export default async function OFatorMPage() {
+  const { lista: episodios } = await buscarEpisodios()
+
   return (
     <>
       <script
@@ -94,7 +102,7 @@ export default function OFatorMPage() {
       />
       <main>
         <Header />
-        <OFatorMInteractive />
+        <OFatorMInteractive episodios={episodios} />
         <Footer />
       </main>
     </>

@@ -256,3 +256,18 @@
 @media (max-width: 760px) {
   .ciclo2026 .proof-descricao { padding: 0 14px 16px; }
 }
+
+/* Fator M sem lista: a API não respondeu e não há snapshot gravado. A seção
+   não inventa episódio nem reaproveita depoimento — diz isso e manda para o
+   canal. */
+.ciclo2026 .episodes-vazio {
+  font-size: 14px;
+  line-height: 1.65;
+  color: #6b6964;
+  margin: 0;
+  padding: 28px 0;
+}
+.ciclo2026 .episodes-vazio a {
+  color: var(--accent);
+  border-bottom: 1px solid currentColor;
+}
