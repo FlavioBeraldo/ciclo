@@ -31,6 +31,7 @@ const ROTAS = [
   '/tiktok-shop',
   '/depoimentos',
   '/ofatorm',
+  '/ecomshift',
   '/mapa-do-site',
   '/politica-de-privacidade',
 ]

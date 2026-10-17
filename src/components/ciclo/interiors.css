@@ -283,3 +283,53 @@
    Sem uma proporção fixa, cada cartão começa o texto numa altura, e a linha
    dos nomes fica desalinhada. */
 .ciclo2026 .retrato-fixo { aspect-ratio: 3 / 4; max-height: none; height: auto; }
+
+/* O vídeo quando está tocando ocupa exatamente o espaço que a capa ocupava. */
+.ciclo2026 .video-embed {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 0;
+  border-radius: 14px;
+}
+
+/* Barra flutuante de checkout do /ecomshift */
+.ciclo2026 .cta-flutuante {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 16px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  box-shadow: 0 10px 40px #0000001f;
+}
+.ciclo2026 .cta-flutuante > div p { margin: 0; font-size: 12px; line-height: 1.4; }
+.ciclo2026 .cta-flutuante > div p:last-child { color: var(--muted); }
+.ciclo2026 .cta-flutuante .action-link { padding: 12px 18px; min-height: 42px; }
+@media (max-width: 520px) {
+  .ciclo2026 .cta-flutuante { left: 16px; right: 16px; bottom: 16px; justify-content: space-between; }
+  .ciclo2026 .cta-flutuante > div { display: none; }
+  .ciclo2026 .cta-flutuante .action-link { width: 100%; }
+}
+
+/* Marcas atendidas, como texto, na página do ECOM Shift */
+.ciclo2026 .marcas-lista {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 18px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* Preço riscado e preço atual, lado a lado, na abertura do ECOM Shift */
+.ciclo2026 .preco { display: flex; align-items: baseline; gap: 10px; font-size: 13px; }
+.ciclo2026 .preco s { color: #a39d94; }
+.ciclo2026 .preco strong { font-size: 18px; color: var(--ink); }
+.ciclo2026 .vantagens { gap: 10px 22px; font-size: 12px; color: var(--muted); }
+.ciclo2026 .vantagens .module-icon { height: 16px; width: 16px; }
+.ciclo2026 .vantagens > .module-flex { gap: 7px; }

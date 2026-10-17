@@ -229,6 +229,17 @@ else
   falha "problema no podcast:"; grep FALHA "$TMP/podcast.log" | head -10
 fi
 
+# ── 14. ECOM Shift: begin_checkout e player interno ─────────────────────────
+titulo "14. ECOM Shift"
+cd "$TMP"
+cp "$DOCS/ecomshift-medicao.mjs" .
+if node ecomshift-medicao.mjs "$BASE" > "$TMP/ecomshift.log" 2>&1; then
+  ok "$(tail -1 "$TMP/ecomshift.log")"
+else
+  falha "mensuração do /ecomshift mudou:"; grep FALHA "$TMP/ecomshift.log" | head -10
+fi
+cd "$RAIZ"
+
 pkill -f "next-server" 2>/dev/null
 printf "\n%s\n" "────────────────────────────────"
 if [ "$falhas" -eq 0 ]; then echo "TUDO OK"; else echo "$falhas FALHA(S)"; fi
