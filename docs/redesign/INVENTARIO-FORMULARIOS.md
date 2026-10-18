@@ -89,3 +89,158 @@ com risco zero, é por onde começar.
   por compartilharem componente.
 - **Não** enviar nada por minha conta.
 - **Não** mexer em mensuração até esta análise ser discutida.
+
+---
+
+# 5. Atualização 17/10, 22:03 — mais dois endpoints testados
+
+Dois envios reais a mais, pela revisão independente. **Eu não executei
+nenhum.**
+
+| Endpoint | Negócio | Quando | Funil / etapa | Estado |
+|---|---|---|---|---|
+| **`/link-bio`**, as 5 etapas | **3649** | nasceu no passo e-mail 21:58, concluído 22:03 | Site/Whats, Entrada | **arquivado** |
+| **`/aplicacao`** | **3650** | 22:03 | Site/Whats, Entrada | **arquivado** |
+
+Pessoa 3588 e organização 1849 nos dois, valor R$ 0, dados autorizados.
+**GA4 em tempo real recebeu `generate_lead` e `consultoria_ecom_shift_lead`.**
+
+**Cinco negócios de teste no total — 3646, 3647, 3648, 3649, 3650 — todos
+arquivados.**
+
+## 5.1 O achado: zero linhas em `conversion_events`
+
+`SELECT ... WHERE deal_id IN (3649, 3650)` voltou **vazio** às 22:04–06. E
+por `person_id = 3588` só apareceram as 7 linhas da Meta dos negócios
+3646–48.
+
+**Achei a causa, e ela não é falta de envio: é o log que não amarra o
+negócio.**
+
+As três rotas chamam `sendMetaEvent`, mas **só uma passa o `context`**:
+
+```ts
+// src/app/api/pipedrive/route.ts:121  — passa
+context: { dealId: result.dealId, personId: result.personId, uid },
+
+// src/app/api/link-bio/route.ts:171   — NÃO passa
+// src/app/api/aplicacao/route.ts:162  — NÃO passa
+```
+
+E em `meta-capi.ts`, o registro usa exatamente esses campos:
+
+```ts
+deal_id:   input.context?.dealId   ?? null,
+uid:       input.context?.uid      ?? null,
+person_id: input.context?.personId ?? null,
+```
+
+**Sem `context`, a linha é gravada com `deal_id`, `person_id` e `uid`
+todos NULL.** Por isso nenhuma consulta por negócio ou por pessoa acha os
+envios do `/link-bio` e do `/aplicacao` — **mesmo que eles tenham
+acontecido**.
+
+Isto explica os dois sintomas de uma vez: o `WHERE deal_id IN (...)` vazio e
+o `person_id = 3588` trazendo só os três negócios que vieram de
+`/api/pipedrive`.
+
+## 5.2 Herdado, não regressão
+
+Conferido contra a base de produção `7ae962b`:
+
+| Arquivo | Contra a base |
+|---|---|
+| `src/app/api/link-bio/route.ts` | **IDÊNTICO** |
+| `src/app/api/aplicacao/route.ts` | **IDÊNTICO** |
+| `src/lib/meta-capi.ts` | **IDÊNTICO** |
+| `src/lib/supabase-server.ts` | **IDÊNTICO** |
+
+**Nenhuma das quatro foi tocada pelo redesign.** O comportamento é o mesmo
+de antes da migração: é **dívida herdada de observabilidade**, não
+regressão.
+
+## 5.3 O que isso ainda NÃO responde
+
+**Não sei se os eventos foram enviados.** Só sei por que não aparecem na
+consulta feita.
+
+Duas possibilidades, e elas se distinguem com **uma consulta, sem alterar
+nada**:
+
+```sql
+select platform, event_name, event_id, action_source, status,
+       deal_id, person_id, uid, sent_at,
+       response->>'events_received' as recebidos
+from conversion_events
+where sent_at >= '2026-10-18T00:55:00Z'
+order by sent_at;
+```
+
+| Resultado | Leitura |
+|---|---|
+| Aparecem linhas Meta `Lead` com **`deal_id` NULL** nessa janela | **Foram enviados.** O problema é só rastreabilidade do log |
+| **Nenhuma** linha nova da Meta na janela | **Não foram enviados.** Aí sim há o que investigar no envio |
+
+Também dá para cruzar pelo `event_id`: os UUIDs dos dois envios são
+conhecidos pelo dataLayer de cada um.
+
+**A contagem da Meta não resolve sozinha.** O painel mostrou `Lead` 6, sendo
+3 de navegador e 3 de servidor. Os leads de teste foram **cinco**. Se os
+dois últimos tivessem chegado ao servidor, seriam 5 de servidor — mas a
+consolidação da Meta tem latência, e a leitura foi minutos depois. **Não dá
+para concluir dos dois lados: nem que faltaram, nem que chegaram.**
+
+## 5.4 Uma pergunta que precisa do GTM
+
+**Em qual gatilho está a tag "Meta Lead" do container?**
+
+Isso importa, e pode revelar uma assimetria:
+
+| Se a tag dispara em… | `/link-bio` (emite `generate_lead`) | `/aplicacao` (emite `consultoria_ecom_shift_lead`) |
+|---|---|---|
+| gatilho exclusivo de `generate_lead` | Meta Lead do **navegador** dispara | **NÃO dispara** → só o servidor envia → **sem par para deduplicar** |
+| gatilho "CE Conversões" (a regex) | dispara | **dispara** — e aí haveria par |
+
+A regex do "CE Conversões" inclui `consultoria_ecom_shift_lead`, mas inclui
+também `begin_checkout` e os `playbook_popup_*` — e disparar Meta `Lead`
+nesses seria errado. Então é pouco provável que a tag Meta use esse gatilho.
+
+**Se a tag Meta Lead for exclusiva de `generate_lead`, o `/aplicacao` nunca
+teve dedup possível** — o navegador não manda `Lead` para ele. Seria achado
+herdado, e explicaria por que `consultoria_ecom_shift_lead` nunca teve
+streaming.
+
+**Não tenho acesso ao container.** Esta é leitura de vocês, e é de dez
+segundos.
+
+## 5.5 Matriz atualizada
+
+| # | Ponto de captura | Envio real | `conversion_events` com `deal_id` | Dedup possível |
+|---|---|---|---|---|
+| 1 | `#contato` (home) | **sim** — 3646, 3648 | **sim** | **sim**, par comprovado em 3648 |
+| 2 | `/playbook` manual | **sim** — 3647 | **sim** | sim |
+| 3 | **`/link-bio`** | **sim** — 3649 | **não** — `context` não é passado (5.1) | a confirmar (5.4) |
+| 4 | **`/aplicacao`** | **sim** — 3650 | **não** — idem | **a confirmar, e é o caso suspeito** (5.4) |
+| 5 | Popup do playbook | não | — | — |
+| 6 | Busca do blog | n/a | — | — |
+| 7 | Playbook via LinkedIn | não — recurso desligado | — | — |
+
+**Os sete pontos de captura agora têm quatro com envio real.** Os três
+restantes seguem sem teste, e o popup continua sendo o único que fecharia
+sem custo nenhum.
+
+## 5.6 Recomendação
+
+**Não mexer em mensuração agora**, como combinado. Mas registro o conserto
+mínimo, para quando houver decisão:
+
+Passar `context` nas duas rotas, como `/api/pipedrive` já faz:
+
+```ts
+context: { dealId, personId, uid }
+```
+
+São **duas linhas**, em arquivos da camada protegida, e **só melhoram
+rastreabilidade** — não mudam evento, nem payload, nem destino. Mas mudam
+arquivos que hoje estão byte a byte iguais à base, então **não entram sem
+decisão explícita**.
