@@ -12,3 +12,5 @@ src/lib/solucoes.ts    Os dois encerrados saíram de Inteligência & Operação,
 src/lib/youtube.ts    Fallback do podcast deixou de ser depoimento de cliente reetiquetado e passou a ler o snapshot real de src/data/episodios-fator-m.ts
 src/lib/youtube-server.ts    Arquivo novo: busca dos episódios no servidor, com tempo limite de 3500ms por chamada, para o HTML sair com episódio real sem segurar a renderização
 src/app/api/youtube/latest/route.ts    Mesma resposta e mesmo cache; a regra de busca saiu daqui para lib/youtube-server e a rota passou a usá-la
+src/app/api/aplicacao/route.ts    Passa context (dealId, personId, uid) ao sendMetaEvent para o registro em conversion_events amarrar o envio ao negócio; evento, payload e dedup inalterados
+src/app/api/link-bio/route.ts    Idem: sem context o registro nascia com deal_id, person_id e uid NULL e o envio ficava invisível para auditoria

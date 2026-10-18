@@ -9,6 +9,12 @@ import { pathToFileURL } from 'node:url'
 const RAIZ = process.env.RAIZ_CICLO ?? '/home/user/ciclo'
 
 export async function resolve(especificador, contexto, proximo) {
+  // Só em teste, e só quando pedido: troca `next/server` por um substituto
+  // que neutraliza o `after()`. Ver docs/redesign/shim-next-server.mjs.
+  if (process.env.SHIM_NEXT_AFTER === '1' && especificador === 'next/server') {
+    return proximo(pathToFileURL(`${RAIZ}/docs/redesign/shim-next-server.mjs`).href, contexto)
+  }
+
   // O código do site usa o atalho `@/` que o Next resolve para `src/`.
   if (especificador.startsWith('@/')) {
     const base = pathToFileURL(`${RAIZ}/src/${especificador.slice(2)}`).href

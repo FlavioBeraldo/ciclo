@@ -299,6 +299,17 @@ else
 fi
 
 
+# ── 20. Contexto no registro de conversao ─────────────────────────────────
+titulo "20. Contexto em conversion_events"
+cd "$RAIZ"
+if RAIZ_CICLO="$RAIZ" SHIM_NEXT_AFTER=1 node --experimental-strip-types --no-warnings \
+     --import ./docs/redesign/resolve-ts.mjs \
+     "$DOCS/contexto-conversion-events.mjs" > "$TMP/ctx.log" 2>&1; then
+  ok "$(tail -1 "$TMP/ctx.log")"
+else
+  falha "o registro deixou de amarrar o negocio:"; grep FALHA "$TMP/ctx.log" | head -10
+fi
+
 pkill -f "next-server" 2>/dev/null
 printf "\n%s\n" "────────────────────────────────"
 if [ "$falhas" -eq 0 ]; then echo "TUDO OK"; else echo "$falhas FALHA(S)"; fi

@@ -188,6 +188,11 @@ export async function POST(req: NextRequest) {
           lead_campaign: attr.campaign,
           deal_id: dealId,
         },
+        // Sem isto a linha em conversion_events nasce com deal_id, person_id
+        // e uid NULL, e o envio deixa de ser rastreavel por negocio ou por
+        // pessoa — foi o que escondeu os envios desta rota na auditoria.
+        // Os tres ids ja existem no escopo; nada e inventado nem recalculado.
+        context: { dealId, personId: result.personId, uid },
       })
     }
 
