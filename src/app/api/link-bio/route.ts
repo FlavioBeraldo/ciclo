@@ -192,6 +192,11 @@ export async function POST(req: NextRequest) {
           pipeline: PIPELINE_LABEL,
           annual_revenue: merged.faturamento,
         },
+        // Mesmo motivo de /api/aplicacao: sem context, o registro em
+        // conversion_events fica com deal_id, person_id e uid NULL e nao da
+        // para auditar por negocio. Os ids vem da sessao assinada e do
+        // cookie, que ja estao no escopo.
+        context: { dealId: session.dealId, personId: session.personId, uid },
       })
     }
 

@@ -401,39 +401,67 @@ console.log('\nHashes do backend de mensuração e atribuição, contra a base d
   const { createHash } = await import('node:crypto')
   const { readFileSync } = await import('node:fs')
 
-  const BASE_PROD = '7ae962bad1758ef0c77e775af6a683e7e5a0e280'
-  const ARQUIVOS = [
-    'src/app/api/pipedrive/webhook/route.ts',
-    'src/app/api/pipedrive/enrich/route.ts',
-    'src/lib/ga4-lead-events.ts',
-    'src/lib/pipedrive-funnel-events.ts',
-    'src/lib/pipedrive-server.ts',
-    'src/lib/pipedrive-fields.ts',
-    'src/lib/meta-capi.ts',
-    'src/lib/attribution.ts',
-    'src/lib/conversions.ts',
-    'src/lib/supabase-server.ts',
-    'src/lib/webhook-auth.ts',
-  ]
+  const { ARQUIVOS, BASE_PROD, REVISADOS, avaliarHashes } = await import('./guarda-hashes.mjs')
+
+  const excecoes = readFileSync(`${RAIZ}/docs/redesign/hashes-excecoes.txt`, 'utf8')
+  const declarado = (arq) => excecoes.includes(arq)
   const sha = (b) => createHash('sha256').update(b).digest('hex')
 
-  let diferentes = 0
+  const atual = {}
+  const base = {}
   for (const arq of ARQUIVOS) {
-    const agora = sha(readFileSync(`${RAIZ}/${arq}`))
-    let antes = null
+    atual[arq] = sha(readFileSync(`${RAIZ}/${arq}`))
     try {
-      antes = sha(execFileSync('git', ['show', `${BASE_PROD}:${arq}`], { cwd: RAIZ, maxBuffer: 8e6 }))
+      base[arq] = sha(
+        execFileSync('git', ['show', `${BASE_PROD}:${arq}`], {
+          cwd: RAIZ,
+          maxBuffer: 8e6,
+          // arquivo novo faz o git reclamar na saída de erro; o catch resolve
+          stdio: ['ignore', 'pipe', 'ignore'],
+        })
+      )
     } catch {
-      // arquivo não existia na base
-    }
-    if (antes !== agora) {
-      diferentes++
-      console.log(`        ${arq}\n          base  ${antes ?? '(não existia)'}\n          agora ${agora}`)
+      base[arq] = null // não existia na base
     }
   }
+
+  const { intactos, autorizados, problemas } = avaliarHashes(atual, base, declarado)
+  for (const arq of autorizados) console.log(`        ${arq} — conteúdo revisado, autorização declarada`)
+  for (const p of problemas) console.log(`        ${p.arq} — ${p.motivo}\n          ${JSON.stringify(p)}`)
   conferir(
-    diferentes === 0,
-    `os ${ARQUIVOS.length} arquivos de mensuração e atribuição estão byte a byte iguais à base ${BASE_PROD.slice(0, 7)}`
+    problemas.length === 0,
+    `dos ${ARQUIVOS.length} arquivos de mensuração e atribuição, ${intactos.length} seguem byte a byte iguais à base ${BASE_PROD.slice(0, 7)} e ${autorizados.length} batem com o conteúdo revisado`
+  )
+
+  // Prova negativa: a trava não é decorativa. Nenhum arquivo é tocado — a
+  // decisão é pura, então dá para alimentá-la com hashes de mentira.
+  const comTudoCerto = { ...atual }
+  const semProblema = avaliarHashes(comTudoCerto, base, declarado)
+  conferir(semProblema.problemas.length === 0, 'controle: com os hashes de hoje, nada é reprovado')
+
+  const mudouNaoRevisado = { ...atual, 'src/lib/meta-capi.ts': 'f'.repeat(64) }
+  conferir(
+    avaliarHashes(mudouNaoRevisado, base, declarado).problemas.some(
+      (p) => p.arq === 'src/lib/meta-capi.ts' && p.motivo === 'mudou sem revisão registrada'
+    ),
+    'reprova arquivo que mudou sem revisão'
+  )
+
+  for (const arq of Object.keys(REVISADOS)) {
+    const mudouDepoisDaRevisao = { ...atual, [arq]: 'a'.repeat(64) }
+    conferir(
+      avaliarHashes(mudouDepoisDaRevisao, base, declarado).problemas.some(
+        (p) => p.arq === arq && p.motivo === 'conteúdo diferente do revisado'
+      ),
+      `reprova mudança futura em ${arq}, mesmo estando declarado`
+    )
+  }
+
+  conferir(
+    avaliarHashes(atual, base, () => false).problemas.some(
+      (p) => p.motivo === 'conteúdo revisado, mas sem declaração em hashes-excecoes.txt'
+    ),
+    'reprova conteúdo revisado que saiu de hashes-excecoes.txt'
   )
 }
 
