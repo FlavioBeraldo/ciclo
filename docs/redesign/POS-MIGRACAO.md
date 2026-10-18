@@ -591,7 +591,8 @@ E confirma a quarta: o funil 13 **já qualifica e converte**. `qualify_lead` e
 |---|---|
 | `conversion_events` | **10 registros**, somando os dois testes, **sem erros** |
 | GA4 Tempo Real, 21:35 | `qualify_lead` 2, `close_convert_lead` 2, `purchase` 2, `generate_lead` 1, `playbook_form_submit` 1 |
-| Negócios 3646 e 3647 | reabertos e **arquivados**; pessoa 3588 e organização 1849 **preservadas** |
+| Negócios 3646 e 3647 | reabertos e **arquivados** |
+| Pessoa 3588 e organização 1849 | **mantidas, não arquivadas nem excluídas** — mas **o telefone da pessoa foi substituído** pelo número autorizado do teste. **Não foram preservadas integralmente** |
 
 O `purchase` do negócio 3646 apareceu no Tempo Real após a repetição —
 fechando o item que estava em conferência.
@@ -629,30 +630,47 @@ Análise pedida. **Nada configurado.**
 | Onde vive | Property `402971489` | Container `GTM-5NNPNZ` |
 | Toca o container | **não** | sim — publica a v108 |
 | Toca a página / o playbook | não | não |
-| **Hit adicional do navegador** | **não** — a tradução é no processamento do GA4 | **sim**, mais uma requisição por envio |
+| **Hit adicional do navegador** | **SIM** — ver 14.6 | **sim** |
 | Risco de atingir o `generate_lead` do contato | **praticamente nulo** — a condição é igualdade de `event_name` | **existe**, se pendurarem no gatilho regex "CE Conversões" |
-| Visível no Tag Assistant | **não** | sim |
+| Visível no Tag Assistant | **não como tag.** Verificável no DebugView | sim |
 | Versionamento e histórico | fraco: sem versão, sem diff | **forte**: versão do container, com autor e data |
 | Pré-visualização antes de valer | não | **sim**, modo de visualização |
+| **Quando passa a valer** | **1 hora ou mais** | imediato ao publicar |
+| Serve para evento de servidor (Measurement Protocol) | **não** | não se aplica |
 | Reversão | excluir ou desativar | pausar a tag |
 | Retroativo | **não** | **não** |
 
-## 14.2 Recomendação: o evento derivado
+## 14.2 Recomendação revista — a minha primeira razão caiu
 
-Três razões concretas, nesta ordem:
+**Eu tinha dado três razões. A primeira era falsa, e era a mais forte.**
+Ver 14.6: o evento criado é calculado **no dispositivo, antes do envio**,
+então ele **também gera hit adicional**. A vantagem que eu alegava não
+existe.
 
-1. **Não gera hit extra.** A tag no GTM dispararia um segundo evento do
-   navegador a cada envio do playbook. O derivado não manda nada a mais.
-2. **Não toca o container.** O v107 está estável, auditado e com workspace
-   limpo. Toda mudança ali é superfície nova numa semana em que já mexemos em
-   muita coisa.
-3. **Elimina o risco que eu mesmo levantei.** A condição do derivado é
-   igualdade exata de `event_name = playbook_form_submit`. **Não há como
-   atingir o `generate_lead` do contato**, que era o erro mais provável do
-   caminho pelo GTM.
+Com isso a comparação fica equilibrada, e é honesto dizer isso em vez de
+manter a recomendação com a justificativa derrubada:
 
-Some-se que a casa **já usa esse mecanismo**: há 8 eventos derivados na
-property. Não é padrão novo.
+**A favor do evento derivado:**
+
+- **Não toca o container.** O v107 está estável, auditado, workspace limpo.
+- **Risco nulo de atingir o `generate_lead` do contato** — a condição é
+  igualdade exata de `event_name`. Era o erro mais provável pelo caminho do
+  GTM.
+- A casa **já usa o mecanismo**: há 8 eventos derivados na property.
+- O rascunho **já está preparado**, com "copiar parâmetros" marcado.
+
+**A favor da tag no GTM:**
+
+- **Visibilidade**: aparece no Tag Assistant, onde a equipe depura.
+- **Versionamento**: autor, data e diff na versão do container.
+- **Pré-visualização** antes de valer.
+- **Vale na hora**; o derivado leva **uma hora ou mais** para começar.
+
+**Minha posição:** seguir com o derivado continua defensável — não toca o
+container e elimina o risco de duplicar o lead do contato —, mas **não pelo
+motivo que eu dei antes**. Se a equipe valoriza mais depurar pelo Tag
+Assistant e ter histórico, a tag é a escolha melhor. **É decisão de vocês, e
+agora com a informação certa.**
 
 ## 14.3 Riscos do caminho recomendado, ditos sem maquiagem
 
@@ -683,17 +701,168 @@ property. Não é padrão novo.
 - Se escolherem o GTM em vez do derivado, o gatilho tem de ser **novo e
   exclusivo** de `playbook_form_submit` — nunca o "CE Conversões".
 
+## 14.6 Correção: o que a documentação oficial diz
+
+Eu afirmei que o evento derivado **"não gera hit extra"** e que a tradução
+acontece **"no processamento do GA4"**. **Estava errado, e era inferência
+minha, não leitura.** A documentação oficial do Google diz o contrário:
+
+| O que a doc diz | Consequência |
+|---|---|
+| As alterações são aplicadas **no dispositivo, antes de os dados saírem** — calculadas no cliente | **Há hit extra.** A vantagem que eu alegava não existe |
+| **Uma hora ou mais** até as mudanças valerem | Não é imediato, ao contrário de publicar a tag |
+| **Não retroagem** | Vale para os dois caminhos |
+| **Configurações servidor-a-servidor, como o Measurement Protocol, não podem usar** | Importante: `qualify_lead` e `close_convert_lead`, que saem do nosso webhook por MP, **nunca** seriam afetados por evento criado ou modificado |
+| Eventos **modificados** são processados **antes** dos criados | Hoje "Modificar evento" está vazia, então não há interação |
+| Limite: 50 modificados e 50 criados | Há 8 criados |
+
+A última linha da tabela acima é a que mais importa para o futuro: **se um
+dia quiserem traduzir algo do lado do servidor, o evento derivado não serve.**
+
+## 14.7 Google Ads e audiência — o que a inspeção mostrou
+
+| Item | Achado | Efeito de criar o derivado |
+|---|---|---|
+| 8 ações de conversão ativadas; `Lead` é origem Site e principal | — | — |
+| Única importação do GA4 ativa: **`pagina_obrigado`** | **Nenhuma importação de `generate_lead`** | **O Ads não é afetado diretamente** |
+| Audiência GA4 **"Leads (generate_lead) - 90 dias"** | existe | **Passará a incluir o playbook** |
+
+A audiência mudar **é o objetivo**, não efeito colateral. Mas vale uma
+verificação antes: **se essa audiência estiver em uso em alguma campanha de
+remarketing**, o público dela muda de composição a partir da criação. Não é
+problema; é coisa para saber antes, não depois.
+
+**`generate_lead` já era evento principal, e a interface impede desmarcar na
+criação.** Então o derivado nasce principal. Consequência direta: **a
+contagem de conversões do GA4 passa a incluir o playbook.** É coerente com o
+objetivo, e é mais uma razão para anotar a data da mudança — a série antes e
+depois não é comparável.
+
 ---
 
-# 15. O que continua pendente
+# 15. Meta: CAPI aceita, painel não mostra
+
+**Fato:** às 21:41, depois de recarregar, o dataset `780524645411912` do dia
+17 mostrava só `PageView` 87 e `ViewContent` 87, último recebimento há 41
+minutos, **nenhum `Lead`** — passados 33 minutos do envio. E a CAPI
+respondeu **200 com `events_received: 1`** nos dois testes.
+
+**Não vou declarar entrega nem dedup com base no 200.** `events_received: 1`
+diz que a Meta aceitou a requisição, não que o evento apareceu no dataset
+que estamos olhando.
+
+## 15.1 Qual pixel o servidor usa
+
+Do código (`meta-capi.ts:148`):
+
+```ts
+const pixelId = process.env.META_PIXEL_ID || DEFAULT_PIXEL_ID
+```
+
+E `meta-capi.ts:14`:
+
+```ts
+const DEFAULT_PIXEL_ID = '780524645411912' // Px da Ciclo
+```
+
+O endpoint é `https://graph.facebook.com/v21.0/${pixelId}/events`.
+
+**Ou seja: o servidor usa `META_PIXEL_ID` quando ela existe, e só cai no
+default quando não existe.** E a leitura do painel da Vercel de 19:38 listou
+**`META_PIXEL_ID` como existente em Production**.
+
+**Hipótese 1, a mais forte: `META_PIXEL_ID` em Production aponta para um
+dataset diferente de `780524645411912`.** Nesse caso a CAPI responde 200
+normalmente — porque o outro dataset existe e aceita —, e o evento nunca
+aparece no dataset que vocês abriram.
+
+## 15.2 Hipótese 2: `META_TEST_EVENT_CODE`
+
+`meta-capi.ts:164`:
+
+```ts
+if (process.env.META_TEST_EVENT_CODE) body.test_event_code = process.env.META_TEST_EVENT_CODE
+```
+
+Se essa variável existir em Production, **todo** evento da CAPI vai para a
+aba **"Testar eventos"** e **não entra na visão geral do dataset**. Isso
+explicaria exatamente o sintoma.
+
+A listagem de variáveis de 19:38 **não mencionou** `META_TEST_EVENT_CODE`,
+o que sugere que ela não existe — mas a listagem pode não ter sido
+exaustiva, e isso se confirma numa olhada.
+
+## 15.3 Hipótese 3: latência e agregação do painel
+
+A visão geral do Events Manager não é tempo real. A aba **"Testar eventos"**
+é. Trinta e três minutos **pode** ser pouco para a visão agregada, ainda que
+o `PageView` apareça — eventos de navegador e de servidor nem sempre
+consolidam no mesmo ritmo.
+
+**Esta hipótese só se descarta com tempo**, não com inspeção.
+
+## 15.4 Como provar, sem expor nenhum segredo
+
+O que é segredo e o que não é, para ficar claro:
+
+| Dado | É segredo? |
+|---|---|
+| **Pixel ID** | **Não.** Vai em claro na requisição do Pixel do navegador, visível em qualquer DevTools |
+| `fbtrace_id` da resposta | **Não.** É um id de rastreio de requisição |
+| `META_CAPI_TOKEN` | **SIM.** Nunca precisa aparecer em lugar nenhum desta investigação |
+| `META_TEST_EVENT_CODE` | Basta saber **se existe**; o valor não é necessário |
+
+Quatro checagens, todas leitura:
+
+1. **Comparar o pixel do navegador com o do servidor.** No DevTools, aba
+   Rede, filtrar por `facebook.com/tr` durante um `PageView`: o parâmetro
+   `id=` é o pixel que o navegador usa. Comparar com o valor de
+   `META_PIXEL_ID` no painel da Vercel. **Se forem diferentes, achou**:
+   navegador e servidor estão mandando para datasets distintos — e aí a dedup
+   seria impossível por construção.
+2. **Conferir se `META_TEST_EVENT_CODE` existe** em Production. Só existir ou
+   não; o valor não interessa.
+3. **Procurar o `Lead` nos outros datasets da conta**, na mesma janela. Se
+   aparecer em outro, confirma a hipótese 1.
+4. **Usar o `fbtrace_id`.** Ele está gravado em `conversion_events.response`
+   de cada envio. É o identificador que o suporte da Meta usa para rastrear
+   uma requisição específica. Consulta sem PII:
+
+```sql
+select event_name, event_id, sent_at,
+       response->>'status'          as http,
+       response->>'events_received' as recebidos,
+       response->>'fbtrace_id'      as fbtrace
+from conversion_events
+where platform = 'meta' and deal_id in (3646, 3647)
+order by sent_at;
+```
+
+## 15.5 O que isso significa para a dedup
+
+Enquanto o `Lead` não aparecer no dataset, **a deduplicação não pode ser
+avaliada** — nem aprovada, nem reprovada. Ela depende de a Meta ver os dois
+envios com o mesmo `event_id`, e hoje ela não está mostrando nem um.
+
+Se a hipótese 1 se confirmar, a conclusão muda de "pendente" para **"dedup
+impossível na configuração atual"**, porque navegador e servidor estariam em
+datasets diferentes. **Seria um achado sério** — e, se for o caso, herdado:
+`meta-capi.ts` está byte a byte igual à base.
+
+**Nada a alterar até saber qual das três é.**
+
+---
+
+# 16. O que continua pendente
 
 | Item | Estado |
 |---|---|
-| **Deduplicação na Meta** | **PENDENTE.** O Events Manager não consolidou. `event_id` igual dos dois lados é condição necessária, não suficiente |
+| **Deduplicação na Meta** | **PENDENTE, e agora com causa a investigar.** O `Lead` não aparece no dataset `780524645411912`. Três hipóteses em 15; até saber qual, a dedup não é avaliável |
+| **Evento derivado do playbook** | **preparado em rascunho, NÃO criado.** Recomendação revista em 14.2, depois de a doc derrubar a minha primeira razão |
+| Arquivamento dos registros de teste | negócios 3646 e 3647 arquivados. **A pessoa 3588 teve o telefone substituído** — não foi preservada integralmente |
 | **Os 8 campos de atribuição** | **NÃO COMPROVADO.** Campanha vazia, gclid não conferido (12.2) |
 | **Captura de UTM nova** | **NÃO TESTADA.** Primeiro toque preexistente no navegador |
 | **Hipótese do `ga_session_id`** | **PENDENTE.** Os cookies não foram lidos no console. **Não está confirmada**, e eu não a trato como confirmada |
 | Aviso da tag TikTok | achado herdado, de configuração (12.6) |
 | Cron | próxima execução natural |
 | Favicon | pendente; **arquivo ainda não recebido** nesta sessão |
-| Tag ou evento derivado de `generate_lead` para o playbook | **analisado** (14), **não configurado** |
