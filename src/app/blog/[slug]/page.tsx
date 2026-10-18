@@ -25,6 +25,7 @@ import { comSumario, type ItemDeSumario } from '@/components/ciclo/blog/sumario'
 import { playfair2026 } from '@/components/ciclo/fonts'
 import '@/components/ciclo/base.css'
 import '@/components/ciclo/interiors.css'
+import { Seta } from '@/components/ciclo/Seta'
 
 interface Props {
   params: Promise<{ slug: string }>
@@ -111,7 +112,7 @@ function Bloco({ secao, id }: { secao: BlogSection; id?: string }) {
           <h2>{secao.text}</h2>
           <Link className="button" href={secao.ctaHref ?? '/'}>
             <span>{secao.ctaLabel}</span>
-            <b aria-hidden="true">↗</b>
+            <b aria-hidden="true"><Seta /></b>
           </Link>
         </div>
       )
@@ -281,7 +282,7 @@ export default async function BlogPostPage({ params }: Props) {
                   <em>à prática.</em>
                 </p>
 
-                <Link href="/#contato">Converse com a Ciclo ↗</Link>
+                <Link href="/#contato">Converse com a Ciclo <Seta /></Link>
               </div>
             </aside>
 
@@ -300,7 +301,7 @@ export default async function BlogPostPage({ params }: Props) {
 
               <div className="article-end">
                 <span>Ciclo Insights</span>
-                <Link href="/blog">Ver todos os artigos ↗</Link>
+                <Link href="/blog">Ver todos os artigos <Seta /></Link>
               </div>
 
               <div className="article-cta">
@@ -312,7 +313,7 @@ export default async function BlogPostPage({ params }: Props) {
 
                 <Link className="button" href="/#contato">
                   <span>Fale com especialista</span>
-                  <b aria-hidden="true">↗</b>
+                  <b aria-hidden="true"><Seta /></b>
                 </Link>
               </div>
             </article>
@@ -338,7 +339,7 @@ export default async function BlogPostPage({ params }: Props) {
                       <Link className="article-card" href={`/blog/${r.slug}`} key={r.slug}>
                         <div className="article-card-top">
                           <span>{rCat}</span>
-                          <b>↗</b>
+                          <b><Seta /></b>
                         </div>
 
                         <h3>{r.title}</h3>

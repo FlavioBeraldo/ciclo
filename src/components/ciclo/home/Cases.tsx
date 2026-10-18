@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import { cases } from '@/lib/cases'
 import ValorDeCase from '../ValorDeCase'
+import { Seta } from '../Seta'
 
 // Cases da home. O conteúdo vem de @/lib/cases, a mesma fonte que a landing da
 // Consultoria E-com Shift lê — nenhum número é escrito aqui.
@@ -20,7 +21,7 @@ export default function Cases() {
           </div>
 
           <a className="textlink" href="#depoimentos">
-            Quem vive, recomenda <span>↗</span>
+            Quem vive, recomenda <Seta />
           </a>
         </div>
 
@@ -88,7 +89,7 @@ export default function Cases() {
         <div className="cases-bottom">
           <a className="button" href="#depoimentos">
             <span>Ver mais cases de sucesso</span>
-            <b aria-hidden="true">↗</b>
+            <b aria-hidden="true"><Seta /></b>
           </a>
         </div>
       </div>

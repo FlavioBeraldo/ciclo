@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { posts, getWpPosts, formatDate, resolveCategory } from '@/lib/blog'
 import { getKeystatiPosts } from '@/lib/keystatic-posts'
+import { Seta } from '../Seta'
 
 // Últimos artigos. A mesclagem é a mesma da listagem do blog — Keystatic,
 // curados e o acervo WordPress, ordenados por data —, para que todo artigo
@@ -53,7 +54,7 @@ export default async function Artigos() {
           </div>
 
           <Link className="textlink" href="/blog">
-            Ver todos <span>↗</span>
+            Ver todos <Seta />
           </Link>
         </div>
 
@@ -71,7 +72,7 @@ export default async function Artigos() {
 
               <div className="article-foot">
                 <span>{formatDate(p.date)}</span>
-                <b>↗</b>
+                <b className="seta-bola"><Seta /></b>
               </div>
             </Link>
           ))}

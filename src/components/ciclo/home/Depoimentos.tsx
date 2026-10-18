@@ -1,4 +1,5 @@
 import VideosDepoimento from '../VideosDepoimento'
+import { Seta } from '../Seta'
 
 // Cases em vídeo na home. A grade e o player vivem em VideosDepoimento, que
 // /depoimentos também usa — o comportamento de teclado e foco é um só.
@@ -25,7 +26,7 @@ export default function Depoimentos() {
           </div>
 
           <a className="textlink" href="/depoimentos">
-            Ver todos os depoimentos <span>↗</span>
+            Ver todos os depoimentos <Seta />
           </a>
         </div>
 

@@ -7,6 +7,7 @@ import VideosDepoimento from '@/components/ciclo/VideosDepoimento'
 import { playfair2026 } from '@/components/ciclo/fonts'
 import '@/components/ciclo/base.css'
 import '@/components/ciclo/interiors.css'
+import { Seta } from '@/components/ciclo/Seta'
 
 export const metadata: Metadata = {
   title: 'Depoimentos | Cases de Sucesso em E-commerce — Ciclo E-commerce',
@@ -95,7 +96,7 @@ export default function DepoimentosPage() {
                 <h2>Quer ser o próximo case de sucesso?</h2>
                 <Link className="button" href="/#contato">
                   <span>Fale com um especialista</span>
-                  <b aria-hidden="true">↗</b>
+                  <b aria-hidden="true"><Seta /></b>
                 </Link>
               </div>
             </div>

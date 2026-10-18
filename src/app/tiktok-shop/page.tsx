@@ -18,6 +18,7 @@ import { playfair2026 } from '@/components/ciclo/fonts'
 import '@/components/ciclo/base.css'
 import '@/components/ciclo/interiors.css'
 import '@/components/ciclo/tiktok.css'
+import { Seta } from '@/components/ciclo/Seta'
 
 export const metadata: Metadata = {
   title: 'Agência TikTok Shop | Gestão e Escala no Social Commerce — Ciclo E-commerce',
@@ -219,7 +220,7 @@ export default function TikTokShopPage() {
               <div className="inner-actions">
                 <a className="button" href="#contato">
                   <span>{HERO.ctaPrimario}</span>
-                  <b aria-hidden="true">↗</b>
+                  <b aria-hidden="true"><Seta /></b>
                 </a>
                 <a href="#ecossistema" className="textlink">
                   {HERO.ctaSecundario} <span>↓</span>
@@ -419,7 +420,7 @@ export default function TikTokShopPage() {
 
                 <a className="button" href="#contato">
                   <span>{CTA_FINAL.botao}</span>
-                  <b aria-hidden="true">↗</b>
+                  <b aria-hidden="true"><Seta /></b>
                 </a>
               </div>
             </div>

@@ -8,6 +8,7 @@ import PhoneField from '@/components/ui/PhoneField'
 import { getAttributionPayload } from '@/lib/attribution'
 import { track } from '@/lib/track'
 import { newEventId, pushConversion, splitName, waitForTags } from '@/lib/conversions'
+import { Seta } from './Seta'
 
 // Formulário de contato da home no design 2026.
 //
@@ -215,7 +216,7 @@ export default function Contato() {
 
           <div className="form-bottom">
             <button type="submit" disabled={isSubmitting}>
-              {isSubmitting ? 'Enviando...' : 'Fale com um especialista'} <span>↗</span>
+              {isSubmitting ? 'Enviando...' : 'Fale com um especialista'} <Seta />
             </button>
           </div>
         </form>

@@ -8,6 +8,7 @@ import Breadcrumb from '@/components/ciclo/interior/Breadcrumb'
 import { playfair2026 } from '@/components/ciclo/fonts'
 import '@/components/ciclo/base.css'
 import '@/components/ciclo/interiors.css'
+import { Seta } from '@/components/ciclo/Seta'
 
 // ISR: novos artigos (e agendados no Keystatic) entram na listagem sozinhos
 export const revalidate = 900
@@ -150,7 +151,7 @@ export default async function BlogPage({
                   <p>{destaqueResolvido.excerpt}</p>
 
                   <span className="read-more">
-                    Ler artigo <b>↗</b>
+                    Ler artigo <b><Seta /></b>
                   </span>
                 </div>
 
@@ -215,7 +216,7 @@ export default async function BlogPage({
                   <h3>Nenhum artigo encontrado.</h3>
                   <p>Experimente outro termo ou veja todas as categorias.</p>
                   <Link className="textlink" href="/blog">
-                    Ver todos os artigos <span>↗</span>
+                    Ver todos os artigos <Seta />
                   </Link>
                 </div>
               ) : (
@@ -224,7 +225,7 @@ export default async function BlogPage({
                     <Link className="article-card" href={`/blog/${post.slug}`} key={post.slug}>
                       <div className="article-card-top">
                         <span>{post.category}</span>
-                        <b>↗</b>
+                        <b><Seta /></b>
                       </div>
 
                       <h3>{post.title}</h3>

@@ -15,6 +15,7 @@ import { playfair2026 } from '@/components/ciclo/fonts'
 import '@/components/ciclo/base.css'
 import '@/components/ciclo/interiors.css'
 import '@/components/ciclo/explicacoes.css'
+import { Seta } from '@/components/ciclo/Seta'
 
 interface PageProps {
   params: Promise<{ slug: string }>
@@ -147,7 +148,7 @@ export default async function ServicoPage({ params }: PageProps) {
                   <div className="inner-actions">
                     <a className="button" href="#contato">
                       <span>Fale com especialista</span>
-                      <b aria-hidden="true">↗</b>
+                      <b aria-hidden="true"><Seta /></b>
                     </a>
                     <a href="#como-funciona" className="textlink">
                       Conheça o processo <span>↓</span>
@@ -155,7 +156,7 @@ export default async function ServicoPage({ params }: PageProps) {
                     {/* A chamada para a solução de origem já existia no hero
                         antes do redesign; volta aqui como link de texto. */}
                     <Link href={`/solucoes/${servico.parentSlug}`} className="textlink">
-                      Ver solução completa <span>↗</span>
+                      Ver solução completa <Seta />
                     </Link>
                   </div>
                 </div>
@@ -280,7 +281,7 @@ export default async function ServicoPage({ params }: PageProps) {
               <ul className="deliverable-list">
                 {servico.deliverables.map((item) => (
                   <li key={item}>
-                    <span aria-hidden="true">↗</span>
+                    <span aria-hidden="true"><Seta /></span>
                     {item}
                   </li>
                 ))}

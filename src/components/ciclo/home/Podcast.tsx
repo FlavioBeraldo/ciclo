@@ -1,6 +1,7 @@
 import MiniaturaYouTube from '../MiniaturaYouTube'
 import Link from 'next/link'
 import { CANAL_URL, type YouTubeVideo } from '@/lib/youtube'
+import { Seta } from '../Seta'
 
 // O Fator M na home.
 //
@@ -39,7 +40,7 @@ export default function Podcast({ episodios }: { episodios: YouTubeVideo[] }) {
               rel="noopener noreferrer"
             >
               <span>Descubra o Fator M</span>
-              <b aria-hidden="true">↗</b>
+              <b aria-hidden="true"><Seta /></b>
             </a>
           </div>
         </div>
@@ -66,7 +67,7 @@ export default function Podcast({ episodios }: { episodios: YouTubeVideo[] }) {
                     ▶
                   </span>
                 </div>
-                <small>O FATOR M · ASSISTA AO EPISÓDIO ↗</small>
+                <small>O FATOR M · ASSISTA AO EPISÓDIO <Seta /></small>
                 <h3>{v.title}</h3>
               </a>
             ))}
@@ -75,7 +76,7 @@ export default function Podcast({ episodios }: { episodios: YouTubeVideo[] }) {
           <p className="episodes-vazio">
             A lista de episódios está indisponível no momento.{' '}
             <a href={CANAL_URL} target="_blank" rel="noopener noreferrer">
-              Veja os episódios no canal ↗
+              Veja os episódios no canal <Seta />
             </a>
           </p>
         )}
@@ -88,7 +89,7 @@ export default function Podcast({ episodios }: { episodios: YouTubeVideo[] }) {
 
           <Link className="button" href="/ecomshift">
             <span>Conheça o treinamento</span>
-            <b aria-hidden="true">↗</b>
+            <b aria-hidden="true"><Seta /></b>
           </Link>
         </div>
       </div>

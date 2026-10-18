@@ -10,6 +10,7 @@ import { buscarEpisodios } from '@/lib/youtube-server'
 import { CANAL_URL } from '@/lib/youtube'
 import '@/components/ciclo/base.css'
 import '@/components/ciclo/interiors.css'
+import { Seta } from '@/components/ciclo/Seta'
 
 export const metadata: Metadata = {
   title: 'O Fator M | Podcast de Marketing e E-commerce | Ciclo E-commerce',
@@ -378,7 +379,7 @@ export default async function OFatorMPage() {
                       </div>
                       <div className="video-caption">
                         <h3>{v.title}</h3>
-                        <span>Assistir ↗</span>
+                        <span>Assistir <Seta /></span>
                       </div>
                     </a>
                   ))}
@@ -387,7 +388,7 @@ export default async function OFatorMPage() {
                 <p className="episodes-vazio">
                   A lista de episódios está indisponível no momento.{' '}
                   <a href={CANAL_URL} target="_blank" rel="noopener noreferrer">
-                    Veja os episódios no canal ↗
+                    Veja os episódios no canal <Seta />
                   </a>
                 </p>
               )}
@@ -398,7 +399,7 @@ export default async function OFatorMPage() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Ver todos os episódios ↗
+                Ver todos os episódios <Seta />
               </a>
             </div>
           </section>
