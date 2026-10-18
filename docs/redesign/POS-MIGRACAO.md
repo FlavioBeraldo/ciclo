@@ -347,3 +347,189 @@ testada.
 Se a inspeção de domínio achar regressão: **crítica → rollback**; não
 crítica → conserto restaurando o comportamento da base, que o passo 19
 descreve ramo por ramo.
+
+---
+
+# 12. Teste real ponta a ponta — 17/10, 21:08 BRT
+
+Executado pela revisão independente, no domínio publicado. **Eu não executei
+nada**: o que segue é o registro das evidências e a análise de código que me
+foi pedida.
+
+**Sem PII.** Nenhum nome, e-mail ou telefone aparece aqui. Os registros são
+identificados por id e pelo marcador de QA.
+
+## 12.1 O registro de teste
+
+| Item | Valor |
+|---|---|
+| Negócio | **3646**, exclusivo do teste |
+| Marcador | `QA-MIGRACAO-df452e3-20261017` na nota e no objetivo |
+| Pessoa / organização | **3588 / 1849, preexistentes e preservadas** — nenhuma duplicata criada |
+| Valor | 0 |
+| `event_id` do lead | `e0475ad3-3ca3-47a9-9598-63e1dab3307b` |
+
+O valor 0 era esperado: o POST de criação não envia `value` (ver roteiro,
+seção 3.3). Por isso `purchase` e `Purchase` saíram com valor 0.
+
+## 12.2 O que foi medido, passo a passo
+
+| Momento (UTC) | Camada | Resultado |
+|---|---|---|
+| 00:08 | GTM, ambiente Ativa | `generate_lead`, GA4 Conversões, Ads Lead e Meta Lead — **concluídas uma vez cada** |
+| 00:08:09.704Z | Meta CAPI | `Lead` **sent**, HTTP 200, `events_received: 1` |
+| 00:09:33Z | GA4 (servidor) | `qualify_lead` **sent**, 204 |
+| 00:09:33Z | Meta CAPI | `QualifiedLead` 200, received 1 |
+| 00:10:15Z | GA4 (servidor) | `close_convert_lead` **sent**, 204 |
+| 00:10:15Z | Meta CAPI | `Purchase` 200, received 1 |
+| — | GA4 Tempo Real | `generate_lead` 1, `qualify_lead` 1, `close_convert_lead` 1, `purchase` 1 |
+
+**Atribuição no negócio:** `client_id` e `session_id` preenchidos, e o
+payload do GA4 trouxe **`client_id_source: deal`** — ou seja, usou o GA
+Client ID capturado no formulário, não o fallback. Era exatamente o que
+precisava acontecer (roteiro, seção 6).
+
+A jornada de conteúdo foi anotada automaticamente: 389 páginas.
+
+## 12.3 Idempotência: comprovada
+
+A revisão **repetiu de propósito** o ciclo inteiro — voltou para Entrada,
+qualificou de novo e ganhou de novo.
+
+**Resultado: `conversion_events` seguiu com exatamente 5 linhas, uma por
+evento, com os horários originais.**
+
+Isto é a prova direta da proteção contra reenvio, e é o único item do teste
+que fecha sozinho, sem depender de painel externo.
+
+## 12.4 Limitações — o que este teste NÃO provou
+
+| Item | Estado | Por quê |
+|---|---|---|
+| **Deduplicação na Meta** | **NÃO APROVADA** | O Events Manager ainda não consolidou o `Lead` novo (a interface avisa até 30 min). **`event_id` igual dos dois lados é condição necessária, não suficiente** — quem declara o par casado é a Meta, não nós |
+| **Captura de UTM de campanha** | **NÃO TESTADA** | A atribuição real foi preservada: `direct` / `none`, campanha vazia, landing `/ofatorm`, `first_visit` 14/09. O navegador já tinha cookie de primeiro toque, então a UTM de QA do roteiro **não se aplicou**. O que ficou provado é que o **primeiro toque de 90 dias é respeitado** — o oposto de testar captura nova |
+| `purchase` no GA4 | em conferência | — |
+| Limpeza / restauração | em andamento | — |
+
+A segunda linha merece atenção: ela não é falha. O primeiro toque ter
+resistido é o comportamento correto. Mas significa que **a gravação de uma
+campanha nova continua sem teste**, e isso precisa de um navegador sem
+`ciclo_attr` para ser verificado.
+
+## 12.5 Achado A — `ga_session_id` de setembro
+
+**O que foi observado:** o negócio recebeu `ga_session_id = 1789481472`,
+embora o envio tenha sido agora.
+
+**O que esse número é.** Decodificado como epoch em segundos:
+
+```
+1789481472 → 2026-09-15T14:11:12 UTC
+```
+
+Setembro, de fato. E bate com o `first_visit` de 14/09.
+
+**O código NÃO congela o session id por lógica de primeiro toque.** Verificado
+em `attribution.ts:178-192`:
+
+```ts
+export function getAttributionPayload(): AttributionPayload {
+  collectAttribution()
+  const stored = readStored() ?? {}
+  return {
+    ...stored,
+    ga_client_id: readGaClientId(),
+    ga_session_id: readGaSessionId(),   // ← lido do cookie AGORA, no submit
+    ...
+  }
+}
+```
+
+O valor é lido **no momento do envio**, direto do cookie, e vem **depois** de
+`...stored` — então sobrescreveria qualquer valor guardado. A hipótese de
+congelamento por first-touch **não se sustenta no código**.
+
+**A hipótese que sobra está na leitura do cookie** (`attribution.ts:156`):
+
+```ts
+const entry = document.cookie.split('; ').find((c) => c.startsWith('_ga_'))
+```
+
+Isto pega **o primeiro cookie que começa com `_ga_`, qualquer um** — não
+filtra pelo measurement id da property ativa, que seria `_ga_EY1FLE5C0J`. Num
+navegador antigo, com cookie de outra property ou de outro container, o
+`find` pode devolver o errado. E um cookie de property abandonada fica parado
+no session id da última sessão dela — o que explicaria setembro.
+
+**Isto é hipótese, não conclusão.** Não tenho acesso ao navegador e não posso
+ver os cookies. **Como confirmar, em dez segundos e sem alterar nada**, no
+console do mesmo navegador:
+
+```js
+document.cookie.split('; ').filter(c => c.startsWith('_ga'))
+```
+
+| Resultado | Leitura |
+|---|---|
+| Mais de um `_ga_…`, e o primeiro não é `_ga_EY1FLE5C0J` | **Hipótese confirmada.** É a leitura do cookie, não o first-touch |
+| Só um `_ga_EY1FLE5C0J`, com session id de setembro | Outra causa. O GA4 não teria iniciado sessão nova, o que seria estranho — e aí vale investigar do lado do GA4 |
+
+**Se confirmado, é defeito herdado, não do redesign:** `attribution.ts` está
+byte a byte igual à base `7ae962b` — conferido pelo passo 19 da suíte, que
+lista esse arquivo entre os 11 idênticos.
+
+**Impacto real, para dimensionar antes de decidir qualquer coisa:** o
+`session_id` só é usado como parâmetro dos eventos de servidor do GA4, e só
+quando há `client_id` real. Um `session_id` de outra sessão faz o GA4 não
+casar o evento com a sessão certa — atrapalha relatório de sessão, **não**
+derruba o evento nem a atribuição de canal, que vem dos campos de UTM.
+
+**Nada alterado.** Correção possível, se vocês quiserem depois: preferir o
+cookie `_ga_` que corresponde ao measurement id em uso, caindo no primeiro só
+como último recurso. É uma linha, mas é na camada protegida e **não entra sem
+decisão explícita**.
+
+## 12.6 Achado B — aviso da tag do TikTok
+
+**O que foi observado:** no `generate_lead`, a tag do TikTok avisa
+`[WARN] data.event generate_lead is not a valid event`, apesar de concluir.
+
+**É herdado, e é de configuração, não de código.** Duas evidências:
+
+1. **Não existe código de TikTok no repositório.** Busquei em todo o `src/`:
+   as únicas ocorrências são conteúdo de página, ícone de marca e nomes de
+   rota (`/tiktok-shop`, `/servicos/tiktok-ads`). Nenhuma tag, nenhum pixel,
+   nenhum envio.
+2. As tags **TikTok Setup** e **TikTok Pixel Event** já constavam como ativas
+   na leitura do container feita **antes** da migração.
+
+**O que o aviso quer dizer.** O TikTok só reconhece um conjunto fechado de
+nomes de evento — `SubmitForm`, `Contact`, `CompleteRegistration`,
+`PlaceAnOrder` e afins. A tag está repassando o nome do evento do dataLayer
+(`generate_lead`) como se fosse nome de evento do TikTok, e ele não está na
+lista. A tag "conclui" no GTM porque disparou; o TikTok é quem não reconhece.
+
+**Impacto:** o lead provavelmente não é contado como conversão nomeada no
+TikTok. **Não afeta** GA4, Meta, Ads nem Pipedrive — são tags independentes.
+
+**O redesign não causou nem agravou isso**, e corrigir é mudança de
+configuração no container: mapear `generate_lead` para um nome válido do
+TikTok. **Fora do meu alcance e fora deste escopo**; registro para a decisão
+de vocês.
+
+## 12.7 Quadro do teste
+
+| Item | Estado |
+|---|---|
+| Negócio criado no funil e etapa certos, sem duplicar pessoa | **aprovado** |
+| 8 campos de atribuição preenchidos, `client_id_source: deal` | **aprovado** |
+| `generate_lead` no navegador: GA4, Ads e Meta, uma vez cada | **aprovado** |
+| Meta CAPI `Lead` aceito (200, received 1) | **aprovado** como *aceitação*; **não** como dedup |
+| `qualify_lead` e `QualifiedLead` na mudança de etapa | **aprovado** |
+| `close_convert_lead` e `Purchase` no ganho | **aprovado** |
+| **Idempotência: 5 linhas, uma por evento, horários originais** | **aprovado** |
+| **Deduplicação na Meta** | **PENDENTE** — Events Manager não consolidou |
+| **Captura de UTM nova** | **NÃO TESTADA** — primeiro toque preexistente |
+| `purchase` no GA4 e limpeza | **em conferência** |
+| `ga_session_id` de setembro | **achado, hipótese em 12.5**, provavelmente herdado |
+| Aviso da tag TikTok | **achado, herdado**, de configuração (12.6) |
