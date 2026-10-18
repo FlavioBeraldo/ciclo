@@ -376,7 +376,7 @@ seção 3.3). Por isso `purchase` e `Purchase` saíram com valor 0.
 
 | Momento (UTC) | Camada | Resultado |
 |---|---|---|
-| 00:08 | GTM, ambiente Ativa | `generate_lead`, GA4 Conversões, Ads Lead e Meta Lead — **concluídas uma vez cada** |
+| 00:08 | GTM, ambiente Ativa | evento `generate_lead` no dataLayer; tags GA4 Conversões, Ads Lead e **Meta Lead** — **concluídas uma vez cada**. *Na Meta o evento se chama `Lead`, não `generate_lead`* |
 | 00:08:09.704Z | Meta CAPI | `Lead` **sent**, HTTP 200, `events_received: 1` |
 | 00:09:33Z | GA4 (servidor) | `qualify_lead` **sent**, 204 |
 | 00:09:33Z | Meta CAPI | `QualifiedLead` 200, received 1 |
@@ -384,10 +384,17 @@ seção 3.3). Por isso `purchase` e `Purchase` saíram com valor 0.
 | 00:10:15Z | Meta CAPI | `Purchase` 200, received 1 |
 | — | GA4 Tempo Real | `generate_lead` 1, `qualify_lead` 1, `close_convert_lead` 1, `purchase` 1 |
 
-**Atribuição no negócio:** `client_id` e `session_id` preenchidos, e o
-payload do GA4 trouxe **`client_id_source: deal`** — ou seja, usou o GA
-Client ID capturado no formulário, não o fallback. Era exatamente o que
-precisava acontecer (roteiro, seção 6).
+**Atribuição no negócio — com a ressalva que eu não tinha feito.**
+`client_id` e `session_id` vieram preenchidos, e o payload do GA4 trouxe
+**`client_id_source: deal`**: usou o GA Client ID capturado no formulário, e
+não o fallback. Isso é o que precisava acontecer (roteiro, seção 6).
+
+> **Correção minha.** Eu escrevi "8 campos de atribuição preenchidos". **Não
+> foi comprovado.** A campanha estava **vazia** — coerente com a origem
+> `direct` / `none` — e o **gclid não foi conferido**. O que se comprovou é
+> que `ga_client_id` e `ga_session_id` chegaram ao negócio e foram usados.
+> **O preenchimento dos oito campos continua sem verificação**, e só um lead
+> vindo de campanha com `gclid` fecharia isso.
 
 A jornada de conteúdo foi anotada automaticamente: 389 páginas.
 
@@ -461,8 +468,10 @@ navegador antigo, com cookie de outra property ou de outro container, o
 `find` pode devolver o errado. E um cookie de property abandonada fica parado
 no session id da última sessão dela — o que explicaria setembro.
 
-**Isto é hipótese, não conclusão.** Não tenho acesso ao navegador e não posso
-ver os cookies. **Como confirmar, em dez segundos e sem alterar nada**, no
+**Isto é hipótese, não conclusão, e continua assim.** Não tenho acesso ao
+navegador e não posso ver os cookies. A leitura do console **não foi feita**
+até agora, então **nada aqui está confirmado** — nem a causa, nem que seja
+herdado. **Como confirmar, em dez segundos e sem alterar nada**, no
 console do mesmo navegador:
 
 ```js
@@ -522,7 +531,8 @@ de vocês.
 | Item | Estado |
 |---|---|
 | Negócio criado no funil e etapa certos, sem duplicar pessoa | **aprovado** |
-| 8 campos de atribuição preenchidos, `client_id_source: deal` | **aprovado** |
+| `ga_client_id` e `ga_session_id` no negócio, `client_id_source: deal` | **aprovado** |
+| **Os 8 campos de atribuição preenchidos** | **NÃO COMPROVADO** — campanha vazia, gclid não conferido |
 | `generate_lead` no navegador: GA4, Ads e Meta, uma vez cada | **aprovado** |
 | Meta CAPI `Lead` aceito (200, received 1) | **aprovado** como *aceitação*; **não** como dedup |
 | `qualify_lead` e `QualifiedLead` na mudança de etapa | **aprovado** |
@@ -533,3 +543,157 @@ de vocês.
 | `purchase` no GA4 e limpeza | **em conferência** |
 | `ga_session_id` de setembro | **achado, hipótese em 12.5**, provavelmente herdado |
 | Aviso da tag TikTok | **achado, herdado**, de configuração (12.6) |
+
+---
+
+# 13. Segundo teste real — playbook, 17/10 21:17 BRT
+
+Executado pela revisão. **A página do playbook não foi alterada.**
+
+## 13.1 O registro
+
+| Item | Valor |
+|---|---|
+| Negócio | **3647**, exclusivo do teste |
+| Funil | **Playbooks (13)** — confirma `findStageId('Playbook')` |
+| `event_id` | `eea98416-7e40-4a15-8a1b-97bdd713bf99` |
+| Valor | 0 |
+| Estado final | reaberto e **arquivado** |
+
+## 13.2 O que foi medido
+
+| Momento (UTC) | Camada | Resultado |
+|---|---|---|
+| 00:17:08.035Z | Meta CAPI | **`Lead`** 200, `events_received: 1` |
+| 00:21:20.110Z | GA4 (servidor) | `qualify_lead` **sent**, 204 |
+| 00:21:21.535Z | Meta CAPI | **`Opportunity`** 200, received 1 |
+| 00:33:38.167Z | GA4 (servidor) | `close_convert_lead` **sent**, 204 |
+| 00:33:39.302Z | Meta CAPI | **`Purchase`** 200, received 1 |
+
+Tag Assistant: `playbook_form_submit` disparou, **GA4 Conversões enviou com o
+mesmo nome**, e a Meta recebeu **`Lead` com o mesmo UUID**. **Nenhum
+`generate_lead`** em lugar nenhum.
+
+**Isto confirma, com evidência de produção, as três afirmações da seção 11
+do roteiro:**
+
+1. O playbook emite só `playbook_form_submit`.
+2. No GA4 chega o evento customizado, não `generate_lead`.
+3. **Na Meta o playbook já conta como `Lead`** — a lacuna é só do GA4.
+
+E confirma a quarta: o funil 13 **já qualifica e converte**. `qualify_lead` e
+`close_convert_lead` saíram normalmente, e o evento de funil da Meta foi
+`Opportunity`, que é o mapeamento da etapa "SQL / Oportunidade".
+
+## 13.3 Estado consolidado dos dois testes
+
+| | |
+|---|---|
+| `conversion_events` | **10 registros**, somando os dois testes, **sem erros** |
+| GA4 Tempo Real, 21:35 | `qualify_lead` 2, `close_convert_lead` 2, `purchase` 2, `generate_lead` 1, `playbook_form_submit` 1 |
+| Negócios 3646 e 3647 | reabertos e **arquivados**; pessoa 3588 e organização 1849 **preservadas** |
+
+O `purchase` do negócio 3646 apareceu no Tempo Real após a repetição —
+fechando o item que estava em conferência.
+
+A contagem bate com o esperado: dois leads, dois ciclos de qualificação e
+ganho, e **um** `generate_lead` (só o do contato), porque o playbook não
+emite esse evento.
+
+## 13.4 A lacuna, agora confirmada no painel
+
+A revisão verificou na interface do GA4 e do GTM:
+
+| Onde | O que encontrou |
+|---|---|
+| GA4, **Criar evento** | 8 eventos derivados existentes, **nenhum** produz `generate_lead` |
+| GA4, **Modificar evento** | **vazia** |
+| GTM v107, workspace com 0 alterações | única tag GA4 Conversões ativa usa `{{Event}}`, e a regex inclui o playbook; as demais tags GA4 de playbook estão **pausadas** |
+
+**Portanto a tradução não existe em lugar nenhum** — nem no código, nem no
+GTM, nem no GA4. Isto fecha a checagem que eu tinha pedido em 11.2 do
+roteiro, e **confirma a lacuna**: o playbook não alimenta "Novos leads".
+
+Registro que isto **não era verificável por mim** e dependia desta leitura.
+
+---
+
+# 14. Evento derivado no GA4 × tag dedicada no GTM
+
+Análise pedida. **Nada configurado.**
+
+## 14.1 Comparação
+
+| Critério | **Evento derivado no GA4** | **Tag GA4 dedicada no GTM** |
+|---|---|---|
+| Onde vive | Property `402971489` | Container `GTM-5NNPNZ` |
+| Toca o container | **não** | sim — publica a v108 |
+| Toca a página / o playbook | não | não |
+| **Hit adicional do navegador** | **não** — a tradução é no processamento do GA4 | **sim**, mais uma requisição por envio |
+| Risco de atingir o `generate_lead` do contato | **praticamente nulo** — a condição é igualdade de `event_name` | **existe**, se pendurarem no gatilho regex "CE Conversões" |
+| Visível no Tag Assistant | **não** | sim |
+| Versionamento e histórico | fraco: sem versão, sem diff | **forte**: versão do container, com autor e data |
+| Pré-visualização antes de valer | não | **sim**, modo de visualização |
+| Reversão | excluir ou desativar | pausar a tag |
+| Retroativo | **não** | **não** |
+
+## 14.2 Recomendação: o evento derivado
+
+Três razões concretas, nesta ordem:
+
+1. **Não gera hit extra.** A tag no GTM dispararia um segundo evento do
+   navegador a cada envio do playbook. O derivado não manda nada a mais.
+2. **Não toca o container.** O v107 está estável, auditado e com workspace
+   limpo. Toda mudança ali é superfície nova numa semana em que já mexemos em
+   muita coisa.
+3. **Elimina o risco que eu mesmo levantei.** A condição do derivado é
+   igualdade exata de `event_name = playbook_form_submit`. **Não há como
+   atingir o `generate_lead` do contato**, que era o erro mais provável do
+   caminho pelo GTM.
+
+Some-se que a casa **já usa esse mecanismo**: há 8 eventos derivados na
+property. Não é padrão novo.
+
+## 14.3 Riscos do caminho recomendado, ditos sem maquiagem
+
+| Risco | Tamanho | Mitigação |
+|---|---|---|
+| **Invisível no Tag Assistant** | real | Quem depurar pelo Tag Assistant não vai ver o `generate_lead` do playbook e pode concluir que não existe. **Documentar onde a tradução vive** |
+| **Sem versionamento** | real | O GA4 não guarda histórico de quem criou nem quando. Anotar data, autor e motivo no documento |
+| **Duplicação futura** | sério se acontecer | Se alguém criar depois a tag no GTM sem saber do derivado, passam a sair **dois** `generate_lead`. É o mesmo risco pelo caminho inverso. **A documentação é a única barreira** |
+| **"Novos leads" muda de definição** | certo, não é risco | Passa a somar contato **e** playbook. Anotar a data da mudança: a série antes e depois **não é comparável** |
+| Conta como evento adicional | pequeno | O GA4 registra os dois. Afeta contagem total de eventos e cardinalidade, não as métricas de lead |
+| Limite de 50 eventos criados | nenhum hoje | Há 8 |
+| Ordem de processamento | nenhum hoje | Eventos criados são processados depois das modificações, e **Modificar evento está vazia** |
+
+## 14.4 Antes de criar, três verificações
+
+1. **Marcar "copiar parâmetros do evento de origem"**, para `event_id`,
+   `form`, `lead_source`, `lead_medium` e `lead_campaign` irem junto. Sem
+   isso o `generate_lead` nasce sem contexto.
+2. Conferir se **"Novos leads" alimenta alguma audiência ou importação para o
+   Google Ads**. Se alimentar, o volume muda e isso precisa ser esperado, não
+   descoberto depois.
+3. **Não** marcar o derivado como evento principal antes de decidir o item 2.
+
+## 14.5 Condições que continuam valendo
+
+- Só **depois** de encerrada a validação de dados.
+- **Eu não configuro.** Análise e recomendação; a execução é de vocês.
+- Se escolherem o GTM em vez do derivado, o gatilho tem de ser **novo e
+  exclusivo** de `playbook_form_submit` — nunca o "CE Conversões".
+
+---
+
+# 15. O que continua pendente
+
+| Item | Estado |
+|---|---|
+| **Deduplicação na Meta** | **PENDENTE.** O Events Manager não consolidou. `event_id` igual dos dois lados é condição necessária, não suficiente |
+| **Os 8 campos de atribuição** | **NÃO COMPROVADO.** Campanha vazia, gclid não conferido (12.2) |
+| **Captura de UTM nova** | **NÃO TESTADA.** Primeiro toque preexistente no navegador |
+| **Hipótese do `ga_session_id`** | **PENDENTE.** Os cookies não foram lidos no console. **Não está confirmada**, e eu não a trato como confirmada |
+| Aviso da tag TikTok | achado herdado, de configuração (12.6) |
+| Cron | próxima execução natural |
+| Favicon | pendente; **arquivo ainda não recebido** nesta sessão |
+| Tag ou evento derivado de `generate_lead` para o playbook | **analisado** (14), **não configurado** |
