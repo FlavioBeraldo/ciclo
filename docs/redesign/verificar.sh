@@ -310,6 +310,17 @@ else
   falha "o registro deixou de amarrar o negocio:"; grep FALHA "$TMP/ctx.log" | head -10
 fi
 
+# ── 21. Sessao do GA4 vem da nossa propriedade ────────────────────────────
+titulo "21. Sessão do GA4"
+cd "$RAIZ"
+if RAIZ_CICLO="$RAIZ" node --experimental-strip-types --no-warnings \
+     --import ./docs/redesign/resolve-ts.mjs \
+     "$DOCS/sessao-ga4.mjs" > "$TMP/ga4.log" 2>&1; then
+  ok "$(tail -1 "$TMP/ga4.log")"
+else
+  falha "a sessao do GA4 saiu do contrato:"; grep FALHA "$TMP/ga4.log" | head -10
+fi
+
 pkill -f "next-server" 2>/dev/null
 printf "\n%s\n" "────────────────────────────────"
 if [ "$falhas" -eq 0 ]; then echo "TUDO OK"; else echo "$falhas FALHA(S)"; fi

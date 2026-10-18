@@ -1,6 +1,8 @@
 // Captura de atribuição (client-side): primeiro toque em cookie próprio +
 // leitura dos cookies do GA4 no momento do submit.
 
+import { cookiesFromDocument, pickGaSessionId } from './ga4-session'
+
 const COOKIE_NAME = 'ciclo_attr'
 const COOKIE_DAYS = 90
 const OWN_HOSTS = ['cicloecommerce.com.br', 'www.cicloecommerce.com.br', 'localhost']
@@ -152,17 +154,11 @@ function readGaClientId(): string | undefined {
   return parts.length >= 4 ? parts.slice(-2).join('.') : undefined
 }
 
-// Primeiro cookie _ga_XXXX: "GS1.1.<session>...." ou "GS2.1.s<session>$o..."
+// Cookie de sessão da NOSSA propriedade (_ga_<ID>), não o primeiro _ga_ que
+// aparecer: a ordem de document.cookie não diz de qual propriedade o cookie é.
+// Ver src/lib/ga4-session.ts.
 function readGaSessionId(): string | undefined {
-  const entry = document.cookie
-    .split('; ')
-    .find((c) => c.startsWith('_ga_'))
-  if (!entry) return undefined
-  const value = decodeURIComponent(entry.slice(entry.indexOf('=') + 1))
-  const third = value.split('.')[2]
-  if (!third) return undefined
-  const session = third.startsWith('s') ? third.slice(1).split('$')[0] : third
-  return session || undefined
+  return pickGaSessionId(cookiesFromDocument(document.cookie))
 }
 
 // _fbc: cookie do Pixel; se não existir mas houver fbclid (primeiro toque ou URL

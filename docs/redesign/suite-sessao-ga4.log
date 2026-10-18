@@ -1,0 +1,97 @@
+Verificação do redesign — modo: comparar
+commit: be2779d  branch: claude/redesign-ciclo-2026-HVyvT
+
+== 1. Camada protegida (src/lib e src/app/api)
+  ok    41 arquivos, nenhuma mudança não autorizada
+  nota  src/app/api/aplicacao/route.ts — Passa context (dealId, personId, uid) ao sendMetaEvent para o registro em conversion_events amarrar o envio ao negócio; evento, payload e dedup inalterados
+  nota  src/app/api/link-bio/route.ts — Idem: sem context o registro nascia com deal_id, person_id e uid NULL e o envio ficava invisível para auditoria
+  nota  src/app/api/youtube/latest/route.ts — Mesma resposta e mesmo cache; a regra de busca saiu daqui para lib/youtube-server e a rota passou a usá-la
+  nota  src/lib/attribution.ts — Só a leitura da sessão do GA4 passou a usar ga4-session; primeiro toque, payload do submit e client id inalterados
+  nota  src/lib/ga4-session.ts — Arquivo novo: escolhe o cookie de sessão do GA4 pelo nome exato da nossa propriedade (_ga_EY1FLE5C0J) em vez do primeiro _ga_ que aparecer
+  nota  src/lib/pipedrive-server.ts — Idem no servidor: a sessão vem do cookie da nossa propriedade; mapeamento do negócio e demais campos inalterados
+  nota  src/lib/servicos.ts — Dois serviços encerrados em 17/10/2026 e a página /servicos/agencia-ugc criada a pedido do Flávio
+  nota  src/lib/solucoes.ts — Os dois encerrados saíram de Inteligência & Operação, com o FAQ absorvendo o conteúdo, e a UGC entrou em Geração de Demanda
+  nota  src/lib/youtube-server.ts — Arquivo novo: busca dos episódios no servidor, com tempo limite de 3500ms por chamada, para o HTML sair com episódio real sem segurar a renderização
+  nota  src/lib/youtube.ts — Fallback do podcast deixou de ser depoimento de cliente reetiquetado e passou a ler o snapshot real de src/data/episodios-fator-m.ts
+
+== 2. Typecheck e lint
+  ok    typecheck limpo
+  ok    lint sem erro novo (4 corrigido(s) em relação ao baseline)
+
+== 3. Build
+  ok    build verde (882 páginas)
+
+== 4. Rotas
+  ok    /
+  ok    /blog
+  ok    /blog/advantage-shopping-guia
+  ok    /servicos/meta-ads
+  ok    /solucoes/geracao-de-demanda
+  ok    /consultoria-para-e-commerce
+  ok    /consultoria-ecom-shift
+  ok    /ofatorm
+  ok    /depoimentos
+  ok    /ecomshift
+  ok    /tiktok-shop
+  ok    /aplicacao
+  ok    /link-bio
+  ok    /obrigado
+  ok    /politica-de-privacidade
+  ok    /mapa-do-site
+  ok    /playbook-social-commerce
+
+== 5. Playbook intacto
+  ok    playbook idêntico em desktop e celular
+
+== 6. Mensuração
+  ok    eventos e payloads idênticos nos 4 formulários
+
+== 7. Conteúdo e SEO das internas
+  ok    TUDO OK — 22 páginas internas com conteúdo, URLs e SEO preservados
+
+== 8. Conteúdo e SEO do blog
+  ok    TUDO OK — listagem e 87 artigos (6 curados, 42 Keystatic, 39 de 777 do WordPress) com conteúdo e SEO preservados
+
+== 9. Tipografia e menu móvel
+  ok    TUDO OK — 18 rotas: Inter na estrutura, Playfair em 27 frases editoriais
+  ok    miniatura desce de degrau no 404 e no placeholder de 200
+  ok    menu móvel: abre, Escape fecha, foco volta, Tab preso, destinos válidos
+
+== 10. Título no h1
+  ok    TUDO OK — 38 páginas com um h1 só, começando pelo título da página
+
+== 11. Serviços encerrados
+  ok    TUDO OK — dois serviços encerrados sem 404, laço ou cadeia
+
+== 12. TikTok Shop
+  ok    TUDO OK — /tiktok-shop com conteúdo, SEO e schema preservados
+
+== 13. Podcast
+  ok    TUDO OK — episódio real no HTML servido, sem depoimento reetiquetado
+
+== 14. ECOM Shift
+  ok    TUDO OK — begin_checkout idêntico nos dois placements e vídeos no player interno
+
+== 15. Formulários em etapas
+  ok    TUDO OK — etapas, conversão, idempotência e /obrigado sem contagem dupla
+
+== 16. Responsivo
+  ok    11 rotas sem estouro horizontal em 1440 e 390
+
+== 17. Indicadores de case
+  ok    TUDO OK — 9 indicadores inteiros e dentro da célula em 7 cenários, em 3 rotas, com número legível e acima da legenda
+
+== 18. Podcast no servidor
+  ok    TUDO OK — API, episódio novo, tempo limite, cota, sem chave, só Shorts, sem snapshot e gerador com descrição real
+
+== 19. Webhooks do Pipedrive
+  ok    TUDO OK — autenticação, filtros, etapas, ganho, idempotência, v1/v2, enrich e hashes contra a base
+
+== 20. Contexto em conversion_events
+  ok    TUDO OK — as três rotas amarram o envio ao negócio, e nada do que vai à Meta mudou
+
+== 21. Sessão do GA4
+  ok    TUDO OK — a sessão vem do cookie da nossa propriedade, e o primeiro toque, o payload e o negócio seguem iguais
+
+────────────────────────────────
+TUDO OK

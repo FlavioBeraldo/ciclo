@@ -14,3 +14,6 @@ src/lib/youtube-server.ts    Arquivo novo: busca dos episódios no servidor, com
 src/app/api/youtube/latest/route.ts    Mesma resposta e mesmo cache; a regra de busca saiu daqui para lib/youtube-server e a rota passou a usá-la
 src/app/api/aplicacao/route.ts    Passa context (dealId, personId, uid) ao sendMetaEvent para o registro em conversion_events amarrar o envio ao negócio; evento, payload e dedup inalterados
 src/app/api/link-bio/route.ts    Idem: sem context o registro nascia com deal_id, person_id e uid NULL e o envio ficava invisível para auditoria
+src/lib/ga4-session.ts    Arquivo novo: escolhe o cookie de sessão do GA4 pelo nome exato da nossa propriedade (_ga_EY1FLE5C0J) em vez do primeiro _ga_ que aparecer
+src/lib/attribution.ts    Só a leitura da sessão do GA4 passou a usar ga4-session; primeiro toque, payload do submit e client id inalterados
+src/lib/pipedrive-server.ts    Idem no servidor: a sessão vem do cookie da nossa propriedade; mapeamento do negócio e demais campos inalterados

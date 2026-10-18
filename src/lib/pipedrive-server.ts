@@ -7,6 +7,7 @@ import {
   type AttributionFieldKey,
 } from './pipedrive-fields'
 import type { LinkedInProfile } from './linkedin-session'
+import { pickGaSessionId } from './ga4-session'
 
 const BASE = 'https://api.pipedrive.com/v1'
 
@@ -333,15 +334,10 @@ export function attributionFromRequestCookies(cookies: CookieStore): Record<stri
     if (parts.length >= 4) base.ga_client_id = parts.slice(-2).join('.')
   }
 
-  // Primeiro _ga_XXXX: "GS1.1.<session>...." ou "GS2.1.s<session>$o..."
-  const gaSession = cookies.getAll().find((c) => c.name.startsWith('_ga_'))
-  if (gaSession) {
-    const third = gaSession.value.split('.')[2]
-    if (third) {
-      const session = third.startsWith('s') ? third.slice(1).split('$')[0] : third
-      if (session) base.ga_session_id = session
-    }
-  }
+  // Sessão do cookie da NOSSA propriedade (_ga_<ID>), não o primeiro _ga_ que
+  // vier na lista — mesma correção do cliente, ver src/lib/ga4-session.ts.
+  const gaSession = pickGaSessionId(cookies.getAll())
+  if (gaSession) base.ga_session_id = gaSession
 
   return base
 }

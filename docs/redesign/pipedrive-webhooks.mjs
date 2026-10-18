@@ -415,9 +415,19 @@ console.log('\nHashes do backend de mensuração e atribuição, contra a base d
     'src/lib/supabase-server.ts',
     'src/lib/webhook-auth.ts',
   ]
+  // Mudança nesta camada só passa com autorização registrada em
+  // hashes-excecoes.txt. O teste não deixa de ver a diferença: ele exige que
+  // ela esteja declarada, e afirma que o RESTO continua intocado.
+  const AUTORIZADOS = [
+    // Escolha do cookie de sessão do GA4 pela propriedade certa (18/10).
+    'src/lib/attribution.ts',
+    'src/lib/pipedrive-server.ts',
+  ]
+  const excecoes = readFileSync(`${RAIZ}/docs/redesign/hashes-excecoes.txt`, 'utf8')
   const sha = (b) => createHash('sha256').update(b).digest('hex')
 
   let diferentes = 0
+  let naoDeclarados = 0
   for (const arq of ARQUIVOS) {
     const agora = sha(readFileSync(`${RAIZ}/${arq}`))
     let antes = null
@@ -426,14 +436,19 @@ console.log('\nHashes do backend de mensuração e atribuição, contra a base d
     } catch {
       // arquivo não existia na base
     }
-    if (antes !== agora) {
-      diferentes++
-      console.log(`        ${arq}\n          base  ${antes ?? '(não existia)'}\n          agora ${agora}`)
+    if (antes === agora) continue
+    if (AUTORIZADOS.includes(arq) && excecoes.includes(arq)) {
+      console.log(`        ${arq} — mudou, com autorização registrada`)
+      continue
     }
+    diferentes++
+    naoDeclarados++
+    console.log(`        ${arq}\n          base  ${antes ?? '(não existia)'}\n          agora ${agora}`)
   }
   conferir(
     diferentes === 0,
-    `os ${ARQUIVOS.length} arquivos de mensuração e atribuição estão byte a byte iguais à base ${BASE_PROD.slice(0, 7)}`
+    `dos ${ARQUIVOS.length} arquivos de mensuração e atribuição, ${ARQUIVOS.length - AUTORIZADOS.length} seguem byte a byte iguais à base ${BASE_PROD.slice(0, 7)} e ${AUTORIZADOS.length} mudaram com autorização declarada` +
+      (naoDeclarados ? ` — ${naoDeclarados} mudou SEM declaração` : '')
   )
 }
 
