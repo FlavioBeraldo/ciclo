@@ -244,3 +244,119 @@ São **duas linhas**, em arquivos da camada protegida, e **só melhoram
 rastreabilidade** — não mudam evento, nem payload, nem destino. Mas mudam
 arquivos que hoje estão byte a byte iguais à base, então **não entram sem
 decisão explícita**.
+
+---
+
+# 6. Atualização 18/10 — as perguntas de 5.3, 5.4 e 5.6 têm resposta
+
+Três coisas que estavam em aberto fecharam, todas com evidência externa da
+revisão independente. Nenhuma delas veio de envio meu.
+
+## 6.1 Os eventos **foram** enviados — 5.3 resolvido
+
+A consulta de 5.3 foi executada, e também o cruzamento por `event_id`. O
+resultado é a primeira linha da tabela daquela seção:
+
+| Negócio | CAPI | `events_received` | `fbtrace_id` | `deal_id` no log |
+|---|---|---|---|---|
+| **3649** (`/link-bio`) | **200** | **1** | `ASHbRKViecDIJ2Uap8pgpsf` | **NULL** |
+| **3650** (`/aplicacao`) | **200** | **1** | `AhQVMXPxmQTy3YugsXjdJVN` | **NULL** |
+
+Então **a hipótese de 5.1 está confirmada e o alarme de 5.3 está descartado**:
+os dois endpoints enviaram, a Meta aceitou, e o que faltava era só o `context`
+no registro. **É rastreabilidade, não entrega.**
+
+Duas ressalvas que eu mantenho:
+
+- HTTP 200 e `events_received: 1` dizem que a Meta **recebeu**. Não dizem que
+  processou, nem que deduplicou. Isso continua valendo aqui como valeu em
+  15.8 do pós-migração.
+- Eu não li o banco nem os logs da Vercel: **não tenho acesso**. Estou
+  registrando evidência de terceiro, identificada pela origem.
+
+## 6.2 O GTM contempla a `/aplicacao` — 5.4 cai
+
+A pergunta de 5.4 era qual gatilho aciona a tag Meta Lead. A leitura do
+container real responde:
+
+| Objeto | Conteúdo |
+|---|---|
+| Gatilho **179** | regex `^(generate_lead\|playbook_form_submit\|consultoria_ecom_shift_lead)$` |
+| Tag **180**, Meta Lead | `eventID={{DLV - event_id}}`, no gatilho 179 |
+
+`consultoria_ecom_shift_lead` **está na regex**. Logo a tag Meta Lead dispara
+na `/aplicacao`, com o mesmo `event_id` que o servidor usa.
+
+**A assimetria que eu suspeitava em 5.4 não existe.** Eu havia raciocinado
+sobre o gatilho "CE Conversões", largo demais para a tag Meta; o container tem
+um gatilho **específico de três eventos**, que eu não conhecia. A tabela de
+5.4 está errada nos dois ramos e **fica substituída por esta**:
+
+| Rota | Evento do dataLayer | Na regex do 179? | Par navegador+servidor |
+|---|---|---|---|
+| `/link-bio` | `generate_lead` | **sim** | **existe** |
+| `/aplicacao` | `consultoria_ecom_shift_lead` | **sim** | **existe** |
+
+**Nenhuma alteração de GTM é necessária.** A dedup das duas rotas depende só
+do que já depende para as outras: a Meta casar o par (15.8 do pós-migração).
+
+## 6.3 O conserto de 5.6 foi autorizado e está feito — não publicado
+
+Autorizado pelo Flávio em 17/10 22:12 BRT, como correção mínima em commit
+isolado. Commit **`f73a2ef`**, na branch, **sem publicar**.
+
+O que mudou: `context: { dealId, personId, uid }` nas duas chamadas a
+`sendMetaEvent`, com ids que **já estavam no escopo** — o mesmo `dealId` que
+vai em `custom_data`, o `personId` da sessão assinada e o `uid` que já é usado
+em `externalId`. Nada é recalculado nem inventado.
+
+O que **não** mudou, e está coberto por teste: nome do evento, `event_id`,
+`action_source`, `user_data`, `custom_data`, a dedup com o Pixel, o formulário,
+o playbook e as regras comerciais. O `context` **não vai** no corpo enviado à
+Meta — ele só alimenta o log.
+
+O passo 20 de `verificar.sh` chama as três rotas de verdade com `fetch`
+mockado — **sem rede, sem criar lead em lugar nenhum** — e afirma as duas
+coisas: que os três ids chegam ao registro e que o envio está intacto.
+
+**Isso conserta o log a partir do próximo envio. Não é retroativo:** as linhas
+de 3649 e 3650 continuam com `deal_id` NULL, e a auditoria delas depende da
+janela de tempo e do `event_id`, como em 6.1.
+
+## 6.4 A supressão do popup não é o que eu supus — 3 continua aberto
+
+Na seção 3 eu escrevi que abrir uma página do blog e esperar o gatilho fecharia
+a lacuna do popup, a custo zero. **Isso não basta**, e a razão está no código:
+
+```
+src/components/PlaybookPopup.tsx
+  STORAGE_KEY    'ciclo-playbook-popup-dismissed-at'
+  COOLDOWN_DAYS  7
+  DELAY_MS       10_000
+```
+
+A supressão vem de **fechar** o popup: `close()` grava o instante em
+`localStorage`, e na montagem o componente desiste se o registro tiver menos de
+sete dias. Os gatilhos são o temporizador de 10s e a intenção de saída, e o
+componente só é montado em `blog/layout.tsx`.
+
+Duas consequências:
+
+- **Baixar o playbook não suprime o popup.** Não há gravação no caminho de
+  download — só no de fechamento. Quem baixou e nunca fechou o popup continua
+  elegível.
+- **Quem fechou o popup nos últimos 7 dias não vai vê-lo**, tenha baixado o
+  playbook ou não, e nenhuma navegação muda isso dentro da janela.
+
+Então, **antes de assumir que a lacuna fecha abrindo o blog**, o teste tem que
+começar lendo a chave no console do navegador em questão:
+
+```js
+localStorage.getItem('ciclo-playbook-popup-dismissed-at')
+```
+
+`null` → o popup deve aparecer em 10s numa página do blog, e a lacuna fecha.
+Com valor de menos de 7 dias → **não vai aparecer**, e isso é o comportamento
+correto, não falha. Nesse caso só fecha removendo a chave, ou em outro perfil
+de navegador — e é decisão de vocês, não minha: eu não executo navegação de
+teste por minha conta.

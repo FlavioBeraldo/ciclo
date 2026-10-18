@@ -953,3 +953,120 @@ datasets diferentes. **Seria um achado sério** — e, se for o caso, herdado:
 | Aviso da tag TikTok | achado herdado, de configuração (12.6) |
 | Cron | próxima execução natural |
 | Favicon | pendente; **arquivo ainda não recebido** nesta sessão |
+
+---
+
+# 17. Atualização 18/10 — favicon publicado, nomenclatura, CAPI e um bloqueio real
+
+## 17.1 Favicon — publicado, item 16 fechado
+
+A última linha da tabela de 16 (`arquivo ainda não recebido`) está vencida. O
+PNG chegou em 17/10 21:56 BRT e foi publicado:
+
+| Item | Valor |
+|---|---|
+| Commit | `caabe1371f379e8332589acc1cf471d43a2ab8b2` |
+| Publicado em | **17/10/2026, 22:08:21 BRT** · Ready **22:10 BRT** |
+| Deployment | `7148182431` (GitHub) · **`DtW3ZM9aprRpf25C5UZGw6MKk5FB` (Vercel)** |
+| Arquivo | `src/app/icon.png`, 2236 bytes, SHA256 `6db659a987471df32d33ee7f6ae6694735021f419d5c9035bc6de1cb6528f8c4`, 40×40 RGBA |
+| Também | `src/app/favicon.ico` com o mesmo PNG embutido; `src/app/icon.svg` **removido**, por conflitar |
+
+O PNG não foi redesenhado nem reamostrado: o hash do arquivo publicado é o
+hash do arquivo enviado. Caminho de publicação: **build novo de Production
+pela branch**, sem Promote de Preview.
+
+## 17.2 Correção de nomenclatura dos deployments
+
+Eu usei `7148182431` como se fosse o deployment da Vercel. **Não é.** É o id
+do deployment do **GitHub** — o objeto que a API do GitHub cria e que é o
+único que esta sessão enxerga, porque o domínio e o painel da Vercel estão
+bloqueados pelo proxy (seção 2).
+
+Os dois pares, para não haver mais confusão:
+
+| Publicação | GitHub | Vercel |
+|---|---|---|
+| Redesign, 17/10 20:29 | `7147282117` | `9wDAEozub4kNH11R6dsnRDmo1YjX` |
+| Favicon, 17/10 22:08 | `7148182431` | **`DtW3ZM9aprRpf25C5UZGw6MKk5FB`** |
+
+Os ids da Vercel vêm da revisão independente, que tem o painel. Onde este
+documento citar um id de deployment sem dizer de qual sistema, **leia como
+GitHub** — é o que eu consigo obter sozinho.
+
+## 17.3 CAPI da `/link-bio` e da `/aplicacao` — enviaram
+
+Investigação registrada em 6.1 do inventário. Resumo: os dois envios saíram,
+a Meta respondeu **200 com `events_received: 1`**, e o `deal_id` NULL no log
+era falta de `context`, não falta de envio. **Rastreabilidade, não entrega.**
+
+Consequência para 15.8: nada muda. HTTP 200 continua não sendo dedup, e o
+item de dedup consolidada **segue pendente** para estas duas rotas como para
+as outras.
+
+Corrigido na branch em **`f73a2ef`**, commit isolado, **não publicado** —
+detalhe em 6.3 do inventário.
+
+## 17.4 Leitura do GTM — a assimetria que eu suspeitava não existe
+
+Gatilho **179**, regex `^(generate_lead|playbook_form_submit|consultoria_ecom_shift_lead)$`;
+tag **180** (Meta Lead) com `eventID={{DLV - event_id}}` nesse gatilho.
+
+`consultoria_ecom_shift_lead` está na regex, então a `/aplicacao` **é
+contemplada** e **não há mudança de GTM a fazer**. A suspeita de 5.4 do
+inventário está descartada, com a tabela errada substituída em 6.2.
+
+## 17.5 BLOQUEIO REAL — enriquecimento por IA não conclui, por crédito
+
+Este é o único achado novo que **não** é de rastreabilidade, e ele não tem
+nada a ver com o redesign.
+
+| | |
+|---|---|
+| Rota | `/api/pipedrive/enrich` |
+| Webhook | **entregue, HTTP 200** — negócio 3649 às **21:58:30**, negócio 3650 às **22:03:49** |
+| Análise da pessoa | **falha** |
+| Erro | HTTP **400**, `invalid_request_error` da Anthropic: *"Your credit balance is too low to access the Anthropic API"* |
+
+**O webhook chega; o enriquecimento por IA não completa.** A entrega do
+webhook (200) e a conclusão do enriquecimento são coisas diferentes, e só a
+primeira está acontecendo. Qualquer leitura que trate o 200 como "enriqueceu"
+está errada — é a mesma armadilha do HTTP 200 da CAPI, em outro lugar.
+
+**Causa: saldo da conta da API, fora do código.** Não é regressão, não é
+configuração do site e **não se conserta com deploy**. `enrich` está coberto
+pelo passo 19 de `verificar.sh` e passa — o código faz o que deve; a chamada
+externa é recusada antes de processar.
+
+**O que eu NÃO fiz, e não farei sem ordem explícita:** comprar crédito, trocar
+plano, trocar credencial ou reprocessar negócio de cliente. Fica **registrado
+como pendência operacional de vocês**, separada de tudo o mais neste
+documento.
+
+Enquanto o saldo não for resolvido, **todo negócio novo entra sem
+enriquecimento** — inclusive os de clientes reais, não só os de teste. É a
+consequência que vale a pena pesar.
+
+## 17.6 Supressão do popup — a lacuna não fecha só abrindo o blog
+
+Registrado em 6.4 do inventário. Em resumo: a supressão é
+`localStorage['ciclo-playbook-popup-dismissed-at']`, 7 dias, gravada **ao
+fechar** o popup — **baixar o playbook não suprime**. Antes de concluir
+qualquer coisa do teste, ler a chave no console do navegador em questão.
+
+## 17.7 Como fica a tabela de pendências
+
+Substitui a de 16 no que mudou:
+
+| Item | Estado |
+|---|---|
+| Favicon | **FECHADO** — `caabe137`, Ready 22:10 BRT (17.1) |
+| `/link-bio` e `/aplicacao` enviaram à CAPI | **CONFIRMADO** (17.3) |
+| Rastreabilidade do log das duas rotas | **corrigida na branch, `f73a2ef`, não publicada**; não é retroativa |
+| Assimetria de GTM na `/aplicacao` | **DESCARTADA** (17.4) |
+| **Enriquecimento por IA** | **BLOQUEADO — crédito da API Anthropic** (17.5). Pendência operacional, fora do código |
+| Popup do playbook | aberto, e **mais caro do que eu disse**: depende da chave de supressão (17.6) |
+| Deduplicação na Meta | **PENDENTE**, sem mudança |
+| Evento derivado do playbook no GA4 | **RASCUNHO, não criado** |
+| Cron | próxima execução natural, **~09 BRT de 18/10** |
+| Hipótese do `ga_session_id` | **PENDENTE** — cookies não lidos |
+| Os 8 campos de atribuição · captura de UTM nova | **NÃO COMPROVADOS**, sem mudança |
