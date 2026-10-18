@@ -838,7 +838,93 @@ where platform = 'meta' and deal_id in (3646, 3647)
 order by sent_at;
 ```
 
-## 15.5 O que isso significa para a dedup
+## 15.6 Resolvido em 21:45 — as duas primeiras hipóteses caem
+
+A revisão leu o painel da Vercel e fez um terceiro envio mínimo. O quadro
+mudou.
+
+### Hipótese 1 — DESCARTADA
+
+| Leitura | Valor |
+|---|---|
+| `META_PIXEL_ID` em Production | **`780524645411912`**, acrescentada em 15/09 |
+| `DEFAULT_PIXEL_ID` no código | `780524645411912` |
+
+**São o mesmo.** O servidor manda para o mesmo dataset que vocês estão
+olhando. Não há divergência de pixel entre navegador e servidor.
+
+O valor é configuração pública — vai em claro na requisição do Pixel —, e
+nenhum token foi revelado para chegar a essa conclusão.
+
+### Hipótese 2 — DESCARTADA
+
+**Nenhum `META_TEST_EVENT_CODE`** entre os 15 itens do projeto, em All
+Environments. A CAPI nunca anexou `test_event_code`, e portanto não está
+desviando nada para a aba de teste.
+
+### Resta a hipótese 3
+
+**Latência e agregação da visão consolidada do Events Manager.** É a única
+que sobra, e é a única que não se descarta por inspeção — só pelo tempo.
+
+## 15.7 Terceiro envio: a pré-condição da dedup, provada
+
+Envio autorizado mínimo, **só o lead**, sem qualificar nem ganhar.
+
+| Item | Valor |
+|---|---|
+| Negócio | **3648**, título TESTE META, valor 0, **já arquivado** |
+| `event_id` | `bcd7d85c-5ce8-42ed-bc48-c370c0d40d40` |
+
+| Lado | Evidência | Momento |
+|---|---|---|
+| **Navegador** | Meta Test Events: `Lead` **PROCESSADO**, com `content_name: fale-com-especialista`, `content_category: contato` e advanced matching (e-mail, nome, sobrenome, telefone, IP, UA) | 21:44:29 BRT |
+| **Servidor** | `conversion_events`, deal 3648, Meta `Lead` **sent**, 200, `events_received: 1`, trace `ALGkJiJpmJo-5Kix_Huh_D2` | 00:44:32.165Z = 21:44:32 BRT |
+
+**O mesmo `event_id` saiu pelos dois caminhos, para o mesmo pixel, com três
+segundos de diferença.**
+
+Isto é a **pré-condição da deduplicação, agora provada com dado real** — não
+mais inferida de o código usar a mesma variável. Era exatamente o que eu não
+podia afirmar antes.
+
+**Por que o Test Events mostrou só o lado navegador.** O código `TEST44351`
+foi gerado pela própria interface e vale **só para o navegador**; não foi
+acrescentado à env nem à chamada da API, e a CAPI não o envia (ver 15.2). Um
+evento de servidor sem `test_event_code` **não aparece** no Test Events, por
+construção. O lado servidor foi comprovado pelo outro caminho: a linha em
+`conversion_events` com o mesmo id.
+
+Nada foi alterado para isso: nenhum código de teste entrou em variável de
+ambiente nem na API.
+
+## 15.8 O que ainda falta, e o que não falta mais
+
+| | Estado |
+|---|---|
+| Pixel do navegador = pixel do servidor | **PROVADO** |
+| Mesmo `event_id` nos dois lados, no mesmo envio | **PROVADO** |
+| CAPI aceita (200, received 1) | **PROVADO**, nos três envios |
+| Navegador processado pela Meta | **PROVADO** (Test Events) |
+| **Meta declarar o par deduplicado na visão consolidada** | **PENDENTE** |
+
+A diferença entre as quatro primeiras linhas e a última não é formalidade:
+as quatro dizem que **fizemos tudo que cabia a nós**; a última é a Meta
+confirmando que **casou o par**. Só ela fecha o item, e **não vou declarar
+aprovada por inferência**, mesmo com a pré-condição provada.
+
+**Não haverá mais envios de teste.** O que falta é o painel consolidar.
+
+## 15.9 Alerta de domínios no diagnóstico da Meta
+
+Único alerta ativo: **domínios novos, 11**, incluindo externos. A allowlist
+**não foi alterada**.
+
+Continua **sem nexo demonstrado com o redesign**, como registrado na seção
+30 da auditoria. O site publicado não introduziu domínio novo de envio: o
+Pixel e a CAPI usam o mesmo pixel de sempre, agora comprovado.
+
+## 15.10 O que isso significa para a dedup
 
 Enquanto o `Lead` não aparecer no dataset, **a deduplicação não pode ser
 avaliada** — nem aprovada, nem reprovada. Ela depende de a Meta ver os dois
@@ -857,8 +943,9 @@ datasets diferentes. **Seria um achado sério** — e, se for o caso, herdado:
 
 | Item | Estado |
 |---|---|
-| **Deduplicação na Meta** | **PENDENTE, e agora com causa a investigar.** O `Lead` não aparece no dataset `780524645411912`. Três hipóteses em 15; até saber qual, a dedup não é avaliável |
+| **Deduplicação na Meta** | **PENDENTE — só a confirmação do painel consolidado.** As hipóteses 1 e 2 caíram (15.6) e a pré-condição está provada: mesmo pixel, mesmo `event_id`, os dois lados entregues (15.7). Falta a Meta declarar o par casado |
 | **Evento derivado do playbook** | **preparado em rascunho, NÃO criado.** Recomendação revista em 14.2, depois de a doc derrubar a minha primeira razão |
+| Envios de teste | **encerrados.** Três no total: 3646, 3647 e 3648, todos arquivados |
 | Arquivamento dos registros de teste | negócios 3646 e 3647 arquivados. **A pessoa 3588 teve o telefone substituído** — não foi preservada integralmente |
 | **Os 8 campos de atribuição** | **NÃO COMPROVADO.** Campanha vazia, gclid não conferido (12.2) |
 | **Captura de UTM nova** | **NÃO TESTADA.** Primeiro toque preexistente no navegador |
