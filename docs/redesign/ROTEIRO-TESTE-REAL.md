@@ -77,12 +77,13 @@ Pipedrive e três viram dado de correspondência na Meta.
 | 6 | **Segmento** | uma das 11: Moda e Acessórios, Beleza e Cosméticos, Saúde e Suplementos, Casa e Decoração, Alimentos e Bebidas, Eletrônicos e Tecnologia, Esporte e Lazer, Pet, Infantil, Joias e Semijoias, Outro | Campo do negócio |
 | 7 | **Descrição do desafio** | **mínimo 20 caracteres** | Campo do negócio |
 
-Mais duas autorizações, que não são campo de formulário:
+Duas autorizações, **já concedidas** — registradas aqui só para constar, não
+para pedir de novo:
 
-| # | Autorização | Por quê |
+| # | Autorização | Estado |
 |---|---|---|
-| 8 | **Quem pode receber contato** nesse e-mail e WhatsApp, e por quanto tempo | Vai virar negócio real num funil real |
-| 9 | **Permissão para mover esse negócio de etapa e marcá-lo como ganho** | É o que dispara qualificação, ganho, `Purchase` e `close_convert_lead` |
+| 8 | Contato autorizado nesse e-mail e WhatsApp | **concedida.** Gmail próprio do Flávio |
+| 9 | Mover o negócio de etapa e marcá-lo como ganho | **concedida** |
 
 **Sugestão ao Flávio, para resolver os dois de uma vez:** um e-mail de
 domínio próprio dele ou de alguém do time **que não seja
@@ -117,6 +118,55 @@ envio.
 
 Campos e opções exatos estão em 1.2. O **aceite da Política de Privacidade**
 é obrigatório para o botão funcionar.
+
+### 2.0 Há cadastro preexistente para esse e-mail — e isso muda duas coisas
+
+A revisão encontrou, antes de qualquer envio: **pessoa 3588 "Teste
+Mensuração"** e **organização 1849**, ligadas ao Gmail do teste, **sem
+negócio visível**. Ordem: **preservar as duas, não arquivar nem excluir.**
+
+**Efeito colateral do fluxo, que precisa ser decidido antes de enviar.**
+`findOrCreatePerson` (`pipedrive-server.ts:167`) busca a pessoa **pelo
+e-mail** e reusa a que existir. Até aí, bom: o negócio nasce ligado à 3588 e
+nenhuma pessoa duplicada é criada.
+
+O problema é o que vem logo depois, na linha 172:
+
+```ts
+if (phone || orgId) {
+  await fetch(pipedriveUrl(`/persons/${existingId}`), {
+    method: 'PUT',
+    body: JSON.stringify({
+      ...(phone ? { phone: [{ value: phone, primary: true }] } : {}),
+      ...(orgId ? { org_id: orgId } : {}),
+    }),
+  })
+}
+```
+
+**O envio do formulário vai ESCREVER na pessoa 3588:**
+
+| Campo | O que acontece |
+|---|---|
+| Telefone | **substituído** pelo WhatsApp do formulário. É `phone: [ ... ]`, uma lista nova — o telefone que estiver lá hoje **é perdido** |
+| Organização | **trocada** pela organização resolvida a partir do campo "Empresa". `findOrCreateOrg` busca por **nome**: se o texto digitado não casar com o nome da organização 1849, ele **cria uma organização nova** e **desvincula** a pessoa da 1849 |
+
+Isso não é bug: é o comportamento da base, igual para qualquer lead
+recorrente. Mas colide com "preservar o registro preexistente".
+
+**Três saídas. A escolha é de vocês, eu não decido isso sozinho:**
+
+| Opção | O que fazer | Custo |
+|---|---|---|
+| **A — anotar antes** | Anotar telefone e organização atuais da pessoa 3588 **antes** do envio, e no campo "Empresa" digitar **exatamente o nome da organização 1849**. Assim `findOrCreateOrg` acha a existente e o `org_id` não muda; só o telefone é sobrescrito, e dá para restaurar à mão depois | Telefone sobrescrito e restaurado manualmente |
+| **B — outro e-mail** | Pedir ao Flávio um segundo endereço **sem cadastro** no Pipedrive, por exemplo `nome+qa@gmail.com`. O Gmail entrega no mesmo inbox, e para o Pipedrive é pessoa nova | Nada é tocado na 3588. **É a mais limpa** |
+| **C — aceitar** | Enviar assim mesmo, com a alteração registrada | Perde o estado anterior da 3588 |
+
+**Recomendo a B.** O sufixo `+qa` resolve sem tocar em registro preexistente
+e sem pedir nada além de um endereço.
+
+Se for A ou C, **anote antes do envio**: telefone atual da pessoa 3588 e o
+nome e id da organização vinculada. Sem isso não há como restaurar.
 
 ### 2.1 UTM própria de QA
 
@@ -374,9 +424,13 @@ procurar por PII — evite.
 
 | Fazer | Não fazer |
 |---|---|
-| **Arquivar** ou **excluir** o negócio de teste no Pipedrive | **Não apagar nada de `conversion_events`** |
-| Arquivar a pessoa e a organização criadas, se só existirem por causa do teste | Não apagar linhas de `site_visitors` nem de `site_events` |
+| **Arquivar** o negócio de teste no Pipedrive | **Não apagar nada de `conversion_events`** |
+| **Preservar a pessoa 3588 e a organização 1849** — são preexistentes | **Não arquivar nem excluir** nenhuma das duas |
+| Se usar a opção A ou C de 2.0: restaurar à mão o telefone e o vínculo de organização da pessoa 3588 | Não apagar linhas de `site_visitors` nem de `site_events` |
 | Registrar `deal_id`, `event_id`, `person_id` e o horário UTC no relatório | Não tocar em negócio de cliente real |
+
+**Se a opção B for escolhida** (e-mail com `+qa`), a pessoa criada pelo teste
+é nova e pode ser arquivada; a 3588 e a 1849 nem são tocadas.
 
 **Por que não apagar os eventos:** `conversion_events` é o que garante a
 idempotência. Apagar a linha do teste faria o sistema reenviar os mesmos
@@ -406,7 +460,9 @@ mas é irreversível, e o Flávio precisa saber disso antes, não depois.
 Antes:
 
 - [ ] Contato externo autorizado recebido (1.2), **fora de
-      `INTERNAL_EMAIL_DOMAINS`**
+      `INTERNAL_EMAIL_DOMAINS`** — **feito:** Gmail do Flávio
+- [ ] **Decidida a opção de 2.0** (A, B ou C) para o cadastro preexistente
+- [ ] Se A ou C: telefone e organização atuais da pessoa 3588 **anotados**
 - [ ] As três confirmações de 1.3 feitas, **sem alterar nada**
 - [ ] Janela anônima, sem cookie `ciclo_attr`
 - [ ] Proxy do dataLayer colado no console (passo A)
@@ -426,7 +482,8 @@ Durante:
 
 Depois:
 
-- [ ] Arquivar o negócio, a pessoa e a organização de teste
+- [ ] Arquivar **o negócio** de teste. **Preservar a pessoa 3588 e a
+      organização 1849**
 - [ ] **Não** apagar nada de `conversion_events`
 - [ ] Registrar `deal_id`, `event_id`, `person_id` e os horários
 
@@ -490,9 +547,24 @@ Nenhum `generate_lead` em lugar nenhum do arquivo. Confirmado por busca no
 arquivo inteiro.
 
 **No GTM:** o gatilho "CE Conversões" cobre `playbook_form_submit` pela
-regex, então o GA4 recebe **o evento customizado**. Não há tradução para
-`generate_lead` em parte alguma do código, e a leitura do container feita na
-revisão não mostrou nenhuma.
+regex, então o GA4 recebe **o evento customizado**.
+
+> **Correção, e ela é minha.** Eu tinha escrito que "não há tradução em parte
+> alguma", misturando duas afirmações de peso diferente. A ausência **no
+> código** eu verifiquei e sustento. A ausência **no GTM e no GA4 eu não
+> posso afirmar**: uma tag de tradução no container, ou um **evento derivado
+> criado dentro do próprio GA4**, produziriam `generate_lead` sem deixar
+> rastro nenhum no repositório — e o evento derivado nem fica no GTM.
+>
+> **Antes de adicionar qualquer coisa, verificar nos dois lugares:**
+>
+> | Onde | O que procurar |
+> |---|---|
+> | GTM, container `GTM-5NNPNZ` | tag de evento GA4 com nome `generate_lead` disparando a partir de `playbook_form_submit` |
+> | GA4, Administrador → Eventos | **Criar evento** e **Modificar evento** — um evento derivado de `playbook_form_submit` para `generate_lead` |
+>
+> Se qualquer um dos dois já existir, a proposta de 11.5 **não deve ser
+> executada**: ela duplicaria.
 
 **Na Meta é diferente, e vale registrar:** o playbook posta em
 `/api/pipedrive` com `pipeline: 'Playbook'`, e essa rota envia **`Lead` pela
@@ -609,21 +681,87 @@ de evento separado.
 Antes de qualquer mudança, dá para medir a lacuna na própria property
 `402971489`:
 
-1. Relatório **Aquisição de leads** (`ruid=lead-acquisition`), últimos 28 dias.
-2. Comparar **Novos leads** com a contagem do evento `playbook_form_submit`
-   em Eventos, no mesmo período.
-3. Se "Leads qualificados" for maior que o esperado para o volume de "Novos
-   leads", a diferença é exatamente o que 11.4 descreve.
+> **Correção, também minha.** Eu tinha proposto comparar "Novos leads" com a
+> contagem de `playbook_form_submit` e tratar a diferença como o tamanho da
+> lacuna. **Isso está errado, e não é detalhe de redação.** São grandezas
+> diferentes:
+>
+> - **Novos leads** conta **usuários únicos** com `generate_lead`.
+> - A contagem de `playbook_form_submit` em Eventos conta **eventos**.
+>
+> Três motivos pelos quais subtrair um do outro não dá a lacuna:
+>
+> 1. **Repetição** — a mesma pessoa pode baixar o playbook mais de uma vez;
+>    eventos sobem, usuários não.
+> 2. **Sobreposição** — quem baixou o playbook **e** preencheu o contato já
+>    está contado em "Novos leads". Esse usuário não é lacuna nenhuma.
+> 3. **Unidade de contagem** — "usuário" no GA4 é `client_id`, ou seja
+>    navegador/dispositivo, não pessoa. A mesma pessoa em dois aparelhos são
+>    dois usuários.
+>
+> **A diferença entre os dois números não é a lacuna, e não deve ser
+> apresentada como tal.**
 
-Isso é leitura. Não altera nada e serve de linha de base para medir o efeito
-da tag depois.
+A forma honesta de dimensionar, e ainda assim é **estimativa**:
+
+1. Relatório **Aquisição de leads** (`ruid=lead-acquisition`), últimos 28 dias
+   — anotar **Novos leads**, **Leads qualificados** e **Leads convertidos**.
+2. Numa **Exploração**, métrica **Usuários ativos** (não contagem de eventos),
+   segmentada por quem disparou `playbook_form_submit` e por quem disparou
+   `generate_lead`.
+3. Olhar a **sobreposição** entre os dois segmentos. Quem está só no primeiro
+   é a estimativa de usuário que qualifica sem ter entrado como lead.
+
+Mesmo assim fica estimativa: amostragem, janelas de atribuição e multi-
+dispositivo afetam o número. **Serve de ordem de grandeza e de linha de
+base**, não de medida exata.
 
 ## 11.7 Resumo em quatro linhas
 
-- O playbook emite **só** `playbook_form_submit`; **não** emite `generate_lead`.
-- Por isso **não entra em "Novos leads"** — mas **entra** em "Leads
-  qualificados" e "Leads convertidos", porque o funil 13 já está na regra.
-- Resultado: **qualificação e conversão sem o lead de origem.**
-- Correção mínima: **uma tag no GTM**, com gatilho exclusivo de
-  `playbook_form_submit`, **depois** da validação — e nunca no gatilho
-  "CE Conversões", sob pena de duplicar o `generate_lead` do contato.
+- **No código**, o playbook emite só `playbook_form_submit`; não emite
+  `generate_lead`. Isso está verificado.
+- **No GTM e no GA4, a ausência de tradução ainda NÃO está verificada** — tag
+  de tradução ou evento derivado produziriam `generate_lead` sem aparecer no
+  código. **Checar antes de propor qualquer tag.**
+- Se de fato não houver tradução: o playbook **não entra em "Novos leads"**,
+  mas **entra** em "Leads qualificados" e "Leads convertidos", porque o funil
+  13 já está na regra. Resultado: qualificação e conversão sem o lead de
+  origem.
+- **O tamanho dessa lacuna não é a diferença entre dois números do painel** —
+  usuários únicos e eventos não se subtraem. Só dá para estimar por
+  sobreposição de segmentos.
+- Correção mínima, **se e só se** a checagem confirmar a ausência: uma tag no
+  GTM com gatilho exclusivo de `playbook_form_submit`, depois da validação, e
+  nunca no gatilho "CE Conversões".
+
+---
+
+# 12. Pendências registradas, não executadas
+
+## 12.1 Favicon
+
+Pedido do Flávio: trocar o favicon pela imagem `icon-site-ciclo.png`.
+
+| | |
+|---|---|
+| Estado | **Pendente. Não executar agora** |
+| Arquivo | **Ainda não recebido por mim.** Conferido pela revisão, mas não chegou a esta sessão |
+| Quando | Depois de concluídas as validações de dados |
+| Onde | O favicon atual vive em `src/app/` — `favicon.ico`, `icon.png` e `icon.svg`. O Next serve os três por convenção de arquivo |
+
+Quando chegar a hora, isto precisa de atenção, porque **não é trocar um
+arquivo só**: há três entradas, e deixar uma desatualizada faz o navegador
+escolher a antiga. Além disso, `logo-ciclo.png` é referenciado em JSON-LD de
+várias páginas e **não** é o favicon — não confundir.
+
+Nada disso será feito sem o arquivo em mãos e sem a validação concluída.
+
+## 12.2 Tag de `generate_lead` para o playbook
+
+Ver seção 11. **Condicionada** a duas coisas, nesta ordem:
+
+1. A checagem de 11.2 confirmar que **não existe** tag de tradução no GTM
+   nem evento derivado no GA4.
+2. As validações da seção 9 passarem.
+
+Não será configurada por mim em hipótese alguma.
