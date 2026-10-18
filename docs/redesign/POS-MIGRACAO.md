@@ -1169,12 +1169,15 @@ episódio é.
 |---|---|---|
 | HTML servido | `/` e `/ofatorm` já trazem o id do episódio | **SSR de verdade**; quem não executa script vê episódio real |
 | ISR da home | `revalidate = 900` | no máximo 15 min de atraso |
-| ISR da `/ofatorm` | `revalidate = 3600` | no máximo 1h de atraso |
+| ISR da `/ofatorm` | `revalidate = 3600` **no código**, mas vale 600 — ver 19.3 | no máximo **10 min** de atraso |
 | Cache de dados do fetch | `next: { revalidate: 600 }` | uma busca a cada 10 min, não uma por visitante |
 | Tempo limite | 3500 ms por chamada, **3 chamadas em série** | pior caso ~10,5 s antes de cair para o snapshot |
 | Fallback | `src/data/episodios-fator-m.ts` | episódio real do último build; nunca depoimento reetiquetado |
 
 ### Qual episódio — e o limite da minha verificação
+
+> **Respondido em 19.3**, com o canal oficial e o log da Vercel. O que vem
+> abaixo é o que eu conseguia dizer sozinho, e fica como registro do limite.
 
 O snapshot do repositório tem **8 episódios**; o mais novo é
 `ytBr2WZmJJo`, *"A Geração Z trocou o Google pelo TikTok. Por quê?"*,
@@ -1258,3 +1261,167 @@ bloqueia a conclusão**, e a integração fica preservada, sem gasto. O achado d
 17.5 continua válido como está escrito — webhook entrega 200, o enriquecimento
 não conclui — e **deixa de ser pendência de conclusão**. Nada foi comprado,
 trocado nem reprocessado.
+
+---
+
+# 19. Atualização 18/10 — as quatro validações, com evidência externa
+
+Tudo nesta seção vem da revisão independente, com acesso restabelecido. **Eu
+não executei nenhuma delas**, não criei lead, não disparei cron e não mexi em
+GTM, GA4 nem Ads.
+
+## 19.1 Evento derivado do GA4 — CRIADO, aguardando propagação
+
+| | |
+|---|---|
+| Estado | **criado e salvo às 22:38 BRT de 17/10** |
+| Condição | **única**: `event_name` = `playbook_form_submit` |
+| Copiar parâmetros | marcado |
+| Modificações | nenhuma |
+| Evento original | **mantido** |
+| GTM, Ads, eventos-chave | **sem alteração** |
+
+Sai do estado "rascunho, não criado" que estava em 16 e em 17.7. **Não criar
+de novo** — criar o segundo derivado duplicaria a contagem.
+
+Falta: **propagação, 1h ou mais**, e o teste depois dela. O evento derivado é
+calculado no cliente antes do envio, então ele **não é retroativo**: só vale
+para `playbook_form_submit` posterior à criação.
+
+## 19.2 Meta — cobertura agregada, e só isso
+
+| Medida | Valor |
+|---|---|
+| `Lead` | **5 navegador + 5 servidor** |
+| Cobertura dos eventos do Pixel pela CAPI | **100%**, mesmos detalhes e mesmas chaves |
+| `event_id` presente | **100%** |
+| Diagnóstico de deduplicação | **nenhum** |
+| Alerta ativo | só o legado dos 11 domínios |
+
+**Isto valida o agregado, não cada par.** O painel diz que os dois lados
+chegaram com as mesmas chaves e o mesmo `event_id` em 100% dos casos — que é
+a pré-condição da dedup, agora medida e não só inferida. O que ele **não**
+diz é que a Meta casou o par X com o par Y, e nenhum número aqui autoriza
+essa frase.
+
+Com 5 e 5, e com `event_id` em 100%, a leitura honesta é: **não há evidência
+de falha de dedup, e não há comprovação individual.** O item de 15.8 continua
+aberto nesses termos, agora com a pré-condição medida no painel.
+
+## 19.3 Podcast — respondido, e uma correção minha
+
+**O canal confere.** Em `/@ofatorm/videos`, "Mais recentes", os 6 vídeos
+batem com o site; o primeiro é `ytBr2WZmJJo`, válido, reproduzido, título
+certo. É o mesmo id do snapshot, então **a lista no ar é a lista do canal**.
+
+**E a produção busca ao vivo, não serve snapshot congelado.** O log da Vercel
+de `/ofatorm` resolve o que eu não conseguia responder em 18.2:
+
+| | |
+|---|---|
+| Quando | 17/10, **22:34:49.426** |
+| Request | `2c7n7-1792287289426-a244c019653f` |
+| Production | `DtW3ZM9aprRpf25C5UZGw6MKk5FB` |
+| Resposta | **HTTP 200** |
+| ISR | `PRERENDER`, cache 0s, **TTL 10 min** |
+| Revalidação | **Background, time-based, 180 ms** |
+| APIs externas | `channels`, `playlistItems`, `videos` — **Using cache** |
+| Fim | **ISR Cache updated** |
+
+As três chamadas aparecem, então **`YOUTUBE_API_KEY` existe na Production** e
+o caminho da API está vivo. "Using cache" é o cache de dados do Next
+respondendo dentro da janela de 600 s — o esperado, não falha. E a
+revalidação em segundo plano de 180 ms é **regeneração real sem deploy**.
+
+**Correção de 18.2, minha:** eu disse que a `/ofatorm` atrasa no máximo 1h,
+por causa de `export const revalidate = 3600`. **Está errado, e o TTL de 10
+min do log é a prova.** A documentação do Next que vem no projeto diz por quê:
+
+> *"Individual `fetch` requests can set a lower `revalidate` than the route's
+> default `revalidate` to increase the revalidation frequency of the entire
+> route."*
+> — `node_modules/next/dist/docs/01-app/02-guides/caching-without-cache-components.md`
+
+Os três `fetch` usam `revalidate: 600`, e **600 é menor que 3600**, então a
+rota inteira revalida a cada 10 min. O número do log não é anomalia: é a
+regra. Vale para a home também, onde 600 já era menor que os 900 declarados.
+
+**Não testado, e continua não testado:** que um episódio **novo** apareça. O
+que está provado é que a rota regenera sozinha e que a lista de hoje é a do
+canal. Episódio futuro só a próxima publicação mostra.
+
+Não tentei outro caminho para ler `/api/youtube/latest` depois do bloqueio do
+navegador, como pedido.
+
+**Spotify: fora dos ajustes, intocado.**
+
+## 19.4 Cron — janela confirmada, sem disparo
+
+Cron **Enabled** no painel. No plano Hobby o agendamento é **por janela, não
+por hora exata**: a execução de 18/10 cai entre **09:00 e 10:00 BRT**, e a
+linha `0 12 * * *` é o início da janela, não o horário garantido.
+
+Isso ajusta o que eu escrevi em 18.3 — lá eu disse "09:00 BRT" como se fosse
+hora cravada. **Não é**, e a diferença importa: se às 09:05 não houver Note,
+isso ainda não é falha.
+
+Nada foi disparado, e o contrato offline do passo 22 continua como está.
+
+## 19.5 Sessão do GA4 — reconfirmada, e o que mudou na correção
+
+Tag Assistant às **22:59** reconfirmou `cid=236604966.1789393663`,
+`sid=1792277136`, `tid=G-EY1FLE5C0J`. **O cookie real continua não lido**,
+então as variantes (a) e (b) de 18.1 seguem indistintas — e a correção
+continua servindo para as duas.
+
+Dois ajustes pedidos na revisão, feitos em **`d1f10d5`**:
+
+**1. Nada de palpite na ambiguidade.** Eu tinha escrito que, entre duas
+cópias do mesmo nome, ficava a de maior `session_id`, "que é a que o gtag
+acabou de escrever". **Isso era heurística sem evidência**: eu não medi o
+comportamento do gtag, e a frase afirmava mais do que eu podia sustentar.
+A regra agora é inequívoca ou nada:
+
+| Cookies de nome exato | Resultado |
+|---|---|
+| nenhum válido | `undefined` |
+| um, ou vários **concordando** | o valor |
+| dois com valores **diferentes** | `undefined` |
+
+A hipótese da cópia sobrando em outro caminho ou domínio fica registrada
+**como hipótese**, no comentário do código. O passo 21 cobre: divergentes dão
+vazio, concordantes em formatos diferentes dão o valor, cópia ilegível não
+vira divergência, e maioria não decide — duas contra uma continua ambíguo.
+
+**2. A trava do passo 19 era frouxa, e eu a afrouxei.** Ao declarar os
+arquivos em `hashes-excecoes.txt`, a autorização passou a ser **por caminho**:
+qualquer mudança futura naqueles dois arquivos passaria. Agora a autorização é
+pelo **hash do conteúdo revisado**:
+
+```
+src/lib/attribution.ts        c18a0842…
+src/lib/pipedrive-server.ts   bb382196…
+src/lib/ga4-session.ts        6654d5e9…
+```
+
+Mudou de novo, mesmo declarado, **reprova** — e o conserto é a revisão olhar
+o novo conteúdo e atualizar o hash. `ga4-session.ts` entrou na lista: é novo,
+então a única referência possível é o conteúdo revisado.
+
+A decisão saiu para `docs/redesign/guarda-hashes.mjs`, pura, para a **prova
+negativa** rodar sem tocar em arquivo nenhum. São quatro, todas verdes:
+reprova mudança sem revisão; reprova mudança futura em **cada um** dos três
+revisados, mesmo declarados; reprova conteúdo revisado que saiu de
+`hashes-excecoes.txt`; e um controle que passa com os hashes de hoje.
+
+## 19.6 Onde cada validação está
+
+| Validação | Estado |
+|---|---|
+| Evento derivado do GA4 | **criado 22:38**; falta propagação de 1h+ e teste. Não criar de novo |
+| Meta `Lead` | **agregado validado** — 5+5, cobertura 100%, `event_id` 100%. Par individual **não comprovado**, e não será por estes números |
+| Podcast | **fechado** — canal confere, produção busca ao vivo, regeneração sem deploy provada. Episódio futuro não testado |
+| Cron | **janela confirmada**, 09–10 BRT de 18/10. Aguarda execução natural |
+| Sessão do GA4 | corrigida em `0d4ab00` + `d1f10d5`; **variante (a) ou (b) ainda indistinta** |
+| Enriquecimento por IA | **fora de escopo**, por decisão. Integração preservada, sem gasto |
+| Spotify | **fora dos ajustes**, intocado |
