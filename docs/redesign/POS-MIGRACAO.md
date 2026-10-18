@@ -469,19 +469,14 @@ navegador antigo, com cookie de outra property ou de outro container, o
 no session id da última sessão dela — o que explicaria setembro.
 
 **Isto é hipótese, não conclusão, e continua assim.** Não tenho acesso ao
-navegador e não posso ver os cookies. A leitura do console **não foi feita**
-até agora, então **nada aqui está confirmado** — nem a causa, nem que seja
-herdado. **Como confirmar, em dez segundos e sem alterar nada**, no
-console do mesmo navegador:
+navegador e não posso ver os cookies.
 
-```js
-document.cookie.split('; ').filter(c => c.startsWith('_ga'))
-```
-
-| Resultado | Leitura |
-|---|---|
-| Mais de um `_ga_…`, e o primeiro não é `_ga_EY1FLE5C0J` | **Hipótese confirmada.** É a leitura do cookie, não o first-touch |
-| Só um `_ga_EY1FLE5C0J`, com session id de setembro | Outra causa. O GA4 não teria iniciado sessão nova, o que seria estranho — e aí vale investigar do lado do GA4 |
+> **Atualização de 18/10:** o caminho do console foi **descartado** — ver
+> 21.6. A causa específica do valor antigo **não será investigada**, e o que
+> fechou o assunto foi o teste funcional de 23:38: o negócio novo gravou a
+> mesma sessão que o Tag Assistant viu no hit real. A correção resolve o
+> sintoma; a arqueologia do cookie de setembro fica sem resposta, por
+> decisão, e isso está registrado como limite.
 
 **Se confirmado, é defeito herdado, não do redesign:** `attribution.ts` está
 byte a byte igual à base `7ae962b` — conferido pelo passo 19 da suíte, que
@@ -915,6 +910,11 @@ aprovada por inferência**, mesmo com a pré-condição provada.
 
 **Não haverá mais envios de teste.** O que falta é o painel consolidar.
 
+> **Encerrado em 18/10 — ver 21.4.** O painel consolidou o agregado, não o
+> par. A linha "Meta declarar o par deduplicado" **não vai ser preenchida**,
+> porque o Events Manager não expõe isso. Deixa de ser item a fechar e passa
+> a limite conhecido da evidência.
+
 ## 15.9 Alerta de domínios no diagnóstico da Meta
 
 Único alerta ativo: **domínios novos, 11**, incluindo externos. A allowlist
@@ -937,13 +937,19 @@ datasets diferentes. **Seria um achado sério** — e, se for o caso, herdado:
 
 **Nada a alterar até saber qual das três é.**
 
+> **Encerrado em 18/10 — ver 21.4.** As três hipóteses foram resolvidas: o
+> `Lead` aparece no dataset, com 5 do navegador e 5 do servidor, cobertura de
+> 100% e `event_id` em 100%. Não há dedup impossível, não há dataset
+> separado, e **nada a alterar**. O que não existe é a confirmação par a par,
+> e ela não existirá por este caminho.
+
 ---
 
 # 16. O que continua pendente
 
 | Item | Estado |
 |---|---|
-| **Deduplicação na Meta** | **PENDENTE — só a confirmação do painel consolidado.** As hipóteses 1 e 2 caíram (15.6) e a pré-condição está provada: mesmo pixel, mesmo `event_id`, os dois lados entregues (15.7). Falta a Meta declarar o par casado |
+| **Deduplicação na Meta** | **ENCERRADA em 18/10 sem alteração necessária — ver 21.4.** As hipóteses 1 e 2 caíram (15.6) e a pré-condição está provada (15.7). O par individual **não é exposto pelo painel**: isso é limite da evidência, não defeito a consertar |
 | **Evento derivado do playbook** | **preparado em rascunho, NÃO criado.** Recomendação revista em 14.2, depois de a doc derrubar a minha primeira razão |
 | Envios de teste | **encerrados.** Três no total: 3646, 3647 e 3648, todos arquivados |
 | Arquivamento dos registros de teste | negócios 3646 e 3647 arquivados. **A pessoa 3588 teve o telefone substituído** — não foi preservada integralmente |
@@ -1065,7 +1071,7 @@ Substitui a de 16 no que mudou:
 | Assimetria de GTM na `/aplicacao` | **DESCARTADA** (17.4) |
 | **Enriquecimento por IA** | **BLOQUEADO — crédito da API Anthropic** (17.5). Pendência operacional, fora do código |
 | Popup do playbook | aberto, e **mais caro do que eu disse**: depende da chave de supressão (17.6) |
-| Deduplicação na Meta | **PENDENTE**, sem mudança |
+| Deduplicação na Meta | **ENCERRADA sem alteração necessária** (21.4) |
 | Evento derivado do playbook no GA4 | **RASCUNHO, não criado** |
 | Cron | próxima execução natural, **~09 BRT de 18/10** |
 | Hipótese do `ga_session_id` | **PENDENTE** — cookies não lidos |
@@ -1122,14 +1128,10 @@ Duas variantes explicam o mesmo sintoma e **a correção serve para as duas**:
 | **(a)** outra propriedade | um `_ga_<outro>` além do nosso, com sessão de setembro |
 | **(b)** cópia nossa sobrando | dois `_ga_EY1FLE5C0J`, em caminhos ou domínios diferentes, o velho vindo primeiro |
 
-Uma linha no console do navegador que fez o teste separa as duas, e **não
-muda nada**:
-
-```js
-document.cookie.split('; ').filter(c => c.startsWith('_ga'))
-```
-
-Se vier mais de um `_ga_`, está demonstrado qual variante é.
+Eu havia proposto separar as duas lendo os cookies no console. **Esse
+caminho foi descartado** — ver 21.6. As variantes continuam indistintas, e
+com a correção publicada a distinção **deixou de ter consequência prática**:
+a regra passou a exigir resposta inequívoca em qualquer um dos dois casos.
 
 ### A correção — `0d4ab00`, na branch, não publicada
 
@@ -1419,9 +1421,287 @@ revisados, mesmo declarados; reprova conteúdo revisado que saiu de
 | Validação | Estado |
 |---|---|
 | Evento derivado do GA4 | **criado 22:38**; falta propagação de 1h+ e teste. Não criar de novo |
-| Meta `Lead` | **agregado validado** — 5+5, cobertura 100%, `event_id` 100%. Par individual **não comprovado**, e não será por estes números |
+| Meta `Lead` | **ENCERRADA sem alteração necessária** (21.4) — agregado validado: 5+5, cobertura 100%, `event_id` 100%. Par individual não é exposto pelo painel: limite da evidência |
 | Podcast | **fechado** — canal confere, produção busca ao vivo, regeneração sem deploy provada. Episódio futuro não testado |
 | Cron | **janela confirmada**, 09–10 BRT de 18/10. Aguarda execução natural |
 | Sessão do GA4 | corrigida em `0d4ab00` + `d1f10d5`; **variante (a) ou (b) ainda indistinta** |
 | Enriquecimento por IA | **fora de escopo**, por decisão. Integração preservada, sem gasto |
 | Spotify | **fora dos ajustes**, intocado |
+
+---
+
+# 20. Publicação de 17/10 23:25 BRT — estado e evidência
+
+Segunda publicação de Production depois da migração. Registro aqui o estado
+final; **nada foi publicado para gravar este documento**, ele vive na branch
+de trabalho.
+
+## 20.1 O que está no ar
+
+| Item | Valor |
+|---|---|
+| SHA publicado | **`e79985489d1fc11e77285e8aad24763b231554e9`** |
+| Merge | `7f2ba8c` na branch de Production, **sem force-push, sem Promote de Preview** |
+| Push | `caabe13..e799854`, fast-forward |
+| Deployment **GitHub** | `7148850730`, criado **23:25:21 BRT** |
+| Deployment **Vercel** | **`5vExsSoQdaUhkXQTL9z8GimtTqG4`** |
+| Confirmação | **Ready / Production / Current às 23:27 BRT**, com o domínio `cicloecommerce.com.br` |
+
+A distinção de nomenclatura de 17.2 continua valendo e agora tem um terceiro
+par: **`7148850730` é id do GitHub; `5vExsSoQdaUhkXQTL9z8GimtTqG4` é o da
+Vercel.** O estado Ready/Current é leitura do painel pela revisão
+independente — eu não enxergo a Vercel nem o domínio, e não declarei Ready
+por status do GitHub.
+
+| Publicação | GitHub | Vercel |
+|---|---|---|
+| Redesign, 17/10 20:29 | `7147282117` | `9wDAEozub4kNH11R6dsnRDmo1YjX` |
+| Favicon, 17/10 22:08 | `7148182431` | `DtW3ZM9aprRpf25C5UZGw6MKk5FB` |
+| **Correções de mensuração, 17/10 23:25** | `7148850730` | **`5vExsSoQdaUhkXQTL9z8GimtTqG4`** |
+
+## 20.2 O vínculo entre o que foi revisado e o que foi publicado
+
+| | |
+|---|---|
+| Árvore do merge `e799854` | `74ed31c5ceb416ac182ddb6d3bff1ef693e1bdaa` |
+| Árvore do candidato revisado `7f2ba8c` | `74ed31c5ceb416ac182ddb6d3bff1ef693e1bdaa` |
+| `git diff 7f2ba8c e799854` | **vazio** |
+
+Mesmo conteúdo, byte a byte. O merge não trouxe nada do lado de produção que
+o candidato já não tivesse, e o favicon de `caabe137` saiu intacto.
+
+**Os gates rodaram sobre o SHA do merge, antes do push** — o cabeçalho do log
+dizia `commit: e799854`. 23 passos, TUDO OK, com typecheck limpo, build verde
+de 882 páginas, playbook idêntico e eventos e payloads idênticos nos quatro
+formulários.
+
+O log versionado (`suite-sessao-ga4.log`) marca `8a45c66`, de uma rodada
+anterior: commitar o log novo mudaria o SHA e o log ficaria desatualizado de
+novo. A rodada sobre `e799854` ficou fora da árvore de propósito.
+
+## 20.3 O que entrou
+
+Só o delta aprovado: **118 linhas em 5 arquivos**, 97 delas no arquivo novo.
+
+| Arquivo | O quê |
+|---|---|
+| `src/app/api/aplicacao/route.ts` | `context` no `sendMetaEvent` |
+| `src/app/api/link-bio/route.ts` | idem |
+| `src/lib/ga4-session.ts` | novo: escolhe `_ga_EY1FLE5C0J` pelo nome exato |
+| `src/lib/attribution.ts` | passa a usar o acima |
+| `src/lib/pipedrive-server.ts` | idem, no servidor |
+
+Preservados: favicon, playbook, URLs, credenciais, GTM, GA4 e as regras de
+qualificação e de ganho.
+
+**Playbook no ar:** abriu depois de recarregar, com título e formulário
+presentes. **Nenhuma correção de layout adicional** foi necessária.
+
+**Rollback:** `caabe137` / deployment Vercel `DtW3ZM9aprRpf25C5UZGw6MKk5FB`,
+confirmado Ready e Current às 23:08. A branch de trabalho segue em `7f2ba8c`.
+
+## 20.4 Por que `/link-bio` e `/aplicacao` NÃO foram retestadas
+
+Decisão da revisão, e ela está certa. O motivo é um **risco inferido**, e a
+inferência tem três premissas, nenhuma delas observação do cookie atual:
+
+1. o teste anterior criou os negócios 3649 e 3650 naquele navegador;
+2. a mesma sessão do navegador persiste desde então;
+3. o código mantém a janela de dedup de 6h.
+
+Daí segue que repetir o fluxo agora provavelmente **reaproveitaria** 3649 e
+3650 — atualizando registros **arquivados** e embaralhando a leitura da
+dedup, em vez de produzir evidência nova.
+
+**Os valores atuais dos cookies NÃO foram lidos.** Ninguém inspecionou o
+navegador, e esta seção não deve ser lida como se alguém tivesse. É risco
+suficiente para não repetir o teste; não é fato observado.
+
+Então o estado honesto da correção do `context` é este:
+
+| | |
+|---|---|
+| Revisado | **sim** — diff lido e aprovado |
+| Testado | **sim, com mock** — passo 20, três rotas reais, `fetch` trocado, sem rede |
+| Publicado | **sim** — `e799854` |
+| **Comprovado em dado real** | **NÃO, e não vai ser hoje** |
+
+A linha em `conversion_events` com `deal_id` preenchido vindo de `/link-bio`
+ou `/aplicacao` só aparece **quando a sessão expirar ou houver conversão
+legítima nova**. Sem apagar cookie, sem afrouxar dedup, sem forçar.
+
+A correção também **não é retroativa**: 3649 e 3650 continuam com `deal_id`
+NULL, e a auditoria deles depende da janela de tempo e do `event_id`, como em
+6.1 do inventário.
+
+## 20.5 O que falta para o projeto fechar
+
+| Item | Estado | Quando |
+|---|---|---|
+| **Cron do resumo diário** | **a única execução futura incontornável** | **18/10, janela 09–10 BRT** |
+| Evento derivado do GA4 | criado 22:38, **aguardando propagação** | teste a partir de 23:38 |
+| Teste real do playbook | junta validação da sessão com o derivado | depois de 23:38, pela revisão |
+| `context` em dado real | aguarda sessão expirar ou conversão legítima | sem data |
+| Dedup individual na Meta | **encerrada sem alteração necessária** (21.4); par individual é limite do painel | — |
+| Variante (a) ou (b) da sessão | indistinta; o cookie real não foi lido | leitura de uma linha no console |
+
+**O projeto não é 100% sem a evidência do cron.** Ele é o único item que não
+depende de decisão de ninguém: acontece sozinho na janela de 09–10 BRT de
+18/10, e é o que falta para fechar. Até lá, o que existe é o contrato provado
+offline no passo 22 — agendamento, autenticação, trava de repetição, uma Note
+por visitante e os filtros da consulta — e nada mais.
+
+**Não disparei o cron, não criei lead e não publiquei nada para escrever esta
+seção.**
+
+---
+
+# 21. Fechamento — teste real de 17/10, 23:38–23:43 BRT
+
+Observação direta no navegador, pela revisão independente, contra a produção
+`e799854` / Vercel `5vExsSoQdaUhkXQTL9z8GimtTqG4`, Ready e Current. **Eu não
+executei nada disto, não publiquei nada para escrever esta seção e não
+disparei o cron.**
+
+## 21.1 O negócio 3651
+
+| | |
+|---|---|
+| Negócio | **3651** |
+| Pessoa / organização | 3588 / 1849 — **as preexistentes, preservadas** |
+| Valor | R$ 0 |
+| Funil | 13, *Baixou material* |
+| Renomeado | `Flávio Beraldo - TESTE PLAYBOOK VALIDACAO FINAL` |
+| Arquivado | **23:43**, confirmado na interface |
+| UUID do evento | `df9d8408-780f-4451-85bd-0bf9acef2f34` |
+
+## 21.2 A sessão bate — o teste funcional da correção
+
+Este é o item que fecha a correção do `ga4-session`, e ele fecha **por
+comparação com o hit real**, não por leitura de cookie:
+
+| Onde | `client_id` | `session_id` |
+|---|---|---|
+| CRM, negócio 3651 | `236604966.1789393663` | **`1792277136`** |
+| Hit `generate_lead`, Tag Assistant, `tid=G-EY1FLE5C0J` | mesmo | **mesmo** |
+
+Mesmo `event_id` nos dois lados, `form=playbook`, `method=manual`,
+`content_name=playbook-social-commerce`. O primeiro toque sobreviveu intacto:
+`direct / none`, `first_visit = 2026-09-14T13:47:41.251Z`.
+
+Era exatamente o sintoma de 18.1: o CRM gravava uma sessão de setembro
+enquanto o hit real trazia a de agora. **Agora grava a mesma.**
+
+O que isto **não** prova, e não vou escrever que prova:
+
+- **não prova captura de UTM nova nem de GCLID** — o primeiro toque deste
+  navegador é `direct/none` e preexistente, então esses campos continuam
+  sem teste, como em 16;
+- **não prova a causa específica** do valor antigo. As variantes (a) e (b)
+  de 18.1 seguem indistintas, e **ficam assim**: ver 21.6.
+
+## 21.3 O evento derivado do GA4 funcionou
+
+Salvo às 22:38, respeitada a propagação de 1h. No **Tempo real das 23:39**:
+`generate_lead` = 1 e `playbook_form_submit` = 1, com o **evento original
+preservado** — não houve substituição nem contagem dupla do original.
+
+**Limites, que importam aqui:** o relatório padrão ainda estava em
+processamento, e **a regra não é retroativa**. Então **não há linhas
+consolidadas a declarar** — o que existe é a confirmação no Tempo real de que
+a derivação dispara. O efeito no relatório de Aquisição de leads só aparece
+depois do processamento, e **só para envios posteriores a 22:38**.
+
+## 21.4 Meta — encerrada, com o limite explícito
+
+A revisão da Meta está **encerrada, sem alteração necessária**.
+
+| O que o painel mostra | |
+|---|---|
+| `Lead` | 5 navegador + 5 servidor |
+| Cobertura dos eventos do Pixel pela CAPI | **100%**, mesmos detalhes e mesmas chaves |
+| `event_id` presente | **100%** |
+| Diagnóstico de deduplicação | **nenhum** |
+
+**O par individual não é exposto pelo painel. Isso é limite da evidência, não
+defeito a consertar** — e é a diferença entre "não sabemos" e "está errado".
+Não há o que mudar no código, na configuração ou no envio.
+
+E fica dito, porque eu mesmo já escorreguei nisso: **HTTP 200, `events_received: 1`
+e UUID igual dos dois lados NÃO são par deduplicado.** O registro do 3651 em
+`conversion_events` prova que o envio saiu e foi aceito; não prova que a Meta
+casou o par, e nenhuma linha deste documento deve ser lida assim.
+
+## 21.5 O `context` no dado real — a primeira linha completa
+
+`SELECT` em `conversion_events` para o negócio 3651:
+
+| Campo | Valor |
+|---|---|
+| `sent_at` | `2026-10-18 02:38:23.34+00` |
+| `platform` / `event_name` | `meta` / `Lead` |
+| `event_id` | `df9d8408-780f-4451-85bd-0bf9acef2f34` — o mesmo UUID |
+| `status` | `sent` |
+| **`deal_id`** | **3651** |
+| **`person_id`** | **3588** |
+| **`uid`** | **`8026a42c-2021-4756-bec7-0f939320693f`** |
+| `response` | `status 200`, `events_received 1`, `fbtrace_id AlOyXn4mfNRG0_5EOe8KmEi` |
+
+Os três campos que nasciam NULL estão preenchidos. **Mas atenção ao escopo:**
+este registro veio do **playbook**, que passa pela rota `/api/pipedrive` —
+aquela que **já** passava `context` antes da correção. Ele confirma que o
+mecanismo funciona em produção; **não é a prova de `/link-bio` nem de
+`/aplicacao`**, que são as duas rotas que a correção `f73a2ef` mudou.
+
+O estado dessas duas continua como em 20.4: revisadas, testadas com mock,
+publicadas, **sem registro real novo** — e o novo só vem quando a sessão
+expirar ou houver conversão legítima, sem apagar cookie e sem afrouxar dedup.
+
+## 21.6 O que foi descartado por decisão
+
+**Não vamos ler `document.cookie` no console.** Eu havia proposto isso em
+18.1 e em 19.5 como o jeito de separar as variantes (a) e (b) e de confirmar
+a causa do valor de setembro. **O caminho está descartado**, e as duas
+seções foram corrigidas.
+
+O que ficou no lugar é o que de fato importava: **o teste funcional de 21.2**
+— o negócio novo comparado com o hit real do Tag Assistant. Ele responde a
+pergunta operacional, que é se a sessão gravada é a sessão verdadeira.
+
+E ficou **sem resposta, por decisão**, a pergunta arqueológica: *por que* o
+cookie trazia setembro. Com a correção publicada, essa distinção deixou de
+ter consequência prática — a regra agora exige resposta inequívoca nas duas
+variantes. Fica registrado como limite, não como pendência.
+
+Também não foi lido o estado atual dos cookies para a decisão de 20.4: aquilo
+é risco inferido de três premissas, não observação.
+
+## 21.7 Onde o projeto está
+
+**Três itens encerrados** em 17/10:
+
+| | |
+|---|---|
+| Sessão do GA4 | **encerrado** — teste funcional em 21.2 |
+| Evento derivado do GA4 no playbook | **encerrado** — Tempo real em 21.3, com os limites de processamento e não retroatividade |
+| Revisão da Meta | **encerrada sem alteração necessária** — 21.4, com o par individual como limite |
+
+**Item 4 — podcast automático: comprovado**, pelo ISR e pelo cache do log da
+Vercel e pela conferência da lista com o canal oficial, ambos em 19.3. O
+Spotify foi **excluído do escopo** pelo usuário e está intocado.
+
+**O que falta, e é um só:**
+
+| | |
+|---|---|
+| **Cron `/api/cron/site-digest`** | **execução natural de 18/10, janela 09–10 BRT.** Não disparar manualmente |
+
+O contrato dele está provado offline no passo 22 — agendamento, autenticação,
+trava de repetição, uma Note por visitante, filtros da consulta. O que falta é
+a Vercel invocar e as Notes aparecerem.
+
+**Sem garantia de 100%.** Além do cron, seguem sem prova e sem data: o
+registro real de `/link-bio` e `/aplicacao` (21.5), a captura de UTM e GCLID
+novos (21.2), o par individual da dedup (21.4) e a causa do cookie antigo
+(21.6). Nenhum deles é defeito conhecido; são **lacunas de evidência**, e
+estão nomeadas uma a uma de propósito.

@@ -765,3 +765,74 @@ Ver seção 11. **Condicionada** a duas coisas, nesta ordem:
 2. As validações da seção 9 passarem.
 
 Não será configurada por mim em hipótese alguma.
+
+---
+
+# 13. Resultado — o roteiro foi executado
+
+Este roteiro foi escrito para ser executado por outra pessoa, e foi. Registro
+aqui o desfecho de cada parte, para o documento não continuar falando no
+futuro. O detalhe das evidências está em `POS-MIGRACAO.md`, seções 12 a 21.
+
+## 13.1 O que foi executado, e quando
+
+| Teste | Negócio | Quando | Estado |
+|---|---|---|---|
+| `#contato` da home | 3646 | 17/10 21:08 | arquivado |
+| Playbook manual | 3647 | 17/10 21:17 | arquivado |
+| `#contato`, terceiro envio | 3648 | 17/10 21:44 | arquivado |
+| `/link-bio`, as 5 etapas | 3649 | 17/10 21:58–22:03 | arquivado |
+| `/aplicacao` | 3650 | 17/10 22:03 | arquivado |
+| **Playbook, validação final** | **3651** | **17/10 23:38–23:43** | **arquivado** |
+
+**Seis negócios de teste, todos arquivados.** Pessoa 3588 e organização 1849
+preservadas, como pedido — com a ressalva já registrada de que o telefone da
+pessoa 3588 foi substituído num dos envios, e isso não foi revertido.
+
+Nenhum deles foi criado por mim.
+
+## 13.2 As pendências da seção 12, resolvidas
+
+**12.1, favicon:** publicado em `caabe137`, 17/10 22:08. O arquivo chegou,
+foi conferido por hash e as três entradas foram tratadas — `icon.png` e
+`favicon.ico` com o PNG exato, e `icon.svg` **removido** por conflitar,
+exatamente o risco que esta seção antecipava.
+
+**12.2, tag de `generate_lead` para o playbook:** as duas condições foram
+cumpridas na ordem prevista. A checagem de 11.2 **não** se confirmou como eu
+supunha — o GTM **tem** o gatilho 179, cuja regex já inclui
+`consultoria_ecom_shift_lead`, então a assimetria que eu suspeitava não
+existia. E a solução adotada **não foi** a tag do GTM que eu recomendava em
+11.5: foi um **evento derivado no GA4**, criado pela revisão em 22:38, com
+condição única `event_name = playbook_form_submit`, cópia de parâmetros e o
+evento original preservado.
+
+Funcionou: Tempo real das 23:39 mostrou `generate_lead` = 1 e
+`playbook_form_submit` = 1. **Com dois limites que o roteiro precisa
+carregar:** o relatório padrão ainda estava processando, e a regra **não é
+retroativa** — vale só para envios posteriores a 22:38.
+
+## 13.3 O que o roteiro previa e NÃO foi comprovado
+
+Honestidade sobre o alcance do que se executou. Nada abaixo é defeito
+conhecido; é **lacuna de evidência**.
+
+| Item do roteiro | Por quê |
+|---|---|
+| **UTM e GCLID novos** | O navegador do teste tinha primeiro toque `direct/none` preexistente, de 14/09. Nenhum envio chegou por campanha |
+| **Os 8 campos de atribuição** | Campanha vazia, `gclid` não conferido |
+| **Par individual na dedup da Meta** | O Events Manager não expõe par a par. Agregado em 100%, sem diagnóstico de dedup — **encerrado como limite**, não como pendência |
+| **Registro real de `/link-bio` e `/aplicacao` com `context`** | A correção foi publicada, mas repetir o fluxo reaproveitaria 3649/3650. Só com sessão expirada ou conversão legítima nova |
+| **Popup do playbook** | Não testado. A supressão depende de `localStorage`, gravada ao **fechar** — baixar o playbook não suprime |
+| **Playbook via LinkedIn** | Recurso desligado; ligar seria mudança de ambiente, fora de escopo |
+| **Enriquecimento por IA** | Fora de escopo por decisão; crédito da API, não código |
+
+## 13.4 O que ainda vai acontecer sozinho
+
+| | |
+|---|---|
+| **Cron `/api/cron/site-digest`** | **18/10, janela 09–10 BRT.** Não disparar manualmente |
+
+É o único item que não depende de decisão de ninguém, e o último que falta
+para encerrar. Até ele rodar, **não há garantia de 100%** — e o que existe é
+o contrato provado offline no passo 22 da suíte.
