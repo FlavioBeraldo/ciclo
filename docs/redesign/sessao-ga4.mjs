@@ -71,15 +71,37 @@ console.log('\n3. Mais de uma propriedade no domínio — o caso do achado')
   conferir(escolhida !== OUTRA, 'NÃO escolheu a sessão de setembro da outra propriedade')
 }
 
-console.log('\n4. Duas cópias do MESMO cookie — sobra de outro caminho ou domínio')
+console.log('\n4. Duas cópias do MESMO cookie — ambiguidade, não palpite')
 {
-  // O navegador manda as duas com o mesmo nome; a mais específica costuma vir
-  // primeiro, e é justamente a velha. Fica a mais recente.
-  const cookies = [
+  // O navegador pode mandar o mesmo nome mais de uma vez, quando há cópia em
+  // outro caminho ou domínio, e `document.cookie` não diz de qual escopo cada
+  // uma veio. Qual o gtag está realmente escrevendo é HIPÓTESE — não medido.
+  // Então, com valores diferentes, nenhum é escolhido.
+  const divergentes = [
     { name: '_ga_EY1FLE5C0J', value: `GS1.1.${OUTRA}.1.1.1789481500.0.0.0` },
     { name: '_ga_EY1FLE5C0J', value: `GS1.1.${NOSSA}.4.1.1792277400.0.0.0` },
   ]
-  conferir(pickGaSessionId(cookies) === NOSSA, 'entre cópias do mesmo nome, fica a sessão mais recente')
+  const r = pickGaSessionId(divergentes)
+  conferir(r === undefined, `valores diferentes no mesmo nome: devolveu ${r}, esperado vazio`)
+  conferir(r !== NOSSA && r !== OUTRA, 'não escolhe nem a mais recente nem a mais antiga')
+
+  // Mesma coisa dita duas vezes não é ambiguidade: é uma resposta só.
+  const iguais = [
+    { name: '_ga_EY1FLE5C0J', value: `GS1.1.${NOSSA}.4.1.1792277400.0.0.0` },
+    { name: '_ga_EY1FLE5C0J', value: `GS2.1.s${NOSSA}$o4$g1$t1792277500$j60$l0$h0` },
+  ]
+  conferir(pickGaSessionId(iguais) === NOSSA, 'cópias que concordam, mesmo em formatos diferentes, devolvem o valor')
+
+  // Uma cópia ilegível não inventa divergência com a válida.
+  const comLixo = [
+    { name: '_ga_EY1FLE5C0J', value: 'lixo' },
+    { name: '_ga_EY1FLE5C0J', value: `GS1.1.${NOSSA}.4.1.1792277400.0.0.0` },
+  ]
+  conferir(pickGaSessionId(comLixo) === NOSSA, 'cópia ilegível é descartada, não vira divergência')
+
+  // Três cópias, duas concordando e uma não: continua ambíguo.
+  const tres = [...iguais, { name: '_ga_EY1FLE5C0J', value: `GS1.1.${OUTRA}.1.1.1789481500.0.0.0` }]
+  conferir(pickGaSessionId(tres) === undefined, 'maioria não decide: duas contra uma continua ambíguo')
 }
 
 console.log('\n5. Ausência')

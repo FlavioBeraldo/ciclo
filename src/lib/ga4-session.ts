@@ -48,29 +48,34 @@ export function parseGaSessionId(value: string): string | undefined {
 /**
  * Escolhe a sessão da NOSSA propriedade entre os cookies disponíveis.
  *
- * Só considera o cookie de nome exato. Quando o navegador manda o mesmo nome
- * mais de uma vez — acontece quando existe uma cópia em outro domínio ou
- * caminho — fica com a sessão mais recente, que é a que o gtag acabou de
- * escrever; a antiga é justamente a sobra que causava o problema.
+ * Só considera o cookie de nome exato, e só devolve valor quando a resposta é
+ * inequívoca:
  *
- * Sem cookie da nossa propriedade, devolve `undefined`. Devolver a sessão de
- * outra propriedade seria pior do que não devolver nada: entra no CRM como se
- * fosse verdade e não dá para distinguir depois.
+ * - nenhum cookie nosso válido  -> `undefined`
+ * - um valor, ou várias cópias dizendo a MESMA coisa -> esse valor
+ * - duas cópias com valores DIFERENTES -> `undefined`
+ *
+ * O último caso é o que não dá para resolver sozinho. O navegador pode mandar
+ * o mesmo nome mais de uma vez quando existe cópia em outro caminho ou
+ * domínio, e `document.cookie` não diz de qual escopo cada uma veio. Qual
+ * delas o gtag está realmente escrevendo é HIPÓTESE: não medi o comportamento
+ * dele, e nenhuma regra daqui — a mais recente, a primeira, a de maior número
+ * — tem evidência por trás. Entre arriscar a associação errada e não
+ * responder, não responder é o honesto: campo vazio se vê, campo errado entra
+ * no CRM como verdade e não dá para distinguir depois.
+ *
+ * Se esse caso aparecer na prática, o que resolve é ler os cookies do
+ * navegador e limpar a cópia sobrando — não adivinhar aqui.
  */
 export function pickGaSessionId(cookies: Iterable<{ name: string; value: string }>): string | undefined {
-  let maior: number | undefined
-  let escolhida: string | undefined
+  const encontrados = new Set<string>()
   for (const { name, value } of cookies) {
     if (name !== GA4_SESSION_COOKIE) continue
     const session = parseGaSessionId(value)
-    if (!session) continue
-    const n = Number(session)
-    if (maior === undefined || n > maior) {
-      maior = n
-      escolhida = session
-    }
+    if (session) encontrados.add(session)
   }
-  return escolhida
+  if (encontrados.size !== 1) return undefined
+  return [...encontrados][0]
 }
 
 /** Os pares nome/valor de `document.cookie`, para uso no navegador. */
