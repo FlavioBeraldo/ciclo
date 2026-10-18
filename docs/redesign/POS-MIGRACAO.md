@@ -1070,3 +1070,191 @@ Substitui a de 16 no que mudou:
 | Cron | próxima execução natural, **~09 BRT de 18/10** |
 | Hipótese do `ga_session_id` | **PENDENTE** — cookies não lidos |
 | Os 8 campos de atribuição · captura de UTM nova | **NÃO COMPROVADOS**, sem mudança |
+
+---
+
+# 18. Atualização 18/10 — sessão do GA4, podcast e cron
+
+## 18.1 A sessão do GA4 vinha da propriedade errada
+
+A evidência que fechou o diagnóstico, toda dela externa:
+
+| Fonte | Valor | Quando é isso |
+|---|---|---|
+| Tag Assistant, 22:16 de 17/10, `/g/collect` | `tid=G-EY1FLE5C0J`, `cid=236604966.1789393663`, `sid=1792277136` | sessão iniciada **17/10 19:45:36 BRT** |
+| Negócio 3646, campo `ga_session_id` | `1789481472` | **15/09/2026 11:11:12 BRT** |
+
+Mesmo navegador — o `cid` é idêntico, e o `.1789393663` dele é 14/09, a
+primeira visita. Só a **sessão** está errada, e por um mês.
+
+**A causa está no código, e é objetiva.** Cliente e servidor pegavam o
+primeiro cookie começado em `_ga_`:
+
+```ts
+// src/lib/attribution.ts, como estava
+const entry = document.cookie.split('; ').find((c) => c.startsWith('_ga_'))
+// src/lib/pipedrive-server.ts, como estava
+const gaSession = cookies.getAll().find((c) => c.name.startsWith('_ga_'))
+```
+
+O gtag grava **uma sessão por propriedade**, em `_ga_<ID>` — a nossa é
+`_ga_EY1FLE5C0J`. A ordem de `document.cookie` é do navegador: caminho mais
+específico primeiro, depois ordem de criação. **Não tem relação nenhuma com a
+propriedade.** Com mais de um `_ga_*` no domínio, o id vem de onde calhar — e
+fica preso no último valor daquela outra propriedade, que é exatamente o
+sintoma: um id de setembro que não anda.
+
+**O que isso custa:** o campo vai para o negócio e é usado no ganho, no evento
+de receita por Measurement Protocol (`webhook/route.ts`). Sessão errada não
+cola a receita na sessão de origem no GA4.
+
+**Herdado, não é regressão.** Os dois arquivos estavam byte a byte iguais à
+base `7ae962b` até a correção.
+
+### O que ainda NÃO está demonstrado
+
+A hipótese "existe outra propriedade GA4 no domínio" **continua sem leitura do
+cookie**, e eu não tenho como ler: o proxy desta sessão recusa o domínio.
+Duas variantes explicam o mesmo sintoma e **a correção serve para as duas**:
+
+| Variante | O que haveria no navegador |
+|---|---|
+| **(a)** outra propriedade | um `_ga_<outro>` além do nosso, com sessão de setembro |
+| **(b)** cópia nossa sobrando | dois `_ga_EY1FLE5C0J`, em caminhos ou domínios diferentes, o velho vindo primeiro |
+
+Uma linha no console do navegador que fez o teste separa as duas, e **não
+muda nada**:
+
+```js
+document.cookie.split('; ').filter(c => c.startsWith('_ga'))
+```
+
+Se vier mais de um `_ga_`, está demonstrado qual variante é.
+
+### A correção — `0d4ab00`, na branch, não publicada
+
+`src/lib/ga4-session.ts`, arquivo novo, escolhe **pelo nome exato** do cookie
+da nossa propriedade, derivado do mesmo id de medição que `ga4-lead-events.ts`
+e o webhook já usam, com a mesma regra de fallback — **nenhuma variável de
+ambiente nova é necessária** para funcionar.
+
+Três decisões que vale registrar:
+
+1. **Nome exato**, não "o primeiro `_ga_`". Resolve a variante (a).
+2. **Duas cópias do mesmo nome: fica a sessão mais recente.** Resolve a (b).
+3. **Sem o nosso cookie, o campo fica vazio.** Gravar a sessão de outra
+   propriedade entra no CRM como se fosse verdade e depois não dá para
+   distinguir — vazio é honesto, errado não é.
+
+O passo 21 cobre GS1, GS2, duas propriedades, duas cópias do mesmo nome,
+ausência total, só o `_ga`, valor inválido e valor percent-encoded; e afirma
+que **primeiro toque, cookie histórico, payload do submit, client id e o
+mapeamento para o negócio não mudaram**. Os passos 5, 6 e 15 — playbook,
+eventos dos formulários e formulários em etapas — seguem verdes.
+
+O passo 19 passou a exigir que mudança nessa camada esteja **declarada** em
+`hashes-excecoes.txt`, em vez de só comparar com a base. Conferi que ele
+continua reprovando mudança não declarada.
+
+**Não publicar antes da revisão**, como combinado.
+
+## 18.2 Podcast — SSR, cache e qual episódio sai
+
+São duas perguntas diferentes: **como** o episódio chega à página, e **qual**
+episódio é.
+
+### Como chega — medido localmente, na árvore de `0d4ab00`
+
+| Camada | Valor | Efeito |
+|---|---|---|
+| HTML servido | `/` e `/ofatorm` já trazem o id do episódio | **SSR de verdade**; quem não executa script vê episódio real |
+| ISR da home | `revalidate = 900` | no máximo 15 min de atraso |
+| ISR da `/ofatorm` | `revalidate = 3600` | no máximo 1h de atraso |
+| Cache de dados do fetch | `next: { revalidate: 600 }` | uma busca a cada 10 min, não uma por visitante |
+| Tempo limite | 3500 ms por chamada, **3 chamadas em série** | pior caso ~10,5 s antes de cair para o snapshot |
+| Fallback | `src/data/episodios-fator-m.ts` | episódio real do último build; nunca depoimento reetiquetado |
+
+### Qual episódio — e o limite da minha verificação
+
+O snapshot do repositório tem **8 episódios**; o mais novo é
+`ytBr2WZmJJo`, *"A Geração Z trocou o Google pelo TikTok. Por quê?"*,
+**15/10/2026 15:00 UTC**. O mais antigo é de 01/09.
+
+**Não consigo comparar com a fonte oficial.** O proxy desta sessão recusa
+`youtube.com` e `i.ytimg.com` (falha de CONNECT). `www.googleapis.com`
+responde, mas exige chave de API, que não existe neste ambiente e que eu não
+vou obter. Então: **qual é o episódio mais recente do canal hoje, eu não sei.**
+
+O que determina a resposta no ar é se `YOUTUBE_API_KEY` está configurada na
+Production:
+
+| Chave na Vercel | O que o site mostra |
+|---|---|
+| **existe** | o canal ao vivo, com no máximo 15 min (home) ou 1h (`/ofatorm`) de atraso |
+| **não existe** | o snapshot **congelado no build** — hoje, parado em 15/10 — até o próximo build |
+
+E dá para saber de fora **com um comando**, sem painel e sem navegador —
+o cabeçalho denuncia a origem (passo 23 fixa isso):
+
+```
+curl -sI https://cicloecommerce.com.br/api/youtube/latest | grep -i cache-control
+```
+
+| Cabeçalho | Leitura |
+|---|---|
+| `public, s-maxage=600, stale-while-revalidate=600` | veio da **API** — canal ao vivo |
+| `public, s-maxage=3600` | veio do **snapshot** — a chave não está respondendo |
+
+Localmente, sem chave, medi `public, s-maxage=3600` com a lista real — o
+discriminador funciona. Pelo navegador de vocês essa URL cai em
+`ERR_BLOCKED_BY_CLIENT` (bloqueador), então é `curl`, não aba.
+
+Uma observação sem gravidade: as descrições no snapshot estão vazias. **A
+interface não exibe descrição de episódio**, então não há efeito visível.
+
+## 18.3 Cron do resumo diário — o que dá para provar hoje
+
+`/api/cron/site-digest`, `0 12 * * *` UTC = **09:00 BRT**, único cron
+declarado em `vercel.json`. **Próxima execução natural: 18/10 às 09:00 BRT.**
+Às 22:45 BRT de 17/10 ela ainda não aconteceu.
+
+**Não disparei, e não vou disparar.** A rota escreve: cria Note na pessoa e no
+negócio aberto mais recente, e marca `last_digest_at`. Dispará-la fora de hora
+escreveria no CRM de clientes reais.
+
+### Comprovado agora, offline, sem efeito nenhum (passo 22)
+
+A rota foi chamada de verdade, com `fetch` trocado por mock:
+
+| | |
+|---|---|
+| Agendamento | declarado em `vercel.json`, `0 12 * * *`, único |
+| Autenticação | **401** sem cabeçalho, com Bearer errado e com o segredo sem `Bearer` |
+| Sem `PIPEDRIVE_API_TOKEN` | devolve `pipedrive_env_missing` e **não escreve nada** |
+| Trava de repetição | resumo de 2h atrás → pula, **zero escritas**; de 21h → refaz |
+| Escrita | exatamente **1 Note** por visitante, na pessoa **e** no negócio aberto, e 1 marcação de `last_digest_at` |
+| Conteúdo | conta páginas e visitas, agrupa repetição, **exclui `/obrigado`**, só `page_view`, traz origem e tempo estimado |
+| Consulta | só visitante com pessoa vinculada, **opt-out respeitado**, limite de 500 |
+| Sem navegação na janela | não cria Note |
+
+### Só a execução natural responde
+
+- que a Vercel **de fato invoca** o agendamento na Production atual;
+- que o `CRON_SECRET` de produção confere — se não conferir, o retorno é 401 e
+  **nada acontece em silêncio**;
+- que existe visitante com `page_view` nas últimas 24h;
+- que as Notes aparecem no Pipedrive.
+
+**Um risco que a execução vai revelar, e que eu não medi:** `maxDuration = 60`
+com até 500 visitantes por rodada, cada um com três chamadas HTTP em série. Se
+a base de visitantes vinculados crescer, a rodada pode estourar os 60 s e ser
+cortada no meio. Hoje não é problema, pelo volume; **é o primeiro número a
+olhar no log da primeira execução.**
+
+## 18.4 Enriquecimento por IA — fora do escopo, por decisão
+
+O Flávio tirou o item do escopo em 17/10: **falta de crédito da Anthropic não
+bloqueia a conclusão**, e a integração fica preservada, sem gasto. O achado de
+17.5 continua válido como está escrito — webhook entrega 200, o enriquecimento
+não conclui — e **deixa de ser pendência de conclusão**. Nada foi comprado,
+trocado nem reprocessado.
