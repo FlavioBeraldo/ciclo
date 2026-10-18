@@ -1425,3 +1425,119 @@ revisados, mesmo declarados; reprova conteúdo revisado que saiu de
 | Sessão do GA4 | corrigida em `0d4ab00` + `d1f10d5`; **variante (a) ou (b) ainda indistinta** |
 | Enriquecimento por IA | **fora de escopo**, por decisão. Integração preservada, sem gasto |
 | Spotify | **fora dos ajustes**, intocado |
+
+---
+
+# 20. Publicação de 17/10 23:25 BRT — estado e evidência
+
+Segunda publicação de Production depois da migração. Registro aqui o estado
+final; **nada foi publicado para gravar este documento**, ele vive na branch
+de trabalho.
+
+## 20.1 O que está no ar
+
+| Item | Valor |
+|---|---|
+| SHA publicado | **`e79985489d1fc11e77285e8aad24763b231554e9`** |
+| Merge | `7f2ba8c` na branch de Production, **sem force-push, sem Promote de Preview** |
+| Push | `caabe13..e799854`, fast-forward |
+| Deployment **GitHub** | `7148850730`, criado **23:25:21 BRT** |
+| Deployment **Vercel** | **`5vExsSoQdaUhkXQTL9z8GimtTqG4`** |
+| Confirmação | **Ready / Production / Current às 23:27 BRT**, com o domínio `cicloecommerce.com.br` |
+
+A distinção de nomenclatura de 17.2 continua valendo e agora tem um terceiro
+par: **`7148850730` é id do GitHub; `5vExsSoQdaUhkXQTL9z8GimtTqG4` é o da
+Vercel.** O estado Ready/Current é leitura do painel pela revisão
+independente — eu não enxergo a Vercel nem o domínio, e não declarei Ready
+por status do GitHub.
+
+| Publicação | GitHub | Vercel |
+|---|---|---|
+| Redesign, 17/10 20:29 | `7147282117` | `9wDAEozub4kNH11R6dsnRDmo1YjX` |
+| Favicon, 17/10 22:08 | `7148182431` | `DtW3ZM9aprRpf25C5UZGw6MKk5FB` |
+| **Correções de mensuração, 17/10 23:25** | `7148850730` | **`5vExsSoQdaUhkXQTL9z8GimtTqG4`** |
+
+## 20.2 O vínculo entre o que foi revisado e o que foi publicado
+
+| | |
+|---|---|
+| Árvore do merge `e799854` | `74ed31c5ceb416ac182ddb6d3bff1ef693e1bdaa` |
+| Árvore do candidato revisado `7f2ba8c` | `74ed31c5ceb416ac182ddb6d3bff1ef693e1bdaa` |
+| `git diff 7f2ba8c e799854` | **vazio** |
+
+Mesmo conteúdo, byte a byte. O merge não trouxe nada do lado de produção que
+o candidato já não tivesse, e o favicon de `caabe137` saiu intacto.
+
+**Os gates rodaram sobre o SHA do merge, antes do push** — o cabeçalho do log
+dizia `commit: e799854`. 23 passos, TUDO OK, com typecheck limpo, build verde
+de 882 páginas, playbook idêntico e eventos e payloads idênticos nos quatro
+formulários.
+
+O log versionado (`suite-sessao-ga4.log`) marca `8a45c66`, de uma rodada
+anterior: commitar o log novo mudaria o SHA e o log ficaria desatualizado de
+novo. A rodada sobre `e799854` ficou fora da árvore de propósito.
+
+## 20.3 O que entrou
+
+Só o delta aprovado: **118 linhas em 5 arquivos**, 97 delas no arquivo novo.
+
+| Arquivo | O quê |
+|---|---|
+| `src/app/api/aplicacao/route.ts` | `context` no `sendMetaEvent` |
+| `src/app/api/link-bio/route.ts` | idem |
+| `src/lib/ga4-session.ts` | novo: escolhe `_ga_EY1FLE5C0J` pelo nome exato |
+| `src/lib/attribution.ts` | passa a usar o acima |
+| `src/lib/pipedrive-server.ts` | idem, no servidor |
+
+Preservados: favicon, playbook, URLs, credenciais, GTM, GA4 e as regras de
+qualificação e de ganho.
+
+**Playbook no ar:** abriu depois de recarregar, com título e formulário
+presentes. **Nenhuma correção de layout adicional** foi necessária.
+
+**Rollback:** `caabe137` / deployment Vercel `DtW3ZM9aprRpf25C5UZGw6MKk5FB`,
+confirmado Ready e Current às 23:08. A branch de trabalho segue em `7f2ba8c`.
+
+## 20.4 Por que `/link-bio` e `/aplicacao` NÃO foram retestadas
+
+Decisão da revisão, e ela está certa: os cookies de sessão daquelas duas
+rotas, de 6h, **ainda correspondem aos negócios 3649 e 3650**. Repetir o
+fluxo agora atualizaria registros **arquivados** e embaralharia a leitura da
+dedup, em vez de produzir evidência nova.
+
+Então o estado honesto da correção do `context` é este:
+
+| | |
+|---|---|
+| Revisado | **sim** — diff lido e aprovado |
+| Testado | **sim, com mock** — passo 20, três rotas reais, `fetch` trocado, sem rede |
+| Publicado | **sim** — `e799854` |
+| **Comprovado em dado real** | **NÃO, e não vai ser hoje** |
+
+A linha em `conversion_events` com `deal_id` preenchido vindo de `/link-bio`
+ou `/aplicacao` só aparece **quando a sessão expirar ou houver conversão
+legítima nova**. Sem apagar cookie, sem afrouxar dedup, sem forçar.
+
+A correção também **não é retroativa**: 3649 e 3650 continuam com `deal_id`
+NULL, e a auditoria deles depende da janela de tempo e do `event_id`, como em
+6.1 do inventário.
+
+## 20.5 O que falta para o projeto fechar
+
+| Item | Estado | Quando |
+|---|---|---|
+| **Cron do resumo diário** | **a única execução futura incontornável** | **18/10, janela 09–10 BRT** |
+| Evento derivado do GA4 | criado 22:38, **aguardando propagação** | teste a partir de 23:38 |
+| Teste real do playbook | junta validação da sessão com o derivado | depois de 23:38, pela revisão |
+| `context` em dado real | aguarda sessão expirar ou conversão legítima | sem data |
+| Dedup individual na Meta | agregado validado; par individual não | sem data |
+| Variante (a) ou (b) da sessão | indistinta; o cookie real não foi lido | leitura de uma linha no console |
+
+**O projeto não é 100% sem a evidência do cron.** Ele é o único item que não
+depende de decisão de ninguém: acontece sozinho na janela de 09–10 BRT de
+18/10, e é o que falta para fechar. Até lá, o que existe é o contrato provado
+offline no passo 22 — agendamento, autenticação, trava de repetição, uma Note
+por visitante e os filtros da consulta — e nada mais.
+
+**Não disparei o cron, não criei lead e não publiquei nada para escrever esta
+seção.**
