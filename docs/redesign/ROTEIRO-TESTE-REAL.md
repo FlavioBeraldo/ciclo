@@ -449,3 +449,181 @@ Em todos: me mande `deal_id`, `event_id` e os horários UTC. Conserto para
 voltar ao comportamento da base — descrito ramo por ramo no passo 19 da
 suíte. Se a regressão for crítica, rollback pelo Promote do
 `Hb5TEUapVasyUCm9amGRnRzDyAhe`.
+
+---
+
+# 11. O relatório "Aquisição de leads" do GA4 e o playbook
+
+Escopo pedido pelo Flávio por volta das 21h, para **análise agora e
+configuração só depois da validação**. Nada foi configurado, nenhum código
+foi alterado, o playbook segue intocado.
+
+## 11.1 De quais eventos o relatório depende
+
+Documentação do Google. O relatório é alimentado por eventos de lead
+recomendados, e **cada métrica conta usuários únicos com aquele evento**:
+
+| Métrica | Evento que a alimenta |
+|---|---|
+| **Novos leads** | `generate_lead` |
+| **Leads qualificados** | `qualify_lead` |
+| **Leads convertidos** | `close_convert_lead` |
+| — (sem métrica no relatório) | `working_lead` |
+
+`disqualify_lead` e `close_unconvert_lead` alimentam outro relatório, o de
+desqualificação e perda.
+
+**Consequência que importa aqui: evento customizado não entra.** Só esses
+nomes exatos alimentam as métricas.
+
+## 11.2 O que o playbook emite hoje — evidência no código
+
+**O playbook dispara `playbook_form_submit`, e NÃO dispara `generate_lead`.**
+São dois pontos de emissão, ambos com o mesmo nome:
+
+| Caminho | Linha | Evento | `userData` |
+|---|---|---|---|
+| Manual | `PlaybookForm.tsx:100` | `playbook_form_submit` | **sim** — e-mail, telefone, nome |
+| LinkedIn | `PlaybookForm.tsx:80` | `playbook_form_submit` | **não** |
+
+Nenhum `generate_lead` em lugar nenhum do arquivo. Confirmado por busca no
+arquivo inteiro.
+
+**No GTM:** o gatilho "CE Conversões" cobre `playbook_form_submit` pela
+regex, então o GA4 recebe **o evento customizado**. Não há tradução para
+`generate_lead` em parte alguma do código, e a leitura do container feita na
+revisão não mostrou nenhuma.
+
+**Na Meta é diferente, e vale registrar:** o playbook posta em
+`/api/pipedrive` com `pipeline: 'Playbook'`, e essa rota envia **`Lead` pela
+CAPI** como qualquer outro lead (`/api/pipedrive/route.ts:131`). Então, **na
+Meta o playbook já conta como Lead; no GA4, não conta como lead.** A lacuna é
+só do lado do GA4.
+
+## 11.3 Qualificação e conversão: já funcionam
+
+A regra em `ga4-lead-events.ts:30` já inclui o funil do playbook:
+
+```ts
+const DEFAULT_QUALIFY_STAGE_BY_PIPELINE: Record<number, number> = {
+  2: 11,   // 1 - Site/Whats  -> Lead Qualificado
+  13: 96,  // Playbooks       -> SQL / Oportunidade
+}
+```
+
+E o lead do playbook nasce no funil 13: o POST manda `pipeline: 'Playbook'`,
+que `findStageId` resolve para a primeira etapa do funil cujo nome contém
+"playbook".
+
+**Então `qualify_lead` e `close_convert_lead` já saem para leads do
+playbook** — desde que o e-mail não seja interno e alguém mova o negócio.
+
+## 11.4 O problema que isso cria hoje
+
+Juntando 11.1, 11.2 e 11.3:
+
+| Métrica do relatório | Lead do contato | **Lead do playbook** |
+|---|---|---|
+| Novos leads | conta | **NÃO conta** |
+| Leads qualificados | conta | **conta** |
+| Leads convertidos | conta | **conta** |
+
+**O playbook aparece qualificando e convertendo sem nunca ter entrado como
+lead.** O denominador falta. Qualquer taxa de qualificação ou de conversão
+calculada no relatório fica distorcida — e para mais, não para menos.
+
+Há um agravante: as métricas contam **usuários únicos**. Os eventos de
+qualificação e conversão saem pelo Measurement Protocol usando o GA Client ID
+guardado no negócio; **sem ele**, `sendGa4LeadEvent` usa um `client_id` de
+fallback (`pd-<dealId>`), que é um "usuário" que nunca existiu no site. Esse
+caso é qualificação sem origem **por construção**, mesmo que o
+`generate_lead` passasse a existir.
+
+O playbook **captura** o GA Client ID (`attribution.ts:188` lê o cookie
+`_ga`), então o caso normal está coberto. O fallback só aparece em lead que
+não veio do site.
+
+## 11.5 Proposta mínima — condicionada à validação
+
+**Não executar antes de os testes da seção 9 passarem.** O que segue é
+proposta, não instrução de execução.
+
+### Opção recomendada: uma tag no GTM, sem tocar no código
+
+Adicionar **uma** tag de evento GA4 que envia `generate_lead` quando o
+dataLayer recebe `playbook_form_submit`.
+
+| Item | Valor |
+|---|---|
+| Tipo | Evento GA4, mesma configuração de medição já usada |
+| Nome do evento | `generate_lead` |
+| Gatilho | **evento customizado, nome exatamente `playbook_form_submit`** |
+| Parâmetros | `event_id` = `{{DLV - event_id}}`, `form` = `playbook`, `method`, `content_name`, `lead_source`, `lead_medium`, `lead_campaign` — todos já no dataLayer |
+
+**Por que esta e não outra:**
+
+- O playbook **não é tocado**. Nem o código, nem o formulário, nem o
+  `playbook_form_submit` que já existe.
+- A série histórica de `playbook_form_submit` continua intacta.
+- É reversível em um clique: pausar a tag.
+
+### O risco de duplicidade, e como evitá-lo
+
+**Há um jeito errado de fazer isto, e ele é o caminho mais curto.**
+
+O gatilho "CE Conversões" do container é uma **regex que cobre vários
+eventos ao mesmo tempo**, incluindo `generate_lead` e `playbook_form_submit`.
+Se a tag nova for pendurada nesse gatilho, ela dispararia **também no envio
+do formulário de contato** — que já emite `generate_lead` — e o GA4 passaria a
+receber **dois `generate_lead` por um único lead**.
+
+**O gatilho da tag nova tem de ser exclusivo de `playbook_form_submit`.** Um
+gatilho novo, de evento customizado, com igualdade exata. Não reaproveitar o
+"CE Conversões".
+
+Segunda checagem antes de publicar: confirmar que **nenhuma tag existente já
+envia `generate_lead` a partir de `playbook_form_submit`**. A leitura do
+container não mostrou nenhuma, mas isso se confere em segundos na pré-visão.
+
+### O que muda na leitura do relatório
+
+"Novos leads" passa a somar contato **e** playbook. É o que o Flávio pediu,
+mas é uma mudança de definição: a série antes e depois da publicação da tag
+**não é comparável**. Vale anotar a data da mudança para não ler degrau como
+crescimento.
+
+Se a intenção for distinguir os dois na análise, o parâmetro `form`
+(`contato` × `playbook`) já vai no evento e serve de dimensão — sem precisar
+de evento separado.
+
+### O que NÃO propor
+
+| Alternativa | Por que não |
+|---|---|
+| Fazer o playbook emitir `generate_lead` no código | **Playbook congelado.** Fora de questão |
+| Renomear `playbook_form_submit` para `generate_lead` no GTM | Perde a série histórica e apaga um evento que já existe |
+| Marcar `playbook_form_submit` como evento principal | Resolveria contagem de conversão, **não** alimenta "Novos leads" — a métrica é por nome de evento |
+
+## 11.6 Como verificar depois, sem configurar nada agora
+
+Antes de qualquer mudança, dá para medir a lacuna na própria property
+`402971489`:
+
+1. Relatório **Aquisição de leads** (`ruid=lead-acquisition`), últimos 28 dias.
+2. Comparar **Novos leads** com a contagem do evento `playbook_form_submit`
+   em Eventos, no mesmo período.
+3. Se "Leads qualificados" for maior que o esperado para o volume de "Novos
+   leads", a diferença é exatamente o que 11.4 descreve.
+
+Isso é leitura. Não altera nada e serve de linha de base para medir o efeito
+da tag depois.
+
+## 11.7 Resumo em quatro linhas
+
+- O playbook emite **só** `playbook_form_submit`; **não** emite `generate_lead`.
+- Por isso **não entra em "Novos leads"** — mas **entra** em "Leads
+  qualificados" e "Leads convertidos", porque o funil 13 já está na regra.
+- Resultado: **qualificação e conversão sem o lead de origem.**
+- Correção mínima: **uma tag no GTM**, com gatilho exclusivo de
+  `playbook_form_submit`, **depois** da validação — e nunca no gatilho
+  "CE Conversões", sob pena de duplicar o `generate_lead` do contato.
