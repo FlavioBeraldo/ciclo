@@ -155,7 +155,9 @@ export default function Solucoes() {
                         {icones[sv.icone]}
                         <span>{sv.rotulo}</span>
                       </span>
-                      <Seta />
+                      <span className="seta-bola">
+                        <Seta />
+                      </span>
                     </Link>
                   </li>
                 ))}

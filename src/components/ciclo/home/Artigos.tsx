@@ -72,7 +72,7 @@ export default async function Artigos() {
 
               <div className="article-foot">
                 <span>{formatDate(p.date)}</span>
-                <b><Seta /></b>
+                <b className="seta-bola"><Seta /></b>
               </div>
             </Link>
           ))}

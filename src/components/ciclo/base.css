@@ -254,3 +254,17 @@
   .ciclo2026 .button:hover .seta,.ciclo2026 .textlink:hover .seta,.ciclo2026 .learn:hover .seta,
   .ciclo2026 .service-list a:hover .seta,.ciclo2026 .button:active .seta{transform:none}
 }
+
+/* ── Seta dentro de uma bola ─────────────────────────────────────────────
+   Nas linhas de serviço e no rodapé do card de artigo a seta ficava solta no
+   canto, sem nada em volta: no celular, onde não existe hover, não dava para
+   saber que a linha inteira é clicável. A bola é o alvo visível. Tem 34px,
+   então também serve de área de toque decente. */
+.ciclo2026 .seta-bola{width:34px;height:34px;flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--line);border-radius:50%;background:#fff;color:var(--ink);transition:background .2s,border-color .2s,color .2s}
+.ciclo2026 .seta-bola .seta{width:14px;height:14px;max-width:none;max-height:none;vertical-align:0}
+.ciclo2026 .service-list a:hover .seta-bola,.ciclo2026 .article:hover .seta-bola{background:#5b256f;border-color:#5b256f;color:#fff}
+.ciclo2026 .service-list a:hover .seta-bola .seta,.ciclo2026 .article:hover .seta-bola .seta{transform:translate(2px,-2px)}
+.ciclo2026 .service-list a:active .seta-bola,.ciclo2026 .article:active .seta-bola{background:#3f1a4d;border-color:#3f1a4d}
+@media (prefers-reduced-motion:reduce){
+  .ciclo2026 .service-list a:hover .seta-bola .seta,.ciclo2026 .article:hover .seta-bola .seta{transform:none}
+}
