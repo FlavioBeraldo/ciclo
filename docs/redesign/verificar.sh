@@ -321,6 +321,30 @@ else
   falha "a sessao do GA4 saiu do contrato:"; grep FALHA "$TMP/ga4.log" | head -10
 fi
 
+# ── 22. Cron do resumo diario, sem disparar ───────────────────────────────
+titulo "22. Cron do resumo diário"
+cd "$RAIZ"
+if RAIZ_CICLO="$RAIZ" node --experimental-strip-types --no-warnings \
+     --import ./docs/redesign/resolve-ts.mjs \
+     "$DOCS/cron-digest.mjs" > "$TMP/cron.log" 2>&1; then
+  ok "$(tail -1 "$TMP/cron.log")"
+else
+  falha "o contrato do cron mudou:"; grep FALHA "$TMP/cron.log" | head -10
+fi
+
+# ── 23. Origem dos episodios declarada no cabecalho ───────────────────────
+# Sem YOUTUBE_API_KEY a resposta vem do snapshot, e o cabeçalho tem que dizer
+# isso: s-maxage=3600. Com a API viva seria s-maxage=600 + swr. É esse
+# cabeçalho que permite saber, de fora, de onde veio o episódio.
+titulo "23. Origem do podcast no cabeçalho"
+cab=$(curl -sI "$BASE/api/youtube/latest" | tr -d '\r' | grep -i '^cache-control:' | cut -d' ' -f2-)
+primeiro=$(curl -s "$BASE/api/youtube/latest" | head -c 400)
+if [ "$cab" = "public, s-maxage=3600" ] && echo "$primeiro" | grep -q '"id"'; then
+  ok "sem chave: cabeçalho de snapshot ($cab) e lista com episódio real"
+else
+  falha "cabeçalho inesperado em /api/youtube/latest: '$cab'"
+fi
+
 pkill -f "next-server" 2>/dev/null
 printf "\n%s\n" "────────────────────────────────"
 if [ "$falhas" -eq 0 ]; then echo "TUDO OK"; else echo "$falhas FALHA(S)"; fi

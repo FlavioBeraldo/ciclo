@@ -1,5 +1,5 @@
 Verificação do redesign — modo: comparar
-commit: be2779d  branch: claude/redesign-ciclo-2026-HVyvT
+commit: 0d4ab00  branch: claude/redesign-ciclo-2026-HVyvT
 
 == 1. Camada protegida (src/lib e src/app/api)
   ok    41 arquivos, nenhuma mudança não autorizada
@@ -92,6 +92,12 @@ commit: be2779d  branch: claude/redesign-ciclo-2026-HVyvT
 
 == 21. Sessão do GA4
   ok    TUDO OK — a sessão vem do cookie da nossa propriedade, e o primeiro toque, o payload e o negócio seguem iguais
+
+== 22. Cron do resumo diário
+  ok    TUDO OK — agendamento, autenticação, trava de repetição e conteúdo do resumo, sem disparar o cron
+
+== 23. Origem do podcast no cabeçalho
+  ok    sem chave: cabeçalho de snapshot (public, s-maxage=3600) e lista com episódio real
 
 ────────────────────────────────
 TUDO OK
