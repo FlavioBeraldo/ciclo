@@ -2,6 +2,7 @@
 
 import MiniaturaYouTube from './MiniaturaYouTube'
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { Seta } from './Seta'
 
 // Grade de depoimentos em vídeo, com o player dentro do site.
 //
@@ -109,7 +110,7 @@ export default function VideosDepoimento({ itens }: { itens: Depoimento[] }) {
             <div className="proof-caption">
               <span>{d.marca}</span>
               <small>
-                Assistir ao vídeo <b aria-hidden="true">↗</b>
+                Assistir ao vídeo <b aria-hidden="true"><Seta /></b>
               </small>
             </div>
 

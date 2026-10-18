@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { icones } from '../icones'
+import { Seta } from '../Seta'
 
 // As quatro soluções do Full Funnel Marketing. Os destinos são os mesmos que a
 // home já apontava: cada serviço em /servicos/<slug> — com a exceção histórica
@@ -122,7 +123,7 @@ export default function Solucoes() {
 
           <a className="button" href="#contato">
             <span>Fale com especialista</span>
-            <b aria-hidden="true">↗</b>
+            <b aria-hidden="true"><Seta /></b>
           </a>
         </div>
 
@@ -154,13 +155,14 @@ export default function Solucoes() {
                         {icones[sv.icone]}
                         <span>{sv.rotulo}</span>
                       </span>
+                      <Seta />
                     </Link>
                   </li>
                 ))}
               </ul>
 
               <Link className="learn" href={`/solucoes/${s.slug}`}>
-                Ver solução completa <span>↗</span>
+                Ver solução completa <Seta />
               </Link>
             </article>
           ))}

@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { simboloPorServico } from '../servicos/diagramas'
+import { Seta } from '../Seta'
 
 // Grade de cartões para "Continue explorando" (serviços) e "O que a Ciclo
 // entrega" (soluções). O ícone de cada serviço é o mesmo símbolo do hero
@@ -25,7 +26,7 @@ export default function CartoesDeServico({
           <p>{s.tagline}</p>
 
           <span className="read-more">
-            Conhecer solução <b>↗</b>
+            Conhecer solução <b><Seta /></b>
           </span>
         </Link>
       ))}

@@ -7,6 +7,7 @@ import Breadcrumb from '@/components/ciclo/interior/Breadcrumb'
 import { playfair2026 } from '@/components/ciclo/fonts'
 import '@/components/ciclo/base.css'
 import '@/components/ciclo/interiors.css'
+import { Seta } from '@/components/ciclo/Seta'
 
 export const metadata: Metadata = {
   title: 'Política de Privacidade e LGPD | Ciclo E-commerce',
@@ -302,7 +303,7 @@ export default function PoliticaDePrivacidade() {
                 <h2>Dúvidas sobre privacidade? Fale com nosso time.</h2>
                 <Link className="button" href="/#contato">
                   <span>Entrar em contato</span>
-                  <b aria-hidden="true">↗</b>
+                  <b aria-hidden="true"><Seta /></b>
                 </Link>
               </div>
             </div>

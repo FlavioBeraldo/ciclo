@@ -13,6 +13,7 @@ import { getServicoBySlug } from '@/lib/servicos'
 import { playfair2026 } from '@/components/ciclo/fonts'
 import '@/components/ciclo/base.css'
 import '@/components/ciclo/interiors.css'
+import { Seta } from '@/components/ciclo/Seta'
 
 interface PageProps {
   params: Promise<{ slug: string }>
@@ -116,7 +117,7 @@ export default async function SolucaoPage({ params }: PageProps) {
                 <div className="inner-actions">
                   <a className="button" href="#contato">
                     <span>Fale com especialista</span>
-                    <b aria-hidden="true">↗</b>
+                    <b aria-hidden="true"><Seta /></b>
                   </a>
                   <a href="#como-funciona" className="textlink">
                     Conheça o processo <span>↓</span>
@@ -244,7 +245,7 @@ export default async function SolucaoPage({ params }: PageProps) {
               {outras.map((s) => (
                 <Link href={`/solucoes/${s.slug}`} key={s.slug}>
                   {s.shortTitle}
-                  <b aria-hidden="true">↗</b>
+                  <b aria-hidden="true"><Seta /></b>
                 </Link>
               ))}
             </div>

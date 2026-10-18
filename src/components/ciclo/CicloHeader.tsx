@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { Seta } from './Seta'
 
 // Cabeçalho do design 2026, conforme o kit de layouts.
 // Sticky, fundo branco translúcido, borda que aparece ao rolar, menu móvel.
@@ -115,7 +116,7 @@ export default function CicloHeader() {
         <div className="nav-actions">
           <a className="button" href={resolver('#contato')}>
             <span>Fale com especialista</span>
-            <b aria-hidden="true">↗</b>
+            <b aria-hidden="true"><Seta /></b>
           </a>
           <button
             ref={botaoMenu}
