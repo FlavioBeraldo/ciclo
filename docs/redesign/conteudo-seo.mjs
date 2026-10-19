@@ -282,7 +282,20 @@ console.log('\n4. O que já existia continua lá, contra a base de Production')
     const antes = perguntas(base)
     const depois = perguntas(agora)
     const sumidas = antes.filter((q) => !depois.includes(q))
-    const ordemOk = antes.every((q, i) => depois.indexOf(q) >= i || depois.includes(q))
+    // Subsequência com cursor crescente. A versão anterior
+    // (`depois.indexOf(q) >= i || depois.includes(q)`) era tautologia: bastava a
+    // pergunta existir para passar, mesmo invertida. Esta exige que cada
+    // pergunta original apareça DEPOIS da anterior, e lida com repetidas.
+    let cursor = 0
+    let ordemOk = true
+    for (const q of antes) {
+      const achou = depois.indexOf(q, cursor)
+      if (achou === -1) {
+        ordemOk = false
+        break
+      }
+      cursor = achou + 1
+    }
     conferir(
       antes.length > 0 && sumidas.length === 0,
       `${arq.split('/').pop()}: as ${antes.length} perguntas originais continuam presentes`
@@ -293,6 +306,28 @@ console.log('\n4. O que já existia continua lá, contra a base de Production')
       depois.length >= antes.length,
       `${arq.split('/').pop()}: ${depois.length - antes.length} perguntas novas, nenhuma removida`
     )
+  }
+
+  // 4.3b Prova de que a verificação de ordem não é decorativa.
+  //
+  // A versão anterior passava com a lista invertida. Esta roda a mesma lógica
+  // contra uma sequência embaralhada de propósito e exige que ela REPROVE.
+  {
+    const subsequencia = (antes, depois) => {
+      let cursor = 0
+      for (const q of antes) {
+        const achou = depois.indexOf(q, cursor)
+        if (achou === -1) return false
+        cursor = achou + 1
+      }
+      return true
+    }
+    conferir(subsequencia(['a', 'b', 'c'], ['a', 'x', 'b', 'y', 'c']), 'controle: ordem mantida passa')
+    conferir(!subsequencia(['a', 'b', 'c'], ['c', 'b', 'a']), 'ordem invertida REPROVA')
+    conferir(!subsequencia(['a', 'b'], ['b', 'a']), 'troca de duas REPROVA')
+    conferir(!subsequencia(['a', 'b'], ['a']), 'pergunta sumida REPROVA')
+    conferir(subsequencia(['a', 'a'], ['a', 'x', 'a']), 'pergunta repetida é tratada')
+    conferir(!subsequencia(['a', 'a'], ['a']), 'repetida que virou uma só REPROVA')
   }
 
   // 4.4 agencia-ugc: o regex que engoliu o faq uma vez não pode repetir
@@ -426,49 +461,6 @@ console.log('\n5. Todo link novo aponta para página que existe')
 
 // ── 6. JSON-LD bate com o HTML ──────────────────────────────────────────────
 
-/**
- * Quantas respostas do schema já divergiam do accordion NA BASE, lendo o fonte
- * daquele commit. Só /tiktok-shop tem schema escrito à mão; nas demais páginas
- * o schema é gerado do mesmo array do accordion, então a divergência é zero.
- */
-function divergenciaHerdada(rota) {
-  if (rota !== '/tiktok-shop') return 0
-  const BASE = '57f493a0540a011fbe50122596256a9881b15e07'
-  const ler = (caminho) => {
-    try {
-      return execFileSync('git', ['show', `${BASE}:${caminho}`], {
-        cwd: RAIZ,
-        encoding: 'utf8',
-        maxBuffer: 8e6,
-        stdio: ['ignore', 'pipe', 'ignore'],
-      })
-    } catch {
-      return ''
-    }
-  }
-  const pagina = ler('src/app/tiktok-shop/page.tsx')
-  const conteudo = ler('src/components/ciclo/tiktok/conteudo.ts')
-  const recorte = (txt, de, ate) => {
-    const i = txt.indexOf(de)
-    return i === -1 ? '' : txt.slice(i, txt.indexOf(ate, i))
-  }
-  const bloco = (txt, chaveP, chaveR) =>
-    new Map(
-      [...txt.matchAll(new RegExp(`${chaveP}: '((?:[^'\\\\]|\\\\.)*)'`, 'g'))].map((m, i) => [
-        m[1],
-        [...txt.matchAll(new RegExp(`${chaveR}:\\s*'((?:[^'\\\\]|\\\\.)*)'`, 'g'))][i]?.[1] ?? '',
-      ])
-    )
-  const schema = bloco(recorte(pagina, 'const faqSchema = {', '\n  ],\n}'), 'name', 'text')
-  const accordion = bloco(recorte(conteudo, 'export const FAQ = [', '\n]'), 'q', 'a')
-  let n = 0
-  for (const [q, resposta] of schema) {
-    const visivel = accordion.get(q)
-    if (visivel !== undefined && normalizar(visivel) !== normalizar(resposta)) n++
-  }
-  return n
-}
-
 console.log('\n6. FAQPage consistente com o que a página mostra')
 for (const rota of ['/servicos/google-ads', '/servicos/crm-email-sms-push-whatsapp', '/tiktok-shop']) {
   const html = await (await fetch(BASE + rota)).text()
@@ -505,13 +497,11 @@ for (const rota of ['/servicos/google-ads', '/servicos/crm-email-sms-push-whatsa
   )
 
   const faltandoPergunta = faq.mainEntity.filter((q) => !visivel.includes(normalizar(q.name)))
-  // Em /tiktok-shop o schema é escrito à mão na página, em fonte SEPARADA do
-  // accordion, e respostas já divergiam do texto visível na base de produção.
-  // Achado herdado, não desta rodada; reescrever resposta legada estava fora do
-  // autorizado. A régua aqui é de REGRESSÃO, e o limite é MEDIDO na base, não
-  // chutado: conta-se a divergência no fonte da base e exige-se que a de agora
-  // não seja maior. Documentado em CONTEUDO-SEO.md.
-  const toleradas = divergenciaHerdada(rota)
+  // Sem tolerância: as três páginas derivam o schema da mesma fonte que o
+  // accordion exibe. /tiktok-shop tinha schema escrito à mão, com cinco das seis
+  // respostas divergindo do texto visível; passou a derivar da fonte única, e a
+  // divergência deixou de existir. Nenhuma pergunta ou resposta visível mudou.
+  const toleradas = 0
   const faltandoResposta = faq.mainEntity.filter(
     (q) => !visivel.includes(normalizar(q.acceptedAnswer.text))
   )

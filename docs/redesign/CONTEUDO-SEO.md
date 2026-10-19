@@ -381,24 +381,62 @@ na base contra 38 agora e acusava divergência. Não havia divergência: **51
 daqueles `title` eram dos `examples` removidos por autorização**. O regex
 passou a ancorar no campo de topo, com indentação exata.
 
-## 9.6 Dois achados da rodada
+## 9.6 As duas fontes de FAQ de `/tiktok-shop` — unificadas
 
-**Meu, e corrigido.** `/tiktok-shop` tem **duas fontes de FAQ**: o accordion,
-que lê `FAQ` de `tiktok/conteudo.ts`, e um `faqSchema` **escrito à mão** em
-`page.tsx`. Eu havia acrescentado a pergunta nova só no accordion, publicando
-schema e HTML em desacordo. **Acrescentei a mesma pergunta ao schema**, com a
-mesma resposta. Foi o teste novo que pegou.
+`/tiktok-shop` tinha **duas fontes para o mesmo FAQ**: o accordion, que lê
+`FAQ` de `tiktok/conteudo.ts`, e um `faqSchema` **escrito à mão** em
+`page.tsx`.
 
-**Herdado, e não corrigido de propósito.** Como as duas fontes são
-independentes, **cinco das seis respostas do schema já divergiam** do texto
-visível na base de produção. Reescrever resposta legada está fora do que foi
-autorizado nesta rodada, então **ficou como está e fica registrado**. O teste
-virou régua de **regressão**: ele **mede** a divergência no fonte da base — não
-usa número chutado — e exige que a de agora não seja maior. Base: 5 de 6.
-Agora: 5 de 7, com o par novo batendo.
+**Primeiro achado, meu:** acrescentei a pergunta nova só no accordion, e o
+schema sairia em desacordo com o HTML. Foi o teste novo que pegou.
 
-Vale uma recomendação para decisão de vocês: unificar as duas fontes de FAQ
-dessa página eliminaria a divergência de uma vez. **Não entra nesta rodada.**
+**Segundo achado, herdado:** como as fontes eram independentes, **cinco das
+seis respostas do schema já divergiam** do texto visível na base de produção.
+
+**Resolvido na origem, por autorização da revisão:** o `faqSchema` passou a
+derivar da **mesma constante `FAQ` que o accordion exibe**, exatamente como já
+acontece nas páginas de serviço e de solução. Saíram 62 linhas de schema
+escritas à mão; entraram 17 que geram o `mainEntity` da fonte única.
+
+**Nenhuma pergunta ou resposta visível mudou.** O diff de `conteudo.ts` contra
+a base tem só a pergunta nova, em linhas de acréscimo — as seis originais estão
+intactas. O que mudou é **de onde o schema lê**, que é representação técnica,
+não conteúdo exibido.
+
+Com isso o teste deixou de tolerar divergência: a régua passou a ser
+**correspondência completa**, pergunta e resposta, sem exceção. Resultado nas
+três páginas conferidas: 5, 5 e **7 de 7**.
+
+## 9.6b A verificação de ordem era tautologia
+
+A expressão `antes.every((q, i) => depois.indexOf(q) >= i || depois.includes(q))`
+passava sempre que todas as perguntas existissem, **mesmo invertidas** — o
+segundo termo do `||` garantia isso.
+
+Virou **subsequência com cursor crescente**: cada pergunta original precisa
+aparecer depois da anterior, o que também trata pergunta repetida. E o teste
+agora prova que a verificação morde, rodando a própria lógica contra sequências
+embaralhadas de propósito:
+
+| Caso | Esperado |
+|---|---|
+| ordem mantida, com itens novos no meio | passa |
+| ordem invertida | **reprova** |
+| troca de duas | **reprova** |
+| pergunta sumida | **reprova** |
+| pergunta repetida | tratada |
+| repetida que virou uma só | **reprova** |
+
+## 9.6c A frase sobre margem no artigo de custo
+
+Tinha sobrado uma contradição com o próprio artigo:
+
+| | |
+|---|---|
+| Antes | "Variável sobre margem empurra para o que dá lucro." |
+| Agora | "Variável sobre margem de contribuição usa uma medida diferente da receita; a fórmula, os custos considerados e as responsabilidades precisam estar definidos no contrato." |
+
+Só essa frase, só no conteúdo novo.
 
 ## 9.7 Limites desta rodada
 
@@ -411,3 +449,28 @@ dessa página eliminaria a divergência de uma vez. **Não entra nesta rodada.**
 - **As cinco respostas divergentes de `/tiktok-shop` continuam divergentes.**
 - Reutilizar os cases segue sendo **autorização editorial, não verificação**
   (seção 1).
+
+
+---
+
+# 10. Evidência do candidato final
+
+Produção revalidada em `57f493a0540a011fbe50122596256a9881b15e07`, intocada.
+
+| | |
+|---|---|
+| Build | **verde, 887 páginas**, com `.next/standalone` apagado antes |
+| `conteudo-seo.mjs` reforçado | **TUDO OK** — inclui a prova negativa da ordem e a correspondência completa do FAQPage |
+| Passo 12, `/tiktok-shop` | **TUDO OK** — conteúdo, SEO e schema preservados, desktop e celular |
+| **Crawl de links** | **83 URLs** do conteúdo novo, complementado, serviços, soluções e artigos: **0 fora de 200** |
+| **Hashes protegidos** | **26 de 26 idênticos** a Production |
+
+Os 26 conferidos: `conversions`, `attribution`, `meta-capi`, `pipedrive-server`,
+`supabase-server`, `ga4-lead-events`, `pipedrive-fields`, `webhook-auth`,
+`cases.ts`, `wp-posts.json`, os quatro CSS, `fonts.ts`, `globals.css`, o
+playbook, as seis rotas de API, o cron, `next.config.ts`, `robots.ts` e
+`sitemap.ts`.
+
+A suíte completa de 25 passos permanece como evidência da rodada anterior
+(44 asserções, 0 falhas). Não foi repetida: os arquivos protegidos não mudaram,
+e o que mudou nesta rodada está coberto pelos testes acima.
