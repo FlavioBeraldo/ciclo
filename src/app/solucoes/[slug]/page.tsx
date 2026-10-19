@@ -9,7 +9,7 @@ import Faq from '@/components/ciclo/interior/Faq'
 import CartoesDeServico from '@/components/ciclo/interior/CartoesDeServico'
 import { simboloPorSolucao } from '@/components/ciclo/servicos/diagramas'
 import { solucoes, getSolucaoBySlug, getAllSolucaoSlugs } from '@/lib/solucoes'
-import { RESSALVA_RESULTADOS } from '@/lib/cases-conteudo'
+import CasesEmVideo from '@/components/ciclo/CasesEmVideo'
 import { getServicoBySlug } from '@/lib/servicos'
 import { playfair2026 } from '@/components/ciclo/fonts'
 import '@/components/ciclo/base.css'
@@ -203,33 +203,7 @@ export default async function SolucaoPage({ params }: PageProps) {
           </div>
         </section>
 
-        <div className="section-fade paper-dark" aria-hidden="true" />
-
-        <section className="inner-section dark outcome-section" id="resultados">
-          <div className="wrap narrow">
-            <div className="inner-section-heading">
-              <div className="eyebrow">
-                <span />
-                Resultados
-              </div>
-
-              <h2>O impacto da estratégia no negócio.</h2>
-
-              <p className="inner-lead">{RESSALVA_RESULTADOS}</p>
-            </div>
-
-            <div className="result-grid">
-              {solucao.results.map(({ metric, description }) => (
-                <div key={metric + description}>
-                  <strong>{metric}</strong>
-                  <p>{description}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <div className="section-fade dark-white" aria-hidden="true" />
+        <CasesEmVideo id="resultados" />
 
         <Faq perguntas={solucao.faq} />
 

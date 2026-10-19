@@ -11,7 +11,8 @@ import CartoesDeServico from '@/components/ciclo/interior/CartoesDeServico'
 import { diagramasPorServico, simboloPorServico } from '@/components/ciclo/servicos/diagramas'
 import { simboloExtraPorServico } from '@/components/ciclo/servicos/extras'
 import { getServicoBySlug, getAllServicoSlugs, getRelatedServicos } from '@/lib/servicos'
-import { RESSALVA_RESULTADOS, CONTEXTO_CASES } from '@/lib/cases-conteudo'
+import { CONTEXTO_CASES } from '@/lib/cases-conteudo'
+import CasesEmVideo from '@/components/ciclo/CasesEmVideo'
 import { playfair2026 } from '@/components/ciclo/fonts'
 import '@/components/ciclo/base.css'
 import '@/components/ciclo/interiors.css'
@@ -290,31 +291,7 @@ export default async function ServicoPage({ params }: PageProps) {
             </div>
           </section>
 
-          {servico.results.length > 0 && (
-          <section className="inner-section service-light-results" id="resultados">
-            <div className="wrap narrow">
-              <div className="inner-section-heading">
-                <div className="eyebrow">
-                  <span />
-                  Resultados
-                </div>
-
-                <h2>O impacto da estratégia no negócio.</h2>
-
-                <p className="inner-lead">{RESSALVA_RESULTADOS}</p>
-              </div>
-
-              <div className="result-grid">
-                {servico.results.map(({ metric, label }) => (
-                  <div key={metric + label}>
-                    <strong>{metric}</strong>
-                    <p>{label}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </section>
-          )}
+          {servico.results.length > 0 && <CasesEmVideo id="resultados" />}
 
           {servico.examples.length > 0 && (
           <section className="inner-section">

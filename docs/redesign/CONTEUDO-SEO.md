@@ -474,3 +474,120 @@ playbook, as seis rotas de API, o cron, `next.config.ts`, `robots.ts` e
 A suíte completa de 25 passos permanece como evidência da rodada anterior
 (44 asserções, 0 falhas). Não foi repetida: os arquivos protegidos não mudaram,
 e o que mudou nesta rodada está coberto pelos testes acima.
+
+
+---
+
+# 11. Registro da publicação de 19/10, 14:41 BRT
+
+Fechamento da rodada anterior, conforme conferência externa.
+
+| | |
+|---|---|
+| SHA de merge | `6b05722180f36dfb3ae8a0d4c1a6f286adec443d` |
+| Deployment **GitHub** | `7180619393` |
+| Deployment **Vercel** | **`H68MaLgWmFAXFF4ZYE9TkLTuSebH`** |
+| Estado | Ready, Production, domínio atribuído, **14:41:25 BRT de 19/10** |
+| Compare `a3a31d7...6b05722` | **0 arquivos, 0 adições, 0 remoções** |
+
+Verificado no domínio pela revisão independente: Google Ads com 4 cases,
+contexto, H1, H2 e `formId` preservados; home e solução sem overflow; os 5
+artigos com H1 e canonical próprios e `index, follow`; os 3 apêndices sob o H1
+original; TikTok Shop com 7 perguntas e 7 respostas iguais ao schema. Mobile
+390 sem overflow.
+
+**Limite registrado:** o navegador da revisão bloqueia `sitemap.xml` e
+`robots.txt` com `ERR_BLOCKED_BY_CLIENT`, e a ferramenta web não renderiza XML.
+A validação desses dois arquivos é **do build e da árvore publicada**, não
+leitura externa. Isso não é falha do site. Nenhum envio de formulário foi feito
+nessa rodada, e nenhum teste ponta a ponta novo foi declarado.
+
+---
+
+# 12. Rodada de 19/10, ~14:54 — tese da Ciclo e cases em vídeo
+
+Duas alterações autorizadas pelo Flávio. Base de produção
+`6b05722180f36dfb3ae8a0d4c1a6f286adec443d`, revalidada; nenhum trabalho
+concorrente (as árvores de produção e de trabalho são a mesma, `b37007e8`, e a
+diferença é só topologia de merge).
+
+## 12.1 (A) A tese da Ciclo em quatro artigos
+
+Os parágrafos fornecidos entraram **no fim da seção indicada, antes do H2
+seguinte**, como parágrafos normais. **Nenhum H2 novo**, para não mexer no
+índice nem nas âncoras. A primeira frase de cada bloco entra em negrito, como
+entrada editorial, no estilo que o blog já usa.
+
+| Artigo | Seção que recebeu | Antes de |
+|---|---|---|
+| `quando-trocar-de-agencia-de-marketing-no-e-commerce` | Perguntas para fechar a decisão | `## Para seguir` |
+| `quanto-custa-uma-agencia-de-marketing-para-e-commerce` | Um limite honesto sobre comparação de preços | `## Para seguir` |
+| `como-escolher-uma-agencia-de-tiktok-shop` | Perguntas que a agência deveria fazer para você | `## Um limite honesto` |
+| `agencia-equipe-interna-ou-consultoria-para-e-commerce` | Combinações que funcionam na prática | `## Um limite que vale dizer` |
+
+Texto inserido **exatamente como enviado**. Nada foi substituído, removido ou
+reordenado; frontmatter, URL e canonical intocados; nenhuma promessa, número
+novo ou case novo.
+
+## 12.2 (B) O bloco de indicadores virou cases em vídeo
+
+**Inventário.** O bloco aparecia em **21 URLs**: as 4 de `/solucoes/*` e **17
+de `/servicos/*`** — todas menos `/servicos/agencia-ugc`, que nunca o teve. A
+aba que o Flávio tinha aberta, `/servicos/creative-strategy`, é uma delas.
+
+| | Antes | Depois |
+|---|---|---|
+| Seção | `Resultados` · `O impacto da estratégia no negócio.` · ressalva · 4 indicadores | **`Cases em vídeo` · `Quem vive, recomenda.`** · 4 vídeos · CTA `/depoimentos` |
+| Âncora `#resultados` | presente | **mantida, única na página** |
+| Link do índice | `#resultados` | **inalterado, continua resolvendo** |
+
+**Sem redesenhar e sem duplicar.** O bloco é o componente novo
+`CasesEmVideo.tsx`, que usa o `VideosDepoimento` que a home e `/depoimentos`
+já usavam, com os mesmos quatro vídeos. A lista saiu de `home/Depoimentos.tsx`
+para esse módulo e a home passou a lê-la de lá: **mesma lista, mesma ordem,
+render idêntico**. O envoltório é `section dark proof` com as duas faixas de
+transição, igual ao de `/depoimentos` — não existe variante clara dessa grade,
+porque a legenda do cartão é desenhada para fundo escuro.
+
+**Acessibilidade e player, por reuso:** o iframe **só é montado depois do
+clique**, o cartão é `<button>`, o modal tem `role="dialog"`, `aria-modal`,
+`aria-label`, fecha no Escape e no clique fora, prende o Tab, devolve o foco ao
+cartão de origem e trava a rolagem. Medido em desktop e em 390: **4 cards, sem
+overflow, nenhum iframe antes do clique**, modal abrindo e fechando nos dois.
+
+**Consequência registrada:** `RESSALVA_RESULTADOS` saiu de
+`cases-conteudo.ts` — sem número na página, não há o que ressalvar. O campo
+`results` continua nos dados porque é ele que decide **quais páginas têm o
+bloco**; está dito no código.
+
+**O que NÃO foi tocado:** o bloco narrativo `Casos práticos` segue com o
+heading, os 3 cards e o parágrafo de contexto; home, `/depoimentos`, playbook,
+e os serviços sem o bloco continuam como estavam.
+
+## 12.3 Testes
+
+O passo 25 foi reescrito na parte que cobria o bloco antigo — **ajustado para
+a substituição autorizada, sem afrouxar o resto**:
+
+- as **21 páginas** têm **exatamente um** bloco de vídeo com 4 cards;
+- **nenhuma** mantém `result-grid` ou o H2 antigo;
+- a âncora `#resultados` existe e é **única** em todas;
+- marcas, título, CTA e link do índice conferidos em uma página de cada tipo;
+- **nenhum iframe antes do clique**;
+- o bloco narrativo e `agencia-ugc` intactos;
+- home e `/depoimentos` com a grade como era.
+
+Na verificação de diff contra a base, a remoção passou a ser permitida **só
+nos dois templates de interior**, e mesmo ali o teste exige que **o que saiu
+seja apenas o bloco de indicadores** — qualquer linha removida fora dele
+reprova.
+
+## 12.4 Limites
+
+- **É local.** O proxy recusa o domínio.
+- **As miniaturas do YouTube não carregam aqui**: `i.ytimg.com` responde `000`
+  pelo proxy, então a captura local mostra o espaço da imagem vazio. O markup é
+  o mesmo da home, que funciona em produção. **Não é defeito**, é o ambiente.
+- O vídeo em si não foi reproduzido: o iframe aponta para o YouTube, também
+  bloqueado daqui. O que foi verificado é que **o iframe só aparece após o
+  clique** e que o modal se comporta como esperado.

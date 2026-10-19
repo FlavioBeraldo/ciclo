@@ -1,15 +1,14 @@
 import VideosDepoimento from '../VideosDepoimento'
+import { DEPOIMENTOS_EM_VIDEO } from '../CasesEmVideo'
 import { Seta } from '../Seta'
 
 // Cases em vídeo na home. A grade e o player vivem em VideosDepoimento, que
 // /depoimentos também usa — o comportamento de teclado e foco é um só.
-
-const DEPOIMENTOS = [
-  { id: 'MlDyvGg7rGs', marca: 'Mamô Brasil' },
-  { id: 'djykk9EFghg', marca: 'Líquido' },
-  { id: 'xVdqhprwKWw', marca: 'KVRA' },
-  { id: '6B2XYATbK3Q', marca: 'DANKI' },
-]
+//
+// A lista dos quatro vídeos saiu daqui para `../CasesEmVideo`, porque as
+// páginas de serviço e de solução passaram a mostrar o mesmo bloco. É a mesma
+// lista, na mesma ordem: o que a home renderiza não muda.
+const DEPOIMENTOS = DEPOIMENTOS_EM_VIDEO
 
 export default function Depoimentos() {
   return (

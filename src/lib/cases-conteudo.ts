@@ -67,9 +67,9 @@ export const resultadosDosCases: ResultadoDeCase[] = cases.map((caso) => {
   }
 })
 
-/** A frase que acompanha o bloco de resultados, igual em todas as páginas. */
-export const RESSALVA_RESULTADOS =
-  'Resultados de projetos da Ciclo. Cada case tem um escopo próprio e não representa uma previsão de desempenho para este serviço.'
+// A ressalva de escopo que acompanhava o bloco de indicadores saiu junto com
+// ele em 19/10: sem número na página, não há o que ressalvar. Se o bloco de
+// indicadores voltar, a frase volta com ele.
 
 export interface NarrativaDeCase {
   title: string
