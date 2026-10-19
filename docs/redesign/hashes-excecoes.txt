@@ -7,8 +7,8 @@
 #
 # Formato:  caminho<TAB ou espaços>motivo
 #
-src/lib/servicos.ts    Dois serviços encerrados em 17/10/2026 e a página /servicos/agencia-ugc criada a pedido do Flávio
-src/lib/solucoes.ts    Os dois encerrados saíram de Inteligência & Operação, com o FAQ absorvendo o conteúdo, e a UGC entrou em Geração de Demanda
+src/lib/servicos.ts    Dois serviços encerrados em 17/10/2026, a página /servicos/agencia-ugc criada a pedido do Flávio e, em 19/10, os indicadores sem fonte trocados pelos cases reais mais 18 perguntas de FAQ
+src/lib/solucoes.ts    Os dois encerrados saíram de Inteligência & Operação, com o FAQ absorvendo o conteúdo, a UGC entrou em Geração de Demanda e, em 19/10, os indicadores sem fonte passaram a vir de cases.ts
 src/lib/youtube.ts    Fallback do podcast deixou de ser depoimento de cliente reetiquetado e passou a ler o snapshot real de src/data/episodios-fator-m.ts
 src/lib/youtube-server.ts    Arquivo novo: busca dos episódios no servidor, com tempo limite de 3500ms por chamada, para o HTML sair com episódio real sem segurar a renderização
 src/app/api/youtube/latest/route.ts    Mesma resposta e mesmo cache; a regra de busca saiu daqui para lib/youtube-server e a rota passou a usá-la
@@ -17,3 +17,5 @@ src/app/api/link-bio/route.ts    Idem: sem context o registro nascia com deal_id
 src/lib/ga4-session.ts    Arquivo novo: escolhe o cookie de sessão do GA4 pelo nome exato da nossa propriedade (_ga_EY1FLE5C0J) em vez do primeiro _ga_ que aparecer
 src/lib/attribution.ts    Só a leitura da sessão do GA4 passou a usar ga4-session; primeiro toque, payload do submit e client id inalterados
 src/lib/pipedrive-server.ts    Idem no servidor: a sessão vem do cookie da nossa propriedade; mapeamento do negócio e demais campos inalterados
+src/lib/cases-conteudo.ts    Arquivo novo, só de conteúdo: deriva de cases.ts os quatro resultados e as três narrativas que as páginas de serviço e de solução passaram a usar no lugar dos indicadores sem fonte
+src/lib/blog-complementos.ts    Arquivo novo, só de conteúdo: seções práticas acrescentadas ao fim de três artigos existentes, sem tocar no corpo original em wp-posts.json

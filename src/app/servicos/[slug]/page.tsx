@@ -11,6 +11,7 @@ import CartoesDeServico from '@/components/ciclo/interior/CartoesDeServico'
 import { diagramasPorServico, simboloPorServico } from '@/components/ciclo/servicos/diagramas'
 import { simboloExtraPorServico } from '@/components/ciclo/servicos/extras'
 import { getServicoBySlug, getAllServicoSlugs, getRelatedServicos } from '@/lib/servicos'
+import { RESSALVA_RESULTADOS, CONTEXTO_CASES } from '@/lib/cases-conteudo'
 import { playfair2026 } from '@/components/ciclo/fonts'
 import '@/components/ciclo/base.css'
 import '@/components/ciclo/interiors.css'
@@ -299,6 +300,8 @@ export default async function ServicoPage({ params }: PageProps) {
                 </div>
 
                 <h2>O impacto da estratégia no negócio.</h2>
+
+                <p className="inner-lead">{RESSALVA_RESULTADOS}</p>
               </div>
 
               <div className="result-grid">
@@ -323,6 +326,11 @@ export default async function ServicoPage({ params }: PageProps) {
                 </div>
 
                 <h2>Estratégia aplicada ao mundo real.</h2>
+
+                <p className="inner-lead">
+                  {CONTEXTO_CASES}{' '}
+                  <Link href="/#cases">Ver os cases completos</Link>.
+                </p>
               </div>
 
               <div className="example-grid">

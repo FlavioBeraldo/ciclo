@@ -81,9 +81,18 @@ conferir(tipos.includes('Service'), 'JSON-LD Service presente')
 conferir(tipos.includes('BreadcrumbList'), 'JSON-LD BreadcrumbList presente')
 const faqLd = blocos.find((b) => b['@type'] === 'FAQPage')
 conferir(!!faqLd, 'JSON-LD FAQPage presente')
-conferir(faqLd?.mainEntity?.length === 6, `FAQPage com 6 perguntas (tem ${faqLd?.mainEntity?.length})`)
+// Eram 6 na base do redesign. Em 19/10 entrou UMA pergunta complementar, por
+// autorização do Flávio, no accordion e no schema ao mesmo tempo — a página tem
+// duas fontes de FAQ, e a primeira tentativa atualizou só uma delas. O número
+// aqui sobe junto, e o que o teste continua garantindo é que as duas fontes
+// batem: toda pergunta do accordion está no schema, e o schema não tem sobra.
+conferir(faqLd?.mainEntity?.length === 7, `FAQPage com 7 perguntas (tem ${faqLd?.mainEntity?.length})`)
+conferir(
+  faqLd?.mainEntity?.length === c.FAQ.length,
+  `schema e accordion com a mesma quantidade (${faqLd?.mainEntity?.length} e ${c.FAQ.length})`
+)
 
-// O FAQ visível: as seis perguntas E as seis respostas
+// O FAQ visível: as perguntas E as respostas
 let faqOk = true
 for (const { q, a } of c.FAQ) {
   if (!html.includes(normalizar(q))) {

@@ -104,56 +104,19 @@ const breadcrumbSchema = {
 const faqSchema = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
-  mainEntity: [
-    {
-      '@type': 'Question',
-      name: 'O que é TikTok Shop e como funciona para e-commerces?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'TikTok Shop é o canal de social commerce do TikTok que permite vender diretamente dentro da plataforma. Para e-commerces, funciona como uma loja integrada ao feed de conteúdo: os produtos aparecem em vídeos, lives e vitrine da marca, e o usuário compra sem sair do app. É o modelo de Discovery Commerce — a venda acontece antes que o consumidor perceba que estava comprando.',
-      },
-    },
-    {
-      '@type': 'Question',
-      name: 'Quais marcas e e-commerces se beneficiam mais do TikTok Shop?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'Marcas de beleza, moda, saúde, casa e alimentação têm os melhores resultados, especialmente as que vendem produtos com apelo visual ou que se beneficiam de demonstração em vídeo. E-commerces com ticket médio entre R$30 e R$300 e que já possuem presença digital tendem a escalar mais rápido. A Ciclo atende desde marcas em fase inicial no TikTok até operações consolidadas que querem aumentar o GMV.',
-      },
-    },
-    {
-      '@type': 'Question',
-      name: 'A Ciclo E-commerce faz toda a gestão do TikTok Shop?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'Sim. A Ciclo oferece gestão completa do TikTok Shop: setup e integração da loja, curadoria e gestão de creators e afiliados, criação de conteúdo otimizado para conversão, campanhas GMV Max, TikTok Ads e análise contínua de performance. A operação é gerenciada de ponta a ponta — seu time não precisa aprender a plataforma do zero.',
-      },
-    },
-    {
-      '@type': 'Question',
-      name: 'Qual a diferença entre TikTok Ads e TikTok Shop?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'TikTok Ads é a plataforma de mídia paga do TikTok — você investe em anúncios para gerar tráfego e conversões. TikTok Shop é o canal de social commerce nativo onde os produtos são vendidos diretamente dentro do app via conteúdo orgânico, lives e creators. A maior potência está na combinação: TikTok Shop como canal de vendas e TikTok Ads (especialmente GMV Max) para escalar o volume de pedidos.',
-      },
-    },
-    {
-      '@type': 'Question',
-      name: 'Como funciona a gestão de creators e afiliados no TikTok Shop?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'A Ciclo identifica creators alinhados ao seu nicho via TikTok Creator Marketplace, negocia parcerias, orienta a criação de conteúdo e acompanha a performance de cada creator. Para afiliados, estruturamos o programa de comissões, recrutamos os criadores certos e gerenciamos o relacionamento. O objetivo é construir um ecossistema de conteúdo que gere vendas de forma consistente.',
-      },
-    },
-    {
-      '@type': 'Question',
-      name: 'Quanto tempo leva para ter resultados no TikTok Shop?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'Os primeiros resultados aparecem nas primeiras 4 a 8 semanas — fase de setup, integração, onboarding de creators e primeiros testes de conteúdo. A escala consistente costuma acontecer entre 2 e 4 meses, quando já há dados suficientes de creators, produtos e formatos para otimizar a operação. O tempo varia conforme o nicho, o ticket médio e a agilidade da marca em produzir conteúdo.',
-      },
-    },
-  ],
+  // Derivado da MESMA constante FAQ que o accordion exibe, como já é feito nas
+  // páginas de serviço e de solução.
+  //
+  // Antes o schema era escrito à mão aqui, em fonte separada, e cinco das seis
+  // respostas já divergiam do texto visível. Duas fontes para o mesmo FAQ só
+  // tinham como divergir mais a cada edição — e divergiram, quando a pergunta
+  // nova entrou só em um lado. Nenhuma pergunta ou resposta VISÍVEL mudou com
+  // isso: o que mudou é de onde o schema lê.
+  mainEntity: FAQ.map(({ q, a }) => ({
+    '@type': 'Question',
+    name: q,
+    acceptedAnswer: { '@type': 'Answer', text: a },
+  })),
 }
 
 // /tiktok-shop no design 2026.
@@ -164,8 +127,9 @@ const faqSchema = {
 // conteúdo dos três é idêntico ao de antes.
 //
 // O que NÃO mudou: a URL, a metadata, o canonical, os três JSON-LD acima e
-// todo o texto da página — incluindo as seis perguntas do FAQ, que o Flávio
-// confirmou que precisam ficar por causa do SEO.
+// todo o texto da página — incluindo as perguntas do FAQ, que o Flávio
+// confirmou que precisam ficar por causa do SEO. Eram seis; em 19/10 entrou
+// uma complementar, e nenhuma das seis mudou.
 //
 // O que mudou: a casca e a ordem. Abertura com CTA, visão da operação
 // integrada, as quatro frentes com os entregáveis reais, o conteúdo educativo

@@ -221,6 +221,10 @@ export const FAQ = [
     q: 'Quanto tempo leva para ter resultados no TikTok Shop?',
     a: 'Os primeiros resultados aparecem nas primeiras 4 a 8 semanas — fase de setup, integração e onboarding de creators. A escala consistente costuma acontecer entre 2 e 4 meses, quando já há dados suficientes de creators, produtos e formatos para otimizar a operação.',
   },
+  {
+    q: 'O que avaliar antes de contratar uma agência de TikTok Shop?',
+    a: 'Entenda como o trabalho conecta catálogo, conteúdo, creators e operação da loja. Confirme as responsabilidades por estoque, pedidos, comissões e atendimento, além da forma de acompanhar as vendas. O plano precisa considerar o produto, a capacidade da operação e a margem disponível.',
+  },
 ]
 
 export const CTA_FINAL = {

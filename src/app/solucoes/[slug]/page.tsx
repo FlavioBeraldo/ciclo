@@ -9,6 +9,7 @@ import Faq from '@/components/ciclo/interior/Faq'
 import CartoesDeServico from '@/components/ciclo/interior/CartoesDeServico'
 import { simboloPorSolucao } from '@/components/ciclo/servicos/diagramas'
 import { solucoes, getSolucaoBySlug, getAllSolucaoSlugs } from '@/lib/solucoes'
+import { RESSALVA_RESULTADOS } from '@/lib/cases-conteudo'
 import { getServicoBySlug } from '@/lib/servicos'
 import { playfair2026 } from '@/components/ciclo/fonts'
 import '@/components/ciclo/base.css'
@@ -213,6 +214,8 @@ export default async function SolucaoPage({ params }: PageProps) {
               </div>
 
               <h2>O impacto da estratégia no negócio.</h2>
+
+              <p className="inner-lead">{RESSALVA_RESULTADOS}</p>
             </div>
 
             <div className="result-grid">

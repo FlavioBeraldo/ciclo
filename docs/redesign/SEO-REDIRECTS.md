@@ -397,3 +397,113 @@ tenho acesso, e mesmo se tivesse, pedido repetido não acelera fila.
 - **O efeito do bloqueio de `/_next/` não foi medido.**
 - **Nenhuma correção faz o Google reindexar.** O calendário é dele.
 - Os dois subdomínios **não são alcançáveis daqui**.
+
+---
+
+## 14. Fechamento — publicado em 19/10, 11:58 BRT
+
+Registro do que foi publicado e, principalmente, **do que isso ainda não
+prova**. Este é um commit de documentação na branch de trabalho: **sem novo
+deploy, sem merge e sem alteração de código**.
+
+### 14.1 O que está no ar
+
+| Item | Valor |
+|---|---|
+| Commit de Production | **`57f493a0540a011fbe50122596256a9881b15e07`** |
+| Deployment **GitHub** | `7177208314` |
+| Deployment **Vercel** | **`6BtymAJxRSCiAaCvu39BDSdDFDUe`** |
+| Estado | **Ready, Production, domínio `cicloecommerce.com.br` atribuído** |
+| Conclusão | **19/10/2026, 11:58:23 BRT** |
+| Caminho | merge pela branch de Production, **sem force**, **sem Promote de Preview** |
+
+Mantendo a distinção de nomenclatura que já custou uma correção neste
+documento — **`7177208314` é id do GitHub; `6BtymAJxRSCiAaCvu39BDSdDFDUe` é o
+da Vercel.** O estado Ready/Current é leitura do painel pela revisão
+independente; eu não enxergo a Vercel nem o domínio.
+
+| Publicação | GitHub | Vercel |
+|---|---|---|
+| Redesign, 17/10 20:29 | `7147282117` | `9wDAEozub4kNH11R6dsnRDmo1YjX` |
+| Favicon, 17/10 22:08 | `7148182431` | `DtW3ZM9aprRpf25C5UZGw6MKk5FB` |
+| Mensuração, 17/10 23:25 | `7148850730` | `5vExsSoQdaUhkXQTL9z8GimtTqG4` |
+| Rótulo do UGC, 18/10 10:52 | `7155500813` | — |
+| Seta e estados, 18/10 12:51 | `7156927261` | — |
+| **SEO, 19/10 11:58** | `7177208314` | **`6BtymAJxRSCiAaCvu39BDSdDFDUe`** |
+
+**O que foi publicado é o que foi aprovado:** o compare `1d9ce5f...57f493a`
+mostra **0 arquivos alterados**, e a árvore dos dois é a mesma
+(`f6fdc6db8f8c98e443da84b2e9de73a3bdb6bf42`).
+
+### 14.2 Verificado no domínio real
+
+Pela revisão independente, **nove origens**, todas terminando no destino
+previsto, com **H1, canonical self e `index, follow`**:
+
+| Origem | Destino |
+|---|---|
+| Google Ads (landing) | `/servicos/google-ads` |
+| Tráfego pago | `/solucoes/captacao-de-demanda` |
+| Retail media | `/solucoes/captacao-de-demanda` |
+| Amazon Ads | `/servicos/amazon-ads` |
+| Shopee Ads | `/servicos/shopee-ads` |
+| `/blog/como-atrair-clientes` | artigo qualificado |
+| E-mail marketing (post com sucessor) | `/blog/email-marketing-para-ecommerce` |
+| Pinterest Ads (post com sucessor) | `/blog/pinterest-ads-ecommerce` |
+| Episódio legado **com emoji** | `/ofatorm` |
+
+`?amp` sobreviveu em `/blog/como-atrair-clientes` — a query chega ao destino
+no domínio, como o passo 24 já afirmava localmente.
+
+**Playbook:** carregou com canonical self, `index, follow` e formulários
+presentes. O diff do código do playbook **permaneceu vazio**. **Nenhum lead
+foi submetido.**
+
+### 14.3 O limite que não pode sumir no relatório
+
+**O `robots.txt` público não foi lido.** O navegador da revisão bloqueia essa
+URL — o mesmo bloqueio que já impediu de abrir `/api/youtube/latest`. Então:
+
+| | |
+|---|---|
+| A regra **está publicada** | **sim** — provado por diff, build e deployment |
+| A regra **foi lida no domínio** | **não** |
+| O Google **recebeu a regra nova** | **não, aguarda recrawl** |
+
+O relatório de robots da GSC estava em cache de **01/10**. Foi solicitado
+**novo rastreamento de `https://cicloecommerce.com.br/robots.txt`** depois do
+Ready, e a GSC **aceitou** ("Solicitação de novo rastreamento enviada").
+
+**Não se declara relatório do Google limpo nem indexação concluída.** O que
+existe é: a regra publicada, o pedido de recrawl aceito, e o calendário do
+Google, que não é nosso.
+
+### 14.4 Pedidos na GSC — nenhum repetido
+
+| Pedido | Estado |
+|---|---|
+| 9 solicitações de indexação (3 serviços + 6 posts) | **aceitas**, seção 12 |
+| `/servicos/amazon-ads` | já indexada em 16/10 |
+| **Recrawl de `/robots.txt`** | **aceito, após o Ready de 19/10** |
+
+Todos feitos pela revisão independente. **Eu não executei nenhum**, e nenhum
+foi repetido.
+
+### 14.5 O que fica em aberto, de propósito
+
+Publicar não fechou estes, e eles continuam nomeados:
+
+| Item | Estado |
+|---|---|
+| **7 URLs em 404 intencionais** | semijoias, suplementos, papéis de parede, saúde e bem-estar, luxo, DNVBs, marcas nativas digitais. Sem página por segmento no site e **zero conteúdo de segmento no acervo** — 404 é a resposta certa, e o bloco 2a do teste a protege |
+| **2 subdomínios fora de escopo** | `conteudo.cicloecommerce.com.br` e `materiais.cicloecommerce.com.br` **não são servidos por este código** |
+| **Consolidações legadas** | `/categoria`, `/tag`, `/author` e paginação para `/blog` são **decisão editorial de outro checkpoint**, com o risco de soft 404 registrado como **risco não medido** |
+| **12 irmãs por segmento → `/`** | recomendadas para revisão, **não alteradas** |
+| Efeito do bloqueio de `/_next/` | **não medido** |
+| Reindexação | **não é consequência deste deploy.** O calendário é do Google |
+
+### 14.6 Rollback
+
+`c6ae9c0298ae222832f4006dbca05f0adb0c47b1` / deployment Vercel
+`HMydKDFJHUA5dn1AFacGubTWP3Ww`, revalidado Ready/Current antes da publicação.
+A branch de trabalho segue em `1d9ce5f348ce452363049d32042c849aa282e748`.

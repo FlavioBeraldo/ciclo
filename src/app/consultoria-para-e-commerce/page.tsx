@@ -213,6 +213,14 @@ export default function ConsultoriaParaEcommercePage() {
                     Cada pilar do Full Funnel Marketing tem seu próprio diagnóstico — e é a leitura
                     conjunta dos quatro que mostra onde está o gargalo de crescimento.
                   </p>
+
+                  <p>
+                    A consultoria ajuda a transformar dúvidas sobre o crescimento em prioridades de
+                    trabalho. Antes de escolher canais ou aumentar o investimento, vale entender
+                    quais desafios estão na aquisição, na experiência de compra, na retenção e na
+                    leitura dos dados. A atuação deve ser combinada com a equipe responsável por
+                    executar as decisões.
+                  </p>
                 </div>
 
                 <div className="module-grid cols-4">
