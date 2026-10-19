@@ -101,6 +101,11 @@ export const servicos: Servico[] = [
         q: 'Como medir o ROI do TikTok Shop?',
         a: 'Medimos GMV total, GMV por formato (Lives vs. vídeos), custo de aquisição in-app, ticket médio e taxa de recompra dos compradores via TikTok Shop. Comparamos com os outros canais para calcular o incremento real.',
       },
+      {
+        q: 'O que avaliar antes de contratar uma agência de TikTok Shop?',
+        a:
+          'Entenda como o trabalho conecta catálogo, conteúdo, creators e operação da loja. Confirme as responsabilidades por estoque, pedidos, comissões e atendimento, além da forma de acompanhar as vendas. O plano precisa considerar o produto, a capacidade da operação e a margem disponível.',
+      },
     ],
     relatedSlugs: [
       'gestao-creators-influenciadores',
@@ -182,6 +187,11 @@ export const servicos: Servico[] = [
       {
         q: 'A Ciclo trabalha com influenciadores de quais segmentos?',
         a: 'Trabalhamos com creators em todos os segmentos de e-commerce: moda, beleza, saúde, pet, alimentos, casa e esportes. Nossa seleção é sempre baseada em dados de audiência e histórico de conversão — não em número de seguidores.',
+      },
+      {
+        q: 'Como alinhar expectativas com creators antes de começar?',
+        a:
+          'O briefing precisa dizer o objetivo da ação, o que não pode ser alterado na mensagem e o que fica livre para a linguagem de cada criador. Direitos de uso, prazos de aprovação e responsabilidades de produção ficam definidos em contrato. O critério de avaliação deve ser combinado antes, para a leitura do resultado não virar discussão depois.',
       },
     ],
     relatedSlugs: [
@@ -280,6 +290,11 @@ export const servicos: Servico[] = [
         q: 'Como vocês medem se o UGC está dando resultado?',
         a: 'Pela mesma régua da mídia: custo por aquisição, taxa de clique e retenção nos primeiros segundos, peça a peça e ângulo a ângulo. Curtida e visualização entram como sinal, nunca como resultado. A leitura por ângulo é o que permite decidir o que produzir no ciclo seguinte.',
       },
+      {
+        q: 'O que define o escopo de uma produção de UGC?',
+        a:
+          'Comece pelo objetivo do material e pelo lugar onde ele vai rodar, porque isso muda o briefing e o formato. Combine antes quem aprova cada etapa e como os direitos de uso ficam definidos em contrato. O critério de avaliação também entra no acordo: o que será observado para dizer que o material cumpriu o objetivo.',
+      },
     ],
     relatedSlugs: ['gestao-creators-influenciadores', 'creative-strategy', 'tiktok-ads'],
     seo: {
@@ -366,6 +381,11 @@ export const servicos: Servico[] = [
       {
         q: 'A Ciclo faz a produção ou só a estratégia?',
         a: 'Fazemos os dois: estratégia de ângulos, roteirização, direção criativa e produção completa com creators e UGC. Para marcas com equipe interna de produção, entregamos o banco de ângulos, o briefing por criativo e a supervisão da execução.',
+      },
+      {
+        q: 'Como avaliar se o criativo é o problema da campanha?',
+        a:
+          'Separe o que depende da peça do que depende da oferta, do preço e da página de destino. Comparar variações com o mesmo público e no mesmo período ajuda a isolar o efeito do criativo. Antes de produzir mais material, vale confirmar se o gargalo está na atenção, no argumento ou na conversão depois do clique.',
       },
     ],
     relatedSlugs: ['meta-ads', 'tiktok-ads', 'google-ads'],
@@ -466,6 +486,11 @@ export const servicos: Servico[] = [
         q: 'Google Ads ou Meta Ads: qual priorizar?',
         a: 'São complementares. Google captura quem já quer comprar; Meta cria desejo em quem não está buscando. Em operações com CAC alto, normalmente estabilizamos a aquisição no Google antes de escalar o paid social.',
       },
+      {
+        q: 'Como avaliar uma proposta de gestão de Google Ads para e-commerce?',
+        a:
+          'Compare o que será analisado na conta, como o catálogo será tratado e quais decisões o relatório deve apoiar. Além da receita atribuída aos anúncios, considere margem, custo de aquisição e a participação de clientes novos. O escopo precisa deixar claros os acessos necessários e as responsabilidades da agência e da sua equipe.',
+      },
     ],
     relatedSlugs: ['bing-ads', 'meta-ads', 'creative-strategy'],
     seo: {
@@ -544,6 +569,11 @@ export const servicos: Servico[] = [
       {
         q: 'O público do Bing é diferente do Google?',
         a: 'Sim. A rede Microsoft concentra usuários em ambiente corporativo, faixa etária mais alta e maior renda média — o que favorece categorias de ticket alto, B2B e produtos técnicos.',
+      },
+      {
+        q: 'Vale a pena manter o canal Microsoft junto do Google?',
+        a:
+          'Depende do volume de busca da sua categoria e da capacidade da equipe de acompanhar mais uma conta. O canal costuma ser avaliado pela eficiência dentro do próprio orçamento de busca, não como substituto do Google. A decisão também considera se o catálogo e os anúncios podem ser aproveitados sem retrabalho.',
       },
     ],
     relatedSlugs: ['google-ads', 'meta-ads', 'creative-strategy'],
@@ -624,6 +654,11 @@ export const servicos: Servico[] = [
         q: 'Por que minha conta vive em fase de aprendizagem?',
         a: 'Normalmente por fragmentação: muitos conjuntos dividindo poucos eventos, edições frequentes que reiniciam o aprendizado e orçamento espalhado. Consolidar estrutura costuma resolver mais que trocar de segmentação.',
       },
+      {
+        q: 'O que preciso organizar antes de contratar a gestão de Meta Ads?',
+        a:
+          'Reúna o histórico da conta, os materiais criativos, o catálogo e as informações disponíveis sobre vendas. Esses elementos ajudam a entender se o principal desafio está na oferta, na comunicação, na mensuração ou na estrutura das campanhas. A definição do trabalho deve considerar também quem produz e aprova os materiais.',
+      },
     ],
     relatedSlugs: ['tiktok-ads', 'creative-strategy', 'google-ads'],
     seo: {
@@ -702,6 +737,11 @@ export const servicos: Servico[] = [
       {
         q: 'O que é Spark Ads?',
         a: 'É o formato que transforma uma publicação orgânica de creator em anúncio, mantendo os comentários, os likes e o perfil de origem. Entrega prova social real e costuma render CPM e retenção melhores que o criativo de marca.',
+      },
+      {
+        q: 'Como definir a responsabilidade pelos criativos no TikTok?',
+        a:
+          'Combine antes quem produz, quem aprova e com que frequência o material é renovado, porque o canal consome criativo mais rápido. Se a produção fica com a sua equipe, o plano precisa caber na capacidade dela. Quando entra creator, os direitos de uso para mídia paga precisam estar definidos em contrato.',
       },
     ],
     relatedSlugs: ['meta-ads', 'tiktok-shop-social-commerce', 'creative-strategy'],
@@ -782,6 +822,11 @@ export const servicos: Servico[] = [
         q: 'Qual verba mínima faz sentido?',
         a: 'Programática exige volume para sair do ruído estatístico e acessar deals relevantes. Trabalhamos o canal como camada complementar de operações que já têm busca e paid social maduros, e não como primeiro canal de mídia.',
       },
+      {
+        q: 'Como medir um canal que não gera clique direto?',
+        a:
+          'A leitura precisa combinar alcance, frequência e efeito sobre os canais que recebem a demanda. Comparar períodos e grupos equivalentes ajuda mais do que olhar apenas a conversão atribuída na plataforma. Antes de começar, alinhe qual pergunta a campanha deve responder e como ela será verificada.',
+      },
     ],
     relatedSlugs: ['pinterest-ads', 'meta-ads', 'google-ads'],
     seo: {
@@ -860,6 +905,11 @@ export const servicos: Servico[] = [
       {
         q: 'O canal serve para topo ou fundo de funil?',
         a: 'Para os dois, com papéis distintos. A descoberta alimenta o planejamento de compra; as campanhas de Shopping com catálogo capturam quem já definiu o que quer. A estrutura separa as duas leituras.',
+      },
+      {
+        q: 'Para qual tipo de operação o Pinterest costuma fazer sentido?',
+        a:
+          'O canal se conecta a categorias em que a pessoa pesquisa referências antes de comprar, com planejamento mais antecipado. A avaliação deve considerar o catálogo, a qualidade das imagens e o tempo entre a descoberta e a compra. Como o comportamento é diferente do social tradicional, a leitura do resultado também precisa ser.',
       },
     ],
     relatedSlugs: ['programatica', 'meta-ads', 'creative-strategy'],
@@ -940,6 +990,11 @@ export const servicos: Servico[] = [
         q: 'Retail Media substitui o Google Ads?',
         a: 'Não, complementa. O marketplace captura quem já está decidido a comprar dentro dele; o Google captura a busca aberta e leva tráfego para a sua loja própria, onde a margem e o dado do cliente ficam com você.',
       },
+      {
+        q: 'Como avaliar o resultado dos anúncios no Mercado Livre?',
+        a:
+          'Compare investimento e vendas atribuídas com a margem dos produtos, os custos do canal e as condições da operação. Estoque, preço, frete e qualidade do anúncio também influenciam a decisão de compra. A leitura deve separar o desempenho da publicidade dos fatores que dependem da gestão da loja.',
+      },
     ],
     relatedSlugs: ['shopee-ads', 'amazon-ads', 'google-ads'],
     seo: {
@@ -1018,6 +1073,11 @@ export const servicos: Servico[] = [
       {
         q: 'Qual a diferença entre anúncio de Busca e de Descoberta?',
         a: 'Busca atende quem já digitou o que quer, com intenção declarada e conversão maior. Descoberta aparece em vitrines e recomendações, alcança compra por impulso e é o formato que sustenta volume no canal.',
+      },
+      {
+        q: 'Como avaliar o resultado dos anúncios na Shopee?',
+        a:
+          'Compare investimento e vendas atribuídas com a margem dos produtos, os custos do canal e as condições da operação. Estoque, preço, frete e qualidade do anúncio também influenciam a decisão de compra. A leitura deve separar o desempenho da publicidade dos fatores que dependem da gestão da loja.',
       },
     ],
     relatedSlugs: ['mercado-livre-ads', 'amazon-ads', 'tiktok-shop-social-commerce'],
@@ -1098,6 +1158,11 @@ export const servicos: Servico[] = [
         q: 'Vale anunciar em páginas de concorrentes?',
         a: 'Vale nos dois sentidos. O ASIN targeting ofensivo captura o cliente comparando alternativas e o defensivo protege suas próprias páginas — em categorias disputadas, a defesa costuma ter retorno maior que o ataque.',
       },
+      {
+        q: 'Como avaliar o resultado dos anúncios na Amazon?',
+        a:
+          'Compare investimento e vendas atribuídas com a margem dos produtos, os custos do canal e as condições da operação. Estoque, preço, frete e qualidade do anúncio também influenciam a decisão de compra. A leitura deve separar o desempenho da publicidade dos fatores que dependem da gestão da loja.',
+      },
     ],
     relatedSlugs: ['mercado-livre-ads', 'shopee-ads', 'google-ads'],
     seo: {
@@ -1177,6 +1242,11 @@ export const servicos: Servico[] = [
       {
         q: 'WhatsApp Business API é diferente do WhatsApp normal?',
         a: 'Sim. O WhatsApp Business API permite envio em escala, automações e integrações com CRM — mas exige aprovação de templates pelo Meta e tem custo por mensagem. O WhatsApp comum não é escalável para CRM.',
+      },
+      {
+        q: 'Como saber se o CRM está contribuindo para as vendas?',
+        a:
+          'Acompanhe compras, recompra, receita e comportamento dos grupos de clientes ao longo do tempo. Aberturas e cliques ajudam a avaliar as mensagens, mas não substituem a leitura do resultado comercial. Sempre que possível, compare grupos e períodos equivalentes para entender o que mudou com a ação.',
       },
     ],
     relatedSlugs: [
@@ -1259,6 +1329,11 @@ export const servicos: Servico[] = [
       {
         q: 'A régua pode incluir múltiplos canais?',
         a: 'Sim — e as melhores incluem. Uma régua de reativação pode começar com e-mail, seguir com push notification se não houver abertura, e terminar com WhatsApp. A cobertura multicanal aumenta significativamente a taxa de alcance efetivo.',
+      },
+      {
+        q: 'O que precisa estar pronto antes de montar as automações?',
+        a:
+          'É preciso ter os dados de cliente e de pedido chegando de forma confiável na ferramenta, senão o fluxo dispara na hora errada. Combine quem escreve, quem aprova e com que frequência o conteúdo é revisado. A régua também depende de regras claras sobre quando a pessoa deve sair do fluxo.',
       },
     ],
     relatedSlugs: [
@@ -1343,6 +1418,11 @@ export const servicos: Servico[] = [
         q: 'Como comunicar o programa sem parecer spam?',
         a: 'A comunicação do programa deve aparecer em momentos de alta receptividade: pós-compra, aniversário, quando o cliente atinge um nível. A frequência de comunicação sobre o programa deve ser menor que as comunicações de conteúdo e produto.',
       },
+      {
+        q: 'Como decidir quem entra em uma ação de reativação?',
+        a:
+          'Comece definindo o que é um cliente inativo para a sua operação, porque isso muda com o ciclo de consumo do produto. Depois, separe quem parou de comprar de quem nunca comprou de novo por um motivo específico, como experiência ruim. A oferta e o custo do incentivo precisam ser avaliados contra a margem do pedido.',
+      },
     ],
     relatedSlugs: [
       'crm-email-sms-push-whatsapp',
@@ -1424,6 +1504,11 @@ export const servicos: Servico[] = [
       {
         q: 'Como integrar o programa de indicação ao funil de aquisição?',
         a: 'O programa de indicação deve ser tratado como um canal de aquisição — com budget, CAC e LTV mensurados. Os clientes que chegam por indicação entram no mesmo funil de CRM e devem ser incentivados a também se tornarem indicadores.',
+      },
+      {
+        q: 'Qual é a responsabilidade da loja em um programa de indicação?',
+        a:
+          'A loja precisa garantir a experiência que vai ser indicada, porque indicação ruim circula igual. Também cabe à operação definir o incentivo, validar a elegibilidade e acompanhar possíveis abusos. O programa funciona melhor quando o pedido de indicação acontece no momento em que o cliente está satisfeito.',
       },
     ],
     relatedSlugs: [
@@ -1509,6 +1594,11 @@ export const servicos: Servico[] = [
       {
         q: 'Quais KPIs um e-commerce deve monitorar diariamente?',
         a: 'Os essenciais: receita, pedidos, ticket médio, taxa de conversão por dispositivo e canal, CAC por canal, ROAS por canal, e sessões vs. dia anterior. Semanalmente: LTV por coorte, churn de base ativa, e performance de CRM.',
+      },
+      {
+        q: 'Por que os números do site, das plataformas e do CRM podem ser diferentes?',
+        a:
+          'Cada ferramenta pode usar regras próprias de atribuição, períodos de análise e critérios para registrar uma conversão. Antes de comparar números, alinhe o que cada indicador representa e verifique como os eventos são coletados. A análise deve relacionar aquisição, qualificação e resultado comercial sem tratar todas as fontes como se medissem a mesma coisa.',
       },
     ],
     relatedSlugs: ['crm-email-sms-push-whatsapp', 'creative-strategy', 'meta-ads'],

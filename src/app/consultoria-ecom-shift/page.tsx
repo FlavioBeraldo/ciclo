@@ -193,6 +193,14 @@ const FAQ = [
     a: '4 meses.',
   },
   {
+    q: 'Qual é a diferença entre esta consultoria e a operação contínua?',
+    a: 'A consultoria organiza prioridades e decisões junto com a sua equipe, dentro dos quatro meses e dos quatro motores do E-com Shift. A operação contínua é a execução do dia a dia dos canais, que segue com quem for responsável por ela. As duas podem conviver, com papéis definidos no começo do trabalho.',
+  },
+  {
+    q: 'O que precisa estar disponível do lado da empresa?',
+    a: 'A participação de quem decide e o acesso às informações de canais, vendas e relacionamento com clientes. Como o trabalho é de diagnóstico e priorização, ele depende do que a operação já registra hoje. A definição de quem executa cada decisão também entra no acordo inicial.',
+  },
+  {
     q: 'A consultoria trata apenas de aquisição?',
     a: 'Não. Além da captação, ela trata de geração de demanda, canais de venda, compra e recompra, fidelização e expansão — a jornada inteira, e não só o momento da conversão.',
   },

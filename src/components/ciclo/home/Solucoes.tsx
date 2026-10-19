@@ -121,6 +121,20 @@ export default function Solucoes() {
             do funil.
           </p>
 
+          <p>
+            A Ciclo é uma agência de marketing para e-commerce que conecta criação, captação
+            e expansão de demanda. Reunimos mídia, criatividade, relacionamento e dados para
+            ajudar marcas a identificar onde estão as oportunidades de crescimento e quais
+            frentes precisam trabalhar juntas.
+          </p>
+
+          <p>
+            A escolha do trabalho começa pelo desafio da operação. Conheça os{' '}
+            <a href="#solucoes">serviços</a> para entender cada frente ou explore a{' '}
+            <Link href="/consultoria-para-e-commerce">consultoria</Link> para organizar
+            prioridades antes da execução.
+          </p>
+
           <a className="button" href="#contato">
             <span>Fale com especialista</span>
             <b aria-hidden="true"><Seta /></b>
