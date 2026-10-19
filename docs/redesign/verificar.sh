@@ -345,6 +345,14 @@ else
   falha "cabeçalho inesperado em /api/youtube/latest: '$cab'"
 fi
 
+# ── 24. Redirects, canonical, robots e sitemap ────────────────────────────
+titulo "24. SEO: redirects, canonical, robots e sitemap"
+if RAIZ_CICLO="$RAIZ" node "$DOCS/seo-redirects.mjs" "$BASE" > "$TMP/seo.log" 2>&1; then
+  ok "$(tail -1 "$TMP/seo.log")"
+else
+  falha "SEO fora do contrato:"; grep FALHA "$TMP/seo.log" | head -12
+fi
+
 pkill -f "next-server" 2>/dev/null
 printf "\n%s\n" "────────────────────────────────"
 if [ "$falhas" -eq 0 ]; then echo "TUDO OK"; else echo "$falhas FALHA(S)"; fi

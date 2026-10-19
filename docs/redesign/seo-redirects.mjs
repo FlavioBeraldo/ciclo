@@ -1,0 +1,249 @@
+// Os redirects precisam levar a algum lugar, em um salto só.
+//
+// A auditoria do Search Console apontou 67 URLs em 404. Este teste não
+// confere o relatório (ele está atrasado e é agregado); ele confere o que o
+// código REALMENTE responde, para cada origem declarada em next.config.ts e
+// para a lista de 404 confirmados na inspeção individual.
+//
+// O que ele afirma:
+//
+//   1. toda origem literal de redirect termina em 200 — nada aponta para 404;
+//   2. em UM salto, fora a normalização de barra final que o Next faz sozinho;
+//   3. nenhum laço;
+//   4. os 404 confirmados deixaram de ser 404;
+//   5. o destino tem canonical próprio, e não o da origem;
+//   6. quem era noindex continua noindex — a intenção não se perde;
+//   7. o sitemap não lista origem de redirect nem página noindex.
+//
+// Não faz rede externa, não cria lead, não mexe em mensuração. Só HTTP
+// contra o servidor local servindo a árvore do commit.
+//
+// Uso:  node seo-redirects.mjs http://127.0.0.1:3100
+
+const BASE = process.argv[2] ?? 'http://127.0.0.1:3100'
+const RAIZ = process.env.RAIZ_CICLO ?? '/home/user/ciclo'
+
+let falhas = 0
+const ok = (t) => console.log('  ok    ' + t)
+const falha = (t) => {
+  console.log('  FALHA ' + t)
+  falhas++
+}
+const conferir = (c, t) => (c ? ok(t) : falha(t))
+
+const { readFileSync } = await import('node:fs')
+
+// ── As origens declaradas no next.config.ts ─────────────────────────────────
+// Leitura por texto, de propósito: importar o config exigiria o resolvedor do
+// Next (ele importa JSON sem attribute). O formato das regras é estável.
+function regrasLiterais() {
+  const cfg = readFileSync(`${RAIZ}/next.config.ts`, 'utf8')
+  const regras = []
+  const re = /\{\s*source:\s*'([^']+)'\s*,\s*destination:\s*'([^']+)'\s*,\s*permanent:\s*true\s*\}/g
+  for (const m of cfg.matchAll(re)) {
+    const [, source, destination] = m
+    if (source.includes(':')) continue // curingas são testados à parte
+    regras.push({ source, destination })
+  }
+  return regras
+}
+
+/** Segue a cadeia e devolve cada parada. */
+async function cadeia(caminho, limite = 6) {
+  const paradas = []
+  let url = BASE + caminho
+  for (let i = 0; i < limite; i++) {
+    const r = await fetch(url, { redirect: 'manual' })
+    const destino = r.headers.get('location')
+    paradas.push({ url: url.replace(BASE, ''), status: r.status, destino })
+    if (r.status < 300 || r.status >= 400 || !destino) break
+    url = destino.startsWith('http') ? destino : BASE + destino
+  }
+  return paradas
+}
+
+const semBarra = (p) => (p.length > 1 && p.endsWith('/') ? p.slice(0, -1) : p)
+
+/**
+ * Saltos que contam. A normalização de `/rota/` para `/rota` é do Next e
+ * acontece em todo o site; ela não é uma parada de SEO que dê para evitar,
+ * então sai da conta — mas tudo depois dela conta.
+ */
+function saltosReais(paradas) {
+  return paradas.filter((p, i) => {
+    if (p.status < 300 || p.status >= 400) return false
+    const proximo = p.destino?.replace(BASE, '')
+    return !(i === 0 && proximo === semBarra(p.url))
+  }).length
+}
+
+// ── 1. Toda origem declarada chega a 200, em um salto ───────────────────────
+
+console.log('\n1. Origens declaradas em next.config.ts')
+{
+  const regras = regrasLiterais()
+  console.log(`  (${regras.length} regras literais)`)
+  const quebradas = []
+  const longas = []
+  const lacos = []
+
+  for (const { source, destination } of regras) {
+    const paradas = await cadeia(source)
+    const fim = paradas[paradas.length - 1]
+    const vistos = new Set()
+    for (const p of paradas) {
+      if (vistos.has(p.url)) lacos.push(source)
+      vistos.add(p.url)
+    }
+    if (fim.status !== 200) quebradas.push(`${source} -> ${paradas.map((p) => `${p.status}`).join('>')} (${fim.url})`)
+    if (saltosReais(paradas) > 1) longas.push(`${source} -> ${paradas.map((p) => p.url).join(' > ')}`)
+    if (paradas.length === 1 && paradas[0].status === 200) {
+      // origem que responde 200 direto: a regra virou letra morta
+    }
+    void destination
+  }
+
+  conferir(quebradas.length === 0, `todas as origens terminam em 200 (${quebradas.length} quebradas)`)
+  for (const q of quebradas.slice(0, 15)) console.log('        ' + q)
+  conferir(longas.length === 0, `nenhuma cadeia com mais de um salto (${longas.length} longas)`)
+  for (const l of longas.slice(0, 15)) console.log('        ' + l)
+  conferir(lacos.length === 0, `nenhum laço (${lacos.length})`)
+  for (const l of lacos.slice(0, 10)) console.log('        ' + l)
+}
+
+// ── 2. Os 404 confirmados na inspeção individual ────────────────────────────
+
+const CONFIRMADOS_404 = [
+  '/gestao-de-trafego-pago-para-e-commerce-aumente-suas-vendas/',
+  '/marketing-para-loja-de-semijoias-aumente-suas-vendas-com-ciclo-e-commerce/',
+  '/google-ads-para-e-commerce-impulsione-suas-vendas-com-ciclo-e-commerce/',
+  '/marketing-para-loja-de-suplementos-aumente-suas-vendas-com-ciclo-e-commerce/',
+  '/marketing-para-loja-de-papeis-de-parede-aumente-suas-vendas-com-ciclo-e-commerce/',
+]
+
+console.log('\n2. Os 404 confirmados pela revisão (com e sem barra)')
+for (const u of CONFIRMADOS_404) {
+  for (const variante of [u, semBarra(u)]) {
+    const paradas = await cadeia(variante)
+    const fim = paradas[paradas.length - 1]
+    conferir(
+      fim.status === 200,
+      `${variante} -> ${paradas.map((p) => p.status).join('>')} ${fim.url}`
+    )
+  }
+}
+
+// ── 3. Podcast legado ───────────────────────────────────────────────────────
+
+console.log('\n3. Podcast legado — inclusive slug com emoji')
+for (const u of [
+  '/podcast',
+  '/podcast/',
+  '/podcast/o-fator-m-episodio-1',
+  '/podcast/epis%C3%B3dio-%F0%9F%8E%A7-teste',
+]) {
+  const paradas = await cadeia(u)
+  const fim = paradas[paradas.length - 1]
+  conferir(fim.status === 200, `${u} -> ${paradas.map((p) => p.status).join('>')} ${fim.url}`)
+}
+
+// ── 4. Amostra dos posts do WordPress ───────────────────────────────────────
+
+console.log('\n4. Amostra de posts do WordPress')
+{
+  const slugs = JSON.parse(readFileSync(`${RAIZ}/src/data/wp-slugs.json`, 'utf8'))
+  const amostra = [slugs[0], slugs[Math.floor(slugs.length / 2)], slugs[slugs.length - 1]]
+  for (const slug of amostra) {
+    const paradas = await cadeia(`/${slug}`)
+    const fim = paradas[paradas.length - 1]
+    conferir(
+      fim.status === 200 && fim.url === `/blog/${slug}`,
+      `/${slug.slice(0, 50)} -> ${fim.status} ${fim.url.slice(0, 60)}`
+    )
+  }
+}
+
+// ── 5. Canonical dos destinos ───────────────────────────────────────────────
+
+console.log('\n5. O destino tem canonical próprio')
+{
+  const DESTINOS = [
+    '/servicos/google-ads',
+    '/servicos/amazon-ads',
+    '/servicos/shopee-ads',
+    '/solucoes/captacao-de-demanda',
+    '/consultoria-para-e-commerce',
+    '/ofatorm',
+    '/blog',
+    '/',
+  ]
+  for (const d of DESTINOS) {
+    const html = await (await fetch(BASE + d)).text()
+    const m = html.match(/<link rel="canonical" href="([^"]+)"/)
+    const esperado = d === '/' ? 'https://cicloecommerce.com.br' : `https://cicloecommerce.com.br${d}`
+    conferir(
+      !!m && (m[1] === esperado || m[1] === esperado + '/'),
+      `${d} canonical = ${m?.[1] ?? '(ausente)'}`
+    )
+  }
+}
+
+// ── 6. A intenção de noindex não se perde ───────────────────────────────────
+
+console.log('\n6. noindex preservado onde já era')
+for (const [rota, esperado] of [
+  ['/aplicacao', 'noindex'],
+  ['/link-bio', 'noindex'],
+  ['/obrigado', 'noindex'],
+  ['/', 'index'],
+  ['/consultoria-ecom-shift', 'index'],
+]) {
+  const html = await (await fetch(BASE + rota)).text()
+  const m = html.match(/<meta name="robots" content="([^"]+)"/)
+  const conteudo = m?.[1] ?? '(ausente)'
+  const temNoindex = /noindex/.test(conteudo)
+  conferir(
+    esperado === 'noindex' ? temNoindex : !temNoindex,
+    `${rota} robots = ${conteudo}`
+  )
+}
+
+// ── 7. robots.txt ───────────────────────────────────────────────────────────
+
+console.log('\n7. robots.txt')
+{
+  const txt = await (await fetch(BASE + '/robots.txt')).text()
+  conferir(!/^Disallow:\s*\/$/m.test(txt), 'não há bloqueio global')
+  conferir(/Disallow:.*\/api\//.test(txt), '/api/ continua bloqueado')
+  conferir(/Disallow:.*\/obrigado/.test(txt), '/obrigado continua bloqueado')
+  conferir(/Allow:.*\/_next\/static\//.test(txt), 'os estáticos do Next são liberados (fontes, CSS e JS)')
+  conferir(/Sitemap:.*\/sitemap\.xml/.test(txt), 'sitemap declarado')
+}
+
+// ── 8. Sitemap ──────────────────────────────────────────────────────────────
+
+console.log('\n8. Sitemap')
+{
+  const r = await fetch(BASE + '/sitemap.xml')
+  conferir(r.status === 200, `sitemap.xml responde ${r.status}`)
+  const xml = await r.text()
+  const urls = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1])
+  conferir(urls.length > 100, `${urls.length} URLs no sitemap`)
+
+  const caminhos = new Set(urls.map((u) => u.replace('https://cicloecommerce.com.br', '') || '/'))
+  for (const proibido of ['/aplicacao', '/link-bio', '/obrigado']) {
+    conferir(!caminhos.has(proibido), `${proibido} (noindex) fora do sitemap`)
+  }
+  const origens = regrasLiterais().map((r) => semBarra(r.source))
+  const vazadas = origens.filter((o) => caminhos.has(o))
+  conferir(vazadas.length === 0, `nenhuma origem de redirect no sitemap (${vazadas.length})`)
+  for (const v of vazadas.slice(0, 10)) console.log('        ' + v)
+}
+
+console.log(
+  '\n' +
+    (falhas
+      ? `${falhas} FALHA(S)`
+      : 'TUDO OK — origens em 200 num salto, 404 confirmados resolvidos, canonical, noindex, robots e sitemap')
+)
+process.exit(falhas ? 1 : 0)
