@@ -13,6 +13,7 @@ import {
   supersededWpPosts,
   type BlogSection,
 } from '@/lib/blog'
+import { complementoDoArtigo } from '@/lib/blog-complementos'
 import {
   getAllKeystatiSlugs,
   getKeystatiPostBySlug,
@@ -158,6 +159,7 @@ export default async function BlogPostPage({ params }: Props) {
     : Math.max(3, Math.round((wp!.html.replace(/<[^>]+>/g, '').length) / 1200))
 
   // Corpo do artigo e sumário, conforme a fonte
+  const complemento = complementoDoArtigo(slug)
   let corpoHtml: string | null = null
   let sumario: ItemDeSumario[] = []
   if (curated) {
@@ -297,6 +299,44 @@ export default async function BlogPostPage({ params }: Props) {
                     id={secao.type === 'heading' ? `secao-${++indiceDeTitulo}` : undefined}
                   />
                 ))
+              )}
+
+              {complemento && (
+                <section className="article-complemento" aria-labelledby="complemento">
+                  <p className="eyebrow">
+                    <span />
+                    {complemento.eyebrow}
+                  </p>
+
+                  {complemento.blocos.map((bloco, i) => (
+                    <div key={bloco.titulo}>
+                      <h2 id={i === 0 ? 'complemento' : undefined}>{bloco.titulo}</h2>
+
+                      {bloco.paragrafos.map((texto) => (
+                        <p key={texto.slice(0, 40)}>{texto}</p>
+                      ))}
+
+                      {bloco.lista && (
+                        <ul>
+                          {bloco.lista.map((item) => (
+                            <li key={item.slice(0, 40)}>{item}</li>
+                          ))}
+                        </ul>
+                      )}
+                    </div>
+                  ))}
+
+                  <p>
+                    Para seguir:{' '}
+                    {complemento.links.map((link, i) => (
+                      <span key={link.href}>
+                        {i > 0 && ' · '}
+                        <Link href={link.href}>{link.texto}</Link>
+                      </span>
+                    ))}
+                    .
+                  </p>
+                </section>
               )}
 
               <div className="article-end">

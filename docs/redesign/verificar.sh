@@ -153,6 +153,7 @@ fi
 titulo "7. Conteúdo e SEO das internas"
 cd "$RAIZ"
 if RAIZ_CICLO="$RAIZ" node --experimental-strip-types --no-warnings \
+     --import ./docs/redesign/resolve-ts.mjs \
      "$DOCS/internas-seo.mjs" "$BASE" > "$TMP/seo.log" 2>&1; then
   ok "$(tail -1 "$TMP/seo.log")"
 else
@@ -194,6 +195,7 @@ cd "$RAIZ"
 titulo "10. Título no h1"
 cd "$RAIZ"
 if RAIZ_CICLO="$RAIZ" node --experimental-strip-types --no-warnings \
+     --import ./docs/redesign/resolve-ts.mjs \
      "$DOCS/h1-das-paginas.mjs" "$BASE" > "$TMP/h1.log" 2>&1; then
   ok "$(tail -1 "$TMP/h1.log")"
 else
@@ -203,6 +205,7 @@ fi
 # ── 11. Serviços encerrados ─────────────────────────────────────────────────
 titulo "11. Serviços encerrados"
 if RAIZ_CICLO="$RAIZ" node --experimental-strip-types --no-warnings \
+     --import ./docs/redesign/resolve-ts.mjs \
      "$DOCS/servicos-encerrados.mjs" "$BASE" > "$TMP/encerrados.log" 2>&1; then
   ok "$(tail -1 "$TMP/encerrados.log")"
 else
@@ -351,6 +354,14 @@ if RAIZ_CICLO="$RAIZ" node "$DOCS/seo-redirects.mjs" "$BASE" > "$TMP/seo.log" 2>
   ok "$(tail -1 "$TMP/seo.log")"
 else
   falha "SEO fora do contrato:"; grep FALHA "$TMP/seo.log" | head -12
+fi
+
+# ── 25. Conteudo: cases reais, legado preservado e links ──────────────────
+titulo "25. Conteúdo: cases reais e legado preservado"
+if RAIZ_CICLO="$RAIZ" node "$DOCS/conteudo-seo.mjs" "$BASE" > "$TMP/conteudo.log" 2>&1; then
+  ok "$(tail -1 "$TMP/conteudo.log")"
+else
+  falha "conteudo fora do contrato:"; grep FALHA "$TMP/conteudo.log" | head -12
 fi
 
 pkill -f "next-server" 2>/dev/null
