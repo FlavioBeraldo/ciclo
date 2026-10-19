@@ -171,11 +171,14 @@ const nextConfig: NextConfig = {
       { source: '/marketing-para-loja-de-moda-infantil-impulsione-suas-vendas-com-ciclo-e-commerce/',    destination: '/', permanent: true },
       { source: '/marketing-para-e-commerce-transforme-suas-vendas-com-a-ciclo',                         destination: '/', permanent: true },
       { source: '/marketing-para-e-commerce-transforme-suas-vendas-com-a-ciclo/',                        destination: '/', permanent: true },
-      // Shopee e Amazon Ads → Retail Media
-      { source: '/gestao-de-shopee-ads-potencialize-suas-vendas-na-shopee-com-ciclo-e-commerce',         destination: '/servicos/retail-media', permanent: true },
-      { source: '/gestao-de-shopee-ads-potencialize-suas-vendas-na-shopee-com-ciclo-e-commerce/',        destination: '/servicos/retail-media', permanent: true },
-      { source: '/gestao-de-amazon-ads-impulsione-suas-vendas-na-amazon-com-ciclo-e-commerce',           destination: '/servicos/retail-media', permanent: true },
-      { source: '/gestao-de-amazon-ads-impulsione-suas-vendas-na-amazon-com-ciclo-e-commerce/',          destination: '/servicos/retail-media', permanent: true },
+      // Shopee e Amazon Ads → a página do próprio canal.
+      //
+      // Antes apontavam para /servicos/retail-media, que NÃO é página: é outra
+      // origem de redirect, que leva a /servicos/mercado-livre-ads. Davam dois
+      // saltos e terminavam no canal errado — uma URL de Amazon caía em Mercado
+      // Livre. Os serviços por canal existem e respondem 200.
+      { source: '/gestao-de-shopee-ads-potencialize-suas-vendas-na-shopee-com-ciclo-e-commerce',         destination: '/servicos/shopee-ads', permanent: true },
+      { source: '/gestao-de-amazon-ads-impulsione-suas-vendas-na-amazon-com-ciclo-e-commerce',           destination: '/servicos/amazon-ads', permanent: true },
       // CRM → serviço equivalente
       { source: '/crm-para-e-commerce-fidelize-seus-clientes-com-ciclo-e-commerce',                      destination: '/servicos/crm-email-sms-push-whatsapp', permanent: true },
       { source: '/crm-para-e-commerce-fidelize-seus-clientes-com-ciclo-e-commerce/',                     destination: '/servicos/crm-email-sms-push-whatsapp', permanent: true },
@@ -185,6 +188,55 @@ const nextConfig: NextConfig = {
       { source: '/solucao/growth-media',  destination: '/', permanent: true },
       { source: '/solucao/growth-media/', destination: '/', permanent: true },
       { source: '/solucao/:slug*',        destination: '/', permanent: true },
+
+      // ── 404 confirmados na auditoria do Search Console (19/10/2026) ─────────
+      //
+      // Páginas do WordPress antigo que não eram posts: não estão em
+      // wp-slugs.json nem em wp-posts.json, então não havia conteúdo para
+      // restaurar — o destino é a página equivalente de hoje, que responde 200.
+      //
+      // Só a forma SEM barra: o Next normaliza `/rota/` para `/rota` antes de
+      // olhar estas regras, então a variante com barra nunca chega a casar.
+      // (As regras duplicadas que existem acima são anteriores a essa
+      // descoberta e ficam como estão — removê-las é mudança sem efeito.)
+
+      // Mesma família de meta-ads e tiktok-ads, que já apontam para o serviço
+      // do canal. A página existe e responde 200.
+      { source: '/google-ads-para-e-commerce-impulsione-suas-vendas-com-ciclo-e-commerce', destination: '/servicos/google-ads', permanent: true },
+
+      // "Tráfego pago" não é um canal, é o conjunto deles. A solução de
+      // Captação de Demanda é a página que reúne Google, Meta, TikTok, Mercado
+      // Livre, Shopee e Amazon Ads — equivalente mais próximo, e específica.
+      { source: '/gestao-de-trafego-pago-para-e-commerce-aumente-suas-vendas', destination: '/solucoes/captacao-de-demanda', permanent: true },
+
+      // Retail media: mesma leitura de "tráfego pago". A solução de Captação
+      // de Demanda é a página que reúne Mercado Livre, Shopee e Amazon Ads,
+      // que são os canais de retail media do site. Achado ao classificar a
+      // lista de 266 — estava em 404 e ninguém tinha olhado.
+      { source: '/retail-media-para-e-commerce-amplie-suas-vendas-com-ciclo-e-commerce', destination: '/solucoes/captacao-de-demanda', permanent: true },
+
+      // O artigo existe, só mudou de slug. Preserva o conteúdo original em vez
+      // de mandar para a listagem.
+      { source: '/blog/como-atrair-clientes', destination: '/blog/como-atrair-clientes-qualificados-para-o-e-commerce', permanent: true },
+
+      // ── Landing pages por segmento: 404 de propósito ─────────────────────
+      //
+      // "Marketing para loja de semijoias", de suplementos, de papéis de
+      // parede, de saúde e bem-estar, de luxo, para DNVBs e para marcas
+      // nativas digitais seguem em 404, e isso é decisão, não esquecimento.
+      //
+      // O site novo não tem página por segmento, e o acervo não tem conteúdo
+      // do segmento: busca em wp-posts.json por semijoias, papéis de parede,
+      // joias, cosméticos, decoração, acessórios, roupas infantis, móveis,
+      // saúde e DNVB devolve ZERO artigos. Sem substituto convincente,
+      // redirecionar para a home ou para a consultoria empurraria o visitante
+      // para uma página que não responde ao que ele buscou — e o Google trata
+      // isso como soft 404, que não é melhor do que o 404 honesto.
+      //
+      // As 12 irmãs mais antigas apontam para `/` desde antes desta auditoria.
+      // Pelo mesmo raciocínio elas também deveriam ser revistas; **não entra
+      // neste patch** porque remove redirect que já está em produção, e isso
+      // é decisão de vocês. Registrado em docs/redesign/SEO-REDIRECTS.md.
 
       // ── Posts de blog antigos sem conteúdo no novo site ──────────────────────
       { source: '/blog/loja-virtual-de-alimentos-saiba-por-onde-comecar',                                destination: '/blog', permanent: true },
@@ -238,7 +290,36 @@ const nextConfig: NextConfig = {
       { source: '/upload/:path*',                                          destination: '/',                       permanent: true },
 
       // ── Podcast (slugs com emoji) ──────────────────────────────────────────────
-      { source: '/podcast/:path*', destination: '/blog', permanent: true },
+      // O destino é a página do próprio podcast, não o blog: é lá que vivem os
+      // episódios de "O Fator M". Antes caía em /blog, que é outro conteúdo.
+      // O curinga cobre slug percent-encoded, inclusive com emoji.
+      { source: '/podcast',        destination: '/ofatorm', permanent: true },
+      { source: '/podcast/:path*', destination: '/ofatorm', permanent: true },
+
+      // ── Post com sucessor: vai direto ao sucessor ────────────────────────
+      //
+      // ANTES de ...wpRedirects de propósito: o Next aplica a primeira regra
+      // que casa, e a regra genérica mandaria para `/blog/<slug antigo>`, que
+      // por sua vez redireciona para o sucessor em `supersededWpPosts`
+      // (src/lib/blog.ts). Dava /slug -> /blog/slug-antigo -> /blog/sucessor:
+      // dois saltos depois da normalização de barra.
+      //
+      // Só a forma sem barra; o Next normaliza `/rota/` antes de olhar as
+      // regras. A query é repassada pelo próprio Next, e o passo 24 afirma.
+      //
+      // ESCOPO: são os DOIS pares de `supersededWpPosts`, e só eles. Quem
+      // acrescentar um par novo lá precisa acrescentar a regra aqui também,
+      // senão a cadeia volta — o passo 24 confere os dois.
+      {
+        source: '/ferramentas-de-e-mail-marketing-para-e-commerce',
+        destination: '/blog/email-marketing-para-ecommerce',
+        permanent: true,
+      },
+      {
+        source: '/pinterest-ads-para-e-commerce-como-vender-mais-na-plataforma',
+        destination: '/blog/pinterest-ads-ecommerce',
+        permanent: true,
+      },
 
       // ── WordPress blog post redirects ─────────────────────────────────────
       ...wpRedirects,
