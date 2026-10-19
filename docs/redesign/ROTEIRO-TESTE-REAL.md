@@ -831,8 +831,43 @@ conhecido; é **lacuna de evidência**.
 
 | | |
 |---|---|
-| **Cron `/api/cron/site-digest`** | **18/10, janela 09–10 BRT.** Não disparar manualmente |
+| **Cron `/api/cron/site-digest`** | ~~18/10, janela 09–10 BRT~~ — **RODOU. Ver 14** |
 
-É o único item que não depende de decisão de ninguém, e o último que falta
-para encerrar. Até ele rodar, **não há garantia de 100%** — e o que existe é
-o contrato provado offline no passo 22 da suíte.
+Era o único item que não dependia de decisão de ninguém, e o último que
+faltava para encerrar.
+
+---
+
+# 14. O cron rodou — 18 e 19/10
+
+Último gate do roteiro, fechado. O detalhe das três fontes está em
+`POS-MIGRACAO.md`, seção 22; aqui fica o resultado.
+
+| Dia | Invocação | Notes gravadas |
+|---|---|---|
+| **18/10** | **não verificada** — o log não foi recuperado | 1 (`11735`, 09:39:28 BRT) |
+| **19/10** | **comprovada** — `vercel-cron/1.0`, HTTP 200, 09:39:24 BRT | 2 (`11741` 09:39:26, `11742` 09:39:45) |
+
+A rodada de 19/10 terminou com `[Digest] Concluído: 2 resumos, 58 pulados` em
+21,76 s dos 60 s disponíveis, contra o deployment de produção `c6ae9c0`. Os
+carimbos de `last_digest_at` no Supabase batem **ao segundo** com as três
+Notes no Pipedrive.
+
+**O gate fecha com a execução natural de hoje mais os efeitos dos dois dias** —
+não com o log de ontem, que não existe.
+
+Os dois ramos previstos no roteiro foram exercitados em produção: Note só na
+pessoa quando não há negócio aberto, e Note também no negócio quando há.
+
+## 14.1 O que o roteiro previa e segue sem prova
+
+Fechar o cron não fecha estes:
+
+| | |
+|---|---|
+| **GCLID** | nenhum lead de Google Ads no período |
+| **Par individual da dedup na Meta** | o painel não expõe; encerrado como limite |
+| **`context` em `/link-bio` e `/aplicacao`** | publicado, **sem novo registro real** — repetir reaproveitaria 3649/3650 |
+| Popup do playbook · Playbook via LinkedIn | não testados, como já estava |
+
+**Não há garantia de 100%.** O que acabou foi a espera pelo agendamento.

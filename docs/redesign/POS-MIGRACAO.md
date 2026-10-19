@@ -1705,3 +1705,143 @@ registro real de `/link-bio` e `/aplicacao` (21.5), a captura de UTM e GCLID
 novos (21.2), o par individual da dedup (21.4) e a causa do cookie antigo
 (21.6). Nenhum deles é defeito conhecido; são **lacunas de evidência**, e
 estão nomeadas uma a uma de propósito.
+
+---
+
+# 22. O cron rodou — último gate, fechado em 19/10
+
+Este era o item que faltava desde 18.3, e ele fecha com **três fontes
+independentes que batem entre si**: o log da Vercel, o carimbo no Supabase e a
+Note no Pipedrive. **Eu não disparei o cron, não criei lead e não publiquei
+nada para escrever esta seção** — a consulta ao Pipedrive foi só leitura.
+
+## 22.1 A execução de hoje, 19/10
+
+Log da Vercel, lido pela revisão independente:
+
+| | |
+|---|---|
+| Rota | `GET /api/cron/site-digest` |
+| Início | **2026-10-19T12:39:24.120Z** = **09:39:24 BRT** |
+| Request | `zjr8w-1792413564120-80e073688102` |
+| **User-Agent** | **`vercel-cron/1.0`** |
+| Resposta | **HTTP 200** |
+| Duração | **21,76 s** de 60 s |
+| Deployment | `dpl_HMydKDFJHUA5dn1AFacGubTWP3Ww`, production, **`c6ae9c0`** |
+| Log final | **12:39:46.152Z — `[Digest] Concluído: 2 resumos, 58 pulados`** |
+| Trace | **2 POST** `api.pipedrive.com/v1/notes` e **PATCH** `site_visitors` |
+
+O `vercel-cron/1.0` é a parte que mais importa: **é o agendador da plataforma
+chamando a rota**, não uma chamada manual. Era exatamente isso que nenhum
+teste local podia provar, como estava escrito em 18.3.
+
+Cron **Enabled** no painel, `0 12 * * *` UTC. O HEAD servido é o mesmo
+`c6ae9c0` que está no ar, e nenhum commit depois de `e799854` tocou o cron, as
+regras ou as integrações — conferido por hash em 11 arquivos mais o
+`vercel.json`.
+
+## 22.2 As três fontes batem
+
+| Fonte | O que diz |
+|---|---|
+| Log da Vercel | 2 resumos, 2 POST em `/v1/notes`, PATCH em `site_visitors` |
+| Supabase, agrupando `last_digest_at` desde 18/10 | **3 linhas, 1 visitante cada:** `18/10 12:39:28.316+00`, `19/10 12:39:26.713+00`, `19/10 12:39:45.863+00` |
+| Pipedrive, Notes consultadas por mim | **3 Notes de digest:** `11735` (18/10 12:39:28), `11741` (19/10 12:39:26), `11742` (19/10 12:39:45) |
+
+Os carimbos coincidem **ao segundo** entre o banco e o CRM. Não é inferência:
+é o mesmo evento visto de dois lados.
+
+Conteúdo das três, no formato de `buildDigestNote` — contagem de páginas e
+visitas, agrupamento `×N`, `/obrigado` ausente, linha `Origem:` e tempo
+estimado:
+
+| Note | Resumo |
+|---|---|
+| `11735` | *"Navegação no site em 18/10/2026: 87 páginas em 6 visitas"* |
+| `11741` | *"Navegação no site em 19/10/2026: 3 páginas em 2 visitas"* |
+| `11742` | *"Navegação no site em 19/10/2026: 1 página em 1 visita"* |
+
+**Os dois ramos do código foram exercitados em produção:** a `11735` nasceu com
+`deal_id` nulo, só na pessoa — correto, porque todos os negócios daquela pessoa
+estavam arquivados e `findLatestOpenDealId` não achou nenhum aberto. A `11742`
+nasceu **com** `deal_id`, porque havia negócio aberto.
+
+### Como sei que `add_time` do Pipedrive é UTC
+
+Vale registrar, porque é o que sustenta a conversão para BRT: a Note de jornada
+do negócio 3651 tem `add_time 2026-10-18 02:38:24` e a linha correspondente em
+`conversion_events` tem `sent_at 2026-10-18 02:38:23.34+00` — **um segundo de
+diferença, mesmo relógio**, para uma conversão feita às 23:38 BRT de 17/10.
+
+## 22.3 O que vale para 18/10, e o que não vale
+
+**O log de 18/10 não foi recuperado.** Então, para ontem, **não afirmo leitura
+do HTTP** — nem do User-Agent, nem do código de resposta, nem da duração.
+
+O que existe para 18/10 é o **efeito**, em duas fontes: a linha de
+`last_digest_at` às `12:39:28.316+00` e a Note `11735` com o mesmo carimbo. É
+evidência de que **uma execução gravou**, no mesmo minuto do dia seguinte, mas
+não é o registro da invocação.
+
+| Dia | Invocação | Efeito |
+|---|---|---|
+| 18/10 | **não verificada** — log não recuperado | **comprovado** (Supabase + Pipedrive) |
+| 19/10 | **comprovada** — `vercel-cron/1.0`, HTTP 200 | **comprovado** (Supabase + Pipedrive) |
+
+**O gate fecha com a execução natural de hoje mais os efeitos dos dois dias.**
+É isso que está provado, e nada além.
+
+## 22.4 Um número que o log revelou, e que eu só tinha como hipótese
+
+Em 18.3 anotei um risco não medido: `maxDuration = 60` contra até 500
+visitantes por rodada. Agora há aritmética:
+
+| | |
+|---|---|
+| Visitantes na rodada | 60 (2 resumidos + 58 pulados) |
+| Duração | 21,76 s |
+| Por visitante | ≈ **0,36 s** |
+| Folga até os 60 s | ≈ **165 visitantes** |
+
+**Isso é extrapolação linear, não medição em escala** — e o custo por visitante
+pode variar, porque quem é resumido faz mais chamadas do que quem é pulado.
+Mas a ordem de grandeza diz que **o teto prático está mais perto de ~165 do que
+dos 500 do `limit`**. Hoje não é problema; é o número a observar quando a base
+de visitantes vinculados crescer. **Nada a mudar agora.**
+
+## 22.5 Observação do período — enrich e UTM
+
+Registro como **observação de Notes reais do período**, não como item fechado e
+sem ampliar escopo.
+
+**Enriquecimento por IA:** em 19/10, às 08:56 BRT, foram gravadas **4 Notes de
+diagnóstico** para quatro negócios reais (3652–3655). Isso mostra que o
+enriquecimento **operou nesses casos** — e **não autoriza dizer que todos os
+enriquecimentos estão resolvidos**, nem reabre o item, que segue fora de
+escopo por decisão. O conteúdo tem dados pessoais de leads reais e **não é
+reproduzido aqui**.
+
+**UTM:** essas mesmas Notes registram atribuição de campanha real —
+`utm_source=meta`, `utm_medium=paid_social`, campanha
+`CICLO_MEIO_PLAYBOOK_202610` com público e criativo, referrer `instagram.com`;
+e outra por LinkedIn, campanha `Linkedin - Flávio - 08.10`. O digest `11742`
+trouxe `Origem: Linkedin / Post`.
+
+É **observação de tráfego real de campanha no período**, que o navegador de
+teste (`direct/none`) nunca poderia produzir. **GCLID continua sem prova** —
+nenhum lead de Google Ads apareceu.
+
+## 22.6 O que continua em aberto
+
+Fechar o cron **não fecha estes**, e eles seguem nomeados:
+
+| Limite | Estado |
+|---|---|
+| **GCLID** | **sem prova.** Nenhum lead de Google Ads no período |
+| **Par individual da dedup na Meta** | **não comprovado, e não será por este caminho** — o painel não expõe. Encerrado como limite da evidência (21.4) |
+| **`context` em `/link-bio` e `/aplicacao`** | revisado, testado com mock e publicado; **sem novo registro real**. Repetir reaproveitaria 3649/3650 (20.4) |
+| Causa do cookie de setembro | sem resposta, por decisão (21.6) |
+| Invocação de 18/10 | **não verificada** (22.3) |
+
+**Sem garantia de 100%.** O último gate agendado fechou; as lacunas de
+evidência acima não.
