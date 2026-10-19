@@ -82,7 +82,11 @@ function saltosReais(paradas) {
 console.log('\n1. Origens declaradas em next.config.ts')
 {
   const regras = regrasLiterais()
-  console.log(`  (${regras.length} regras literais)`)
+  // ESCOPO, porque já escondeu uma cadeia: este bloco cobre só as regras
+  // LITERAIS do next.config.ts. Os ~1554 redirects gerados de wp-slugs.json
+  // não entram aqui — eles são conferidos por amostra no bloco 4 e, no caso
+  // dos posts com sucessor, no bloco 2c.
+  console.log(`  (${regras.length} regras literais; os gerados de wp-slugs ficam nos blocos 2c e 4)`)
   const quebradas = []
   const longas = []
   const lacos = []
@@ -192,6 +196,35 @@ console.log('\n2b. UTM e amp sobrevivem aos redirects novos e aos de canal')
       `${origem.slice(0, 46)} -> ${fim.status} ${caminho} ${temTudo ? '(query inteira)' : '(QUERY PERDIDA: ' + (query ?? 'nenhuma') + ')'}`
     )
   }
+}
+
+// ── 2c. Post com sucessor: um salto, não três ───────────────────────────────
+
+console.log('\n2c. Post com sucessor — a cadeia dos redirects gerados')
+{
+  const QUERY = '?utm_source=teste&utm_medium=qa&utm_campaign=seo-check'
+  const ORIGEM = '/ferramentas-de-e-mail-marketing-para-e-commerce'
+  const DESTINO = '/blog/email-marketing-para-ecommerce'
+
+  for (const variante of [ORIGEM, ORIGEM + '/', ORIGEM + QUERY, ORIGEM + '/' + QUERY]) {
+    const paradas = await cadeia(variante)
+    const fim = paradas[paradas.length - 1]
+    const [caminho, query] = fim.url.split('?')
+    const temQuery = !variante.includes('utm_') || (query && query.includes('utm_source'))
+    conferir(
+      fim.status === 200 && caminho === DESTINO && saltosReais(paradas) === 1 && temQuery,
+      `${variante.replace(ORIGEM, '…e-mail-marketing…')} -> ${paradas.map((p) => p.status).join('>')} ${caminho}` +
+        ` | saltos reais: ${saltosReais(paradas)}${variante.includes('utm_') ? (temQuery ? ' | query inteira' : ' | QUERY PERDIDA') : ''}`
+    )
+  }
+
+  // O outro par de supersededWpPosts fica FORA do escopo deste patch, por
+  // decisão. Medido e impresso para ninguém descobrir isso de novo do zero.
+  const outro = await cadeia('/pinterest-ads-para-e-commerce-como-vender-mais-na-plataforma')
+  console.log(
+    `  nota  fora de escopo, mesma classe: /pinterest-ads-para-e-commerce-… -> ` +
+      `${outro.map((p) => p.status).join('>')} ${outro[outro.length - 1].url} | saltos reais: ${saltosReais(outro)}`
+  )
 }
 
 console.log('\n3. Podcast legado — inclusive slug com emoji')

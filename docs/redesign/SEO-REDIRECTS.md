@@ -67,6 +67,7 @@ Só onde havia **equivalente comprovado**.
 | `/gestao-de-amazon-ads-…` | `/servicos/amazon-ads` | Era cadeia de dois saltos para `/servicos/retail-media`, que **não é página**, e terminava em Mercado Livre. Uma URL de Amazon caía no canal errado |
 | `/gestao-de-shopee-ads-…` | `/servicos/shopee-ads` | Idem |
 | `/podcast` e `/podcast/:path*` | `/ofatorm` | Era `/blog`. Seção 4 |
+| `/ferramentas-de-e-mail-marketing-para-e-commerce` | `/blog/email-marketing-para-ecommerce` | **Cadeia de três saltos**, achada na leitura do inventário: a regra genérica de `wpSlugs` mandava para `/blog/<slug antigo>`, que redireciona de novo para o sucessor de `supersededWpPosts`. A regra específica entra **antes** de `...wpRedirects` e vai direto ao destino final, que existe, tem canonical próprio e `index, follow` |
 
 **Nenhuma regra genérica nova foi criada.** `/podcast/:path*` e
 `/upload/:path*` já existiam; só o destino do podcast mudou, e `/podcast`
@@ -144,6 +145,37 @@ artigo que só parece relacionado seria inventar equivalência. **Não fiz.**
 **O limite, dito:** quem procurava um episódio específico chega à página do
 podcast, não ao episódio. O episódio não existe. Se vocês preferirem 404 para
 episódio, é trocar uma linha — e o argumento a favor do 404 é legítimo.
+
+---
+
+## 4b. Cadeia nos redirects gerados — escopo do que foi medido
+
+O bloco 1 do passo 24 cobre as **regras literais** de `next.config.ts`. Os
+**~1554 redirects gerados** de `wp-slugs.json` (dois por slug) **não entram
+ali** — e foi exatamente aí que uma cadeia se escondeu, encontrada na leitura
+do `inventario.tsv`:
+
+```
+/ferramentas-de-e-mail-marketing-para-e-commerce/
+  308 → /ferramentas-de-e-mail-marketing-para-e-commerce     (normalização de barra)
+  308 → /blog/ferramentas-de-e-mail-marketing-para-e-commerce (regra genérica de wpSlugs)
+  308 → /blog/email-marketing-para-ecommerce                  (supersededWpPosts)
+  200
+```
+
+São **dois saltos reais** além da normalização. A correção é uma regra
+específica **antes** de `...wpRedirects`, porque o Next aplica a primeira que
+casa. Agora é um salto só, e a query é repassada.
+
+**O que continua fora do escopo, por decisão:** `supersededWpPosts`
+(`src/lib/blog.ts`) tem **dois** pares, e o outro —
+`pinterest-ads-para-e-commerce-como-vender-mais-na-plataforma` →
+`pinterest-ads-ecommerce` — **tem a mesma cadeia e não foi alterado**. O bloco
+2c do teste mede e imprime esse caso como nota, para ele não precisar ser
+redescoberto. Corrigi-lo é a mesma linha; é decisão de vocês.
+
+A contagem de cadeias deste documento passa a dizer o escopo: **zero entre as
+regras literais**, e **uma conhecida e deliberada** entre as geradas.
 
 ---
 
@@ -281,7 +313,8 @@ O que o passo afirma:
 | | Antes | Depois |
 |---|---|---|
 | Regras literais | 135 | **138** |
-| Cadeias com mais de um salto | **4** | **0** |
+| Cadeias com mais de um salto, **regras literais** | **4** | **0** |
+| Cadeias entre os **gerados de wp-slugs** | 2 | **1**, deliberada (seção 4b) |
 | Laços | 0 | 0 |
 | URLs das 3 listas em 404 | 11 | **7**, todas deliberadas |
 | URLs no sitemap | 856 | 856 |

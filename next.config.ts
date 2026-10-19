@@ -296,6 +296,28 @@ const nextConfig: NextConfig = {
       { source: '/podcast',        destination: '/ofatorm', permanent: true },
       { source: '/podcast/:path*', destination: '/ofatorm', permanent: true },
 
+      // ── Post com sucessor: vai direto ao sucessor ────────────────────────
+      //
+      // ANTES de ...wpRedirects de propósito: o Next aplica a primeira regra
+      // que casa, e a regra genérica mandaria para `/blog/<slug antigo>`, que
+      // por sua vez redireciona para o sucessor em `supersededWpPosts`
+      // (src/lib/blog.ts). Dava /slug -> /blog/slug-antigo -> /blog/sucessor:
+      // dois saltos depois da normalização de barra.
+      //
+      // Só a forma sem barra; o Next normaliza `/rota/` antes de olhar as
+      // regras. A query é repassada pelo próprio Next, e o passo 24 afirma.
+      //
+      // ESCOPO: é um caso só, o pedido pela revisão. O outro par de
+      // `supersededWpPosts` — pinterest-ads-para-e-commerce-como-vender-mais-
+      // na-plataforma -> pinterest-ads-ecommerce — tem a MESMA cadeia e
+      // continua como está, por decisão de escopo. Está registrado em
+      // docs/redesign/SEO-REDIRECTS.md.
+      {
+        source: '/ferramentas-de-e-mail-marketing-para-e-commerce',
+        destination: '/blog/email-marketing-para-ecommerce',
+        permanent: true,
+      },
+
       // ── WordPress blog post redirects ─────────────────────────────────────
       ...wpRedirects,
       ...wpRedirectsNoTrail,
