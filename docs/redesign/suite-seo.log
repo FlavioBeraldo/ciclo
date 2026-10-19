@@ -1,5 +1,5 @@
 Verificação do redesign — modo: comparar
-commit: 01030d6  branch: claude/redesign-ciclo-2026-HVyvT
+commit: 45da7cb  branch: claude/redesign-ciclo-2026-HVyvT
 
 == 1. Camada protegida (src/lib e src/app/api)
   ok    41 arquivos, nenhuma mudança não autorizada

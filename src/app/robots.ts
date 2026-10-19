@@ -6,10 +6,15 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: '*',
         // `/_next/static/` precisa ser liberado explicitamente. O `Disallow:
-        // /_next/` abaixo bloqueava fonte, CSS e JS — foi o que apareceu no
+        // /_next/` abaixo bloqueia fonte, CSS e JS, e foi o que apareceu no
         // Search Console como quatro arquivos de fonte bloqueados em
-        // `_next/static/media`. Sem esses arquivos o Google renderiza a página
-        // sem a tipografia e sem o layout, e avalia o que não é o site.
+        // `_next/static/media`.
+        //
+        // O bloqueio é fato; o efeito dele na renderização NÃO foi medido —
+        // ninguém viu o render anterior do Googlebot. A razão de liberar é a
+        // orientação do próprio Google, de não bloquear recurso necessário
+        // para renderizar, e não um prejuízo comprovado.
+        //
         // Allow mais específico ganha de Disallow mais genérico, então o resto
         // de `/_next/` (chunks internos, dados de build) continua fora.
         allow: ['/', '/_next/static/'],

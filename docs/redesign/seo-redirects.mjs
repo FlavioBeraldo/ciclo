@@ -113,15 +113,35 @@ console.log('\n1. Origens declaradas em next.config.ts')
 
 // ── 2. Os 404 confirmados na inspeção individual ────────────────────────────
 
+// Têm equivalente comprovado, então têm que resolver.
 const CONFIRMADOS_404 = [
   '/gestao-de-trafego-pago-para-e-commerce-aumente-suas-vendas/',
-  '/marketing-para-loja-de-semijoias-aumente-suas-vendas-com-ciclo-e-commerce/',
   '/google-ads-para-e-commerce-impulsione-suas-vendas-com-ciclo-e-commerce/',
-  '/marketing-para-loja-de-suplementos-aumente-suas-vendas-com-ciclo-e-commerce/',
-  '/marketing-para-loja-de-papeis-de-parede-aumente-suas-vendas-com-ciclo-e-commerce/',
+  '/retail-media-para-e-commerce-amplie-suas-vendas-com-ciclo-e-commerce/',
+  '/blog/como-atrair-clientes',
 ]
 
-console.log('\n2. Os 404 confirmados pela revisão (com e sem barra)')
+// Não têm equivalente: o site novo não tem página por segmento e o acervo não
+// tem conteúdo do segmento. **404 é a resposta certa**, e o teste existe para
+// alguém não "consertar" isso por reflexo depois.
+const SEGMENTO_SEM_EQUIVALENTE = [
+  '/marketing-para-loja-de-semijoias-aumente-suas-vendas-com-ciclo-e-commerce',
+  '/marketing-para-loja-de-suplementos-aumente-suas-vendas-com-ciclo-e-commerce',
+  '/marketing-para-loja-de-papeis-de-parede-aumente-suas-vendas-com-ciclo-e-commerce',
+  '/marketing-para-loja-de-saude-e-bem-estar-aumente-suas-vendas-com-ciclo-e-commerce',
+  '/marketing-para-loja-de-luxo-aumente-suas-vendas-com-ciclo-e-commerce',
+  '/marketing-para-dnvbs-aumente-suas-vendas-com-ciclo-e-commerce',
+  '/marketing-para-marcas-nativas-digitais-aumente-suas-vendas-com-ciclo-e-commerce',
+]
+
+console.log('\n2a. Landing por segmento: 404 é a resposta certa, e é deliberada')
+for (const u of SEGMENTO_SEM_EQUIVALENTE) {
+  const paradas = await cadeia(u)
+  const fim = paradas[paradas.length - 1]
+  conferir(fim.status === 404, `${u.slice(0, 62)} -> ${fim.status}`)
+}
+
+console.log('\n2. Os 404 com equivalente comprovado (com e sem barra)')
 for (const u of CONFIRMADOS_404) {
   for (const variante of [u, semBarra(u)]) {
     const paradas = await cadeia(variante)

@@ -209,18 +209,34 @@ const nextConfig: NextConfig = {
       // Livre, Shopee e Amazon Ads — equivalente mais próximo, e específica.
       { source: '/gestao-de-trafego-pago-para-e-commerce-aumente-suas-vendas', destination: '/solucoes/captacao-de-demanda', permanent: true },
 
-      // Landing pages por segmento de loja. O site novo não tem página por
-      // segmento, então não existe equivalente exato. O destino é a oferta
-      // comercial completa, que responde à mesma intenção de quem procurava
-      // "marketing para a minha loja" — e não a home, que é um hub.
+      // Retail media: mesma leitura de "tráfego pago". A solução de Captação
+      // de Demanda é a página que reúne Mercado Livre, Shopee e Amazon Ads,
+      // que são os canais de retail media do site. Achado ao classificar a
+      // lista de 266 — estava em 404 e ninguém tinha olhado.
+      { source: '/retail-media-para-e-commerce-amplie-suas-vendas-com-ciclo-e-commerce', destination: '/solucoes/captacao-de-demanda', permanent: true },
+
+      // O artigo existe, só mudou de slug. Preserva o conteúdo original em vez
+      // de mandar para a listagem.
+      { source: '/blog/como-atrair-clientes', destination: '/blog/como-atrair-clientes-qualificados-para-o-e-commerce', permanent: true },
+
+      // ── Landing pages por segmento: 404 de propósito ─────────────────────
       //
-      // ATENÇÃO: as 12 irmãs dessa família, logo acima, apontam para `/`.
-      // A inconsistência é conhecida e está registrada em
-      // docs/redesign/SEO-REDIRECTS.md; alinhar as 12 muda URLs que não estão
-      // na lista de 404 e não entra neste patch.
-      { source: '/marketing-para-loja-de-semijoias-aumente-suas-vendas-com-ciclo-e-commerce',        destination: '/consultoria-para-e-commerce', permanent: true },
-      { source: '/marketing-para-loja-de-suplementos-aumente-suas-vendas-com-ciclo-e-commerce',      destination: '/consultoria-para-e-commerce', permanent: true },
-      { source: '/marketing-para-loja-de-papeis-de-parede-aumente-suas-vendas-com-ciclo-e-commerce', destination: '/consultoria-para-e-commerce', permanent: true },
+      // "Marketing para loja de semijoias", de suplementos, de papéis de
+      // parede, de saúde e bem-estar, de luxo, para DNVBs e para marcas
+      // nativas digitais seguem em 404, e isso é decisão, não esquecimento.
+      //
+      // O site novo não tem página por segmento, e o acervo não tem conteúdo
+      // do segmento: busca em wp-posts.json por semijoias, papéis de parede,
+      // joias, cosméticos, decoração, acessórios, roupas infantis, móveis,
+      // saúde e DNVB devolve ZERO artigos. Sem substituto convincente,
+      // redirecionar para a home ou para a consultoria empurraria o visitante
+      // para uma página que não responde ao que ele buscou — e o Google trata
+      // isso como soft 404, que não é melhor do que o 404 honesto.
+      //
+      // As 12 irmãs mais antigas apontam para `/` desde antes desta auditoria.
+      // Pelo mesmo raciocínio elas também deveriam ser revistas; **não entra
+      // neste patch** porque remove redirect que já está em produção, e isso
+      // é decisão de vocês. Registrado em docs/redesign/SEO-REDIRECTS.md.
 
       // ── Posts de blog antigos sem conteúdo no novo site ──────────────────────
       { source: '/blog/loja-virtual-de-alimentos-saiba-por-onde-comecar',                                destination: '/blog', permanent: true },
