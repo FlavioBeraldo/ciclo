@@ -212,28 +212,41 @@ console.log('\n2b. UTM e amp sobrevivem aos redirects novos e aos de canal')
 console.log('\n2c. Post com sucessor — a cadeia dos redirects gerados')
 {
   const QUERY = '?utm_source=teste&utm_medium=qa&utm_campaign=seo-check'
-  const ORIGEM = '/ferramentas-de-e-mail-marketing-para-e-commerce'
-  const DESTINO = '/blog/email-marketing-para-ecommerce'
 
-  for (const variante of [ORIGEM, ORIGEM + '/', ORIGEM + QUERY, ORIGEM + '/' + QUERY]) {
-    const paradas = await cadeia(variante)
-    const fim = paradas[paradas.length - 1]
-    const [caminho, query] = fim.url.split('?')
-    const temQuery = !variante.includes('utm_') || (query && query.includes('utm_source'))
-    conferir(
-      fim.status === 200 && caminho === DESTINO && saltosReais(paradas) === 1 && temQuery,
-      `${variante.replace(ORIGEM, '…e-mail-marketing…')} -> ${paradas.map((p) => p.status).join('>')} ${caminho}` +
-        ` | saltos reais: ${saltosReais(paradas)}${variante.includes('utm_') ? (temQuery ? ' | query inteira' : ' | QUERY PERDIDA') : ''}`
-    )
+  // Os DOIS pares de supersededWpPosts (src/lib/blog.ts). Par novo lá sem
+  // regra no next.config.ts faz a cadeia voltar, e é aqui que isso aparece.
+  const PARES = [
+    ['/ferramentas-de-e-mail-marketing-para-e-commerce', '/blog/email-marketing-para-ecommerce'],
+    ['/pinterest-ads-para-e-commerce-como-vender-mais-na-plataforma', '/blog/pinterest-ads-ecommerce'],
+  ]
+
+  for (const [ORIGEM, DESTINO] of PARES) {
+    const curto = ORIGEM.slice(1, 26) + '…'
+    for (const variante of [ORIGEM, ORIGEM + '/', ORIGEM + QUERY, ORIGEM + '/' + QUERY]) {
+      const paradas = await cadeia(variante)
+      const fim = paradas[paradas.length - 1]
+      const [caminho, query] = fim.url.split('?')
+      const temQuery = !variante.includes('utm_') || (query && query.includes('utm_source'))
+      conferir(
+        fim.status === 200 && caminho === DESTINO && saltosReais(paradas) === 1 && temQuery,
+        `${curto}${variante.endsWith(QUERY) ? (variante.includes('/?') ? '/ +utm' : ' +utm') : variante.endsWith('/') ? '/' : ''}` +
+          ` -> ${paradas.map((p) => p.status).join('>')} ${caminho}` +
+          ` | saltos reais: ${saltosReais(paradas)}${variante.includes('utm_') ? (temQuery ? ' | query inteira' : ' | QUERY PERDIDA') : ''}`
+      )
+    }
   }
 
-  // O outro par de supersededWpPosts fica FORA do escopo deste patch, por
-  // decisão. Medido e impresso para ninguém descobrir isso de novo do zero.
-  const outro = await cadeia('/pinterest-ads-para-e-commerce-como-vender-mais-na-plataforma')
-  console.log(
-    `  nota  fora de escopo, mesma classe: /pinterest-ads-para-e-commerce-… -> ` +
-      `${outro.map((p) => p.status).join('>')} ${outro[outro.length - 1].url} | saltos reais: ${saltosReais(outro)}`
+  // Nenhum par de supersededWpPosts pode ficar sem regra.
+  const blog = readFileSync(`${RAIZ}/src/lib/blog.ts`, 'utf8')
+  const bloco = blog.split('supersededWpPosts: Record<string, string> = {')[1]?.split('}')[0] ?? ''
+  const antigos = [...bloco.matchAll(/'([a-z0-9-]{10,})':/g)].map((m) => m[1])
+  const cfg = readFileSync(`${RAIZ}/next.config.ts`, 'utf8')
+  const semRegra = antigos.filter((slug) => !cfg.includes(`source: '/${slug}'`))
+  conferir(
+    semRegra.length === 0,
+    `os ${antigos.length} pares de supersededWpPosts têm regra direta (${semRegra.length} sem)`
   )
+  for (const s of semRegra) console.log('        sem regra: ' + s)
 }
 
 console.log('\n3. Podcast legado — inclusive slug com emoji')
@@ -315,10 +328,52 @@ console.log('\n7. robots.txt')
 {
   const txt = await (await fetch(BASE + '/robots.txt')).text()
   conferir(!/^Disallow:\s*\/$/m.test(txt), 'não há bloqueio global')
-  conferir(/Disallow:.*\/api\//.test(txt), '/api/ continua bloqueado')
-  conferir(/Disallow:.*\/obrigado/.test(txt), '/obrigado continua bloqueado')
-  conferir(/Allow:.*\/_next\/static\//.test(txt), 'os estáticos do Next são liberados (fontes, CSS e JS)')
   conferir(/Sitemap:.*\/sitemap\.xml/.test(txt), 'sitemap declarado')
+
+  // Precedência de verdade, não presença de linha. A regra do Google é: ganha
+  // o padrão MAIS ESPECÍFICO (o mais longo) que casa com o caminho; empate vai
+  // para Allow. Sem isso dá para "liberar" uma linha que o Disallow mais
+  // genérico continua vencendo — que era o caso de /_next/image.
+  const regras = []
+  for (const linha of txt.split('\n')) {
+    const m = linha.match(/^(Allow|Disallow):\s*(\S+)\s*$/i)
+    if (m) regras.push({ permite: m[1].toLowerCase() === 'allow', padrao: m[2] })
+  }
+  const permitido = (caminho) => {
+    let melhor = null
+    for (const r of regras) {
+      if (!caminho.startsWith(r.padrao)) continue
+      if (
+        !melhor ||
+        r.padrao.length > melhor.padrao.length ||
+        (r.padrao.length === melhor.padrao.length && r.permite)
+      ) {
+        melhor = r
+      }
+    }
+    return melhor ? melhor.permite : true
+  }
+
+  for (const [caminho, esperado, oque] of [
+    ['/_next/static/media/fonte.woff2', true, 'fonte'],
+    ['/_next/static/css/app.css', true, 'CSS'],
+    ['/_next/static/chunks/main.js', true, 'JS'],
+    ['/_next/image?url=%2Fbrands%2Fmotorola.png&w=384&q=75', true, 'imagem com query'],
+    ['/_next/image?url=%2Flogo-ciclo-black.png&w=256&q=75', true, 'logo do blog'],
+    ['/_next/server/app/page.js', false, 'interno do servidor'],
+    ['/_next/data/build/x.json', false, 'dados de build'],
+    ['/api/pipedrive', false, 'API'],
+    ['/obrigado', false, '/obrigado'],
+    ['/keystatic', false, 'keystatic'],
+    ['/static/qualquer', false, '/static'],
+    ['/', true, 'home'],
+    ['/blog/qualquer-post', true, 'post'],
+  ]) {
+    conferir(
+      permitido(caminho) === esperado,
+      `${esperado ? 'liberado' : 'bloqueado'}: ${oque} (${caminho.slice(0, 46)})`
+    )
+  }
 }
 
 // ── 8. Sitemap ──────────────────────────────────────────────────────────────

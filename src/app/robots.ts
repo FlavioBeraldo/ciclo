@@ -15,9 +15,14 @@ export default function robots(): MetadataRoute.Robots {
         // orientação do próprio Google, de não bloquear recurso necessário
         // para renderizar, e não um prejuízo comprovado.
         //
+        // `/_next/image` é o otimizador de imagem do Next, e é por ele que
+        // passam TODAS as imagens do site: 212 referências na home (logos das
+        // marcas) e 8 no blog. Sem liberar, o `Disallow: /_next/` bloqueia a
+        // imagem inteira do site, não só as fontes.
+        //
         // Allow mais específico ganha de Disallow mais genérico, então o resto
         // de `/_next/` (chunks internos, dados de build) continua fora.
-        allow: ['/', '/_next/static/'],
+        allow: ['/', '/_next/static/', '/_next/image'],
         disallow: ['/api/', '/obrigado', '/_next/', '/static/', '/keystatic'],
       },
     ],

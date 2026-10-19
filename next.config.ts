@@ -307,14 +307,17 @@ const nextConfig: NextConfig = {
       // Só a forma sem barra; o Next normaliza `/rota/` antes de olhar as
       // regras. A query é repassada pelo próprio Next, e o passo 24 afirma.
       //
-      // ESCOPO: é um caso só, o pedido pela revisão. O outro par de
-      // `supersededWpPosts` — pinterest-ads-para-e-commerce-como-vender-mais-
-      // na-plataforma -> pinterest-ads-ecommerce — tem a MESMA cadeia e
-      // continua como está, por decisão de escopo. Está registrado em
-      // docs/redesign/SEO-REDIRECTS.md.
+      // ESCOPO: são os DOIS pares de `supersededWpPosts`, e só eles. Quem
+      // acrescentar um par novo lá precisa acrescentar a regra aqui também,
+      // senão a cadeia volta — o passo 24 confere os dois.
       {
         source: '/ferramentas-de-e-mail-marketing-para-e-commerce',
         destination: '/blog/email-marketing-para-ecommerce',
+        permanent: true,
+      },
+      {
+        source: '/pinterest-ads-para-e-commerce-como-vender-mais-na-plataforma',
+        destination: '/blog/pinterest-ads-ecommerce',
         permanent: true,
       },
 

@@ -167,15 +167,18 @@ São **dois saltos reais** além da normalização. A correção é uma regra
 específica **antes** de `...wpRedirects`, porque o Next aplica a primeira que
 casa. Agora é um salto só, e a query é repassada.
 
-**O que continua fora do escopo, por decisão:** `supersededWpPosts`
-(`src/lib/blog.ts`) tem **dois** pares, e o outro —
+`supersededWpPosts` (`src/lib/blog.ts`) tem **dois** pares, e **os dois foram
+corrigidos** — o segundo,
 `pinterest-ads-para-e-commerce-como-vender-mais-na-plataforma` →
-`pinterest-ads-ecommerce` — **tem a mesma cadeia e não foi alterado**. O bloco
-2c do teste mede e imprime esse caso como nota, para ele não precisar ser
-redescoberto. Corrigi-lo é a mesma linha; é decisão de vocês.
+`/blog/pinterest-ads-ecommerce`, entrou na mesma leva, também antes de
+`...wpRedirects` e com o mesmo teste de barra e UTM.
 
-A contagem de cadeias deste documento passa a dizer o escopo: **zero entre as
-regras literais**, e **uma conhecida e deliberada** entre as geradas.
+O bloco 2c vai além de testar os dois: ele **lê `supersededWpPosts` e exige
+que todo par tenha regra direta**. Par novo lá sem regra aqui faz a cadeia
+voltar, e o teste reprova antes de alguém descobrir pelo inventário.
+
+A contagem de cadeias deste documento diz o escopo: **zero entre as regras
+literais e zero entre as geradas**.
 
 ---
 
@@ -243,14 +246,39 @@ eu não vou afirmar prejuízo que não foi observado. A razão de liberar é a
 orientação do próprio Google, de não bloquear recurso necessário para
 renderizar.
 
+**E havia mais do que fontes bloqueado.** A conferência do DOM de produção
+mostrou que **toda imagem do site passa pelo otimizador do Next**, em
+`/_next/image?url=…`: **212 referências na home** (os logos das marcas) e **8 no
+blog** (o logo). Conferi no HTML servido e confere. Liberar só
+`/_next/static/` deixava a imagem inteira do site bloqueada.
+
 ```
 Allow: /
 Allow: /_next/static/
+Allow: /_next/image
 Disallow: /api/ · /obrigado · /_next/ · /static/ · /keystatic
 ```
 
 `Allow` mais específico ganha do `Disallow` genérico, então o resto de
 `/_next/` continua fora. Sem bloqueio global, antes ou depois.
+
+**A precedência passou a ser testada, não suposta.** O bloco 7 do passo 24
+implementa a regra do Google — ganha o padrão mais longo que casa, empate vai
+para `Allow` — e afirma caminho por caminho:
+
+| Caminho | Esperado |
+|---|---|
+| `/_next/static/media/fonte.woff2`, `.../app.css`, `.../main.js` | **liberado** |
+| `/_next/image?url=%2Fbrands%2Fmotorola.png&w=384&q=75` | **liberado** |
+| `/_next/image?url=%2Flogo-ciclo-black.png&w=256&q=75` | **liberado** |
+| `/_next/server/app/page.js`, `/_next/data/build/x.json` | **bloqueado** |
+| `/api/pipedrive`, `/obrigado`, `/keystatic`, `/static/qualquer` | **bloqueado** |
+| `/`, `/blog/qualquer-post` | liberado |
+
+Sem isso dava para "liberar" uma linha que o `Disallow` genérico continuava
+vencendo — que era exatamente o caso de `/_next/image`.
+
+**Nenhum componente e nenhuma imagem foram alterados.**
 
 ---
 
@@ -314,7 +342,7 @@ O que o passo afirma:
 |---|---|---|
 | Regras literais | 135 | **138** |
 | Cadeias com mais de um salto, **regras literais** | **4** | **0** |
-| Cadeias entre os **gerados de wp-slugs** | 2 | **1**, deliberada (seção 4b) |
+| Cadeias entre os **gerados de wp-slugs** | 2 | **0** (seção 4b) |
 | Laços | 0 | 0 |
 | URLs das 3 listas em 404 | 11 | **7**, todas deliberadas |
 | URLs no sitemap | 856 | 856 |
