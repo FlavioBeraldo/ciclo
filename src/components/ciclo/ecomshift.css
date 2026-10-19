@@ -1,0 +1,20 @@
+/* Estilos só do /ecomshift.
+ *
+ * Existe para não mexer em `interiors.css`, que é compartilhado por todas as
+ * páginas internas e está sob o contrato de "nenhum byte diferente da base"
+ * (docs/redesign/conteudo-seo.mjs). Aqui nada vaza para outra página: o
+ * arquivo só é importado por src/app/ecomshift/page.tsx.
+ */
+
+/* Preto e branco do retrato do Flávio.
+ *
+ * A página usava um arquivo já revelado em preto e branco
+ * (`foto-flavio-ecomshift.webp`, de 09/2025). Agora usa o mesmo retrato
+ * colorido que /ofatorm e /consultoria-ecom-shift publicam — um arquivo só
+ * para a foto dele no site — e o preto e branco passa a ser o filtro.
+ *
+ * Os valores são os de `.shift-photo` em src/components/shift/shift.css, que
+ * é de onde veio o tratamento das fotos do ECOM Shift. */
+.ciclo2026 .retrato-pb {
+  filter: grayscale(1) contrast(1.04);
+}

@@ -9,6 +9,7 @@ import BotaoCheckout, { PRECO } from './BotaoCheckout'
 import CtaFlutuante from '@/components/ciclo/CtaFlutuante'
 import '@/components/ciclo/base.css'
 import '@/components/ciclo/interiors.css'
+import '@/components/ciclo/ecomshift.css'
 
 export const metadata: Metadata = {
   title: 'ECOM Shift | Treinamento de Marketing para Gestores de E-commerce na Era do Full Funnel',
@@ -304,12 +305,12 @@ export default function EcomShiftPage() {
                   <div>
                     <div className="module-panel">
                       <Image
-                        src="/foto-flavio-ecomshift.webp"
+                        src="/foto-flavio-beraldo.webp"
                         alt="Flávio Beraldo — Professor do ECOM Shift"
                         width={480}
                         height={640}
                         sizes="(max-width: 760px) 100vw, 420px"
-                        className="module-image portrait retrato-fixo"
+                        className="module-image portrait retrato-fixo retrato-pb"
                         priority
                       />
                       <div>
@@ -455,12 +456,12 @@ export default function EcomShiftPage() {
                 <div className="module-grid cols-2">
                   <div className="module-panel">
                     <Image
-                      src="/foto-flavio-ecomshift.webp"
+                      src="/foto-flavio-beraldo.webp"
                       alt="Flávio Beraldo"
                       width={480}
                       height={640}
                       sizes="(max-width: 760px) 100vw, 420px"
-                      className="module-image portrait retrato-fixo"
+                      className="module-image portrait retrato-fixo retrato-pb"
                       loading="lazy"
                     />
                   </div>
