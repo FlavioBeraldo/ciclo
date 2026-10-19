@@ -119,67 +119,78 @@ console.log('\n2. A fonte dos cases')
 
 // ── 3. O que aparece na página de serviço ───────────────────────────────────
 
-console.log('\n3. Blocos de resultados e de cases, no HTML servido')
+console.log('\n3. O bloco de #resultados virou cases em vídeo')
 {
-  const html = await (await fetch(`${BASE}/servicos/google-ads`)).text()
-  const secaoResultados = html.split('id="resultados"')[1]?.split('</section>')[0] ?? ''
-  const semTag = (s) => s.replace(/<[^>]+>/g, ' ').replace(/&middot;|&#183;/g, '·')
+  // Substituição autorizada pelo Flávio em 19/10: o bloco de quatro
+  // indicadores saiu das páginas de serviço e de solução, e no lugar entrou o
+  // mesmo bloco de cases em vídeo da home. A âncora #resultados foi mantida.
+  const COM_BLOCO = [
+    ...[...servicos.matchAll(/\n    slug: '([a-z0-9-]+)'/g)]
+      .map((m) => `/servicos/${m[1]}`)
+      .filter((r) => r !== '/servicos/agencia-ugc'),
+    ...[...solucoes.matchAll(/\n    slug: '([a-z0-9-]+)'/g)].map((m) => `/solucoes/${m[1]}`),
+  ]
+  conferir(COM_BLOCO.length === 21, `${COM_BLOCO.length} páginas com o bloco (17 serviços + 4 soluções)`)
 
-  const resultados = semTag(secaoResultados)
-  for (const [marca, valor] of [
-    ['Mamô', '+200%'],
-    ['GoPro', '+120%'],
-    ['Jack Links', '+57%'],
-    ['Gringa', '+35%'],
-  ]) {
+  let semVideo = 0
+  let comStats = 0
+  let ancoraErrada = 0
+  for (const rota of COM_BLOCO) {
+    const html = await (await fetch(BASE + rota)).text()
+    const ancoras = (html.match(/id="resultados"/g) ?? []).length
+    const grades = (html.match(/proof-grid/g) ?? []).length
+    const botoes = (html.match(/Assistir ao vídeo/g) ?? []).length
+    if (ancoras !== 1) ancoraErrada++
+    if (grades !== 1 || botoes !== 4) semVideo++
+    if (html.includes('result-grid') || html.includes('O impacto da estratégia no negócio')) comStats++
+  }
+  conferir(semVideo === 0, `as ${COM_BLOCO.length} páginas têm exatamente um bloco de vídeo com 4 cards (${semVideo} fora)`)
+  conferir(comStats === 0, `nenhuma página mantém o bloco de indicadores antigo (${comStats})`)
+  conferir(ancoraErrada === 0, `a âncora #resultados existe e é única em todas (${ancoraErrada} fora)`)
+
+  // Detalhe numa página de cada tipo
+  for (const rota of ['/servicos/creative-strategy', '/solucoes/geracao-de-demanda']) {
+    const html = await (await fetch(BASE + rota)).text()
+    for (const marca of ['Mamô Brasil', 'Líquido', 'KVRA', 'DANKI']) {
+      conferir(html.includes(marca), `${rota}: ${marca}`)
+    }
+    conferir(html.includes('Quem vive, recomenda.'), `${rota}: o título do bloco é o mesmo da home`)
+    conferir(html.includes('href="/depoimentos"'), `${rota}: CTA para /depoimentos`)
+    conferir(html.includes('href="#resultados"'), `${rota}: o link do índice continua apontando para a âncora`)
+    conferir(!html.includes('youtube.com/embed'), `${rota}: nenhum iframe antes do clique`)
     conferir(
-      resultados.includes(marca) && resultados.includes(valor),
-      `resultado identificado: ${marca} ${valor}`
+      !/[+-]\d+%|Mamô · |Gringa · /.test(html.split('id="resultados"')[1]?.split('</section>')[0] ?? ''),
+      `${rota}: nenhum indicador sobrou no bloco`
     )
   }
-  conferir(
-    resultados.includes('escopo próprio') && resultados.includes('não representa uma previsão'),
-    'a ressalva de escopo está na página'
-  )
-  conferir(
-    !/não temos dados|números removidos|sem atribuição comprovada|não verificad/i.test(html),
-    'nenhuma linguagem interna de auditoria vazou para a interface'
-  )
 
-  // A âncora é o rótulo ORIGINAL da seção, que foi restaurado: a contextualização
-  // entrou como parágrafo, sem renomear heading.
-  const iCases = html.indexOf('Casos práticos')
-  const secaoCases = html.slice(iCases).split('</section>')[0]
-  const cases = semTag(secaoCases)
-  conferir(
-    (secaoCases.match(/<article/g) ?? []).length === 3,
-    `3 cards no bloco de cases (vieram ${(secaoCases.match(/<article/g) ?? []).length})`
-  )
-  conferir(
-    !/[+-]\d+%|\d+x\b/.test(cases),
-    'nenhum número no bloco de cases — os valores ficam só em resultados'
-  )
-  conferir(cases.includes('trajetória da Ciclo'), 'contexto público do bloco de cases')
-  conferir(
-    html.includes('Estratégia aplicada ao mundo real.') && html.includes('Casos práticos'),
-    'o heading e o rótulo ORIGINAIS da seção continuam como estavam'
-  )
-  conferir(
-    !html.includes('Marcas que crescem com a Ciclo'),
-    'nenhum heading renomeado sobrou'
-  )
-  conferir(secaoCases.includes('href="/#cases"'), 'link para os cases da home')
-  for (const marca of ['Mamô', 'GoPro', 'Jack Links']) {
-    conferir(cases.includes(marca), `narrativa de ${marca}`)
+  // O bloco narrativo de "Casos práticos" NÃO foi tocado
+  {
+    const html = await (await fetch(`${BASE}/servicos/google-ads`)).text()
+    conferir(
+      html.includes('Casos práticos') && html.includes('Estratégia aplicada ao mundo real.'),
+      'o bloco de casos narrativos segue com o heading original'
+    )
+    const sec = html.slice(html.indexOf('Casos práticos')).split('</section>')[0]
+    conferir((sec.match(/<article/g) ?? []).length === 3, '  e com os 3 cards de narrativa')
+    conferir(sec.includes('trajetória da Ciclo'), '  e com o parágrafo de contexto')
   }
 
-  // A página que nunca teve esses blocos continua sem eles
+  // A página que nunca teve o bloco continua sem ele
   const ugc = await (await fetch(`${BASE}/servicos/agencia-ugc`)).text()
-  conferir(!ugc.includes('id="resultados"'), '/servicos/agencia-ugc segue sem bloco de resultados')
-  conferir(!ugc.includes('Casos práticos'), '/servicos/agencia-ugc segue sem bloco de cases')
-}
+  conferir(!ugc.includes('id="resultados"'), '/servicos/agencia-ugc segue sem o bloco')
+  conferir(!ugc.includes('proof-grid'), '  e sem a grade de vídeo')
 
-// ── 4. Conteúdo legado preservado ───────────────────────────────────────────
+  // Home e /depoimentos intocadas
+  for (const rota of ['/', '/depoimentos']) {
+    const html = await (await fetch(BASE + rota)).text()
+    conferir(
+      (html.match(/proof-grid/g) ?? []).length === 1 &&
+        ['Mamô Brasil', 'Líquido', 'KVRA', 'DANKI'].every((m) => html.includes(m)),
+      `${rota}: a grade de vídeo segue como era`
+    )
+  }
+}
 
 console.log('\n4. O que já existia continua lá, contra a base de Production')
 {
@@ -378,18 +389,41 @@ console.log('\n4. O que já existia continua lá, contra a base de Production')
         .filter((l) => l.startsWith('+'))
         .filter((l) => /<h[12][\s>]|<section|<\/section>/.test(l))
       const apendiceDoBlog = arq === 'src/app/blog/[slug]/page.tsx'
+      // Exceção autorizada em 19/10: nos dois templates de interior, o bloco de
+      // indicadores foi SUBSTITUÍDO pelo de cases em vídeo, então ali há
+      // remoção. Em todo o resto continua valendo só acréscimo.
+      const trocaDoBloco =
+        arq === 'src/app/servicos/[slug]/page.tsx' || arq === 'src/app/solucoes/[slug]/page.tsx'
       conferir(
-        removidas.length === 0,
-        `${arq.split('/').slice(-2).join('/')}: só acréscimo, nenhuma linha removida (${removidas.length})`
+        removidas.length === 0 || trocaDoBloco,
+        trocaDoBloco
+          ? `${arq.split('/').slice(-2).join('/')}: ${removidas.length} linha(s) removidas, na troca do bloco autorizada`
+          : `${arq.split('/').slice(-2).join('/')}: só acréscimo, nenhuma linha removida (${removidas.length})`
       )
-      for (const l of removidas.slice(0, 4)) console.log('        removida: ' + l.slice(0, 90))
+      if (!trocaDoBloco)
+        for (const l of removidas.slice(0, 4)) console.log('        removida: ' + l.slice(0, 90))
+      // Mesmo na troca, o que sai tem de ser só o bloco de indicadores
+      if (trocaDoBloco) {
+        const foraDoBloco = removidas.filter(
+          (l) =>
+            l.slice(1).trim() !== '' && // linha em branco removida não é conteúdo
+            !/result-grid|O impacto da estratégia|RESSALVA_RESULTADOS|service-light-results|outcome-section|results\.length|results\.map|metric|description|section-fade|inner-section-heading|eyebrow|<span \/>|Resultados|<\/div>|<\/section>|\{|\}|<div|<h2|<p |<strong>|<\/strong>|<\/p>|<\/h2>/.test(l)
+        )
+        conferir(
+          foraDoBloco.length === 0,
+          `  o que saiu é só o bloco de indicadores (${foraDoBloco.length} linha(s) fora dele)`
+        )
+        for (const l of foraDoBloco.slice(0, 5)) console.log('        fora do bloco: ' + l.slice(0, 90))
+      }
       conferir(
-        estruturaRemovida.length === 0,
-        `  nenhum h1, h2 ou section removido (${estruturaRemovida.length})`
+        estruturaRemovida.length === 0 || trocaDoBloco,
+        trocaDoBloco
+          ? `  ${estruturaRemovida.length} linha(s) de estrutura na troca do bloco, autorizada`
+          : `  nenhum h1, h2 ou section removido (${estruturaRemovida.length})`
       )
       for (const l of estruturaRemovida.slice(0, 4)) console.log('        removida: ' + l.slice(0, 90))
       conferir(
-        estruturaAdicionada.length === 0 || apendiceDoBlog,
+        estruturaAdicionada.length === 0 || apendiceDoBlog || trocaDoBloco,
         apendiceDoBlog
           ? `  ${estruturaAdicionada.length} linha(s) de estrutura no apêndice do blog, autorizado`
           : `  nenhum h1, h2 ou section acrescentado (${estruturaAdicionada.length})`
