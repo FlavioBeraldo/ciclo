@@ -37,7 +37,7 @@ foram tocados** — não estavam na exceção.
 | Bloco de resultados | 4 métricas por página, **68 no total**, sem origem (ex.: `4,2x ROAS médio nas contas gerenciadas`, `92% dos clientes renovam`) | Os **4 cases reais**, lidos de `cases.ts`: `+200% Mamô · Vendas YoY`, `+120% GoPro · Vendas YoY`, `+57% Jack Links · Branded Search YoY`, `+35% Gringa · Taxa de Recompra YoY` |
 | Introdução do bloco | não havia | `Resultados de projetos da Ciclo. Cada case tem um escopo próprio e não representa uma previsão de desempenho para este serviço.` |
 | Bloco de casos | 3 casos anônimos por página, **51 no total**, com nome genérico e número próprio (`E-commerce de eletrônicos`, `ROAS +152%`) | 3 narrativas de desafio e ação dos cases reais, **sem número**, com a categoria como destaque curto |
-| Rótulo e título do bloco | `Casos práticos` · `Estratégia aplicada ao mundo real.` | `Cases da Ciclo` · `Marcas que crescem com a Ciclo.` |
+| Rótulo e título do bloco | `Casos práticos` · `Estratégia aplicada ao mundo real.` | **inalterados** — a contextualização entrou como parágrafo, não como renomeação (ver 9.1) |
 | Contexto do bloco | não havia | `Conheça marcas que fazem parte da trajetória da Ciclo.` + link `Ver os cases completos` para `/#cases` |
 | FAQ | 4 a 6 perguntas por página | as mesmas **mais uma pergunta nova por página**, específica do escopo |
 | Alegações numéricas em texto | 17 sem fonte, em `why`, `what` e FAQ | reescritas mantendo o contexto (2.4) |
@@ -249,3 +249,165 @@ Registrado para não ser lido como concluído:
   cases são da empresa, não do canal. Isso é deliberado, e a ressalva diz.
 - **Nenhum conteúdo de outra pessoa foi modificado**: os artigos existentes
   receberam seção ao fim, com corpo e metadados originais intactos.
+
+
+---
+
+# 9. Segunda rodada — revisão de 19/10
+
+Correções pedidas na revisão independente da primeira implementação, antes de
+qualquer publicação. Produção continua em
+`57f493a0540a011fbe50122596256a9881b15e07`.
+
+## 9.1 Heading renomeado: revertido
+
+Na primeira implementação eu troquei o rótulo e o H2 do bloco de casos nas
+páginas de serviço:
+
+| | |
+|---|---|
+| Base e agora | `Casos práticos` · **`Estratégia aplicada ao mundo real.`** |
+| O que eu tinha posto | `Cases da Ciclo` · `Marcas que crescem com a Ciclo.` |
+
+**Revertido.** O reforço do Flávio é explícito: complementar, não alterar
+estrutura de conteúdo. A contextualização continua, mas como **parágrafo
+complementar** abaixo do heading original, junto do link para `/#cases`.
+
+O teste passou a afirmar os dois lados: que o heading e o rótulo originais
+estão de pé, e que **nenhum heading renomeado sobrou**.
+
+## 9.2 Diff auditado: só acréscimo
+
+Conferi arquivo por arquivo contra a base. Nos sete arquivos de template e
+conteúdo tocados, o diff tem **zero linhas removidas** e **nenhuma linha de
+`h1`, `h2` ou `section` alterada** — com uma exceção declarada: o template do
+blog, onde o apêndice editorial cria a própria `<section>` com `<h2>` por
+bloco, que foi o que a revisão autorizou.
+
+## 9.3 Os três ajustes nos complementos do blog
+
+| Trecho | Antes | Agora |
+|---|---|---|
+| Google × Meta | "Busca atende quem já está procurando. Social apresenta a marca para quem ainda não procurou." | "Campanhas de busca podem captar intenção já expressa. Campanhas em redes sociais também podem apresentar produtos, estimular descoberta e alcançar pessoas que já conhecem a marca. A escolha depende do objetivo e do formato." |
+| Google × Meta | "a busca tende a ser o caminho mais curto até a primeira venda" | "vale avaliar campanhas que respondam a essa intenção" |
+| Soma de plataformas | "somar os dois costuma contar a mesma venda duas vezes" | "somar as receitas atribuídas pelas plataformas pode contar a mesma venda mais de uma vez" |
+| ROAS | "quanto de receita veio para cada real investido" | "relaciona a receita **atribuída** aos anúncios ao investimento feito neles" |
+| Margem | "quanto sobra depois dos custos do produto, do canal e da operação" | "receita menos os custos e as despesas **variáveis** do pedido — produto, comissão, taxa de pagamento, frete. **Não é o lucro depois de todos os custos**, porque não considera os fixos" |
+
+**Apoio conceitual**, sem citação longa: a definição de ROAS como receita
+atribuída sobre investimento vem da documentação de ajuda do Google Ads
+(`support.google.com/google-ads/answer/13064207`), e a de margem de
+contribuição como receita menos custos e despesas variáveis vem de material do
+Sebrae (`meuatendimento.sebrae.com.br`, artigo sobre margem de contribuição).
+
+**Nada do corpo original dos artigos foi tocado.**
+
+## 9.4 Os cinco artigos novos, corrigidos
+
+Só no conteúdo novo. Resumo por artigo:
+
+**Custo.** Saíram "modelo mais usado", "a qualidade cai" e o "fee menor"
+obrigatório no híbrido. Incentivo virou possibilidade ("o que ele **pode**
+incentivar"), fee fixo deixou de garantir time dedicado, e cachê, direitos e
+ferramentas passaram a ser "podem estar incluídos ou ser cobrados à parte,
+confirme na proposta". A pergunta 6 passou a dizer margem **de contribuição** e
+receita **atribuída pelas plataformas**.
+
+**Agência × equipe × consultoria.** Os três deixaram de ser regra universal: o
+texto agora diz que **o escopo pactuado define** o que é estratégia e o que é
+execução. Saíram "agência absorve variação sem contratar", "interno conhece
+melhor que qualquer pessoa de fora", "erro mais comum" e "raramente funciona".
+A frase "nenhum modelo corrige problema de produto, preço ou operação" estava
+errada e foi trocada: **contratar marketing não resolve automaticamente** esses
+pontos, uma consultoria **pode identificar e recomendar ajustes**, e a decisão
+depende da empresa.
+
+**Troca de agência.** "Alguns meses até a operação voltar ao ritmo" virou
+"período de transição". As três hipóteses passaram a ser exemplos, não
+diagnóstico exaustivo. "Em geral se resolvem" virou "podem resolver parte".
+Titularidade de conta e direitos de material passaram a depender de contrato,
+sem afirmação jurídica absoluta.
+
+**TikTok Shop.** "Imagem adequada ao formato vertical" virou "às
+especificações do canal". "Direito de uso que não está em contrato não existe"
+virou "vale ter autorização e condições de uso claras e registradas antes de
+impulsionar". Saiu "a maioria dos projetos trava". As quatro frentes passaram a
+ser **frentes que precisam ter responsável definido**, não serviços incluídos
+em todo contrato. E o link para `/servicos/tiktok-shop-social-commerce`, que
+**redireciona** para `/tiktok-shop`, foi trocado pela URL canônica, com um
+segundo link para um artigo real distinto.
+
+**CRM.** Corrigido o **erro conceitual**: intervalo entre compras e recência
+são coisas diferentes, e agora aparecem separados, com definição de cada um.
+Saíram "quase todo relatório" e "quase nunca aparece". A comparação de grupos
+passou a dizer que **dá indícios, pode sofrer viés de seleção e de contexto, e
+não equivale a experimento com sorteio**. "Não some canais" virou "não some
+**receitas atribuídas** de fontes diferentes". E a receita atribuída ao CRM
+passou a ser descrita como **subconjunto** das vendas, com reconciliação de
+pedidos, não igualdade com a receita total. A abertura deixou de ser
+apresentada como diagnóstico isolado.
+
+**`readTime`** dos cinco recalculado pelo comprimento real, na convenção do
+próprio blog (~158 palavras por minuto, mediana dos artigos existentes): 6, 5,
+5, 4 e 5. Nenhum artigo antigo teve `readTime` alterado.
+
+## 9.5 Os dois testes que podiam passar sem comprovar
+
+**JSON-LD.** O `html.replace(/<[^>]+>/g,' ')` mantinha o conteúdo dos
+`<script>`, então a pergunta era encontrada no próprio JSON-LD. Agora o texto
+comparado **remove `script` e `style` antes**, e o teste afirma isso
+explicitamente. Passou a comparar **pergunta e resposta**, normalizadas, e a
+conferir **quantidade nos dois sentidos**: nenhuma pergunta do schema fora do
+HTML, e nenhuma pergunta do accordion fora do schema.
+
+**Base fixa.** A comparação do legado usava `HEAD`, o que deixava de proteger
+assim que o commit era feito. Agora a base é **`57f493a`**, fixa. O teste
+confere **byte a byte** 18 arquivos: `wp-posts.json`, `cases.ts`, os quatro
+CSS, as fontes, o playbook e as integrações de mensuração.
+
+Para `servicos.ts` e `solucoes.ts`, passou a conferir **campo a campo e na
+ordem** — slug, title, tagline, heroHeadline, heroDescription, parentSlug e
+relatedSlugs — e **todas as perguntas originais**: as **76 do serviço** e as
+**16 da solução**, não três amostradas. As exceções autorizadas estão
+declaradas no próprio teste: `results`, `examples`, `faq`, `what`, `why` e
+`howItWorks`.
+
+`agencia-ugc` tem bloco próprio de verificação, por causa do regex que engoliu
+o `faq` dela na primeira tentativa: `results` vazio, `examples` vazio e as 7
+perguntas inteiras.
+
+**Um ajuste que o próprio teste exigiu.** A primeira versão contava 89 `title:`
+na base contra 38 agora e acusava divergência. Não havia divergência: **51
+daqueles `title` eram dos `examples` removidos por autorização**. O regex
+passou a ancorar no campo de topo, com indentação exata.
+
+## 9.6 Dois achados da rodada
+
+**Meu, e corrigido.** `/tiktok-shop` tem **duas fontes de FAQ**: o accordion,
+que lê `FAQ` de `tiktok/conteudo.ts`, e um `faqSchema` **escrito à mão** em
+`page.tsx`. Eu havia acrescentado a pergunta nova só no accordion, publicando
+schema e HTML em desacordo. **Acrescentei a mesma pergunta ao schema**, com a
+mesma resposta. Foi o teste novo que pegou.
+
+**Herdado, e não corrigido de propósito.** Como as duas fontes são
+independentes, **cinco das seis respostas do schema já divergiam** do texto
+visível na base de produção. Reescrever resposta legada está fora do que foi
+autorizado nesta rodada, então **ficou como está e fica registrado**. O teste
+virou régua de **regressão**: ele **mede** a divergência no fonte da base — não
+usa número chutado — e exige que a de agora não seja maior. Base: 5 de 6.
+Agora: 5 de 7, com o par novo batendo.
+
+Vale uma recomendação para decisão de vocês: unificar as duas fontes de FAQ
+dessa página eliminaria a divergência de uma vez. **Não entra nesta rodada.**
+
+## 9.7 Limites desta rodada
+
+- **É local, não é o domínio.** O proxy recusa `cicloecommerce.com.br`.
+- **A estrutura foi provada pelo diff do fonte, não por render da base.**
+  Comparar HTML exigiria compilar a árvore de `57f493a`; tentei e o Turbopack
+  recusa `node_modules` fora da raiz do projeto. O diff do fonte prova o mesmo
+  de forma exata: sem linha removida e sem linha de heading alterada, título,
+  seção e ordem não mudaram.
+- **As cinco respostas divergentes de `/tiktok-shop` continuam divergentes.**
+- Reutilizar os cases segue sendo **autorização editorial, não verificação**
+  (seção 1).

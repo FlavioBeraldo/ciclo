@@ -27,6 +27,12 @@ export interface ComplementoDeArtigo {
   links: { href: string; texto: string }[]
 }
 
+// Apoio conceitual desta revisão, sem citação longa: a definição de ROAS como
+// receita atribuída sobre investimento vem da documentação de ajuda do Google
+// Ads, e a de margem de contribuição como receita menos custos e despesas
+// variáveis vem de material do Sebrae. Os dois links estão registrados em
+// docs/redesign/CONTEUDO-SEO.md.
+
 export const complementosPorSlug: Record<string, ComplementoDeArtigo> = {
   // ── Pauta 1: escolher agência de marketing para e-commerce ────────────────
   'qual-e-o-melhor-momento-de-contratar-uma-agencia-de-marketing-para-meu-e-commerce': {
@@ -67,8 +73,8 @@ export const complementosPorSlug: Record<string, ComplementoDeArtigo> = {
       {
         titulo: 'Google Ads ou Meta Ads: como decidir por onde começar',
         paragrafos: [
-          'A escolha costuma ser menos sobre qual canal é melhor e mais sobre qual pergunta a operação precisa responder agora. Busca atende quem já está procurando. Social apresenta a marca para quem ainda não procurou.',
-          'Se existe demanda pelo seu produto sendo pesquisada hoje, a busca tende a ser o caminho mais curto até a primeira venda. Se o produto precisa ser explicado ou desejado antes da compra, o trabalho começa em outro lugar.',
+          'A escolha costuma ser menos sobre qual canal é melhor e mais sobre qual pergunta a operação precisa responder agora. Campanhas de busca podem captar intenção já expressa. Campanhas em redes sociais também podem apresentar produtos, estimular descoberta e alcançar pessoas que já conhecem a marca. A escolha depende do objetivo e do formato.',
+          'Se existe demanda pelo seu produto sendo pesquisada hoje, vale avaliar campanhas que respondam a essa intenção. Se o produto precisa ser explicado ou desejado antes da compra, o trabalho tende a começar por descoberta e consideração.',
         ],
         lista: [
           'Há volume de busca para a sua categoria, ou a demanda ainda precisa ser criada?',
@@ -80,7 +86,7 @@ export const complementosPorSlug: Record<string, ComplementoDeArtigo> = {
       {
         titulo: 'Por que comparar o ROAS dos dois não resolve',
         paragrafos: [
-          'Cada plataforma usa regras próprias de atribuição e janelas de conversão diferentes. Dois números com o mesmo nome podem estar medindo coisas distintas, e somar os dois costuma contar a mesma venda duas vezes.',
+          'Cada plataforma usa regras próprias de atribuição e janelas de conversão diferentes. Dois números com o mesmo nome podem estar medindo coisas distintas, e somar as receitas atribuídas pelas plataformas pode contar a mesma venda mais de uma vez.',
           'A leitura mais útil combina o que as plataformas mostram com o resultado comercial do período: receita, margem, custo de aquisição e participação de clientes novos.',
         ],
       },
@@ -99,8 +105,8 @@ export const complementosPorSlug: Record<string, ComplementoDeArtigo> = {
       {
         titulo: 'ROAS ou margem: qual indicador deve guiar a decisão de mídia',
         paragrafos: [
-          'ROAS responde quanto de receita veio para cada real investido em anúncio. Margem responde quanto sobra depois dos custos do produto, do canal e da operação. São perguntas diferentes, e a segunda é a que paga as contas.',
-          'Uma campanha pode ter ROAS alto e ainda assim consumir a margem, se o produto que mais vende for justamente o de menor contribuição. O contrário também acontece.',
+          'ROAS relaciona a receita ATRIBUÍDA aos anúncios ao investimento feito neles. Margem de contribuição é a receita menos os custos e as despesas variáveis do pedido, como custo do produto, comissão, taxa de pagamento e frete. Não é o lucro depois de todos os custos da operação, porque não considera os custos fixos. São perguntas diferentes, e a segunda chega mais perto do que sobra por venda.',
+          'Uma campanha pode ter ROAS alto e ainda assim contribuir pouco, se o produto que mais vende for justamente o de menor margem de contribuição. O contrário também pode acontecer.',
         ],
         lista: [
           'Qual é a margem de contribuição por produto, e não só a média da loja?',
@@ -112,7 +118,7 @@ export const complementosPorSlug: Record<string, ComplementoDeArtigo> = {
       {
         titulo: 'Como levar isso para a rotina',
         paragrafos: [
-          'O caminho prático é acompanhar os dois indicadores lado a lado, no mesmo período, e separar o que depende da publicidade do que depende de preço, estoque e condição de entrega.',
+          'O caminho prático é acompanhar os dois indicadores lado a lado, no mesmo período, deixando claro quais custos entram em cada um, e separar o que depende da publicidade do que depende de preço, estoque e condição de entrega.',
         ],
       },
     ],

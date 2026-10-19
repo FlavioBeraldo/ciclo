@@ -322,10 +322,10 @@ export default async function ServicoPage({ params }: PageProps) {
               <div className="inner-section-heading">
                 <div className="eyebrow">
                   <span />
-                  Cases da Ciclo
+                  Casos práticos
                 </div>
 
-                <h2>Marcas que crescem com a Ciclo.</h2>
+                <h2>Estratégia aplicada ao mundo real.</h2>
 
                 <p className="inner-lead">
                   {CONTEXTO_CASES}{' '}

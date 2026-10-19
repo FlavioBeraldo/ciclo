@@ -153,6 +153,14 @@ const faqSchema = {
         text: 'Os primeiros resultados aparecem nas primeiras 4 a 8 semanas — fase de setup, integração, onboarding de creators e primeiros testes de conteúdo. A escala consistente costuma acontecer entre 2 e 4 meses, quando já há dados suficientes de creators, produtos e formatos para otimizar a operação. O tempo varia conforme o nicho, o ticket médio e a agilidade da marca em produzir conteúdo.',
       },
     },
+    {
+      '@type': 'Question',
+      name: 'O que avaliar antes de contratar uma agência de TikTok Shop?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Entenda como o trabalho conecta catálogo, conteúdo, creators e operação da loja. Confirme as responsabilidades por estoque, pedidos, comissões e atendimento, além da forma de acompanhar as vendas. O plano precisa considerar o produto, a capacidade da operação e a margem disponível.',
+      },
+    },
   ],
 }
 
