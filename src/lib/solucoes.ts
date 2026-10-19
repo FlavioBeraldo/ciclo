@@ -1,3 +1,5 @@
+import { resultadosDosCasesSolucao } from './cases-conteudo'
+
 export interface Solucao {
   slug: string
   title: string
@@ -57,24 +59,7 @@ export const solucoes: Solucao[] = [
       { label: 'Gestão de Creators e Influenciadores', slug: 'gestao-creators-influenciadores' },
       { label: 'Agência de UGC para E-commerce', slug: 'agencia-ugc' },
     ],
-    results: [
-      {
-        metric: '+104%',
-        description: 'de faturamento para marcas que investiram em geração de demanda',
-      },
-      {
-        metric: '-23%',
-        description: 'de custo por aquisição após 6 meses de estratégia ativa',
-      },
-      {
-        metric: '3x',
-        description: 'mais recall de marca em pesquisas pós-campanha de conteúdo',
-      },
-      {
-        metric: '+48%',
-        description: 'de engajamento orgânico com estratégia de creators',
-      },
-    ],
+    results: resultadosDosCasesSolucao,
     faq: [
       {
         q: 'O que é geração de demanda no e-commerce?',
@@ -162,24 +147,7 @@ export const solucoes: Solucao[] = [
       { label: 'Shopee Ads', slug: 'shopee-ads' },
       { label: 'Amazon Ads', slug: 'amazon-ads' },
     ],
-    results: [
-      {
-        metric: '-32%',
-        description: 'de CAC médio após reestruturação de campanhas',
-      },
-      {
-        metric: '+197%',
-        description: 'de faturamento com estratégia multicanal',
-      },
-      {
-        metric: '4,2x',
-        description: 'de ROAS médio nos clientes Ciclo',
-      },
-      {
-        metric: '85%',
-        description: 'dos clientes reduzem CPL no primeiro trimestre',
-      },
-    ],
+    results: resultadosDosCasesSolucao,
     faq: [
       {
         q: 'O que é mídia social first?',
@@ -255,24 +223,7 @@ export const solucoes: Solucao[] = [
       { label: 'Reativação e Programas de Fidelização', slug: 'reativacao-fidelizacao' },
       { label: 'Programas de Indicação e Reviews', slug: 'programas-indicacao-reviews' },
     ],
-    results: [
-      {
-        metric: '2,7x',
-        description: 'de aumento médio no LTV dos clientes após 12 meses',
-      },
-      {
-        metric: '+48%',
-        description: 'de receita atribuída ao CRM nos primeiros 6 meses',
-      },
-      {
-        metric: '35%',
-        description: 'de aumento na taxa de recompra em 90 dias',
-      },
-      {
-        metric: '-40%',
-        description: 'de clientes inativos com régua de reativação ativa',
-      },
-    ],
+    results: resultadosDosCasesSolucao,
     faq: [
       {
         q: 'O que é LTV e por que é a métrica mais importante do e-commerce?',
@@ -340,24 +291,7 @@ export const solucoes: Solucao[] = [
     serviceLinks: [
       { label: 'Analytics & BI para E-commerce', slug: 'analytics-bi' },
     ],
-    results: [
-      {
-        metric: '100%',
-        description: 'de visibilidade do funil completo com dashboards integrados',
-      },
-      {
-        metric: '-60%',
-        description: 'de tempo em relatórios manuais com BI automatizado',
-      },
-      {
-        metric: '3x',
-        description: 'mais velocidade de teste e aprendizado com processos estruturados',
-      },
-      {
-        metric: '+25%',
-        description: 'de eficiência operacional no primeiro trimestre',
-      },
-    ],
+    results: resultadosDosCasesSolucao,
     faq: [
       {
         q: 'O que é Analytics & BI para e-commerce?',

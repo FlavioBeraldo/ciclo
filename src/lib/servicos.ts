@@ -1,3 +1,5 @@
+import { resultadosDosCases, narrativasDosCases } from './cases-conteudo'
+
 export interface Servico {
   slug: string
   parentSlug: string
@@ -76,32 +78,8 @@ export const servicos: Servico[] = [
       'Campanhas de TikTok Shop Ads',
       'Dashboard de GMV e performance',
     ],
-    results: [
-      { metric: '3x', label: 'GMV médio após 3 meses de operação' },
-      { metric: '+180%', label: 'de alcance com creators no TikTok Shop' },
-      { metric: '-35%', label: 'de custo por aquisição vs. e-commerce tradicional' },
-      { metric: '68%', label: 'dos compradores são novos clientes' },
-    ],
-    examples: [
-      {
-        title: 'Marca de skincare',
-        description:
-          'Operação de TikTok Shop com 3 Lives semanais e rede de micro creators. Resultado: R$ 280K de GMV no primeiro trimestre.',
-        highlight: 'R$280K GMV',
-      },
-      {
-        title: 'E-commerce de moda feminina',
-        description:
-          'Estratégia de shoppable content com 12 creators. Taxa de conversão in-app 4x maior que do site.',
-        highlight: 'Conversão 4x',
-      },
-      {
-        title: 'Suplementos esportivos',
-        description:
-          'Integração TikTok Shop + Meta Ads. CAC blended caiu 28% com o canal TikTok complementando a mídia paga.',
-        highlight: 'CAC -28%',
-      },
-    ],
+    results: resultadosDosCases,
+    examples: narrativasDosCases,
     faq: [
       {
         q: 'Minha marca pode vender no TikTok Shop?',
@@ -113,7 +91,7 @@ export const servicos: Servico[] = [
       },
       {
         q: 'TikTok Shop funciona para produtos de ticket alto?',
-        a: 'Para ticket acima de R$300, a conversão in-app é mais baixa — o usuário prefere pesquisar antes de comprar. Nesse caso, o TikTok funciona melhor como canal de topo de funil que direciona para o site do que como canal de conversão direta.',
+        a: 'Em ticket mais alto, a conversão dentro do app tende a ser menor, porque o usuário prefere pesquisar antes de comprar. Nesse caso, o TikTok funciona melhor como canal de topo de funil que direciona para o site do que como canal de conversão direta.',
       },
       {
         q: 'Preciso de creators ou posso fazer com conteúdo da própria marca?',
@@ -186,32 +164,8 @@ export const servicos: Servico[] = [
       'Relatório de performance por creator',
       'Reaproveitamento de conteúdo para mídia paga',
     ],
-    results: [
-      { metric: '+48%', label: 'de engajamento vs. conteúdo da marca' },
-      { metric: '2,8x', label: 'de ROAS em ads com UGC de creators' },
-      { metric: '-30%', label: 'de CPM em anúncios com conteúdo de creator' },
-      { metric: '+85%', label: 'de alcance incremental com micro creators' },
-    ],
-    examples: [
-      {
-        title: 'Marca de cosméticos DTC',
-        description:
-          'Rede de 40 micro creators (10k-100k seguidores). Custo por conversão 60% menor que influenciadores macro.',
-        highlight: 'CPC -60%',
-      },
-      {
-        title: 'Moda feminina',
-        description:
-          'UGC de creators reaproveitado como creative em Meta Ads. ROAS subiu de 2,1x para 3,8x.',
-        highlight: 'ROAS +81%',
-      },
-      {
-        title: 'Pet food premium',
-        description:
-          '3 creators especializados em pets geraram 180K visualizações orgânicas e 340 novos clientes rastreáveis.',
-        highlight: '340 novos clientes',
-      },
-    ],
+    results: resultadosDosCases,
+    examples: narrativasDosCases,
     faq: [
       {
         q: 'Qual o melhor tamanho de influenciador para e-commerce?',
@@ -390,32 +344,8 @@ export const servicos: Servico[] = [
       'Esteira de produção com cadência semanal e nomenclatura padronizada',
       'Diagnóstico semanal por criativo (hook rate, hold rate, CPA por ângulo)',
     ],
-    results: [
-      { metric: '60-70%', label: 'do resultado de mídia paga explicado pelo criativo' },
-      { metric: '2,3x', label: 'de ROAS com social first vs. peça adaptada' },
-      { metric: '-40%', label: 'de CPM com formatos nativos' },
-      { metric: '10-20%', label: 'do investimento reservado para teste estruturado' },
-    ],
-    examples: [
-      {
-        title: 'Marca de cosméticos',
-        description:
-          'O ângulo vencedor saiu das avaliações de produto: a recompra acontecia pela textura, não pelo resultado prometido. Substituímos banners por UGC roteirizado sobre esse insight.',
-        highlight: 'ROAS +128%',
-      },
-      {
-        title: 'E-commerce de moda',
-        description:
-          'Seis ângulos simultâneos no ar com matriz de teste semanal. A diversidade real de mensagem permitiu ao algoritmo expandir alcance sem degradar o custo.',
-        highlight: 'CPA -44%',
-      },
-      {
-        title: 'Suplementos',
-        description:
-          'Diagnóstico por hook rate revelou que 97% das pessoas não passavam de 3 segundos. Reescrevemos apenas as aberturas, mantendo o corpo dos vídeos.',
-        highlight: '70% das conversões em 1 criativo',
-      },
-    ],
+    results: resultadosDosCases,
+    examples: narrativasDosCases,
     faq: [
       {
         q: 'O que é creative strategy?',
@@ -431,7 +361,7 @@ export const servicos: Servico[] = [
       },
       {
         q: 'Como vocês medem se um criativo funciona?',
-        a: 'Antes do ROAS, lemos hook rate (quem assiste aos 3 primeiros segundos, referência acima de 25%), hold rate (quem fica até o fim) e conversão pós-clique. Essas três métricas mostram onde o criativo quebra — abertura, miolo ou página — duas semanas antes do resultado aparecer na receita.',
+        a: 'Antes do ROAS, lemos hook rate (quem assiste aos primeiros segundos), hold rate (quem fica até o fim) e conversão pós-clique. Essas três métricas mostram onde o criativo quebra — abertura, miolo ou página — duas semanas antes do resultado aparecer na receita.',
       },
       {
         q: 'A Ciclo faz a produção ou só a estratégia?',
@@ -482,7 +412,7 @@ export const servicos: Servico[] = [
     heroDescription:
       'Gestão especializada de Google Ads para e-commerce: Search, Shopping, Performance Max e Demand Gen com estrutura de conta, feed otimizado e leitura de incrementalidade que sustenta ROAS em escala.',
     what: 'Google Ads captura demanda existente — pessoas que já estão buscando seu produto ou categoria. Para e-commerce, Search e Shopping são os canais de maior intenção de compra disponíveis. A Ciclo opera a conta inteira: arquitetura de campanhas, feed de produtos, lances, audiências e otimização contínua.',
-    why: 'Usuários que chegam via busca convertem de 3 a 5 vezes mais que outras fontes, porque a busca revela intenção ativa. Com a automação do Performance Max, a vantagem competitiva deixou de estar na configuração manual de lances e passou a estar na qualidade do feed, nos sinais de audiência e na disciplina de leitura de dados.',
+    why: 'Quem chega pela busca costuma estar mais perto da decisão, porque a busca revela intenção ativa. Com a automação do Performance Max, a vantagem competitiva deixou de estar na configuração manual de lances e passou a estar na qualidade do feed, nos sinais de audiência e na disciplina de leitura de dados.',
     howItWorks: [
       {
         step: 'Auditoria e arquitetura de conta',
@@ -517,32 +447,8 @@ export const servicos: Servico[] = [
       'Gestão mensal com otimizações semanais',
       'Relatório de ROAS, CPA e participação de impressões por categoria',
     ],
-    results: [
-      { metric: '4,2x', label: 'ROAS médio nas contas gerenciadas' },
-      { metric: '-35%', label: 'de CPA após reestruturação' },
-      { metric: '+60%', label: 'de participação de impressões em Search' },
-      { metric: '92%', label: 'dos clientes renovam após o primeiro trimestre' },
-    ],
-    examples: [
-      {
-        title: 'E-commerce de eletrônicos',
-        description:
-          'Reestruturação completa de Shopping + Performance Max com feed reescrito. ROAS foi de 2,1x para 5,3x em 90 dias.',
-        highlight: 'ROAS +152%',
-      },
-      {
-        title: 'Moda feminina',
-        description:
-          'Search segmentado por intenção de compra e negativação agressiva de termos genéricos. CPA caiu 42% mantendo volume.',
-        highlight: 'CPA -42%',
-      },
-      {
-        title: 'Casa e decoração',
-        description:
-          'Performance Max com sinais de audiência de first-party e exclusão de marca. Receita atribuída cresceu 78% em 6 meses.',
-        highlight: 'Receita +78%',
-      },
-    ],
+    results: resultadosDosCases,
+    examples: narrativasDosCases,
     faq: [
       {
         q: 'Qual a diferença entre Search, Shopping e Performance Max?',
@@ -554,7 +460,7 @@ export const servicos: Servico[] = [
       },
       {
         q: 'O feed de produtos impacta mesmo o desempenho?',
-        a: 'Enormemente. Um feed sem atributos corretos, com imagens fracas ou preços desatualizados desperdiça entre 30% e 50% do potencial do Shopping. É o primeiro lugar onde mexemos em qualquer conta.',
+        a: 'Enormemente. Um feed sem atributos corretos, com imagens fracas ou preços desatualizados reduz o alcance e a qualidade das impressões no Shopping. É o primeiro lugar onde mexemos em qualquer conta.',
       },
       {
         q: 'Google Ads ou Meta Ads: qual priorizar?',
@@ -585,7 +491,7 @@ export const servicos: Servico[] = [
     heroDescription:
       'Gestão de Microsoft Advertising para e-commerce: Search e Shopping na rede Bing, Yahoo e Edge, com CPCs consistentemente abaixo do Google e público de maior poder aquisitivo.',
     what: 'Microsoft Advertising (antigo Bing Ads) é a plataforma de busca paga da rede Microsoft: Bing, Yahoo, DuckDuckGo, AOL e a barra de pesquisa do Windows e do Edge. Opera com a mesma lógica de intenção do Google — Search e Shopping —, mas com uma fração da concorrência no leilão.',
-    why: 'O volume é menor, mas a eficiência compensa: CPCs costumam ficar de 30% a 50% abaixo do Google para as mesmas palavras-chave, e o perfil demográfico da rede Microsoft concentra usuários corporativos e de maior renda. Para operações que já saturaram o leilão do Google, é receita incremental com estrutura que pode ser importada em dias.',
+    why: 'O volume é menor, e a disputa por palavra-chave costuma ser menos acirrada do que no Google, o que muda o custo por clique. O perfil da rede Microsoft também é diferente, com presença maior de uso corporativo. Para operações que já saturaram o leilão do Google, é receita incremental com estrutura que pode ser importada em dias.',
     howItWorks: [
       {
         step: 'Importação e limpeza',
@@ -620,32 +526,8 @@ export const servicos: Servico[] = [
       'Gestão mensal com otimizações quinzenais',
       'Relatório comparativo de eficiência vs. Google Ads',
     ],
-    results: [
-      { metric: '-38%', label: 'de CPC médio vs. Google nas mesmas keywords' },
-      { metric: '+12%', label: 'de receita incremental sem aumentar verba total' },
-      { metric: '5,1x', label: 'ROAS médio em Shopping na rede Microsoft' },
-      { metric: '48h', label: 'para ter a conta no ar via importação' },
-    ],
-    examples: [
-      {
-        title: 'Eletrônicos e informática',
-        description:
-          'Importação da estrutura de Search com lances recalibrados. O canal passou a responder por 9% da receita de mídia com CPA 34% menor.',
-        highlight: 'CPA -34%',
-      },
-      {
-        title: 'Móveis e decoração',
-        description:
-          'Shopping na rede Microsoft para o catálogo de ticket alto, onde o público corporativo converte melhor.',
-        highlight: 'ROAS 6,4x',
-      },
-      {
-        title: 'Suprimentos B2B',
-        description:
-          'Segmentação por setor e porte de empresa, exclusiva da plataforma, aplicada sobre as keywords de maior margem.',
-        highlight: 'Receita +21%',
-      },
-    ],
+    results: resultadosDosCases,
+    examples: narrativasDosCases,
     faq: [
       {
         q: 'Vale a pena anunciar no Bing no Brasil?',
@@ -723,32 +605,8 @@ export const servicos: Servico[] = [
       'Públicos first-party e sinais de audiência configurados',
       'Relatório de ROAS, CAC blended, frequência e incrementalidade',
     ],
-    results: [
-      { metric: '3,8x', label: 'ROAS médio nas contas gerenciadas' },
-      { metric: '-32%', label: 'de CAC após reestruturação' },
-      { metric: '5x', label: 'de ROAS em campanhas com UGC' },
-      { metric: '+40%', label: 'de eventos recuperados com CAPI bem implementada' },
-    ],
-    examples: [
-      {
-        title: 'Marca de beleza',
-        description:
-          'Reestruturação com foco em UGC e lookalike de compradores de alto valor, com CAPI corrigida e deduplicação de eventos.',
-        highlight: 'ROAS +121%',
-      },
-      {
-        title: 'Moda feminina',
-        description:
-          'Consolidação de 14 campanhas fragmentadas em 3 estruturas Advantage+. O aprendizado concentrado derrubou o CPA em 6 semanas.',
-        highlight: 'CPA -38%',
-      },
-      {
-        title: 'Casa e utilidades',
-        description:
-          'Teste de geo holdout revelou que 22% da receita atribuída não era incremental. A verba foi realocada para topo de funil.',
-        highlight: 'Receita real +18%',
-      },
-    ],
+    results: resultadosDosCases,
+    examples: narrativasDosCases,
     faq: [
       {
         q: 'Devo usar Advantage+ Shopping ou campanhas manuais?',
@@ -826,32 +684,8 @@ export const servicos: Servico[] = [
       'Campanhas Smart+ / GMV Max com metas por linha',
       'Relatório de ROAS, CPM, hook rate e fadiga de criativo',
     ],
-    results: [
-      { metric: '+197%', label: 'de faturamento com escala no canal' },
-      { metric: '-45%', label: 'de CPM vs. média de paid social' },
-      { metric: '3,4x', label: 'ROAS médio com Spark Ads de creators' },
-      { metric: '25-30%', label: 'de hook rate nos criativos vencedores' },
-    ],
-    examples: [
-      {
-        title: 'Marca de suplementos',
-        description:
-          'Spark Ads sobre conteúdo de 12 creators, com os vídeos de melhor retenção orgânica virando anúncio.',
-        highlight: 'ROAS 4,6x',
-      },
-      {
-        title: 'Moda jovem',
-        description:
-          'Série de hooks testados sobre o mesmo corpo de vídeo. A abertura vencedora reduziu o CPA da conta inteira.',
-        highlight: 'CPA -41%',
-      },
-      {
-        title: 'Beleza e skincare',
-        description:
-          'Migração gradual para GMV Max com meta de ROI por categoria, mantendo campanhas manuais para lançamento.',
-        highlight: 'GMV +132%',
-      },
-    ],
+    results: resultadosDosCases,
+    examples: narrativasDosCases,
     faq: [
       {
         q: 'TikTok Ads funciona para qualquer categoria?',
@@ -929,32 +763,8 @@ export const servicos: Servico[] = [
       'Relatório de visibilidade, frequência e brand safety',
       'Teste de incrementalidade com leitura de receita adicional',
     ],
-    results: [
-      { metric: '-25%', label: 'de CPM médio vs. Meta e Google' },
-      { metric: '+40%', label: 'de alcance incremental com a mesma verba' },
-      { metric: '+18%', label: 'de receita incremental atribuída em teste de holdout' },
-      { metric: '>70%', label: 'de taxa de visibilidade no inventário curado' },
-    ],
-    examples: [
-      {
-        title: 'Casa e decoração',
-        description:
-          'Display e vídeo em inventário curado de publishers de decoração, com frequência controlada por usuário.',
-        highlight: 'CPM -31%',
-      },
-      {
-        title: 'Moda premium',
-        description:
-          'CTV como topo de funil em lançamento de coleção, medido por lift de busca por marca.',
-        highlight: 'Busca por marca +64%',
-      },
-      {
-        title: 'Alimentos e bebidas',
-        description:
-          'Segmentos contextuais em portais de gastronomia substituindo público baseado em cookie de terceiro.',
-        highlight: 'Alcance +52%',
-      },
-    ],
+    results: resultadosDosCases,
+    examples: narrativasDosCases,
     faq: [
       {
         q: 'Programática não é só display barato?',
@@ -1032,32 +842,8 @@ export const servicos: Servico[] = [
       'Campanhas por etapa de jornada com metas distintas',
       'Relatório de conversão assistida e tráfego residual',
     ],
-    results: [
-      { metric: '3x', label: 'de intenção de compra vs. média de social' },
-      { metric: '-34%', label: 'de CPM vs. paid social tradicional' },
-      { metric: '+28%', label: 'de tráfego residual após o fim da campanha' },
-      { metric: '2-4 meses', label: 'de janela de planejamento antecipada pela plataforma' },
-    ],
-    examples: [
-      {
-        title: 'Casa e decoração',
-        description:
-          'Catálogo completo em Pins de produto, ativado com dois meses de antecedência sobre a sazonalidade de reforma.',
-        highlight: 'ROAS 5,2x',
-      },
-      {
-        title: 'Moda feminina',
-        description:
-          'Coleções por ocasião de uso, alinhadas às buscas de guarda-roupa de estação identificadas nas tendências.',
-        highlight: 'CPA -29%',
-      },
-      {
-        title: 'Papelaria e presentes',
-        description:
-          'Campanha de descoberta no período pré-festas, com Pins que continuaram gerando tráfego na temporada seguinte.',
-        highlight: 'Tráfego residual +36%',
-      },
-    ],
+    results: resultadosDosCases,
+    examples: narrativasDosCases,
     faq: [
       {
         q: 'Pinterest Ads funciona para e-commerce no Brasil?',
@@ -1135,32 +921,8 @@ export const servicos: Servico[] = [
       'Calendário de campanhas para datas sazonais do canal',
       'Relatório de ACoS, TACoS e rentabilidade por SKU',
     ],
-    results: [
-      { metric: '+156%', label: 'de GMV no canal após 6 meses' },
-      { metric: '-30%', label: 'de ACoS após reestruturação de campanhas' },
-      { metric: '1ª posição', label: 'em keywords estratégicas para 80% dos clientes' },
-      { metric: '+44%', label: 'de tráfego orgânico com listings otimizados' },
-    ],
-    examples: [
-      {
-        title: 'Marca de beleza',
-        description:
-          'Reestruturação de Product Ads com ACoS-alvo por linha de produto e correção de fichas técnicas.',
-        highlight: 'GMV +156%',
-      },
-      {
-        title: 'Utilidades domésticas',
-        description:
-          'Migração para Mercado Envios Full combinada com mídia nos SKUs de maior giro.',
-        highlight: 'ACoS -35%',
-      },
-      {
-        title: 'Ferramentas e construção',
-        description:
-          'Campanhas específicas para Hot Sale com controle de margem por SKU durante o pico.',
-        highlight: 'Receita +92% no período',
-      },
-    ],
+    results: resultadosDosCases,
+    examples: narrativasDosCases,
     faq: [
       {
         q: 'O que é ACoS e qual é um bom número?',
@@ -1238,32 +1000,8 @@ export const servicos: Servico[] = [
       'Gestão integrada de mídia, cupons e frete',
       'Relatório de ACoS, margem por SKU e participação por formato',
     ],
-    results: [
-      { metric: '+128%', label: 'de GMV em 6 meses de operação estruturada' },
-      { metric: '-27%', label: 'de custo de aquisição somando mídia, cupom e frete' },
-      { metric: '3,2x', label: 'de tráfego nas datas duplas com planejamento antecipado' },
-      { metric: '+38%', label: 'de conversão com listings e avaliações trabalhados' },
-    ],
-    examples: [
-      {
-        title: 'Acessórios e bijuterias',
-        description:
-          'Campanhas de Descoberta para giro de catálogo combinadas com cupom controlado por faixa de margem.',
-        highlight: 'GMV +128%',
-      },
-      {
-        title: 'Moda básica',
-        description:
-          'Preparação antecipada para data dupla com estoque, preço e verba definidos por SKU.',
-        highlight: 'Receita 3,2x no período',
-      },
-      {
-        title: 'Casa e organização',
-        description:
-          'Corte de SKUs que giravam com margem negativa após leitura integrada de mídia e subsídios.',
-        highlight: 'Margem +19 p.p.',
-      },
-    ],
+    results: resultadosDosCases,
+    examples: narrativasDosCases,
     faq: [
       {
         q: 'Shopee funciona para marca com ticket médio mais alto?',
@@ -1341,32 +1079,8 @@ export const servicos: Servico[] = [
       'Sponsored Brands e Display ativados por objetivo',
       'Relatório de ACoS, TACoS e participação orgânica por ASIN',
     ],
-    results: [
-      { metric: '4,7x', label: 'de ROAS médio em Sponsored Products' },
-      { metric: '-26%', label: 'de TACoS com ganho de posição orgânica' },
-      { metric: '+63%', label: 'de conversão após conteúdo A+ reformulado' },
-      { metric: '+41%', label: 'de participação de Buy Box em SKUs disputados' },
-    ],
-    examples: [
-      {
-        title: 'Eletrônicos',
-        description:
-          'Reestruturação por correspondência com colheita de termos das campanhas automáticas para as exatas.',
-        highlight: 'ACoS -31%',
-      },
-      {
-        title: 'Suplementos e saúde',
-        description:
-          'Conteúdo A+ reformulado com foco em objeções de compra, reduzindo o custo do leilão por ganho de relevância.',
-        highlight: 'Conversão +63%',
-      },
-      {
-        title: 'Cuidados pessoais',
-        description:
-          'ASIN targeting defensivo nas páginas próprias para bloquear a mídia do concorrente no momento da decisão.',
-        highlight: 'Receita defendida +28%',
-      },
-    ],
+    results: resultadosDosCases,
+    examples: narrativasDosCases,
     faq: [
       {
         q: 'Qual a diferença entre ACoS e TACoS?',
@@ -1411,7 +1125,7 @@ export const servicos: Servico[] = [
     heroDescription:
       'CRM multicanal para e-commerce: e-mail, SMS, push notifications e WhatsApp integrados em uma estratégia que aumenta recompra, LTV e engajamento da base.',
     what: 'CRM para e-commerce é a estratégia de comunicação com clientes existentes usando múltiplos canais — e-mail, SMS, push e WhatsApp — para aumentar frequência de compra, ticket médio e tempo de retenção. É o canal de maior ROI disponível para e-commerces com base ativa.',
-    why: 'E-mail marketing tem ROI médio de 4000% (R$40 para cada R$1 investido). WhatsApp tem taxa de abertura acima de 95%. A combinação dos dois canais com SMS e push cria uma cobertura de comunicação que captura clientes em diferentes contextos — com custo marginal quase zero.',
+    why: 'E-mail é um canal de custo baixo por mensagem enviada, e o retorno depende da base, da oferta e da frequência. WhatsApp costuma ser lido com mais frequência do que e-mail, por ser um canal de conversa. A combinação dos dois canais com SMS e push cria uma cobertura de comunicação que captura clientes em diferentes contextos — com custo marginal quase zero.',
     howItWorks: [
       {
         step: 'Diagnóstico da base',
@@ -1445,32 +1159,8 @@ export const servicos: Servico[] = [
       'Calendário de campanhas mensais',
       'Dashboard de receita atribuída ao CRM',
     ],
-    results: [
-      { metric: '42%', label: 'de receita atribuída ao CRM nos clientes Ciclo' },
-      { metric: '+68%', label: 'de taxa de recompra após CRM ativo' },
-      { metric: '95%', label: 'de taxa de abertura média no WhatsApp' },
-      { metric: 'R$40', label: 'de receita para cada R$1 investido em e-mail' },
-    ],
-    examples: [
-      {
-        title: 'Marca de cosméticos',
-        description:
-          'CRM multicanal com 8 fluxos de automação. 38% da receita passou a ser atribuída ao CRM.',
-        highlight: '38% receita CRM',
-      },
-      {
-        title: 'Suplementos',
-        description:
-          'WhatsApp para lembrete de reposição + e-mail de novidades. LTV cresceu 2,4x em 12 meses.',
-        highlight: 'LTV +140%',
-      },
-      {
-        title: 'Moda feminina',
-        description:
-          'Segmentação por frequência de compra + SMS de reativação. Taxa de recompra de 30 dias subiu de 12% para 29%.',
-        highlight: 'Recompra +142%',
-      },
-    ],
+    results: resultadosDosCases,
+    examples: narrativasDosCases,
     faq: [
       {
         q: 'Qual plataforma de CRM a Ciclo recomenda?',
@@ -1478,7 +1168,7 @@ export const servicos: Servico[] = [
       },
       {
         q: 'E-mail marketing ainda funciona?',
-        a: 'Sim, e com ROI crescente. O segredo é segmentação e personalização — e-mails segmentados têm taxa de abertura 3x maior e conversão 5x maior que disparos em massa. O problema não é o canal; é a estratégia.',
+        a: 'Sim, e com ROI crescente. O que muda o resultado é segmentação e personalização: mensagem para um grupo definido costuma ser lida e convertida melhor do que disparo em massa. O problema não é o canal; é a estratégia.',
       },
       {
         q: 'Como evitar o e-mail ir para spam?',
@@ -1517,7 +1207,7 @@ export const servicos: Servico[] = [
     heroDescription:
       'Réguas de automação personalizadas para e-commerce: fluxos de e-mail, WhatsApp e SMS disparados por eventos do cliente que aumentam recompra e LTV no piloto automático.',
     what: 'Réguas de automação são sequências de mensagens disparadas automaticamente quando o cliente executa (ou deixa de executar) uma ação específica: comprou pela primeira vez, abandonou o carrinho, não comprou há X dias, aniversário, ciclo de reposição. Cada régua tem um objetivo claro e é mensurada individualmente.',
-    why: 'Automações bem configuradas geram receita 24/7 sem intervenção manual. Um fluxo de boas-vindas bem construído pode gerar R$50-200 de receita adicional por novo cliente. Multiplicado pelo volume de aquisição, o impacto no faturamento é imediato.',
+    why: 'Automações bem configuradas geram receita 24/7 sem intervenção manual. Um fluxo de boas-vindas bem construído aproveita o momento de maior atenção do novo cliente. Multiplicado pelo volume de aquisição, o impacto no faturamento é imediato.',
     howItWorks: [
       {
         step: 'Mapeamento da jornada',
@@ -1551,32 +1241,8 @@ export const servicos: Servico[] = [
       'Teste A/B de subject lines e CTAs',
       'Relatório de receita por automação',
     ],
-    results: [
-      { metric: 'R$180', label: 'de receita média por novo cliente via fluxo de boas-vindas' },
-      { metric: '45%', label: 'de taxa de abertura média nos fluxos' },
-      { metric: '+55%', label: 'de recompra com fluxo de ciclo de consumo' },
-      { metric: '80%', label: 'dos clientes têm fluxo de reativação lucrativo em 30 dias' },
-    ],
-    examples: [
-      {
-        title: 'Skincare',
-        description:
-          'Fluxo de reposição disparado 25 dias após a compra de hidratante. Taxa de recompra subiu 48%.',
-        highlight: 'Recompra +48%',
-      },
-      {
-        title: 'Pet food',
-        description:
-          '7 fluxos configurados: boas-vindas, educação, reposição, aniversário, reativação, upsell, indicação. LTV cresceu 2,1x.',
-        highlight: 'LTV +110%',
-      },
-      {
-        title: 'Suplementos',
-        description:
-          'A/B test em subject lines: versão personalizada com nome teve 34% mais abertura e 28% mais conversão.',
-        highlight: 'Conversão +28%',
-      },
-    ],
+    results: resultadosDosCases,
+    examples: narrativasDosCases,
     faq: [
       {
         q: 'Qual a diferença entre régua de automação e campanha de e-mail?',
@@ -1584,7 +1250,7 @@ export const servicos: Servico[] = [
       },
       {
         q: 'Quantos fluxos são necessários para começar?',
-        a: 'Os 5 fluxos fundamentais são: boas-vindas (pós-cadastro), pós-compra (onboarding do produto), carrinho abandonado, reativação de inativos e reposição/ciclo de consumo. Com esses 5, a maioria dos e-commerces captura 80% do valor das automações.',
+        a: 'Os 5 fluxos fundamentais são: boas-vindas (pós-cadastro), pós-compra (onboarding do produto), carrinho abandonado, reativação de inativos e reposição/ciclo de consumo. Esses cinco cobrem os momentos mais frequentes da jornada e costumam ser o ponto de partida.',
       },
       {
         q: 'Com qual frequência devo enviar nas automações?',
@@ -1623,7 +1289,7 @@ export const servicos: Servico[] = [
     heroDescription:
       'Estratégias de reativação de clientes inativos e programas de fidelização para e-commerce que transformam compradores ocasionais em defensores de marca.',
     what: 'Reativação é a estratégia de trazer de volta clientes que compraram mas pararam de comprar. Fidelização é a estratégia de manter clientes ativos comprando com mais frequência e por mais tempo. As duas estratégias combinadas são o que eleva o LTV e reduz o churn da base.',
-    why: 'Reativar um cliente existente custa de 5 a 7 vezes menos do que adquirir um novo. E marcas com programas de fidelização ativas têm taxa de recompra 40-60% maior que marcas sem. Os clientes mais rentáveis de qualquer e-commerce são os recorrentes — e eles precisam ser cultivados.',
+    why: 'Reativar quem já comprou costuma custar menos do que adquirir um cliente novo, porque a marca já é conhecida. E programa de fidelização ativo dá um motivo a mais para a próxima compra acontecer na mesma marca. Os clientes mais rentáveis de qualquer e-commerce são os recorrentes — e eles precisam ser cultivados.',
     howItWorks: [
       {
         step: 'Análise de churn',
@@ -1658,32 +1324,8 @@ export const servicos: Servico[] = [
       'Comunicação do programa para a base',
       'Relatório de taxa de reativação e LTV incremental',
     ],
-    results: [
-      { metric: '35%', label: 'de taxa de reativação média em inativos de até 90 dias' },
-      { metric: '+60%', label: 'de frequência de compra com programa de fidelização' },
-      { metric: '-40%', label: 'de churn com programa ativo' },
-      { metric: '2,4x', label: 'de LTV de clientes participantes do programa vs. não participantes' },
-    ],
-    examples: [
-      {
-        title: 'Marca de moda',
-        description:
-          'Campanha de reativação com 3 segmentos por tempo de inatividade. 32% dos inativos de até 6 meses voltaram a comprar.',
-        highlight: '32% reativação',
-      },
-      {
-        title: 'Cosméticos DTC',
-        description:
-          'Programa de pontos simples (R$1 = 1 ponto, 100 pontos = R$10 de desconto). Frequência de compra subiu 48%.',
-        highlight: 'Frequência +48%',
-      },
-      {
-        title: 'Pet food premium',
-        description:
-          'Cashback de 5% para clientes com 3+ compras. Taxa de recompra em 60 dias foi de 18% para 41%.',
-        highlight: 'Recompra +128%',
-      },
-    ],
+    results: resultadosDosCases,
+    examples: narrativasDosCases,
     faq: [
       {
         q: 'Quando um cliente é considerado inativo?',
@@ -1730,7 +1372,7 @@ export const servicos: Servico[] = [
     heroDescription:
       'Programas de indicação (referral) e estratégias de reviews para e-commerce: transforme clientes satisfeitos em canal de aquisição com custo muito abaixo do CAC tradicional.',
     what: 'Programas de indicação incentivam clientes satisfeitos a recomendar a marca para amigos e familiares — com recompensa para ambos. Reviews estruturados geram prova social que aumenta a taxa de conversão do site. As duas estratégias usam a satisfação dos clientes existentes como ativo de crescimento.',
-    why: 'Clientes indicados convertem 3-5x mais e têm LTV 25% maior que clientes adquiridos por canais pagos. E o custo de aquisição é uma fração do CAC tradicional. Reviews positivos aumentam a taxa de conversão em até 30% — e são ativos permanentes que trabalham por você.',
+    why: 'Cliente indicado chega com a confiança de quem indicou, o que encurta a decisão de compra. E o custo de aquisição é uma fração do CAC tradicional. Reviews ajudam quem está em dúvida a decidir, e continuam na página depois que a campanha acaba.',
     howItWorks: [
       {
         step: 'Diagnóstico de NPS e satisfação',
@@ -1764,32 +1406,8 @@ export const servicos: Servico[] = [
       'Comunicação do programa para a base',
       'Relatório de indicações, reviews e CAC incremental',
     ],
-    results: [
-      { metric: '3-5x', label: 'mais conversão de clientes indicados' },
-      { metric: '+25%', label: 'de LTV de clientes que vieram por indicação' },
-      { metric: '-60%', label: 'de CAC via canal de indicação vs. mídia paga' },
-      { metric: '+30%', label: 'de conversão com reviews ativos no site' },
-    ],
-    examples: [
-      {
-        title: 'Cosméticos DTC',
-        description:
-          'Programa "Indica e Ganha" com R$30 para quem indica e R$30 de desconto na primeira compra do indicado. 18% dos novos clientes em 3 meses vieram por indicação.',
-        highlight: '18% via indicação',
-      },
-      {
-        title: 'Pet food',
-        description:
-          'Fluxo de review automático 10 dias após a entrega. 42% dos clientes deixaram avaliação. Taxa de conversão do produto subiu 24%.',
-        highlight: 'Conversão +24%',
-      },
-      {
-        title: 'Moda feminina',
-        description:
-          'Programa de indicação com crédito acumulativo. Clientes indicadores compraram 3,2x mais que a base geral.',
-        highlight: '3,2x mais compras',
-      },
-    ],
+    results: resultadosDosCases,
+    examples: narrativasDosCases,
     faq: [
       {
         q: 'Qual é o melhor incentivo para um programa de indicação?',
@@ -1797,7 +1415,7 @@ export const servicos: Servico[] = [
       },
       {
         q: 'Como solicitar reviews sem parecer invasivo?',
-        a: 'O timing é tudo. O melhor momento é entre 5 e 14 dias após a entrega — quando o cliente já usou o produto mas a experiência ainda está fresca. E-mail personalizado com foto do produto comprado tem 60% mais conversão que e-mail genérico.',
+        a: 'O timing é tudo. O melhor momento é entre 5 e 14 dias após a entrega — quando o cliente já usou o produto mas a experiência ainda está fresca. E-mail personalizado com a foto do produto comprado costuma ter resposta melhor do que e-mail genérico.',
       },
       {
         q: 'Avaliações negativas prejudicam a marca?',
@@ -1838,7 +1456,7 @@ export const servicos: Servico[] = [
     heroDescription:
       'Analytics e Business Intelligence para e-commerce: estruturação de dados, dashboards integrados e análises que transformam números em decisões de crescimento.',
     what: 'Analytics & BI para e-commerce é a estruturação de toda a infraestrutura de dados — coleta, integração, modelagem e visualização — para que as métricas certas estejam sempre disponíveis, confiáveis e acionáveis. Vai muito além do GA4.',
-    why: 'Marcas que tomam decisões orientadas por dados crescem 2-3x mais rápido que as que operam no achismo. E a maior parte dos e-commerces tem dados — mas não tem a estrutura para aproveitá-los. A Ciclo transforma dados brutos em inteligência de negócio.',
+    why: 'Decisão orientada por dado reduz a chance de insistir no que não funciona. E a maior parte dos e-commerces tem dados — mas não tem a estrutura para aproveitá-los. A Ciclo transforma dados brutos em inteligência de negócio.',
     howItWorks: [
       {
         step: 'Auditoria de dados',
@@ -1873,32 +1491,8 @@ export const servicos: Servico[] = [
       'Relatório mensal de insights e oportunidades',
       'Alertas automáticos de anomalias',
     ],
-    results: [
-      { metric: '-60%', label: 'de tempo em relatórios manuais com BI automatizado' },
-      { metric: '+35%', label: 'de eficiência nas decisões de mídia com dados integrados' },
-      { metric: '100%', label: 'de visibilidade do funil completo' },
-      { metric: '2x', label: 'mais velocidade de identificação de oportunidades' },
-    ],
-    examples: [
-      {
-        title: 'E-commerce de moda',
-        description:
-          'BI integrado com GA4 + Meta + Google + CRM. Identificamos que mobile tinha 3x mais tráfego mas 0,3x da conversão — e corrigimos.',
-        highlight: 'Mobile: conversão +180%',
-      },
-      {
-        title: 'Suplementos',
-        description:
-          'Dashboard de cohortes de clientes. Identificamos que o canal YouTube trazia o cliente com maior LTV — e dobramos o investimento.',
-        highlight: 'LTV YouTube 2,4x',
-      },
-      {
-        title: 'Casa e decoração',
-        description:
-          'Alertas de anomalia identificaram queda de 40% na conversão de checkout por bug técnico em 2h. Sem o monitoramento, o bug duraria dias.',
-        highlight: 'Bug identificado em 2h',
-      },
-    ],
+    results: resultadosDosCases,
+    examples: narrativasDosCases,
     faq: [
       {
         q: 'GA4 é suficiente ou preciso de BI?',
@@ -1910,7 +1504,7 @@ export const servicos: Servico[] = [
       },
       {
         q: 'O que é Conversions API e por que importa?',
-        a: 'Conversions API (CAPI) é uma integração server-side que envia dados de conversão diretamente para o Meta e TikTok, sem depender de cookies ou pixels. Com iOS 14 e bloqueadores de anúncios, o CAPI recupera 15-30% das conversões que o pixel não captura.',
+        a: 'Conversions API (CAPI) é uma integração server-side que envia dados de conversão diretamente para o Meta e TikTok, sem depender de cookies ou pixels. Com as restrições de rastreamento do iOS e os bloqueadores de anúncios, o CAPI recupera parte das conversões que o pixel não captura.',
       },
       {
         q: 'Quais KPIs um e-commerce deve monitorar diariamente?',
