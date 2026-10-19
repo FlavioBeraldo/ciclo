@@ -3,9 +3,9 @@
 // Confere, para os 19 serviços e as 4 soluções, que o HTML servido continua
 // trazendo exatamente o que @/lib/servicos e @/lib/solucoes definem: title,
 // description, keywords, canonical, robots, o JSON-LD de FAQPage com as mesmas
-// perguntas e respostas, e cada item de processo, entrega, resultado, exemplo
-// e link de serviço. É o que prova que o redesign trocou a casca e não o
-// conteúdo.
+// perguntas e respostas, e cada item de processo, entrega, exemplo e link de
+// serviço, mais o bloco de cases que ocupa a âncora `#resultados`. É o que
+// prova que o redesign trocou a casca e não o conteúdo.
 //
 // Lê os dados direto do TypeScript, com o type stripping do Node, para não
 // haver uma segunda cópia da verdade neste arquivo.
@@ -17,6 +17,21 @@ const RAIZ = process.env.RAIZ_CICLO ?? '/home/user/ciclo'
 
 const { servicos } = await import(`${RAIZ}/src/lib/servicos.ts`)
 const { solucoes } = await import(`${RAIZ}/src/lib/solucoes.ts`)
+
+// O bloco de quatro indicadores de `results` saiu em 19/10 e deu lugar ao
+// bloco "Cases em vídeo", por pedido do Flávio (commit 606d93c). O campo
+// `results` continua nos dados, hoje só como chave do bloco e da âncora, mas
+// os valores não são mais texto da página — então o que se exige aqui é o que
+// de fato está publicado no lugar. Os textos são os de
+// src/components/ciclo/CasesEmVideo.tsx.
+const CASES_EM_VIDEO = [
+  'Cases em vídeo',
+  'Quem vive, recomenda.',
+  'Mamô Brasil',
+  'Líquido',
+  'KVRA',
+  'DANKI',
+]
 
 let falhas = 0
 const problemas = []
@@ -118,7 +133,7 @@ for (const s of servicos) {
       s.what,
       ...s.howItWorks.flatMap(({ step, detail }) => [step, detail]),
       ...s.deliverables,
-      ...s.results.flatMap(({ metric, label }) => [metric, label]),
+      ...(s.results.length > 0 ? CASES_EM_VIDEO : []),
       ...s.examples.flatMap(({ title, description, highlight }) => [
         title,
         description,
@@ -141,7 +156,7 @@ for (const s of solucoes) {
       s.heroDescription,
       s.whatIs,
       ...s.howItWorks.flatMap(({ step, description }) => [step, description]),
-      ...s.results.flatMap(({ metric, description }) => [metric, description]),
+      ...CASES_EM_VIDEO,
       ...s.faq.flatMap(({ q, a }) => [q, a]),
     ],
     links: s.serviceLinks.map(({ slug }) => `/servicos/${slug}`),
