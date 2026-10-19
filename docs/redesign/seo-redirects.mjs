@@ -62,7 +62,16 @@ async function cadeia(caminho, limite = 6) {
   return paradas
 }
 
-const semBarra = (p) => (p.length > 1 && p.endsWith('/') ? p.slice(0, -1) : p)
+// Tira a barra final DO CAMINHO, não da URL inteira: com query a barra fica no
+// meio (`/rota/?utm=...`), e a versão anterior desta função não a enxergava —
+// a normalização do Next passava a ser contada como salto real, e o teste
+// acusava cadeia onde não havia. O defeito era aqui, não no redirect.
+const semBarra = (u) => {
+  const i = u.indexOf('?')
+  const caminho = i === -1 ? u : u.slice(0, i)
+  const resto = i === -1 ? '' : u.slice(i)
+  return (caminho.length > 1 && caminho.endsWith('/') ? caminho.slice(0, -1) : caminho) + resto
+}
 
 /**
  * Saltos que contam. A normalização de `/rota/` para `/rota` é do Next e
