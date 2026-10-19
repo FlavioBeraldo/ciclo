@@ -90,8 +90,10 @@ posts) por conteúdo do segmento:
 
 O site novo **não tem página por segmento**. Então não existe destino que
 responda ao que a pessoa buscou. Mandar para a home ou para a consultoria
-seria empurrar para uma página genérica — padrão que o Google trata como
-**soft 404**, e que não é melhor que o 404 honesto.
+seria empurrar para uma página genérica — padrão que **corre o risco** de o
+Google tratar como soft 404. **Não medi esse efeito aqui**, e não afirmo que
+aconteceria; o que afirmo é que o ganho de trocar um 404 honesto por um
+destino que não responde à busca é, no mínimo, duvidoso.
 
 **Eu havia mandado três dessas para `/consultoria-para-e-commerce` no patch
 anterior. Reverti.** A regra que vocês deram — "prefira manter 404 quando não
@@ -150,12 +152,16 @@ episódio, é trocar uma linha — e o argumento a favor do 404 é legítimo.
 `/categoria/*`, `/tag/*`, `/author/*`, `/page/N` e `/blog/page/N` caem todos em
 `/blog`, por regras com curinga que já existiam.
 
-**Não corrigi, e registro a ressalva:** ~55 URLs convergindo para uma página
-só é o padrão que o Google costuma classificar como soft 404. Pode estar
-contribuindo para a fila de "rastreada, não indexada" dessas URLs
-específicas — **não medi isso, é hipótese**. A alternativa seria reconstruir
-arquivos de categoria e autor no site novo, o que é projeto de conteúdo, não
-patch de redirect. **Fora deste escopo.**
+**Não corrigi, e registro como risco, não como diagnóstico:** ~55 URLs
+convergindo para uma página só é um padrão que **pode** ser lido pelo Google
+como soft 404. Se isso está ou não acontecendo aqui, **eu não medi** — e a
+presença dessas URLs na lista de "rastreada, não indexada" não prova a causa.
+
+**Essas consolidações são decisão editorial antiga, de outro checkpoint**, não
+achado desta auditoria: as regras com curinga para `/categoria`, `/tag`,
+`/author` e paginação já existiam, e foram escolha de não reconstruir arquivos
+de categoria e autor no site novo. Revisitar isso é projeto de conteúdo, com
+decisão de vocês — **não é patch de redirect e está fora deste escopo.**
 
 ---
 
@@ -237,14 +243,29 @@ As 6 exclusões são **vídeos complementares dentro de artigos**, não páginas
 episódio — o YouTube embutido em `/blog/gateway-de-pagamento-vs-intermediadores-de-pagamento`,
 `/blog/7-ajustes-para-aumentar-as-vendas-no-e-commerce` e outros quatro.
 
-**Artigos e layout preservados**, nada tocado. Indexação de vídeo exigiria
-`VideoObject` em página dedicada — **fora deste escopo**.
+**Artigos e layout preservados**, nada tocado.
+
+Sobre o caminho para indexar vídeo: `VideoObject` **não é requisito universal**
+— o Google também descobre vídeo pelo próprio player na página e por sitemap
+de vídeo, e marcação estruturada é um dos caminhos, não o único. O motivo da
+exclusão aqui é o que o relatório diz: **não são páginas de exibição de
+vídeo**. Mudar isso significaria dar a cada vídeo uma página própria, que é
+decisão de conteúdo. **Fora deste escopo**, e nada foi alterado.
 
 ---
 
 ## 11. O que o teste afirma — passo 24
 
-`docs/redesign/seo-redirects.mjs`, sem rede externa:
+`docs/redesign/seo-redirects.mjs`, sem rede externa.
+
+**O log da suíte deixou de ser versionado.** Ele registrava o commit da árvore
+no momento em que rodou, que é sempre o ANTERIOR ao commit que o inclui — o
+arquivo nunca consegue se referir a si mesmo, e a versão anterior deste
+documento carregava justamente essa inconsistência (`45da7cb`). A evidência
+agora é a rodada feita **depois** do commit, sobre a árvore limpa, reportada na
+revisão.
+
+O que o passo afirma:
 
 1. toda origem literal de `next.config.ts` termina em **200**;
 2. em **um salto**, fora a normalização de barra do Next;
@@ -267,7 +288,39 @@ episódio — o YouTube embutido em `/blog/gateway-de-pagamento-vs-intermediador
 
 ---
 
-## 12. Limites
+## 12. Quem fez o quê, e o que já foi pedido na GSC
+
+Separando as ações, porque elas se misturam fácil num relatório só.
+
+### Feito pela revisão independente (Codex), não por mim
+
+| Ação | Estado |
+|---|---|
+| Extração das três listas do DOM da GSC | 19/10 |
+| Inspeção individual ao vivo das URLs | Googlebot Smartphone, êxito, indexação permitida, canonical self |
+| **9 solicitações de indexação** — `/servicos/tiktok-ads`, `/servicos/shopee-ads`, `/servicos/pinterest-ads`, `/blog/gamification-para-e-commerce`, `/blog/melhore-a-experiencia-do-cliente-no-e-commerce-…`, `/blog/perfil-de-consumidor`, `/blog/precificacao-dos-produtos-do-seu-e-commerce`, `/blog/shuffles-colagens-pinterest`, `/blog/tecnicas-de-cro-otimizacao-de-conversao-recompensa-e-punicao` | **ACEITAS** |
+| `/servicos/amazon-ads` | **já indexada em 16/10** |
+| Revalidação de produção e rollback | `c6ae9c0…` · Vercel `HMydKDFJHUA5dn1AFacGubTWP3Ww`, Ready/Current |
+
+**Não repeti nenhuma dessas solicitações**, e não executei nada na GSC — não
+tenho acesso, e mesmo se tivesse, pedido repetido não acelera fila.
+
+### Feito por mim, nesta branch
+
+| Ação | |
+|---|---|
+| Classificação das 343 URLs contra a árvore do commit | `gsc/classificar.mjs` → `gsc/inventario.tsv` |
+| Correção de 7 origens de redirect | seção 2 |
+| 404 mantido em 7 landings por segmento | seção 3, com evidência do acervo |
+| `Allow: /_next/static/` no robots | seção 8 |
+| Passo 24 da suíte, com os blocos 2a e 2b | seção 11 |
+| Armazenamento das listas como evidência | `docs/redesign/gsc/*.txt` |
+
+**Nada publicado.** Produção intocada em `c6ae9c0298ae222832f4006dbca05f0adb0c47b1`.
+
+---
+
+## 13. Limites
 
 - **É local, não é o domínio.** O proxy desta sessão recusa
   `cicloecommerce.com.br`. Está provado o que o código responde, não o que a
@@ -275,9 +328,11 @@ episódio — o YouTube embutido em `/blog/gateway-de-pagamento-vs-intermediador
 - **Não executei nada na GSC** — nem validação, nem reindexação.
 - **Ausência de indexação não prova defeito, e eu não afirmo o contrário.**
   Classifiquei as 266: 109 respondem 200 e 154 redirecionam certo — para essas
-  não encontrei defeito de código; **3 estavam em 404** e uma foi corrigida, as
-  outras duas por decisão. A hipótese das 55 de taxonomia está na seção 5,
-  marcada como hipótese.
+  não encontrei defeito de código. **Cinco estavam em 404: duas foram
+  corrigidas** (`/retail-media-para-e-commerce-…` e `/blog/como-atrair-clientes`)
+  e **três continuam em 404 por decisão** (luxo, DNVBs e marcas nativas
+  digitais, pela seção 3). O risco das 55 de taxonomia está na seção 5,
+  marcado como risco não medido.
 - **O efeito do bloqueio de `/_next/` não foi medido.**
 - **Nenhuma correção faz o Google reindexar.** O calendário é dele.
 - Os dois subdomínios **não são alcançáveis daqui**.

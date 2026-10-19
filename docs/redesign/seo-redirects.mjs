@@ -155,6 +155,45 @@ for (const u of CONFIRMADOS_404) {
 
 // ── 3. Podcast legado ───────────────────────────────────────────────────────
 
+// ── 2b. A query sobrevive ao redirect ───────────────────────────────────────
+//
+// A doc do Next que vem no projeto é explícita: "When a redirect is applied,
+// any query values provided in the request will be passed through to the
+// redirect destination"
+// (01-app/03-api-reference/05-config/01-next-config-js/redirects.md).
+//
+// Isso importa porque muita URL antiga chega com utm_* de campanha ou com
+// ?amp de AMP. Se a query caísse no caminho, a visita perderia a atribuição —
+// seria mudança de mensuração por via travessa, vinda de um patch de SEO.
+
+console.log('\n2b. UTM e amp sobrevivem aos redirects novos e aos de canal')
+{
+  const QUERY = '?utm_source=teste&utm_medium=qa&utm_campaign=seo-check&amp'
+  const COM_QUERY = [
+    ['/google-ads-para-e-commerce-impulsione-suas-vendas-com-ciclo-e-commerce', '/servicos/google-ads'],
+    ['/gestao-de-trafego-pago-para-e-commerce-aumente-suas-vendas', '/solucoes/captacao-de-demanda'],
+    ['/retail-media-para-e-commerce-amplie-suas-vendas-com-ciclo-e-commerce', '/solucoes/captacao-de-demanda'],
+    ['/blog/como-atrair-clientes', '/blog/como-atrair-clientes-qualificados-para-o-e-commerce'],
+    ['/gestao-de-amazon-ads-impulsione-suas-vendas-na-amazon-com-ciclo-e-commerce', '/servicos/amazon-ads'],
+    ['/gestao-de-shopee-ads-potencialize-suas-vendas-na-shopee-com-ciclo-e-commerce', '/servicos/shopee-ads'],
+    ['/podcast/o-fator-m-episodio-1', '/ofatorm'],
+  ]
+  for (const [origem, destinoEsperado] of COM_QUERY) {
+    const paradas = await cadeia(origem + QUERY)
+    const fim = paradas[paradas.length - 1]
+    const [caminho, query] = fim.url.split('?')
+    const temTudo =
+      query &&
+      ['utm_source=teste', 'utm_medium=qa', 'utm_campaign=seo-check', 'amp'].every((par) =>
+        query.includes(par.split('=')[0])
+      )
+    conferir(
+      fim.status === 200 && caminho === destinoEsperado && temTudo,
+      `${origem.slice(0, 46)} -> ${fim.status} ${caminho} ${temTudo ? '(query inteira)' : '(QUERY PERDIDA: ' + (query ?? 'nenhuma') + ')'}`
+    )
+  }
+}
+
 console.log('\n3. Podcast legado — inclusive slug com emoji')
 for (const u of [
   '/podcast',
