@@ -15,12 +15,7 @@
  * rolar para ver o movimento.
  *
  * Quando a faixa NÃO anda: fora da tela, com a aba em segundo plano, sob o
- * ponteiro, com o foco dentro dela e sempre que o sistema pedir menos
- * movimento. Nesse último caso ela vira uma régua rolável na mão, sem as
- * cópias.
- *
- * Não há botão de pausar: o Flávio pediu que saísse em 20/10, e a faixa pausa
- * sozinha nas situações acima.
+ * ponteiro e com o foco dentro dela. Não há botão de pausar.
  */
 
 .faixa-fotos {
@@ -91,22 +86,19 @@
   width: max-content;
 }
 
-/* Os `!important` daqui para baixo não são preguiça: `base.css`, que é
-   global e está no contrato de "nenhum byte diferente da base", traz
-   `@media (prefers-reduced-motion: reduce) { .ciclo2026 * { animation: none
-   !important } }`. Como a faixa deve andar também com a preferência ligada
-   — decisão do Flávio em 20/10 —, a única saída sem tocar no arquivo global
-   é vencer ali mesmo: seletor mais específico (duas classes contra classe e
-   universal) e a mesma marca de importância. Vale só para o trilho da
-   faixa; nenhum outro elemento do site muda. */
+/* `base.css`, global, traz `@media (prefers-reduced-motion: reduce)
+   { .ciclo2026 * { animation: none !important } }`. O deslocamento da faixa
+   é independente dessa preferência, e o override precisa vencer ali: dois
+   seletores de classe contra classe e universal, com a mesma marca de
+   importância. Vale só para o trilho da faixa. */
 .faixa-fotos .faixa-trilho {
   animation: faixa-desliza var(--faixa-duracao, 60s) linear infinite !important;
 }
 
-/* Da esquerda para a direita, por pedido do Flávio em 20/10: o trilho começa
-   deslocado uma cópia para a esquerda e volta a zero, então os cartões saem
-   pela direita e entram pela esquerda. Como as três cópias são idênticas, os
-   dois extremos do ciclo desenham a mesma coisa e a volta não tem salto. */
+/* Da esquerda para a direita: o trilho começa deslocado uma cópia para a
+   esquerda e volta a zero, então os cartões saem pela direita e entram pela
+   esquerda. Como as três cópias são idênticas, os dois extremos do ciclo
+   desenham a mesma coisa e a volta não tem salto. */
 @keyframes faixa-desliza {
   from {
     transform: translate3d(calc(-100% / 3), 0, 0);
@@ -191,13 +183,7 @@
 
 /* ── Sobre `prefers-reduced-motion` ───────────────────────────────────────
  *
- * Não há tratamento. Havia: com a preferência ligada a faixa ficava parada e
- * virava régua rolável. Saiu em 20/10 por pedido explícito do Flávio, depois
- * de ver a faixa estática no Chrome dele — que tem a preferência ligada no
- * sistema — e decidir que ela deve se deslocar do mesmo jeito.
- *
- * Fica registrado o que isso significa: quem pediu menos movimento ao
- * sistema vê a faixa andando assim mesmo. As pausas automáticas continuam
- * (fora da tela, aba em segundo plano, ponteiro em cima, foco dentro), e não
- * há botão de pausar — também por decisão dele.
+ * O deslocamento da faixa e a reprodução dos vídeos são independentes dessa
+ * preferência. As pausas do componente continuam valendo: fora da tela, aba
+ * em segundo plano, ponteiro em cima e foco dentro da faixa.
  */

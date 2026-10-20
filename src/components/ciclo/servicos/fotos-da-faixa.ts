@@ -52,8 +52,8 @@ export interface FotoDaFaixa {
 }
 
 /**
- * As oito peças de UGC, na ordem que o Flávio mandou. A mesma lista serve as
- * duas rotas de UGC — é o mesmo acervo, e repetir os arquivos no disco só
+ * As oito peças de UGC, na ordem definida para a faixa. A mesma lista serve
+ * as duas rotas de UGC — é o mesmo acervo, e repetir os arquivos no disco só
  * duplicaria peso.
  */
 const UGC: FotoDaFaixa[] = [
@@ -100,9 +100,8 @@ const UGC: FotoDaFaixa[] = [
 ]
 
 /**
- * As três rotas que o Flávio pediu em 20/10, com o acervo definitivo que ele
- * mandou no mesmo dia. Uma chave por slug de serviço; nenhum outro slug
- * recebe faixa.
+ * As três rotas que recebem a faixa. Uma chave por slug de serviço; nenhum
+ * outro slug recebe faixa.
  */
 export const FAIXA_POR_SERVICO: Record<string, FotoDaFaixa[]> = {
   'gestao-creators-influenciadores': UGC,
