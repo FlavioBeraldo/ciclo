@@ -159,9 +159,8 @@
   .faixa-fotos .faixa-clone {
     display: none;
   }
-  /* Vídeo é movimento: sai de cena e fica o cartaz. O componente também
-     não chega a dar play. */
-  .faixa-fotos .faixa-video {
-    display: none;
-  }
+  /* O vídeo continua: o que a preferência desliga é o deslocamento da
+     faixa, que é o movimento que o site impõe. A cena dentro do cartão é o
+     conteúdo, e escondê-la deixava a faixa estática em qualquer máquina com
+     a preferência ligada — foi o que aconteceu no Chrome do Flávio. */
 }

@@ -95,7 +95,6 @@ function Faixa({ fotos }: { fotos: FotoDaFaixa[] }) {
     // Por isso a janela é curta: a área visível mais 80px de cada lado. É o
     // suficiente para o vídeo já estar rodando quando o cartão entra, sem
     // acordar meia faixa de uma vez.
-    const semMovimento = window.matchMedia('(prefers-reduced-motion: reduce)')
     const videos = [...el.querySelectorAll<HTMLVideoElement>('video.faixa-video')]
     const naJanela = new Set<HTMLVideoElement>()
     let tocando = false
@@ -143,14 +142,14 @@ function Faixa({ fotos }: { fotos: FotoDaFaixa[] }) {
     const aplicar = () => {
       const rodando = emCena && !document.hidden
       el.dataset.rodando = rodando ? 'sim' : 'nao'
-      // Com `prefers-reduced-motion` o vídeo nem aparece: o CSS o esconde e
-      // fica só o cartaz. Então também não há por que tocá-lo.
-      tocando = rodando && !semMovimento.matches
+      // O vídeo não olha para `prefers-reduced-motion`: a preferência
+      // desliga o deslocamento da faixa, não o conteúdo do cartão. Em
+      // `data-rodando` o CSS lê só o deslocamento.
+      tocando = rodando
       acertarVideos()
     }
 
     const aoTrocarAba = () => aplicar()
-    semMovimento.addEventListener('change', aplicar)
     document.addEventListener('visibilitychange', aoTrocarAba)
 
     // ── Fotos de fora da área visível ───────────────────────────────────
@@ -204,7 +203,6 @@ function Faixa({ fotos }: { fotos: FotoDaFaixa[] }) {
       for (const v of videos) v.pause()
       window.removeEventListener('resize', aoRedimensionar)
       document.removeEventListener('visibilitychange', aoTrocarAba)
-      semMovimento.removeEventListener('change', aplicar)
       if (pedido) cancelAnimationFrame(pedido)
       if (ocioso && window.cancelIdleCallback) window.cancelIdleCallback(ocioso)
     }
