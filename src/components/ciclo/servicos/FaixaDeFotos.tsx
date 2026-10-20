@@ -86,11 +86,11 @@ function Faixa({ fotos }: { fotos: FotoDaFaixa[] }) {
     // Sem `src` não existe pedido nenhum — é a única forma de o navegador
     // não baixar os cartões que ainda estão longe.
     //
-    // Isso importa porque, medido com os arquivos reais, `preload="none"`
-    // só adia: assim que um vídeo toca, o Chromium puxa o arquivo inteiro,
-    // e limitar a reprodução aos primeiros segundos não muda nada (20,87 MB
-    // sem corte contra 20,93 MB com corte em 6s). Quem decide o peso é
-    // quantos arquivos distintos chegam a tocar.
+    // `preload="none"` sozinho não basta: ele só adia o primeiro pedido, e
+    // o endereço continua no documento. Sem `src` não há o que adiar.
+    //
+    // O que desce é fatia, não arquivo: as respostas de vídeo são 206, e o
+    // navegador para de puxar quando o vídeo pausa.
     //
     // Por isso a janela é curta: a área visível mais 80px de cada lado. É o
     // suficiente para o vídeo já estar rodando quando o cartão entra, sem

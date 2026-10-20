@@ -110,32 +110,32 @@ export const FAIXA_POR_SERVICO: Record<string, FotoDaFaixa[]> = {
   'creative-strategy': [
     {
       arquivo: '/faixa/creative-strategy/estrategiacriativa1.webp',
-    video: '/faixa/creative-strategy/estrategiacriativa1.webm',
+      video: '/faixa/creative-strategy/estrategiacriativa1.webm',
       alt: 'Celular erguido à frente de uma modelo, enquadrando o rosto dela na tela enquanto o corpo aparece atrás.',
     },
     {
       arquivo: '/faixa/creative-strategy/estrategiacriativa2.webp',
-    video: '/faixa/creative-strategy/estrategiacriativa2.webm',
+      video: '/faixa/creative-strategy/estrategiacriativa2.webm',
       alt: 'Página de produtos de um e-commerce projetada em tamanho grande sobre a fachada de uma loja, com uma cliente passando em frente.',
     },
     {
       arquivo: '/faixa/creative-strategy/estrategiacriativa3.webp',
-    video: '/faixa/creative-strategy/estrategiacriativa3.webm',
+      video: '/faixa/creative-strategy/estrategiacriativa3.webm',
       alt: 'Tela dividida numa cozinha, comparando duas rotinas lado a lado.',
     },
     {
       arquivo: '/faixa/creative-strategy/estrategiacriativa4.webp',
-    video: '/faixa/creative-strategy/estrategiacriativa4.webm',
+      video: '/faixa/creative-strategy/estrategiacriativa4.webm',
       alt: 'Criador numa cozinha mostrando para a câmera um pacote de snack de carne.',
     },
     {
       arquivo: '/faixa/creative-strategy/estrategiacriative5.webp',
-    video: '/faixa/creative-strategy/estrategiacriative5.webm',
+      video: '/faixa/creative-strategy/estrategiacriative5.webm',
       alt: 'Modelo agachada ao lado de uma bolsa caída, com os produtos de beleza espalhados pelo chão.',
     },
     {
       arquivo: '/faixa/creative-strategy/estrategiacriativa08.webp',
-    video: '/faixa/creative-strategy/estrategiacriativa08.webm',
+      video: '/faixa/creative-strategy/estrategiacriativa08.webm',
       alt: 'Mão segurando uma câmera de ação diante de uma fotografia em preto e branco numa parede de galeria.',
     },
   ],
