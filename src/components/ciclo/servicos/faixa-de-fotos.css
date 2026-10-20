@@ -31,12 +31,39 @@
   overflow-x: clip;
 }
 
+/* As duas pontas somem num esvanecimento em vez de um corte seco. É máscara,
+   não um elemento por cima: não cobre nada, não intercepta clique nem
+   rolagem e acompanha o fundo qualquer que ele seja. A faixa é a primeira
+   coisa do componente com máscara — não há nenhum outro esvanecimento aqui
+   para reaproveitar; o `.section-fade` da página é a transição entre seções
+   escuras, outra coisa. */
 .faixa-viewport {
+  --faixa-fade: 24px;
   overflow-x: clip;
   overflow-y: visible;
   overscroll-behavior-x: contain;
   scrollbar-width: none;
   -ms-overflow-style: none;
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    #000 var(--faixa-fade),
+    #000 calc(100% - var(--faixa-fade)),
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    #000 var(--faixa-fade),
+    #000 calc(100% - var(--faixa-fade)),
+    transparent 100%
+  );
+}
+
+@media (min-width: 761px) {
+  .faixa-viewport {
+    --faixa-fade: 48px;
+  }
 }
 .faixa-viewport::-webkit-scrollbar {
   display: none;
@@ -62,15 +89,30 @@
   padding: 0;
   display: flex;
   width: max-content;
-  animation: faixa-desliza var(--faixa-duracao, 60s) linear infinite;
 }
 
+/* Os `!important` daqui para baixo não são preguiça: `base.css`, que é
+   global e está no contrato de "nenhum byte diferente da base", traz
+   `@media (prefers-reduced-motion: reduce) { .ciclo2026 * { animation: none
+   !important } }`. Como a faixa deve andar também com a preferência ligada
+   — decisão do Flávio em 20/10 —, a única saída sem tocar no arquivo global
+   é vencer ali mesmo: seletor mais específico (duas classes contra classe e
+   universal) e a mesma marca de importância. Vale só para o trilho da
+   faixa; nenhum outro elemento do site muda. */
+.faixa-fotos .faixa-trilho {
+  animation: faixa-desliza var(--faixa-duracao, 60s) linear infinite !important;
+}
+
+/* Da esquerda para a direita, por pedido do Flávio em 20/10: o trilho começa
+   deslocado uma cópia para a esquerda e volta a zero, então os cartões saem
+   pela direita e entram pela esquerda. Como as três cópias são idênticas, os
+   dois extremos do ciclo desenham a mesma coisa e a volta não tem salto. */
 @keyframes faixa-desliza {
   from {
-    transform: translate3d(0, 0, 0);
+    transform: translate3d(calc(-100% / 3), 0, 0);
   }
   to {
-    transform: translate3d(calc(-100% / 3), 0, 0);
+    transform: translate3d(0, 0, 0);
   }
 }
 
@@ -123,19 +165,22 @@
 
 /* Fora de cena e aba em segundo plano — os dois escritos pelo componente no
    mesmo atributo. */
+/* As pausas também precisam do `!important`: o `animation: none !important`
+   global não zera só o nome, zera o atalho inteiro, `animation-play-state`
+   junto. Sem a marca aqui, a faixa voltaria a andar em cima da pausa. */
 .faixa-fotos[data-rodando='nao'] .faixa-trilho {
-  animation-play-state: paused;
+  animation-play-state: paused !important;
 }
 
 /* Foco dentro da faixa: quem navega pelo teclado não persegue um alvo que
    anda. O ponteiro só pausa onde existe ponteiro de verdade — num celular,
    `:hover` gruda depois do toque e a faixa ficaria parada à toa. */
 .faixa-fotos:focus-within .faixa-trilho {
-  animation-play-state: paused;
+  animation-play-state: paused !important;
 }
 @media (hover: hover) {
   .faixa-fotos:hover .faixa-trilho {
-    animation-play-state: paused;
+    animation-play-state: paused !important;
   }
 }
 
@@ -144,23 +189,15 @@
   will-change: transform;
 }
 
-/* ── Sem movimento ─────────────────────────────────────────────────────── */
-/* Depois de todas as regras acima, então vence sem precisar de `!important`.
-   A faixa fica parada e rolável na mão, com uma cópia só das fotos. */
-@media (prefers-reduced-motion: reduce) {
-  .faixa-fotos .faixa-viewport {
-    overflow-x: auto;
-  }
-  .faixa-fotos .faixa-trilho {
-    animation: none;
-    transform: none;
-    will-change: auto;
-  }
-  .faixa-fotos .faixa-clone {
-    display: none;
-  }
-  /* O vídeo continua: o que a preferência desliga é o deslocamento da
-     faixa, que é o movimento que o site impõe. A cena dentro do cartão é o
-     conteúdo, e escondê-la deixava a faixa estática em qualquer máquina com
-     a preferência ligada — foi o que aconteceu no Chrome do Flávio. */
-}
+/* ── Sobre `prefers-reduced-motion` ───────────────────────────────────────
+ *
+ * Não há tratamento. Havia: com a preferência ligada a faixa ficava parada e
+ * virava régua rolável. Saiu em 20/10 por pedido explícito do Flávio, depois
+ * de ver a faixa estática no Chrome dele — que tem a preferência ligada no
+ * sistema — e decidir que ela deve se deslocar do mesmo jeito.
+ *
+ * Fica registrado o que isso significa: quem pediu menos movimento ao
+ * sistema vê a faixa andando assim mesmo. As pausas automáticas continuam
+ * (fora da tela, aba em segundo plano, ponteiro em cima, foco dentro), e não
+ * há botão de pausar — também por decisão dele.
+ */
