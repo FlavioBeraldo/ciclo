@@ -43,6 +43,12 @@ export interface FotoDaFaixa {
   alt: string
   /** `object-position` do recorte. Padrão: centro. */
   foco?: string
+  /**
+   * Vídeo da mesma cena, opcional. Quando existe, o cartão toca o vídeo e a
+   * imagem de cima vira o cartaz: é ela que aparece antes de o vídeo chegar,
+   * se o vídeo falhar e sempre que o sistema pedir menos movimento.
+   */
+  video?: string
 }
 
 /**
@@ -134,6 +140,11 @@ for (const [servico, fotos] of Object.entries(FAIXA_POR_SERVICO)) {
     if (!foto.alt || foto.alt.trim().length < 10) {
       throw new Error(
         `fotos-da-faixa: a foto "${foto.arquivo}" (${servico}) está sem alt descritivo.`
+      )
+    }
+    if (foto.video && !/^\/faixa\/[\w./-]+\.webm$/.test(foto.video)) {
+      throw new Error(
+        `fotos-da-faixa: "${foto.video}" (${servico}) precisa ser um .webm dentro de /faixa/.`
       )
     }
     if (vistos.has(foto.arquivo)) {
