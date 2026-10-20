@@ -81,15 +81,20 @@ function Faixa({ fotos }: { fotos: FotoDaFaixa[] }) {
     window.addEventListener('resize', aoRedimensionar, { passive: true })
 
     // ── Vídeos ──────────────────────────────────────────────────────────
-    // Cada cartão que tem vídeo toca o seu, mas só enquanto está na parte
-    // visível da faixa — e com 320px de antecedência, para o vídeo já estar
-    // rodando quando o cartão entra, em vez de o visitante ver o cartaz
-    // parado por um instante. Fora dessa janela o vídeo é pausado: num
-    // trilho de três cópias são 24 elementos, e tocar todos ao mesmo tempo
-    // derrubaria o celular à toa.
+    // O endereço do vídeo NÃO está no `src` do HTML: fica guardado em
+    // `data-src` e só é anexado quando o cartão está prestes a aparecer.
+    // Sem `src` não existe pedido nenhum — é a única forma de o navegador
+    // não baixar os cartões que ainda estão longe.
     //
-    // Nada toca antes da hora: os vídeos nascem com `preload="none"`, então
-    // o navegador não busca um byte sequer até o primeiro play.
+    // Isso importa porque, medido com os arquivos reais, `preload="none"`
+    // só adia: assim que um vídeo toca, o Chromium puxa o arquivo inteiro,
+    // e limitar a reprodução aos primeiros segundos não muda nada (20,87 MB
+    // sem corte contra 20,93 MB com corte em 6s). Quem decide o peso é
+    // quantos arquivos distintos chegam a tocar.
+    //
+    // Por isso a janela é curta: a área visível mais 80px de cada lado. É o
+    // suficiente para o vídeo já estar rodando quando o cartão entra, sem
+    // acordar meia faixa de uma vez.
     const semMovimento = window.matchMedia('(prefers-reduced-motion: reduce)')
     const videos = [...el.querySelectorAll<HTMLVideoElement>('video.faixa-video')]
     const naJanela = new Set<HTMLVideoElement>()
@@ -97,8 +102,11 @@ function Faixa({ fotos }: { fotos: FotoDaFaixa[] }) {
     const acertarVideos = () => {
       for (const v of videos) {
         if (tocando && naJanela.has(v)) {
+          if (!v.getAttribute('src')) {
+            const fonte = v.dataset.src
+            if (fonte) v.setAttribute('src', fonte)
+          }
           if (v.paused) {
-            v.preload = 'auto'
             // Um play() recusado (política de autoplay, formato, rede) deixa
             // o cartaz no lugar: o cartão nunca fica vazio.
             void v.play().catch(() => {})
@@ -121,7 +129,7 @@ function Faixa({ fotos }: { fotos: FotoDaFaixa[] }) {
           }
           acertarVideos()
         },
-        { root: area, rootMargin: '0px 320px' }
+        { root: area, rootMargin: '0px 80px' }
       )
       for (const v of videos) observadorVideo.observe(v)
     }
@@ -240,7 +248,7 @@ function Faixa({ fotos }: { fotos: FotoDaFaixa[] }) {
                   {foto.video && (
                     <video
                       className="faixa-video"
-                      src={foto.video}
+                      data-src={foto.video}
                       muted
                       loop
                       playsInline
