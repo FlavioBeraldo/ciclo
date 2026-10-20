@@ -43,6 +43,12 @@ export interface FotoDaFaixa {
   alt: string
   /** `object-position` do recorte. Padrão: centro. */
   foco?: string
+  /**
+   * Vídeo da mesma cena, opcional. Quando existe, o cartão toca o vídeo e a
+   * imagem de cima vira o cartaz: é ela que aparece antes de o vídeo chegar,
+   * se o vídeo falhar e sempre que o sistema pedir menos movimento.
+   */
+  video?: string
 }
 
 /**
@@ -53,34 +59,42 @@ export interface FotoDaFaixa {
 const UGC: FotoDaFaixa[] = [
   {
     arquivo: '/faixa/ugc/ugc.webp',
+    video: '/faixa/ugc/ugc.webm',
     alt: 'Criador de conteúdo gravando num píer de madeira à beira de um rio, no fim da tarde.',
   },
   {
     arquivo: '/faixa/ugc/ugc1.webp',
+    video: '/faixa/ugc/ugc1.webm',
     alt: 'Criadora falando para a câmera do celular dentro de casa, em plano de rosto e ombros.',
   },
   {
     arquivo: '/faixa/ugc/ugc2.webp',
+    video: '/faixa/ugc/ugc2.webm',
     alt: 'Criadora mostrando um frasco de cosmético ao lado do rosto, em luz natural.',
   },
   {
     arquivo: '/faixa/ugc/ugc3.webp',
+    video: '/faixa/ugc/ugc3.webm',
     alt: 'Criadora ao ar livre, agachada numa calçada, com um sachê de suplemento numa das mãos e um copo de água na outra.',
   },
   {
     arquivo: '/faixa/ugc/ugc4.webp',
+    video: '/faixa/ugc/ugc4.webm',
     alt: 'Close das mãos de uma criadora partindo um ovo de chocolate recheado diante da câmera.',
   },
   {
     arquivo: '/faixa/ugc/ugc5.webp',
+    video: '/faixa/ugc/ugc5.webm',
     alt: 'Criadora sorrindo com três barras de proteína em leque nas mãos.',
   },
   {
     arquivo: '/faixa/ugc/ugc6.webp',
+    video: '/faixa/ugc/ugc6.webm',
     alt: 'Criadora de vestido longo azul num provador de loja, em plano inteiro.',
   },
   {
     arquivo: '/faixa/ugc/ugc7.webp',
+    video: '/faixa/ugc/ugc7.webm',
     alt: 'Câmera de ação montada em tripé com microfone e luz, pronta para a gravação.',
   },
 ]
@@ -96,26 +110,32 @@ export const FAIXA_POR_SERVICO: Record<string, FotoDaFaixa[]> = {
   'creative-strategy': [
     {
       arquivo: '/faixa/creative-strategy/estrategiacriativa1.webp',
+      video: '/faixa/creative-strategy/estrategiacriativa1.webm',
       alt: 'Celular erguido à frente de uma modelo, enquadrando o rosto dela na tela enquanto o corpo aparece atrás.',
     },
     {
       arquivo: '/faixa/creative-strategy/estrategiacriativa2.webp',
+      video: '/faixa/creative-strategy/estrategiacriativa2.webm',
       alt: 'Página de produtos de um e-commerce projetada em tamanho grande sobre a fachada de uma loja, com uma cliente passando em frente.',
     },
     {
       arquivo: '/faixa/creative-strategy/estrategiacriativa3.webp',
+      video: '/faixa/creative-strategy/estrategiacriativa3.webm',
       alt: 'Tela dividida numa cozinha, comparando duas rotinas lado a lado.',
     },
     {
       arquivo: '/faixa/creative-strategy/estrategiacriativa4.webp',
+      video: '/faixa/creative-strategy/estrategiacriativa4.webm',
       alt: 'Criador numa cozinha mostrando para a câmera um pacote de snack de carne.',
     },
     {
       arquivo: '/faixa/creative-strategy/estrategiacriative5.webp',
+      video: '/faixa/creative-strategy/estrategiacriative5.webm',
       alt: 'Modelo agachada ao lado de uma bolsa caída, com os produtos de beleza espalhados pelo chão.',
     },
     {
       arquivo: '/faixa/creative-strategy/estrategiacriativa08.webp',
+      video: '/faixa/creative-strategy/estrategiacriativa08.webm',
       alt: 'Mão segurando uma câmera de ação diante de uma fotografia em preto e branco numa parede de galeria.',
     },
   ],
@@ -134,6 +154,11 @@ for (const [servico, fotos] of Object.entries(FAIXA_POR_SERVICO)) {
     if (!foto.alt || foto.alt.trim().length < 10) {
       throw new Error(
         `fotos-da-faixa: a foto "${foto.arquivo}" (${servico}) está sem alt descritivo.`
+      )
+    }
+    if (foto.video && !/^\/faixa\/[\w./-]+\.webm$/.test(foto.video)) {
+      throw new Error(
+        `fotos-da-faixa: "${foto.video}" (${servico}) precisa ser um .webm dentro de /faixa/.`
       )
     }
     if (vistos.has(foto.arquivo)) {

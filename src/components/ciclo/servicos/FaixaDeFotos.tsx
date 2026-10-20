@@ -80,15 +80,77 @@ function Faixa({ fotos }: { fotos: FotoDaFaixa[] }) {
     }
     window.addEventListener('resize', aoRedimensionar, { passive: true })
 
+    // ── Vídeos ──────────────────────────────────────────────────────────
+    // O endereço do vídeo NÃO está no `src` do HTML: fica guardado em
+    // `data-src` e só é anexado quando o cartão está prestes a aparecer.
+    // Sem `src` não existe pedido nenhum — é a única forma de o navegador
+    // não baixar os cartões que ainda estão longe.
+    //
+    // `preload="none"` sozinho não basta: ele só adia o primeiro pedido, e
+    // o endereço continua no documento. Sem `src` não há o que adiar.
+    //
+    // O que desce é fatia, não arquivo: as respostas de vídeo são 206, e o
+    // navegador para de puxar quando o vídeo pausa.
+    //
+    // Por isso a janela é curta: a área visível mais 80px de cada lado. É o
+    // suficiente para o vídeo já estar rodando quando o cartão entra, sem
+    // acordar meia faixa de uma vez.
+    const semMovimento = window.matchMedia('(prefers-reduced-motion: reduce)')
+    const videos = [...el.querySelectorAll<HTMLVideoElement>('video.faixa-video')]
+    const naJanela = new Set<HTMLVideoElement>()
+    let tocando = false
+    const acertarVideos = () => {
+      for (const v of videos) {
+        if (tocando && naJanela.has(v)) {
+          if (!v.getAttribute('src')) {
+            const fonte = v.dataset.src
+            if (fonte) v.setAttribute('src', fonte)
+          }
+          if (v.paused) {
+            // Um play() recusado (política de autoplay, formato, rede) deixa
+            // o cartaz no lugar: o cartão nunca fica vazio.
+            void v.play().catch(() => {})
+          }
+        } else if (!v.paused) {
+          v.pause()
+        }
+      }
+    }
+
+    let observadorVideo: IntersectionObserver | undefined
+    const area = el.querySelector('.faixa-viewport')
+    if (videos.length && area && typeof IntersectionObserver !== 'undefined') {
+      observadorVideo = new IntersectionObserver(
+        (entradas) => {
+          for (const e of entradas) {
+            const v = e.target as HTMLVideoElement
+            if (e.isIntersecting) naJanela.add(v)
+            else naJanela.delete(v)
+          }
+          acertarVideos()
+        },
+        { root: area, rootMargin: '0px 80px' }
+      )
+      for (const v of videos) observadorVideo.observe(v)
+    }
+
     // ── Pausas ──────────────────────────────────────────────────────────
     // Dois motivos aqui; a faixa só anda quando nenhum dos dois vale.
-    // Ponteiro e foco são do CSS, que já os enxerga sozinho.
+    // Ponteiro e foco são do CSS, que já os enxerga sozinho. O vídeo não
+    // para no ponteiro: quem passa o mouse quer olhar a cena, e é só o
+    // deslocamento que atrapalha.
     let emCena = false
     const aplicar = () => {
-      el.dataset.rodando = emCena && !document.hidden ? 'sim' : 'nao'
+      const rodando = emCena && !document.hidden
+      el.dataset.rodando = rodando ? 'sim' : 'nao'
+      // Com `prefers-reduced-motion` o vídeo nem aparece: o CSS o esconde e
+      // fica só o cartaz. Então também não há por que tocá-lo.
+      tocando = rodando && !semMovimento.matches
+      acertarVideos()
     }
 
     const aoTrocarAba = () => aplicar()
+    semMovimento.addEventListener('change', aplicar)
     document.addEventListener('visibilitychange', aoTrocarAba)
 
     // ── Fotos de fora da área visível ───────────────────────────────────
@@ -138,8 +200,11 @@ function Faixa({ fotos }: { fotos: FotoDaFaixa[] }) {
 
     return () => {
       observador?.disconnect()
+      observadorVideo?.disconnect()
+      for (const v of videos) v.pause()
       window.removeEventListener('resize', aoRedimensionar)
       document.removeEventListener('visibilitychange', aoTrocarAba)
+      semMovimento.removeEventListener('change', aplicar)
       if (pedido) cancelAnimationFrame(pedido)
       if (ocioso && window.cancelIdleCallback) window.cancelIdleCallback(ocioso)
     }
@@ -164,6 +229,11 @@ function Faixa({ fotos }: { fotos: FotoDaFaixa[] }) {
                   key={`${copia}-${foto.arquivo}`}
                   aria-hidden={clone || undefined}
                 >
+                  {/* O cartaz. Fica atrás do vídeo e é o que se vê antes de
+                      ele chegar, se ele falhar e quando o sistema pede menos
+                      movimento. É a mesma imagem de sempre, servida no
+                      tamanho do cartão — mais leve que o atributo `poster`,
+                      que baixaria o arquivo inteiro. */}
                   <Image
                     src={foto.arquivo}
                     alt={clone ? '' : foto.alt}
@@ -174,6 +244,20 @@ function Faixa({ fotos }: { fotos: FotoDaFaixa[] }) {
                     loading={naFrente ? 'eager' : 'lazy'}
                     fetchPriority={naFrente ? undefined : 'low'}
                   />
+
+                  {foto.video && (
+                    <video
+                      className="faixa-video"
+                      data-src={foto.video}
+                      muted
+                      loop
+                      playsInline
+                      preload="none"
+                      style={{ objectPosition: foto.foco ?? '50% 50%' }}
+                      aria-hidden={clone || undefined}
+                      aria-label={clone ? undefined : foto.alt}
+                    />
+                  )}
                 </li>
               )
             })
