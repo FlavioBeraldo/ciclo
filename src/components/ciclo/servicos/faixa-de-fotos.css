@@ -15,10 +15,12 @@
  * rolar para ver o movimento.
  *
  * Quando a faixa NÃO anda: fora da tela, com a aba em segundo plano, sob o
- * ponteiro, com o foco dentro dela, com o botão de pausa acionado, e sempre
- * que o sistema pedir menos movimento. Nesse último caso ela vira uma régua
- * rolável na mão, sem as cópias, e o botão de pausa some — não há o que
- * pausar.
+ * ponteiro, com o foco dentro dela e sempre que o sistema pedir menos
+ * movimento. Nesse último caso ela vira uma régua rolável na mão, sem as
+ * cópias.
+ *
+ * Não há botão de pausar: o Flávio pediu que saísse em 20/10, e a faixa pausa
+ * sozinha nas situações acima.
  */
 
 .faixa-fotos {
@@ -106,8 +108,8 @@
 
 /* ── Pausas ────────────────────────────────────────────────────────────── */
 
-/* Fora de cena, aba em segundo plano e botão de pausa — tudo escrito pelo
-   componente no mesmo atributo. */
+/* Fora de cena e aba em segundo plano — os dois escritos pelo componente no
+   mesmo atributo. */
 .faixa-fotos[data-rodando='nao'] .faixa-trilho {
   animation-play-state: paused;
 }
@@ -129,31 +131,6 @@
   will-change: transform;
 }
 
-/* ── Botão de pausa ────────────────────────────────────────────────────── */
-
-/* Discreto: o tamanho e o sublinhado do `.textlink`, alinhado à direita da
-   faixa. Nasce escondido no HTML e só aparece quando o componente monta —
-   sem JavaScript ele não teria o que fazer. */
-.faixa-pausa {
-  display: block;
-  margin: 10px 0 0 auto;
-  border: 0;
-  background: none;
-  color: #72716d;
-  font-size: 11px;
-  line-height: 1;
-  padding: 10px 2px;
-  min-height: 36px;
-  cursor: pointer;
-  border-bottom: 1px solid currentColor;
-}
-.faixa-pausa:hover {
-  color: var(--ink);
-}
-.faixa-pausa[hidden] {
-  display: none;
-}
-
 /* ── Sem movimento ─────────────────────────────────────────────────────── */
 /* Depois de todas as regras acima, então vence sem precisar de `!important`.
    A faixa fica parada e rolável na mão, com uma cópia só das fotos. */
@@ -167,9 +144,6 @@
     will-change: auto;
   }
   .faixa-fotos .faixa-clone {
-    display: none;
-  }
-  .faixa-fotos .faixa-pausa {
     display: none;
   }
 }

@@ -8,16 +8,14 @@ import './faixa-de-fotos.css'
 /**
  * Faixa horizontal de fotos do hero, nas rotas de serviço configuradas em
  * `fotos-da-faixa.ts`. O desenho e o movimento estão no CSS ao lado — a
- * animação é contínua e roda sozinha. Aqui ficam só as quatro coisas que
+ * animação é contínua e roda sozinha. Aqui ficam só as três coisas que
  * dependem do navegador:
  *
  *   1. a duração, calculada da largura real de uma cópia do trilho, para a
  *      faixa andar na mesma velocidade em qualquer tela e em qualquer rota;
- *   2. as pausas que o CSS não enxerga: fora de cena, aba em segundo plano e
- *      o botão de pausar (as de ponteiro e foco são `:hover`/`:focus-within`);
- *   3. o botão em si, que nasce escondido e só aparece quando há JavaScript
- *      para fazê-lo funcionar;
- *   4. trazer as fotos que ainda estão fora da área visível antes de o
+ *   2. as duas pausas que o CSS não enxerga — fora de cena e aba em segundo
+ *      plano. As de ponteiro e foco são `:hover` e `:focus-within`, no CSS;
+ *   3. trazer as fotos que ainda estão fora da área visível antes de o
  *      movimento alcançá-las, para não aparecer cartão vazio.
  *
  * Tudo isso acontece num efeito só, escrevendo direto no DOM: a faixa não
@@ -56,13 +54,11 @@ const COPIAS = 3
 function Faixa({ fotos }: { fotos: FotoDaFaixa[] }) {
   const raiz = useRef<HTMLDivElement>(null)
   const trilho = useRef<HTMLUListElement>(null)
-  const botao = useRef<HTMLButtonElement>(null)
 
   useEffect(() => {
     const el = raiz.current
     const via = trilho.current
-    const botaoPausa = botao.current
-    if (!el || !via || !botaoPausa) return
+    if (!el || !via) return
 
     // ── Duração ─────────────────────────────────────────────────────────
     let medida = 0
@@ -85,28 +81,12 @@ function Faixa({ fotos }: { fotos: FotoDaFaixa[] }) {
     window.addEventListener('resize', aoRedimensionar, { passive: true })
 
     // ── Pausas ──────────────────────────────────────────────────────────
-    // Três motivos independentes; a faixa só anda quando nenhum deles vale.
+    // Dois motivos aqui; a faixa só anda quando nenhum dos dois vale.
     // Ponteiro e foco são do CSS, que já os enxerga sozinho.
     let emCena = false
-    let pausadoPeloUsuario = false
     const aplicar = () => {
-      const rodando = emCena && !pausadoPeloUsuario && !document.hidden
-      el.dataset.rodando = rodando ? 'sim' : 'nao'
-      botaoPausa.textContent = pausadoPeloUsuario ? 'Retomar' : 'Pausar'
-      botaoPausa.setAttribute(
-        'aria-label',
-        pausadoPeloUsuario
-          ? 'Retomar o movimento da faixa de fotos'
-          : 'Pausar o movimento da faixa de fotos'
-      )
+      el.dataset.rodando = emCena && !document.hidden ? 'sim' : 'nao'
     }
-
-    const aoClicar = () => {
-      pausadoPeloUsuario = !pausadoPeloUsuario
-      aplicar()
-    }
-    botaoPausa.addEventListener('click', aoClicar)
-    botaoPausa.hidden = false
 
     const aoTrocarAba = () => aplicar()
     document.addEventListener('visibilitychange', aoTrocarAba)
@@ -160,7 +140,6 @@ function Faixa({ fotos }: { fotos: FotoDaFaixa[] }) {
       observador?.disconnect()
       window.removeEventListener('resize', aoRedimensionar)
       document.removeEventListener('visibilitychange', aoTrocarAba)
-      botaoPausa.removeEventListener('click', aoClicar)
       if (pedido) cancelAnimationFrame(pedido)
       if (ocioso && window.cancelIdleCallback) window.cancelIdleCallback(ocioso)
     }
@@ -201,10 +180,6 @@ function Faixa({ fotos }: { fotos: FotoDaFaixa[] }) {
           )}
         </ul>
       </div>
-
-      <button className="faixa-pausa" type="button" ref={botao} hidden>
-        Pausar
-      </button>
     </div>
   )
 }
