@@ -32,7 +32,7 @@ export default function FaixaDeFotos({ slug }: { slug: string }) {
  * do `faixa-de-fotos.css`. Se a largura do cartão mudar lá, muda aqui junto —
  * é o que impede o navegador de baixar uma imagem maior do que a necessária.
  */
-const TAMANHOS = '(max-width: 760px) 62vw, (max-width: 1400px) 30vw, 420px'
+const TAMANHOS = '(max-width: 760px) 34vw, (max-width: 1400px) 15vw, 210px'
 
 /** Quantos cartões já estão na tela quando a faixa está no alto da página. */
 const CARTOES_DA_FRENTE = 2
@@ -85,8 +85,8 @@ function Faixa({ fotos }: { fotos: FotoDaFaixa[] }) {
       const janela = window.innerHeight || document.documentElement.clientHeight
       // Mesmo intervalo do `animation-range: contain` do caminho em CSS: 0
       // quando a faixa acaba de caber inteira na tela, 1 quando começa a
-      // sair por cima. Se ela for mais alta que a janela — não é o caso com
-      // 4:3, mas pode ser numa janela muito baixa —, vale o percurso todo.
+      // sair por cima. Se ela for mais alta que a janela — cartão 9:16 numa
+      // janela baixa chega perto disso —, vale o percurso completo.
       const folga = janela - area.height
       const bruto =
         folga > 0 ? (folga - area.top) / folga : (janela - area.top) / (janela + area.height)
@@ -169,7 +169,6 @@ function Faixa({ fotos }: { fotos: FotoDaFaixa[] }) {
                   alt={foto.alt}
                   fill
                   sizes={TAMANHOS}
-                  quality={72}
                   className="faixa-imagem"
                   style={{ objectPosition: foto.foco ?? '50% 50%' }}
                   loading={naFrente ? 'eager' : 'lazy'}

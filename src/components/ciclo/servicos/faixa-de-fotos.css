@@ -51,14 +51,19 @@
 }
 
 /* Todos os cartões têm a mesma proporção e a mesma largura, em qualquer
-   tela. A proporção é do cartão, não do arquivo: a foto é recortada por
-   `object-fit: cover`, nunca esticada. O `aspect-ratio` reserva a altura
-   antes de a imagem chegar — é o que mantém o CLS em zero. */
+   tela. A proporção é a nativa dos arquivos, 9:16: os 14 originais são
+   verticais, e um cartão 4:3 cortaria dois terços da altura — rosto, produto
+   e legenda junto. Como cartão e arquivo têm a mesma proporção, o
+   `object-fit: cover` não chega a cortar nada; `object-position` fica
+   disponível para o dia em que entrar uma foto de outra proporção.
+   O `aspect-ratio` reserva a altura antes de a imagem chegar — é o que
+   mantém o CLS em zero. E o cartão é estreito de propósito: a faixa
+   acompanha o hero sem roubar a cena dele. */
 .faixa-cartao {
   position: relative;
   flex: 0 0 auto;
-  width: clamp(200px, 62vw, 320px);
-  aspect-ratio: 4 / 3;
+  width: clamp(120px, 34vw, 160px);
+  aspect-ratio: 9 / 16;
   border-radius: 10px;
   overflow: hidden;
   /* Cor de espera do próprio cartão, no cinza do site. Não é placeholder de
@@ -69,7 +74,7 @@
 
 @media (min-width: 761px) {
   .faixa-cartao {
-    width: clamp(260px, 30vw, 420px);
+    width: clamp(170px, 15vw, 210px);
   }
 }
 
