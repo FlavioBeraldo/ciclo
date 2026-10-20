@@ -13,6 +13,7 @@ import { simboloExtraPorServico } from '@/components/ciclo/servicos/extras'
 import { getServicoBySlug, getAllServicoSlugs, getRelatedServicos } from '@/lib/servicos'
 import { CONTEXTO_CASES } from '@/lib/cases-conteudo'
 import CasesEmVideo from '@/components/ciclo/CasesEmVideo'
+import FaixaDeFotos from '@/components/ciclo/servicos/FaixaDeFotos'
 import { playfair2026 } from '@/components/ciclo/fonts'
 import '@/components/ciclo/base.css'
 import '@/components/ciclo/interiors.css'
@@ -173,6 +174,12 @@ export default async function ServicoPage({ params }: PageProps) {
                   <span>{servico.parentTitle}</span>
                 </div>
               </div>
+
+              {/* A faixa de fotos entra logo abaixo do texto do hero, e só
+                  nas rotas configuradas em
+                  @/components/ciclo/servicos/fotos-da-faixa. Sem foto na
+                  lista, não renderiza nada. */}
+              <FaixaDeFotos slug={servico.slug} />
 
               {/* "Resultados" só entra quando a seção existe: serviços sem
                   número publicado não renderizam esse bloco, e um item de
