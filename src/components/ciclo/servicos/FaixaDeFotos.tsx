@@ -7,13 +7,17 @@ import './faixa-de-fotos.css'
 
 /**
  * Faixa horizontal de fotos do hero, nas rotas de serviço configuradas em
- * `fotos-da-faixa.ts`. As regras do desenho e do movimento estão no CSS ao
- * lado; aqui ficam só as três coisas que dependem do navegador:
+ * `fotos-da-faixa.ts`. O desenho e o movimento estão no CSS ao lado — a
+ * animação é contínua e roda sozinha. Aqui ficam só as quatro coisas que
+ * dependem do navegador:
  *
- *   1. escolher o motor do movimento (animação de rolagem nativa do CSS ou,
- *      sem suporte, o fallback medido);
- *   2. ligar e desligar o trabalho conforme a faixa entra e sai de cena;
- *   3. trazer as fotos que ainda estão fora da área visível ANTES de o
+ *   1. a duração, calculada da largura real de uma cópia do trilho, para a
+ *      faixa andar na mesma velocidade em qualquer tela e em qualquer rota;
+ *   2. as pausas que o CSS não enxerga: fora de cena, aba em segundo plano e
+ *      o botão de pausar (as de ponteiro e foco são `:hover`/`:focus-within`);
+ *   3. o botão em si, que nasce escondido e só aparece quando há JavaScript
+ *      para fazê-lo funcionar;
+ *   4. trazer as fotos que ainda estão fora da área visível antes de o
  *      movimento alcançá-las, para não aparecer cartão vazio.
  *
  * Tudo isso acontece num efeito só, escrevendo direto no DOM: a faixa não
@@ -37,26 +41,75 @@ const TAMANHOS = '(max-width: 760px) 34vw, (max-width: 1400px) 15vw, 210px'
 /** Quantos cartões já estão na tela quando a faixa está no alto da página. */
 const CARTOES_DA_FRENTE = 2
 
+/**
+ * Velocidade do movimento, em pixels por segundo. 28px/s é cerca de um
+ * cartão a cada oito segundos: dá para ver a cena sem que a faixa pareça
+ * parada. A duração sai daqui e da largura medida — assim uma rota com seis
+ * fotos e outra com oito andam no mesmo ritmo, e o celular não fica mais
+ * rápido que o desktop só porque o cartão é menor.
+ */
+const PIXELS_POR_SEGUNDO = 28
+
+/** Quantas cópias da lista formam o trilho. Ver o comentário no CSS. */
+const COPIAS = 3
+
 function Faixa({ fotos }: { fotos: FotoDaFaixa[] }) {
   const raiz = useRef<HTMLDivElement>(null)
   const trilho = useRef<HTMLUListElement>(null)
+  const botao = useRef<HTMLButtonElement>(null)
 
   useEffect(() => {
     const el = raiz.current
     const via = trilho.current
-    if (!el || !via) return
+    const botaoPausa = botao.current
+    if (!el || !via || !botaoPausa) return
 
-    // O HTML já sai com data-motor="css": num navegador com
-    // `animation-timeline` e com o JavaScript desligado, o movimento
-    // funciona assim mesmo. Só quem não tem suporte cai para o medido.
-    const temTimeline =
-      typeof CSS !== 'undefined' &&
-      typeof CSS.supports === 'function' &&
-      CSS.supports('animation-timeline: view()')
-    const motor = temTimeline ? 'css' : 'js'
-    el.dataset.motor = motor
+    // ── Duração ─────────────────────────────────────────────────────────
+    let medida = 0
+    const medirDuracao = () => {
+      const umaCopia = via.scrollWidth / COPIAS
+      if (!umaCopia || Math.abs(umaCopia - medida) < 1) return
+      medida = umaCopia
+      via.style.setProperty('--faixa-duracao', `${(umaCopia / PIXELS_POR_SEGUNDO).toFixed(2)}s`)
+    }
+    medirDuracao()
 
-    const semMovimento = window.matchMedia('(prefers-reduced-motion: reduce)')
+    let pedido = 0
+    const aoRedimensionar = () => {
+      if (pedido) return
+      pedido = requestAnimationFrame(() => {
+        pedido = 0
+        medirDuracao()
+      })
+    }
+    window.addEventListener('resize', aoRedimensionar, { passive: true })
+
+    // ── Pausas ──────────────────────────────────────────────────────────
+    // Três motivos independentes; a faixa só anda quando nenhum deles vale.
+    // Ponteiro e foco são do CSS, que já os enxerga sozinho.
+    let emCena = false
+    let pausadoPeloUsuario = false
+    const aplicar = () => {
+      const rodando = emCena && !pausadoPeloUsuario && !document.hidden
+      el.dataset.rodando = rodando ? 'sim' : 'nao'
+      botaoPausa.textContent = pausadoPeloUsuario ? 'Retomar' : 'Pausar'
+      botaoPausa.setAttribute(
+        'aria-label',
+        pausadoPeloUsuario
+          ? 'Retomar o movimento da faixa de fotos'
+          : 'Pausar o movimento da faixa de fotos'
+      )
+    }
+
+    const aoClicar = () => {
+      pausadoPeloUsuario = !pausadoPeloUsuario
+      aplicar()
+    }
+    botaoPausa.addEventListener('click', aoClicar)
+    botaoPausa.hidden = false
+
+    const aoTrocarAba = () => aplicar()
+    document.addEventListener('visibilitychange', aoTrocarAba)
 
     // ── Fotos de fora da área visível ───────────────────────────────────
     // A troca é empurrada para o primeiro momento ocioso: as fotos que já
@@ -76,109 +129,82 @@ function Faixa({ fotos }: { fotos: FotoDaFaixa[] }) {
       ocioso = quando(carregarResto) as unknown as number
     }
 
-    // ── Fallback medido ─────────────────────────────────────────────────
-    let pedido = 0
-    let ligado = false
-    const medir = () => {
-      pedido = 0
-      const area = el.getBoundingClientRect()
-      const janela = window.innerHeight || document.documentElement.clientHeight
-      // Mesmo intervalo do `animation-range: contain` do caminho em CSS: 0
-      // quando a faixa acaba de caber inteira na tela, 1 quando começa a
-      // sair por cima. Se ela for mais alta que a janela — cartão 9:16 numa
-      // janela baixa chega perto disso —, vale o percurso completo.
-      const folga = janela - area.height
-      const bruto =
-        folga > 0 ? (folga - area.top) / folga : (janela - area.top) / (janela + area.height)
-      via.style.setProperty('--faixa-p', String(Math.min(1, Math.max(0, bruto))))
-    }
-    const aoRolar = () => {
-      if (!pedido) pedido = requestAnimationFrame(medir)
-    }
-    const ligar = () => {
-      if (ligado || motor !== 'js' || semMovimento.matches) return
-      ligado = true
-      medir()
-      window.addEventListener('scroll', aoRolar, { passive: true })
-      window.addEventListener('resize', aoRolar, { passive: true })
-    }
-    const desligar = () => {
-      if (!ligado) return
-      ligado = false
-      if (pedido) cancelAnimationFrame(pedido)
-      pedido = 0
-      window.removeEventListener('scroll', aoRolar)
-      window.removeEventListener('resize', aoRolar)
-    }
-    const aoTrocarPreferencia = () => {
-      if (semMovimento.matches) {
-        desligar()
-        via.style.removeProperty('--faixa-p')
-      } else if (el.dataset.visivel === 'sim') {
-        ligar()
-      }
-    }
-
     // ── Visibilidade ────────────────────────────────────────────────────
     let observador: IntersectionObserver | undefined
     if (typeof IntersectionObserver === 'undefined') {
+      emCena = true
       el.dataset.visivel = 'sim'
       carregarResto()
-      ligar()
+      aplicar()
     } else {
       observador = new IntersectionObserver(
         ([entrada]) => {
-          el.dataset.visivel = entrada.isIntersecting ? 'sim' : 'nao'
-          if (entrada.isIntersecting) {
+          emCena = entrada.isIntersecting
+          el.dataset.visivel = emCena ? 'sim' : 'nao'
+          if (emCena) {
             agendarCarga()
-            ligar()
-          } else {
-            desligar()
+            medirDuracao()
           }
+          aplicar()
         },
         { rootMargin: '200px 0px' }
       )
       observador.observe(el)
+      // Até o observador responder, a faixa fica parada — é o "só começa ao
+      // entrar em cena". O HTML sai com `data-rodando="sim"` para quem não
+      // tem JavaScript continuar vendo o movimento.
+      aplicar()
     }
-    semMovimento.addEventListener('change', aoTrocarPreferencia)
 
     return () => {
       observador?.disconnect()
-      semMovimento.removeEventListener('change', aoTrocarPreferencia)
-      desligar()
+      window.removeEventListener('resize', aoRedimensionar)
+      document.removeEventListener('visibilitychange', aoTrocarAba)
+      botaoPausa.removeEventListener('click', aoClicar)
+      if (pedido) cancelAnimationFrame(pedido)
       if (ocioso && window.cancelIdleCallback) window.cancelIdleCallback(ocioso)
     }
   }, [])
 
+  // Três cópias da mesma lista. A primeira é a que vale para quem lê a
+  // página; as outras existem só para o laço fechar sem emenda, e por isso
+  // são `aria-hidden` e têm `alt` vazio.
+  const copias = Array.from({ length: COPIAS }, (_, i) => i)
+
   return (
-    <div className="faixa-fotos" ref={raiz} data-motor="css" data-visivel="nao">
+    <div className="faixa-fotos" ref={raiz} data-rodando="sim" data-visivel="nao">
       <div className="faixa-viewport">
         <ul className="faixa-trilho" ref={trilho}>
-          {fotos.map((foto, indice) => {
-            // Os primeiros cartões são os que já estão na tela quando a faixa
-            // está no alto da página — num monitor largo o primeiro deles é
-            // grande o bastante para ser o próprio elemento de LCP. Segurá-lo
-            // em prioridade baixa só atrasaria a maior pintura, então esses
-            // vão em prioridade normal. Nenhuma foto da faixa é preload, e o
-            // resto carrega em prioridade baixa.
-            const naFrente = indice < CARTOES_DA_FRENTE
-            return (
-              <li className="faixa-cartao" key={foto.arquivo}>
-                <Image
-                  src={foto.arquivo}
-                  alt={foto.alt}
-                  fill
-                  sizes={TAMANHOS}
-                  className="faixa-imagem"
-                  style={{ objectPosition: foto.foco ?? '50% 50%' }}
-                  loading={naFrente ? 'eager' : 'lazy'}
-                  fetchPriority={naFrente ? undefined : 'low'}
-                />
-              </li>
-            )
-          })}
+          {copias.map((copia) =>
+            fotos.map((foto, indice) => {
+              const clone = copia > 0
+              const naFrente = !clone && indice < CARTOES_DA_FRENTE
+              return (
+                <li
+                  className={clone ? 'faixa-cartao faixa-clone' : 'faixa-cartao'}
+                  key={`${copia}-${foto.arquivo}`}
+                  aria-hidden={clone || undefined}
+                >
+                  <Image
+                    src={foto.arquivo}
+                    alt={clone ? '' : foto.alt}
+                    fill
+                    sizes={TAMANHOS}
+                    className="faixa-imagem"
+                    style={{ objectPosition: foto.foco ?? '50% 50%' }}
+                    loading={naFrente ? 'eager' : 'lazy'}
+                    fetchPriority={naFrente ? undefined : 'low'}
+                  />
+                </li>
+              )
+            })
+          )}
         </ul>
       </div>
+
+      <button className="faixa-pausa" type="button" ref={botao} hidden>
+        Pausar
+      </button>
     </div>
   )
 }

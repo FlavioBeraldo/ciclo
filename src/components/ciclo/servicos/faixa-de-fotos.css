@@ -5,34 +5,33 @@
  * internas e estão no contrato de "nenhum byte diferente da base" do passo 25
  * da suite.
  *
- * O movimento acompanha a rolagem da página, não o tempo: descendo, o trilho
- * desliza da direita para a esquerda; subindo, volta. Não há autoplay, não há
- * troca de slide e a rolagem vertical nunca é capturada.
+ * O movimento é automático e contínuo, da direita para a esquerda, em laço
+ * sem emenda. Só transform, numa animação de CSS — sem biblioteca, sem
+ * JavaScript por quadro, sem troca de slide.
  *
- * Três estados possíveis, nesta ordem de preferência:
+ * A versão anterior prendia o deslocamento à rolagem da página. Saiu: duas
+ * animações disputando o mesmo `transform` não somam, uma sobrescreve a
+ * outra. Agora a faixa anda sozinha enquanto está em cena — não é preciso
+ * rolar para ver o movimento.
  *
- *   1. `data-motor="css"` + suporte a `animation-timeline` → animação de
- *      rolagem nativa, fora da thread principal, sem nenhum JavaScript por
- *      quadro. É o caminho da maioria dos navegadores atuais.
- *   2. `data-motor="js"` → o componente mede a posição e escreve `--faixa-p`
- *      (0 a 1) num rAF. Só enquanto a faixa está perto da tela.
- *   3. Sem JavaScript e sem suporte, ou com `prefers-reduced-motion` →
- *      nenhuma animação e o trilho vira uma régua rolável na mão, para as
- *      fotos continuarem alcançáveis.
+ * Quando a faixa NÃO anda: fora da tela, com a aba em segundo plano, sob o
+ * ponteiro, com o foco dentro dela, com o botão de pausa acionado, e sempre
+ * que o sistema pedir menos movimento. Nesse último caso ela vira uma régua
+ * rolável na mão, sem as cópias, e o botão de pausa some — não há o que
+ * pausar.
  */
 
 .faixa-fotos {
+  position: relative;
   margin-top: 44px;
   /* `clip` e não `hidden`: corta sem criar um contêiner de rolagem, então a
      faixa nunca alarga o documento nem inventa barra horizontal. */
   overflow-x: clip;
 }
 
-/* A largura visível da faixa. `container-type: inline-size` é o que dá
-   sentido ao `100cqw` usado no deslocamento mais abaixo. */
 .faixa-viewport {
-  container-type: inline-size;
-  overflow-x: auto;
+  overflow-x: clip;
+  overflow-y: visible;
   overscroll-behavior-x: contain;
   scrollbar-width: none;
   -ms-overflow-style: none;
@@ -41,13 +40,36 @@
   display: none;
 }
 
+/* O trilho tem três cópias idênticas da mesma lista, lado a lado, e a
+   animação desloca exatamente um terço dele — ou seja, uma cópia inteira. No
+   fim do ciclo o desenho é igual ao do começo, então o laço não tem emenda
+   visível.
+
+   Três e não duas: com duas cópias existe uma faixa de larguras de tela em
+   que uma cópia fica mais estreita que a área visível, e aí sobraria um vão
+   de poucos pixels no instante da volta. Com três, a conta fecha em qualquer
+   tela. As cópias repetem as MESMAS URLs — mesmo srcset, mesmo cache, nenhum
+   byte a mais — e são `aria-hidden`, então ninguém ouve a lista duas vezes.
+
+   O espaço entre cartões é `margin-right` em cada um, e não `gap` no trilho:
+   com `gap`, a última coluna de cada cópia não leva o espaço, as três cópias
+   deixam de ter a mesma largura e o terço exato deixa de bater. */
 .faixa-trilho {
   list-style: none;
   margin: 0;
   padding: 0;
   display: flex;
-  gap: 10px;
   width: max-content;
+  animation: faixa-desliza var(--faixa-duracao, 60s) linear infinite;
+}
+
+@keyframes faixa-desliza {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(calc(-100% / 3), 0, 0);
+  }
 }
 
 /* Todos os cartões têm a mesma proporção e a mesma largura, em qualquer
@@ -64,11 +86,11 @@
   flex: 0 0 auto;
   width: clamp(120px, 34vw, 160px);
   aspect-ratio: 9 / 16;
+  margin-right: 10px;
   border-radius: 10px;
   overflow: hidden;
   /* Cor de espera do próprio cartão, no cinza do site. Não é placeholder de
-     conteúdo: não vira moldura vazia publicada, porque sem foto na lista a
-     faixa inteira não é renderizada. */
+     conteúdo: sem foto na lista, a faixa inteira não é renderizada. */
   background: #e7e5e2;
 }
 
@@ -82,52 +104,24 @@
   object-fit: cover;
 }
 
-/* ── Movimento ─────────────────────────────────────────────────────────────
- *
- * O deslocamento é exatamente a sobra do trilho, e nada além dela:
- * `100cqw` é a largura visível e `100%` é a largura do próprio trilho, então
- * `100cqw - 100%` é a sobra, negativa. Quando o trilho cabe inteiro na tela
- * a conta fica positiva e o `min()` devolve 0 — faixa parada, sem gambiarra
- * de medição. */
-@keyframes faixa-desliza {
-  from {
-    transform: translate3d(0, 0, 0);
-  }
-  to {
-    transform: translate3d(min(0px, 100cqw - 100%), 0, 0);
-  }
+/* ── Pausas ────────────────────────────────────────────────────────────── */
+
+/* Fora de cena, aba em segundo plano e botão de pausa — tudo escrito pelo
+   componente no mesmo atributo. */
+.faixa-fotos[data-rodando='nao'] .faixa-trilho {
+  animation-play-state: paused;
 }
 
-/* `clip` e não `hidden`, e isto é o ponto todo: `overflow: hidden` faz da
-   faixa um contêiner de rolagem, e aí a `view()` passa a medir o percurso
-   dentro dela — que nunca rola — em vez de medir a página. O resultado é uma
-   animação congelada em 50%. `clip` corta igual sem criar contêiner de
-   rolagem, e a linha do tempo volta a ser a da página. */
-@supports (animation-timeline: view()) {
-  .faixa-fotos[data-motor='css'] .faixa-viewport {
-    overflow-x: clip;
-    overflow-y: visible;
-  }
-  .faixa-fotos[data-motor='css'] .faixa-trilho {
-    animation: faixa-desliza linear both;
-    animation-timeline: view();
-    /* `contain`: o percurso inteiro acontece enquanto a faixa está TODA na
-       tela. Com o intervalo padrão (`cover`) ela já aparece deslocada, porque
-       no topo da página uma parte dela já está visível — e boa parte do
-       movimento se gastaria fora de vista. Assim, no topo os cartões começam
-       alinhados à esquerda e o deslocamento acompanha a rolagem do hero. */
-    animation-range: contain;
-  }
+/* Foco dentro da faixa: quem navega pelo teclado não persegue um alvo que
+   anda. O ponteiro só pausa onde existe ponteiro de verdade — num celular,
+   `:hover` gruda depois do toque e a faixa ficaria parada à toa. */
+.faixa-fotos:focus-within .faixa-trilho {
+  animation-play-state: paused;
 }
-
-/* `data-motor="js"` só existe quando o componente montou e o navegador não
-   tem `animation-timeline` — por isso aqui pode cortar a rolagem na mão. */
-.faixa-fotos[data-motor='js'] .faixa-viewport {
-  overflow-x: clip;
-  overflow-y: visible;
-}
-.faixa-fotos[data-motor='js'] .faixa-trilho {
-  transform: translate3d(calc(var(--faixa-p, 0) * min(0px, 100cqw - 100%)), 0, 0);
+@media (hover: hover) {
+  .faixa-fotos:hover .faixa-trilho {
+    animation-play-state: paused;
+  }
 }
 
 /* A promoção a camada vale enquanto a faixa está em cena, não a página toda. */
@@ -135,16 +129,47 @@
   will-change: transform;
 }
 
-/* ── Sem movimento ─────────────────────────────────────────────────────────
- * Mesma especificidade das regras acima e depois delas no arquivo, então
- * vence. Volta para a régua rolável: as fotos continuam todas alcançáveis. */
+/* ── Botão de pausa ────────────────────────────────────────────────────── */
+
+/* Discreto: o tamanho e o sublinhado do `.textlink`, alinhado à direita da
+   faixa. Nasce escondido no HTML e só aparece quando o componente monta —
+   sem JavaScript ele não teria o que fazer. */
+.faixa-pausa {
+  display: block;
+  margin: 10px 0 0 auto;
+  border: 0;
+  background: none;
+  color: #72716d;
+  font-size: 11px;
+  line-height: 1;
+  padding: 10px 2px;
+  min-height: 36px;
+  cursor: pointer;
+  border-bottom: 1px solid currentColor;
+}
+.faixa-pausa:hover {
+  color: var(--ink);
+}
+.faixa-pausa[hidden] {
+  display: none;
+}
+
+/* ── Sem movimento ─────────────────────────────────────────────────────── */
+/* Depois de todas as regras acima, então vence sem precisar de `!important`.
+   A faixa fica parada e rolável na mão, com uma cópia só das fotos. */
 @media (prefers-reduced-motion: reduce) {
-  .faixa-fotos[data-motor] .faixa-viewport {
+  .faixa-fotos .faixa-viewport {
     overflow-x: auto;
   }
-  .faixa-fotos[data-motor] .faixa-trilho {
+  .faixa-fotos .faixa-trilho {
     animation: none;
     transform: none;
     will-change: auto;
+  }
+  .faixa-fotos .faixa-clone {
+    display: none;
+  }
+  .faixa-fotos .faixa-pausa {
+    display: none;
   }
 }
