@@ -113,7 +113,16 @@ const textos = [
   c.HERO.selo,
   c.HERO.ctaPrimario,
   c.HERO.ctaSecundario,
-  ...c.HERO.numeros.flatMap((n) => [n.valor, n.rotulo]),
+  // Os três números de mercado que abriam a página (40%, R$ 1,2 bi, R$ 39 bi)
+  // saíram em 21/10, substituídos pelo bloco "Nossos resultados" com os prints
+  // da Central do Vendedor. O que entra no lugar, aqui, é o que o bloco novo
+  // publica: o rótulo de cada print, o período e a nota de que são três telas
+  // da mesma operação.
+  c.RESULTADOS.eyebrow,
+  c.RESULTADOS.titulo,
+  c.RESULTADOS.nota,
+  c.RESULTADOS.periodo,
+  ...c.RESULTADOS.prints.map((p) => p.rotulo),
   ...c.PILARES.flatMap((p) => [p.titulo, p.texto]),
   ...c.FRENTES.flatMap((f) => [
     f.titulo,

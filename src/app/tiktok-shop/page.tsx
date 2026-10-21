@@ -6,6 +6,7 @@ import Breadcrumb from '@/components/ciclo/interior/Breadcrumb'
 import Faq from '@/components/ciclo/interior/Faq'
 import Frentes from '@/components/ciclo/tiktok/Frentes'
 import Roadmap from '@/components/ciclo/tiktok/Roadmap'
+import Resultados from '@/components/ciclo/tiktok/Resultados'
 import {
   HERO,
   PILARES,
@@ -195,15 +196,6 @@ export default function TikTokShopPage() {
                 </a>
               </div>
 
-              <div className="tts-hero-numeros">
-                {HERO.numeros.map((n) => (
-                  <div key={n.rotulo}>
-                    <strong>{n.valor}</strong>
-                    <span>{n.rotulo}</span>
-                  </div>
-                ))}
-              </div>
-
               <nav className="section-index" aria-label="Nesta página">
                 <a href="#ecossistema">O ecossistema</a>
                 <a href="#frentes">As quatro frentes</a>
@@ -213,6 +205,9 @@ export default function TikTokShopPage() {
               </nav>
             </div>
           </section>
+
+          {/* ── 1b. Nossos resultados: os prints da Central do Vendedor ── */}
+          <Resultados />
 
           {/* ── 2. Visão da operação integrada ── */}
           <section className="inner-section paper" id="ecossistema">
