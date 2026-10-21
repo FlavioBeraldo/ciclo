@@ -1,59 +1,25 @@
-'use client'
-
-import { useCallback, useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import { RESULTADOS } from './conteudo'
 
 // "Nossos resultados": os três prints da Central do Vendedor, logo depois do
 // hero, no lugar dos três números de mercado que abriam a página.
 //
-// Três cartões iguais, não um principal com miniaturas: os três prints têm
+// Figuras estáticas, e nada além disso: sem botão, sem ampliação, sem data
+// no rodapé do cartão e sem nenhum JavaScript. Em 21/10 o Flávio viu a
+// prévia e pediu para tirar o clique e a legenda de data; com isso o
+// componente deixou de precisar de estado, de `<dialog>` e de 'use client',
+// e voltou a ser renderizado inteiro no servidor.
+//
+// Três molduras iguais, não uma principal com miniaturas: os três prints têm
 // proporções diferentes (1,45, 1,33 e 1,30), e eleger um deles como o grande
 // obrigaria a cortar os outros dois para encaixar na mesma moldura. Aqui a
 // moldura é a mesma e a imagem entra inteira, por `object-fit: contain` —
-// nenhum número fica fora do quadro.
-//
-// Para ler os valores de perto, cada cartão abre o print em tamanho grande
-// num `<dialog>` nativo: o Escape fecha, o foco fica preso dentro enquanto
-// estiver aberto e volta sozinho para o cartão que abriu, sem nenhuma linha
-// de JavaScript para isso. Clicar fora também fecha.
+// nenhum número fica fora do quadro, e nenhum pixel do print foi tocado.
 //
 // O primeiro print carrega junto com a página; os outros dois só quando se
 // aproximam da tela.
 
 export default function Resultados() {
-  const dialogo = useRef<HTMLDialogElement>(null)
-  const fechar = useRef<HTMLButtonElement>(null)
-  const [aberto, setAberto] = useState<number | null>(null)
-
-  const abrir = (i: number) => {
-    setAberto(i)
-    dialogo.current?.showModal()
-  }
-
-  const encerrar = useCallback(() => {
-    dialogo.current?.close()
-  }, [])
-
-  // O <dialog> já devolve o foco ao botão que o abriu; aqui só limpamos o
-  // estado quando ele fecha, seja pelo Escape, pelo botão ou pelo fundo.
-  useEffect(() => {
-    const el = dialogo.current
-    if (!el) return
-    const aoFechar = () => setAberto(null)
-    el.addEventListener('close', aoFechar)
-    return () => el.removeEventListener('close', aoFechar)
-  }, [])
-
-  // O foco vai para o botão de fechar quando o conteúdo já existe. Chamar
-  // `focus()` dentro do clique não funcionava: o quadro só é montado no
-  // render seguinte, e o foco acabava no próprio <dialog>.
-  useEffect(() => {
-    if (aberto !== null) fechar.current?.focus()
-  }, [aberto])
-
-  const atual = aberto === null ? null : RESULTADOS.prints[aberto]
-
   return (
     <section className="inner-section tts-resultados" aria-labelledby="resultados-titulo">
       <div className="wrap narrow">
@@ -71,7 +37,7 @@ export default function Resultados() {
         <ul className="tts-prints">
           {RESULTADOS.prints.map((p, i) => (
             <li key={p.arquivo}>
-              <button type="button" className="tts-print" onClick={() => abrir(i)}>
+              <figure className="tts-print">
                 <span className="tts-print-caixa">
                   <Image
                     src={p.arquivo}
@@ -85,52 +51,12 @@ export default function Resultados() {
                   />
                 </span>
 
-                <span className="tts-print-pe">
-                  <strong>{p.rotulo}</strong>
-                  <small>{RESULTADOS.periodo}</small>
-                  <span className="tts-ampliar" aria-hidden="true">
-                    Ampliar
-                  </span>
-                </span>
-              </button>
+                <figcaption className="tts-print-pe">{p.rotulo}</figcaption>
+              </figure>
             </li>
           ))}
         </ul>
       </div>
-
-      <dialog
-        className="tts-lupa"
-        ref={dialogo}
-        aria-label={atual ? `${atual.rotulo} — ${RESULTADOS.periodo}` : RESULTADOS.eyebrow}
-        onClick={(e) => {
-          // Só o clique no fundo fecha; dentro do quadro, não.
-          if (e.target === dialogo.current) encerrar()
-        }}
-      >
-        {atual && (
-          <div className="tts-lupa-quadro">
-            <div className="tts-lupa-topo">
-              <span>
-                <strong>{atual.rotulo}</strong>
-                <small>{RESULTADOS.periodo}</small>
-              </span>
-
-              <button type="button" className="tts-lupa-fechar" ref={fechar} onClick={encerrar}>
-                Fechar
-              </button>
-            </div>
-
-            <Image
-              src={atual.arquivo}
-              alt={atual.alt}
-              width={atual.largura}
-              height={atual.altura}
-              sizes="(max-width: 980px) 92vw, 900px"
-              className="tts-lupa-img"
-            />
-          </div>
-        )}
-      </dialog>
     </section>
   )
 }

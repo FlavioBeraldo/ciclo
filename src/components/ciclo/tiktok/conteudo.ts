@@ -36,6 +36,8 @@ export const HERO = {
 export const RESULTADOS = {
   eyebrow: 'Nossos resultados',
   titulo: 'Uma semana de operação, vista por dentro',
+  // Fica como registro do período que as descrições alternativas citam; não
+  // é mais escrito na página, desde que a legenda de data saiu dos cartões.
   periodo: '15 a 21 de outubro de 2026',
   nota:
     'Três telas da mesma operação, no mesmo período — recortes diferentes do ' +

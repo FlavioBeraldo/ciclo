@@ -433,21 +433,13 @@
   gap: 18px;
 }
 
+/* Figura estática: sem cursor, sem hover e sem nada que sugira clique. */
 .ciclo2026 .tts-print {
-  display: block;
-  width: 100%;
-  text-align: left;
-  padding: 0;
+  margin: 0;
   border: 1px solid var(--line);
   border-radius: 12px;
   background: #fff;
   overflow: hidden;
-  cursor: zoom-in;
-  transition: border-color 0.2s, transform 0.2s;
-}
-.ciclo2026 .tts-print:hover {
-  border-color: #b9a6c4;
-  transform: translateY(-2px);
 }
 
 .ciclo2026 .tts-print-caixa {
@@ -464,85 +456,12 @@
 }
 
 .ciclo2026 .tts-print-pe {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  align-items: baseline;
-  gap: 2px 12px;
   padding: 14px 16px 15px;
-}
-.ciclo2026 .tts-print-pe strong {
   font-size: 15px;
   font-weight: 500;
   letter-spacing: -0.02em;
 }
-.ciclo2026 .tts-print-pe small {
-  grid-column: 1;
-  font-size: 11px;
-  color: var(--muted);
-}
-.ciclo2026 .tts-ampliar {
-  grid-row: 1 / span 2;
-  grid-column: 2;
-  align-self: center;
-  font-size: 11px;
-  color: var(--muted);
-  border-bottom: 1px solid currentColor;
-  padding-bottom: 2px;
-}
-.ciclo2026 .tts-print:hover .tts-ampliar { color: var(--ink); }
-
-/* A ampliação. `<dialog>` nativo: Escape fecha, o foco fica preso dentro e
-   volta para o cartão que abriu, sem JavaScript para nada disso. */
-.ciclo2026 .tts-lupa {
-  width: min(960px, calc(100% - 32px));
-  max-height: 92vh;
-  padding: 0;
-  border: 1px solid #ccc;
-  border-radius: 14px;
-  background: #f7f6f3;
-  color: var(--ink);
-  overflow: auto;
-}
-.ciclo2026 .tts-lupa::backdrop {
-  background: #0009;
-  backdrop-filter: blur(5px);
-}
-.ciclo2026 .tts-lupa-quadro { padding: 18px; }
-.ciclo2026 .tts-lupa-topo {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  margin-bottom: 14px;
-}
-.ciclo2026 .tts-lupa-topo strong {
-  font-size: 15px;
-  font-weight: 500;
-  margin-right: 10px;
-}
-.ciclo2026 .tts-lupa-topo small {
-  font-size: 11px;
-  color: var(--muted);
-}
-.ciclo2026 .tts-lupa-fechar {
-  border: 0;
-  background: #e5e3df;
-  border-radius: 6px;
-  padding: 9px 13px;
-  font-size: 12px;
-  min-height: 38px;
-  cursor: pointer;
-}
-.ciclo2026 .tts-lupa-fechar:hover { background: #d8d5d0; }
-.ciclo2026 .tts-lupa-img {
-  width: 100%;
-  height: auto;
-  display: block;
-  border-radius: 8px;
-  background: #fff;
-}
 
 @media (max-width: 860px) {
   .ciclo2026 .tts-prints { grid-template-columns: 1fr; gap: 14px; }
-  .ciclo2026 .tts-lupa-quadro { padding: 14px; }
 }

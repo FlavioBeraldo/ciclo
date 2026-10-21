@@ -121,7 +121,10 @@ const textos = [
   c.RESULTADOS.eyebrow,
   c.RESULTADOS.titulo,
   c.RESULTADOS.nota,
-  c.RESULTADOS.periodo,
+  // O período saiu do rodapé dos cartões em 21/10, a pedido do Flávio, junto
+  // com a ampliação. Continua em `RESULTADOS.periodo` porque é dele que sai a
+  // data escrita nas descrições alternativas dos três prints; o que não há
+  // mais é legenda de data na página.
   ...c.RESULTADOS.prints.map((p) => p.rotulo),
   ...c.PILARES.flatMap((p) => [p.titulo, p.texto]),
   ...c.FRENTES.flatMap((f) => [
