@@ -182,9 +182,16 @@ for (const [rotulo, largura] of [['desktop', 1440], ['celular', 390]]) {
   // O diagrama tem texto de verdade, não imagem
   const frentes = await p.locator('.tts-frente').count()
   conferir(frentes === 4, `${rotulo}: as 4 frentes estão na página (${frentes})`)
+  // O núcleo do diagrama. Era `.tts-nucleo` no esquema branco; em 21/10 o
+  // bloco virou o painel escuro e o núcleo passou a ser `.tts-centro`. O que
+  // se exige continua sendo o mesmo: o centro do diagrama visível, com texto.
   conferir(
-    await p.locator('.tts-nucleo strong').first().isVisible(),
+    await p.locator('.tts-centro strong').first().isVisible(),
     `${rotulo}: o núcleo do diagrama está visível`
+  )
+  conferir(
+    (await p.locator('.tts-centro strong').first().innerText()).trim() === 'TikTok Shop',
+    `${rotulo}: o núcleo nomeia a operação`
   )
   conferir(
     (await p.locator('.tts-frente h3').allInnerTexts()).join(' ').includes('Afiliação e creators'),
@@ -195,7 +202,7 @@ for (const [rotulo, largura] of [['desktop', 1440], ['celular', 390]]) {
   if (largura === 390) {
     const miudo = await p.evaluate(() => {
       const ruins = []
-      for (const el of document.querySelectorAll('.tts-mapa *, .section-index a')) {
+      for (const el of document.querySelectorAll('.tts-painel *, .section-index a')) {
         const temTexto = [...el.childNodes].some(
           (n) => n.nodeType === 3 && n.textContent.trim().length > 0
         )
