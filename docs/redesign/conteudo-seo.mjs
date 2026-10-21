@@ -392,15 +392,35 @@ console.log('\n4. O que já existia continua lá, contra a base de Production')
       // Exceção autorizada em 19/10: nos dois templates de interior, o bloco de
       // indicadores foi SUBSTITUÍDO pelo de cases em vídeo, então ali há
       // remoção. Em todo o resto continua valendo só acréscimo.
+      //
+      // Exceção autorizada em 21/10: em tiktok/conteudo.ts os três números de
+      // mercado do topo (40%, R$ 1,2 bi, R$ 39 bi) foram SUBSTITUÍDOS pelo
+      // bloco "Nossos resultados", com os prints da Central do Vendedor. É a
+      // única remoção permitida nesse arquivo, e está conferida logo abaixo:
+      // o que saiu tem de ser exatamente essas quatro linhas.
+      const trocaDosNumeros = arq === 'src/components/ciclo/tiktok/conteudo.ts'
+      if (trocaDosNumeros) {
+        const esperadas = ['numeros: [', "valor: '40%'", "valor: 'R$ 1,2 bi'", "valor: 'R$ 39 bi'"]
+        const fora = removidas.filter((l) => !esperadas.some((e) => l.includes(e)))
+        conferir(
+          fora.length === 0,
+          `tiktok/conteudo.ts: só os três números do topo saíram (${removidas.length} linha(s), ${fora.length} fora do combinado)`
+        )
+        for (const l of fora) console.log('        REMOVIDO SEM AUTORIZAÇÃO: ' + l.trim().slice(0, 80))
+      }
       const trocaDoBloco =
         arq === 'src/app/servicos/[slug]/page.tsx' || arq === 'src/app/solucoes/[slug]/page.tsx'
+      // As duas remoções autorizadas, cada uma conferida pela sua própria
+      // regra: a troca do bloco de indicadores nos dois templates de interior
+      // e a troca dos três números do topo do TikTok Shop.
+      const remocaoAutorizada = trocaDoBloco || trocaDosNumeros
       conferir(
-        removidas.length === 0 || trocaDoBloco,
-        trocaDoBloco
+        removidas.length === 0 || remocaoAutorizada,
+        remocaoAutorizada
           ? `${arq.split('/').slice(-2).join('/')}: ${removidas.length} linha(s) removidas, na troca do bloco autorizada`
           : `${arq.split('/').slice(-2).join('/')}: só acréscimo, nenhuma linha removida (${removidas.length})`
       )
-      if (!trocaDoBloco)
+      if (!remocaoAutorizada)
         for (const l of removidas.slice(0, 4)) console.log('        removida: ' + l.slice(0, 90))
       // Mesmo na troca, o que sai tem de ser só o bloco de indicadores
       if (trocaDoBloco) {

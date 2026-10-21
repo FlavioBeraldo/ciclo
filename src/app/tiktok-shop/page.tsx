@@ -5,12 +5,13 @@ import Contato from '@/components/ciclo/Contato'
 import Breadcrumb from '@/components/ciclo/interior/Breadcrumb'
 import Faq from '@/components/ciclo/interior/Faq'
 import Frentes from '@/components/ciclo/tiktok/Frentes'
+import Roadmap from '@/components/ciclo/tiktok/Roadmap'
+import Resultados from '@/components/ciclo/tiktok/Resultados'
 import {
   HERO,
   PILARES,
   CONVERSAO,
   NUMEROS,
-  ROADMAP,
   FAQ,
   CTA_FINAL,
 } from '@/components/ciclo/tiktok/conteudo'
@@ -18,6 +19,10 @@ import { playfair2026 } from '@/components/ciclo/fonts'
 import '@/components/ciclo/base.css'
 import '@/components/ciclo/interiors.css'
 import '@/components/ciclo/tiktok.css'
+// Depois de tiktok.css de propósito: as regras do tratamento editorial
+// sobrepõem as antigas pela ordem, sem `!important` e sem tocar no arquivo
+// compartilhado.
+import '@/components/ciclo/tiktok/tiktok-editorial.css'
 import { Seta } from '@/components/ciclo/Seta'
 
 export const metadata: Metadata = {
@@ -191,15 +196,6 @@ export default function TikTokShopPage() {
                 </a>
               </div>
 
-              <div className="tts-hero-numeros">
-                {HERO.numeros.map((n) => (
-                  <div key={n.rotulo}>
-                    <strong>{n.valor}</strong>
-                    <span>{n.rotulo}</span>
-                  </div>
-                ))}
-              </div>
-
               <nav className="section-index" aria-label="Nesta página">
                 <a href="#ecossistema">O ecossistema</a>
                 <a href="#frentes">As quatro frentes</a>
@@ -209,6 +205,9 @@ export default function TikTokShopPage() {
               </nav>
             </div>
           </section>
+
+          {/* ── 1b. Nossos resultados: os prints da Central do Vendedor ── */}
+          <Resultados />
 
           {/* ── 2. Visão da operação integrada ── */}
           <section className="inner-section paper" id="ecossistema">
@@ -331,40 +330,8 @@ export default function TikTokShopPage() {
 
           <div className="section-fade dark-white" aria-hidden="true" />
 
-          {/* ── 4c. Roadmap ── */}
-          <section className="inner-section" id="roadmap">
-            <div className="wrap narrow">
-              <div className="inner-section-heading">
-                <div className="eyebrow">
-                  <span />
-                  {ROADMAP.eyebrow}
-                </div>
-
-                <h2>{ROADMAP.titulo}</h2>
-
-                <p className="tts-frentes-lead">{ROADMAP.lead}</p>
-              </div>
-
-              <ol className="tts-roadmap">
-                {ROADMAP.passos.map((p) => (
-                  <li key={p.numero}>
-                    <span className="step-number">{p.numero}</span>
-                    <div>
-                      <h3>{p.titulo}</h3>
-                      {p.texto && <p>{p.texto}</p>}
-                      {p.lista && (
-                        <ul className="tts-entregaveis">
-                          {p.lista.map((i) => (
-                            <li key={i}>{i}</li>
-                          ))}
-                        </ul>
-                      )}
-                    </div>
-                  </li>
-                ))}
-              </ol>
-            </div>
-          </section>
+          {/* ── 4c. Roadmap: implantação e operação contínua ── */}
+          <Roadmap />
 
           {/* ── 5. FAQ ── */}
           <Faq perguntas={FAQ} titulo="Perguntas sobre gestão de TikTok Shop" />

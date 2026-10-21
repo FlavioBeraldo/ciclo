@@ -14,10 +14,64 @@ export const HERO = {
     'da configuração à escala, cuidamos de tudo para você vender mais.',
   ctaPrimario: 'Quero acelerar minhas vendas',
   ctaSecundario: 'Entender como funciona',
-  numeros: [
-    { valor: '40%', rotulo: 'Taxa de conversão' },
-    { valor: 'R$ 1,2 bi', rotulo: 'GMV em 2025' },
-    { valor: 'R$ 39 bi', rotulo: 'Potencial até 2028' },
+}
+
+/**
+ * Os três prints da Central do Vendedor que o Flávio autorizou em 21/10, no
+ * lugar dos três números de mercado que abriam a página.
+ *
+ * Os três são a MESMA operação, no MESMO período: são três telas do mesmo
+ * painel, não três clientes. Por isso os valores não se somam, e a página diz
+ * isso em uma linha — sem essa frase, três cartões lado a lado se leem como
+ * três cases.
+ *
+ * Nenhum número foi digitado aqui: o que está escrito na página são os
+ * rótulos da própria ferramenta e o período. Os valores ficam onde sempre
+ * estiveram, dentro da imagem. A descrição alternativa repete o que a tela
+ * mostra, para quem não enxerga o print.
+ *
+ * As dimensões são as dos arquivos originais, conferidas na importação, e
+ * existem para o navegador reservar o espaço antes de a imagem chegar.
+ */
+export const RESULTADOS = {
+  eyebrow: 'Nossos resultados',
+  titulo: 'Uma semana de operação, vista por dentro',
+  // Fica como registro do período que as descrições alternativas citam; não
+  // é mais escrito na página, desde que a legenda de data saiu dos cartões.
+  periodo: '15 a 21 de outubro de 2026',
+  nota:
+    'Três telas da mesma operação, no mesmo período — recortes diferentes do ' +
+    'mesmo painel, não operações distintas.',
+  prints: [
+    {
+      arquivo: '/tiktok-resultados/case-tiktok-min.jpg',
+      largura: 1508,
+      altura: 1043,
+      rotulo: 'Visão geral',
+      alt:
+        'Central do Vendedor do TikTok Shop, aba Visão geral, período de 15 a 21 de outubro ' +
+        'de 2026: GMV de R$ 286.419,80, 3.189 SKUs pedidos e 2.415 compradores, com o ' +
+        'gráfico de GMV por dia.',
+    },
+    {
+      arquivo: '/tiktok-resultados/case-tiktok2-min.jpg',
+      largura: 1448,
+      altura: 1086,
+      rotulo: 'Vendas',
+      alt:
+        'Central do Vendedor do TikTok Shop, aba Vendas, mesmo período: vendas brutas de ' +
+        'R$ 319.842,70, GMV de R$ 286.419,80, 2.736 pedidos, 4.062 unidades vendidas, com a ' +
+        'distribuição entre LIVE, vídeo e cartão de produto.',
+    },
+    {
+      arquivo: '/tiktok-resultados/case-tiktkok3-min.jpg',
+      largura: 1429,
+      altura: 1100,
+      rotulo: 'Distribuição',
+      alt:
+        'Central do Vendedor do TikTok Shop, mesma visão de vendas do período, com o ' +
+        'gráfico de distribuição por dia da semana entre LIVE, vídeo e cartão de produto.',
+    },
   ],
 }
 

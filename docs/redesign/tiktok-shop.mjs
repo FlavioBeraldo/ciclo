@@ -113,7 +113,19 @@ const textos = [
   c.HERO.selo,
   c.HERO.ctaPrimario,
   c.HERO.ctaSecundario,
-  ...c.HERO.numeros.flatMap((n) => [n.valor, n.rotulo]),
+  // Os três números de mercado que abriam a página (40%, R$ 1,2 bi, R$ 39 bi)
+  // saíram em 21/10, substituídos pelo bloco "Nossos resultados" com os prints
+  // da Central do Vendedor. O que entra no lugar, aqui, é o que o bloco novo
+  // publica: o rótulo de cada print, o período e a nota de que são três telas
+  // da mesma operação.
+  c.RESULTADOS.eyebrow,
+  c.RESULTADOS.titulo,
+  c.RESULTADOS.nota,
+  // O período saiu do rodapé dos cartões em 21/10, a pedido do Flávio, junto
+  // com a ampliação. Continua em `RESULTADOS.periodo` porque é dele que sai a
+  // data escrita nas descrições alternativas dos três prints; o que não há
+  // mais é legenda de data na página.
+  ...c.RESULTADOS.prints.map((p) => p.rotulo),
   ...c.PILARES.flatMap((p) => [p.titulo, p.texto]),
   ...c.FRENTES.flatMap((f) => [
     f.titulo,
@@ -182,9 +194,16 @@ for (const [rotulo, largura] of [['desktop', 1440], ['celular', 390]]) {
   // O diagrama tem texto de verdade, não imagem
   const frentes = await p.locator('.tts-frente').count()
   conferir(frentes === 4, `${rotulo}: as 4 frentes estão na página (${frentes})`)
+  // O núcleo do diagrama. Era `.tts-nucleo` no esquema branco; em 21/10 o
+  // bloco virou o painel escuro e o núcleo passou a ser `.tts-centro`. O que
+  // se exige continua sendo o mesmo: o centro do diagrama visível, com texto.
   conferir(
-    await p.locator('.tts-nucleo strong').first().isVisible(),
+    await p.locator('.tts-centro strong').first().isVisible(),
     `${rotulo}: o núcleo do diagrama está visível`
+  )
+  conferir(
+    (await p.locator('.tts-centro strong').first().innerText()).trim() === 'TikTok Shop',
+    `${rotulo}: o núcleo nomeia a operação`
   )
   conferir(
     (await p.locator('.tts-frente h3').allInnerTexts()).join(' ').includes('Afiliação e creators'),
@@ -195,7 +214,7 @@ for (const [rotulo, largura] of [['desktop', 1440], ['celular', 390]]) {
   if (largura === 390) {
     const miudo = await p.evaluate(() => {
       const ruins = []
-      for (const el of document.querySelectorAll('.tts-mapa *, .section-index a')) {
+      for (const el of document.querySelectorAll('.tts-painel *, .section-index a')) {
         const temTexto = [...el.childNodes].some(
           (n) => n.nodeType === 3 && n.textContent.trim().length > 0
         )

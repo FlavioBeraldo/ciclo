@@ -1,4 +1,5 @@
 import { FRENTES } from './conteudo'
+import { IconeFrente, MiniIlustracao } from './ilustracoes'
 
 // A operação de TikTok Shop em dois tempos, como a auditoria pediu.
 //
@@ -12,8 +13,14 @@ import { FRENTES } from './conteudo'
 // nomes dos serviços, que já são o conteúdo do bloco — serve de índice.
 //
 // O texto é HTML de verdade: selecionável, pesquisável e lido na ordem certa.
-// O SVG entra só nos traços que ligam o centro às frentes, e é decorativo.
-// No celular tudo empilha numa coluna, sem traço e sem texto miúdo.
+// O SVG entra só nos traços e nos anéis, que são decorativos. No celular tudo
+// empilha numa coluna, sem traço e sem texto miúdo.
+//
+// A visão geral era um esquema branco genérico. Virou um painel escuro, na
+// mesma linguagem do bloco "Nossa tese" da home: fundo #111, anéis finos em
+// elipse, um ponto de luz roxo e tipografia Inter com o itálico da Playfair
+// só no nome do núcleo. Os rótulos, os números, os links e os destinos são
+// exatamente os de antes.
 
 export default function Frentes() {
   return (
@@ -34,28 +41,35 @@ export default function Frentes() {
           </p>
         </div>
 
-        {/* ── 1. Visão geral ── */}
-        <div className="tts-mapa">
-          <svg
-            className="tts-tracos"
-            viewBox="0 0 900 360"
-            preserveAspectRatio="none"
-            aria-hidden="true"
-          >
-            <line x1="270" y1="90" x2="450" y2="180" />
-            <line x1="630" y1="90" x2="450" y2="180" />
-            <line x1="270" y1="270" x2="450" y2="180" />
-            <line x1="630" y1="270" x2="450" y2="180" />
-          </svg>
+        {/* ── 1. Visão geral: painel escuro com as quatro frentes em órbita ── */}
+        <div className="tts-painel">
+          {/* A ligação entre as frentes e o núcleo são as próprias órbitas:
+              três elipses que saem de trás do núcleo e passam por dentro dos
+              quatro cartões, como no bloco "Nossa tese" da home.
 
-          <div className="tts-nucleo">
-            <span>Operação integrada</span>
+              Tentei antes fios de cada cartão até o centro. Em qualquer
+              largura eles cruzavam o nome "TikTok Shop", porque o nome ocupa
+              quase toda a faixa central — e desviar deles deixava os fios
+              rentes aos cartões, sem leitura. As órbitas resolvem o mesmo
+              sem passar por cima de texto nenhum. */}
+          <div className="tts-orbitas" aria-hidden="true">
+            <span className="tts-anel" />
+            <span className="tts-anel" />
+            <span className="tts-anel" />
+            <span className="tts-luz" />
+          </div>
+
+          <div className="tts-centro">
+            <small>Operação integrada</small>
             <strong>TikTok Shop</strong>
           </div>
 
           {FRENTES.map((f) => (
-            <a className={`tts-resumo tts-${f.id}`} href={`#${f.id}`} key={f.id}>
-              <span className="tts-numero">{f.numero}</span>
+            <a className={`tts-no tts-${f.id}`} href={`#${f.id}`} key={f.id}>
+              <span className="tts-no-topo">
+                <IconeFrente frente={f.id as never} />
+                <span className="tts-numero">{f.numero}</span>
+              </span>
               <strong>{f.titulo}</strong>
               <span className="tts-resumo-itens">
                 {f.servicos.map((s) => s.titulo).join(' · ')}
@@ -66,11 +80,23 @@ export default function Frentes() {
 
         {/* ── 2. Os blocos completos ── */}
         <div className="tts-detalhes">
-          {FRENTES.map((f) => (
-            <article className="tts-frente" key={f.id} id={f.id}>
+          {FRENTES.map((f, i) => (
+            <article
+              className={`tts-frente tts-frente-ed tts-ed-${i % 2 === 0 ? 'clara' : 'neutra'}`}
+              key={f.id}
+              id={f.id}
+            >
               <div className="tts-frente-topo">
-                <span className="tts-numero">{f.numero}</span>
-                <h3>{f.titulo}</h3>
+                <span className="tts-selo" aria-hidden="true">
+                  <IconeFrente frente={f.id as never} />
+                </span>
+
+                <div className="tts-frente-nome">
+                  <span className="tts-numero">Frente {f.numero}</span>
+                  <h3>{f.titulo}</h3>
+                </div>
+
+                <MiniIlustracao frente={f.id as never} />
               </div>
 
               {f.servicos.map((s) => (

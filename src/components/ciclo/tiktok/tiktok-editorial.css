@@ -1,0 +1,467 @@
+/* Tratamento editorial de /tiktok-shop: o diagrama das quatro frentes, os
+ * cartões de detalhe e o roadmap em duas fases.
+ *
+ * Arquivo próprio, importado só por essa página. `tiktok.css`, `base.css` e
+ * `interiors.css` são compartilhados e estão no contrato de "nenhum byte
+ * diferente da base" do passo 25 da suite — nada entra neles. As regras
+ * daqui vêm depois na ordem de importação, então sobrepõem as antigas sem
+ * precisar de `!important`.
+ *
+ * Nenhuma cor, fonte ou medida nova: tudo sai dos tokens do site (--ink,
+ * --muted, --line, --paper, --accent, --dark) e da Inter, com a Playfair em
+ * itálico só onde a home também usa — um acento, nunca um parágrafo.
+ */
+
+/* ───────────────────────────────────────────────────────────────────────────
+ * 1. Visão geral: painel escuro com as quatro frentes em órbita
+ *
+ * Mesma linguagem do bloco "Nossa tese" da home: fundo escuro, anéis finos em
+ * elipse, um ponto de luz roxo. O que era um esquema branco genérico vira o
+ * mesmo objeto visual que a marca já usa para explicar operação integrada.
+ * ─────────────────────────────────────────────────────────────────────────── */
+
+.ciclo2026 .tts-painel {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: 1fr minmax(190px, 240px) 1fr;
+  grid-template-rows: auto auto;
+  gap: 26px 40px;
+  align-items: center;
+  margin-bottom: 72px;
+  padding: 48px 44px;
+  border-radius: 14px;
+  background: var(--dark);
+  color: #f7f6f3;
+  overflow: hidden;
+}
+
+/* Os anéis. Três elipses giradas, como as da home, e um ponto de luz. */
+.ciclo2026 .tts-orbitas {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: min(560px, 62%);
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 0;
+}
+.ciclo2026 .tts-anel {
+  position: absolute;
+  inset: 0;
+  border: 1px solid #45433f;
+  opacity: 0.85;
+  border-radius: 50%;
+}
+.ciclo2026 .tts-anel:nth-child(1) {
+  transform: scaleX(0.62);
+}
+.ciclo2026 .tts-anel:nth-child(2) {
+  transform: rotate(60deg) scaleX(0.62);
+}
+.ciclo2026 .tts-anel:nth-child(3) {
+  transform: rotate(-60deg) scaleX(0.62);
+}
+.ciclo2026 .tts-luz {
+  position: absolute;
+  top: 29%;
+  left: 15%;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 18px #b400ff66;
+}
+
+.ciclo2026 .tts-centro {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 10px;
+}
+.ciclo2026 .tts-centro small {
+  display: block;
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  color: #a5a39e;
+  margin-bottom: 10px;
+}
+.ciclo2026 .tts-centro strong {
+  display: block;
+  font-family: var(--font-playfair), Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(26px, 3vw, 34px);
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
+/* Cada frente, resumida: ícone, número, nome e os serviços que ela reúne. */
+.ciclo2026 .tts-no {
+  position: relative;
+  z-index: 1;
+  display: block;
+  padding: 20px 22px;
+  border: 1px solid #3a3835;
+  border-radius: 12px;
+  background: #161615;
+  transition: border-color 0.2s, background 0.2s, transform 0.2s;
+}
+.ciclo2026 .tts-no:hover {
+  border-color: #6d4a80;
+  background: #1a1719;
+  transform: translateY(-2px);
+}
+.ciclo2026 .tts-no-topo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  color: #cfcdc8;
+}
+.ciclo2026 .tts-no .tts-numero {
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  color: #8d8a85;
+}
+.ciclo2026 .tts-no strong {
+  display: block;
+  font-size: 17px;
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  margin: 12px 0 7px;
+  color: #f7f6f3;
+}
+.ciclo2026 .tts-no .tts-resumo-itens {
+  display: block;
+  font-size: 11px;
+  line-height: 1.6;
+  color: #a5a39e;
+}
+
+.ciclo2026 .tts-painel .tts-afiliacao-creators { grid-column: 1; grid-row: 1; }
+.ciclo2026 .tts-painel .tts-operacao-da-loja   { grid-column: 3; grid-row: 1; }
+.ciclo2026 .tts-painel .tts-conteudo-e-lives   { grid-column: 1; grid-row: 2; }
+.ciclo2026 .tts-painel .tts-midia              { grid-column: 3; grid-row: 2; }
+
+/* ───────────────────────────────────────────────────────────────────────────
+ * 2. Os quatro cartões de detalhe
+ *
+ * Antes eram quatro superfícies idênticas, distinguíveis só pelo título.
+ * Agora cada um tem selo com ícone próprio, a frente identificada acima do
+ * nome, uma mini-ilustração do mecanismo e superfície alternada. O roxo
+ * aparece uma vez por cartão, no traço de acento do desenho.
+ * ─────────────────────────────────────────────────────────────────────────── */
+
+.ciclo2026 .tts-frente-ed {
+  padding: 26px 26px 24px;
+  border-radius: 14px;
+}
+.ciclo2026 .tts-ed-clara {
+  background: #fff;
+  border-color: var(--line);
+}
+.ciclo2026 .tts-ed-neutra {
+  background: var(--paper);
+  border-color: #d2d1cd;
+}
+
+.ciclo2026 .tts-frente-ed .tts-frente-topo {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 14px;
+  padding-bottom: 18px;
+  margin-bottom: 4px;
+  border-bottom: 1px solid var(--line);
+}
+.ciclo2026 .tts-ed-neutra .tts-frente-topo { border-bottom-color: #d2d1cd; }
+
+.ciclo2026 .tts-selo {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: #fff;
+  color: var(--ink);
+}
+.ciclo2026 .tts-ed-neutra .tts-selo { border-color: #d2d1cd; }
+
+.ciclo2026 .tts-icone {
+  width: 22px;
+  height: 22px;
+  display: block;
+}
+.ciclo2026 .tts-acento { color: var(--accent); }
+
+.ciclo2026 .tts-frente-nome .tts-numero {
+  display: block;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 5px;
+}
+.ciclo2026 .tts-frente-ed h3 {
+  font-size: 21px;
+  margin: 0;
+}
+
+.ciclo2026 .tts-mini {
+  width: 132px;
+  height: 56px;
+  display: block;
+  color: #b6b3ae;
+  flex: 0 0 auto;
+}
+
+/* ───────────────────────────────────────────────────────────────────────────
+ * 4. Roadmap em duas fases
+ * ─────────────────────────────────────────────────────────────────────────── */
+
+.ciclo2026 .tts-fase + .tts-fase { margin-top: 56px; }
+
+.ciclo2026 .tts-fase-rotulo {
+  display: inline-block;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--line);
+  width: 100%;
+  margin-bottom: 26px;
+}
+
+/* As três etapas: uma sequência ligada, com começo e fim. */
+.ciclo2026 .tts-etapas {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+.ciclo2026 .tts-etapas li {
+  position: relative;
+  padding-top: 26px;
+}
+/* O trilho que liga as três, cortado no último para a fila ter fim. */
+.ciclo2026 .tts-etapa-marca {
+  position: absolute;
+  top: 4px;
+  left: 0;
+  right: -24px;
+  height: 1px;
+  background: var(--line);
+}
+.ciclo2026 .tts-etapas li:last-child .tts-etapa-marca { right: 0; }
+.ciclo2026 .tts-etapa-ponto {
+  position: absolute;
+  top: -3.5px;
+  left: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--ink);
+}
+.ciclo2026 .tts-etapas .tts-numero {
+  display: block;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+.ciclo2026 .tts-etapas h3 {
+  font-size: 19px;
+  margin: 0 0 10px;
+}
+.ciclo2026 .tts-etapas p {
+  font-size: 14px;
+  color: var(--muted);
+  margin: 0;
+}
+
+/* A rotina que não termina. */
+.ciclo2026 .tts-fase-continua {
+  padding: 30px 30px 18px;
+  border-radius: 14px;
+  background: var(--paper);
+}
+.ciclo2026 .tts-fase-continua .tts-fase-rotulo { border-bottom-color: #d2d1cd; }
+.ciclo2026 .tts-continua-topo {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 22px;
+}
+.ciclo2026 .tts-continua-topo .tts-numero {
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+.ciclo2026 .tts-continua-topo h3 { font-size: 21px; margin: 0; }
+
+.ciclo2026 .tts-ciclo {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+}
+.ciclo2026 .tts-ciclo-item {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 13px;
+  line-height: 1.4;
+  padding: 14px 15px;
+  border: 1px solid #d2d1cd;
+  border-radius: 10px;
+  background: #fff;
+}
+.ciclo2026 .tts-ciclo-ponto {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  flex: 0 0 auto;
+}
+/* A seta que volta do último item para o primeiro: é o que diz que a rotina
+   recomeça em vez de acabar. */
+.ciclo2026 .tts-ciclo-volta {
+  display: block;
+  width: 100%;
+  height: 34px;
+  margin-top: 4px;
+  fill: none;
+  stroke: #b9b7b2;
+  stroke-width: 1;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
+/* ───────────────────────────────────────────────────────────────────────────
+ * Celular: tudo em coluna, sem fio e sem texto miúdo
+ * ─────────────────────────────────────────────────────────────────────────── */
+
+@media (max-width: 860px) {
+  .ciclo2026 .tts-painel {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding: 30px 20px;
+  }
+  .ciclo2026 .tts-orbitas { width: min(300px, 78%); top: 92px; }
+  .ciclo2026 .tts-centro {
+    grid-column: 1;
+    grid-row: 1;
+    padding: 18px 0 26px;
+  }
+  .ciclo2026 .tts-painel .tts-afiliacao-creators,
+  .ciclo2026 .tts-painel .tts-operacao-da-loja,
+  .ciclo2026 .tts-painel .tts-conteudo-e-lives,
+  .ciclo2026 .tts-painel .tts-midia {
+    grid-column: 1;
+    grid-row: auto;
+  }
+
+  .ciclo2026 .tts-frente-ed { padding: 22px; }
+  .ciclo2026 .tts-frente-ed .tts-frente-topo {
+    grid-template-columns: auto 1fr;
+    row-gap: 16px;
+  }
+  /* A mini-ilustração passa para a linha de baixo, ocupando a largura toda. */
+  .ciclo2026 .tts-mini {
+    grid-column: 1 / -1;
+    width: 100%;
+    height: 52px;
+  }
+
+  .ciclo2026 .tts-etapas { grid-template-columns: 1fr; gap: 22px; }
+  .ciclo2026 .tts-etapas li { padding-top: 0; padding-left: 24px; }
+  /* No vertical o trilho vira uma linha à esquerda, e o último não a leva. */
+  .ciclo2026 .tts-etapa-marca {
+    top: 6px;
+    bottom: -22px;
+    left: 3px;
+    right: auto;
+    width: 1px;
+    height: auto;
+  }
+  .ciclo2026 .tts-etapas li:last-child .tts-etapa-marca { bottom: auto; height: 0; }
+  .ciclo2026 .tts-etapa-ponto { top: 0; left: -3.5px; }
+
+  .ciclo2026 .tts-fase-continua { padding: 22px 20px 14px; }
+  .ciclo2026 .tts-ciclo { grid-template-columns: 1fr; gap: 8px; }
+  .ciclo2026 .tts-ciclo-volta { height: 26px; }
+
+  /* Nada abaixo de 11px no celular. `tiktok.css` já sobe os rótulos de 10px,
+     mas as regras daqui são mais específicas e venceriam; então sobem
+     também, uma a uma. */
+  .ciclo2026 .tts-no .tts-numero,
+  .ciclo2026 .tts-centro small,
+  .ciclo2026 .tts-frente-nome .tts-numero,
+  .ciclo2026 .tts-etapas .tts-numero,
+  .ciclo2026 .tts-continua-topo .tts-numero,
+  .ciclo2026 .tts-fase-rotulo {
+    font-size: 11px;
+  }
+}
+
+/* ───────────────────────────────────────────────────────────────────────────
+ * 3. "Nossos resultados": os três prints da Central do Vendedor
+ *
+ * Moldura igual para os três, com a imagem inteira dentro — `contain`, nunca
+ * `cover`: recortar um painel de números é perder número. A proporção da
+ * moldura é 4/3, perto da média dos três arquivos, e o espaço fica reservado
+ * antes de a imagem chegar, então não há salto de layout.
+ * ─────────────────────────────────────────────────────────────────────────── */
+
+.ciclo2026 .tts-prints {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+/* Figura estática: sem cursor, sem hover e sem nada que sugira clique. */
+.ciclo2026 .tts-print {
+  margin: 0;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #fff;
+  overflow: hidden;
+}
+
+.ciclo2026 .tts-print-caixa {
+  display: block;
+  aspect-ratio: 4 / 3;
+  background: var(--paper);
+  border-bottom: 1px solid var(--line);
+}
+.ciclo2026 .tts-print-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.ciclo2026 .tts-print-pe {
+  padding: 14px 16px 15px;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+
+@media (max-width: 860px) {
+  .ciclo2026 .tts-prints { grid-template-columns: 1fr; gap: 14px; }
+}
