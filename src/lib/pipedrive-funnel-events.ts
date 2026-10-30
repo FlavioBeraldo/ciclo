@@ -77,6 +77,19 @@ export async function sendDealFunnelEvent(
   event: FunnelEvent,
   opts: { purchaseValue?: number } = {}
 ): Promise<MetaSendResult | { sent: false; skipped: string }> {
+  // Purchase representa receita do CRM, não a conversão de lead do site.
+  // Não inventar preço para negócios sem receita (incluindo testes com valor zero).
+  const purchaseValue = opts.purchaseValue ?? Number(deal.value ?? 0)
+  const purchaseCurrency = (deal.currency || 'BRL').trim().toUpperCase()
+  if (event.name === 'Purchase') {
+    if (!Number.isFinite(purchaseValue) || purchaseValue <= 0) {
+      return { sent: false, skipped: 'invalid_purchase_value' }
+    }
+    if (!/^[A-Z]{3}$/.test(purchaseCurrency)) {
+      return { sent: false, skipped: 'invalid_purchase_currency' }
+    }
+  }
+
   const dealId = Number(deal.id)
   if (await conversionAlreadySent('meta', event.name, dealId)) {
     return { sent: false, skipped: 'already_sent' }
@@ -118,8 +131,8 @@ export async function sendDealFunnelEvent(
     lead_event_id: extra.event_id,
   }
   if (event.name === 'Purchase') {
-    customData.value = opts.purchaseValue ?? Number(deal.value ?? 0)
-    customData.currency = deal.currency || 'BRL'
+    customData.value = purchaseValue
+    customData.currency = purchaseCurrency
     customData.order_id = `pd-${dealId}`
     customData.content_name = 'servico-ciclo'
   }
