@@ -4,7 +4,7 @@
 // e não só por formulário. Os eventos usam action_source "system_generated"
 // (gerados pelo CRM) e são deduplicados por deal em conversion_events.
 import { pipedriveUrl, attributionFieldKeys } from './pipedrive-server'
-import { conversionAlreadySent, getVisitorByPerson } from './supabase-server'
+import { conversionAlreadySent, getVisitorByPerson, sbSelect, type SiteVisitor, type VisitorMatchData } from './supabase-server'
 import { isInternalEmail, sendMetaEvent, type MetaSendResult } from './meta-capi'
 
 export interface FunnelEvent {
@@ -54,7 +54,26 @@ async function fetchStageName(stageId: number): Promise<string | null> {
 
 function primary(list?: { value: string; primary?: boolean }[]): string | null {
   if (!list?.length) return null
-  return (list.find((e) => e.primary) ?? list[0]).value || null
+  const filled = list.filter((e) => typeof e.value === 'string' && e.value.trim())
+  return (filled.find((e) => e.primary) ?? filled[0])?.value.trim() || null
+}
+
+/** Recupera apenas o visitante comprovadamente vinculado ao mesmo lead e pessoa. */
+async function originalLeadVisitor(dealId: number, personId: number) {
+  try {
+    const leads = await sbSelect<{ uid: string }>(
+      `/conversion_events?platform=eq.meta&event_name=eq.Lead&deal_id=eq.${dealId}&person_id=eq.${personId}&status=eq.sent&uid=not.is.null&select=uid&order=sent_at.asc&limit=1`
+    )
+    const uid = leads[0]?.uid
+    if (!uid || !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(uid)) return null
+    const visitors = await sbSelect<SiteVisitor & VisitorMatchData>(
+      `/site_visitors?uid=eq.${uid}&pipedrive_person_id=eq.${personId}&limit=1`
+    )
+    return visitors[0]?.opted_out ? null : visitors[0] ?? null
+  } catch {
+    // A melhoria de correspondência nunca deve impedir o evento do CRM.
+    return null
+  }
 }
 
 export interface DealLike {
@@ -101,7 +120,7 @@ export async function sendDealFunnelEvent(
 
   const person = await fetchPerson(personId)
   if (!person) return { sent: false, skipped: 'person_not_found' }
-  const email = primary(person.email)
+  let email = primary(person.email)
   if (isInternalEmail(email)) return { sent: false, skipped: 'internal' }
 
   const keys = attributionFieldKeys()
@@ -115,10 +134,23 @@ export async function sendDealFunnelEvent(
   } catch {
     extra = {}
   }
-  if (extra.internal === 'true') return { sent: false, skipped: 'internal' }
+  if (String(extra.internal) === 'true') return { sent: false, skipped: 'internal' }
 
-  const visitor = await getVisitorByPerson(personId)
-  const fbc = visitor?.fbc ?? extra.fbc ?? (extra.fbclid ? `fb.1.${Date.now()}.${extra.fbclid}` : null)
+  const currentVisitor = await getVisitorByPerson(personId)
+  const original = !currentVisitor?.fbp || !currentVisitor?.fbc || !currentVisitor?.client_ip || !currentVisitor?.user_agent || !email
+    ? await originalLeadVisitor(dealId, personId)
+    : null
+  const visitor = currentVisitor ?? original
+  // Só completa lacunas; preserva os identificadores que já seriam enviados.
+  const fallback = original?.opted_out ? null : original
+  email = email ?? (visitor?.opted_out ? null : visitor?.email) ?? fallback?.email ?? null
+  if (isInternalEmail(email)) return { sent: false, skipped: 'internal' }
+  const fbp = currentVisitor?.fbp || extra.fbp || fallback?.fbp || null
+  // Um fbclid antigo não recebe a data da reunião como se fosse um novo clique.
+  const clickTime = extra.first_visit ? Date.parse(extra.first_visit) : NaN
+  const fbc = currentVisitor?.fbc || extra.fbc || fallback?.fbc ||
+    (extra.fbclid && Number.isFinite(clickTime) && clickTime > 0 && clickTime <= Date.now()
+      ? `fb.1.${clickTime}.${extra.fbclid}` : null)
 
   const customData: Record<string, unknown> = {
     deal_id: dealId,
@@ -147,10 +179,10 @@ export async function sendDealFunnelEvent(
       firstName: person.first_name ?? person.name?.split(' ')[0] ?? null,
       lastName: person.last_name ?? person.name?.split(' ').slice(1).join(' ') ?? null,
       externalId: visitor?.uid ?? null,
-      fbp: visitor?.fbp ?? extra.fbp ?? null,
+      fbp,
       fbc,
-      clientIp: visitor?.client_ip ?? null,
-      clientUserAgent: visitor?.user_agent ?? null,
+      clientIp: currentVisitor?.client_ip || fallback?.client_ip || null,
+      clientUserAgent: currentVisitor?.user_agent || fallback?.user_agent || null,
     },
     customData,
     context: { dealId, personId, uid: visitor?.uid },
