@@ -29,9 +29,9 @@ import Imprensa from './Imprensa'
 const TEXTOS_DO_FORMULARIO: TextosDoContato = {
   sobretitulo: 'Vamos escrever o próximo capítulo',
   titulo: 'Sua empresa pode ser o próximo case.',
-  apoio: 'Conte seu desafio. Vamos conversar sobre uma estratégia de crescimento para o seu e-commerce.',
   botao: 'Quero construir meu case de sucesso',
-  placeholderMensagem: 'Qual é o principal desafio do seu e-commerce?',
+  // Pedido do Flávio: descrição sem texto de exemplo e painel sem subtítulo.
+  placeholderMensagem: '',
 }
 
 const CAPITULOS = [

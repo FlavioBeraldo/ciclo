@@ -63,9 +63,11 @@ const SEGMENTOS = [
 export interface TextosDoContato {
   sobretitulo: string
   titulo: string
-  apoio: string
+  /** Texto de apoio sob o título. Sem ele, o painel mostra só o título. */
+  apoio?: string
   botao: string
-  /** Placeholder da descrição. Sem ele, vale o texto longo de sempre. */
+  /** Placeholder da descrição. Ausente: vale o texto longo de sempre.
+   *  String vazia: a descrição começa vazia, sem texto de exemplo. */
   placeholderMensagem?: string
 }
 
@@ -195,8 +197,9 @@ export default function Contato({
           id="lead-message"
           {...register('message')}
           placeholder={
-            textos?.placeholderMensagem ??
-            'Conte brevemente qual é o principal gargalo hoje: CAC alto, baixa recompra, tráfego pago sem eficiência, dificuldade em gerar demanda, baixa conversão, pouca previsibilidade de receita ou outro desafio.'
+            textos?.placeholderMensagem !== undefined
+              ? textos.placeholderMensagem || undefined
+              : 'Conte brevemente qual é o principal gargalo hoje: CAC alto, baixa recompra, tráfego pago sem eficiência, dificuldade em gerar demanda, baixa conversão, pouca previsibilidade de receita ou outro desafio.'
           }
         />
         {errors.message && <p className="field-error">{errors.message.message}</p>}

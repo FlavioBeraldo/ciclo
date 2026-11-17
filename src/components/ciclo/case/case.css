@@ -1049,6 +1049,10 @@
   font-weight: 500;
   margin: 8px 0 6px;
 }
+/* Sem texto de apoio, o título mantém o mesmo respiro antes do primeiro campo. */
+.ciclo2026 .case-form-head h2:last-child {
+  margin-bottom: 14px;
+}
 .ciclo2026 .case-form-head p {
   font-size: 13px;
   line-height: 1.45;
