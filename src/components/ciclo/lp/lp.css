@@ -226,6 +226,10 @@
   margin: 18px 0 24px;
   text-wrap: balance;
 }
+/* Como nos renders: a frase em itálico de cada título começa em linha própria. */
+.ciclo2026 .lp-secao > h2 em {
+  display: block;
+}
 .ciclo2026 .lp-lead {
   font-size: 17px;
   line-height: 1.7;
