@@ -10,6 +10,8 @@ import { Seta } from '@/components/ciclo/Seta'
 import { estudosDeCaso, type EstudoDeCase } from '@/data/estudos-de-caso'
 import { Comparacao, Etapas, Framework } from './Frameworks'
 import CtaFixoCase from './CtaFixoCase'
+import PainelDoFormulario from './PainelDoFormulario'
+import Imprensa from './Imprensa'
 
 // Template das páginas de case (/cases/<slug>).
 //
@@ -27,8 +29,9 @@ import CtaFixoCase from './CtaFixoCase'
 const TEXTOS_DO_FORMULARIO: TextosDoContato = {
   sobretitulo: 'Vamos escrever o próximo capítulo',
   titulo: 'Sua empresa pode ser o próximo case.',
-  apoio: 'Conte seu desafio. Vamos conversar sobre uma estratégia de crescimento para o seu e-commerce.',
   botao: 'Quero construir meu case de sucesso',
+  // Pedido do Flávio: descrição sem texto de exemplo e painel sem subtítulo.
+  placeholderMensagem: '',
 }
 
 const CAPITULOS = [
@@ -245,6 +248,8 @@ export default function PaginaDeCase({ caso }: { caso: EstudoDeCase }) {
                 </section>
               )}
 
+              {caso.imprensa && caso.imprensa.length > 0 && <Imprensa marca={caso.nomeCurto} materias={caso.imprensa} />}
+
               {/* ── Convite ─────────────────────────────────────────── */}
               <section className="case-fechamento" aria-labelledby="fechamento-titulo">
                 <h2 id="fechamento-titulo">
@@ -279,9 +284,9 @@ export default function PaginaDeCase({ caso }: { caso: EstudoDeCase }) {
               )}
             </article>
 
-            <aside className="case-aside">
+            <PainelDoFormulario>
               <Contato variante="lateral" textos={TEXTOS_DO_FORMULARIO} />
-            </aside>
+            </PainelDoFormulario>
           </div>
         </div>
       </main>
