@@ -53,6 +53,36 @@ export interface DepoimentoDeCase {
   cargo?: string
 }
 
+/** Print real de uma página publicada, salvo em /public/imprensa. */
+export interface PrintDeMateria {
+  src: string
+  alt: string
+  largura: number
+  altura: number
+  legenda?: string
+}
+
+/**
+ * Matéria de imprensa sobre o case. Só entra com print REAL da página
+ * publicada (arquivo do próprio print, sem recriar nem editar), o link para a
+ * URL original e, quando comprovada, a data de publicação. O resumo é texto
+ * nosso, curto, sem copiar o corpo da matéria. Números citados pela matéria
+ * têm fonte e recorte próprios e não substituem os indicadores do case.
+ *
+ * `detalhe` é um segundo recorte da MESMA matéria. Matéria diferente é outra
+ * entrada da lista, com a sua própria URL.
+ */
+export interface MateriaDeImprensa {
+  veiculo: string
+  titulo: string
+  url: string
+  /** Data de publicação em ISO (AAAA-MM-DD), só se conferida */
+  data?: string
+  resumo: string
+  print: PrintDeMateria
+  detalhe?: PrintDeMateria
+}
+
 export interface EtapaDeCase {
   titulo: string
   texto: string
@@ -145,6 +175,7 @@ export interface EstudoDeCase {
     nota?: string
   }
   depoimentos?: DepoimentoDeCase[]
+  imprensa?: MateriaDeImprensa[]
 }
 
 export const estudosDeCaso: EstudoDeCase[] = [
@@ -376,6 +407,33 @@ export const estudosDeCaso: EstudoDeCase[] = [
         legenda: 'Comparação YoY entre os dois valores medidos. Barras na mesma escala.',
       },
     },
+    // Matéria conferida pelo Flávio na página publicada. Os dois prints foram
+    // enviados por ele (cabeçalho e trecho da mesma matéria) e estão aqui sem
+    // alteração. A data vem do próprio print do cabeçalho.
+    imprensa: [
+      {
+        veiculo: 'Central do Varejo',
+        titulo: 'Mercado second-hand cresce e busca estratégias para aumentar a recompra',
+        url: 'https://centraldovarejo.com.br/mercado-second-hand-cresce-e-busca-estrategias-para-aumentar-a-recompra/',
+        data: '2026-09-01',
+        resumo:
+          'A Central do Varejo destacou o trabalho de CRM da Ciclo com a Gringa e o papel dos dados na recorrência de compra.',
+        print: {
+          src: '/imprensa/central-do-varejo-gringa-cabecalho.webp',
+          alt: 'Print do cabeçalho da matéria da Central do Varejo “Mercado second-hand cresce e busca estratégias para aumentar a recompra”, publicada em 1 de setembro de 2026.',
+          largura: 614,
+          altura: 680,
+        },
+        detalhe: {
+          src: '/imprensa/central-do-varejo-gringa-trecho-crm.png',
+          alt: 'Print do trecho da mesma matéria, na seção “O que o CRM muda no mercado second hand?”, que cita o trabalho da Ciclo E-commerce com a Gringa.',
+          largura: 587,
+          altura: 329,
+          legenda:
+            'Trecho da matéria. Os percentuais citados nele são os publicados pela Central do Varejo, com recorte próprio, e não substituem os indicadores deste case.',
+        },
+      },
+    ],
   },
 
   // ── GoPro Brasil ──────────────────────────────────────────────────────────

@@ -39,22 +39,20 @@
 /* ── Duas colunas: leitura e formulário ──────────────────────────────────── */
 .ciclo2026 .case-layout {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 360px;
-  gap: 64px;
+  grid-template-columns: minmax(0, 1fr) 380px;
+  gap: 56px;
   align-items: start;
 }
 .ciclo2026 .case-main {
   min-width: 0;
 }
+/* Formulário sempre inteiro: o painel nunca rola por dentro. Fica fixo ao
+   lado da leitura só quando cabe por completo abaixo do cabeçalho; quando não
+   cabe (janela baixa, mensagens de erro), `PainelDoFormulario` liga
+   `.sem-sticky` e ele passa a rolar junto com a página. */
 .ciclo2026 .case-aside {
   position: sticky;
-  top: calc(var(--case-header) + 16px);
-  max-height: calc(100vh - var(--case-header) - 32px);
-  max-height: calc(100dvh - var(--case-header) - 32px);
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  scrollbar-width: thin;
-  scrollbar-color: #4a4a47 transparent;
+  top: calc(var(--case-header) + 12px);
   border-radius: 20px;
   background: var(--case-dark);
   margin-bottom: 96px;
@@ -780,6 +778,186 @@
   margin-right: 8px;
 }
 
+/* ── Na imprensa ─────────────────────────────────────────────────────────── */
+.ciclo2026 .case-imprensa {
+  margin-top: 88px;
+  padding: 44px 40px 40px;
+  border-radius: 22px;
+  background: var(--case-paper);
+}
+.ciclo2026 .case-imprensa > .eyebrow {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.ciclo2026 .case-imprensa > h2 {
+  font-size: clamp(28px, 2.6vw, 38px);
+  line-height: 1.12;
+  letter-spacing: -0.05em;
+  font-weight: 500;
+  margin: 14px 0 30px;
+}
+.ciclo2026 .case-materia + .case-materia {
+  margin-top: 48px;
+  padding-top: 40px;
+  border-top: 1px solid var(--case-line);
+}
+.ciclo2026 .case-materia-topo {
+  display: grid;
+  grid-template-columns: minmax(0, 400px) minmax(0, 1fr);
+  gap: 36px;
+  align-items: center;
+}
+.ciclo2026 .case-print {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 1px solid #dcdad5;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #fff;
+  cursor: zoom-in;
+  box-shadow: 0 1px 2px rgba(17, 17, 16, 0.04);
+}
+.ciclo2026 .case-print img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.ciclo2026 .case-print-ampliar {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  font-size: 11px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: rgba(17, 17, 16, 0.78);
+  color: #fff;
+  opacity: 0.9;
+}
+/* No recorte de texto, o canto livre é o de cima, ao lado do intertítulo. */
+.ciclo2026 .case-print.detalhe .case-print-ampliar {
+  top: 8px;
+  bottom: auto;
+}
+.ciclo2026 .case-print:hover .case-print-ampliar,
+.ciclo2026 .case-print:focus-visible .case-print-ampliar {
+  opacity: 1;
+}
+.ciclo2026 .case-materia-fonte {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+  margin: 0;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--case-muted);
+}
+.ciclo2026 .case-materia-fonte span {
+  color: var(--case-ink);
+  font-weight: 500;
+}
+.ciclo2026 .case-materia-fonte time::before {
+  content: "·";
+  margin-right: 10px;
+}
+.ciclo2026 .case-materia-texto h3 {
+  font-size: 21px;
+  line-height: 1.3;
+  letter-spacing: -0.035em;
+  font-weight: 500;
+  margin: 12px 0 12px;
+}
+.ciclo2026 .case-materia-texto > p:not(.case-materia-fonte) {
+  font-size: 15px;
+  line-height: 1.6;
+  color: #55544f;
+  margin: 0 0 22px;
+}
+.ciclo2026 .case-materia-detalhe {
+  margin: 32px 0 0;
+  max-width: 587px;
+}
+.ciclo2026 .case-materia-detalhe figcaption {
+  margin-top: 12px;
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--case-muted);
+}
+.ciclo2026 .sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+/* O diálogo rola quando o print é mais alto que a tela: nada é encolhido
+   até ficar ilegível. */
+.ciclo2026 .case-print-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 24px;
+  background: rgba(17, 17, 16, 0.82);
+}
+.ciclo2026 .case-print-modal-caixa {
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.ciclo2026 .case-print-modal-caixa img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  background: #fff;
+}
+.ciclo2026 .case-print-fechar {
+  position: sticky;
+  top: 0;
+  align-self: flex-end;
+  min-height: 44px;
+  padding: 10px 16px;
+  border: 0;
+  border-radius: 8px;
+  background: #fff;
+  color: var(--case-ink);
+  font-size: 13px;
+  cursor: pointer;
+}
+@media (max-width: 1180px) {
+  .ciclo2026 .case-materia-topo {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .ciclo2026 .case-materia-topo .case-print {
+    max-width: 480px;
+  }
+}
+@media (max-width: 760px) {
+  .ciclo2026 .case-imprensa {
+    margin-top: 64px;
+    margin-left: -8px;
+    margin-right: -8px;
+    padding: 30px 18px 26px;
+    border-radius: 18px;
+  }
+  .ciclo2026 .case-materia-topo .case-print {
+    max-width: none;
+  }
+  .ciclo2026 .case-print-modal {
+    padding: 12px;
+  }
+}
+
 /* ── Convite e outros cases ──────────────────────────────────────────────── */
 .ciclo2026 .case-fechamento {
   margin-top: 96px;
@@ -844,8 +1022,16 @@
 }
 
 /* ── Formulário lateral ──────────────────────────────────────────────────── */
+.ciclo2026 .case-aside.sem-sticky {
+  position: static;
+}
+@media (max-height: 560px) {
+  .ciclo2026 .case-aside {
+    position: static;
+  }
+}
 .ciclo2026 .case-form-panel {
-  padding: 30px 26px 28px;
+  padding: 20px 20px 20px;
   color: #f7f6f3;
 }
 .ciclo2026 .case-form-head .eyebrow {
@@ -857,61 +1043,91 @@
   background: #b889d5;
 }
 .ciclo2026 .case-form-head h2 {
-  font-size: 27px;
-  line-height: 1.12;
-  letter-spacing: -0.045em;
+  font-size: 21px;
+  line-height: 1.15;
+  letter-spacing: -0.04em;
   font-weight: 500;
-  margin: 14px 0 10px;
+  margin: 8px 0 6px;
 }
 .ciclo2026 .case-form-head p {
-  font-size: 14px;
-  line-height: 1.6;
+  font-size: 13px;
+  line-height: 1.45;
   color: #b4b3b1;
-  margin: 0 0 22px;
+  margin: 0 0 14px;
 }
+/* Pares lado a lado na ordem do formulário: Nome | E-mail, Empresa |
+   WhatsApp, Faturamento | Segmento. A descrição, o consentimento e o botão
+   ocupam a linha toda (regra do kit para .full, .consent e .form-bottom). */
 .ciclo2026 .case-form-panel .contact-form {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 16px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px 10px;
+}
+.ciclo2026 .case-form-panel .field {
+  gap: 4px;
+  min-width: 0;
 }
 .ciclo2026 .case-form-panel .field label {
-  font-size: 12px;
+  font-size: 11.5px;
+  line-height: 1.3;
 }
 .ciclo2026 .case-form-panel .field input,
 .ciclo2026 .case-form-panel .field select,
 .ciclo2026 .case-form-panel .field textarea,
 .ciclo2026 .case-form-panel .ciclo2026-phone-input .PhoneInputInput {
-  font-size: 16px;
+  font-size: 14px;
 }
 .ciclo2026 .case-form-panel .field input,
-.ciclo2026 .case-form-panel .field select,
+.ciclo2026 .case-form-panel .field select {
+  min-height: 40px;
+  height: 40px;
+  padding: 8px 10px;
+}
+.ciclo2026 .case-form-panel .field select {
+  padding-right: 4px;
+  text-overflow: ellipsis;
+}
 .ciclo2026 .case-form-panel .ciclo2026-phone-input {
-  min-height: 48px;
+  min-height: 40px;
+  height: 40px;
+  padding: 0 10px;
+  gap: 6px;
+}
+.ciclo2026 .case-form-panel .ciclo2026-phone-input .PhoneInputInput {
+  height: 38px;
 }
 .ciclo2026 .case-form-panel .field textarea {
-  height: 112px;
+  height: 64px;
+  min-height: 56px;
+  padding: 8px 10px;
 }
 .ciclo2026 .case-form-panel .hint {
-  font-size: 12px;
+  font-size: 11px;
+  line-height: 1.4;
 }
 .ciclo2026 .case-form-panel .consent {
-  font-size: 12px;
-  line-height: 1.6;
+  font-size: 11px;
+  line-height: 1.5;
+  gap: 8px;
 }
 .ciclo2026 .case-form-panel .consent input {
-  width: 18px;
-  height: 18px;
+  width: 16px;
+  height: 16px;
   flex: none;
   margin-top: 1px;
 }
 .ciclo2026 .case-form-panel .field-error {
-  font-size: 12px;
+  font-size: 11.5px;
+  line-height: 1.35;
+}
+.ciclo2026 .case-form-panel .consent + .field-error {
+  margin-top: -4px;
 }
 .ciclo2026 .case-form-panel .form-bottom button {
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 500;
-  padding: 16px 18px;
-  min-height: 52px;
+  padding: 10px 16px;
+  min-height: 44px;
   text-align: left;
   gap: 12px;
   cursor: pointer;
@@ -925,8 +1141,8 @@
 /* ═══ Responsivo ═════════════════════════════════════════════════════════ */
 @media (max-width: 1180px) {
   .ciclo2026 .case-layout {
-    grid-template-columns: minmax(0, 1fr) 340px;
-    gap: 44px;
+    grid-template-columns: minmax(0, 1fr) 360px;
+    gap: 40px;
   }
   .ciclo2026 .case-hero {
     grid-template-columns: minmax(0, 1fr) 220px;
@@ -949,9 +1165,35 @@
   }
   .ciclo2026 .case-aside {
     position: static;
-    max-height: none;
-    overflow: visible;
     margin: 0 0 72px;
+  }
+  .ciclo2026 .case-form-panel {
+    padding: 26px 22px 24px;
+  }
+  .ciclo2026 .case-form-panel .field input,
+  .ciclo2026 .case-form-panel .field select,
+  .ciclo2026 .case-form-panel .field textarea,
+  .ciclo2026 .case-form-panel .ciclo2026-phone-input .PhoneInputInput {
+    font-size: 16px;
+  }
+  .ciclo2026 .case-form-panel .field input,
+  .ciclo2026 .case-form-panel .field select,
+  .ciclo2026 .case-form-panel .ciclo2026-phone-input {
+    min-height: 44px;
+    height: 44px;
+  }
+  .ciclo2026 .case-form-panel .ciclo2026-phone-input .PhoneInputInput {
+    height: 42px;
+  }
+  .ciclo2026 .case-form-panel .field textarea {
+    height: 88px;
+  }
+  .ciclo2026 .case-form-panel .consent {
+    font-size: 12px;
+  }
+  .ciclo2026 .case-form-panel .form-bottom button {
+    font-size: 15px;
+    min-height: 48px;
   }
   .ciclo2026 .case-hero {
     grid-template-columns: minmax(0, 1fr) 240px;
@@ -1248,6 +1490,12 @@
     margin-right: -8px;
   }
   .ciclo2026 .case-form-panel {
-    padding: 28px 20px 24px;
+    padding: 24px 18px 22px;
+  }
+  /* No celular, um campo por linha: com 16px de corpo, meia largura cortaria
+     o telefone e as opções de faturamento. */
+  .ciclo2026 .case-form-panel .contact-form {
+    grid-template-columns: 1fr;
+    gap: 12px;
   }
 }

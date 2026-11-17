@@ -10,6 +10,8 @@ import { Seta } from '@/components/ciclo/Seta'
 import { estudosDeCaso, type EstudoDeCase } from '@/data/estudos-de-caso'
 import { Comparacao, Etapas, Framework } from './Frameworks'
 import CtaFixoCase from './CtaFixoCase'
+import PainelDoFormulario from './PainelDoFormulario'
+import Imprensa from './Imprensa'
 
 // Template das páginas de case (/cases/<slug>).
 //
@@ -245,6 +247,8 @@ export default function PaginaDeCase({ caso }: { caso: EstudoDeCase }) {
                 </section>
               )}
 
+              {caso.imprensa && caso.imprensa.length > 0 && <Imprensa marca={caso.nomeCurto} materias={caso.imprensa} />}
+
               {/* ── Convite ─────────────────────────────────────────── */}
               <section className="case-fechamento" aria-labelledby="fechamento-titulo">
                 <h2 id="fechamento-titulo">
@@ -279,9 +283,9 @@ export default function PaginaDeCase({ caso }: { caso: EstudoDeCase }) {
               )}
             </article>
 
-            <aside className="case-aside">
+            <PainelDoFormulario>
               <Contato variante="lateral" textos={TEXTOS_DO_FORMULARIO} />
-            </aside>
+            </PainelDoFormulario>
           </div>
         </div>
       </main>
