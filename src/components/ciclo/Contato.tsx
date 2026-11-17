@@ -65,6 +65,8 @@ export interface TextosDoContato {
   titulo: string
   apoio: string
   botao: string
+  /** Placeholder da descrição. Sem ele, vale o texto longo de sempre. */
+  placeholderMensagem?: string
 }
 
 export default function Contato({
@@ -192,7 +194,10 @@ export default function Contato({
         <textarea
           id="lead-message"
           {...register('message')}
-          placeholder="Conte brevemente qual é o principal gargalo hoje: CAC alto, baixa recompra, tráfego pago sem eficiência, dificuldade em gerar demanda, baixa conversão, pouca previsibilidade de receita ou outro desafio."
+          placeholder={
+            textos?.placeholderMensagem ??
+            'Conte brevemente qual é o principal gargalo hoje: CAC alto, baixa recompra, tráfego pago sem eficiência, dificuldade em gerar demanda, baixa conversão, pouca previsibilidade de receita ou outro desafio.'
+          }
         />
         {errors.message && <p className="field-error">{errors.message.message}</p>}
         <span className="hint">

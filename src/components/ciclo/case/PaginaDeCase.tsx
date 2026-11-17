@@ -31,6 +31,7 @@ const TEXTOS_DO_FORMULARIO: TextosDoContato = {
   titulo: 'Sua empresa pode ser o próximo case.',
   apoio: 'Conte seu desafio. Vamos conversar sobre uma estratégia de crescimento para o seu e-commerce.',
   botao: 'Quero construir meu case de sucesso',
+  placeholderMensagem: 'Qual é o principal desafio do seu e-commerce?',
 }
 
 const CAPITULOS = [
