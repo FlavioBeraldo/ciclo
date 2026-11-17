@@ -3,6 +3,7 @@ import { getAllWpSlugs, getAllSlugs, supersededWpPosts } from '@/lib/blog'
 import { getAllServicoSlugs } from '@/lib/servicos'
 import { getAllSolucaoSlugs } from '@/lib/solucoes'
 import { getAllKeystatiSlugs } from '@/lib/keystatic-posts'
+import { getAllEstudoDeCaseSlugs } from '@/data/estudos-de-caso'
 
 const BASE = 'https://cicloecommerce.com.br'
 
@@ -41,6 +42,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.8,
   }))
 
+  const casePages: MetadataRoute.Sitemap = getAllEstudoDeCaseSlugs().map((slug) => ({
+    url: `${BASE}/cases/${slug}`,
+    lastModified: now,
+    changeFrequency: 'monthly',
+    priority: 0.8,
+  }))
+
   const curatedSlugs = getAllSlugs()
   const ksSlugs = await getAllKeystatiSlugs()
   // Posts antigos substituídos saem do sitemap quando o sucessor é publicado
@@ -72,5 +80,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     })),
   ]
 
-  return [...staticPages, ...solucaoPages, ...servicoPages, ...blogPages]
+  return [...staticPages, ...solucaoPages, ...servicoPages, ...casePages, ...blogPages]
 }

@@ -1,10 +1,13 @@
 import Image from 'next/image'
+import Link from 'next/link'
 import { cases } from '@/lib/cases'
+import { SLUG_POR_MARCA } from '@/data/estudos-de-caso'
 import ValorDeCase from '../ValorDeCase'
 import { Seta } from '../Seta'
 
 // Cases da home. O conteúdo vem de @/lib/cases, a mesma fonte que a landing da
-// Consultoria E-com Shift lê — nenhum número é escrito aqui.
+// Consultoria E-com Shift lê — nenhum número é escrito aqui. As marcas que têm
+// página completa (/cases/<slug>, ver @/data/estudos-de-caso) ganham o link.
 
 export default function Cases() {
   return (
@@ -81,6 +84,18 @@ export default function Cases() {
                     ))}
                   </div>
                 </div>
+
+                {/* Só as marcas com página completa ganham o link; o cartão
+                    em si continua igual. */}
+                {SLUG_POR_MARCA[c.brand] && (
+                  <Link
+                    className="textlink case-link"
+                    href={`/cases/${SLUG_POR_MARCA[c.brand]}`}
+                    style={{ alignSelf: 'flex-start' }}
+                  >
+                    Ver case completo <Seta />
+                  </Link>
+                )}
               </div>
             </article>
           ))}
