@@ -444,115 +444,200 @@
   color: #55544f;
 }
 
-/* Reconhecimento e distribuição */
+/* Painel claro dos frameworks 04 e 05 */
+.ciclo2026 .lp-painel {
+  margin: 32px 0 0;
+  padding: 28px 28px 0;
+  border-radius: 20px;
+  background: var(--case-paper-2);
+  overflow: hidden;
+}
+.ciclo2026 .lp-painel-base {
+  margin: 28px 0 0;
+  padding: 16px 0 18px;
+  border-top: 1px solid #c9c6c0;
+  text-align: center;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.ciclo2026 .lp-fecho {
+  margin: 26px 0 0;
+  max-width: 640px;
+  font-size: 20px;
+  line-height: 1.45;
+  letter-spacing: -0.02em;
+}
+
+/* 04 · Demanda e ambientes transacionais */
+.ciclo2026 .lp-canais-mapa {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 44px 168px 44px minmax(0, 1fr);
+  align-items: stretch;
+}
+.ciclo2026 .lp-canais-col {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.ciclo2026 .lp-canais-rotulo {
+  margin: 0 0 18px;
+  height: 14px;
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--case-muted);
+  white-space: nowrap;
+}
+.ciclo2026 .lp-canais-centro .lp-canais-rotulo {
+  text-align: center;
+}
 .ciclo2026 .lp-canais ul {
   list-style: none;
   margin: 0;
   padding: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 12px;
 }
-.ciclo2026 .lp-canais-entradas {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
+.ciclo2026 .lp-canais-entradas ul {
+  gap: 40px;
 }
-.ciclo2026 .lp-canais-entradas li {
-  padding: 20px;
-  border: 1px solid #3d3a40;
-  border-radius: 14px;
-  background: #1d1d1b;
+.ciclo2026 .lp-canais li {
+  position: relative;
+  padding: 12px 14px;
+  border: 1px solid #d9d6d0;
+  border-radius: 999px;
+  background: #fff;
   text-align: center;
+  font-size: 14px;
+  line-height: 1.3;
 }
-.ciclo2026 .lp-canais strong {
-  display: block;
-  font-size: 18px;
-  font-weight: 500;
-  letter-spacing: -0.03em;
+.ciclo2026 .lp-canais-saidas li::before {
+  content: "";
+  position: absolute;
+  left: -6px;
+  top: calc(50% - 4px);
+  border: 4px solid transparent;
+  border-left: 6px solid #8f8c86;
+  border-right: 0;
 }
-.ciclo2026 .lp-canais-entradas span,
-.ciclo2026 .lp-canais-centro span {
-  display: block;
-  margin-top: 6px;
-  font-size: 13px;
-  line-height: 1.5;
-  color: #bdb9c0;
-}
-.ciclo2026 .lp-ligacao {
-  display: block;
+.ciclo2026 .lp-canais-linhas {
   width: 100%;
-  height: 48px;
+  height: calc(100% - 32px);
+  margin-top: 32px;
+  align-self: stretch;
 }
-.ciclo2026 .lp-ligacao path {
+.ciclo2026 .lp-canais-linhas path {
   fill: none;
-  stroke: #8c858d;
+  stroke: #8f8c86;
   stroke-width: 1;
   vector-effect: non-scaling-stroke;
 }
 .ciclo2026 .lp-canais-centro {
-  max-width: 420px;
-  margin: 0 auto;
-  padding: 18px 22px;
-  border: 1px solid #9d83ae;
-  border-radius: 14px;
-  background: linear-gradient(135deg, rgba(200, 167, 227, 0.2), rgba(200, 167, 227, 0.02));
+  justify-content: flex-start;
+}
+.ciclo2026 .lp-canais-marca {
+  flex: none;
+  margin: auto 0;
+  width: 168px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 1px solid var(--case-ink);
+  background: var(--case-paper-2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
   text-align: center;
 }
-.ciclo2026 .lp-canais-saidas {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 12px;
+.ciclo2026 .lp-canais-marca em {
+  font-size: 24px;
+  line-height: 1.1;
 }
-.ciclo2026 .lp-canais-saidas li {
-  padding: 16px 10px;
-  border: 1px solid #3d3a40;
-  border-radius: 12px;
-  background: #1d1d1b;
-  text-align: center;
-  font-size: 14px;
-  color: #f5f4f1;
+.ciclo2026 .lp-canais-marca span {
+  font-size: 12px;
+  color: var(--case-muted);
 }
 
-/* CRM */
+/* 05 · CRM */
 .ciclo2026 .lp-crm-cab,
 .ciclo2026 .lp-crm-linha {
   display: grid;
-  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.3fr) minmax(0, 1fr);
-  gap: 36px;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr) minmax(0, 0.8fr);
+  gap: 44px;
   align-items: center;
 }
 .ciclo2026 .lp-crm-cab {
   padding-bottom: 12px;
-  font-size: 11px;
+  font-size: 10.5px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #bbb7be;
+  color: var(--case-muted);
 }
 .ciclo2026 .lp-crm-linha {
   padding: 20px 0;
-  border-top: 1px solid #3d3a40;
+  border-top: 1px solid #c9c6c0;
 }
-.ciclo2026 .lp-crm-linha span {
+.ciclo2026 .lp-crm-linha:last-child {
+  padding-bottom: 28px;
+}
+.ciclo2026 .lp-crm-linha > span {
   position: relative;
-  font-size: 15px;
-  line-height: 1.5;
-  color: #bdb9c0;
+  min-width: 0;
 }
-.ciclo2026 .lp-crm-linha span:first-child {
+.ciclo2026 .lp-crm-momento {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr);
+  column-gap: 6px;
+}
+.ciclo2026 .lp-crm-momento i {
+  grid-row: 1 / span 2;
+  font-family: var(--font-playfair-2026), "Playfair Display", Georgia, serif;
+  font-size: 20px;
+  line-height: 1.2;
+  color: var(--case-ink);
+}
+.ciclo2026 .lp-crm-momento strong {
   font-size: 17px;
-  color: #fff;
   font-weight: 500;
   letter-spacing: -0.02em;
 }
-.ciclo2026 .lp-crm-linha span:last-child {
-  color: #e1d2ec;
+.ciclo2026 .lp-crm-momento small {
+  margin-top: 4px;
+  font-size: 12.5px;
+  color: var(--case-muted);
 }
-.ciclo2026 .lp-crm-linha span:not(:last-child)::after {
+.ciclo2026 .lp-crm-acao {
+  font-size: 15px;
+  line-height: 1.45;
+}
+.ciclo2026 .lp-crm-objetivo {
+  padding: 13px 14px;
+  border-radius: 10px;
+  background: #fff;
+  font-size: 15px;
+  line-height: 1.35;
+}
+.ciclo2026 .lp-crm-momento::after,
+.ciclo2026 .lp-crm-acao::after {
   content: "→";
   position: absolute;
-  right: -26px;
-  top: calc(50% - 11px);
-  color: #c8a7e3;
+  right: -34px;
+  top: calc(50% - 12px);
+  font-size: 18px;
+  color: var(--case-ink);
+}
+.ciclo2026 .lp-faixa-centro {
+  margin-top: 20px;
+  text-align: center;
+  text-transform: none;
+  letter-spacing: 0;
   font-size: 15px;
-  font-weight: 400;
+  padding: 16px 20px;
 }
 
 /* Fotos */
@@ -945,59 +1030,90 @@ body.lp-dialogo-aberto .ciclo2026 .case-cta-fixo {
     grid-template-columns: 1fr;
     gap: 20px;
   }
-  .ciclo2026 .lp-canais-entradas {
-    grid-template-columns: 1fr;
-    gap: 10px;
+  .ciclo2026 .lp-painel {
+    margin-left: -8px;
+    margin-right: -8px;
+    padding: 22px 16px 0;
+    border-radius: 18px;
   }
-  .ciclo2026 .lp-ligacao {
+  .ciclo2026 .lp-fecho {
+    font-size: 18px;
+  }
+  /* 04 no celular: entradas, a marca e os canais em descida vertical. */
+  .ciclo2026 .lp-canais-mapa {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  .ciclo2026 .lp-canais-linhas {
     display: none;
   }
-  .ciclo2026 .lp-canais .lp-canais-centro,
-  .ciclo2026 .lp-canais .lp-canais-saidas {
+  .ciclo2026 .lp-canais-rotulo {
+    text-align: center;
+    margin-bottom: 12px;
+  }
+  .ciclo2026 .lp-canais ul,
+  .ciclo2026 .lp-canais-entradas ul {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+  .ciclo2026 .lp-canais li {
+    font-size: 13.5px;
+    padding: 12px 10px;
+  }
+  .ciclo2026 .lp-canais-saidas li::before {
+    display: none;
+  }
+  .ciclo2026 .lp-canais-centro,
+  .ciclo2026 .lp-canais-saidas {
     position: relative;
-    margin-top: 34px;
+    margin-top: 40px;
   }
   .ciclo2026 .lp-canais-centro::before,
   .ciclo2026 .lp-canais-saidas::before {
     content: "↓";
     position: absolute;
-    top: -28px;
+    top: -32px;
     left: 50%;
     transform: translateX(-50%);
-    color: #c8a7e3;
-    font-size: 15px;
+    font-size: 16px;
+    color: var(--case-ink);
   }
-  .ciclo2026 .lp-canais-saidas {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  .ciclo2026 .lp-canais-marca {
+    margin: 0 auto;
+    width: 150px;
   }
+  /* 05 no celular: cada linha vira um bloco com rótulos. */
   .ciclo2026 .lp-crm-cab {
     display: none;
   }
   .ciclo2026 .lp-crm-linha {
     grid-template-columns: 1fr;
     gap: 22px;
-    padding: 22px 0;
+    padding: 20px 0;
   }
   .ciclo2026 .lp-crm-linha:first-of-type {
     border-top: 0;
     padding-top: 0;
   }
-  .ciclo2026 .lp-crm-linha span::before {
+  .ciclo2026 .lp-crm-acao::before,
+  .ciclo2026 .lp-crm-objetivo::before {
     content: attr(data-rotulo);
     display: block;
     margin-bottom: 4px;
     font-size: 10px;
-    font-weight: 400;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: #9c96a1;
+    color: var(--case-muted);
   }
-  .ciclo2026 .lp-crm-linha span:not(:last-child)::after {
+  .ciclo2026 .lp-crm-momento::after,
+  .ciclo2026 .lp-crm-acao::after {
     content: "↓";
     right: auto;
     left: 0;
     top: auto;
     bottom: -21px;
+    font-size: 14px;
   }
   .ciclo2026 .lp-foto-larga {
     aspect-ratio: 4 / 3;

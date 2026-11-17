@@ -97,18 +97,21 @@ const CANAIS = ["Loja própria", "Marketplaces", "Social commerce", "WhatsApp"];
 const CRM = [
   {
     momento: "Primeira compra",
-    acao: "Boas-vindas, uso do produto e pós-compra",
-    objetivo: "Chegar à segunda compra",
+    contexto: "Acabou de conhecer o produto",
+    acao: "Boas-vindas, uso e pós-compra",
+    objetivo: "Segunda compra",
   },
   {
     momento: "Cliente inativo",
+    contexto: "Saiu da sua janela de recompra",
     acao: "Reativação por perfil e interesse",
     objetivo: "Retomar a relação",
   },
   {
     momento: "Cliente recorrente",
+    contexto: "Já confia na marca",
     acao: "Reposição, fidelização e indicação",
-    objetivo: "Aumentar frequência e LTV",
+    objetivo: "Frequência e LTV",
   },
 ];
 
@@ -282,7 +285,8 @@ export default function MaquinaDeReceita({
                 Para empresas com marca própria
               </p>
               <h1 id="lp-titulo">
-                Nós decodificamos <span className="lp-quebra">a máquina de vendas</span>{' '}
+                Nós decodificamos{" "}
+                <span className="lp-quebra">a máquina de vendas</span>{" "}
                 <em>do seu e-commerce.</em>
               </h1>
               <p className="lp-hero-apoio">
@@ -430,113 +434,132 @@ export default function MaquinaDeReceita({
                   </div>
                 </Secao>
 
-                {/* ── 4. Criação e distribuição ────────────────────── */}
+                {/* ── 4. Demanda e ambientes transacionais ─────────── */}
                 <Secao
                   id="canais"
-                  eyebrow="04 / Reconhecimento e distribuição"
-                  titulo="Sua marca precisa ser reconhecida antes da compra."
-                  destaque="E estar onde o cliente compra."
+                  eyebrow="04 / Demanda e ambientes transacionais"
+                  titulo="Ser reconhecida antes da compra."
+                  destaque="Estar onde o cliente compra."
                 >
-                  <div className="fw lp-fw lp-canais">
-                    <ul className="lp-canais-entradas">
-                      <li>
-                        <strong>Conteúdo Social First</strong>
-                        <span>
-                          Conteúdo pensado para as redes, onde a descoberta
-                          acontece.
-                        </span>
-                      </li>
-                      <li>
-                        <strong>Creators e UGC</strong>
-                        <span>
-                          Pessoas reais apresentando o produto para quem ainda
-                          não conhece.
-                        </span>
-                      </li>
-                    </ul>
-                    <svg
-                      className="lp-ligacao lp-ligacao-junta"
-                      viewBox="0 0 300 48"
-                      preserveAspectRatio="none"
-                      aria-hidden="true"
-                    >
-                      <path d="M75 0 V14 Q75 24 85 24 H215 Q225 24 225 14 V0 M150 24 V48" />
-                    </svg>
-                    <div className="lp-canais-centro">
-                      <strong>Marca reconhecida na consideração</strong>
-                      <span>
-                        Quando o cliente decide, a marca já é conhecida.
-                      </span>
+                  <p className="lp-lead">
+                    A estratégia conecta reconhecimento de marca aos ambientes
+                    que captam a venda. Cada canal tem um papel dentro da
+                    operação.
+                  </p>
+                  <figure className="lp-painel lp-canais">
+                    <div className="lp-canais-mapa">
+                      <div className="lp-canais-col lp-canais-entradas">
+                        <p className="lp-canais-rotulo">Criação de demanda</p>
+                        <ul>
+                          <li>Conteúdo Social First</li>
+                          <li>Creators e UGC</li>
+                        </ul>
+                      </div>
+                      <svg
+                        className="lp-canais-linhas lp-canais-linhas-in"
+                        viewBox="0 0 100 100"
+                        preserveAspectRatio="none"
+                        aria-hidden="true"
+                      >
+                        <path d="M0 37 L100 50 M0 63 L100 50" />
+                      </svg>
+                      <div className="lp-canais-col lp-canais-centro">
+                        <p className="lp-canais-rotulo">Preferência</p>
+                        <div className="lp-canais-marca">
+                          <em>Sua marca</em>
+                          <span>na consideração</span>
+                        </div>
+                      </div>
+                      <svg
+                        className="lp-canais-linhas lp-canais-linhas-out"
+                        viewBox="0 0 100 100"
+                        preserveAspectRatio="none"
+                        aria-hidden="true"
+                      >
+                        <path d="M0 50 L100 17 M0 50 L100 39 M0 50 L100 61 M0 50 L100 83" />
+                      </svg>
+                      <div className="lp-canais-col lp-canais-saidas">
+                        <p className="lp-canais-rotulo">Captação de demanda</p>
+                        <ul aria-label="Onde o cliente compra">
+                          {CANAIS.map((c) => (
+                            <li key={c}>{c}</li>
+                          ))}
+                        </ul>
+                      </div>
                     </div>
-                    <svg
-                      className="lp-ligacao lp-ligacao-abre"
-                      viewBox="0 0 400 48"
-                      preserveAspectRatio="none"
-                      aria-hidden="true"
-                    >
-                      <path d="M200 0 V18 M50 48 V28 Q50 18 60 18 H340 Q350 18 350 28 V48 M150 18 V48 M250 18 V48" />
-                    </svg>
-                    <ul
-                      className="lp-canais-saidas"
-                      aria-label="Onde o cliente compra"
-                    >
-                      {CANAIS.map((c) => (
-                        <li key={c}>{c}</li>
-                      ))}
-                    </ul>
-                    <p className="lp-dados">
-                      <strong>Criatividade, mídia e experiência</strong>{" "}
-                      conectam cada etapa: do conteúdo que faz a marca ser
-                      reconhecida à compra no canal que o cliente escolheu.
-                    </p>
-                  </div>
-                  <p className="lp-nota">
-                    Marketplace não é o inimigo: é um dos lugares onde o cliente
-                    compra. O que muda é a marca chegar lá já reconhecida.
+                    <figcaption className="lp-painel-base">
+                      Criatividade + mídia + experiência de compra
+                    </figcaption>
+                  </figure>
+                  <p className="lp-fecho">
+                    O marketplace participa da máquina. Sua marca e seu
+                    relacionamento com o cliente precisam se desenvolver junto
+                    com ele.
                   </p>
                 </Secao>
 
                 {/* ── 5. CRM ───────────────────────────────────────── */}
                 <Secao
                   id="crm"
-                  eyebrow="05 / CRM e relacionamento"
+                  eyebrow="05 / Expansão de demanda na prática"
                   titulo="A sua base não pode ser"
                   destaque="um arquivo de clientes antigos."
                 >
                   <p className="lp-lead">
-                    A base de clientes é onde a receita se repete. Cada momento
-                    do cliente pede uma ação diferente, com um objetivo claro.
+                    O CRM começa pelo comportamento. Cada momento pede uma
+                    conversa diferente, com um motivo real para o cliente
+                    voltar.
                   </p>
-                  <div className="fw lp-fw">
+                  <div className="lp-painel">
                     <div
                       className="lp-crm"
                       role="table"
-                      aria-label="Momento do cliente, ação e objetivo"
+                      aria-label="Momento do cliente, ação de relacionamento e objetivo"
                     >
                       <div className="lp-crm-cab" role="row">
-                        <span role="columnheader">Momento</span>
-                        <span role="columnheader">Ação</span>
+                        <span role="columnheader">Momento do cliente</span>
+                        <span role="columnheader">Ação de relacionamento</span>
                         <span role="columnheader">Objetivo</span>
                       </div>
-                      {CRM.map((l) => (
+                      {CRM.map((l, i) => (
                         <div
                           className="lp-crm-linha"
                           role="row"
                           key={l.momento}
                         >
-                          <span role="cell" data-rotulo="Momento">
-                            {l.momento}
+                          <span
+                            role="cell"
+                            className="lp-crm-momento"
+                            data-rotulo="Momento do cliente"
+                          >
+                            <i aria-hidden="true">
+                              {String(i + 1).padStart(2, "0")}
+                            </i>
+                            <strong>{l.momento}</strong>
+                            <small>{l.contexto}</small>
                           </span>
-                          <span role="cell" data-rotulo="Ação">
+                          <span
+                            role="cell"
+                            className="lp-crm-acao"
+                            data-rotulo="Ação de relacionamento"
+                          >
                             {l.acao}
                           </span>
-                          <span role="cell" data-rotulo="Objetivo">
+                          <span
+                            role="cell"
+                            className="lp-crm-objetivo"
+                            data-rotulo="Objetivo"
+                          >
                             {l.objetivo}
                           </span>
                         </div>
                       ))}
                     </div>
                   </div>
+                  <p className="lp-faixa lp-faixa-centro">
+                    Receita por cliente, recompra e recência orientam a
+                    evolução.
+                  </p>
                 </Secao>
 
                 {/* ── 6. Operação ──────────────────────────────────── */}
