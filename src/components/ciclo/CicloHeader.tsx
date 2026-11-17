@@ -24,7 +24,13 @@ const LINKS = [
 
 const FOCAVEIS = 'a[href], button:not([disabled])'
 
-export default function CicloHeader() {
+export default function CicloHeader({
+  contatoNaPagina = false,
+}: {
+  /** A página tem o próprio formulário em #contato (páginas de case): o botão
+   *  do cabeçalho rola até ele em vez de levar o visitante para a home. */
+  contatoNaPagina?: boolean
+} = {}) {
   const [aberto, setAberto] = useState(false)
   const [rolado, setRolado] = useState(false)
   const pathname = usePathname()
@@ -114,7 +120,7 @@ export default function CicloHeader() {
         </nav>
 
         <div className="nav-actions">
-          <a className="button" href={resolver('#contato')}>
+          <a className="button" href={contatoNaPagina ? '#contato' : resolver('#contato')}>
             <span>Fale com especialista</span>
             <b aria-hidden="true"><Seta /></b>
           </a>

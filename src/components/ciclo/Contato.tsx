@@ -52,7 +52,28 @@ const SEGMENTOS = [
   'Outro',
 ]
 
-export default function Contato() {
+// Variante e textos são só de apresentação. O envio, os campos, as regras de
+// validação, o consentimento, os eventos e o destino são os mesmos nas duas
+// variantes — a home e as páginas de serviço continuam usando o default, que
+// renderiza exatamente o mesmo HTML de antes.
+//
+// 'lateral' é a das páginas de case (/cases/<slug>): o mesmo formulário num
+// painel estreito, sem a coluna de texto ao lado. Continua sendo a única
+// instância do formulário na página, com o mesmo `id="contato"`.
+export interface TextosDoContato {
+  sobretitulo: string
+  titulo: string
+  apoio: string
+  botao: string
+}
+
+export default function Contato({
+  variante = 'secao',
+  textos,
+}: {
+  variante?: 'secao' | 'lateral'
+  textos?: TextosDoContato
+} = {}) {
   const router = useRouter()
   const {
     register,
@@ -97,6 +118,126 @@ export default function Contato() {
     router.push('/obrigado')
   }
 
+  const formulario = (
+    <form className="contact-form" id="contact-form" onSubmit={handleSubmit(onSubmit)} noValidate>
+      <div className="field">
+        <label htmlFor="lead-name">Nome completo *</label>
+        <input id="lead-name" {...register('name')} type="text" placeholder="Seu nome" />
+        {errors.name && <p className="field-error">{errors.name.message}</p>}
+      </div>
+
+      <div className="field">
+        <label htmlFor="lead-email">E-mail corporativo *</label>
+        <input
+          id="lead-email"
+          {...register('email')}
+          type="email"
+          placeholder="voce@empresa.com.br"
+        />
+        {errors.email && <p className="field-error">{errors.email.message}</p>}
+      </div>
+
+      <div className="field">
+        <label htmlFor="lead-company">Empresa *</label>
+        <input
+          id="lead-company"
+          {...register('company')}
+          type="text"
+          placeholder="Nome da empresa"
+        />
+        {errors.company && <p className="field-error">{errors.company.message}</p>}
+      </div>
+
+      <PhoneField
+        name="phone"
+        control={control}
+        label="WhatsApp"
+        required
+        error={errors.phone?.message}
+        variant="ciclo2026"
+      />
+
+      <div className="field">
+        <label htmlFor="lead-annual-revenue">Faturamento anual *</label>
+        <select id="lead-annual-revenue" {...register('annualRevenue')} defaultValue="">
+          <option value="" disabled>
+            Selecione
+          </option>
+          {FAIXAS.map((f) => (
+            <option key={f} value={f}>
+              {f}
+            </option>
+          ))}
+        </select>
+        {errors.annualRevenue && <p className="field-error">{errors.annualRevenue.message}</p>}
+      </div>
+
+      <div className="field">
+        <label htmlFor="lead-segment">Segmento *</label>
+        <select id="lead-segment" {...register('segment')} defaultValue="">
+          <option value="" disabled>
+            Selecione
+          </option>
+          {SEGMENTOS.map((s) => (
+            <option key={s} value={s}>
+              {s}
+            </option>
+          ))}
+        </select>
+        {errors.segment && <p className="field-error">{errors.segment.message}</p>}
+      </div>
+
+      <div className="field full">
+        <label htmlFor="lead-message">Descreva a dor atual da sua empresa *</label>
+        <textarea
+          id="lead-message"
+          {...register('message')}
+          placeholder="Conte brevemente qual é o principal gargalo hoje: CAC alto, baixa recompra, tráfego pago sem eficiência, dificuldade em gerar demanda, baixa conversão, pouca previsibilidade de receita ou outro desafio."
+        />
+        {errors.message && <p className="field-error">{errors.message.message}</p>}
+        <span className="hint">
+          Quanto mais contexto você trouxer, melhor conseguimos direcionar a conversa
+          estratégica.
+        </span>
+      </div>
+
+      <label className="consent">
+        <input type="checkbox" {...register('lgpd')} />
+        <span>
+          Aceito a{' '}
+          <a href="/politica-de-privacidade" target="_blank" rel="noopener noreferrer">
+            Política de Privacidade
+          </a>{' '}
+          e autorizo o contato da Ciclo e o registro da minha navegação no site para
+          personalizar o atendimento.
+        </span>
+      </label>
+      {errors.lgpd && <p className="field-error">{errors.lgpd.message as string}</p>}
+
+      <div className="form-bottom">
+        <button type="submit" disabled={isSubmitting}>
+          {isSubmitting ? 'Enviando...' : (textos?.botao ?? 'Fale com um especialista')} <Seta />
+        </button>
+      </div>
+    </form>
+  )
+
+  if (variante === 'lateral') {
+    return (
+      <section className="case-form-panel" id="contato" aria-labelledby="contato-titulo">
+        <div className="case-form-head">
+          <div className="eyebrow">
+            <span />
+            {textos?.sobretitulo ?? 'Vamos conversar'}
+          </div>
+          <h2 id="contato-titulo">{textos?.titulo ?? 'Pronto para crescer de forma previsível?'}</h2>
+          {textos?.apoio && <p>{textos.apoio}</p>}
+        </div>
+        {formulario}
+      </section>
+    )
+  }
+
   return (
     <section className="section dark contact" id="contato">
       <div className="wrap contact-layout">
@@ -119,107 +260,7 @@ export default function Contato() {
           </div>
         </div>
 
-        <form className="contact-form" id="contact-form" onSubmit={handleSubmit(onSubmit)} noValidate>
-          <div className="field">
-            <label htmlFor="lead-name">Nome completo *</label>
-            <input id="lead-name" {...register('name')} type="text" placeholder="Seu nome" />
-            {errors.name && <p className="field-error">{errors.name.message}</p>}
-          </div>
-
-          <div className="field">
-            <label htmlFor="lead-email">E-mail corporativo *</label>
-            <input
-              id="lead-email"
-              {...register('email')}
-              type="email"
-              placeholder="voce@empresa.com.br"
-            />
-            {errors.email && <p className="field-error">{errors.email.message}</p>}
-          </div>
-
-          <div className="field">
-            <label htmlFor="lead-company">Empresa *</label>
-            <input
-              id="lead-company"
-              {...register('company')}
-              type="text"
-              placeholder="Nome da empresa"
-            />
-            {errors.company && <p className="field-error">{errors.company.message}</p>}
-          </div>
-
-          <PhoneField
-            name="phone"
-            control={control}
-            label="WhatsApp"
-            required
-            error={errors.phone?.message}
-            variant="ciclo2026"
-          />
-
-          <div className="field">
-            <label htmlFor="lead-annual-revenue">Faturamento anual *</label>
-            <select id="lead-annual-revenue" {...register('annualRevenue')} defaultValue="">
-              <option value="" disabled>
-                Selecione
-              </option>
-              {FAIXAS.map((f) => (
-                <option key={f} value={f}>
-                  {f}
-                </option>
-              ))}
-            </select>
-            {errors.annualRevenue && <p className="field-error">{errors.annualRevenue.message}</p>}
-          </div>
-
-          <div className="field">
-            <label htmlFor="lead-segment">Segmento *</label>
-            <select id="lead-segment" {...register('segment')} defaultValue="">
-              <option value="" disabled>
-                Selecione
-              </option>
-              {SEGMENTOS.map((s) => (
-                <option key={s} value={s}>
-                  {s}
-                </option>
-              ))}
-            </select>
-            {errors.segment && <p className="field-error">{errors.segment.message}</p>}
-          </div>
-
-          <div className="field full">
-            <label htmlFor="lead-message">Descreva a dor atual da sua empresa *</label>
-            <textarea
-              id="lead-message"
-              {...register('message')}
-              placeholder="Conte brevemente qual é o principal gargalo hoje: CAC alto, baixa recompra, tráfego pago sem eficiência, dificuldade em gerar demanda, baixa conversão, pouca previsibilidade de receita ou outro desafio."
-            />
-            {errors.message && <p className="field-error">{errors.message.message}</p>}
-            <span className="hint">
-              Quanto mais contexto você trouxer, melhor conseguimos direcionar a conversa
-              estratégica.
-            </span>
-          </div>
-
-          <label className="consent">
-            <input type="checkbox" {...register('lgpd')} />
-            <span>
-              Aceito a{' '}
-              <a href="/politica-de-privacidade" target="_blank" rel="noopener noreferrer">
-                Política de Privacidade
-              </a>{' '}
-              e autorizo o contato da Ciclo e o registro da minha navegação no site para
-              personalizar o atendimento.
-            </span>
-          </label>
-          {errors.lgpd && <p className="field-error">{errors.lgpd.message as string}</p>}
-
-          <div className="form-bottom">
-            <button type="submit" disabled={isSubmitting}>
-              {isSubmitting ? 'Enviando...' : 'Fale com um especialista'} <Seta />
-            </button>
-          </div>
-        </form>
+        {formulario}
       </div>
     </section>
   )

@@ -32,6 +32,14 @@ const sections = [
     ],
   },
   {
+    heading: 'Cases de sucesso',
+    links: [
+      { label: 'Mamô Brasil · Full Funnel', href: '/cases/mamo' },
+      { label: 'Gringa · Expansão de Demanda', href: '/cases/gringa' },
+      { label: 'GoPro Brasil · Captação de Demanda', href: '/cases/gopro' },
+    ],
+  },
+  {
     heading: 'Serviços especializados',
     links: [
       { label: 'TikTok Shop & Social Commerce', href: '/tiktok-shop' },
