@@ -31,7 +31,15 @@ function formatarData(iso: string) {
   })
 }
 
-export default function Imprensa({ marca, materias }: { marca: string; materias: MateriaDeImprensa[] }) {
+export default function Imprensa({
+  marca,
+  materias,
+  idTitulo = 'imprensa-titulo',
+}: {
+  marca: string
+  materias: MateriaDeImprensa[]
+  idTitulo?: string
+}) {
   const [aberto, setAberto] = useState<PrintDeMateria | null>(null)
   const dialogo = useRef<HTMLDivElement>(null)
   const origem = useRef<HTMLButtonElement | null>(null)
@@ -90,12 +98,12 @@ export default function Imprensa({ marca, materias }: { marca: string; materias:
   )
 
   return (
-    <section className="case-imprensa" aria-labelledby="imprensa-titulo">
+    <section className="case-imprensa" aria-labelledby={idTitulo}>
       <div className="eyebrow">
         <span />
         Imprensa
       </div>
-      <h2 id="imprensa-titulo">{marca} na imprensa</h2>
+      <h2 id={idTitulo}>{marca} na imprensa</h2>
 
       {materias.map((m) => (
         <article className="case-materia" key={m.url}>
