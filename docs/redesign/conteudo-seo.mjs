@@ -87,6 +87,21 @@ console.log('\n1. Indicadores sem fonte')
 }
 
 // ── 2. A fonte dos cases não foi tocada ─────────────────────────────────────
+//
+// Única mudança autorizada em cases.ts (18/11/2026, a pedido do Flávio): o
+// indicador de recompra da Gringa passou de +35% para +39,2%, número publicado
+// pela Central do Varejo. O teste aplica ESSA troca à base e exige o resto
+// byte a byte igual — qualquer outra mudança continua reprovando.
+const CASES_TROCA_AUTORIZADA = [
+  "      { label: 'Taxa de Recompra YoY', value: '+35%' },",
+  "      { label: 'Índice de Recompra', value: '+39,2%' },",
+]
+function casesBaseAutorizada(base) {
+  if (base === null) return null
+  const texto = base.toString('utf8')
+  if (!texto.includes(CASES_TROCA_AUTORIZADA[0])) return null
+  return Buffer.from(texto.replace(CASES_TROCA_AUTORIZADA[0], CASES_TROCA_AUTORIZADA[1]), 'utf8')
+}
 
 console.log('\n2. A fonte dos cases')
 {
@@ -101,9 +116,10 @@ console.log('\n2. A fonte dos cases')
   } catch {
     // base indisponível
   }
+  const autorizada = casesBaseAutorizada(base)
   conferir(
-    base !== null && Buffer.compare(atual, base) === 0,
-    'src/lib/cases.ts continua byte a byte igual à base de produção anterior'
+    autorizada !== null && Buffer.compare(atual, autorizada) === 0,
+    'src/lib/cases.ts igual à base de produção anterior, exceto a troca autorizada da recompra da Gringa'
   )
 
   const conteudo = readFileSync(`${RAIZ}/src/lib/cases-conteudo.ts`, 'utf8')
@@ -231,7 +247,7 @@ console.log('\n4. O que já existia continua lá, contra a base de Production')
     'src/app/api/link-bio/route.ts',
   ]
   const mudados = INTOCAVEIS.filter((arq) => {
-    const base = daBase(arq)
+    const base = arq === 'src/lib/cases.ts' ? casesBaseAutorizada(daBase(arq)) : daBase(arq)
     if (base === null) return true
     return Buffer.compare(readFileSync(`${RAIZ}/${arq}`, null), base) !== 0
   })
