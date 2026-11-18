@@ -19,3 +19,4 @@ src/lib/attribution.ts    Só a leitura da sessão do GA4 passou a usar ga4-sess
 src/lib/pipedrive-server.ts    Idem no servidor: a sessão vem do cookie da nossa propriedade; mapeamento do negócio e demais campos inalterados
 src/lib/cases-conteudo.ts    Arquivo novo, só de conteúdo: deriva de cases.ts os quatro resultados e as três narrativas que as páginas de serviço e de solução passaram a usar no lugar dos indicadores sem fonte
 src/lib/blog-complementos.ts    Arquivo novo, só de conteúdo: seções práticas acrescentadas ao fim de três artigos existentes, sem tocar no corpo original em wp-posts.json
+src/lib/cases.ts    18/11/2026, a pedido do Flávio: indicador de recompra da Gringa passa de +35% (Taxa de Recompra YoY) para +39,2% (Índice de Recompra), o número publicado pela Central do Varejo; só conteúdo
