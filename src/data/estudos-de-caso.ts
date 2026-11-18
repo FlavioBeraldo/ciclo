@@ -305,7 +305,7 @@ export const estudosDeCaso: EstudoDeCase[] = [
     seo: {
       titulo: 'Case Gringa: CRM, recompra e indicação | Ciclo E-commerce',
       descricao:
-        'Como a Ciclo fortaleceu o relacionamento da Gringa com seus clientes: taxa de recompra +35% YoY, taxa de indicação +20% YoY e recência de compra de 120 para 55 dias.',
+        'Como a Ciclo fortaleceu o relacionamento da Gringa com seus clientes: índice de recompra +39,2%, taxa de indicação +20% YoY e recência de compra de 120 para 55 dias.',
     },
     hero: {
       titulo: [
@@ -323,7 +323,7 @@ export const estudosDeCaso: EstudoDeCase[] = [
       },
     },
     indicadores: [
-      { valor: '+35%', rotulo: 'Aumento da taxa de recompra · YoY' },
+      { valor: '+39,2%', rotulo: 'Aumento no índice de recompra' },
       { valor: '+20%', rotulo: 'Aumento na taxa de indicação · YoY' },
       { valor: '120→55 dias', rotulo: 'Redução na recência de compra · comparação YoY' },
     ],
@@ -396,7 +396,7 @@ export const estudosDeCaso: EstudoDeCase[] = [
     resultados: {
       titulo: 'Clientes voltando antes e trazendo outros.',
       paragrafos: [
-        'Na comparação ano contra ano, a taxa de recompra aumentou 35% e a taxa de indicação aumentou 20%.',
+        'O índice de recompra aumentou 39,2%. Na comparação ano contra ano, a taxa de indicação aumentou 20%.',
         'A recência de compra caiu de 120 para 55 dias, também na comparação YoY: menos da metade do valor anterior.',
       ],
       comparacao: {
@@ -430,7 +430,7 @@ export const estudosDeCaso: EstudoDeCase[] = [
           largura: 587,
           altura: 329,
           legenda:
-            'Trecho da matéria. Os percentuais citados nele são os publicados pela Central do Varejo, com recorte próprio, e não substituem os indicadores deste case.',
+            'Trecho da matéria da Central do Varejo, fonte do aumento de 39,2% no índice de recompra.',
         },
       },
     ],

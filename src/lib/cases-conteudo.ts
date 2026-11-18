@@ -30,7 +30,7 @@ const INDICADOR_POR_MARCA: Record<string, string> = {
   'Mamô Brasil': 'Vendas YoY',
   'GoPro Brasil': 'Vendas YoY',
   'Jack Links': 'Branded Search YoY',
-  Gringa: 'Taxa de Recompra YoY',
+  Gringa: 'Índice de Recompra',
 }
 
 /** Nome curto, para o rótulo não estourar a célula. */

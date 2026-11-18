@@ -67,7 +67,7 @@ export const cases: CaseStudy[] = [
     challenge: 'Clientes levavam meses para voltar a comprar depois do primeiro pedido.',
     action: 'CRM e automações de recompra, com programas de fidelização e indicação.',
     metrics: [
-      { label: 'Taxa de Recompra YoY', value: '+35%' },
+      { label: 'Índice de Recompra', value: '+39,2%' },
       { label: 'Taxa de Indicação YoY', value: '+20%' },
       { label: 'Recência de Compra', value: '120→55 dias' },
     ],

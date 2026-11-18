@@ -155,7 +155,7 @@ const FAQ = [
 const CASES: { slug: string; indicador: string }[] = [
   { slug: "mamo", indicador: "+200%" },
   { slug: "gopro", indicador: "+120%" },
-  { slug: "gringa", indicador: "+35%" },
+  { slug: "gringa", indicador: "+39,2%" },
 ];
 
 function Secao({
@@ -662,8 +662,7 @@ export default function MaquinaDeReceita({
                     textoCta={CTA}
                   />
                   <p className="lp-nota">
-                    Indicadores publicados nos cases, cada um com a sua própria
-                    base de comparação (YoY).
+                    Indicadores publicados nos cases, cada um com a sua própria base de comparação.
                   </p>
                 </Secao>
 
