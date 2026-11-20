@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import CicloHeader from '@/components/ciclo/CicloHeader'
 import CicloFooter from '@/components/ciclo/CicloFooter'
 import Contato from '@/components/ciclo/Contato'
+import PlaybookPopup from '@/components/PlaybookPopup'
 import Breadcrumb from '@/components/ciclo/interior/Breadcrumb'
 import Faq from '@/components/ciclo/interior/Faq'
 import Frentes from '@/components/ciclo/tiktok/Frentes'
@@ -363,6 +364,7 @@ export default function TikTokShopPage() {
         </main>
 
         <CicloFooter />
+        <PlaybookPopup service="tiktok-shop" />
       </div>
     </div>
   )

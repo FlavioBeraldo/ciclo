@@ -5,6 +5,7 @@ import Image from 'next/image'
 import CicloHeader from '@/components/ciclo/CicloHeader'
 import CicloFooter from '@/components/ciclo/CicloFooter'
 import Contato from '@/components/ciclo/Contato'
+import PlaybookPopup from '@/components/PlaybookPopup'
 import Breadcrumb from '@/components/ciclo/interior/Breadcrumb'
 import Faq from '@/components/ciclo/interior/Faq'
 import CartoesDeServico from '@/components/ciclo/interior/CartoesDeServico'
@@ -356,6 +357,7 @@ export default async function ServicoPage({ params }: PageProps) {
         </main>
 
         <CicloFooter />
+        {servico.slug === 'agencia-ugc' && <PlaybookPopup service="agencia-ugc" />}
       </div>
     </div>
   )
