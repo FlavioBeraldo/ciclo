@@ -2,11 +2,11 @@
 import type { classify } from '@/lib/playbook-profile'
 
 type Consent = { marketing?: boolean; ad_storage?: string; ad_user_data?: string; ad_personalization?: string }
-type Receipt = ReturnType<typeof classify> & { success: boolean; event_id: string; interno?: boolean }
+type Receipt = ReturnType<typeof classify> & { success: boolean; event_id: string; interno?: boolean; sinais_permitidos: boolean }
 export function publishClassifiedLead(r: Receipt) {
   const w = window as Window & { cicloPerfilPermissoes?: () => Consent; dataLayer?: unknown[] }
   const p = w.cicloPerfilPermissoes?.()
-  if (!r.success || r.interno || !p || p.marketing !== true || p.ad_storage !== 'granted' ||
+  if (!r.success || r.interno || r.sinais_permitidos !== true || !p || p.marketing !== true || p.ad_storage !== 'granted' ||
       p.ad_user_data !== 'granted' || p.ad_personalization !== 'granted') return
   const q = new URLSearchParams(window.location.search).get('utm_source')
   const stored = document.cookie.split('; ').find(c => c.startsWith('ciclo_perfil_origem='))?.split('=')[1]
