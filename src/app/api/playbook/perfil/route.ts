@@ -1,5 +1,6 @@
 // Enriquecimento pós-sucesso. Nunca cria negócio ou pessoa nem reenvia o Lead.
 import { NextRequest, NextResponse } from 'next/server'
+import { isInternalEmail } from '@/lib/meta-capi'
 import { classify } from '@/lib/playbook-profile'
 import { getVisitor } from '@/lib/supabase-server'
 import { UID_COOKIE } from '@/lib/identity-server'
@@ -96,7 +97,7 @@ export async function POST(req: NextRequest) {
         await crm('/deals/' + deal.id, { method: 'PATCH', body: JSON.stringify({ label_ids: [...existing, labelId] }) })
       }
     }
-    return NextResponse.json({ success: true, event_id: id, ...profile }, { headers: { 'Cache-Control': 'no-store' } })
+    return NextResponse.json({ success: true, event_id: id, ...profile, interno: isInternalEmail(visitor.email) }, { headers: { 'Cache-Control': 'no-store' } })
   } catch {
     console.error('[Playbook Perfil] Falha no enriquecimento independente')
     return new Response(null, { status: 503 })

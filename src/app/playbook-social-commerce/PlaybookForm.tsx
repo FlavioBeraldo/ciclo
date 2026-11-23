@@ -16,6 +16,7 @@ function LinkedinIcon({ className }: { className?: string }) {
 }
 import PlaybookProfileFields from './PlaybookProfileFields'
 import type { Answers } from '@/lib/playbook-profile'
+import { publishClassifiedLead } from './publishClassifiedLead'
 import PhoneField from '@/components/ui/PhoneField'
 import { getAttributionPayload, isLinkedInTraffic } from '@/lib/attribution'
 import { track } from '@/lib/track'
@@ -135,7 +136,12 @@ export default function PlaybookForm() {
           if (attempt) await new Promise(resolve => setTimeout(resolve, attempt * 1500))
           const response = await fetch('/api/playbook/perfil', { method: 'POST', keepalive: true,
             headers: { 'Content-Type': 'application/json' }, body: payload }).catch(() => null)
-          if (response?.ok || response?.status === 400 || response?.status === 403) break
+          if (response?.ok) {
+            const confirmed = await response.json()
+            publishClassifiedLead(confirmed)
+            break
+          }
+          if (response?.status === 400 || response?.status === 403) break
         }
       }).catch(() => {})
     } catch {
