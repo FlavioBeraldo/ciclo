@@ -164,6 +164,11 @@ async function prepararSandboxPlaybook() {
   const stageList=await api('v2/stages?pipeline_id='+pipe.id)
   if(stageList.sort((a,b)=>a.order_nr-b.order_nr)[0]?.id!==stage.id)throw Error('A primeira etapa do sandbox deve ser Baixou material')
   const dir=process.cwd(), f=dir+'/src/lib/pipedrive-fields.ts', r=dir+'/src/app/api/playbook/perfil/route.ts'
+  if (process.env.META_CAPI_TOKEN) throw Error('Token de mídia presente no preview')
+  const layoutFile=dir+'/src/app/layout.tsx'
+  const layout=readFileSync(layoutFile,'utf8').replace(/<Script\s+id="gtm-head"[\s\S]*?\/>/,'<script dangerouslySetInnerHTML={{ __html: "window.dataLayer = window.dataLayer || [];" }} />').replace(/<noscript>[\s\S]*?<\/noscript>/,'')
+  if(layout.includes('googletagmanager.com'))throw Error('Isolamento web incompleto')
+  writeFileSync(layoutFile,layout)
   let fields=readFileSync(f,'utf8'),route=readFileSync(r,'utf8')
   const all=await api('v2/dealFields?limit=500')
   for(const [old,name,kind] of [
