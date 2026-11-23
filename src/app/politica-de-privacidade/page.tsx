@@ -1,3 +1,4 @@
+import { profileNoticeEnabled } from '@/lib/consent-preview'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import OptOutNotice from './OptOutNotice'
@@ -208,6 +209,16 @@ const sections = [
       'Você pode solicitar mais informações sobre essas transferências pelo e-mail privacidade@cicloecommerce.com.br.',
     ],
   },
+  ...(profileNoticeEnabled ? [{
+    id: 'medicao-perfil-a',
+    title: '14. Medição opcional de campanhas de Perfil A',
+    content: [
+      'A escolha no aviso se aplica exclusivamente à medição adicional de visitas e leads de Perfil A. As demais ferramentas de mensuração, o atendimento pelo CRM e o download do Playbook seguem o fluxo descrito nas seções anteriores.',
+      'Ao aceitar, você permite que a Ciclo use a origem de campanhas e a classificação obtida no formulário para medir visitas e leads de Perfil A no Google, na Meta e no LinkedIn, quando essas integrações estiverem ativas. A escolha não inclui o envio de listas de clientes do CRM.',
+      'O site guarda a preferência neste navegador por até 180 dias. O recibo contém a versão do aviso, a data, a escolha e uma referência aleatória. O registro da preferência não contém nome, e-mail, telefone ou URL.',
+      'Você pode recusar ou mudar sua escolha a qualquer momento em “Preferência de Perfil A”, no fim da página. A recusa desativa a autorização para os sinais adicionais e remove, se existirem, os cookies de perfil e origem criados para esse projeto.',
+    ],
+  }] : []),
 ]
 
 // Política de privacidade no design 2026.
@@ -256,7 +267,7 @@ export default function PoliticaDePrivacidade() {
                 13.709/2018).
               </p>
 
-              <p className="legal-data">Última atualização: setembro de 2026</p>
+              <p className="legal-data">Última atualização: {profileNoticeEnabled ? 'novembro de 2026' : 'setembro de 2026'}</p>
 
               <nav className="legal-indice" aria-label="Índice da política">
                 <h2>Índice</h2>
