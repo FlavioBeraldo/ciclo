@@ -8,7 +8,7 @@ import { ATTRIBUTION_FIELD_KEYS } from '@/lib/pipedrive-fields'
 const PROFILE_FIELD = '3581ad9c8d4612bf6cfce83ba340c2dc80af539c'
 const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
 const eventKey = /^(?:[a-f0-9-]{36}|\d{13}-[a-z0-9]{1,10})$/i
-type Deal = { id: number; custom_fields?: Record<string, unknown> }
+type Deal = { id: number; label_ids?: number[]; custom_fields?: Record<string, unknown> }
 
 async function crm(path: string, init?: RequestInit) {
   const res = await fetch('https://cicloe-commerce.pipedrive.com/api/v2' + path, {
@@ -20,6 +20,20 @@ async function crm(path: string, init?: RequestInit) {
   if (body.success !== true) throw new Error('CRM recusou a operação')
   return body.data
 }
+// Identifica a etiqueta pelo nome na conta. O ID não é o do campo personalizado.
+async function profileLabel(): Promise<number> {
+  const response = await fetch('https://cicloe-commerce.pipedrive.com/api/v1/dealFields?limit=100', {
+    headers: { 'x-api-token': process.env.PIPEDRIVE_API_TOKEN! }, signal: AbortSignal.timeout(5000),
+    next: { revalidate: 300 },
+  })
+  if (!response.ok) throw new Error('Catálogo de etiquetas indisponível')
+  const fields = (await response.json()).data as { key: string; options?: { label: string; id: number }[] }[]
+  const labels = fields.find(field => ['label', 'label_ids'].includes(field.key))?.options
+  const matches = labels?.filter(option => option.label === 'Perfil A')
+  if (matches?.length !== 1) throw new Error('Etiqueta Perfil A indisponível')
+  return Number(matches[0].id)
+}
+
 function submittedDeal(deal: Deal, id: string) {
   const extra = deal.custom_fields?.[ATTRIBUTION_FIELD_KEYS.extra]
   try { return typeof extra === 'string' && JSON.parse(extra).event_id === id }
@@ -72,6 +86,15 @@ export async function POST(req: NextRequest) {
     if (deal.custom_fields?.[PROFILE_FIELD] !== profile.perfil) {
       await crm('/deals/' + deal.id, { method: 'PATCH',
         body: JSON.stringify({ custom_fields: { [PROFILE_FIELD]: profile.perfil } }) })
+    }
+    if (profile.perfil === 'A') {
+      const labelId = await profileLabel()
+      const fresh: Deal = await crm('/deals/' + deal.id)
+      const existing = fresh.label_ids ?? []
+      if (!existing.includes(labelId)) {
+        // A API substitui o conjunto de etiquetas. Une aos valores lidos no negócio.
+        await crm('/deals/' + deal.id, { method: 'PATCH', body: JSON.stringify({ label_ids: [...existing, labelId] }) })
+      }
     }
     return NextResponse.json({ success: true, event_id: id, ...profile }, { headers: { 'Cache-Control': 'no-store' } })
   } catch {
