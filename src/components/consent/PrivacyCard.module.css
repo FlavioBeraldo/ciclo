@@ -39,3 +39,7 @@
 }
 @media (max-width: 350px) { .actions button { font-size: .8rem; } .header img { width: 37px; } }
 @media (forced-colors: active) { .row input { appearance: auto; } .row input::before { display: none; } }
+/* O Playbook mantém o CTA do download fixo até 1023px. */
+@media (max-width: 1023px) {
+  .footer { padding-bottom: calc(84px + env(safe-area-inset-bottom)); }
+}
