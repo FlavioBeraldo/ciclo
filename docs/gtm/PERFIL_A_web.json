@@ -1,0 +1,1160 @@
+{
+  "exportFormatVersion": 2,
+  "containerVersion": {
+    "accountId": "90077977",
+    "containerId": "1296668",
+    "containerVersionId": "0",
+    "container": {
+      "accountId": "90077977",
+      "containerId": "1296668",
+      "name": "cicloecommerce.com.br",
+      "publicId": "GTM-5NNPNZ",
+      "usageContext": [
+        "WEB"
+      ]
+    },
+    "variable": [
+      {
+        "variableId": "6100",
+        "name": "PERFIL_A - DL perfil",
+        "type": "v",
+        "parameter": [
+          {
+            "type": "TEMPLATE",
+            "key": "name",
+            "value": "pa_perfil"
+          },
+          {
+            "type": "INTEGER",
+            "key": "dataLayerVersion",
+            "value": "1"
+          }
+        ]
+      },
+      {
+        "variableId": "6101",
+        "name": "PERFIL_A - DL origem",
+        "type": "v",
+        "parameter": [
+          {
+            "type": "TEMPLATE",
+            "key": "name",
+            "value": "pa_origem"
+          },
+          {
+            "type": "INTEGER",
+            "key": "dataLayerVersion",
+            "value": "1"
+          }
+        ]
+      },
+      {
+        "variableId": "6102",
+        "name": "PERFIL_A - DL cargo",
+        "type": "v",
+        "parameter": [
+          {
+            "type": "TEMPLATE",
+            "key": "name",
+            "value": "pa_cargo"
+          },
+          {
+            "type": "INTEGER",
+            "key": "dataLayerVersion",
+            "value": "1"
+          }
+        ]
+      },
+      {
+        "variableId": "6103",
+        "name": "PERFIL_A - DL faixa_faturamento",
+        "type": "v",
+        "parameter": [
+          {
+            "type": "TEMPLATE",
+            "key": "name",
+            "value": "pa_faixa_faturamento"
+          },
+          {
+            "type": "INTEGER",
+            "key": "dataLayerVersion",
+            "value": "1"
+          }
+        ]
+      },
+      {
+        "variableId": "6104",
+        "name": "PERFIL_A - DL tipo_negocio",
+        "type": "v",
+        "parameter": [
+          {
+            "type": "TEMPLATE",
+            "key": "name",
+            "value": "pa_tipo_negocio"
+          },
+          {
+            "type": "INTEGER",
+            "key": "dataLayerVersion",
+            "value": "1"
+          }
+        ]
+      },
+      {
+        "variableId": "6105",
+        "name": "PERFIL_A - DL papel_decisao",
+        "type": "v",
+        "parameter": [
+          {
+            "type": "TEMPLATE",
+            "key": "name",
+            "value": "pa_papel_decisao"
+          },
+          {
+            "type": "INTEGER",
+            "key": "dataLayerVersion",
+            "value": "1"
+          }
+        ]
+      },
+      {
+        "variableId": "6106",
+        "name": "PERFIL_A - DL email_corporativo",
+        "type": "v",
+        "parameter": [
+          {
+            "type": "TEMPLATE",
+            "key": "name",
+            "value": "pa_email_corporativo"
+          },
+          {
+            "type": "INTEGER",
+            "key": "dataLayerVersion",
+            "value": "1"
+          }
+        ]
+      },
+      {
+        "variableId": "6107",
+        "name": "PERFIL_A - DL event_id",
+        "type": "v",
+        "parameter": [
+          {
+            "type": "TEMPLATE",
+            "key": "name",
+            "value": "pa_event_id"
+          },
+          {
+            "type": "INTEGER",
+            "key": "dataLayerVersion",
+            "value": "1"
+          }
+        ]
+      },
+      {
+        "variableId": "6108",
+        "name": "PERFIL_A - Marketing OK",
+        "type": "jsm",
+        "parameter": [
+          {
+            "type": "TEMPLATE",
+            "key": "javascript",
+            "value": "function(){try {var p=typeof window.cicloPerfilPermissoes==='function' && window.cicloPerfilPermissoes();return !!(p && p.marketing===true && p.ad_storage==='granted' && p.ad_user_data==='granted' && p.ad_personalization==='granted');}catch(e){return false;}}"
+          }
+        ]
+      },
+      {
+        "variableId": "6109",
+        "name": "PERFIL_A - Analytics OK",
+        "type": "jsm",
+        "parameter": [
+          {
+            "type": "TEMPLATE",
+            "key": "javascript",
+            "value": "function(){try {var p=typeof window.cicloPerfilPermissoes==='function' && window.cicloPerfilPermissoes();return !!(p && p.marketing===true && p.ad_storage==='granted' && p.ad_user_data==='granted' && p.ad_personalization==='granted' && p.analytics_storage==='granted');}catch(e){return false;}}"
+          }
+        ]
+      }
+    ],
+    "trigger": [
+      {
+        "triggerId": "6200",
+        "name": "PERFIL_A - Acionar Avaliar página autorizada",
+        "type": "CUSTOM_EVENT",
+        "customEventFilter": [
+          {
+            "type": "EQUALS",
+            "parameter": [
+              {
+                "type": "TEMPLATE",
+                "key": "arg0",
+                "value": "{{_event}}"
+              },
+              {
+                "type": "TEMPLATE",
+                "key": "arg1",
+                "value": "pa_pagina_autorizada"
+              }
+            ]
+          }
+        ],
+        "filter": [
+          {
+            "type": "EQUALS",
+            "parameter": [
+              {
+                "type": "TEMPLATE",
+                "key": "arg0",
+                "value": "{{PERFIL_A - Marketing OK}}"
+              },
+              {
+                "type": "TEMPLATE",
+                "key": "arg1",
+                "value": "true"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "triggerId": "6201",
+        "name": "PERFIL_A - Acionar Limpar após revogação",
+        "type": "CUSTOM_EVENT",
+        "customEventFilter": [
+          {
+            "type": "EQUALS",
+            "parameter": [
+              {
+                "type": "TEMPLATE",
+                "key": "arg0",
+                "value": "{{_event}}"
+              },
+              {
+                "type": "TEMPLATE",
+                "key": "arg1",
+                "value": "pa_consentimento_revogado"
+              }
+            ]
+          }
+        ],
+        "filter": []
+      },
+      {
+        "triggerId": "6202",
+        "name": "PERFIL_A - Acionar GA4 visita_perfil_a",
+        "type": "CUSTOM_EVENT",
+        "customEventFilter": [
+          {
+            "type": "EQUALS",
+            "parameter": [
+              {
+                "type": "TEMPLATE",
+                "key": "arg0",
+                "value": "{{_event}}"
+              },
+              {
+                "type": "TEMPLATE",
+                "key": "arg1",
+                "value": "pa_visita_pronta"
+              }
+            ]
+          }
+        ],
+        "filter": [
+          {
+            "type": "EQUALS",
+            "parameter": [
+              {
+                "type": "TEMPLATE",
+                "key": "arg0",
+                "value": "{{PERFIL_A - Marketing OK}}"
+              },
+              {
+                "type": "TEMPLATE",
+                "key": "arg1",
+                "value": "true"
+              }
+            ]
+          },
+          {
+            "type": "EQUALS",
+            "parameter": [
+              {
+                "type": "TEMPLATE",
+                "key": "arg0",
+                "value": "{{PERFIL_A - Analytics OK}}"
+              },
+              {
+                "type": "TEMPLATE",
+                "key": "arg1",
+                "value": "true"
+              }
+            ]
+          },
+          {
+            "type": "EQUALS",
+            "parameter": [
+              {
+                "type": "TEMPLATE",
+                "key": "arg0",
+                "value": "{{PERFIL_A - DL perfil}}"
+              },
+              {
+                "type": "TEMPLATE",
+                "key": "arg1",
+                "value": "A"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "triggerId": "6203",
+        "name": "PERFIL_A - Acionar Meta visita_perfil_a",
+        "type": "CUSTOM_EVENT",
+        "customEventFilter": [
+          {
+            "type": "EQUALS",
+            "parameter": [
+              {
+                "type": "TEMPLATE",
+                "key": "arg0",
+                "value": "{{_event}}"
+              },
+              {
+                "type": "TEMPLATE",
+                "key": "arg1",
+                "value": "pa_visita_pronta"
+              }
+            ]
+          }
+        ],
+        "filter": [
+          {
+            "type": "EQUALS",
+            "parameter": [
+              {
+                "type": "TEMPLATE",
+                "key": "arg0",
+                "value": "{{PERFIL_A - Marketing OK}}"
+              },
+              {
+                "type": "TEMPLATE",
+                "key": "arg1",
+                "value": "true"
+              }
+            ]
+          },
+          {
+            "type": "EQUALS",
+            "parameter": [
+              {
+                "type": "TEMPLATE",
+                "key": "arg0",
+                "value": "{{PERFIL_A - DL perfil}}"
+              },
+              {
+                "type": "TEMPLATE",
+                "key": "arg1",
+                "value": "A"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "triggerId": "6204",
+        "name": "PERFIL_A - Acionar GA4 lead_perfil_a",
+        "type": "CUSTOM_EVENT",
+        "customEventFilter": [
+          {
+            "type": "EQUALS",
+            "parameter": [
+              {
+                "type": "TEMPLATE",
+                "key": "arg0",
+                "value": "{{_event}}"
+              },
+              {
+                "type": "TEMPLATE",
+                "key": "arg1",
+                "value": "perfil_lead_classificado"
+              }
+            ]
+          }
+        ],
+        "filter": [
+          {
+            "type": "EQUALS",
+            "parameter": [
+              {
+                "type": "TEMPLATE",
+                "key": "arg0",
+                "value": "{{PERFIL_A - Marketing OK}}"
+              },
+              {
+                "type": "TEMPLATE",
+                "key": "arg1",
+                "value": "true"
+              }
+            ]
+          },
+          {
+            "type": "EQUALS",
+            "parameter": [
+              {
+                "type": "TEMPLATE",
+                "key": "arg0",
+                "value": "{{PERFIL_A - Analytics OK}}"
+              },
+              {
+                "type": "TEMPLATE",
+                "key": "arg1",
+                "value": "true"
+              }
+            ]
+          },
+          {
+            "type": "EQUALS",
+            "parameter": [
+              {
+                "type": "TEMPLATE",
+                "key": "arg0",
+                "value": "{{PERFIL_A - DL perfil}}"
+              },
+              {
+                "type": "TEMPLATE",
+                "key": "arg1",
+                "value": "A"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "triggerId": "6205",
+        "name": "PERFIL_A - Acionar Meta lead_perfil_a",
+        "type": "CUSTOM_EVENT",
+        "customEventFilter": [
+          {
+            "type": "EQUALS",
+            "parameter": [
+              {
+                "type": "TEMPLATE",
+                "key": "arg0",
+                "value": "{{_event}}"
+              },
+              {
+                "type": "TEMPLATE",
+                "key": "arg1",
+                "value": "perfil_lead_classificado"
+              }
+            ]
+          }
+        ],
+        "filter": [
+          {
+            "type": "EQUALS",
+            "parameter": [
+              {
+                "type": "TEMPLATE",
+                "key": "arg0",
+                "value": "{{PERFIL_A - Marketing OK}}"
+              },
+              {
+                "type": "TEMPLATE",
+                "key": "arg1",
+                "value": "true"
+              }
+            ]
+          },
+          {
+            "type": "EQUALS",
+            "parameter": [
+              {
+                "type": "TEMPLATE",
+                "key": "arg0",
+                "value": "{{PERFIL_A - DL perfil}}"
+              },
+              {
+                "type": "TEMPLATE",
+                "key": "arg1",
+                "value": "A"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "triggerId": "6206",
+        "name": "PERFIL_A - Acionar LinkedIn Lead Perfil A",
+        "type": "CUSTOM_EVENT",
+        "customEventFilter": [
+          {
+            "type": "EQUALS",
+            "parameter": [
+              {
+                "type": "TEMPLATE",
+                "key": "arg0",
+                "value": "{{_event}}"
+              },
+              {
+                "type": "TEMPLATE",
+                "key": "arg1",
+                "value": "perfil_lead_classificado"
+              }
+            ]
+          }
+        ],
+        "filter": [
+          {
+            "type": "EQUALS",
+            "parameter": [
+              {
+                "type": "TEMPLATE",
+                "key": "arg0",
+                "value": "{{PERFIL_A - Marketing OK}}"
+              },
+              {
+                "type": "TEMPLATE",
+                "key": "arg1",
+                "value": "true"
+              }
+            ]
+          },
+          {
+            "type": "EQUALS",
+            "parameter": [
+              {
+                "type": "TEMPLATE",
+                "key": "arg0",
+                "value": "{{PERFIL_A - DL perfil}}"
+              },
+              {
+                "type": "TEMPLATE",
+                "key": "arg1",
+                "value": "A"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "triggerId": "6207",
+        "name": "PERFIL_A - Acionar CAPI visita_perfil_a",
+        "type": "CUSTOM_EVENT",
+        "customEventFilter": [
+          {
+            "type": "EQUALS",
+            "parameter": [
+              {
+                "type": "TEMPLATE",
+                "key": "arg0",
+                "value": "{{_event}}"
+              },
+              {
+                "type": "TEMPLATE",
+                "key": "arg1",
+                "value": "pa_visita_pronta"
+              }
+            ]
+          }
+        ],
+        "filter": [
+          {
+            "type": "EQUALS",
+            "parameter": [
+              {
+                "type": "TEMPLATE",
+                "key": "arg0",
+                "value": "{{PERFIL_A - Marketing OK}}"
+              },
+              {
+                "type": "TEMPLATE",
+                "key": "arg1",
+                "value": "true"
+              }
+            ]
+          },
+          {
+            "type": "EQUALS",
+            "parameter": [
+              {
+                "type": "TEMPLATE",
+                "key": "arg0",
+                "value": "{{PERFIL_A - DL perfil}}"
+              },
+              {
+                "type": "TEMPLATE",
+                "key": "arg1",
+                "value": "A"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "triggerId": "6208",
+        "name": "PERFIL_A - Acionar CAPI lead_perfil_a",
+        "type": "CUSTOM_EVENT",
+        "customEventFilter": [
+          {
+            "type": "EQUALS",
+            "parameter": [
+              {
+                "type": "TEMPLATE",
+                "key": "arg0",
+                "value": "{{_event}}"
+              },
+              {
+                "type": "TEMPLATE",
+                "key": "arg1",
+                "value": "perfil_lead_classificado"
+              }
+            ]
+          }
+        ],
+        "filter": [
+          {
+            "type": "EQUALS",
+            "parameter": [
+              {
+                "type": "TEMPLATE",
+                "key": "arg0",
+                "value": "{{PERFIL_A - Marketing OK}}"
+              },
+              {
+                "type": "TEMPLATE",
+                "key": "arg1",
+                "value": "true"
+              }
+            ]
+          },
+          {
+            "type": "EQUALS",
+            "parameter": [
+              {
+                "type": "TEMPLATE",
+                "key": "arg0",
+                "value": "{{PERFIL_A - DL perfil}}"
+              },
+              {
+                "type": "TEMPLATE",
+                "key": "arg1",
+                "value": "A"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "tag": [
+      {
+        "tagId": "6300",
+        "name": "PERFIL_A - Avaliar página autorizada",
+        "type": "html",
+        "parameter": [
+          {
+            "type": "TEMPLATE",
+            "key": "html",
+            "value": "<script>\n(function () {\n  'use strict';\n  // Contrato da CMP. Indisponível, revogado ou indefinido bloqueia o projeto.\n  function allowed() {\n    var p = typeof window.cicloPerfilPermissoes === 'function' && window.cicloPerfilPermissoes();\n    return !!(p && p.marketing === true && p.ad_storage === 'granted' &&\n      p.ad_user_data === 'granted' && p.ad_personalization === 'granted');\n  }\n  if (!allowed() || location.protocol !== 'https:') return;\n  var sessionKey = 'ciclo_pa_sessao_v1';\n  function cookie(name) {\n    var found = document.cookie.split(';').map(function (s) { return s.trim(); })\n      .filter(function (s) { return s.indexOf(name + '=') === 0; })[0];\n    return found ? found.slice(name.length + 1) : '';\n  }\n  function write(name, value) {\n    // Host atual, sem Domain. A landing canônica e a navegação usam o mesmo host.\n    document.cookie = name + '=' + value + '; Max-Age=7776000; Path=/; SameSite=Lax; Secure';\n  }\n  function record() {\n    if (!allowed()) return; // a revogação pode ocorrer enquanto outra aba mantém a trava\n    var q = new URLSearchParams(location.search);\n    var src = q.get('utm_source');\n    if (q.get('utm_term') === 'perfil_a' && /^(linkedin|meta|google)$/.test(src || '')) {\n      write('ciclo_perfil', 'A'); write('ciclo_perfil_origem', src);\n    }\n    src = cookie('ciclo_perfil_origem');\n    if (cookie('ciclo_perfil') !== 'A' || !/^(linkedin|meta|google)$/.test(src)) return;\n    var last = Number(localStorage.getItem(sessionKey) || 0), now = Date.now();\n    localStorage.setItem(sessionKey, String(now)); // renova a janela de inatividade em cada page view\n    if (last && now >= last && now - last < 1800000) return;\n    window.dataLayer = window.dataLayer || [];\n    window.dataLayer.push({event:'pa_visita_pronta', pa_perfil:'A', pa_origem:src,\n      pa_event_id:'pa-v-' + crypto.randomUUID()});\n  }\n  // Web Locks serializa duas abas. Sem armazenamento/trava, omite o sinal para evitar duplicatas.\n  if (navigator.locks && crypto.randomUUID) navigator.locks.request(sessionKey, record).catch(function () {});\n})();\n</script>\n"
+          },
+          {
+            "type": "BOOLEAN",
+            "key": "supportDocumentWrite",
+            "value": "false"
+          }
+        ],
+        "firingTriggerId": [
+          "6200"
+        ],
+        "tagFiringOption": "ONCE_PER_EVENT",
+        "consentSettings": {
+          "consentStatus": "NEEDED",
+          "consentType": {
+            "type": "LIST",
+            "list": [
+              {
+                "type": "TEMPLATE",
+                "value": "ad_storage"
+              },
+              {
+                "type": "TEMPLATE",
+                "value": "ad_user_data"
+              },
+              {
+                "type": "TEMPLATE",
+                "value": "ad_personalization"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "tagId": "6301",
+        "name": "PERFIL_A - Limpar após revogação",
+        "type": "html",
+        "parameter": [
+          {
+            "type": "TEMPLATE",
+            "key": "html",
+            "value": "<script>\n(function () {\n  // Limpa exclusivamente os dois cookies e o marcador criados por este projeto.\n  ['ciclo_perfil','ciclo_perfil_origem'].forEach(function (name) {\n    document.cookie = name + '=; Max-Age=0; Path=/; SameSite=Lax; Secure';\n  });\n  try { localStorage.removeItem('ciclo_pa_sessao_v1'); } catch (_) {}\n})();\n</script>\n"
+          },
+          {
+            "type": "BOOLEAN",
+            "key": "supportDocumentWrite",
+            "value": "false"
+          }
+        ],
+        "firingTriggerId": [
+          "6201"
+        ],
+        "tagFiringOption": "ONCE_PER_EVENT",
+        "consentSettings": {
+          "consentStatus": "NOT_NEEDED"
+        }
+      },
+      {
+        "tagId": "6302",
+        "name": "PERFIL_A - GA4 visita_perfil_a",
+        "type": "gaawe",
+        "parameter": [
+          {
+            "type": "TEMPLATE",
+            "key": "measurementIdOverride",
+            "value": "G-EY1FLE5C0J"
+          },
+          {
+            "type": "TEMPLATE",
+            "key": "eventName",
+            "value": "visita_perfil_a"
+          },
+          {
+            "type": "LIST",
+            "key": "eventSettingsTable",
+            "list": [
+              {
+                "type": "MAP",
+                "map": [
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameter",
+                    "value": "perfil"
+                  },
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameterValue",
+                    "value": "{{PERFIL_A - DL perfil}}"
+                  }
+                ]
+              },
+              {
+                "type": "MAP",
+                "map": [
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameter",
+                    "value": "origem"
+                  },
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameterValue",
+                    "value": "{{PERFIL_A - DL origem}}"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "firingTriggerId": [
+          "6202"
+        ],
+        "tagFiringOption": "ONCE_PER_EVENT",
+        "consentSettings": {
+          "consentStatus": "NEEDED",
+          "consentType": {
+            "type": "LIST",
+            "list": [
+              {
+                "type": "TEMPLATE",
+                "value": "ad_storage"
+              },
+              {
+                "type": "TEMPLATE",
+                "value": "ad_user_data"
+              },
+              {
+                "type": "TEMPLATE",
+                "value": "ad_personalization"
+              },
+              {
+                "type": "TEMPLATE",
+                "value": "analytics_storage"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "tagId": "6303",
+        "name": "PERFIL_A - Meta visita_perfil_a",
+        "type": "html",
+        "parameter": [
+          {
+            "type": "TEMPLATE",
+            "key": "html",
+            "value": "<script>\n(function(){\n  var id={{PERFIL_A - DL event_id}};\n  if(typeof window.fbq !== 'function' || typeof id !== 'string' || !/^pa-v-[a-zA-Z0-9-]+$/.test(id)) return;\n  window.fbq('trackCustom','visita_perfil_a',{perfil:{{PERFIL_A - DL perfil}}, origem:{{PERFIL_A - DL origem}}},{eventID:id});\n})();\n</script>"
+          },
+          {
+            "type": "BOOLEAN",
+            "key": "supportDocumentWrite",
+            "value": "false"
+          }
+        ],
+        "firingTriggerId": [
+          "6203"
+        ],
+        "tagFiringOption": "ONCE_PER_EVENT",
+        "consentSettings": {
+          "consentStatus": "NEEDED",
+          "consentType": {
+            "type": "LIST",
+            "list": [
+              {
+                "type": "TEMPLATE",
+                "value": "ad_storage"
+              },
+              {
+                "type": "TEMPLATE",
+                "value": "ad_user_data"
+              },
+              {
+                "type": "TEMPLATE",
+                "value": "ad_personalization"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "tagId": "6304",
+        "name": "PERFIL_A - GA4 lead_perfil_a",
+        "type": "gaawe",
+        "parameter": [
+          {
+            "type": "TEMPLATE",
+            "key": "measurementIdOverride",
+            "value": "G-EY1FLE5C0J"
+          },
+          {
+            "type": "TEMPLATE",
+            "key": "eventName",
+            "value": "lead_perfil_a"
+          },
+          {
+            "type": "LIST",
+            "key": "eventSettingsTable",
+            "list": [
+              {
+                "type": "MAP",
+                "map": [
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameter",
+                    "value": "perfil"
+                  },
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameterValue",
+                    "value": "{{PERFIL_A - DL perfil}}"
+                  }
+                ]
+              },
+              {
+                "type": "MAP",
+                "map": [
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameter",
+                    "value": "origem"
+                  },
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameterValue",
+                    "value": "{{PERFIL_A - DL origem}}"
+                  }
+                ]
+              },
+              {
+                "type": "MAP",
+                "map": [
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameter",
+                    "value": "cargo"
+                  },
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameterValue",
+                    "value": "{{PERFIL_A - DL cargo}}"
+                  }
+                ]
+              },
+              {
+                "type": "MAP",
+                "map": [
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameter",
+                    "value": "faixa_faturamento"
+                  },
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameterValue",
+                    "value": "{{PERFIL_A - DL faixa_faturamento}}"
+                  }
+                ]
+              },
+              {
+                "type": "MAP",
+                "map": [
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameter",
+                    "value": "tipo_negocio"
+                  },
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameterValue",
+                    "value": "{{PERFIL_A - DL tipo_negocio}}"
+                  }
+                ]
+              },
+              {
+                "type": "MAP",
+                "map": [
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameter",
+                    "value": "papel_decisao"
+                  },
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameterValue",
+                    "value": "{{PERFIL_A - DL papel_decisao}}"
+                  }
+                ]
+              },
+              {
+                "type": "MAP",
+                "map": [
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameter",
+                    "value": "email_corporativo"
+                  },
+                  {
+                    "type": "TEMPLATE",
+                    "key": "parameterValue",
+                    "value": "{{PERFIL_A - DL email_corporativo}}"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "firingTriggerId": [
+          "6204"
+        ],
+        "tagFiringOption": "ONCE_PER_EVENT",
+        "consentSettings": {
+          "consentStatus": "NEEDED",
+          "consentType": {
+            "type": "LIST",
+            "list": [
+              {
+                "type": "TEMPLATE",
+                "value": "ad_storage"
+              },
+              {
+                "type": "TEMPLATE",
+                "value": "ad_user_data"
+              },
+              {
+                "type": "TEMPLATE",
+                "value": "ad_personalization"
+              },
+              {
+                "type": "TEMPLATE",
+                "value": "analytics_storage"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "tagId": "6305",
+        "name": "PERFIL_A - Meta lead_perfil_a",
+        "type": "html",
+        "parameter": [
+          {
+            "type": "TEMPLATE",
+            "key": "html",
+            "value": "<script>\n(function(){\n  var id={{PERFIL_A - DL event_id}};\n  if(typeof window.fbq !== 'function' || typeof id !== 'string' || !/^pa-l-[a-zA-Z0-9-]+$/.test(id)) return;\n  window.fbq('trackCustom','lead_perfil_a',{perfil:{{PERFIL_A - DL perfil}}, origem:{{PERFIL_A - DL origem}}, cargo:{{PERFIL_A - DL cargo}}, faixa_faturamento:{{PERFIL_A - DL faixa_faturamento}}, tipo_negocio:{{PERFIL_A - DL tipo_negocio}}, papel_decisao:{{PERFIL_A - DL papel_decisao}}, email_corporativo:{{PERFIL_A - DL email_corporativo}}},{eventID:id});\n})();\n</script>"
+          },
+          {
+            "type": "BOOLEAN",
+            "key": "supportDocumentWrite",
+            "value": "false"
+          }
+        ],
+        "firingTriggerId": [
+          "6205"
+        ],
+        "tagFiringOption": "ONCE_PER_EVENT",
+        "consentSettings": {
+          "consentStatus": "NEEDED",
+          "consentType": {
+            "type": "LIST",
+            "list": [
+              {
+                "type": "TEMPLATE",
+                "value": "ad_storage"
+              },
+              {
+                "type": "TEMPLATE",
+                "value": "ad_user_data"
+              },
+              {
+                "type": "TEMPLATE",
+                "value": "ad_personalization"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "tagId": "6306",
+        "name": "PERFIL_A - LinkedIn Lead Perfil A",
+        "type": "html",
+        "parameter": [
+          {
+            "type": "TEMPLATE",
+            "key": "html",
+            "value": "<script>if(typeof window.lintrk==='function') window.lintrk('track',{conversion_id:33090057});</script>"
+          },
+          {
+            "type": "BOOLEAN",
+            "key": "supportDocumentWrite",
+            "value": "false"
+          }
+        ],
+        "firingTriggerId": [
+          "6206"
+        ],
+        "tagFiringOption": "ONCE_PER_EVENT",
+        "consentSettings": {
+          "consentStatus": "NEEDED",
+          "consentType": {
+            "type": "LIST",
+            "list": [
+              {
+                "type": "TEMPLATE",
+                "value": "ad_storage"
+              },
+              {
+                "type": "TEMPLATE",
+                "value": "ad_user_data"
+              },
+              {
+                "type": "TEMPLATE",
+                "value": "ad_personalization"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "tagId": "6307",
+        "name": "PERFIL_A - CAPI visita_perfil_a",
+        "type": "html",
+        "parameter": [
+          {
+            "type": "TEMPLATE",
+            "key": "html",
+            "value": "<script>\n(function () {\n  var id = {{PERFIL_A - DL event_id}}, origem = {{PERFIL_A - DL origem}};\n  function enviar(tentativa) {\n    var p = window.cicloPerfilPermissoes && window.cicloPerfilPermissoes();\n    if (!p || !p.marketing || p.ad_user_data !== 'granted') return;\n    fetch('/api/perfil-a/sinais', {method:'POST',credentials:'same-origin',keepalive:true,\n      headers:{'Content-Type':'application/json'},body:JSON.stringify({nome:'visita_perfil_a',id:id,origem:origem})})\n      .then(function(r){if(r.status >= 500) throw Error();})\n      .catch(function(){if(!tentativa) setTimeout(function(){enviar(1);},22000);});\n  }\n  enviar(0);\n})();\n</script>"
+          },
+          {
+            "type": "BOOLEAN",
+            "key": "supportDocumentWrite",
+            "value": "false"
+          }
+        ],
+        "firingTriggerId": [
+          "6207"
+        ],
+        "tagFiringOption": "ONCE_PER_EVENT",
+        "consentSettings": {
+          "consentStatus": "NEEDED",
+          "consentType": {
+            "type": "LIST",
+            "list": [
+              {
+                "type": "TEMPLATE",
+                "value": "ad_storage"
+              },
+              {
+                "type": "TEMPLATE",
+                "value": "ad_user_data"
+              },
+              {
+                "type": "TEMPLATE",
+                "value": "ad_personalization"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "tagId": "6308",
+        "name": "PERFIL_A - CAPI lead_perfil_a",
+        "type": "html",
+        "parameter": [
+          {
+            "type": "TEMPLATE",
+            "key": "html",
+            "value": "<script>\n(function () {\n  var id = {{PERFIL_A - DL event_id}}, origem = {{PERFIL_A - DL origem}};\n  function enviar(tentativa) {\n    var p = window.cicloPerfilPermissoes && window.cicloPerfilPermissoes();\n    if (!p || !p.marketing || p.ad_user_data !== 'granted') return;\n    fetch('/api/perfil-a/sinais', {method:'POST',credentials:'same-origin',keepalive:true,\n      headers:{'Content-Type':'application/json'},body:JSON.stringify({nome:'lead_perfil_a',id:id,origem:origem})})\n      .then(function(r){if(r.status >= 500) throw Error();})\n      .catch(function(){if(!tentativa) setTimeout(function(){enviar(1);},22000);});\n  }\n  enviar(0);\n})();\n</script>"
+          },
+          {
+            "type": "BOOLEAN",
+            "key": "supportDocumentWrite",
+            "value": "false"
+          }
+        ],
+        "firingTriggerId": [
+          "6208"
+        ],
+        "tagFiringOption": "ONCE_PER_EVENT",
+        "consentSettings": {
+          "consentStatus": "NEEDED",
+          "consentType": {
+            "type": "LIST",
+            "list": [
+              {
+                "type": "TEMPLATE",
+                "value": "ad_storage"
+              },
+              {
+                "type": "TEMPLATE",
+                "value": "ad_user_data"
+              },
+              {
+                "type": "TEMPLATE",
+                "value": "ad_personalization"
+              }
+            ]
+          }
+        }
+      }
+    ]
+  }
+}

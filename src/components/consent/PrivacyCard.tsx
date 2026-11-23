@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import { usePathname } from 'next/navigation'
 import { SlidersHorizontal } from 'lucide-react'
 import { choiceCookie, choiceLifetime, decodeChoice, encodeChoice, policyVersion } from '@/lib/privacy-choice'
 import styles from './PrivacyCard.module.css'
@@ -19,6 +20,7 @@ function persist(allowed: boolean) {
     for (const name of ['ciclo_perfil', 'ciclo_perfil_origem']) document.cookie = name + '=; Path=/; Max-Age=0; SameSite=Lax; Secure'
     try { localStorage.removeItem('ciclo_pa_sessao_v1') } catch {}
   }
+  window.dispatchEvent(new Event(syncKey))
   try { localStorage.setItem(syncKey, crypto.randomUUID()) } catch {}
 }
 
@@ -27,6 +29,40 @@ export default function PrivacyCard() {
   const [saved, setSaved] = useState<boolean | null>(null)
   const [pending, setPending] = useState(false)
   const [error, setError] = useState('')
+  const pathname = usePathname()
+  // A autorização é exclusiva do Perfil A e não atualiza o consentimento global.
+  useEffect(() => {
+    function permissions() {
+      const marketing = currentChoice() === true
+      const signal = marketing ? 'granted' : 'denied'
+      return { marketing, analytics_storage: signal, ad_storage: signal, ad_user_data: signal, ad_personalization: signal }
+    }
+    const w = window as Window & { cicloPerfilPermissoes?: typeof permissions; dataLayer?: unknown[] }
+    w.cicloPerfilPermissoes = permissions
+    function evaluate() {
+      if (!permissions().marketing) return
+      if (pathname === '/politica-de-privacidade' && new URLSearchParams(location.search).get('optout') === '1') {
+        persist(false)
+        void fetch('/api/privacidade/preferencias', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ perfil_a: false, version: policyVersion }) }).catch(() => {})
+        return
+      }
+      w.dataLayer = w.dataLayer || []
+      w.dataLayer.push({ event: 'pa_pagina_autorizada' })
+    }
+    const storage = (e: StorageEvent) => { if (e.key === syncKey) evaluate() }
+    const restored = (e: PageTransitionEvent) => { if (e.persisted) evaluate() }
+    evaluate()
+    window.addEventListener(syncKey, evaluate)
+    window.addEventListener('storage', storage)
+    window.addEventListener('pageshow', restored)
+    return () => {
+      window.removeEventListener(syncKey, evaluate)
+      window.removeEventListener('storage', storage)
+      window.removeEventListener('pageshow', restored)
+      delete w.cicloPerfilPermissoes
+    }
+  }, [pathname])
   const footer = useRef<HTMLButtonElement>(null)
   const heading = useRef<HTMLHeadingElement>(null)
 
