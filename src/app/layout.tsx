@@ -3,7 +3,7 @@ import { Inter } from 'next/font/google'
 import Script from 'next/script'
 import './globals.css'
 import PrivacyCard from '@/components/consent/PrivacyCard'
-import { consentPreview } from '@/lib/consent-preview'
+import { consentPreview, profileNoticeEnabled } from '@/lib/consent-preview'
 import AttributionTracker from '@/components/AttributionTracker'
 
 const inter = Inter({
@@ -70,7 +70,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         {/* End Google Tag Manager (noscript) */}
         {!consentPreview && <AttributionTracker />}
         {children}
-        {consentPreview && <PrivacyCard />}
+        {profileNoticeEnabled && <PrivacyCard />}
       </body>
     </html>
   )

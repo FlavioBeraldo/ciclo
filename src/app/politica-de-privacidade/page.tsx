@@ -1,4 +1,4 @@
-import { consentPreview } from '@/lib/consent-preview'
+import { profileNoticeEnabled } from '@/lib/consent-preview'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import OptOutNotice from './OptOutNotice'
@@ -62,7 +62,7 @@ const sections = [
     title: '4. Base legal para o tratamento',
     content: ['O tratamento dos seus dados pessoais se baseia nas seguintes hipóteses legais previstas na LGPD:'],
     list: [
-      consentPreview ? 'Para cookies analíticos e de publicidade, você escolhe as finalidades no painel de preferências. O formulário tem uma escolha separada para o contato da Ciclo.' : 'Consentimento (art. 7º, I): para o envio de comunicações de marketing e uso de cookies não essenciais, mediante aceite expresso no formulário',
+      'Consentimento (art. 7º, I): para o envio de comunicações de marketing e uso de cookies não essenciais, mediante aceite expresso no formulário',
       'Legítimo interesse (art. 7º, IX): para responder às suas solicitações de contato e gerenciar o relacionamento comercial',
       'Cumprimento de obrigação legal (art. 7º, II): quando exigido por lei ou regulamentação aplicável',
     ],
@@ -132,7 +132,7 @@ const sections = [
       'Preferências: armazenam configurações do usuário',
     ],
     extra: [
-      consentPreview ? 'Você pode aceitar, rejeitar ou configurar as categorias no cartão de privacidade e rever a escolha em Preferências de cookies no fim da página. A preferência vale por até 180 dias neste navegador. Registramos a data, a versão e as categorias escolhidas com uma referência aleatória, sem incluir nome, e-mail ou telefone no comprovante.' : 'Ao navegar no site e preencher nossos formulários, você consente com o uso de cookies conforme descrito acima. Você pode gerenciar ou desativar cookies nas configurações do seu navegador, o que pode afetar algumas funcionalidades do site.',
+      'Ao navegar no site e preencher nossos formulários, você consente com o uso de cookies conforme descrito acima. Você pode gerenciar ou desativar cookies nas configurações do seu navegador, o que pode afetar algumas funcionalidades do site.',
     ],
   },
   {
@@ -209,6 +209,16 @@ const sections = [
       'Você pode solicitar mais informações sobre essas transferências pelo e-mail privacidade@cicloecommerce.com.br.',
     ],
   },
+  ...(profileNoticeEnabled ? [{
+    id: 'medicao-perfil-a',
+    title: '14. Medição opcional de campanhas de Perfil A',
+    content: [
+      'A escolha no aviso se aplica exclusivamente à medição adicional de visitas e leads de Perfil A. As demais ferramentas de mensuração, o atendimento pelo CRM e o download do Playbook seguem o fluxo descrito nas seções anteriores.',
+      'Ao aceitar, você permite que a Ciclo use a origem de campanhas e a classificação obtida no formulário para medir visitas e leads de Perfil A no Google, na Meta e no LinkedIn, quando essas integrações estiverem ativas. A escolha não inclui o envio de listas de clientes do CRM.',
+      'O site guarda a preferência neste navegador por até 180 dias. O recibo contém a versão do aviso, a data, a escolha e uma referência aleatória. O registro da preferência não contém nome, e-mail, telefone ou URL.',
+      'Você pode recusar ou mudar sua escolha a qualquer momento em “Preferência de Perfil A”, no fim da página. A recusa desativa a autorização para os sinais adicionais e remove, se existirem, os cookies de perfil e origem criados para esse projeto.',
+    ],
+  }] : []),
 ]
 
 // Política de privacidade no design 2026.
@@ -257,7 +267,7 @@ export default function PoliticaDePrivacidade() {
                 13.709/2018).
               </p>
 
-              <p className="legal-data">Última atualização: {consentPreview ? 'novembro de 2026' : 'setembro de 2026'}</p>
+              <p className="legal-data">Última atualização: {profileNoticeEnabled ? 'novembro de 2026' : 'setembro de 2026'}</p>
 
               <nav className="legal-indice" aria-label="Índice da política">
                 <h2>Índice</h2>
