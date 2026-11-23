@@ -9,7 +9,7 @@ import { ATTRIBUTION_FIELD_KEYS } from '@/lib/pipedrive-fields'
 const PROFILE_FIELD = '3581ad9c8d4612bf6cfce83ba340c2dc80af539c'
 const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
 const eventKey = /^(?:[a-f0-9-]{36}|\d{13}-[a-z0-9]{1,10})$/i
-type Deal = { id: number; label_ids?: number[]; custom_fields?: Record<string, unknown> }
+type Deal = { id: number; person_id: number | null; pipeline_id: number; label_ids?: number[]; custom_fields?: Record<string, unknown> }
 
 async function crm(path: string, init?: RequestInit) {
   const res = await fetch('https://cicloe-commerce.pipedrive.com/api/v2' + path, {
@@ -58,7 +58,8 @@ export async function POST(req: NextRequest) {
       sort_by: 'add_time', sort_direction: 'desc', custom_fields: [ATTRIBUTION_FIELD_KEYS.extra, PROFILE_FIELD].join(','),
     })
     const deals: Deal[] = await crm('/deals?' + params)
-    const deal = deals.find(d => submittedDeal(d, body.recibo))
+    const deal = deals.find(d => d.person_id === visitor.pipedrive_person_id &&
+      d.pipeline_id === 13 && submittedDeal(d, body.recibo))
     if (!deal) return new Response(null, { status: 409 })
     const result = classify(body.respostas, visitor.email)
     // Journal operacional separado. Permite projetar os demais campos quando houver cota.
@@ -91,13 +92,21 @@ export async function POST(req: NextRequest) {
     if (profile.perfil === 'A') {
       const labelId = await profileLabel()
       const fresh: Deal = await crm('/deals/' + deal.id)
-      const existing = fresh.label_ids ?? []
+      // Uma resposta parcial não autoriza substituir etiquetas que não conseguimos ler.
+      const existing = fresh.label_ids
+      if (!Array.isArray(existing) || !existing.every(Number.isSafeInteger)) {
+        throw new Error('Lista de etiquetas indisponível')
+      }
       if (!existing.includes(labelId)) {
         // A API substitui o conjunto de etiquetas. Une aos valores lidos no negócio.
         await crm('/deals/' + deal.id, { method: 'PATCH', body: JSON.stringify({ label_ids: [...existing, labelId] }) })
       }
     }
-    return NextResponse.json({ success: true, event_id: id, ...profile, interno: isInternalEmail(visitor.email) }, { headers: { 'Cache-Control': 'no-store' } })
+    return NextResponse.json({
+      success: true, event_id: id, ...profile, interno: isInternalEmail(visitor.email),
+      // O navegador ainda exige o consentimento explícito da CMP antes do evento.
+      sinais_permitidos: visitor.opted_out === false,
+    }, { headers: { 'Cache-Control': 'no-store' } })
   } catch {
     console.error('[Playbook Perfil] Falha no enriquecimento independente')
     return new Response(null, { status: 503 })
