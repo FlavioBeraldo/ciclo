@@ -2,6 +2,8 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import Script from 'next/script'
 import './globals.css'
+import PrivacyCard from '@/components/consent/PrivacyCard'
+import { consentPreview } from '@/lib/consent-preview'
 import AttributionTracker from '@/components/AttributionTracker'
 
 const inter = Inter({
@@ -42,7 +44,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="dns-prefetch" href="https://www.youtube.com" />
         {/* Google Tag Manager — afterInteractive: continua disparando em todo
             pageload, mas deixa de bloquear a hidratação (LCP/TBT). */}
-        <Script
+        {!consentPreview && <Script
           id="gtm-head"
           strategy="afterInteractive"
           dangerouslySetInnerHTML={{
@@ -52,22 +54,23 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','GTM-5NNPNZ');`,
           }}
-        />
+        />}
         {/* End Google Tag Manager */}
       </head>
       <body className="grain">
         {/* Google Tag Manager (noscript) */}
-        <noscript>
+        {!consentPreview && <noscript>
           <iframe
             src="https://www.googletagmanager.com/ns.html?id=GTM-5NNPNZ"
             height="0"
             width="0"
             style={{ display: 'none', visibility: 'hidden' }}
           />
-        </noscript>
+        </noscript>}
         {/* End Google Tag Manager (noscript) */}
-        <AttributionTracker />
+        {!consentPreview && <AttributionTracker />}
         {children}
+        {consentPreview && <PrivacyCard />}
       </body>
     </html>
   )
