@@ -135,4 +135,62 @@ async function main() {
   }
 }
 
-main()
+async function prepararSandboxPlaybook() {
+  if (process.env.VERCEL_ENV !== 'preview' ||
+      process.env.VERCEL_GIT_COMMIT_REF !== 'feat/perfil-comercial-playbook' ||
+      process.env.SUPABASE_URL !== 'https://zlbpaawgzycaopobfxva.supabase.co') {
+    throw Error('Este build temporário é exclusivo da homologação do Playbook.')
+  }
+  const host = 'flavio-sandbox3.pipedrive.com'
+  const {readFileSync,writeFileSync} = require('node:fs')
+  const token=process.env.PIPEDRIVE_API_TOKEN
+  if (!token) throw Error('Token de sandbox ausente')
+  async function api(path, data) {
+    const response=await fetch('https://'+host+'/api/'+path,{
+      method:data?'POST':'GET',headers:{'x-api-token':token,'Content-Type':'application/json'},
+      body:data?JSON.stringify(data):undefined,
+    })
+    const body=await response.json().catch(()=>({}))
+    if(!response.ok || body.success!==true) throw Error('Sandbox '+path+' HTTP '+response.status+' '+String(body.error||'').slice(0,240))
+    return body.data
+  }
+  const me=await api('v1/users/me')
+  if (me.company_domain!=='flavio-sandbox3') throw Error('Identidade do sandbox não confirmada')
+  let pipe=(await api('v2/pipelines')).find(p=>p.name==='9 - Playbooks')
+  if (!pipe) pipe=await api('v2/pipelines',{name:'9 - Playbooks'})
+  const stages=await api('v2/stages?pipeline_id='+pipe.id)
+  let stage=stages.find(s=>s.name==='Baixou material')
+  if (!stage) stage=await api('v2/stages',{pipeline_id:pipe.id,name:'Baixou material'})
+  const stageList=await api('v2/stages?pipeline_id='+pipe.id)
+  if(stageList.sort((a,b)=>a.order_nr-b.order_nr)[0]?.id!==stage.id)throw Error('A primeira etapa do sandbox deve ser Baixou material')
+  const dir=process.cwd(), f=dir+'/src/lib/pipedrive-fields.ts', r=dir+'/src/app/api/playbook/perfil/route.ts'
+  let fields=readFileSync(f,'utf8'),route=readFileSync(r,'utf8')
+  const all=await api('v2/dealFields?limit=500')
+  for(const [old,name,kind] of [
+    ['308abcb1e691a74448516e2aa0e47627707c5d03','Origem (GA)','varchar'],
+    ['d8b3af3c093a3ee1e0bbd66084f4cc15672d5789','Mídia (GA)','varchar'],
+    ['97e93aa5129c31beb3180fc43c61567f1e7dc427','Campanha (GA)','varchar'],
+    ['f1be9c93fa7a0d8c092e25b3ec924e69e458e0b3','GA Client ID','varchar'],
+    ['ffe34e9a1b798b607fb3f937e219cb3a3d0506ca','GA Session ID','varchar'],
+    ['ba466eb264179c77139d91f732fd16dbb05f37ad','Site / URL da loja','varchar'],
+    ['ff38db9997ba5fca25f1e176d5733b0b57dbb4ac','Landing Page','varchar'],
+    ['9a5237229b3c4f35d8ccd24b35fc373acae8a93b','gclid','varchar'],
+    ['344f9e4ae525229bb3f275c1429ac7841c379da3','Atribuição extra (GA)','text'],
+    ['34b57523aeb4efdfe90674f07fc548ccd3da2769','Objetivo','text'],
+    ['678b296293c7b91b687cd94f012f3aa38c42563e','Linkedin','varchar'],
+    ['3581ad9c8d4612bf6cfce83ba340c2dc80af539c','Perfil comercial (Playbook)','varchar'],
+  ]) {
+    let field=all.find(f=>f.field_name===name)
+    if(!field)field=await api('v2/dealFields',{field_name:name,field_type:kind})
+    if(!/^[a-f0-9]{40}$/.test(field.field_code))throw Error('Chave de campo indisponível: '+name)
+    fields=fields.replaceAll(old,field.field_code)
+    route=route.replaceAll(old,field.field_code)
+  }
+  route=route.replaceAll('cicloe-commerce.pipedrive.com',host)
+    .replace("pipeline_id: '13'", "pipeline_id: '"+pipe.id+"'")
+    .replace('d.pipeline_id === 13','d.pipeline_id === '+pipe.id)
+  writeFileSync(f,fields);writeFileSync(r,route)
+  console.log('[Perfil A] Homologação preparada no sandbox; funil '+pipe.id+', etapa '+stage.id+'.')
+}
+
+prepararSandboxPlaybook().then(main).catch(e=>{ console.error(e.message);process.exitCode=1 })
