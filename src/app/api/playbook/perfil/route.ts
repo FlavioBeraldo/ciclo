@@ -1,7 +1,7 @@
 // Enriquecimento pós-sucesso. Nunca cria negócio ou pessoa nem reenvia o Lead.
 import { NextRequest, NextResponse } from 'next/server'
 import { isInternalEmail } from '@/lib/meta-capi'
-import { classify } from '@/lib/playbook-profile'
+import { businesses, classify, decisions, revenues, roles } from '@/lib/playbook-profile'
 import { getVisitor } from '@/lib/supabase-server'
 import { UID_COOKIE } from '@/lib/identity-server'
 import { ATTRIBUTION_FIELD_KEYS } from '@/lib/pipedrive-fields'
@@ -41,6 +41,74 @@ function submittedDeal(deal: Deal, id: string) {
   catch { return false }
 }
 
+// Os rótulos são do catálogo do formulário. Nenhum texto livre entra no HTML.
+function noteContent(profile: ReturnType<typeof classify>, id: string) {
+  function label(options: Record<string, string>, value: string) {
+    return Object.hasOwn(options, value) ? options[value] : 'Não informado'
+  }
+  const lines = [
+    '<b>Qualificação do Playbook de Social Commerce</b>',
+    'Perfil comercial: ' + (profile.perfil === 'A' ? 'A' : 'B'),
+    'Tipo de negócio: ' + label(businesses, profile.tipo_negocio),
+    'Cargo: ' + label(roles, profile.cargo),
+  ]
+  if (profile.cargo === 'dono') lines.push('Faturamento anual da empresa: ' + label(revenues, profile.faixa_faturamento))
+  if (['gestor', 'diretor'].includes(profile.cargo)) lines.push('Papel na contratação: ' + label(decisions, profile.papel_decisao))
+  if (!profile.completa) lines.push('Qualificação incompleta: há respostas opcionais em branco.')
+  lines.push('E-mail corporativo: ' + (profile.email_corporativo ? 'Sim' : 'Não'), 'Referência: ' + id)
+  return lines.join('<br>')
+}
+
+async function saveProfileNote(dealId: number, personId: number, profile: ReturnType<typeof classify>,
+  id: string, ledger: string, headers: Record<string, string>) {
+  const row = ledger + '?' + new URLSearchParams({
+    id: 'eq.' + (-dealId), event_id: 'eq.' + id, platform: 'eq.crm_perfil',
+  })
+  async function transition(from: string, to: string, noteId?: number) {
+    const res = await fetch(row + '&select=id&status=eq.' + from, {
+      method: 'PATCH', headers: { ...headers, Prefer: 'return=representation' },
+      body: JSON.stringify({ status: to, ...(noteId ? { response: { note_id: noteId } } : {}) }),
+      signal: AbortSignal.timeout(5000),
+    })
+    if (!res.ok) throw new Error('Registro da nota indisponível')
+    return (await res.json()).length === 1
+  }
+  const url = 'https://cicloe-commerce.pipedrive.com/api/v1/notes'
+  const auth = { 'x-api-token': process.env.PIPEDRIVE_API_TOKEN!, 'Content-Type': 'application/json' }
+  let noteId: number | undefined
+  if (await transition('received', 'note_pending')) {
+    const res = await fetch(url, { method: 'POST', headers: auth, signal: AbortSignal.timeout(5000),
+      body: JSON.stringify({ deal_id: dealId, person_id: personId, content: noteContent(profile, id) }) })
+    if (!res.ok) {
+      // Uma recusa explícita permite outra tentativa. Timeout/resposta ambígua exige reconciliação.
+      if ([400, 401, 403, 404, 422, 429].includes(res.status)) await transition('note_pending', 'received')
+      throw new Error('Nota comercial pendente')
+    }
+    const reply = await res.json()
+    if (reply.success) noteId = reply.data?.id
+  } else {
+    // Se a resposta se perdeu, procure a nota já aceita antes de liberar os eventos.
+    // Uma tentativa concorrente jamais faz um segundo POST de criação.
+    let start = 0
+    while (!noteId) {
+      const res = await fetch(url + '?' + new URLSearchParams({ deal_id: String(dealId),
+        limit: '100', start: String(start) }), { headers: auth, cache: 'no-store', signal: AbortSignal.timeout(5000) })
+      if (!res.ok) throw new Error('Consulta da nota indisponível')
+      const page = await res.json()
+      if (!page.success) throw new Error('Consulta da nota recusada')
+      const existing = (page.data || []).find((n: { person_id: number; deal_id: number; content: string }) =>
+        n.person_id === personId && n.deal_id === dealId && n.content.includes('Referência: ' + id) &&
+        n.content.includes('Qualificação do Playbook de Social Commerce'))
+      if (existing) { noteId = existing.id; break }
+      const next = page.additional_data?.pagination
+      if (!next?.more_items_in_collection || !Number.isSafeInteger(next.next_start) || next.next_start <= start) break
+      start = next.next_start
+    }
+  }
+  if (!noteId || !Number.isSafeInteger(noteId)) throw new Error('Aguardando confirmação da nota')
+  await transition('note_pending', 'note_saved', noteId)
+}
+
 export async function POST(req: NextRequest) {
   if (req.headers.get('origin') !== req.nextUrl.origin) return new Response(null, { status: 403 })
   const uid = req.cookies.get(UID_COOKIE)?.value || ''
@@ -71,7 +139,7 @@ export async function POST(req: NextRequest) {
     const ledger = base + '/rest/v1/conversion_events'
     const headers = { apikey: key, Authorization: 'Bearer ' + key, 'Content-Type': 'application/json' }
     const lookup = new URLSearchParams({ platform: 'eq.crm_perfil', event_id: 'eq.' + id,
-      deal_id: 'eq.' + deal.id, select: 'payload', order: 'id.asc', limit: '1' })
+      deal_id: 'eq.' + deal.id, select: 'payload,status', order: 'id.asc', limit: '1' })
     // A sequência bigserial do log atribui IDs positivos. Chave negativa por negócio
     // isola este novo evento e torna recarregamentos e tentativas concorrentes idempotentes.
     const recorded = await fetch(ledger + '?on_conflict=id', { method: 'POST',
@@ -101,6 +169,9 @@ export async function POST(req: NextRequest) {
         // A API substitui o conjunto de etiquetas. Une aos valores lidos no negócio.
         await crm('/deals/' + deal.id, { method: 'PATCH', body: JSON.stringify({ label_ids: [...existing, labelId] }) })
       }
+    }
+    if (saved.status !== 'note_saved') {
+      await saveProfileNote(deal.id, visitor.pipedrive_person_id, profile, id, ledger, headers)
     }
     return NextResponse.json({
       success: true, event_id: id, ...profile, interno: isInternalEmail(visitor.email),
