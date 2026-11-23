@@ -43,3 +43,16 @@
 @media (max-width: 1023px) {
   .footer { padding-bottom: calc(84px + env(safe-area-inset-bottom)); }
 }
+
+.compactCard { box-sizing: border-box; width: min(285px, calc(100vw - 24px)); padding: 13px 14px; border-radius: 15px; }
+.compactCard .header { gap: 7px; }
+.compactCard .header h2 { font-size: .95rem; letter-spacing: -.025em; }
+.compactCard .header img { width: 34px; }
+.compactCard p { margin: 6px 0 9px; font-size: .81rem; line-height: 1.4; }
+.compactCard p a { color: #5e396f; text-decoration: underline; text-underline-offset: 2px; white-space: nowrap; }
+.compactCard .actions { margin: 0; gap: 7px; }
+.compactCard .actions button { font-size: .85rem; min-height: 36px; padding: 5px 7px; border-radius: 9px; }
+@media (max-width: 700px) {
+  .compactCard { width: min(285px, calc(100vw - 24px)); padding: 11px 13px; }
+  .compactCard .actions button { min-height: 42px; }
+}

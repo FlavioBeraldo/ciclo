@@ -76,7 +76,7 @@ export default function PrivacyCard() {
     setView(currentChoice() ? 'hidden' : 'summary')
     requestAnimationFrame(() => {
       if (opener.current?.isConnected) opener.current.focus()
-      else document.getElementById('ciclo-privacy-settings')?.focus()
+      else footer.current?.focus({ preventScroll: true })
     })
   }
   async function save(choice: Choice) {
@@ -101,18 +101,16 @@ export default function PrivacyCard() {
   }
   return <>
     <div className={styles.footer}><button ref={footer} type="button" onClick={settings}><SlidersHorizontal size={15} aria-hidden />Preferências de cookies</button></div>
-    {view !== 'hidden' && <section className={styles.card} aria-labelledby="ciclo-privacy-title"
+    {view !== 'hidden' && <section className={view === 'summary' ? styles.card + ' ' + styles.compactCard : styles.card} aria-labelledby="ciclo-privacy-title"
       onKeyDown={e => { if (e.key === 'Escape' && view === 'settings') back() }}>
       <header className={styles.header}>
-        <span className={styles.icon}><LockKeyhole size={19} strokeWidth={1.7} aria-hidden /></span>
-        <h2 ref={heading} tabIndex={-1} id="ciclo-privacy-title">{view === 'summary' ? 'Sua privacidade' : 'Preferências de cookies'}</h2>
+        {view === 'settings' && <span className={styles.icon}><LockKeyhole size={19} strokeWidth={1.7} aria-hidden /></span>}
+        <h2 ref={heading} tabIndex={-1} id="ciclo-privacy-title">{view === 'summary' ? 'Permitir cookies opcionais?' : 'Preferências de cookies'}</h2>
         <img src="/logo-ciclo-black.png" width="46" height="12" alt="Ciclo" />
       </header>
-      {view === 'summary' ? <>
-        <p>Você escolhe se podemos usar cookies para entender as visitas ao site e medir campanhas.</p>
-        <div className={styles.links}><button id="ciclo-privacy-settings" type="button" onClick={settings}>Personalizar</button>
-          <a href="/politica-de-privacidade" target="_blank" rel="noopener noreferrer">Política de Privacidade</a></div>
-      </> : <>
+      {view === 'summary' ?
+        <p>Para analisar visitas e medir anúncios. <a href="/politica-de-privacidade" target="_blank" rel="noopener noreferrer">Saiba mais</a></p>
+      : <>
         <p>Escolha quais cookies permitir neste navegador.</p>
         <div className={styles.row}><span><strong>Essenciais</strong><small>Fazem o site funcionar e guardam sua escolha.</small></span><span className={styles.always}>Sempre ativos</span></div>
         {(['analytics', 'marketing'] as const).map(key => <label key={key} className={styles.row}>
@@ -124,9 +122,9 @@ export default function PrivacyCard() {
       </>}
       {error && <p className={styles.error} role="alert">{error}</p>}
       <div className={styles.actions}>
-        <button type="button" disabled={pending} onClick={() => save(necessaryOnly)}>Rejeitar opcionais</button>
+        <button type="button" disabled={pending} onClick={() => save(necessaryOnly)}>{view === 'summary' ? 'Não aceitar' : 'Rejeitar opcionais'}</button>
         <button type="button" disabled={pending} onClick={() => save(view === 'summary' ? { analytics: true, marketing: true } : draft)}>
-          {pending ? 'Salvando…' : view === 'summary' ? 'Aceitar todos' : 'Salvar escolhas'}
+          {pending ? 'Salvando…' : view === 'summary' ? 'Aceitar' : 'Salvar escolhas'}
         </button>
       </div>
     </section>}

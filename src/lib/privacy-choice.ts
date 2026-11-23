@@ -1,4 +1,4 @@
-export const policyVersion = '2026-11-23.1'
+export const policyVersion = '2026-11-23.2'
 export const choiceCookie = 'ciclo_privacidade'
 export const choiceLifetime = 180 * 24 * 3600
 export type Choice = { analytics: boolean; marketing: boolean }
