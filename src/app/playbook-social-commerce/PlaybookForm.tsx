@@ -51,6 +51,36 @@ function triggerDownload() {
   a.remove()
 }
 
+// A volta do LinkedIn acontece em outra página. Somente as quatro respostas
+// opcionais passam pelo armazenamento temporário da própria aba.
+const linkedinDraftKey = 'ciclo_playbook_respostas_pendentes'
+
+function takeLinkedInDraft(): Answers | null {
+  try {
+    const draft = sessionStorage.getItem(linkedinDraftKey)
+    sessionStorage.removeItem(linkedinDraftKey)
+    if (!draft) return null
+    const saved = JSON.parse(draft)
+    const age = Date.now() - saved.createdAt
+    return Number.isFinite(age) && age >= 0 && age < 15 * 60_000 ? saved.answers : null
+  } catch { return null }
+}
+
+async function saveProfile(receipt: string, answers: Answers) {
+  const payload = JSON.stringify({ recibo: receipt, respostas: answers })
+  for (let attempt = 0; attempt < 3; attempt++) {
+    if (attempt) await new Promise(resolve => setTimeout(resolve, attempt * 1500))
+    const response = await fetch('/api/playbook/perfil', {
+      method: 'POST', keepalive: true, headers: { 'Content-Type': 'application/json' }, body: payload,
+    }).catch(() => null)
+    if (response?.ok) {
+      publishClassifiedLead(await response.json())
+      return
+    }
+    if (response?.status === 400 || response?.status === 403) return
+  }
+}
+
 export default function PlaybookForm() {
   const [profile, setProfile] = useState<Answers>({})
   const [sent, setSent] = useState(false)
@@ -79,6 +109,7 @@ export default function PlaybookForm() {
       // O lead foi criado no servidor (callback), que já enviou a CAPI com este
       // event_id (?eid=). O Pixel usa o mesmo id para a Meta deduplicar.
       // Sem ?eid= (cadastro repetido em 24h) não há nova conversão a registrar.
+      const draft = takeLinkedInDraft()
       const eid = params.get('eid')
       if (eid) {
         pushConversion('playbook_form_submit', {
@@ -88,11 +119,13 @@ export default function PlaybookForm() {
           method: 'linkedin',
           contentName: 'playbook-social-commerce',
         })
+        if (draft) void saveProfile(eid, draft).catch(() => {})
       }
       track('form_submit', { form: 'playbook', method: 'linkedin' })
       track('material_download', { material: 'playbook-social-commerce' })
       triggerDownload()
     } else if (li === 'erro') {
+      takeLinkedInDraft()
       setLiError(true)
     }
   }, [])
@@ -131,18 +164,7 @@ export default function PlaybookForm() {
       // O download segue imediatamente. Somente um recibo de sucesso permite enriquecer o negócio.
       if (receipt.ok) void receipt.json().then(async acknowledgment => {
         if (acknowledgment.success !== true || acknowledgment.event_id !== eventId) return
-        const payload = JSON.stringify({ recibo: eventId, respostas: profile })
-        for (let attempt = 0; attempt < 3; attempt++) {
-          if (attempt) await new Promise(resolve => setTimeout(resolve, attempt * 1500))
-          const response = await fetch('/api/playbook/perfil', { method: 'POST', keepalive: true,
-            headers: { 'Content-Type': 'application/json' }, body: payload }).catch(() => null)
-          if (response?.ok) {
-            const confirmed = await response.json()
-            publishClassifiedLead(confirmed)
-            break
-          }
-          if (response?.status === 400 || response?.status === 403) break
-        }
+        await saveProfile(eventId, profile)
       }).catch(() => {})
     } catch {
       // Falha no CRM não pode bloquear a entrega do material
@@ -189,9 +211,15 @@ export default function PlaybookForm() {
       )}
       {LINKEDIN_ENABLED && !liError && showLiButton && (
         <>
+          <PlaybookProfileFields value={profile} onChange={setProfile} className={inputClass} />
           <div>
             <a
               href="/api/auth/linkedin"
+              onClick={() => {
+                try {
+                  sessionStorage.setItem(linkedinDraftKey, JSON.stringify({ createdAt: Date.now(), answers: profile }))
+                } catch { /* A entrada com LinkedIn continua quando o armazenamento está indisponível. */ }
+              }}
               className="flex items-center justify-center gap-2 w-full bg-white border border-[#1A1917]/15 rounded-xl px-5 py-3.5 text-sm font-semibold text-[#1A1917] hover:border-[#2B6B9B] hover:text-[#2B6B9B] transition-colors"
             >
               <LinkedinIcon className="w-4 h-4" /> Continuar com LinkedIn
@@ -227,7 +255,9 @@ export default function PlaybookForm() {
         <PhoneField name="phone" control={control} placeholder="WhatsApp" error={errors.phone?.message} />
       </div>
 
-      <PlaybookProfileFields value={profile} onChange={setProfile} className={inputClass} />
+      {!(LINKEDIN_ENABLED && !liError && showLiButton) && (
+        <PlaybookProfileFields value={profile} onChange={setProfile} className={inputClass} />
+      )}
 
       <label className="flex items-start gap-2.5 cursor-pointer">
         <input type="checkbox" {...register('lgpd')} className="mt-0.5 w-4 h-4 flex-shrink-0 accent-[#1A1917]" />
