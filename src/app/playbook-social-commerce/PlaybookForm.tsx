@@ -14,6 +14,8 @@ function LinkedinIcon({ className }: { className?: string }) {
     </svg>
   )
 }
+import PlaybookProfileFields from './PlaybookProfileFields'
+import type { Answers } from '@/lib/playbook-profile'
 import PhoneField from '@/components/ui/PhoneField'
 import { getAttributionPayload, isLinkedInTraffic } from '@/lib/attribution'
 import { track } from '@/lib/track'
@@ -49,6 +51,7 @@ function triggerDownload() {
 }
 
 export default function PlaybookForm() {
+  const [profile, setProfile] = useState<Answers>({})
   const [sent, setSent] = useState(false)
   const [viaLinkedIn, setViaLinkedIn] = useState(false)
   const [liError, setLiError] = useState(false)
@@ -106,7 +109,7 @@ export default function PlaybookForm() {
       userData: { email: data.email, phone_number: data.phone, ...splitName(data.name) },
     })
     try {
-      await fetch('/api/pipedrive', {
+      const receipt = await fetch('/api/pipedrive', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -124,6 +127,17 @@ export default function PlaybookForm() {
           page_url: window.location.href,
         }),
       })
+      // O download segue imediatamente. Somente um recibo de sucesso permite enriquecer o negócio.
+      if (receipt.ok) void receipt.json().then(async acknowledgment => {
+        if (acknowledgment.success !== true || acknowledgment.event_id !== eventId) return
+        const payload = JSON.stringify({ recibo: eventId, respostas: profile })
+        for (let attempt = 0; attempt < 3; attempt++) {
+          if (attempt) await new Promise(resolve => setTimeout(resolve, attempt * 1500))
+          const response = await fetch('/api/playbook/perfil', { method: 'POST', keepalive: true,
+            headers: { 'Content-Type': 'application/json' }, body: payload }).catch(() => null)
+          if (response?.ok || response?.status === 400 || response?.status === 403) break
+        }
+      }).catch(() => {})
     } catch {
       // Falha no CRM não pode bloquear a entrega do material
     }
@@ -206,6 +220,8 @@ export default function PlaybookForm() {
       <div className="lp-phone-light">
         <PhoneField name="phone" control={control} placeholder="WhatsApp" error={errors.phone?.message} />
       </div>
+
+      <PlaybookProfileFields value={profile} onChange={setProfile} className={inputClass} />
 
       <label className="flex items-start gap-2.5 cursor-pointer">
         <input type="checkbox" {...register('lgpd')} className="mt-0.5 w-4 h-4 flex-shrink-0 accent-[#1A1917]" />
