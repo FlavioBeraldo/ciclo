@@ -210,23 +210,20 @@ const sections = [
     ],
   },
   ...(profileNoticeEnabled ? [{
-    id: 'medicao-perfil-a',
-    title: '14. Medição opcional de campanhas de Perfil A',
+    id: 'dados-de-campanhas',
+    title: '14. Dados de campanhas',
     content: [
-      'A escolha no aviso se aplica exclusivamente à medição adicional de visitas e leads de Perfil A. As demais ferramentas de mensuração, o atendimento pelo CRM e o download do Playbook seguem o fluxo descrito nas seções anteriores.',
-      'Ao aceitar, você permite que a Ciclo use a origem de campanhas e a classificação obtida no formulário para medir visitas e leads de Perfil A no Google, na Meta e no LinkedIn, quando essas integrações estiverem ativas. A escolha não inclui o envio de listas de clientes do CRM.',
+      'A escolha no aviso se aplica exclusivamente à medição adicional de visitas e leads de campanhas. As demais ferramentas de mensuração, o atendimento pelo CRM e o download do Playbook seguem o fluxo descrito nas seções anteriores.',
+      'Ao aceitar, você permite que a Ciclo use a origem de campanhas e a classificação obtida no formulário para medir visitas e leads de campanhas no Google, na Meta e no LinkedIn, quando essas integrações estiverem ativas. A escolha não inclui o envio de listas de clientes do CRM.',
       'O site guarda a preferência neste navegador por até 180 dias. O recibo contém a versão do aviso, a data, a escolha e uma referência aleatória. O registro da preferência não contém nome, e-mail, telefone ou URL.',
-      'Você pode recusar ou mudar sua escolha a qualquer momento em “Preferência de Perfil A”, no fim da página. A recusa desativa a autorização para os sinais adicionais e remove, se existirem, os cookies de perfil e origem criados para esse projeto.',
+      'Você pode recusar ou mudar sua escolha a qualquer momento em “Preferências de campanhas”, no fim da página. A recusa desativa a autorização para os sinais adicionais e remove, se existirem, os cookies de perfil e origem criados para esse projeto.',
     ],
   }] : []),
 ]
 
 // Política de privacidade no design 2026.
 //
-// O array `sections` acima, que é o texto legal inteiro, não foi tocado: nem
-// uma vírgula. O que muda é a casca e a tipografia, agora a mesma do corpo de
-// artigo. Os ids das seções continuam os mesmos, então o índice e qualquer
-// link externo que aponte para uma âncora seguem funcionando.
+// O título da seção de campanhas preserva a âncora de links anteriores.
 export default function PoliticaDePrivacidade() {
   return (
     <div className={`ciclo2026 ${playfair2026.variable}`}>
@@ -283,7 +280,7 @@ export default function PoliticaDePrivacidade() {
               <div className="article-body legal-body">
                 {sections.map((s) => (
                   <section key={s.id} id={s.id}>
-                    <h2>{s.title}</h2>
+                    <h2 id={s.id === 'dados-de-campanhas' ? 'medicao-perfil-a' : undefined}>{s.title}</h2>
 
                     {s.content.map((p, i) => (
                       <p key={i}>{p}</p>
