@@ -1,13 +1,20 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { usePathname } from 'next/navigation'
-import { SlidersHorizontal } from 'lucide-react'
 import { choiceCookie, choiceLifetime, decodeChoice, encodeChoice, policyVersion } from '@/lib/privacy-choice'
 import styles from './PrivacyCard.module.css'
 
 const policyLink = '/politica-de-privacidade#dados-de-campanhas'
 const syncKey = 'ciclo_pa_preferencia_atualizada'
+
+const openSettingsEvent = 'ciclo:abrir-preferencias-de-campanhas'
+
+export function CampaignPreferencesButton() {
+  return <button type="button" className={styles.settingsButton} onClick={event => {
+    event.currentTarget.dispatchEvent(new Event(openSettingsEvent, { bubbles: true }))
+  }}>Rever preferência de campanhas</button>
+}
 
 function currentChoice() {
   return decodeChoice(document.cookie.split('; ').find(pair => pair.startsWith(choiceCookie + '='))?.slice(choiceCookie.length + 1))
@@ -63,28 +70,40 @@ export default function PrivacyCard() {
       delete w.cicloPerfilPermissoes
     }
   }, [pathname])
-  const footer = useRef<HTMLButtonElement>(null)
+  const settingsOpener = useRef<HTMLButtonElement>(null)
   const heading = useRef<HTMLHeadingElement>(null)
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     function sync() {
       const choice = currentChoice()
       setSaved(choice)
       setView(choice === null ? 'summary' : 'hidden')
     }
+    function openSettings(event: Event) {
+      if (!(event.target instanceof HTMLButtonElement)) return
+      settingsOpener.current = event.target
+      setSaved(currentChoice())
+      setError('')
+      setView('settings')
+    }
     sync()
+    document.addEventListener(openSettingsEvent, openSettings)
     function onStorage(event: StorageEvent) { if (event.key === syncKey) sync() }
     function onRestore(event: PageTransitionEvent) { if (event.persisted) sync() }
     window.addEventListener('storage', onStorage)
     window.addEventListener('pageshow', onRestore)
-    return () => { window.removeEventListener('storage', onStorage); window.removeEventListener('pageshow', onRestore) }
+    return () => {
+      document.removeEventListener(openSettingsEvent, openSettings)
+      window.removeEventListener('storage', onStorage)
+      window.removeEventListener('pageshow', onRestore)
+    }
   }, [])
   useEffect(() => { if (view === 'settings') heading.current?.focus({ preventScroll: true }) }, [view])
 
   function closeSettings() {
     if (pending) return
     setView(currentChoice() === null ? 'summary' : 'hidden')
-    footer.current?.focus({ preventScroll: true })
+    settingsOpener.current?.focus({ preventScroll: true })
   }
 
   async function save(allowed: boolean) {
@@ -101,16 +120,14 @@ export default function PrivacyCard() {
       persist(allowed)
       setSaved(allowed)
       setView('hidden')
-      if (view === 'settings') footer.current?.focus({ preventScroll: true })
+      if (view === 'settings') settingsOpener.current?.focus({ preventScroll: true })
     } catch { setError('Não foi possível registrar sua escolha. Tente novamente.') }
     finally { setPending(false) }
   }
 
-  return <>
-    <div className={styles.footer}><button ref={footer} type="button" onClick={() => {
-      setSaved(currentChoice()); setError(''); setView('settings')
-    }}><SlidersHorizontal size={15} aria-hidden />Preferências de campanhas</button></div>
-    {view !== 'hidden' && <section className={styles.card + ' ' + styles.compactCard} aria-labelledby="ciclo-privacy-title"
+  if (view === 'hidden') return null
+  return (
+    <section className={styles.card + ' ' + styles.compactCard} aria-labelledby="ciclo-privacy-title"
       onKeyDown={event => { if (event.key === 'Escape' && view === 'settings') closeSettings() }}>
       <header className={styles.header}>
         <h2 ref={heading} tabIndex={-1} id="ciclo-privacy-title">Dados de campanhas</h2>
@@ -126,6 +143,6 @@ export default function PrivacyCard() {
         <button type="button" disabled={pending} onClick={() => save(false)}>Não aceitar</button>
         <button type="button" disabled={pending} onClick={() => save(true)}>Aceitar</button>
       </div>
-    </section>}
-  </>
+    </section>
+  )
 }
