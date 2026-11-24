@@ -19,6 +19,7 @@ import '@/components/ciclo/base.css'
 import '@/components/ciclo/interiors.css'
 
 export const metadata: Metadata = {
+  title: { absolute: 'Agência de E-commerce Full Funnel | Ciclo E-commerce' },
   alternates: { canonical: 'https://cicloecommerce.com.br' },
 }
 
