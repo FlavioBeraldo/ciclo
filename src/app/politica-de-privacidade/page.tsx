@@ -1,6 +1,7 @@
 import { profileNoticeEnabled } from '@/lib/consent-preview'
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import { CampaignPreferencesButton } from '@/components/consent/PrivacyCard'
 import OptOutNotice from './OptOutNotice'
 import CicloHeader from '@/components/ciclo/CicloHeader'
 import CicloFooter from '@/components/ciclo/CicloFooter'
@@ -216,7 +217,7 @@ const sections = [
       'A escolha no aviso se aplica exclusivamente à medição adicional de visitas e leads de campanhas. As demais ferramentas de mensuração, o atendimento pelo CRM e o download do Playbook seguem o fluxo descrito nas seções anteriores.',
       'Ao aceitar, você permite que a Ciclo use a origem de campanhas e a classificação obtida no formulário para medir visitas e leads de campanhas no Google, na Meta e no LinkedIn, quando essas integrações estiverem ativas. A escolha não inclui o envio de listas de clientes do CRM.',
       'O site guarda a preferência neste navegador por até 180 dias. O recibo contém a versão do aviso, a data, a escolha e uma referência aleatória. O registro da preferência não contém nome, e-mail, telefone ou URL.',
-      'Você pode recusar ou mudar sua escolha a qualquer momento em “Preferências de campanhas”, no fim da página. A recusa desativa a autorização para os sinais adicionais e remove, se existirem, os cookies de perfil e origem criados para esse projeto.',
+      'Você pode recusar ou mudar sua escolha a qualquer momento pelo botão “Rever preferência de campanhas” nesta seção. A recusa desativa a autorização para os sinais adicionais e remove, se existirem, os cookies de perfil e origem criados para esse projeto.',
     ],
   }] : []),
 ]
@@ -285,6 +286,8 @@ export default function PoliticaDePrivacidade() {
                     {s.content.map((p, i) => (
                       <p key={i}>{p}</p>
                     ))}
+
+                    {s.id === 'dados-de-campanhas' && <CampaignPreferencesButton />}
 
                     {s.list && (
                       <ul>
