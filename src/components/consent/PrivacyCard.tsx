@@ -6,7 +6,7 @@ import { SlidersHorizontal } from 'lucide-react'
 import { choiceCookie, choiceLifetime, decodeChoice, encodeChoice, policyVersion } from '@/lib/privacy-choice'
 import styles from './PrivacyCard.module.css'
 
-const policyLink = '/politica-de-privacidade#medicao-perfil-a'
+const policyLink = '/politica-de-privacidade#dados-de-campanhas'
 const syncKey = 'ciclo_pa_preferencia_atualizada'
 
 function currentChoice() {
@@ -109,14 +109,14 @@ export default function PrivacyCard() {
   return <>
     <div className={styles.footer}><button ref={footer} type="button" onClick={() => {
       setSaved(currentChoice()); setError(''); setView('settings')
-    }}><SlidersHorizontal size={15} aria-hidden />Preferência de Perfil A</button></div>
+    }}><SlidersHorizontal size={15} aria-hidden />Preferências de campanhas</button></div>
     {view !== 'hidden' && <section className={styles.card + ' ' + styles.compactCard} aria-labelledby="ciclo-privacy-title"
       onKeyDown={event => { if (event.key === 'Escape' && view === 'settings') closeSettings() }}>
       <header className={styles.header}>
-        <h2 ref={heading} tabIndex={-1} id="ciclo-privacy-title">Medição de Perfil A</h2>
+        <h2 ref={heading} tabIndex={-1} id="ciclo-privacy-title">Dados de campanhas</h2>
         <img src="/logo-ciclo-black.png" width="46" height="12" alt="Ciclo" />
       </header>
-      <p>Permitir cookies só para medir visitas e leads das campanhas de Perfil A? <a href={policyLink} target="_blank" rel="noopener noreferrer">Saiba mais</a></p>
+      <p>Permitir cookies opcionais para medir visitas e leads de campanhas? <a href={policyLink} target="_blank" rel="noopener noreferrer">Saiba mais</a></p>
       {view === 'settings' && <div className={styles.links}>
         <span>{saved === null ? 'Escolha pendente' : saved ? 'Você aceitou' : 'Você recusou'}</span>
         <button type="button" disabled={pending} onClick={closeSettings}>Voltar</button>
