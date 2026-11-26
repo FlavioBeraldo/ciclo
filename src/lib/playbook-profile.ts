@@ -22,6 +22,19 @@ function option(options: Record<string, string>, value: unknown) {
   return typeof value === 'string' && Object.hasOwn(options, value) ? value : ''
 }
 
+export function followUpForRole(cargo?: string) {
+  if (cargo === 'dono') return 'faturamento'
+  if (cargo === 'diretor' || cargo === 'gestor') return 'decisao'
+}
+
+export function missingProfileAnswer(answers?: Answers | null): keyof Answers | undefined {
+  if (!option(businesses, answers?.negocio)) return 'negocio'
+  if (!option(roles, answers?.cargo)) return 'cargo'
+  const followUp = followUpForRole(answers?.cargo)
+  if (followUp === 'faturamento' && !option(revenues, answers?.faturamento)) return followUp
+  if (followUp === 'decisao' && !option(decisions, answers?.decisao)) return followUp
+}
+
 export function classify(answers: Answers, email: string) {
   const cargo = option(roles, answers.cargo)
   const tipo_negocio = option(businesses, answers.negocio)
