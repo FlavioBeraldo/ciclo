@@ -15,7 +15,7 @@ function LinkedinIcon({ className }: { className?: string }) {
   )
 }
 import PlaybookProfileFields from './PlaybookProfileFields'
-import type { Answers } from '@/lib/playbook-profile'
+import { missingProfileAnswer, type Answers } from '@/lib/playbook-profile'
 import { corporateEmailMessage, isPersonalPlaybookEmail, manualPlaybookEmail } from '@/lib/playbook-email'
 import { publishClassifiedLead } from './publishClassifiedLead'
 import PhoneField from '@/components/ui/PhoneField'
@@ -52,8 +52,8 @@ function triggerDownload() {
   a.remove()
 }
 
-// A volta do LinkedIn acontece em outra página. Somente as quatro respostas
-// opcionais passam pelo armazenamento temporário da própria aba.
+// A volta do LinkedIn acontece em outra página. Guardamos as respostas na aba
+// para associá-las ao recibo gerado pelo callback.
 const linkedinDraftKey = 'ciclo_playbook_respostas_pendentes'
 
 function takeLinkedInDraft(): Answers | null {
@@ -84,6 +84,13 @@ async function saveProfile(receipt: string, answers: Answers) {
 
 export default function PlaybookForm() {
   const [profile, setProfile] = useState<Answers>({})
+  const [showProfileErrors, setShowProfileErrors] = useState(false)
+  const missing = missingProfileAnswer(profile)
+  function checkProfile() {
+    setShowProfileErrors(true)
+    if (missing) document.getElementById('playbook-' + missing)?.focus()
+    return !missing
+  }
   const [sent, setSent] = useState(false)
   const [viaLinkedIn, setViaLinkedIn] = useState(false)
   const [liError, setLiError] = useState(false)
@@ -159,6 +166,7 @@ export default function PlaybookForm() {
           message: 'Baixou o Playbook de Social Commerce pela landing page.',
           source: 'LP Playbook Social Commerce',
           pipeline: 'Playbook',
+          respostas: profile,
           attribution,
           event_id: eventId,
           page_url: window.location.href,
@@ -166,6 +174,10 @@ export default function PlaybookForm() {
       })
       if (receipt.status === 422) {
         const rejection = await receipt.json()
+        if (rejection.field === 'profile') {
+          setShowProfileErrors(true)
+          return
+        }
         setError('email', { type: 'server', message: rejection.error }, { shouldFocus: true })
         return
       }
@@ -210,28 +222,35 @@ export default function PlaybookForm() {
     )
   }
 
-  return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4" noValidate>
+  const linkedinVisible = LINKEDIN_ENABLED && !liError && showLiButton
+  const fields = <PlaybookProfileFields value={profile} onChange={setProfile} className={inputClass}
+    form={linkedinVisible ? 'playbook-linkedin' : undefined} invalidField={showProfileErrors ? missing : undefined} />
+  return (<>
+    {linkedinVisible && <form id="playbook-linkedin" action="/api/auth/linkedin" method="post" noValidate
+      onSubmit={event => {
+        if (!checkProfile()) { event.preventDefault(); return }
+        try {
+          sessionStorage.setItem(linkedinDraftKey, JSON.stringify({ createdAt: Date.now(), answers: profile }))
+        } catch { /* O envio das respostas ao servidor é independente do armazenamento da aba. */ }
+      }} />}
+    <form onSubmit={event => {
+      if (!checkProfile()) { event.preventDefault(); return }
+      void handleSubmit(onSubmit)(event)
+    }} className="flex flex-col gap-4" noValidate>
       {LINKEDIN_ENABLED && liError && (
         <p className="text-xs text-[#6E6A60] text-center">
           Não foi possível entrar com o LinkedIn, preencha abaixo.
         </p>
       )}
-      {LINKEDIN_ENABLED && !liError && showLiButton && (
+      {linkedinVisible && (
         <>
-          <PlaybookProfileFields value={profile} onChange={setProfile} className={inputClass} />
+          {fields}
           <div>
-            <a
-              href="/api/auth/linkedin"
-              onClick={() => {
-                try {
-                  sessionStorage.setItem(linkedinDraftKey, JSON.stringify({ createdAt: Date.now(), answers: profile }))
-                } catch { /* A entrada com LinkedIn continua quando o armazenamento está indisponível. */ }
-              }}
+            <button type="submit" form="playbook-linkedin"
               className="flex items-center justify-center gap-2 w-full bg-white border border-[#1A1917]/15 rounded-xl px-5 py-3.5 text-sm font-semibold text-[#1A1917] hover:border-[#2B6B9B] hover:text-[#2B6B9B] transition-colors"
             >
               <LinkedinIcon className="w-4 h-4" /> Continuar com LinkedIn
-            </a>
+            </button>
             <p className="text-[11px] text-[#6E6A60] text-center mt-1.5">
               Um clique e o download começa — só lemos seu nome e e-mail.
             </p>
@@ -274,9 +293,7 @@ export default function PlaybookForm() {
         <PhoneField name="phone" control={control} placeholder="WhatsApp" error={errors.phone?.message} />
       </div>
 
-      {!(LINKEDIN_ENABLED && !liError && showLiButton) && (
-        <PlaybookProfileFields value={profile} onChange={setProfile} className={inputClass} />
-      )}
+      {!linkedinVisible && fields}
 
       <label className="flex items-start gap-2.5 cursor-pointer">
         <input type="checkbox" {...register('lgpd')} className="mt-0.5 w-4 h-4 flex-shrink-0 accent-[#1A1917]" />
@@ -302,5 +319,5 @@ export default function PlaybookForm() {
         Leva 30 segundos. Sem spam — só o playbook e conteúdo que vale seu tempo.
       </p>
     </form>
-  )
+  </>)
 }

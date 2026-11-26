@@ -6,6 +6,7 @@ import { bindVisitorToLead, UID_COOKIE } from '@/lib/identity-server'
 import { clientInfoFromRequest, isInternalEmail, sendMetaEvent } from '@/lib/meta-capi'
 import { applyJourneyToDeal, getLeadJourney } from '@/lib/lead-journey'
 import { manualPlaybookEmail } from '@/lib/playbook-email'
+import { missingProfileAnswer } from '@/lib/playbook-profile'
 
 export const runtime = 'nodejs'
 
@@ -26,7 +27,7 @@ export async function POST(req: NextRequest) {
   try {
     const {
       name, email: submittedEmail, phone, whatsapp, company, message, storeUrl, annualRevenue, segment, pipeline, attribution,
-      event_id: eventIdFromClient, page_url,
+      event_id: eventIdFromClient, page_url, respostas,
     } = await req.json()
 
     const pipelineHint = typeof pipeline === 'string' && pipeline.trim() ? pipeline.trim() : undefined
@@ -38,6 +39,9 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ error: parsed.error.issues[0].message }, { status: 422 })
       }
       email = parsed.data
+      if (missingProfileAnswer(respostas)) {
+        return NextResponse.json({ field: 'profile', error: 'Complete a seção Sobre sua atuação.' }, { status: 422 })
+      }
     }
 
     // Cadastro via LinkedIn: o perfil vem do cookie httpOnly ASSINADO (não do body),
