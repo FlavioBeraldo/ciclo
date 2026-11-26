@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useForm } from 'react-hook-form'
+import { useForm, useWatch } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { BadgeCheck } from 'lucide-react'
@@ -16,6 +16,7 @@ function LinkedinIcon({ className }: { className?: string }) {
 }
 import PlaybookProfileFields from './PlaybookProfileFields'
 import type { Answers } from '@/lib/playbook-profile'
+import { corporateEmailMessage, isPersonalPlaybookEmail, manualPlaybookEmail } from '@/lib/playbook-email'
 import { publishClassifiedLead } from './publishClassifiedLead'
 import PhoneField from '@/components/ui/PhoneField'
 import { getAttributionPayload, isLinkedInTraffic } from '@/lib/attribution'
@@ -26,7 +27,7 @@ const LINKEDIN_ENABLED = process.env.NEXT_PUBLIC_LINKEDIN_ENABLED === '1'
 
 const schema = z.object({
   name: z.string().min(2, 'Digite seu nome'),
-  email: z.string().email('E-mail inválido'),
+  email: manualPlaybookEmail,
   company: z.string().min(2, 'Digite o nome da sua empresa'),
   phone: z.string().min(8, 'WhatsApp é obrigatório'),
   lgpd: z.boolean().refine((v) => v === true, 'Aceite a política de privacidade para continuar'),
@@ -92,9 +93,11 @@ export default function PlaybookForm() {
   useEffect(() => {
     if (LINKEDIN_ENABLED) setShowLiButton(isLinkedInTraffic())
   }, [])
-  const { register, control, handleSubmit, formState: { errors, isSubmitting } } = useForm<FormData>({
+  const { register, control, handleSubmit, setError, formState: { errors, isSubmitting } } = useForm<FormData>({
     resolver: zodResolver(schema),
   })
+  const email = useWatch({ control, name: 'email', defaultValue: '' })
+  const emailError = isPersonalPlaybookEmail(email) ? corporateEmailMessage : errors.email?.message
 
   // Volta do OAuth: o cadastro já foi feito no servidor (callback) ->
   // mostra o sucesso direto e dispara o download, sem formulário
@@ -161,6 +164,11 @@ export default function PlaybookForm() {
           page_url: window.location.href,
         }),
       })
+      if (receipt.status === 422) {
+        const rejection = await receipt.json()
+        setError('email', { type: 'server', message: rejection.error }, { shouldFocus: true })
+        return
+      }
       // O download segue imediatamente. Somente um recibo de sucesso permite enriquecer o negócio.
       if (receipt.ok) void receipt.json().then(async acknowledgment => {
         if (acknowledgment.success !== true || acknowledgment.event_id !== eventId) return
@@ -242,8 +250,19 @@ export default function PlaybookForm() {
       </div>
 
       <div>
-        <input {...register('email')} type="email" placeholder="Seu melhor e-mail" autoComplete="email" className={inputClass} />
-        {errors.email && <p className={errorClass}>{errors.email.message}</p>}
+        <input
+          {...register('email')} type="email" placeholder="Seu e-mail corporativo" aria-label="E-mail corporativo"
+          autoComplete="email" aria-invalid={Boolean(emailError)}
+          aria-describedby={emailError ? 'playbook-email-error' : undefined} className={inputClass}
+        />
+        <div aria-live="polite">
+          {emailError && (
+            <p id="playbook-email-error" className={errorClass}>
+              {emailError}
+              {emailError === corporateEmailMessage && showLiButton && !liError && ' Para usar seu e-mail pessoal, continue com o LinkedIn.'}
+            </p>
+          )}
+        </div>
       </div>
 
       <div>

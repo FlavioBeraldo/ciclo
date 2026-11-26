@@ -5,6 +5,7 @@ import { LI_COOKIE, verifyProfile } from '@/lib/linkedin-session'
 import { bindVisitorToLead, UID_COOKIE } from '@/lib/identity-server'
 import { clientInfoFromRequest, isInternalEmail, sendMetaEvent } from '@/lib/meta-capi'
 import { applyJourneyToDeal, getLeadJourney } from '@/lib/lead-journey'
+import { manualPlaybookEmail } from '@/lib/playbook-email'
 
 export const runtime = 'nodejs'
 
@@ -24,9 +25,20 @@ export async function POST(req: NextRequest) {
 
   try {
     const {
-      name, email, phone, whatsapp, company, message, storeUrl, annualRevenue, segment, pipeline, attribution,
+      name, email: submittedEmail, phone, whatsapp, company, message, storeUrl, annualRevenue, segment, pipeline, attribution,
       event_id: eventIdFromClient, page_url,
     } = await req.json()
+
+    const pipelineHint = typeof pipeline === 'string' && pipeline.trim() ? pipeline.trim() : undefined
+    let email = submittedEmail
+    // O callback OAuth cria o lead diretamente. Este endpoint recebe o formulário manual.
+    if (pipelineHint?.toLowerCase() === 'playbook') {
+      const parsed = manualPlaybookEmail.safeParse(submittedEmail)
+      if (!parsed.success) {
+        return NextResponse.json({ error: parsed.error.issues[0].message }, { status: 422 })
+      }
+      email = parsed.data
+    }
 
     // Cadastro via LinkedIn: o perfil vem do cookie httpOnly ASSINADO (não do body),
     // então "verificado" é garantido pelo servidor, não pelo cliente.
@@ -49,7 +61,6 @@ export async function POST(req: NextRequest) {
         : randomUUID()
     const internal = isInternalEmail(email)
     const attr = (typeof attribution === 'object' && attribution !== null ? attribution : {}) as Record<string, string | undefined>
-    const pipelineHint = typeof pipeline === 'string' && pipeline.trim() ? pipeline.trim() : undefined
 
     const result = await createPipedriveLead({
       name,
