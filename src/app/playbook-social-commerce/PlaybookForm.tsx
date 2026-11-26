@@ -223,16 +223,7 @@ export default function PlaybookForm() {
   }
 
   const linkedinVisible = LINKEDIN_ENABLED && !liError && showLiButton
-  const fields = <PlaybookProfileFields value={profile} onChange={setProfile} className={inputClass}
-    form={linkedinVisible ? 'playbook-linkedin' : undefined} invalidField={showProfileErrors ? missing : undefined} />
-  return (<>
-    {linkedinVisible && <form id="playbook-linkedin" action="/api/auth/linkedin" method="post" noValidate
-      onSubmit={event => {
-        if (!checkProfile()) { event.preventDefault(); return }
-        try {
-          sessionStorage.setItem(linkedinDraftKey, JSON.stringify({ createdAt: Date.now(), answers: profile }))
-        } catch { /* O envio das respostas ao servidor é independente do armazenamento da aba. */ }
-      }} />}
+  return (
     <form onSubmit={event => {
       if (!checkProfile()) { event.preventDefault(); return }
       void handleSubmit(onSubmit)(event)
@@ -244,13 +235,18 @@ export default function PlaybookForm() {
       )}
       {linkedinVisible && (
         <>
-          {fields}
           <div>
-            <button type="submit" form="playbook-linkedin"
+            <a href="/api/auth/linkedin"
+              onClick={() => {
+                try {
+                  if (missing) sessionStorage.removeItem(linkedinDraftKey)
+                  else sessionStorage.setItem(linkedinDraftKey, JSON.stringify({ createdAt: Date.now(), answers: profile }))
+                } catch { /* O acesso pelo LinkedIn funciona sem armazenamento da aba. */ }
+              }}
               className="flex items-center justify-center gap-2 w-full bg-white border border-[#1A1917]/15 rounded-xl px-5 py-3.5 text-sm font-semibold text-[#1A1917] hover:border-[#2B6B9B] hover:text-[#2B6B9B] transition-colors"
             >
               <LinkedinIcon className="w-4 h-4" /> Continuar com LinkedIn
-            </button>
+            </a>
             <p className="text-[11px] text-[#6E6A60] text-center mt-1.5">
               Um clique e o download começa — só lemos seu nome e e-mail.
             </p>
@@ -293,7 +289,8 @@ export default function PlaybookForm() {
         <PhoneField name="phone" control={control} placeholder="WhatsApp" error={errors.phone?.message} />
       </div>
 
-      {!linkedinVisible && fields}
+      <PlaybookProfileFields value={profile} onChange={setProfile} className={inputClass}
+        invalidField={showProfileErrors ? missing : undefined} />
 
       <label className="flex items-start gap-2.5 cursor-pointer">
         <input type="checkbox" {...register('lgpd')} className="mt-0.5 w-4 h-4 flex-shrink-0 accent-[#1A1917]" />
@@ -319,5 +316,5 @@ export default function PlaybookForm() {
         Leva 30 segundos. Sem spam — só o playbook e conteúdo que vale seu tempo.
       </p>
     </form>
-  </>)
+  )
 }

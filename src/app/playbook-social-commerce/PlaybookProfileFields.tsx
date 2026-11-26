@@ -2,14 +2,14 @@
 
 import { businesses, decisions, followUpForRole, revenues, roles, type Answers } from '@/lib/playbook-profile'
 
-export default function PlaybookProfileFields({ value, onChange, className, invalidField, form }: {
+export default function PlaybookProfileFields({ value, onChange, className, invalidField }: {
   value: Answers; onChange: (next: Answers) => void; className: string
-  invalidField?: keyof Answers; form?: string
+  invalidField?: keyof Answers
 }) {
   function field(key: keyof Answers, label: string, options: Record<string, string>) {
     return <label className="flex flex-col gap-1 text-sm text-[#1A1917]">
       {label}
-      <select id={'playbook-' + key} name={key} form={form} required aria-invalid={invalidField === key}
+      <select id={'playbook-' + key} name={key} required aria-invalid={invalidField === key}
         aria-describedby={invalidField === key ? 'playbook-profile-error' : undefined}
         className={className} value={value[key] || ''} onChange={event => {
         const next = { ...value, [key]: event.target.value }
